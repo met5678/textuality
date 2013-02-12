@@ -1,0 +1,19 @@
+Array
+(
+    [AccountSid] => AC482cf8d12c4fc97ee1d092472e25f436
+    [Body] => Sexty sexty
+    [ToZip] => 20053
+    [FromState] => NH
+    [ToCity] => WASHINGTON
+    [SmsSid] => SM068853030d519de4e7681ed811fe752c
+    [ToState] => VA
+    [To] => +15719894785
+    [ToCountry] => US
+    [FromCountry] => US
+    [SmsMessageSid] => SM068853030d519de4e7681ed811fe752c
+    [ApiVersion] => 2010-04-01
+    [FromCity] => CONCORD
+    [SmsStatus] => received
+    [From] => +16035680366
+    [FromZip] => 03303
+)

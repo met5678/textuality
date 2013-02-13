@@ -155,13 +155,13 @@
 
 
 .schedule-item {
-	width: 25%;
+	width: 20%;
 	float: left;
 	font-size: 28px;
 	opacity: .4;
 	border-left: 4px solid rgba(150,125,100,.3);
 	padding-left: 10px;
-	margin-left: 20px;
+	margin: 10px 0 10px 20px;
 }
 
 

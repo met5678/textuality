@@ -118,11 +118,11 @@
 
 
 
-#schedule-module {
+/*#schedule-module {
 
 	width: 70%;
 
-}
+}*/
 
 
 
@@ -155,21 +155,39 @@
 
 
 .schedule-item {
-
 	width: 25%;
-
 	float: left;
-
 	font-size: 28px;
-
 	opacity: .4;
-
+	border-left: 4px solid rgba(150,125,100,.3);
+	padding-left: 10px;
+	margin-left: 20px;
 }
 
 
 
 .schedule-item:first-child {
-
 	opacity: 1;
+}
 
+.schedule-item:before {
+    content: "next:";
+    float: left;
+    font-weight: bold;
+    font-size: 28px;
+    padding: 0 10px 0 0;
+    color: #DB7;
+    text-transform:uppercase;
+}
+.schedule-item:nth-child(1):before {
+    content: "now:";
+}
+.schedule-item:nth-child(2):before {
+    content: "next:";
+}
+.schedule-item:nth-child(3):before {
+    content: "then:";
+}
+.schedule-item:nth-child(4):before {
+    content: "later:";
 }

@@ -17,3 +17,15 @@ Array
     [From] => +16035680366
     [FromZip] => 03303
 )
+
+
+
+function sendWelcomeText() {
+	echo '<?xml version="1.0" encoding="UTF-8"?>';
+	?>
+<Response>
+	<Sms>Welcome to #textuality, creature. Text me notes of love, lust, or libel, and I will anonymously broadcast them to all. Unfaithfully yours, ~</Sms>
+</Response>
+	<?php
+}
+

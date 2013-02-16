@@ -1,0 +1,186 @@
+Querying phone number: +12024948427
+Phone number not found
+Adding phone number: +12024948427
+Querying phone number: +12024948427
+Phone number found, ID:8
+End of conditional
+------------------
+Out of conditional
+------------------
+------------------
+Querying phone number: +12024948427
+Phone number found, ID:8
+End of conditional
+------------------
+Out of conditional
+Querying phone number: +12024948427
+Phone number found, ID:8
+End of conditional
+------------------
+Out of conditional
+Querying phone number: +12024948427
+Phone number not found
+Adding phone number: +12024948427
+Querying phone number: +12024948427
+Phone number found, ID:9
+Assigning new alias to phone number +12024948427
+Querying phone number: +12024948427
+Phone number not found
+Adding phone number: +12024948427
+Querying phone number: +12024948427
+Phone number found, ID:10
+Assigning new alias to phone number +12024948427
+Assigned 'French Kiss' to +12024948427
+Querying phone number: +12024948427
+Phone number found, ID:10
+End of conditional
+------------------
+Out of conditional
+Querying phone number: +12024948427
+Phone number not found
+Adding phone number: +12024948427
+Querying phone number: +12024948427
+Phone number found, ID:11
+Assigning new alias to phone number +12024948427
+Assigned 'Sapium' to +12024948427
+Querying phone number: +12024948427
+Phone number found, ID:11
+Recording text 'Test1 ' for number: 
+End of conditional
+------------------
+Querying phone number: +12024948427
+Phone number not found
+Adding phone number: +12024948427
+Querying phone number: +12024948427
+Phone number found, ID:12
+Assigning new alias to phone number +12024948427
+Assigned 'Golden Legs' to +12024948427
+Querying phone number: +12024948427
+Phone number found, ID:12
+Recording text 'Test1 ' for number: 
+End of conditional
+------------------
+Querying phone number: +12024948427
+Phone number found, ID:12
+Recording text 'Test2.' for number: 
+End of conditional
+------------------
+Querying phone number: +12024948427
+Phone number found, ID:12
+Assigning new alias to phone number +12024948427
+Assigned 'Oh Baby' to +12024948427
+Querying phone number: +12024948427
+Phone number found, ID:12
+Recording text '#change' for number: 
+End of conditional
+------------------
+Querying phone number: +12024948427
+Phone number not found
+Adding phone number: +12024948427
+Querying phone number: +12024948427
+Phone number found, ID:13
+Assigning new alias to phone number +12024948427
+Assigned 'Butterfly sneeze' to +12024948427
+Querying phone number: +12024948427
+Phone number found, ID:13
+Recording text 'Hello' for number: 
+End of conditional
+------------------
+Querying phone number: +12024948427
+Phone number found, ID:13
+Recording text 'Oh really' for number: 
+End of conditional
+------------------
+Querying phone number: +12024948427
+Phone number found, ID:13
+Assigning new alias to phone number +12024948427
+Assigned 'Sleep Tite' to +12024948427
+Querying phone number: +12024948427
+Phone number found, ID:13
+Recording text '#change' for number: 
+End of conditional
+------------------
+Querying phone number: +12024948427
+Phone number found, ID:13
+Recording text 'Sleep right?' for number: 
+End of conditional
+------------------
+Querying phone number: +15736735908
+Phone number not found
+Adding phone number: +15736735908
+Querying phone number: +15736735908
+Phone number found, ID:14
+Assigning new alias to phone number +15736735908
+Assigned 'Brunette' to +15736735908
+Querying phone number: +15736735908
+Phone number found, ID:14
+Recording text 'Sexy mexy' for number: 
+End of conditional
+------------------
+Querying phone number: +15736735908
+Phone number found, ID:14
+Recording text 'I have a nice penis. it is shaven.' for number: 
+End of conditional
+------------------
+Querying phone number: +15736735908
+Phone number found, ID:14
+Assigning new alias to phone number +15736735908
+Assigned 'Ring Pop' to +15736735908
+Querying phone number: +15736735908
+Phone number found, ID:14
+Recording text '#change' for number: 
+End of conditional
+------------------
+Querying phone number: +16035680366
+Phone number not found
+Adding phone number: +16035680366
+Querying phone number: +16035680366
+Phone number found, ID:15
+Assigning new alias to phone number +16035680366
+Assigned 'Teriyaki Sauce' to +16035680366
+Querying phone number: +16035680366
+Phone number found, ID:15
+Recording text 'Test' for number: 
+End of conditional
+------------------
+Querying phone number: +16035680366
+Phone number found, ID:15
+Assigning new alias to phone number +16035680366
+Assigned 'Questionable' to +16035680366
+Querying phone number: +16035680366
+Phone number found, ID:15
+Recording text '#change' for number: 
+End of conditional
+------------------
+Querying phone number: +16035680366
+Phone number found, ID:15
+Assigning new alias to phone number +16035680366
+Assigned 'Remote-Controlled' to +16035680366
+Querying phone number: +16035680366
+Phone number found, ID:15
+Recording text '#change' for number: 
+End of conditional
+------------------
+Querying phone number: +16035680366
+Phone number found, ID:15
+Assigning new alias to phone number +16035680366
+Assigned 'Boyfriend pillow' to +16035680366
+Querying phone number: +16035680366
+Phone number found, ID:15
+Recording text '#change' for number: 
+End of conditional
+------------------
+Querying phone number: +16035680366
+Phone number found, ID:15
+Assigning new alias to phone number +16035680366
+Assigned 'PajamapRty' to +16035680366
+Querying phone number: +16035680366
+Phone number found, ID:15
+Recording text '#change' for number: 
+End of conditional
+------------------
+Querying phone number: +16035680366
+Phone number found, ID:15
+Recording text 'Regular text' for number: 
+End of conditional
+------------------

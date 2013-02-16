@@ -1,0 +1,9 @@
+<?php
+
+require_once('../inc/db_functions.php');
+
+dbConnect();
+
+
+
+dbClose();

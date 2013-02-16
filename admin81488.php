@@ -1,7 +1,6 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="/textuality/css/textuality_base.css" />
-
 </head>
 <body>
 <input type="checkbox">Requests Mode</input>

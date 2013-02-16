@@ -1,52 +1,39 @@
 #textuality {
-
 	height: 100%;
-
 	width: 100%;
-
 }
-
-
 
 .header {
-
 	position: fixed;
-
 	top: 0px;
-
 	width: 100%;
-
-	padding: 5px 50px 0;
-
 	border-bottom: 4px solid rgba(150,125,100,.3);
-
-	height: 100px;
-
-	background-color: rgba(0,0,0,.5);
-
+	height: 95px;
+	background-color: rgba(0,0,0,.8);
 }
 
+.header-logoImage {
+	position: absolute;
+	left: 20px;
+}
 
+.header-phoneNumber {
+	position: absolute;
+	top: 15px;
+	right: 20px;
+	font-size: 60px;
+}
 
 .main {
-
 	position: absolute;
-
 	width: 100%;
-	background-color: black;
-
+	background-color: rgba(0,0,0,.5);
 }
-
-
 
 #texts {
-
 	padding: 5px 0;
-
 	width: 60%;
-
 }
-
 
 .text-scroller{
 	padding:20px;
@@ -60,96 +47,33 @@
 
 }
 
-
-
 .text-msg-left, .text-msg-right {
-
 	display: table-cell;
-
 	vertical-align: top;
-
 	padding: 0 10px;
-
 }
-
-
 
 .text-msg-left {
-
 	width: 150px;
-
 }
 
-
-
 .text-alias {
-
 	font-weight: bold;
 	color: #DB7;
 	font-size:20px;
-
 }
-
-
 
 .text-timestamp {
-
 	font-size: 14px;
-
 }
-
-
 
 .footer {
-
 	position: fixed;
-
 	bottom: 0px;
-
 	width: 100%;
-
 	border-top: 4px solid rgba(150,125,100,.3);
-
 	height: 100px;
-
-	background-color: rgba(0,0,0,.5);
-
-}
-
-
-
-/*#schedule-module {
-
-	width: 70%;
-
-}*/
-
-
-
-.schedule-label {
-
-	width: 25%;
-
-	float: left;
-
-	font-weight: bold;
-
-	font-size: 20px;
-
-	padding: 3px 0;
-
-	color: #DB7;
-
-	opacity: .4;
-
-}
-
-
-
-.schedule-label:first-child {
-
-	opacity: 1;
-
+	background-color: rgba(0,0,0,.8);
 }
 
 
@@ -157,7 +81,7 @@
 .schedule-item {
 	width: 20%;
 	float: left;
-	font-size: 28px;
+	font-size: 25px;
 	opacity: .4;
 	border-left: 4px solid rgba(150,125,100,.3);
 	padding-left: 10px;
@@ -174,7 +98,7 @@
     content: "next:";
     float: left;
     font-weight: bold;
-    font-size: 28px;
+    font-size: 25px;
     padding: 0 10px 0 0;
     color: #DB7;
     text-transform:uppercase;

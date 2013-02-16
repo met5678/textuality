@@ -118,4 +118,20 @@ function repopulateAliases() {
 	}
 }
 
+function getNormalTexts($numTexts) {
+	global $db;
+	
+	$resultTexts = $db->query("SELECT TID, Body, Alias, Timestamp FROM texts WHERE Flag=0 ORDER BY Timestamp DESC LIMIT $numTexts");
+	
+	$textArray = array();
+	
+	while($row = $resultTexts->fetch_assoc()) {
+		$date = new DateTime($row['Timestamp']);
+		$row['Timestamp'] = $date->format("U");
+		array_push($textArray,$row);
+	}
+	
+	return $textArray;
+}
+
 ?>

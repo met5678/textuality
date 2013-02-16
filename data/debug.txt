@@ -184,3 +184,90 @@ Phone number found, ID:15
 Recording text 'Regular text' for number: 
 End of conditional
 ------------------
+------------------
+------------------
+------------------
+Querying phone number: +12024948427
+Phone number found, ID:13
+Recording text 'Study speeds site site for support DH wild SC AF slug for cut Skype shift ability for DH fenugreek Ord she\'s an park it\'d do if foo if DJ or do of do of their h' for number: 
+End of conditional
+------------------
+Querying phone number: +12024948427
+Phone number found, ID:13
+Assigning new alias to phone number +12024948427
+Assigned 'TMI' to +12024948427
+Querying phone number: +12024948427
+Phone number found, ID:13
+Recording text '#change' for number: 
+End of conditional
+------------------
+Querying phone number: +12024948427
+Phone number found, ID:13
+Recording text 'Think Michael idiots' for number: 
+End of conditional
+------------------
+Querying phone number: +12024948427
+Phone number found, ID:13
+Recording text 'encoders' for number: 
+End of conditional
+------------------
+------------------
+------------------
+Querying phone number: +12024878085
+Phone number not found
+Adding phone number: +12024878085
+Querying phone number: +12024878085
+Phone number found, ID:16
+Assigning new alias to phone number +12024878085
+Assigned 'Gamma Ray' to +12024878085
+Querying phone number: +12024878085
+Phone number found, ID:16
+Recording text 'My room...five minutes...any takers?' for number: 
+End of conditional
+------------------
+------------------
+------------------
+------------------
+------------------
+------------------
+------------------
+------------------
+------------------
+------------------
+Querying phone number: +12523396365
+Phone number not found
+Adding phone number: +12523396365
+Querying phone number: +12523396365
+Phone number found, ID:17
+Assigning new alias to phone number +12523396365
+Assigned 'Machete' to +12523396365
+Querying phone number: +12523396365
+Phone number found, ID:17
+Recording text 'I dream of Tilda' for number: 
+End of conditional
+------------------
+------------------
+------------------
+------------------
+Querying phone number: +12523396365
+Phone number found, ID:17
+Assigning new alias to phone number +12523396365
+Assigned 'Bette Midler' to +12523396365
+Querying phone number: +12523396365
+Phone number found, ID:17
+Recording text '#change' for number: 
+End of conditional
+------------------
+------------------
+------------------
+------------------
+------------------
+------------------
+------------------
+------------------
+------------------
+------------------
+------------------
+------------------
+------------------
+------------------

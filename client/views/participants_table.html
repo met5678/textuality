@@ -1,0 +1,42 @@
+<template name="participantsTable">
+	<table class="table table-striped table-condensed">
+		<thead>
+			<tr>
+				<th>Number</th>
+				<th>Alias (#)</th>
+				<th>Sent</th>
+				<th>Rec.</th>
+				<th>TPH</th>
+				<th>Joined</th>
+				<th>Recent</th>
+				<th>Status</th>
+				<th>Offensive</th>
+				<th>Checkins</th>
+				<th>Superuser</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			{{#each participants}}
+				{{> participantRow}}
+			{{/each}}
+		</tbody>
+	</table>
+</template>
+
+<template name="participantRow">
+	<tr>
+		<td>{{_id}}</td>
+		<td>{{aliasField}}</td>
+		<td>{{texts_sent}}</td>
+		<td>{{texts_received}}</td>
+		<td>{{textsPerHour}}</td>
+		<td>{{timeRelative joined}} <span class="actual-time">{{timeAbsolute joined}}</span></td>
+		<td>{{timeRelative recent}} <span class="actual-time">{{timeAbsolute recent}}</span></td>
+		<td>{{status}}</td>
+		<td>{{moderated_texts}}</td>
+		<td>{{numCheckins}}</td>
+		<td>{{superUser}}</td>
+		<td><button class="btn btn-mini participant-text" data-toggle="modal" data-target="#composeText">Text</button>&nbsp;<button class="btn btn-mini participant-details">More</button></td>
+	</tr>
+</template>

@@ -1,0 +1,16 @@
+<template name="textsPage">
+	<div class="container-fluid">
+
+	<div class="row-fluid">		
+		<div class="span6">
+			<h2>Incoming Texts <span class="title-status">{{totalInTexts}}</span></h2>
+			{{> inTextsTable}}
+		</div>
+		<div class="span6">
+			<h2>Outgoing Texts <span class="title-status">{{totalOutTexts}}</span></h2>
+			{{> outTextsTable}}
+		</div>
+	</div>
+
+	</div>
+</template>

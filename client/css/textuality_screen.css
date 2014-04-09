@@ -1,0 +1,513 @@
+* {
+	margin: 0;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+
+.audscreen-shell * {
+	line-height: initial;
+}
+
+.audscreen-shell {
+	background-color: transparent;
+	background-image: url('/images/cave2.jpg');
+	background-repeat: repeat;
+	background-position: 0px 0px;
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	
+	transition: background-position 400ms;
+	-webkit-transition: background-position 400ms;
+	-moz-transition: background-position 400ms;
+	-o-transition: background-position 400ms;
+	-ms-transition: background-position 400ms;
+}
+
+.audscreen-shell .texts-feed {
+	position: relative;
+	padding: 10px;
+	top: 0;
+	left: 0;
+	width: 75%;
+	
+	color: #FFB;
+	font-size: 20px;
+	font-family: 'Averia Sans Libre', sans-serif;
+	text-shadow: 2px 2px 1px #000, 2px 0 1px #000, 2px -2px 1px #000, 0 -2px 1px #000, 0 2px 1px #000, -2px 2px 1px #000, -2px 0 1px #000, -2px -2px 1px #000;
+
+	transition: top 400ms;
+	-webkit-transition: top 400ms;
+	-moz-transition: top 400ms;
+	-ms-transition: top 400ms;
+	-o-transition: top 400ms;
+}
+
+.audscreen-shell .texts-feed-item {
+	margin-bottom: 15px;
+	display: block;
+	opacity: 1;
+
+	transition: opacity 200ms linear 400ms;
+	-webkit-transition: opacity 200ms linear 400ms;
+	-o-transition: opacity 200ms linear 400ms;
+	-ms-transition: opacity 200ms linear 400ms;
+	-moz-transition: opacity 200ms linear 400ms;
+}
+
+.audscreen-shell .texts-feed-item:after {
+	content: " ";
+	display: table;
+	clear: both;
+}
+
+.audscreen-shell .texts-feed-item.primitilda {
+	-moz-animation-delay: 0s;
+	-webkit-animation-delay: 0s;
+	animation-delay: 0s;
+	-moz-animation-duration: 500ms;
+    -webkit-animation-duration: 500ms;
+	animation-duration: 500ms;
+    -moz-animation-name: motherTilda;
+    -webkit-animation-name: motherTilda;
+	animation-name: motherTilda;
+	-moz-animation-iteration-count: infinite;
+	-webkit-animation-iteration-count: infinite;
+	animation-iteration-count: infinite;
+	-moz-animation-direction: alternate;
+	-webkit-animation-direction: alternate;
+	animation-direction: alternate;
+	-moz-animation-timing-function: linear;
+	-webkit-animation-timing-function: linear;
+	animation-timing-function: linear;
+}
+
+@keyframes motherTilda {
+	0% {
+		color: #f33;
+	}
+	25% {
+		color: #f90;
+	}
+	50% {
+		color: #eee;
+	}
+	75% {
+		color: #f90;
+	}
+	100% {
+		color: #f33;
+	}
+}
+
+@-moz-keyframes motherTilda {
+	0% {
+		color: #f33;
+	}
+	25% {
+		color: #f90;
+	}
+	50% {
+		color: #eee;
+	}
+	75% {
+		color: #f90;
+	}
+	100% {
+		color: #f33;
+	}
+}
+
+@-webkit-keyframes motherTilda {
+	0% {
+		color: #f33;
+	}
+	25% {
+		color: #f90;
+	}
+	50% {
+		color: #eee;
+	}
+	75% {
+		color: #f90;
+	}
+	100% {
+		color: #f33;
+	}
+}
+
+.audscreen-shell .texts-feed-meta,
+.audscreen-shell .texts-feed-text {
+	float: left;
+	display: block;
+}
+
+.audscreen-shell .texts-feed-meta {
+	width: 25%;
+}
+
+.audscreen-shell .texts-feed-name {
+	font-weight: bold;
+}
+
+.audscreen-shell .texts-feed-text {
+	width: 75%;
+}
+
+.audscreen-shell .texts-feed-text:after {
+	content: attr(data-reltime);
+    display: block;
+    color: #CCC;
+    font-size: 13px;
+}
+
+.audscreen-shell .texts-feed-rank-meter {
+	margin-top: 3px;
+	width: 112px;
+	height: 13px;
+	background: #000 url('/images/rankSquare.png') repeat-x 0 0;
+	box-shadow: 0 0 4px #000;
+	border: 1px solid #000;
+	border-radius: 4px;
+	position: relative;
+}
+
+.audscreen-shell .texts-feed-item.primitilda .texts-feed-rank-meter {
+	display: none;
+}
+
+.audscreen-shell .texts-feed-rank-meter-filled {
+	width: 30%;
+	height: 100%;
+	background: transparent url('/images/rankSquareFilled.png') repeat-x 0 0;
+	position: absolute;
+	top: 0;
+}
+
+.audscreen-shell .title-bar {
+	background-color: #000;
+	width: 100%;
+	top: 0;
+	border-bottom: 2px solid #333;
+	padding: 2px 10px 3px;
+	position: relative;
+}
+
+.audscreen-shell .title-bar:after {
+	content: " ";
+	display: table;
+	clear: both;
+}
+
+.audscreen-shell .title-bar h1,
+.audscreen-shell .title-bar .title-phone-number {
+	color: #FB8;
+	font-size: 36px;
+	font-family: 'Averia Sans Libre', sans-serif;
+	text-transform: uppercase;
+	margin: 0;
+}
+
+.audscreen-shell .title-bar h1 {
+	float: left;
+}
+
+.audscreen-shell .title-bar .title-phone-number {
+	float: right;
+	position: relative;
+	font-weight: bold;
+}
+
+.audscreen-shell .title-bar .title-phone-number:before {
+	content: "Send texts to";
+	text-transform: uppercase;
+	color: #CCC;
+	font-size: 14px;
+	display: inline-block;
+	margin-right: 6px;
+	line-height: initial;
+}
+
+.audscreen-shell .title-tilda {
+	color: #F44;
+	cursor: pointer;
+}
+
+.audscreen-shell .info-bar {
+	background-color: #000;
+	height: 40px;
+	position: fixed;
+	width: 100%;
+	bottom: 0;
+	border-top: 2px solid #333;
+}
+
+.audscreen-shell .info-bar-half {
+	float: left;
+	width: 50%;
+	height: 100%;
+	padding: 0 10px;
+}
+
+.audscreen-shell .info-bar-half:first-child {
+	border-right: 2px solid #333;
+}
+
+.audscreen-shell .info-bar-text,
+.audscreen-shell .info-bar-ticker {
+	color: #FB8;
+	font-size: 20px;
+	font-family: 'Averia Sans Libre', sans-serif;
+	margin: 0;
+	line-height: 40px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	width: 0;
+
+	transition: width 800ms linear;
+	-webkit-transition: width 800ms linear;
+	-moz-transition: width 800ms linear;
+	-o-transition: width 800ms linear;
+	-ms-transition: width 800ms linear;
+}
+
+.audscreen-shell .info-bar-text i,
+.audscreen-shell .info-bar-ticker i {
+    color: #F44;
+}
+
+.audscreen-shell .info-bar-text.showing,
+.audscreen-shell .info-bar-ticker.showing {
+	width: 100%;
+}
+
+.notransition {
+	transition: none !important;
+	-webkit-transition: none !important;
+	-moz-transition: none !important;
+	-o-transition: none !important;
+	-ms-transition: none !important;
+}
+
+.audscreen-shell .screen-overlay {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	padding-top: 30%;
+	font-family: 'Averia Sans Libre', sans-serif;
+	font-size: 100px;
+	color: #FFF;
+	text-align: center;
+	text-transform: uppercase;
+	background-color: rgba(0,0,0,0.5);
+}
+
+.audscreen-shell.actionText {
+	-moz-animation-delay: 0s;
+	-webkit-animation-delay: 0s;
+	animation-delay: 0s;
+	-moz-animation-duration: 1s;
+    -webkit-animation-duration: 1s;
+	animation-duration: 1s;
+    -moz-animation-name: actionText;
+    -webkit-animation-name: actionText;
+	animation-name: actionText;
+	-moz-animation-iteration-count: 3;
+	-webkit-animation-iteration-count: 3;
+	animation-iteration-count: 3;
+	-moz-animation-timing-function: linear;
+	-webkit-animation-timing-function: linear;
+	animation-timing-function: linear;
+}
+
+.audscreen-shell.actionText .screen-overlay {
+	display: block;
+} 
+
+@keyframes actionText {
+	0% {
+		-webkit-transform: scale3d(1,1,1) rotate(0turn);
+	}
+	25% {
+		-webkit-transform: scale3d(1.1,1.1,1) rotate(0.01turn);
+	}
+	50% {
+		-webkit-transform: scale3d(1,1,1) rotate(0turn);
+	}
+	75% {
+		-webkit-transform: scale3d(1.1,1.1,1) rotate(-0.01turn);
+	}
+	100% {
+		-webkit-transform: scale3d(1,1,1) rotate(0turn);
+	}
+}
+
+@-moz-keyframes actionText {
+	0% {
+		-webkit-transform: scale3d(1,1,1) rotate(0turn);
+	}
+	25% {
+		-webkit-transform: scale3d(1.1,1.1,1) rotate(0.01turn);
+	}
+	50% {
+		-webkit-transform: scale3d(1,1,1) rotate(0turn);
+	}
+	75% {
+		-webkit-transform: scale3d(1.1,1.1,1) rotate(-0.01turn);
+	}
+	100% {
+		-webkit-transform: scale3d(1,1,1) rotate(0turn);
+	}
+}
+
+@-webkit-keyframes actionText {
+	0% {
+		-webkit-transform: scale3d(1,1,1) rotate(0turn);
+	}
+	25% {
+		-webkit-transform: scale3d(1.1,1.1,1) rotate(0.01turn);
+	}
+	50% {
+		-webkit-transform: scale3d(1,1,1) rotate(0turn);
+	}
+	75% {
+		-webkit-transform: scale3d(1.1,1.1,1) rotate(-0.01turn);
+	}
+	100% {
+		-webkit-transform: scale3d(1,1,1) rotate(0turn);
+	}
+}
+
+
+
+@media all and (max-width: 960px) {
+	.audscreen-shell .texts-feed {
+		width: 100%;
+	}
+	
+	.cave-drawings {
+		display: none;
+	}
+}
+
+@media all and (max-width: 768px) {
+	body {
+		background-color: transparent;
+		background-image: url('/images/cave2.jpg');
+		background-repeat: repeat;
+		background-position: 0px 0px;
+
+		padding: 0;
+	}
+
+	.audscreen-shell {
+		position: static;
+		min-height: 100%;
+	
+		transition: none !important;
+		-webkit-transition: none !important;
+		-moz-transition: none !important;
+		-o-transition: none !important;
+		-ms-transition: none !important;
+		
+		background: none;
+	}
+
+	.audscreen-shell .title-bar h1,
+	.audscreen-shell .title-bar .title-phone-number {
+		font-size: 18px;
+		text-transform: none;
+	}
+	
+	.audscreen-shell .title-bar .title-phone-number:before {
+		text-transform: none;
+	}
+	
+	.audscreen-shell .title-bar {
+		position: static;
+	}
+	
+	.audscreen-shell .texts-feed {
+		font-size: 16px;
+		text-shadow: none;
+	}
+	
+	.audscreen-shell .texts-feed-item {
+		border-bottom: 1px solid #666;
+		padding-bottom: 9px;
+		margin-bottom: 8px;
+	}
+	
+	.audscreen-shell .texts-feed-meta {
+		float: none;
+		width: 100%;
+		margin-bottom: 3px;
+	}
+	
+	.audscreen-shell .texts-feed-meta:after {
+		content: " ";
+		display: table;
+		clear: both;
+	}
+	
+	.audscreen-shell .texts-feed-name {
+		float: left;
+		font-family: Helvetica, Arial, sans-serif;
+		font-size: 14px;
+	}
+	
+	.audscreen-shell .texts-feed-rank-meter {
+		float: right;
+		box-shadow: none;
+	}
+	
+	.audscreen-shell .texts-feed-text {
+		float: none;
+		width: 100%;
+		font-family: Helvetica, Arial, sans-serif;
+		color: #FFF;
+		font-size: 13px;
+		font-weight: bold;
+	}
+	
+	.audscreen-shell .texts-feed-text:after {
+		display: inline;
+		margin-left: 8px;
+		font-weight: normal;
+		font-size: 12px;
+	}
+
+	
+	.audscreen-shell .cave-drawings {
+		display: none;
+	}
+	
+	.audscreen-shell .info-bar {
+		display: none;
+	}
+
+	.audscreen-shell .screen-overlay,
+	.audscreen-shell.actionText .screen-overlay {
+		display: none;
+	}
+	
+	.audscreen-shell.actionText {
+		animation: none;
+		-webkit-animation: none;
+		-moz-animation: none;
+	}
+}
+
+@media all and (max-width: 480px) {
+	.audscreen-shell .title-bar h1,
+	.audscreen-shell .title-bar .title-phone-number {
+		float: none;
+		text-align: center;
+	}
+}

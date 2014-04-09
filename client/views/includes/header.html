@@ -1,0 +1,20 @@
+<template name="header">
+	{{#unless isAudienceScreen}}
+	<div id="ta-header" class="navbar navbar-static-top">
+		<div class="navbar-inner">
+			<a class="brand" href="{{textsPagePath}}">Textuality</a>
+			<ul id="ta-nav" class="nav">
+				<li class="{{isPage 'textsPage'}}"><a href="{{textsPagePath}}">Texts</a></li>
+				<li class="{{isPage 'participantsPage'}}"><a href="{{participantsPagePath}}">Participants</a></li>
+				<li class="{{isPage 'checkpointsPage'}}"><a href="{{checkpointsPagePath}}">Checkpoints</a></li>
+				<li class="{{isPage 'aliasesPage'}}"><a href="{{aliasesPagePath}}">Aliases</a></li>
+				<li class="{{isPage 'autoTextsPage'}}"><a href="{{autoTextsPagePath}}">AutoTexts</a></li>
+				<li class="{{isPage 'screenControlPage'}}"><a href="{{screenControlPagePath}}">System Control</a></li>
+			</ul>
+			<div class="pull-right">
+				<button class="btn btn-info" data-toggle="modal" data-target="#composeText">Send Text</button>
+			</ul>
+		</div>
+	</div>
+	{{/unless}}
+</template>

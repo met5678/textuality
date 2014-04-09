@@ -1,0 +1,80 @@
+<template name="autoTextsPage">
+	<div class="container-fluid">
+
+	<div class="row-fluid">
+		<div class="span12">
+			<h2>Autotexts</h2>
+		</div>
+	</div>
+
+	<div class="row-fluid">
+
+		<div class="span9">
+			{{> autoTextsTable}}
+		</div>
+
+	{{#isolate}}
+		<div class="span3">
+			<div class="well">
+			<h3>Add AutoTexts</h3>
+			<form class="autotext-add-form">
+				<label>type</label>
+				<select class="form-control" name="type">
+					<option>Checkins: complete</option>
+					<option>Checkins: duplicate</option>
+					<option>Moderation: warning</option>
+					<option>Moderation: long text</option>
+					<option>Moderation: banned</option>
+					<option>User sent N texts</option>
+					<option>N total texts sent</option>
+					<option>Alias change</option>
+					<option>Welcome</option>
+				</select>
+				<label>Number</label>
+				<input type="text" class="input-medium" name="number" />
+				<label>Destination</label>
+				<div class="radio">
+					<label>
+						<input type="radio" name="destination" value="user" checked />
+						User
+					</label>
+					<label>
+						<input type="radio" name="destination" value="screen" />
+						Screen
+					</label>
+				</div>
+				<label>Text</label>
+				<textarea name="text"></textarea><br />
+				<button type="submit" class="checkpoint-add-btn btn">Add AutoText</button>
+			</form>
+			</div>
+			<button class="autotexts-deleteall-btn btn btn-warning">Delete All AutoTexts</button>
+		</div>
+	{{/isolate}}
+	</div>
+</template>
+
+<template name="autoTextsTable">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Type</th>
+				<th>Number</th>
+				<th>Destination</th>
+				<th>Text</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+		{{#each autoTexts}}
+			<tr data-id="{{_id}}">
+				<td>{{type}}</td>
+				<td>{{number}}</td>
+				<td>{{destination}}</td>
+				<td>{{body}}</td>
+				<td><button class="btn btn-mini btn-danger autotext-delete">Delete</button></td>
+			</tr>
+		{{/each}}}
+		</tbody>
+	</table>	
+</template>

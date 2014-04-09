@@ -1,0 +1,17 @@
+<template name="screenFeed">
+	<div class="texts-feed">
+		{{#each feedTexts}}
+			{{> screenFeedItem}}
+		{{/each}}
+	</div>
+</template>
+
+<template name="screenFeedItem">
+	<div class="texts-feed-item {{textClass}} notransition" style="opacity: 0;">
+		<div class="texts-feed-meta">
+			<div class="texts-feed-name">{{alias}}</div>
+			{{#isolate}}<div class="texts-feed-rank-meter" style="width: {{checkinMeterSize}}px;"><div class="texts-feed-rank-meter-filled" style="width: {{checkinPercent}}%;"></div></div>{{/isolate}}
+		</div>
+		<div class="texts-feed-text rel-time-data" data-utc="{{timeUtc}}" data-reltime="{{timeRelative time true}}">{{body}}</div>
+	</div>
+</template>

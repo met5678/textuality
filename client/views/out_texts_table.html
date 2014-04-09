@@ -1,0 +1,27 @@
+<template name="outTextsTable">
+	<table class="table table-striped table-condensed">
+		<thead>
+			<tr>
+				<th>To</th>
+				<th>Status</th>
+				<th>Body</th>
+				<th>Purpose</th>
+				<th>Time</th>
+			</tr>
+		</thead>
+	<tbody>
+		{{#each outTexts}}
+			{{> outTextRow}}
+		{{/each}}
+	</tbody>
+</template>
+
+<template name="outTextRow">
+	<tr>
+		<td style="white-space:nowrap;">{{#each participants}} {{participant_alias}} <span class="phone-number">{{participant_id}}</span><br /> {{/each}}</td>		
+		<td>{{#each participants}} {{status}}<br /> {{/each}}</td>		
+		<td>{{body}}</td>
+		<td>{{purpose}}</td>
+		<td>{{timeRelative time}} <span class="actual-time" style="white-space:nowrap;">{{timeAbsolute time}}</td>
+	</tr>
+</template>

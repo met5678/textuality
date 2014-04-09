@@ -1,0 +1,107 @@
+.table tbody {
+	font-size: 12px;
+}
+
+.table td {
+	vertical-align: middle;
+}
+
+a {
+	cursor: pointer;
+}
+
+#ta-nav > li {
+	cursor: pointer;
+}
+
+#ta-nav > li:hover {
+	background-color: rgba(50,50,50,0.1);
+}
+
+#ta-nav > li.indicator > a:after {
+	border-radius: 6px;
+	color: #FFF;
+	background-color: #ccc;
+	opacity: .3;
+	content: '0';
+	height: 20px;
+	display: inline-block;
+	text-align: center;
+	margin-left: 7px;
+	min-width: 20px; 
+	vertical-align: 0px;
+	padding: 0 2px;
+	
+	/* Opacity transition */
+}
+
+#ta-nav > li.indicator-active > a:after {
+	opacity: 1;
+	border-radius: 6px;
+	background-color: #2a2;
+	content: attr(data-indicator);
+}
+
+#ta-main-texts {
+	
+}
+
+.title-status {
+	font-size: 14px;
+	margin-left: 10px;
+	color: #999;
+}
+
+tr .phone-number {
+	font-size: 80%;
+	color: #999;
+}
+
+.actual-time {
+	font-size: 80%;
+	color: #999;
+}
+
+.character-counter {
+	font-weight: bold;
+	display: block;
+	text-align: right;
+}
+
+.typeahead.dropdown-menu {
+	z-index: 2000;
+}
+
+.selected-participants {
+	margin-top: 10px;
+}
+
+.participant-delete {
+	cursor: pointer;
+}
+
+.admin-alias {
+	width: 150px;
+	margin-right: 5px;
+}
+
+.admin-alias .alias-delete {
+	float: right;
+	cursor: pointer;
+}
+
+.alias-add-text {
+	box-sizing: initial;
+}
+
+.checkpoint-add-form * {
+	box-sizing: initial;
+}
+
+.checkpoint-hashtag:before {
+	content: '#';
+}
+
+.checkpoint-ticker-text:before {
+	content: '[alias] ';
+}

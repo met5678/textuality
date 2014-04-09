@@ -1,0 +1,20 @@
+<template name="audienceScreen">
+<div class="audscreen-shell">
+	{{> screenDrawings}}
+	{{> screenHeader}}
+	{{> screenFeed}}
+	{{> screenFooter}}
+	{{> screenOverlay}}
+</div>
+</template>
+
+<template name="screenHeader">
+	<div class="title-bar">
+		<h1>Textuality Primi<span class="title-tilda">tilda</span></h1>
+		<div class="title-phone-number">571-989-4785</div>
+	</div>
+</template>
+
+<template name="screenOverlay">
+	<div class="screen-overlay">{{actionText}}</div>
+</template>

@@ -4,13 +4,13 @@ Handlebars.registerHelper("timeRelative", function(date,raw) {
 		var seconds = Math.floor((new Date()).valueOf()/1000) - utcSecs;
 		var displayVal = '';
 		if(seconds < 5) {
-			displayVal = 'Just now';
+			displayVal = 'Now';
 		}
 		if(seconds < 60) {
-			displayVal = (Math.round(seconds/5)*5) + 's ago';
+			displayVal = (Math.round(seconds/5)*5) + 's';
 		}
 		else {
-			displayVal = (Math.floor(seconds/60)) + "m ago";
+			displayVal = (Math.floor(seconds/60)) + "m";
 		}
 		if(raw) {
 			return displayVal;

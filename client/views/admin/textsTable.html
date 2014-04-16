@@ -1,0 +1,32 @@
+<template name="adminTextsTable">
+	<table class="table table-condensed">
+		<thead>
+			<tr>
+				<th></th>
+				<th>Participant</th>
+				<th>Body</th>
+				<th>Mod.</th>
+				<th>Purpose</th>
+				<th>Time</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			{{#each this}}
+				{{> adminTextRow}}
+			{{/each}}
+		</tbody>
+	</table>
+</template>
+
+<template name="adminTextRow">
+	<tr>
+		<td>{{direction}}</td>
+		<td>{{alias}} <span class="phone-number">{{participant}}</span></td>
+		<td>{{body}}</td>
+		<td>{{moderation}}</td>
+		<td>{{purpose}}</td>
+		<td>{{timeRelative time}} <span class="actual-time" style="white-space:nowrap;">{{timeAbsolute time}}</span></td>
+		<td>{{#unless isMaster}}<button class="intext-reply btn btn-xs btn-default">Reply</button>{{/unless}}</td>
+	</tr>
+</template>

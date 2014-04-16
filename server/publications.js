@@ -1,5 +1,5 @@
-Meteor.publish('inTexts', function(limit) {
-	return InTexts.find({}, { sort: { time : -1 }, limit: limit });
+Meteor.publish('inTexts', function(options) {
+	return InTexts.find({},options);
 });
 
 Meteor.publish('feedTexts', function(limit) {

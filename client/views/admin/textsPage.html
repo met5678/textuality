@@ -1,0 +1,13 @@
+<template name="adminTexts">
+	<div class="row">		
+		<div class="col-md-9 col-sm-8">
+			<h3>All Texts <span class="title-status">{{totalInTexts}} received, {{totalOutTexts}} sent</span></h3>
+			{{#with allTexts}}
+				{{> adminTextsTable}}
+			{{/with}}
+		</div>
+		<div class="col-md-3 col-sm-4">
+			{{> adminComposeText}}
+		</div>
+	</div>
+</template>

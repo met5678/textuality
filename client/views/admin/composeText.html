@@ -1,0 +1,39 @@
+<template name="adminComposeText">
+	<div class="panel panel-default">
+		<div class="panel-heading">Compose Text</div>
+		<div class="panel-body">
+			<form class="compose-text-form" role="form">
+				<div class="form-group">
+					<label class="radio-inline">
+						<input type="radio" name="toTarget" value="screen" id="composeTextToScreen" checked /> Screen
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="toTarget" value="user" id="composeTextToUser" /> User(s)
+						<button type="button" class="btn btn-xs btn-primary" style="vertical-align: top; margin-left: 5px;" disabled="disabled">+ 1</button>
+						<button type="button" class="btn btn-xs btn-primary" style="vertical-align: top;" disabled="disabled">+ 5</button>
+					</label>
+				</div>
+				<div class="form-group" id="composeTextUserArea">
+					<ul class="list-inline">
+						{{#isolate}}
+							{{#each composeTextParticipants}}
+								{{> adminComposeTextParticipant}}
+							{{/each}}
+						{{/isolate}}
+					</ul>
+				</div>
+				<div class="form-group">
+					<label for="composeTextBody">Body</label>
+					<textarea class="form-control" rows="5" name="body"></textarea>
+					<div class="character-counter">160</div>
+				</div>
+				<button type="submit" class="btn btn-success">Send</button>
+				<button type="button" class="btn btn-default">Clear</button>
+			</form>
+		</div>
+	</div>
+</template>
+
+<template name="adminComposeTextParticipant">
+	<span class="label selected-participant">{{alias}} <span class="participant-delete fa fa-times"></span></span>
+</template>

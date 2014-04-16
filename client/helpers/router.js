@@ -1,4 +1,4 @@
-feedTextSubscr = null;
+/*feedTextSubscr = null;
 participantLiteSubscr = null;
 checkpointsLiteSubscr = null;
 screenSettingsSubscr = null;
@@ -112,4 +112,4 @@ Meteor.Router.add({
 		to:'audienceScreen',
 		and:screenSubscriptions
 	}		
-});
+});*/

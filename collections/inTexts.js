@@ -1,3 +1,17 @@
+/*
+InText: The collection storing texts received from users. Special master texts also can end up here.
+{
+	body
+	participant: [Participant ID]
+	alias: [String: Alias]
+	checkins: [Number]
+	moderation:
+	purpose:
+	favorite: [Boolean]
+	time: [Timestamp]
+}
+*/
+
 InTexts = new Meteor.Collection('inTexts');
 
 var moderationCutoff = 8;

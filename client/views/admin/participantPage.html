@@ -1,0 +1,88 @@
+<template name="adminParticipant">
+	<div class="row">		
+		<div class="col-xs-12">
+			<h2>Participant: {{_id}} / {{alias}}</h2>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4">
+			<h4>Geographic info</h4>
+			<table class="table table-condensed">
+				<tbody>
+					<tr>
+						<th>City</th>
+						<td>{{geo.city}}</td>
+					</tr>
+					<tr>
+						<th>State</th>
+						<td>{{geo.state}}</td>
+					</tr>
+					<tr>
+						<th>Zipcode</th>
+						<td>{{geo.zip}}</td>
+					</tr>
+				</tbody>
+			</table>
+			<h4>Alias info</h4>
+			<table class="table table-condensed">
+				<tbody>
+					<tr>
+						<th>Current Alias</th>
+						<td>{{alias}}</td>
+					</tr>
+					<tr>
+						<th>Old Aliases</th>
+						<td>{{oldAliases}}</td>
+					</tr>
+				</tbody>
+			</table>
+			<h4>Participation info</h4>
+			<table class="table table-condensed">
+				<tbody>
+					<tr>
+						<th>Status</th>
+						<td>{{status}}</td>
+					</tr>
+					<tr>
+						<th>Joined</th>
+						<td>{{timeRelative joined}} <span class="actual-time">{{timeAbsolute joined}}</span></td>
+					</tr>
+					<tr>
+						<th>Latest Activity</th>
+						<td>{{timeRelative recent}} <span class="actual-time">{{timeAbsolute recent}}</span></td>
+					</tr>
+					<tr>
+						<th>Texts Sent</th>
+						<td>{{texts_sent}}</td>
+					</tr>
+					<tr>
+						<th>Texts Received</th>
+						<td>{{texts_received}}</td>
+					</tr>
+					<tr>
+						<th>Texts Per Hour</th>
+						<td>{{textsPerHour}}</td>
+					</tr>
+					<tr>
+						<th>Moderated Texts</th>
+						<td>{{moderated_texts}}</td>
+					</tr>
+					<tr>
+						<th>Super User</th>
+						<td>{{super_user}}</td>
+					</tr>
+					<tr>
+						<th>Checkins</th>
+						<td>{{checkinsList}}</td>
+					</tr>
+				</tbody>
+			</table>
+			<h4>Notes</h4>
+			<textarea class="input-block-level" rows="4">{{note}}</textarea>
+		</div>
+		<div class="col-md-8">
+			<h4>Texts</h4>
+			{{> participantActivityTable}}
+		</div>
+	</div>
+</template>

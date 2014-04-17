@@ -4,6 +4,7 @@
     "branch": "master"
   },
   "packages": {
-    "iron-router": {}
+    "iron-router": {},
+    "spin": {}
   }
 }

@@ -74,8 +74,8 @@ Meteor.methods({
 	inText_sendMasterText: function(body) {
 		var inText = {
 			body: body,
-			participant:'Primitilda',
-			alias:'Primitilda',
+			participant:'master',
+			alias:'AprilShowers',
 			moderation: {
 				passed:true,
 				status:'OK',

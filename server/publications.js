@@ -6,8 +6,8 @@ Meteor.publish('feedTexts', function(limit) {
 	return InTexts.find({ 'purpose.type':'feed' }, { sort: { time : -1 }, limit: limit });
 });
 
-Meteor.publish('participants', function() {
-	return Participants.find();
+Meteor.publish('participants', function(options) {
+	return Participants.find({},options);
 });
 
 Meteor.publish('participantsLite', function() {

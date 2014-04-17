@@ -1,3 +1,38 @@
+/*
+InText: The collection storing texts received from users. Special master texts also can end up here.
+{
+	_id: phoneNumber,
+	geo: {
+		city:twJson.FromCity,
+		state:twJson.FromState,
+		zip:twJson.FromZip
+	},
+	status: 'Active' // or 'Signed off' or 'Banned'
+	joined: new Date(), // When joined
+	recent: new Date(), // Most recent activity
+	alias: 'CurrentAlias',
+	old_aliases: ['OldAlias1,OldAlias2'],
+	texts_sent_current_alias: 0,
+	texts_sent: 0,
+	texts_received: 0,
+	moderated_texts:0,
+	super_user:false, // Are they an admin?
+	checkins: [] , // IDs of completed checkpoints
+	checkins_complete: false,
+	badges: [{
+		_id:'random',
+		name:'Top Texter',
+		icon:'fa-star',
+		color:'#s23523'
+	}] , // Earned badges
+	favorite:false, // Are they a favorite user?
+	last_text_long: false,
+	receiving_long_text: false,
+	note:null,
+	random:[Math.random(),0]
+	}
+*/
+
 Participants = new Meteor.Collection('participants');
 if(Meteor.isServer) {
 	Participants._ensureIndex({ random : "2d" });
@@ -128,6 +163,13 @@ Meteor.methods({
 
 	participant_clearAllCheckins:function() {
 		Participants.update({},{$set:{checkins:[]}},{multi:true});
+	}
+});
+
+Participants.find().observeChanges({
+	changed:function(id,fields) {
+		if(!_.isEmpty(_.omit(fields,'recent')))
+			Participants.update(id, {$set: { recent:new Date() } });			
 	}
 });
 

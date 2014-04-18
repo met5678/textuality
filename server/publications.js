@@ -22,6 +22,10 @@ Meteor.publish('aliases', function() {
 	return Aliases.find();
 });
 
+Meteor.publish('badges',function() {
+	return Badges.find();
+});
+
 Meteor.publish('checkpoints', function() {
 	return Checkpoints.find();
 });

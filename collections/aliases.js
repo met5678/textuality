@@ -1,4 +1,10 @@
 Aliases = new Meteor.Collection('aliases');
+Aliases.allow({
+	insert: function(userId, doc) {
+		return Roles.userIsInRole(userId,'admin');
+	}
+});
+
 if(Meteor.isServer) {
 	Aliases._ensureIndex({ random : "2d" });
 }

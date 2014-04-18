@@ -15,17 +15,30 @@
 				</div>
 				<div class="form-group" id="composeTextUserArea">
 					<ul class="list-inline">
-						{{#isolate}}
-							{{#each composeTextParticipants}}
-								{{> adminComposeTextParticipant}}
-							{{/each}}
-						{{/isolate}}
+						{{#each composeTextParticipants}}
+							{{> adminComposeTextParticipant}}
+						{{/each}}
 					</ul>
 				</div>
 				<div class="form-group">
 					<label for="composeTextBody">Body</label>
-					<textarea class="form-control" rows="5" name="body"></textarea>
-					<div class="character-counter">160</div>
+					<textarea class="form-control" rows="5" name="body" id="composeTextBody"></textarea>
+					<div class="character-counter" data-for="composeTextBody">160</div>
+				</div>
+				<div class="form-group" id="composeTextBadgeArea">
+					<div class="dropdown">
+						<button class="btn btn-sm btn-default dropdown-toggle" type="button" id="composeTextBadgeDropdown" data-toggle="dropdown">Give Badge <span class="caret"></span></button>
+						<ul class="dropdown-menu" aria-labelledby="composeTextBadgeDropdown">
+							<li><a href="#" data-badge="None">None</a></li>
+							<li class="divider"></li>
+							{{#each badges}}
+								<li>
+									<a href="#" data-badge="{{_id}}"><i class="fa {{icon}} compose-text-dropdown-badge-icon" style="color:{{color}}"></i> {{name}}</a>
+								</li>
+							{{/each}}
+						</ul>
+						<span class="compose-text-selected-badge">None</span>
+					</div>
 				</div>
 				<button type="submit" class="btn btn-success">Send</button>
 				<button type="button" class="btn btn-default">Clear</button>

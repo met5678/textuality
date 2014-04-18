@@ -1,4 +1,4 @@
-Template.aliasesPage.helpers({
+Template.adminAliases.helpers({
 	aliasesUsed: function() {
 		return Aliases.find( { 'used':true }).count();
 	},
@@ -17,12 +17,12 @@ Template.aliasesList.helpers({
 		if(this.used) {
 			return 'label-success';
 		}
-		return '';
+		return 'label-default';
 	}
 });
 
 
-Template.aliasesPage.events({
+Template.adminAliases.events({
 	'submit form.alias-add-form': function(e) {
 		e.preventDefault();
 		

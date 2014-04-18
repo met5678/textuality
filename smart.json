@@ -5,6 +5,7 @@
   },
   "packages": {
     "iron-router": {},
-    "spin": {}
+    "spin": {},
+    "roles": {}
   }
 }

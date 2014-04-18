@@ -6,38 +6,6 @@ a {
 	cursor: pointer;
 }
 
-#ta-nav > li {
-	cursor: pointer;
-}
-
-#ta-nav > li:hover {
-	background-color: rgba(50,50,50,0.1);
-}
-
-#ta-nav > li.indicator > a:after {
-	border-radius: 6px;
-	color: #FFF;
-	background-color: #ccc;
-	opacity: .3;
-	content: '0';
-	height: 20px;
-	display: inline-block;
-	text-align: center;
-	margin-left: 7px;
-	min-width: 20px; 
-	vertical-align: 0px;
-	padding: 0 2px;
-	
-	/* Opacity transition */
-}
-
-#ta-nav > li.indicator-active > a:after {
-	opacity: 1;
-	border-radius: 6px;
-	background-color: #2a2;
-	content: attr(data-indicator);
-}
-
 #ta-main-texts {
 	
 }
@@ -77,17 +45,18 @@ tr .phone-number {
 }
 
 .admin-alias {
-	width: 150px;
+	display: inline-block;
+	width: 140px;
 	margin-right: 5px;
+	margin-bottom: 5px;
+	font-size: 0.9em;
+	text-align: left;
+	padding: 5px 8px;
 }
 
 .admin-alias .alias-delete {
 	float: right;
 	cursor: pointer;
-}
-
-.alias-add-text {
-	box-sizing: initial;
 }
 
 .checkpoint-add-form * {
@@ -100,4 +69,15 @@ tr .phone-number {
 
 .checkpoint-ticker-text:before {
 	content: '[alias] ';
+}
+
+.compose-text-selected-badge {
+	margin-left: 5px;
+	vertical-align: middle;
+	font-size: 0.9em;
+}
+
+.compose-text-dropdown-badge-icon {
+	text-shadow: 0 0 15px #000, 0 0 15px #000;
+	margin-right: 5px;
 }

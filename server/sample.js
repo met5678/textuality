@@ -147,4 +147,18 @@ Meteor.startup(function() {
 		random:[Math.random(),0]
 	});
 
+	Badges.remove({});
+	Badges.insert({
+		name:'Leafy Goddess',
+		icon:'fa-leaf',
+		color:'#AAFFAA',
+		type:'manual'
+	});
+	Badges.insert({
+		name:'Sexy dancer',
+		icon:'fa-music',
+		color:'#FFFAAA',
+		type:'manual'
+	});
+
 });

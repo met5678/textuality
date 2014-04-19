@@ -28,7 +28,7 @@ Meteor.methods({
 				body:textBody,
 				favorite: false,
 			};
-			Meteor.call('outText_send',outText,participant,'system');
+			Meteor.call('outText_send',outText,participant._id,'system');
 		}
 		else {
 			console.log("No user autoText found for type: " + type+","+number);

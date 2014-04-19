@@ -18,18 +18,6 @@ ScreenSettings.allow({
 });
 
 Meteor.methods({
-	settings_ticker_update: function(tickerText) {
-		ScreenSettings.upsert('tickerText',{$set:{value:tickerText}});
-	},
-
-	settings_action_update: function(actionText) {
-		ScreenSettings.upsert('actionText',{$set:{value:actionText}});
-	},
-
-	settings_infobar_update: function(infoBarText) {
-		ScreenSettings.upsert('infoBarText',{$set:{value:infoBarText}});
-	},
-
 	settings_reset_event: function() {
 		ScreenSettings.remove({});
 		InTexts.remove({});

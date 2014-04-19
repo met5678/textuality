@@ -228,10 +228,11 @@ if(Meteor.isServer) {
 		},
 
 		removed: function(id) {
-			Meteor.call('participant_revokeBadge',
-				Participants.findOne(id),
-				Badges.findOne({name:'Top 10 Texter'})
-			);
+			if(Participants.findOne(id)) 
+				Meteor.call('participant_revokeBadge',
+					Participants.findOne(id),
+					Badges.findOne({name:'Top 10 Texter'})
+				);
 		}
 	});
 }

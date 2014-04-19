@@ -1,4 +1,4 @@
-Meteor.startup(function() {
+/*Meteor.startup(function() {
 	InTexts.remove({});
 	if(InTexts.find().count() == 0) {
 		InTexts.insert({
@@ -171,3 +171,4 @@ Meteor.startup(function() {
 		random:[Math.random(),0]
 	});
 });
+*/

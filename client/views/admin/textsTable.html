@@ -2,7 +2,6 @@
 	<table class="table table-condensed">
 		<thead>
 			<tr>
-				<th></th>
 				<th>Participant</th>
 				<th>Body</th>
 				<th>Status</th>
@@ -19,8 +18,7 @@
 </template>
 
 <template name="adminTextRow">
-	<tr>
-		<td>{{direction}}</td>
+	<tr class="{{directionClass}}">
 		<td>{{alias}} <span class="phone-number">{{participant}}</span></td>
 		<td>{{body}}</td>
 		<td>{{status}}</td>

@@ -1,4 +1,12 @@
 Checkpoints = new Meteor.Collection('checkpoints');
+Checkpoints.allow({
+	insert: function(userId, doc) {
+		return Roles.userIsInRole(userId,'admin');
+	},
+	remove: function(userId, doc) {
+		return Roles.userIsInRole(userId,'admin');
+	}
+});
 
 Meteor.methods({
 	checkpoint_checkText: function(participant,inText) {
@@ -27,6 +35,11 @@ Meteor.methods({
 
 	checkpoint_clearCheckins: function() {
 		Checkpoints.update({},{$set:{checkins:[]}},{multi:true});
+		Meteor.call('participant_clearAllCheckins');
+	},
+
+	checkpoint_deleteCheckpoints: function() {
+		Checkpoints.remove({});
 		Meteor.call('participant_clearAllCheckins');
 	},
 

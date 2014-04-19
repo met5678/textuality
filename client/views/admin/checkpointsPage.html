@@ -1,0 +1,94 @@
+<template name="adminCheckpoints">
+	<div class="row">
+		<div class="col-xs-12">
+			<h2>Checkpoints <span class="title-status">{{numCheckpoints}} checkpoints, {{numCheckins}} checkins</span></h2>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-9">
+			{{>adminCheckpointsTable}}
+		</div>
+
+		<div class="col-md-3">
+			{{>createCheckpoint}}
+		</div>
+	</div>
+</template>
+
+<template name="adminCheckpointsTable">
+	<table class="table table-striped badge-table">
+		<thead>
+			<tr>
+				<th>Hashtag</th>
+				<th>Location</th>
+				<th>Ticker Text</th>
+				<th>User Text</th>
+				<th>Checkins</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+		{{#each checkpoints}}
+			{{>adminCheckpointRow}}
+		{{/each}}
+		</tbody>
+	</table>	
+</template>
+
+<template name="adminCheckpointRow">
+	<tr>
+		<td class="checkpoint-hashtag">{{_id}}</td>
+		<td>{{location}}</td>
+		<td class="checkpoint-ticker-text">{{tickerText}}</td>
+		<td>{{userText}}</td>
+		<td>{{numCheckins}}</td>
+		<td><button class="btn btn-mini btn-danger checkpoint-delete">Delete</button></td>
+	</tr>
+</template>
+
+<template name="createCheckpoint">
+	<div class="panel panel-default">
+		<div class="panel-heading">Create Checkpoint</div>
+		<div class="panel-body">
+			<form class="checkpoint-add-form">
+
+				<div class="form-group">
+					<label>Hashtag</label>
+					<div class="input-group">
+						<span class="input-group-addon">#</span>
+						<input type="text" class="form-control text-character-count" data-max-length="14" name="_id">
+						<div class="input-group-addon text-character-counter" data-for="autoTextBody">14</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label>Location</label>
+					<input type="text" class="form-control" name="location">
+				</div>
+
+				<div class="form-group">
+					<label>Ticker Text</label>
+					<textarea class="form-control text-character-count" data-max-length="50" rows="2" name="tickerText"></textarea>
+					<div style="float: right;" class="text-character-counter" data-for="autoTextBody">50</div>
+					<span class="help-block">Use [alias] for the user's alias</span>
+				</div>
+
+				<div class="form-group">
+					<label for="autoTextBody">User text</label>
+					<textarea class="form-control text-character-count" data-max-length="160" rows="3" name="userText"></textarea>
+					<div style="float: right;" class="text-character-counter" data-for="autoTextBody">160</div>
+				</div>
+				<button type="submit" class="btn btn-success">Create</button>
+				<button type="button" class="btn btn-default create-checkpoint-clear">Clear</button>
+			</form>
+		</div>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<button class="checkins-clearall-btn btn btn-warning">Clear Checkins</button>
+			<button class="checkpoints-deleteall-btn btn btn-danger">Delete All Checkpoints</button>
+		</div>
+	</div>
+</template>

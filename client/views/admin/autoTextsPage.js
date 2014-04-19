@@ -6,12 +6,14 @@ Template.autoTextsTable.helpers({
 
 Template.createAutoText.helpers({
 	autoTextTemplates: function() {
-		return AutoTextTemplates.find();
+		return AutoTextTemplates.find({},{sort:{description:1}});
 	},
 
 	hasNumber: function() {
-		var autoTextTemplate = AutoTextTemplates.findOne(Session.get('createAutoTextType'));
-		return !!autoTextTemplate && autoTextTemplate.number;
+		if(Session.get('createAutoTextType')) {
+			var autoTextTemplate = AutoTextTemplates.findOne(Session.get('createAutoTextType'));
+			return !!autoTextTemplate && autoTextTemplate.number;
+		}
 	}
 });
 

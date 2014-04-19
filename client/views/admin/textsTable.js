@@ -14,7 +14,25 @@ Template.adminTextRow.helpers({
 	},
 
 	status: function() {
-		return Spacebars.SafeString('<span class="label label-success">Feed</span>');
+		if(!!this.moderation && !this.moderation.passed)
+			return new Handlebars.SafeString('<span class="label label-danger">'+this.moderation.status+' ('+this.moderation.score+')</span>');			
+		else if(!!this.purpose && this.purpose.type == 'checkin')
+			return Spacebars.SafeString('<span class="label label-warning">Check-in</span>');
+		else if(!!this.purpose && this.purpose.type == 'system')
+			return Spacebars.SafeString('<span class="label label-default">System</span>');
+		else if(!!this.purpose && this.purpose.type == 'feed')
+			return Spacebars.SafeString('<span class="label label-success">Feed</span>');
+	},
+
+	directionClass: function() {
+		if(!!this.participant && this.participant != 'master')
+			return ''
+		else
+			return 'active'
+	},
+
+	isMaster: function() {
+		return this.participant == 'master';
 	}
 });
 

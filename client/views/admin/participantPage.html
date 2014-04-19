@@ -7,7 +7,7 @@
 	<div class="row">
 		<div class="col-md-4">
 			<h4>Geographic info</h4>
-			<table class="table table-condensed">
+			<table class="table table-condensed table-bordered table-striped">
 				<tbody>
 					<tr>
 						<th>City</th>
@@ -32,7 +32,11 @@
 					</tr>
 					<tr>
 						<th>Old Aliases</th>
-						<td>{{oldAliases}}</td>
+						<td>
+							{{#each old_aliases}}
+								{{this}}<br>
+							{{/each}}
+						</td>
 					</tr>
 				</tbody>
 			</table>
@@ -82,7 +86,7 @@
 		</div>
 		<div class="col-md-8">
 			<h4>Texts</h4>
-			{{> participantActivityTable}}
+			{{> adminTextsTable participantTexts}}
 		</div>
 	</div>
 </template>

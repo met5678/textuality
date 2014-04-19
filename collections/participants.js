@@ -34,6 +34,12 @@ InText: The collection storing texts received from users. Special master texts a
 */
 
 Participants = new Meteor.Collection('participants');
+Participants.allow({
+	update: function(userId, doc) {
+		return Roles.userIsInRole(userId,'admin');
+	}
+});
+
 if(Meteor.isServer) {
 	Participants._ensureIndex({ random : "2d" });
 }
@@ -65,6 +71,7 @@ Meteor.methods({
 				super_user:false,
 				checkins: [],
 				checkins_complete: false,
+				badges:[],
 				favorite:false,
 				last_text_long: false,
 				receiving_long_text: false,
@@ -72,7 +79,7 @@ Meteor.methods({
 				random:[Math.random(),0]
 			};
 			Participants.insert(participant);
-			Meteor.call('autoText_send',participant,'Welcome');
+			Meteor.call('autoText_send',participant,'AUTO_WELCOME');
 		}
 		return participant;
 	},
@@ -82,11 +89,11 @@ Meteor.methods({
 		if(participant.moderated_texts+1 >= numTextsToBan) {
 			participant.status = 'Banned';
 			Participants.update(participant._id, {$set : {status:'Banned'}});
-			Meteor.call('autoText_send',participant,'Moderation: banned');
+			Meteor.call('autoText_send',participant,'AUTO_MODERATION_WARNING');
 			handleExit(participant);
 		}
 		else {
-			Meteor.call('autoText_send',participant,'Moderation: warning',participant.moderated_texts+1);
+			Meteor.call('autoText_send',participant,'AUTO_MODERATION_WARNING',participant.moderated_texts+1);
 		}
 	},
 
@@ -96,8 +103,8 @@ Meteor.methods({
 
 	participant_handleLongText: function(participant) {
 		Participants.update(participant._id, {$set: { receiving_long_text:true} });
+		Meteor.call('autoText_send',participant,'AUTO_MODERATION_LONGTEXT');
 		Meteor.setTimeout(function() {
-			Meteor.call('autoText_send',participant,'Moderation: long text');
 			Participants.update(participant._id, {$set: { receiving_long_text:false } });
 		},longTextWaitMillis);
 	},
@@ -107,7 +114,7 @@ Meteor.methods({
 			$set: { recent:new Date() },
 			$inc: { texts_sent:1, texts_sent_current_alias:1 }
 		});
-		Meteor.call('autoText_send',participant,'User sent N texts',participant.texts_sent+1);
+		Meteor.call('autoText_send',participant,'AUTO_SENT_N_TEXTS',participant.texts_sent+1);
 	},
 
 	participant_incrementReceivedTexts: function(participant) {
@@ -124,18 +131,18 @@ Meteor.methods({
 			$set: { texts_sent_current_alias:0, alias: newAlias }
 		});
 		participant.alias = newAlias;
-		Meteor.call('autoText_send',participant,'Alias change');
+		Meteor.call('autoText_send',participant,'AUTO_ALIAS_CHANGE');
 	},
 
 	participant_signOff: function(participant) {
 		Participants.update(participant._id, {$set: { status:'Signed off' } });
-		Meteor.call('autoText_send',participant,'User sign off');
+		Meteor.call('autoText_send',participant,'AUTO_PARTICIPANT_EXIT');
 		handleExit(participant);
 	},
 
 	participant_signOn: function(participant) {
 		Participants.update(participant._id, {$set: { status:'Active' } });		
-		Meteor.call('autoText_send',participant,'User resume');
+		Meteor.call('autoText_send',participant,'AUTO_PARTICIPANT_RETURN');
 	},
 
 	participant_updateLatestActivity: function(participant) {
@@ -147,7 +154,7 @@ Meteor.methods({
 			participant.checkins.push(checkpoint._id);
 			Participants.update(participant._id,{$push: {checkins: checkpoint._id}});
 			if(participant.checkins.length >= Meteor.call('checkpoint_numTotal')) {
-				Meteor.call('autoText_send',participant,'Checkins: complete');
+				Meteor.call('autoText_send',participant,'AUTO_CHECKPOINTS_DONE');
 				Participants.update(participant._id,{$set: {checkins_complete:true}});
 			}
 			else {
@@ -156,7 +163,7 @@ Meteor.methods({
 			return true;
 		}
 		else {
-			Meteor.call('autoText_send',participant,'Checkins: duplicate');
+			Meteor.call('autoText_send',participant,'AUTO_CHECKPOINTS_DUPLICATE');
 			return false;
 		}
 	},
@@ -172,14 +179,60 @@ Meteor.methods({
 			status: 'Active'
 		}, { fields: { alias:1 }, limit: num }).fetch();
 		return randomParticipants;
+	},
+
+	participant_giveBadge: function(participant,badge) {
+		console.log("Give",participant._id,badge.name);
+		if(!_.contains(_.pluck(participant.badges,"_id"),badge._id)) {
+			participant.badges.push(badge);
+			Participants.update(participant._id,{$push:{badges:badge}});
+			Badges.update(badge._id,{$inc:{awarded:1}});
+		}
+		console.log("Now has",participant._id,participant.badges);
+	},
+
+	participant_revokeBadge: function(participant,badge) {
+		console.log("Revoke",participant._id,badge.name);
+		if(_.contains(_.pluck(participant.badges,"_id"),badge._id)) {
+			participant.badges.push(badge);
+			Participants.update(participant._id,{$pull:{badges:badge}});
+			Badges.update(badge._id,{$dec:{awarded:1}});
+		}
+		console.log("Now has",participant._id,participant.badges);
 	}
 });
 
-Participants.find().observeChanges({
-	changed:function(id,fields) {
-		if(!_.isEmpty(_.omit(fields,'recent')))
-			Participants.update(id, {$set: { recent:new Date() } });			
-	}
-});
+if(Meteor.isServer) {
+	Participants.find().observeChanges({
+		changed:function(id,fields) {
+			if(!_.isEmpty(_.omit(fields,'recent')))
+				Participants.update(id, {$set: { recent:new Date() } });			
+		}
+	});
 
+	Participants.find({texts_sent: { $gte: 5 }}).observeChanges({
+		added: function(id, fields) {
+			Meteor.call('participant_giveBadge',
+				Participants.findOne(id),
+				Badges.findOne({name:'50 Texts'})
+			);
+		}
+	});
+
+	Participants.find({},{sort:{texts_sent:-1}, limit:1}).observeChanges({
+		added: function(id, fields) {
+			Meteor.call('participant_giveBadge',
+				Participants.findOne(id),
+				Badges.findOne({name:'Top 10 Texter'})
+			);
+		},
+
+		removed: function(id) {
+			Meteor.call('participant_revokeBadge',
+				Participants.findOne(id),
+				Badges.findOne({name:'Top 10 Texter'})
+			);
+		}
+	});
+}
 var handleExit = function(participant) {};

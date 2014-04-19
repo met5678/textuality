@@ -6,7 +6,7 @@ var twilioAccountSid = 'AC482cf8d12c4fc97ee1d092472e25f436';
 var twilioToken = '35a791687ad9c69dabef87884b8897d5';
 var twilioSendUrl = 'https://api.twilio.com/2010-04-01/Accounts/'+twilioAccountSid+'/SMS/Messages.json';
 var twilioNumber = '+15719894785';
-var twilioStatusUrl = 'http://textualityparty.com/textStatusHandler';
+var twilioStatusUrl = 'http://www.textualityparty.com/textStatusHandler';
 
 Meteor.methods({
 	outText_send: function(outText,participants) {

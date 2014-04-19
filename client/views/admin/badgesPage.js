@@ -42,3 +42,9 @@ Template.adminBadges.events({
 		Badges.remove(this._id);
 	}
 });
+
+Template.badgesTable.helpers({
+	isAuto: function() {
+		return this.type == 'auto';
+	}
+})

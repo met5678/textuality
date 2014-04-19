@@ -1,4 +1,21 @@
+/*
+{
+	key:
+	description:
+	dataType:
+	value:
+	min:
+	max:
+	options:
+}
+*/
+
 ScreenSettings = new Meteor.Collection('screenSettings');
+ScreenSettings.allow({
+	update: function(userId, doc) {
+		return Roles.userIsInRole(userId,'admin');
+	}
+});
 
 Meteor.methods({
 	settings_ticker_update: function(tickerText) {

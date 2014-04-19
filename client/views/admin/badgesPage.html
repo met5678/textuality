@@ -24,7 +24,7 @@
 </template>
 
 <template name="badgesTable">
-	<table class="table badge-table">
+	<table class="table table-striped badge-table">
 		<thead>
 			<tr>
 				<th>Badge</th>
@@ -44,7 +44,9 @@
 				<td>{{color}}</td>
 				<td>{{awarded}}</td>
 				<td>
-					<button class="btn btn-sm btn-danger badge-delete">Delete</button>
+					{{#unless isAuto}}
+						<button class="btn btn-sm btn-danger badge-delete">Delete</button>
+					{{/unless}}
 				</td>
 			</tr>
 		{{/each}}

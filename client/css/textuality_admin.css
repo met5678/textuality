@@ -59,16 +59,8 @@ tr .phone-number {
 	cursor: pointer;
 }
 
-.checkpoint-add-form * {
-	box-sizing: initial;
-}
-
 .checkpoint-hashtag:before {
 	content: '#';
-}
-
-.checkpoint-ticker-text:before {
-	content: '[alias] ';
 }
 
 .compose-text-selected-badge {
@@ -125,4 +117,8 @@ tr .phone-number {
 
 .text-group-indicator > strong {
 	margin: 0 5px 0 3px;
+}
+
+.screen-settings-form {
+	margin-bottom: 20px;
 }

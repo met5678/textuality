@@ -36,10 +36,11 @@ Meteor.methods({
 			participant:participant._id,
 			alias:participant.alias,
 			checkins:participant.checkins.length,
+			badges:participant.badges,
 			moderation:null,
 			purpose:null,
-			favorite:false,
-			time:recTime,
+			favorite:0,
+			time:recTime
 		};
 
 		// Handle long text
@@ -55,10 +56,10 @@ Meteor.methods({
 				inText.purpose.type = 'checkin';
 				Meteor.call('participant_updateLatestActivity',participant);
 			}
-			else if(checkSuperText(inText,participant)) {
+			/*else if(checkSuperText(inText,participant)) {
 				inText.purpose.type = 'super';
 				Meteor.call('participant_updateLatestActivity',participant);
-			}
+			}*/
 			else {
 				inText.purpose.type = 'feed';
 				Meteor.call('participant_incrementSentTexts',participant);
@@ -73,7 +74,7 @@ Meteor.methods({
 		}
 
 		InTexts.insert(inText);
-		Meteor.call('autoText_send',participant,'N total texts sent',InTexts.find({'purpose.type':'feed'}).count());
+		Meteor.call('autoText_send',participant,'AUTO_TOTAL_N_TEXTS',InTexts.find({'purpose.type':'feed'}).count());
 	},
 
 	inText_sendMasterText: function(body) {
@@ -94,14 +95,6 @@ Meteor.methods({
 		};
 
 		InTexts.insert(inText);
-	},
-
-	inText_getTotalTexts: function() {
-		return InTexts.find({}).count();
-	},
-
-	inText_getTotalFeedTexts: function() {
-		return InTexts.find({'purpose.type':'feed'}).count();
 	},
 
 	inText_clearFavorites: function(favoriteNum) {

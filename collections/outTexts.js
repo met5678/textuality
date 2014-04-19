@@ -9,11 +9,15 @@ var twilioNumber = '+15719894785';
 var twilioStatusUrl = 'http://www.textualityparty.com/textStatusHandler';
 
 Meteor.methods({
-	outText_send: function(outText,participants) {
+	outText_send: function(outText,participants,purpose) {
 		outText.participants = [];
 		outText.time = new Date();
+		if(!!purpose) {
+			outText.purpose = 'manual';
+		}
 		if(_.isArray(participants)) {
-			_.each(participants, function(participant) {
+			_.each(participants, function(participantId) {
+				var participant = Participants.findOne(participantId);
 				outText.participants.push({
 					participant_id:participant._id,
 					participant_alias:participant.alias,
@@ -24,9 +28,10 @@ Meteor.methods({
 			});
 		}
 		else {
+			var participant = Participants.findOne(participantId);
 			outText.participants.push({
-				participant_id:participants._id,
-				participant_alias:participants.alias,
+				participant_id:participant._id,
+				participant_alias:participant.alias,
 				status:'unsent',
 				time:new Date(),
 				sid:null

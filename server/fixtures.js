@@ -200,7 +200,7 @@ Meteor.startup(function() {
 		max:100
 	});
 
-	Badges.remove({});
+	Badges.remove({type:'auto'});
 	Badges.insert({
 		name:'50 Texts',
 		icon:'fa-umbrella',

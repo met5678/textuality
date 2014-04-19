@@ -26,14 +26,9 @@ Meteor.methods({
 			var textBody = autoText.body.replace('[alias]',participant.alias);
 			var outText = {
 				body:textBody,
-				purpose: {
-					type: 'system',
-					description: type
-				},
 				favorite: false,
-				time: new Date()
 			};
-			Meteor.call('outText_send',outText,participant);
+			Meteor.call('outText_send',outText,participant,'system');
 		}
 		else {
 			console.log("No user autoText found for type: " + type+","+number);
@@ -61,7 +56,7 @@ Meteor.methods({
 			favorite: false,
 			time: new Date()
 		};
-		Meteor.call('outText_send',outText,participant);
+		Meteor.call('outText_send',outText,participant,'system');
 	},
 
 	autoText_delete_all: function() {

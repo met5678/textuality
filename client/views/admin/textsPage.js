@@ -8,7 +8,14 @@ Template.adminTexts.helpers({
 	},
 
 	allTexts: function() {
-		return InTexts.find();
+	    var inTexts = InTexts.find({"purpose.type":"feed","moderation.passed":true},{sort:{time:-1}}).fetch();
+	    var outTexts = OutTexts.find({"purpose":"manual"}).fetch();
+	    var allTexts = inTexts.concat(outTexts);
+		allTexts = _.sortBy(allTexts,function(text) {
+			return text.time.valueOf()*-1;
+		});
+		return allTexts;
+
 	}
 });
 

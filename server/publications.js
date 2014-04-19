@@ -1,5 +1,5 @@
-Meteor.publish('inTexts', function(options) {
-	return InTexts.find({},options);
+Meteor.publish('inTexts', function(query,options) {
+	return InTexts.find(query,options);
 });
 
 Meteor.publish('groupTexts', function(options) {
@@ -26,8 +26,8 @@ Meteor.publish('participantsLite', function() {
 	return Participants.find({'status':'Active'},{fields: {alias:1,geo:1,texts_sent:1,status:1,checkins_complete:1}});
 });
 
-Meteor.publish('outTexts', function(limit) {
-	return OutTexts.find({}, { sort: { time: -1 }, limit: limit });
+Meteor.publish('outTexts', function(query,options) {
+	return OutTexts.find(query,options);
 });
 
 Meteor.publish('aliases', function() {

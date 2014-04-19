@@ -181,24 +181,27 @@ Meteor.methods({
 		return randomParticipants;
 	},
 
-	participant_giveBadge: function(participant,badge) {
-		console.log("Give",participant._id,badge.name);
-		if(!_.contains(_.pluck(participant.badges,"_id"),badge._id)) {
-			participant.badges.push(badge);
-			Participants.update(participant._id,{$push:{badges:badge}});
-			Badges.update(badge._id,{$inc:{awarded:1}});
+	participant_giveBadge: function(participantId,badge) {
+		if(!_.isArray(participantId)) {
+			participantId = [participantId];
 		}
-		console.log("Now has",participant._id,participant.badges);
+		_.each(participantId,function(id) {
+			var participant = Participants.findOne(id);
+			if(!_.contains(_.pluck(participant.badges,"_id"),badge._id)) {
+				participant.badges.push(badge);
+				Participants.update(id,{$push:{badges:badge}});
+				Badges.update(badge._id,{$inc:{awarded:1}});
+			}
+		});
 	},
 
-	participant_revokeBadge: function(participant,badge) {
-		console.log("Revoke",participant._id,badge.name);
+	participant_revokeBadge: function(participantId,badge) {
+		var participant = Participants.findOne(participantId);
 		if(_.contains(_.pluck(participant.badges,"_id"),badge._id)) {
 			participant.badges.push(badge);
-			Participants.update(participant._id,{$pull:{badges:badge}});
+			Participants.update(participantId,{$pull:{badges:badge}});
 			Badges.update(badge._id,{$dec:{awarded:1}});
 		}
-		console.log("Now has",participant._id,participant.badges);
 	}
 });
 
@@ -213,7 +216,7 @@ if(Meteor.isServer) {
 	Participants.find({texts_sent: { $gte: 5 }}).observeChanges({
 		added: function(id, fields) {
 			Meteor.call('participant_giveBadge',
-				Participants.findOne(id),
+				id,
 				Badges.findOne({name:'50 Texts'})
 			);
 		}
@@ -222,7 +225,7 @@ if(Meteor.isServer) {
 	Participants.find({},{sort:{texts_sent:-1}, limit:1}).observeChanges({
 		added: function(id, fields) {
 			Meteor.call('participant_giveBadge',
-				Participants.findOne(id),
+				id,
 				Badges.findOne({name:'Top 10 Texter'})
 			);
 		},
@@ -230,7 +233,7 @@ if(Meteor.isServer) {
 		removed: function(id) {
 			if(Participants.findOne(id)) 
 				Meteor.call('participant_revokeBadge',
-					Participants.findOne(id),
+					id,
 					Badges.findOne({name:'Top 10 Texter'})
 				);
 		}

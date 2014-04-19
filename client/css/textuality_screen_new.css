@@ -29,8 +29,8 @@ body {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  -webkit-margin: 0;
   border: 0;
+  line-height: 1em;
 }
 /* line 7, sass/_interface-title-bar.scss */
 .tscreen-shell .tscreen-title-bar {
@@ -45,14 +45,14 @@ body {
 /* line 17, sass/_interface-title-bar.scss */
 .tscreen-shell .tscreen-textuality {
   float: left;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 3em;
   color: #77bbdd;
 }
 /* line 23, sass/_interface-title-bar.scss */
 .tscreen-shell .tscreen-textuality .tscreen-mova-logo {
   display: inline-block;
-  background-image: url("images/mova.png");
+  background-image: url("/images/mova.png");
   background-repeat: no-repeat;
   height: 40px;
   width: 200px;
@@ -65,9 +65,21 @@ body {
   text-align: right;
   font-size: 3em;
   color: #77bbdd;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Roboto", sans-serif;
   line-height: 1em;
+  position: relative;
 }
+
+.tscreen-shell .tscreen-phone-number:before {
+  content: "Send texts to";
+  text-transform: uppercase;
+  color: #CCC;
+  font-size: 14px;
+  display: inline-block;
+  margin-right: 6px;
+  line-height: initial;
+}
+
 /* line 7, sass/_interface-texts.scss */
 .tscreen-shell .tscreen-main {
   position: absolute;
@@ -135,7 +147,7 @@ body {
 }
 /* line 76, sass/_interface-texts.scss */
 .tscreen-shell .texts-feed-text:after {
-  font-family: 'Open Sans';
+  font-family: 'News Cycle';
   font-weight: bold;
   content: attr(data-reltime);
   font-size: 0.75em;
@@ -318,4 +330,68 @@ body {
   top: 0;
   height: 100%;
   width: 100%;
+}
+
+
+.tscreen-shell .texts-feed-item.masterText {
+  -moz-animation-delay: 0s;
+  -webkit-animation-delay: 0s;
+  animation-delay: 0s;
+  -moz-animation-duration: 1500ms;
+    -webkit-animation-duration: 1500ms;
+  animation-duration: 1500ms;
+    -moz-animation-name: motherTilda;
+    -webkit-animation-name: motherTilda;
+  animation-name: motherTilda;
+  -moz-animation-iteration-count: infinite;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  -moz-animation-direction: alternate;
+  -webkit-animation-direction: alternate;
+  animation-direction: alternate;
+  -moz-animation-timing-function: linear;
+  -webkit-animation-timing-function: linear;
+  animation-timing-function: linear;
+}
+
+@keyframes motherTilda {
+  0% {
+    color: #2CF;
+  }
+  50% {
+    color: #F4A;
+  }
+  100% {
+    color: #2CF;
+  }
+}
+
+@-moz-keyframes motherTilda {
+  0% {
+    color: #2AF;
+  }
+  25% {
+    color: #22F;
+  }
+  50% {
+    color: #F2A;
+  }
+  75% {
+    color: #22F;
+  }
+  100% {
+    color: #2AF;
+  }
+}
+
+@-webkit-keyframes motherTilda {
+  0% {
+    color: #2CF;
+  }
+  50% {
+    color: #F4A;
+  }
+  100% {
+    color: #2CF;
+  }
 }

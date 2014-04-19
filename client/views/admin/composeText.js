@@ -67,18 +67,18 @@ Template.adminComposeText.events({
 	'submit form.compose-text-form': function(e) {
 		e.preventDefault();
 
-		var composedText = {
-			target:Session.get("composeTextTarget"),
-			body:$("#composeTextBody").val(),
+		var body = $("#composeTextBody").val();
+
+		if(Session.get("composeTextTarget") == 'user') {
+			var participants = _.pluck(ComposeTextParticipants.find().fetch(),"_id");
+			Meteor.call("outText_send",{body:body},participants,"manual");
+			if(Session.get("composeTextBadge"))
+				Meteor.call("participant_giveBadge",participants,Session.get("composeTextBadge"));
 		}
-
-		if(Session.get("composeTextBadge"))
-			composedText.badge = Session.get("composeTextBadge")._id;
-
-		if(Session.get("composeTextTarget")=='user')
-			composedText.participants = _.pluck(ComposeTextParticipants.find().fetch(),"_id");
-
-		console.log(composedText);
+		else {
+			Meteor.call("inText_sendMasterText",body);
+		}
+		clearForm();
 	},
 
 	'click .composetext-add':function(e) {

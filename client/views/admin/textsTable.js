@@ -33,6 +33,14 @@ Template.adminTextRow.helpers({
 
 	isMaster: function() {
 		return this.participant == 'master';
+	},
+
+	isOutText: function() {
+		if(!!this.participant)
+			return false
+		else
+			return true
+
 	}
 });
 

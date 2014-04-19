@@ -19,15 +19,32 @@
 
 <template name="adminTextRow">
 	<tr class="{{directionClass}}">
-		<td>{{alias}} <span class="phone-number">{{participant}}</span></td>
+		<td>
+			{{#if isOutText}}
+				{{#each participants}}
+					{{participant_alias}} <span class="phone-number">{{participant_id}}</span><br>
+				{{/each}}
+			{{else}}
+				{{alias}} <span class="phone-number">{{participant}}</span><br>
+				{{#each badges}}<i class="fa {{icon}}" style="color:{{color}}"></i>{{/each}}
+			{{/if}}
+		</td>
 		<td>{{body}}</td>
-		<td>{{status}}</td>
+		<td>
+			{{#if isOutText}}
+				<label class="label label-info">Out</label>
+			{{else}}
+				{{status}}
+			{{/if}}
+		</td>
 		<td>{{timeRelative time}}</td>
 		<td class="text-button-cell">
-			{{#unless isMaster}}
+			{{#unless isOutText}}
+			{{# unless isMaster}}
 				<button class="text-table-favorite btn btn-xs btn-default"><i class="fa fa-circle{{#unless favorite}}-o{{/unless}} {{favoriteColorClass}}"></i></button>
 				<button class="text-table-mention btn btn-xs btn-default">@</button>
 				<button class="text-table-reply btn btn-xs btn-default"><i class="fa fa-reply"></i></button>
+			{{/unless}}
 			{{/unless}}
 		</td>
 	</tr>

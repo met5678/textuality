@@ -35,6 +35,10 @@ Template.screenFeedItem.helpers({
 
 	isMaster: function() {
 		return this.participant == 'master';
+	},
+
+	checkpoints: function() {
+		return Checkpoints.find({});
 	}
 });
 
@@ -45,6 +49,13 @@ var config = {
 var curYOffset = 0;
 
 Template.screenFeedItem.rendered = function() {
+	var checkins = $(this.firstNode).find('.texts-feed-achievements').data('checkins');
+	$(this.firstNode).find('.texts-feed-achievement').each(function(i,el) {
+		console.log(i,checkins);
+		if(i >= checkins)
+			$(el).addClass('empty')
+	});
+
 	var textsFeed = $('.tscreen-texts-feed');
 
 	var numTexts = textsFeed.children().length;

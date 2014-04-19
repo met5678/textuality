@@ -16,17 +16,10 @@
 				{{/each}}
 			</div>
 			{{#unless isMaster}}
-			<div class="texts-feed-achievements">
-				<div class="texts-feed-achievement empty"></div>
-				<div class="texts-feed-achievement empty"></div>
-				<div class="texts-feed-achievement empty"></div>
-				<div class="texts-feed-achievement empty"></div>
-				<div class="texts-feed-achievement empty"></div>
-				<div class="texts-feed-achievement empty"></div>
-				<div class="texts-feed-achievement empty"></div>
-				<div class="texts-feed-achievement empty"></div>
-				<div class="texts-feed-achievement empty"></div>
-				<div class="texts-feed-achievement empty"></div>
+			<div class="texts-feed-achievements" data-checkins="{{checkins}}">
+				{{#each checkpoints}}
+				<div class="texts-feed-achievement"></div>
+				{{/each}}
 			</div>
 			{{/unless}}
 		</div>

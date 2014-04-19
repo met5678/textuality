@@ -187,7 +187,7 @@ Meteor.methods({
 		}
 		_.each(participantId,function(id) {
 			var participant = Participants.findOne(id);
-			if(!_.contains(_.pluck(participant.badges,"_id"),badge._id)) {
+			if(!_.contains(_.pluck(participant.badges,"name"),badge.name)) {
 				participant.badges.push(badge);
 				Participants.update(id,{$push:{badges:badge}});
 				Badges.update(badge._id,{$inc:{awarded:1}});
@@ -197,7 +197,7 @@ Meteor.methods({
 
 	participant_revokeBadge: function(participantId,badge) {
 		var participant = Participants.findOne(participantId);
-		if(_.contains(_.pluck(participant.badges,"_id"),badge._id)) {
+		if(_.contains(_.pluck(participant.badges,"name"),badge.name)) {
 			participant.badges.push(badge);
 			Participants.update(participantId,{$pull:{badges:badge}});
 			Badges.update(badge._id,{$dec:{awarded:1}});

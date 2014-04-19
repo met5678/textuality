@@ -507,7 +507,6 @@ body {
     background-repeat: no-repeat;
     background-size: contain;
     background-position: right bottom;
-    visibility: hidden;
 }
 
 .tscreen-box {
@@ -530,24 +529,43 @@ body {
   right: 20px;
 }
 
+.tscreen-box-question {
+    color: #F7D;
+    font-weight: bold;
+    font-size: 1.4em;
+}
+
+.tscreen-april>div {
+  -webkit-transition: right 1.5s, bottom 1.5s;
+  -moz-transition: right 1.5s, bottom 1.5s;
+  transition: right 1.5s, bottom 1.5s;
+
+}
+
 div.tscreen-april-standing1 {
   background-image:url('/images/april_standing_1.png');
+  right: -150%;
 }
 
 div.tscreen-april-standing2 {
   background-image:url('/images/april_standing_2.png');
+  right: -150%;
 }
 
 div.tscreen-april-standing-selfie {
   background-image:url('/images/april_standing_selfie.png');
+  right: -150%;
 }
 
 div.tscreen-april-floating {
   background-image:url('/images/april_floating.png');
+  right: -150%;
+  bottom: -150%;
 }
 
 div.tscreen-april-laying {
   background-image:url('/images/april_horizontal.png');
+  bottom: -150%;
   -webkit-transform: translateY(37px);
   -moz-transform: translateY(37px);
   transform: translateY(37px);
@@ -555,23 +573,24 @@ div.tscreen-april-laying {
 
 .tscreen-april.standing div.tscreen-april-standing1,
 .tscreen-april.standing div.tscreen-april-standing2 {  
-  visibility: visible;
+  bottom: 0;
+  right: 0;
 }
 
 .tscreen-april.standing-selfie div.tscreen-april-standing-selfie {
-  visibility: visible;
+  bottom: 0;
+  right: 0;
 }
 
 .tscreen-april.floating div.tscreen-april-floating {
-  visibility: visible;
+  bottom: 0;
+  right: 0;
 }
 
 .tscreen-april.laying div.tscreen-april-laying {
-  visibility: visible;
+  bottom: 0;
+  right: 0;
 }
-
-
-
 
 
 

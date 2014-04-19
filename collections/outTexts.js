@@ -28,7 +28,7 @@ Meteor.methods({
 			});
 		}
 		else {
-			var participant = Participants.findOne(participantId);
+			var participant = Participants.findOne(participants);
 			outText.participants.push({
 				participant_id:participant._id,
 				participant_alias:participant.alias,

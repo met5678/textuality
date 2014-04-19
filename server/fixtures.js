@@ -11,6 +11,16 @@ Meteor.startup(function() {
 		'number':false
 	});
 	AutoTextTemplates.insert({
+		'_id':'AUTO_PARTICIPANT_EXIT',
+		'description':'Participant exit',
+		'number':false
+	});
+	AutoTextTemplates.insert({
+		'_id':'AUTO_PARTICIPANT_RETURN',
+		'description':'Participant return',
+		'number':false
+	});
+	AutoTextTemplates.insert({
 		'_id':'AUTO_SENT_N_TEXTS',
 		'description':'Sent [N] texts',
 		'number':true

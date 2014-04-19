@@ -200,7 +200,7 @@ Meteor.methods({
 		if(_.contains(_.pluck(participant.badges,"name"),badge.name)) {
 			participant.badges.push(badge);
 			Participants.update(participantId,{$pull:{badges:badge}});
-			Badges.update(badge._id,{$dec:{awarded:1}});
+			Badges.update(badge._id,{$inc:{awarded:-1}});
 		}
 	}
 });

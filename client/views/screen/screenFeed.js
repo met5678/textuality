@@ -26,20 +26,22 @@ Template.screenFeedItem.helpers({
 
 	timeUtc: function() {
 		return Math.floor(this.time.valueOf()/1000);
+	},
+
+	bodyFormatted: function() {
+		//var highlightRegex = /\b#\w\w+/;
+		return this.body;
 	}
 });
 
 var config = {
-	numTexts: 25
+	numTexts: 20
 };
 
 var curYOffset = 0;
 
 Template.screenFeedItem.rendered = function() {
-	var shell = $('.audscreen-shell');
-	var textsFeed = $('.texts-feed');
-	var textEls = $('.texts-feed-item');
-	var drawingsEl = $('.cave-drawings');
+	var textsFeed = $('.tscreen-texts-feed');
 
 	var numTexts = textsFeed.children().length;
 	for(var a=25; a<numTexts; a++)
@@ -47,35 +49,28 @@ Template.screenFeedItem.rendered = function() {
 
 	var newTextEl = $(this.firstNode);
 	newTextEl[0].offsetHeight;
-	
+	newTextEl.addClass('notransition');
+	newTextEl.css('opacity',0);
+	newTextEl[0].offsetHeight;
+
 	textsFeed.addClass('notransition');
 	newTextEl.removeClass('notransition');
 	var textElHeight = newTextEl.outerHeight(true);
 	curYOffset += textElHeight/2;
-	textsFeed.css('top',(-1*textElHeight)+'px');
+	textsFeed.css({
+		'-webkit-transform':'translateY('+(-1*textElHeight)+'px)',
+		'-moz-transform':'translateY('+(-1*textElHeight)+'px)',
+		'transform':'translateY('+(-1*textElHeight)+'px)'
+	});
 	newTextEl[0].offsetHeight;
 	textsFeed[0].offsetHeight;
 	
 	newTextEl.css('opacity',1);
 	textsFeed.removeClass('notransition');
-	textsFeed.css('top',0);
-	shell.css('background-position','0 '+curYOffset+'px');
-	var curDrawingsOffset = drawingsEl.offset().top;
-	if(curYOffset < 8000) {
-		drawingsEl.css({
-			'-webkit-transform':'translateY('+curYOffset+'px)',
-			'-moz-transform':'translateY('+curYOffset+'px)',
-			'transform':'translateY('+curYOffset+'px)',
-		});
-	}
-	else {
-		drawingsEl.css({
+	textsFeed.css({
 			'-webkit-transform':'translateY(0px)',
 			'-moz-transform':'translateY(0px)',
-			'transform':'translateY(0px)',
-		});
-	}
+			'transform':'translateY(0px)'
+	});
 	textsFeed[0].offsetHeight;
-}
-
-//Template.screenMainArea.preserve(['.screen-module-default','.screen-module-leaderboard']);
+};

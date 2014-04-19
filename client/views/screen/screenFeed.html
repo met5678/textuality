@@ -1,0 +1,33 @@
+<template name="screenFeed">
+	<div class="tscreen-texts-feed">
+		{{#each feedTexts}}
+			{{>screenFeedItem}}
+		{{/each}}
+	</div>
+</template>
+
+<template name="screenFeedItem">
+		<div class="texts-feed-item {{textClass}} notransition">
+		<div class="texts-feed-meta">
+			<div class="texts-feed-name">{{alias}}</div>
+			<div class="texts-feed-badges">
+				{{#each badges}}
+					<i class="fa {{icon}}" style="color:{{color}}"></i>
+				{{/each}}
+			</div>
+			<div class="texts-feed-achievements">
+				<div class="texts-feed-achievement empty"></div>
+				<div class="texts-feed-achievement empty"></div>
+				<div class="texts-feed-achievement empty"></div>
+				<div class="texts-feed-achievement empty"></div>
+				<div class="texts-feed-achievement empty"></div>
+				<div class="texts-feed-achievement empty"></div>
+				<div class="texts-feed-achievement empty"></div>
+				<div class="texts-feed-achievement empty"></div>
+				<div class="texts-feed-achievement empty"></div>
+				<div class="texts-feed-achievement empty"></div>
+			</div>
+		</div>
+		<div class="texts-feed-text rel-time-data" data-utc="{{timeUtc}}" data-reltime="{{timeRelative time true}}">{{bodyFormatted}}</div>
+	</div>				
+</template>

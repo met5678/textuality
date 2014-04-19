@@ -1,0 +1,321 @@
+/* line 4, sass/interface.scss */
+body {
+  background-color: #000;
+}
+
+/* line 8, sass/interface.scss */
+.clearfix:after, .tscreen-shell .texts-feed-item:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* line 14, sass/interface.scss */
+.notransition {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  transition: none !important;
+}
+
+/* line 27, sass/interface.scss */
+.tscreen-shell {
+  background-color: #0F020B;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+}
+/* line 33, sass/interface.scss */
+.tscreen-shell, .tscreen-shell * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-margin: 0;
+  border: 0;
+}
+/* line 7, sass/_interface-title-bar.scss */
+.tscreen-shell .tscreen-title-bar {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  border-bottom: 1px solid #444444;
+  padding: 10px;
+  background-color: #2b1b17;
+  box-shadow: 0 0 4px;
+}
+/* line 17, sass/_interface-title-bar.scss */
+.tscreen-shell .tscreen-textuality {
+  float: left;
+  font-family: "Open Sans", sans-serif;
+  font-size: 3em;
+  color: #77bbdd;
+}
+/* line 23, sass/_interface-title-bar.scss */
+.tscreen-shell .tscreen-textuality .tscreen-mova-logo {
+  display: inline-block;
+  background-image: url("images/mova.png");
+  background-repeat: no-repeat;
+  height: 40px;
+  width: 200px;
+  background-size: contain;
+  vertical-align: -4px;
+}
+/* line 34, sass/_interface-title-bar.scss */
+.tscreen-shell .tscreen-phone-number {
+  float: right;
+  text-align: right;
+  font-size: 3em;
+  color: #77bbdd;
+  font-family: "Open Sans", sans-serif;
+  line-height: 1em;
+}
+/* line 7, sass/_interface-texts.scss */
+.tscreen-shell .tscreen-main {
+  position: absolute;
+  top: 70px;
+  bottom: 50px;
+  width: 100%;
+}
+/* line 14, sass/_interface-texts.scss */
+.tscreen-shell .tscreen-texts-feed {
+  position: absolute;
+  left: 0;
+  width: 66%;
+  font-family: "News Cycle", sans-serif;
+  font-size: 1.3em;
+  color: #eedd88;
+  padding: 15px 20px;
+  height: 100%;
+  -webkit-transition: -webkit-transform 300ms;
+  -moz-transition: -moz-transform 300ms;
+  transition: transform 300ms;
+}
+/* line 29, sass/_interface-texts.scss */
+.tscreen-shell .texts-feed-item {
+  margin-bottom: 1.1em;
+  -webkit-transition: opacity 300ms linear 300ms;
+  -moz-transition: opacity 300ms linear 300ms;
+  -ms-transition: opacity 300ms linear 300ms;
+  transition: opacity 300ms linear 300ms;
+}
+/* line 35, sass/_interface-texts.scss */
+.tscreen-shell .texts-feed-item.top-texter .texts-feed-name:after {
+  content: "Top Texter";
+  background-color: #741;
+  padding: 4px 6px;
+  display: inline-block;
+  font-family: Helvetica, arial, sans-serif;
+  text-transform: uppercase;
+  font-size: 0.6em;
+  color: #FFF;
+  margin-left: 10px;
+  border-radius: 4px;
+  vertical-align: 4px;
+  font-weight: bold;
+}
+/* line 54, sass/_interface-texts.scss */
+.tscreen-shell .texts-feed-meta {
+  width: 30%;
+  float: left;
+  max-width: 300px;
+}
+/* line 60, sass/_interface-texts.scss */
+.tscreen-shell .texts-feed-name {
+  display: inline-block;
+}
+/* line 64, sass/_interface-texts.scss */
+.tscreen-shell .texts-feed-text {
+  width: 70%;
+  float: left;
+  line-height: 1.1em;
+}
+/* line 71, sass/_interface-texts.scss */
+.tscreen-shell .texts-feed-text-reply {
+  font-weight: bold;
+  color: #f32;
+}
+/* line 76, sass/_interface-texts.scss */
+.tscreen-shell .texts-feed-text:after {
+  font-family: 'Open Sans';
+  font-weight: bold;
+  content: attr(data-reltime);
+  font-size: 0.75em;
+  color: #678;
+  margin-left: 10px;
+}
+/* line 85, sass/_interface-texts.scss */
+.tscreen-shell .texts-feed-badges {
+  color: #FFF;
+  display: inline-block;
+  margin-left: 8px;
+}
+/* line 90, sass/_interface-texts.scss */
+.tscreen-shell .texts-feed-badges i {
+  margin-right: 8px;
+}
+/* line 94, sass/_interface-texts.scss */
+.tscreen-shell .texts-feed-badges .fa-star {
+  color: #FE3;
+}
+/* line 99, sass/_interface-texts.scss */
+.tscreen-shell .texts-feed-achievement {
+  height: 10px;
+  width: 10px;
+  display: inline-block;
+  background-color: #333;
+  font-family: Helvetica, Arial, sans-serif;
+}
+/* line 106, sass/_interface-texts.scss */
+.tscreen-shell .texts-feed-achievement.empty {
+  background-color: #333 !important;
+}
+/* line 110, sass/_interface-texts.scss */
+.tscreen-shell .texts-feed-achievement:nth-child(10) {
+  background-color: #E44;
+}
+/* line 113, sass/_interface-texts.scss */
+.tscreen-shell .texts-feed-achievement:nth-child(9) {
+  background-color: #D94;
+}
+/* line 116, sass/_interface-texts.scss */
+.tscreen-shell .texts-feed-achievement:nth-child(8) {
+  background-color: #FF4;
+}
+/* line 119, sass/_interface-texts.scss */
+.tscreen-shell .texts-feed-achievement:nth-child(7) {
+  background-color: #AE4;
+}
+/* line 122, sass/_interface-texts.scss */
+.tscreen-shell .texts-feed-achievement:nth-child(6) {
+  background-color: #4D4;
+}
+/* line 125, sass/_interface-texts.scss */
+.tscreen-shell .texts-feed-achievement:nth-child(5) {
+  background-color: #4EA;
+}
+/* line 128, sass/_interface-texts.scss */
+.tscreen-shell .texts-feed-achievement:nth-child(4) {
+  background-color: #48F;
+}
+/* line 131, sass/_interface-texts.scss */
+.tscreen-shell .texts-feed-achievement:nth-child(3) {
+  background-color: #45F;
+}
+/* line 134, sass/_interface-texts.scss */
+.tscreen-shell .texts-feed-achievement:nth-child(2) {
+  background-color: #83E;
+}
+/* line 137, sass/_interface-texts.scss */
+.tscreen-shell .texts-feed-achievement:nth-child(1) {
+  background-color: #A38;
+}
+/* line 141, sass/_interface-texts.scss */
+.tscreen-shell .texts-feed-achievement.special {
+  background-color: transparent;
+  color: #FE2;
+  font-weight: bold;
+  text-shadow: 0 0 2px #333, 0 0 2px #333, 0 0 2px #333;
+  font-size: 14px;
+  text-align: center;
+}
+/* line 1, sass/_interface-feature-area.scss */
+.tscreen-shell .tscreen-feature-area {
+  width: 35%;
+  position: absolute;
+  right: 0;
+  height: 100%;
+  padding: 20px;
+}
+/* line 9, sass/_interface-feature-area.scss */
+.tscreen-shell .tscreen-april {
+  background-image: url("images/april.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+  height: 100%;
+  width: 100%;
+}
+/* line 18, sass/_interface-feature-area.scss */
+.tscreen-shell .tscreen-admin-controls {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  text-align: right;
+}
+/* line 1, sass/_interface-bottom-bar.scss */
+.tscreen-shell .tscreen-bottom-bar {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  border-top: 1px solid #444444;
+  padding: 10px;
+  background-color: #2b1b17;
+  box-shadow: 0 0 4px;
+  height: 50px;
+}
+/* line 13, sass/_interface-bottom-bar.scss */
+.tscreen-shell .tscreen-ticker {
+  font-family: 'Open Sans', sans-serif;
+  color: #4BE;
+  width: 5000%;
+  font-size: 1.2em;
+  line-height: 30px;
+  position: relative;
+}
+/* line 21, sass/_interface-bottom-bar.scss */
+.tscreen-shell .tscreen-ticker .tscreen-ticker-group {
+  margin-right: 15px;
+}
+/* line 24, sass/_interface-bottom-bar.scss */
+.tscreen-shell .tscreen-ticker .tscreen-ticker-group:after {
+  font-family: FontAwesome;
+  content: '\f0c8';
+  margin-left: 15px;
+  color: #666;
+}
+/* line 33, sass/_interface-bottom-bar.scss */
+.tscreen-shell .tscreen-ticker .hashtag {
+  color: #FFA;
+  font-weight: bold;
+}
+/* line 37, sass/_interface-bottom-bar.scss */
+.tscreen-shell .tscreen-ticker .tscreen-ticker-item {
+  margin-right: 12px;
+}
+/* line 40, sass/_interface-bottom-bar.scss */
+.tscreen-shell .tscreen-ticker .tscreen-ticker-item:last-child {
+  margin-right: 0;
+}
+/* line 44, sass/_interface-bottom-bar.scss */
+.tscreen-shell .tscreen-ticker .achievement-square {
+  height: 10px;
+  width: 10px;
+  background-color: #333;
+  display: inline-block;
+}
+/* line 51, sass/_interface-bottom-bar.scss */
+.tscreen-shell .tscreen-ticker i.fa {
+  margin-right: 3px;
+}
+/* line 55, sass/_interface-bottom-bar.scss */
+.tscreen-shell .tscreen-ticker .fa-star {
+  color: #FE3;
+}
+/* line 58, sass/_interface-bottom-bar.scss */
+.tscreen-shell .tscreen-ticker .fa-location-arrow {
+  color: #FFF;
+}
+/* line 61, sass/_interface-bottom-bar.scss */
+.tscreen-shell .tscreen-ticker .fa-umbrella {
+  color: #FFF;
+}
+/* line 64, sass/_interface-bottom-bar.scss */
+.tscreen-shell .tscreen-ticker .fa-leaf {
+  color: #6E7;
+}
+/* line 42, sass/interface.scss */
+.tscreen-shell #tscreen-canvas {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+}

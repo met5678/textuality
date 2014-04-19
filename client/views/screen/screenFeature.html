@@ -1,5 +1,46 @@
 <template name="screenFeature">
-	<div class="tscreen-feature-area">
-		<div class="tscreen-april"></div>
+	<div class="tscreen-feature-area {{widgetClass}}">
+		<div class="tscreen-featured-box tscreen-box">
+			<div class="tscreen-box-title">{{featuredLabel}}</div>
+			<div class="tscreen-box-content">
+			{{#with featuredText}}
+				<div class="tscreen-featured-alias">@{{alias}} {{#each badges}}<i class="fa {{icon}}" style="color:{{color}}"></i>{{/each}}</div>
+				<div class="tscreen-featured-text">{{body}}</div>
+			{{/with}}
+			</div>
+		</div>
+		<div class="tscreen-question-box tscreen-box">
+			<div class="tscreen-box-title">{{featuredLabel}}</div>
+			<div class="tscreen-box-content">
+				<div class="tscreen-box-question">{{questionText}}</div>
+			</div>
+		</div>
+		<div class="tscreen-leaderboard-box tscreen-box">
+			<div class="tscreen-box-title">April's Favesies</div>
+			<div class="tscreen-box-content">
+				{{>screenLeadersTable}}
+			</div>
+		</div>
+
+		<div class="tscreen-april {{aprilClass}}">
+			<div class="tscreen-april-standing1"></div>
+			<div class="tscreen-april-standing2"></div>
+			<div class="tscreen-april-standing-selfie"></div>
+			<div class="tscreen-april-floating"></div>
+			<div class="tscreen-april-laying"></div>
+		</div>
 	</div>
+</template>
+
+<template name="screenLeadersTable">
+	<div class="leaders-table-heading">Handle</div>
+	<div class="leaders-table-heading" style="float: right;">Texts</div>
+	<ul class="leaders-list">
+	{{#each leaders}}
+		<li class="leaders-list-leader">
+			<span class="leaders-list-alias">{{alias}} {{#each badges}}<i class="fa {{icon}}" style="color:{{color}}"></i> {{/each}}</span>
+			<span class="leaders-list-texts">{{texts_sent}}</span>
+		</li>
+	{{/each}}
+	</ul>
 </template>

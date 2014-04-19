@@ -25,8 +25,7 @@
 					{{participant_alias}} <span class="phone-number">{{participant_id}}</span><br>
 				{{/each}}
 			{{else}}
-				{{alias}} <span class="phone-number">{{participant}}</span><br>
-				{{#each badges}}<i class="fa {{icon}}" style="color:{{color}}"></i>{{/each}}
+				{{alias}} {{#each badges}}<i class="fa {{icon}}" style="color:{{color}}"></i> {{/each}}
 			{{/if}}
 		</td>
 		<td>{{body}}</td>

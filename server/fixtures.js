@@ -156,12 +156,8 @@ Meteor.startup(function() {
 				description:"Floating"
 			},
 			{
-				value:"floating-selfie",
-				description:"Floating: selfie"
-			},
-			{
-				value:"hanging",
-				description:"Hanging (use with a text box)"
+				value:"laying",
+				description:"Laying"
 			}
 		]
 	});

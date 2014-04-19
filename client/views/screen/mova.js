@@ -1,4 +1,22 @@
+Template.screenMain.helpers({
+	actionText:function() {
+		if(ScreenSettings.findOne('actionText'))
+			return ScreenSettings.findOne('actionText').value;
+	}
+});
+
 Template.screenMain.rendered = function() {
+	ScreenSettings.find('actionText').observeChanges({
+		changed: function() {
+			$('.tscreen-shell').addClass('actionText');
+			var self = this;
+			Meteor.setTimeout(function() {
+				$(self.firstNode).fadeOut();
+				$('.tscreen-shell').removeClass('actionText');
+			},3600);
+		}
+	});
+
 	window.rain_acceleration = .02;
 	window.rain_speed = 4;
 
@@ -89,7 +107,7 @@ Template.screenMain.rendered = function() {
 			if(!base.spawnedLastFrame) {
 				var sx = base.rand(-200, w);
 				drops.push(new base.Rain(sx, 0, sx + 200, h, color));
-				base.spawnedLastFrame=4;
+				base.spawnedLastFrame=window.rain_density;
 			}
 			base.spawnedLastFrame--;
 		}

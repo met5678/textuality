@@ -9,7 +9,7 @@
 <template name="screenFeedItem">
 		<div class="texts-feed-item {{textClass}} notransition" style="display: none;">
 		<div class="texts-feed-meta">
-			<div class="texts-feed-name">{{#if isMaster}}<i class="fa fa-heart"></i> {{/if}}{{alias}}{{#if isMaster}} <i class="fa fa-heart"></i>{{/if}}</div>
+			<div class="texts-feed-name">{{alias}}{{#if isMaster}} <i class="fa fa-heart"></i>{{/if}}</div>
 			<div class="texts-feed-badges">
 				{{#each badges}}
 					<i class="fa {{icon}}" style="color:{{color}}"></i>

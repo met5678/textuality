@@ -56,10 +56,6 @@ Meteor.methods({
 				inText.purpose.type = 'checkin';
 				Meteor.call('participant_updateLatestActivity',participant);
 			}
-			/*else if(checkSuperText(inText,participant)) {
-				inText.purpose.type = 'super';
-				Meteor.call('participant_updateLatestActivity',participant);
-			}*/
 			else {
 				inText.purpose.type = 'feed';
 				Meteor.call('participant_incrementSentTexts',participant);

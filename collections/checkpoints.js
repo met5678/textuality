@@ -26,7 +26,6 @@ Meteor.methods({
 		if(checkpoint) {
 			if(Meteor.call('participant_checkin',participant,checkpoint)) {
 				Checkpoints.update(checkpoint._id,{$push:{checkins: participant._id}});
-				Meteor.call('settings_ticker_update',participant.alias + " " + checkpoint.tickerText);
 			}
 			return true;
 		}

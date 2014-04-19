@@ -29,6 +29,7 @@ Meteor.methods({
 		}
 		else {
 			var participant = Participants.findOne(participants);
+			console.log(participants,participant);
 			outText.participants.push({
 				participant_id:participant._id,
 				participant_alias:participant.alias,

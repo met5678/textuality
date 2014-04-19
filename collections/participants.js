@@ -163,6 +163,15 @@ Meteor.methods({
 
 	participant_clearAllCheckins:function() {
 		Participants.update({},{$set:{checkins:[]}},{multi:true});
+	},
+
+	participant_getRandomParticipants: function(num,selectedParticipantIDs) {
+		var randomParticipants = Participants.find({
+			_id: { $nin: selectedParticipantIDs },
+			random: { $near: [Math.random(),0] },
+			status: 'Active'
+		}, { fields: { alias:1 }, limit: num }).fetch();
+		return randomParticipants;
 	}
 });
 
@@ -172,18 +181,5 @@ Participants.find().observeChanges({
 			Participants.update(id, {$set: { recent:new Date() } });			
 	}
 });
-
-if(Meteor.is_server) {
-	Meteor.methods({
-		participant_getRandomParticipants: function(num,selectedParticipantIDs) {
-			var randomParticipants = Participants.find({
-				_id: { $nin: selectedParticipantIDs },
-				random: { $near: [Math.random(),0] },
-				status: 'Active'
-				}, { fields: { alias:1 }, limit: num }).fetch();
-			return randomParticipants;
-		}
-	});
-}
 
 var handleExit = function(participant) {};

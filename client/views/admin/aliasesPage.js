@@ -48,3 +48,7 @@ Template.adminAliases.events({
 		Aliases.remove(alias);
 	}
 });
+
+Template.adminAliases.rendered = function() {
+	initCharacterCounter(this.$('.text-character-count'),this.$('.text-character-counter'));
+};

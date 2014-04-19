@@ -8,7 +8,7 @@ Meteor.startup(function() {
 			checkins: 3,
 			moderation: 'passed',
 			purpose: 'feed',
-			favorite: true,
+			favorite: 1,
 			time: new Date((new Date()).valueOf()-Math.random()*600000)
 		});
 		InTexts.insert({
@@ -18,7 +18,7 @@ Meteor.startup(function() {
 			checkins: 2,
 			moderation: 'passed',
 			purpose: 'feed',
-			favorite: false,
+			favorite: 0,
 			time: new Date((new Date()).valueOf()-Math.random()*600000)
 		});
 		InTexts.insert({
@@ -28,7 +28,7 @@ Meteor.startup(function() {
 			checkins: 5,
 			moderation: 'passed',
 			purpose: 'feed',
-			favorite: true,
+			favorite: 1,
 			time: new Date((new Date()).valueOf()-Math.random()*600000)
 		});
 		InTexts.insert({
@@ -38,7 +38,7 @@ Meteor.startup(function() {
 			checkins: 6,
 			moderation: 'passed',
 			purpose: 'feed',
-			favorite: true,
+			favorite: 1,
 			time: new Date((new Date()).valueOf()-Math.random()*600000)
 		});
 		InTexts.insert({
@@ -48,7 +48,7 @@ Meteor.startup(function() {
 			checkins: 2,
 			moderation: 'passed',
 			purpose: 'feed',
-			favorite: true,
+			favorite: 1,
 			time: new Date((new Date()).valueOf()-Math.random()*600000)
 		});
 		InTexts.insert({
@@ -58,7 +58,7 @@ Meteor.startup(function() {
 			checkins: 0,
 			moderation: 'passed',
 			purpose: 'feed',
-			favorite: true,
+			favorite: 0,
 			time: new Date((new Date()).valueOf()-Math.random()*600000)
 		});
 		InTexts.insert({
@@ -68,7 +68,7 @@ Meteor.startup(function() {
 			checkins: 3,
 			moderation: 'passed',
 			purpose: 'feed',
-			favorite: true,
+			favorite: 1,
 			time: new Date((new Date()).valueOf()-Math.random()*600000)
 		});
 		InTexts.insert({
@@ -78,7 +78,7 @@ Meteor.startup(function() {
 			checkins: 9,
 			moderation: 'passed',
 			purpose: 'feed',
-			favorite: true,
+			favorite: 1,
 			time: new Date((new Date()).valueOf()-Math.random()*600000)
 		});
 	}
@@ -152,13 +152,15 @@ Meteor.startup(function() {
 		name:'Leafy Goddess',
 		icon:'fa-leaf',
 		color:'#AAFFAA',
-		type:'manual'
+		type:'manual',
+		numAwarded:0
 	});
 	Badges.insert({
 		name:'Sexy dancer',
 		icon:'fa-music',
 		color:'#FFFAAA',
-		type:'manual'
+		type:'manual',
+		awarded:0
 	});
 
 });

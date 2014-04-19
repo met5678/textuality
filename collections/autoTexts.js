@@ -1,12 +1,15 @@
-AUTO_ALIAS_CHANGE = 'Alias change';
-AUTO_WELCOME = 'Welcome';
-AUTO_SENT_N_TEXTS = 'Sent [N] texts';
-AUTO_TOTAL_N_TEXTS = 'Total collective [N] texts';
-AUTO_CHECKPOINTS_DONE = 'Completed all';
-AUTO_CHECKPOINTS_DUPLICATE = 'Total collective [N] texts';
-AUTO_CHECKPOINTS_FIRST = 'Total collective [N] texts';
+AutoTextTemplates = new Meteor.Collection('autoTextTemplates');
 
 AutoTexts = new Meteor.Collection('autoTexts');
+AutoTexts.allow({
+	insert: function(userId, doc) {
+		return Roles.userIsInRole(userId,'admin');
+	},
+	remove: function(userId, doc) {
+		return Roles.userIsInRole(userId,'admin');
+	}
+});
+
 if(Meteor.isServer) {
 	AutoTexts._ensureIndex({ random : "2d" });
 }

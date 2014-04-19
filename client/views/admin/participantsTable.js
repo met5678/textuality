@@ -15,7 +15,7 @@ Template.adminParticipantRow.helpers({
 		else if(this.status == 'Banned') {
 			labelClass = 'label-important';
 		}
-		return new Handlebars.SafeString('<span class="label '+labelClass+'">'+this.status+'</span>');
+		return Spacebars.SafeString('<span class="label '+labelClass+'">'+this.status+'</span>');
 	},
 
 	numCheckins: function() {
@@ -33,7 +33,7 @@ Template.adminParticipantRow.helpers({
 			btnClass = 'btn-primary';
 			btnText = 'Yes';
 		}
-		return new Handlebars.SafeString('<button class="btn btn-xs btn-super-user '+btnClass+'">'+btnText+'</span>');
+		return Spacebars.SafeString('<button class="btn btn-xs btn-super-user '+btnClass+'">'+btnText+'</span>');
 	}
 });
 

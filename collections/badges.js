@@ -9,8 +9,13 @@ Badges
 }
 */
 
-
 Badges = new Meteor.Collection('badges');
 
-Meteor.methods({
+Badges.allow({
+	insert: function(userId, doc) {
+		return Roles.userIsInRole(userId,'admin');
+	},
+	remove: function(userId, doc) {
+		return Roles.userIsInRole(userId,'admin');
+	}
 });

@@ -2,6 +2,10 @@ Meteor.publish('inTexts', function(options) {
 	return InTexts.find({},options);
 });
 
+Meteor.publish('groupTexts', function(options) {
+	return InTexts.find({'favorite': { $ne:0 }},options);
+});
+
 Meteor.publish('feedTexts', function(limit) {
 	return InTexts.find({ 'purpose.type':'feed' }, { sort: { time : -1 }, limit: limit });
 });
@@ -36,6 +40,10 @@ Meteor.publish('checkpointsLite', function() {
 
 Meteor.publish('autoTexts', function() {
 	return AutoTexts.find();
+});
+
+Meteor.publish('autoTextTemplates', function() {
+	return AutoTextTemplates.find();
 });
 
 Meteor.publish('screenSettings', function() {

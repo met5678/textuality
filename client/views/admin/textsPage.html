@@ -1,11 +1,37 @@
 <template name="adminTexts">
 	<div class="row">		
-		<div class="col-md-9 col-sm-8">
+		<div class="col-lg-9 col-sm-8">
 			<h2>All Texts <span class="title-status">{{totalInTexts}} received, {{totalOutTexts}} sent</span></h2>
 			{{> adminTextsTable allTexts}}
 		</div>
-		<div class="col-md-3 col-sm-4">
+		<div class="col-lg-3 col-sm-4">
 			{{> adminComposeText}}
+			{{> adminTextGroups groupedTexts}}
 		</div>
 	</div>
+</template>
+
+<template name="adminTextGroups">
+	<div class="panel panel-default">
+		<div class="panel-heading">Grouped Texts</div>
+		<div class="panel-body">
+			<ul class="list-unstyled">
+				{{> adminTextGroup 1}}
+				{{> adminTextGroup 2}}
+				{{> adminTextGroup 3}}
+				{{> adminTextGroup 4}}
+			</ul>
+		</div>
+	</div>
+</template>
+
+<template name="adminTextGroup">
+	<li class="text-group-indicator">
+		<i class="fa fa-circle {{colorClass}}"></i>
+		<strong>{{count}} texts</strong>
+		<button class="text-group-mention btn btn-xs btn-default">@</button>
+		<button class="text-group-reply btn btn-xs btn-default"><i class="fa fa-reply"></i></button>
+		<button class="text-group-clear btn btn-xs btn-default">Clear</button>
+		<span>{{participants}}</span>
+	</li>
 </template>

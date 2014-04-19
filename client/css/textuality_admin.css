@@ -81,3 +81,48 @@ tr .phone-number {
 	text-shadow: 0 0 15px #000, 0 0 15px #000;
 	margin-right: 5px;
 }
+
+.badge-table>tbody>tr>td {
+	vertical-align: middle;
+}
+
+.badge-cell {
+	font-size: 1.2em;
+}
+
+.badge-preview {
+	margin-bottom: 15px;
+}
+
+.badge-preview span, .badge-preview label {
+	display: inline-block;
+	vertical-align: middle;
+	margin-bottom: 0;
+}
+
+.badge-preview span {
+	margin-left: 5px;
+	font-size: 1.5em;
+}
+
+.text-button-cell {
+	text-align: right;
+	width: 100px;
+}
+
+.compose-text-participant {
+	font-size: 0.85em;
+}
+
+.text-group-indicator {
+	margin: 3px 0;
+}
+
+.text-group-indicator > i, 
+.text-group-indicator > strong {
+	vertical-align: middle;
+}
+
+.text-group-indicator > strong {
+	margin: 0 5px 0 3px;
+}

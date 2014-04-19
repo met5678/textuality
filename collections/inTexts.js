@@ -13,6 +13,11 @@ InText: The collection storing texts received from users. Special master texts a
 */
 
 InTexts = new Meteor.Collection('inTexts');
+InTexts.allow({
+	update: function(userId, doc) {
+		return Roles.userIsInRole(userId,'admin');
+	}
+});
 
 var moderationCutoff = 8;
 var textsToBan = 3;
@@ -97,7 +102,11 @@ Meteor.methods({
 
 	inText_getTotalFeedTexts: function() {
 		return InTexts.find({'purpose.type':'feed'}).count();
-	}	
+	},
+
+	inText_clearFavorites: function(favoriteNum) {
+		InTexts.update({'favorite':favoriteNum},{$set:{favorite:0}},{multi:true});
+	}
 });
 
 var processModeration = function(inText,participant) {

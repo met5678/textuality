@@ -2,6 +2,9 @@ Aliases = new Meteor.Collection('aliases');
 Aliases.allow({
 	insert: function(userId, doc) {
 		return Roles.userIsInRole(userId,'admin');
+	},
+	remove: function(userId, doc) {
+		return Roles.userIsInRole(userId,'admin');
 	}
 });
 

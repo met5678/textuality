@@ -5,48 +5,54 @@
 			<form class="compose-text-form" role="form">
 				<div class="form-group">
 					<label class="radio-inline">
-						<input type="radio" name="toTarget" value="screen" id="composeTextToScreen" checked /> Screen
+						<input type="radio" name="toTarget" value="screen" id="composeTextToScreen" {{targetScreenChecked}} /> Screen
 					</label>
 					<label class="radio-inline">
-						<input type="radio" name="toTarget" value="user" id="composeTextToUser" /> User(s)
-						<button type="button" class="btn btn-xs btn-primary" style="vertical-align: top; margin-left: 5px;" disabled="disabled">+ 1</button>
-						<button type="button" class="btn btn-xs btn-primary" style="vertical-align: top;" disabled="disabled">+ 5</button>
+						<input type="radio" name="toTarget" value="user" id="composeTextToUser" {{targetUserChecked}}/> User(s)
+						<button type="button" class="btn btn-xs btn-primary" id="composeTextUserAdd1" style="vertical-align: top; margin-left: 5px;">+ 1</button>
+						<button type="button" class="btn btn-xs btn-primary" id="composeTextUserAdd5" style="vertical-align: top;">+ 5</button>
 					</label>
 				</div>
+				{{#if target 'user'}}
 				<div class="form-group" id="composeTextUserArea">
-					<ul class="list-inline">
-						{{#each composeTextParticipants}}
-							{{> adminComposeTextParticipant}}
-						{{/each}}
-					</ul>
+					{{#each composeTextParticipants}}
+						{{> adminComposeTextParticipant}}
+					{{/each}}
 				</div>
+				{{/if}}
 				<div class="form-group">
 					<label for="composeTextBody">Body</label>
-					<textarea class="form-control" rows="5" name="body" id="composeTextBody"></textarea>
-					<div class="character-counter" data-for="composeTextBody">160</div>
+					<textarea class="form-control text-character-count" data-max-length="160" rows="4" name="body" id="composeTextBody"></textarea>
+					<div class="text-character-counter" data-for="composeTextBody">160</div>
 				</div>
+				{{#if target 'user'}}
 				<div class="form-group" id="composeTextBadgeArea">
 					<div class="dropdown">
 						<button class="btn btn-sm btn-default dropdown-toggle" type="button" id="composeTextBadgeDropdown" data-toggle="dropdown">Give Badge <span class="caret"></span></button>
 						<ul class="dropdown-menu" aria-labelledby="composeTextBadgeDropdown">
-							<li><a href="#" data-badge="None">None</a></li>
+							<li><a href="#" class="compose-text-none-badge">None</a></li>
 							<li class="divider"></li>
 							{{#each badges}}
-								<li>
-									<a href="#" data-badge="{{_id}}"><i class="fa {{icon}} compose-text-dropdown-badge-icon" style="color:{{color}}"></i> {{name}}</a>
-								</li>
+								{{>adminComposeTextBadge}}
 							{{/each}}
 						</ul>
-						<span class="compose-text-selected-badge">None</span>
+						<span class="compose-text-selected-badge">{{composeTextBadge}}</span>
 					</div>
 				</div>
+				{{/if}}
 				<button type="submit" class="btn btn-success">Send</button>
-				<button type="button" class="btn btn-default">Clear</button>
+				<button type="button" class="btn btn-default" id="composeTextClear">Clear</button>
 			</form>
 		</div>
 	</div>
 </template>
 
 <template name="adminComposeTextParticipant">
-	<span class="label selected-participant">{{alias}} <span class="participant-delete fa fa-times"></span></span>
+	<span class="label label-primary compose-text-participant">{{alias}} <span class="participant-delete fa fa-times"></span></span>
+</template>
+
+<template name="adminComposeTextBadge">
+	<li>
+		<a href="#"><i class="fa {{icon}} compose-text-dropdown-badge-icon" style="color:{{color}}"></i> {{name}}</a>
+	</li>
 </template>

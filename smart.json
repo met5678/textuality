@@ -6,6 +6,7 @@
   "packages": {
     "iron-router": {},
     "spin": {},
-    "roles": {}
+    "roles": {},
+    "iron-router-progress": {}
   }
 }

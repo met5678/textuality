@@ -1,0 +1,96 @@
+<template name="adminAutoTexts">
+	<div class="row">
+		<div class="col-xs-12">
+			<h2>AutoTexts</h2>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-9">
+			{{>autoTextsTable}}
+		</div>
+
+		<div class="col-md-3">
+			{{>createAutoText}}
+		</div>
+	</div>
+</template>
+
+<template name="autoTextsTable">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Type</th>
+				<th>Number</th>
+				<th>Destination</th>
+				<th>Body</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+		{{#each autoTexts}}
+			{{>autoTextRow}}
+		{{/each}}
+		</tbody>
+	</table>	
+</template>
+
+<template name="autoTextRow">
+	<tr data-id="{{_id}}">
+		<td>{{description}}</td>
+		<td>{{number}}</td>
+		<td>{{destination}}</td>
+		<td>{{body}}</td>
+		<td><button class="btn btn-mini btn-danger autotext-delete">Delete</button></td>
+	</tr>
+</template>
+
+<template name="createAutoText">
+	<div class="panel panel-default">
+		<div class="panel-heading">Create AutoText</div>
+		<div class="panel-body">
+			<form class="autotext-add-form">
+				<div class="form-group">
+					<label>Type</label>
+					<select class="form-control" name="type" id="createAutoTextType">
+						{{#each autoTextTemplates}}
+							<option value={{_id}}>{{description}}</option>
+						{{/each}}
+					</select>
+				</div>
+
+				{{#if hasNumber}}
+				<div class="form-group">
+					<label>Number</label>
+					<input type="number" class="form-control" name="number" />
+				</div>
+				{{/if}}
+
+				<div class="form-group">
+					<label>Destination</label><br />
+					<label class="radio-inline">
+						<input type="radio" name="toTarget" value="screen" id="autoTextToScreen" /> Screen
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="toTarget" value="user" id="autoTextToUser" checked /> User
+					</label>
+				</div>
+
+				<div class="form-group">
+					<label for="autoTextBody">Body</label>
+					<textarea class="form-control text-character-count" data-max-length="160" rows="4" name="body" id="autoTextBody"></textarea>
+					<div style="float: right;" class="text-character-counter" data-for="autoTextBody">160</div>
+					<span class="help-block">Use [alias] for the user's alias</span>
+				</div>
+				<button type="submit" class="btn btn-success">Create</button>
+				<button type="button" class="btn btn-default create-autotext-clear">Clear</button>
+			</form>
+		</div>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<button class="autotexts-deleteall-btn btn btn-warning">Delete All AutoTexts</button>
+		</div>
+	</div>
+</template>

@@ -38,7 +38,7 @@ Meteor.methods({
 			Meteor.call('participant_incrementReceivedTexts',participant);
 			var cleanBody = outText.body.replace(/[\u2018\u2019]/g, "'").replace(/[\u201C\u201D]/g, '"');
 			console.log("Clean body:{"+cleanBody+"}");
-			Meteor.http.post(twilioSendUrl,{
+			HTTP.post(twilioSendUrl,{
 				params:{From:twilioNumber, To:'+'+phoneNumber, Body: cleanBody, StatusCallback:twilioStatusUrl},
 				auth: twilioAccountSid+':'+twilioToken,
 				headers: {'content-type':'application/x-www-form-urlencoded'}

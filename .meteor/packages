@@ -4,5 +4,9 @@
 # but you can also edit it by hand.
 
 standard-app-packages
-autopublish
 insecure
+underscore
+iron:router
+multiply:iron-router-progress
+accounts-password
+alanning:roles

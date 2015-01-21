@@ -1,0 +1,20 @@
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	color: #CCC;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+body {
+background: #1A0303 url('/textuality/img/background.jpg') no-repeat center center;
+}
+
+button {
+	color: #000;
+	padding: 5px;
+	border: 1px solid #000;
+	cursor: pointer;
+	display: block;
+	margin: 5px;
+}

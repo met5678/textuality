@@ -26,6 +26,7 @@ var longTextMillis = 1000;
 
 Meteor.methods({
 	inText_receive: function(twJson) {
+		console.log(twJson);
 		// Doing this first to get the timestamp sequence correct
 		var recTime = new Date();
 

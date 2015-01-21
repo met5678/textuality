@@ -3,6 +3,8 @@ Router.map(function() {
 		where: 'server',
 		path: '/textHandler',
 		action: function() {
+			console.log("RECEIVED TEXT");
+			console.log(twJson);
 			var twJson = this.request.body;
 			Meteor.call('inText_receive',twJson);
 			this.response.writeHead(200,{'Content-Type':'text/xml'});

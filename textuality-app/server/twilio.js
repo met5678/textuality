@@ -47,6 +47,7 @@ Router.route('/textHandler', { where: 'server' })
 
 Router.route('/textStatusHandler', { where: 'server' })
 	.post(function() {
+    console.log(this.request.body);
 		Meteor.call('outText_updateStatus',this.request.body.SmsSid,this.request.body.SmsStatus);
 		this.response.writeHead(200);
 	});
@@ -54,6 +55,7 @@ Router.route('/textStatusHandler', { where: 'server' })
 var sendMessage = function(message,cb) {
 	message.body = message.body.replace(/[\u2018\u2019]/g, "'").replace(/[\u201C\u201D]/g, '"');
 	message.from = twilioNumber;
+  message.statusCallback = twilioSatusUrl;
 
 	twilio.sendMessage(message,cb);
 };

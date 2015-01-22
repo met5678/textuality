@@ -37,10 +37,15 @@ Meteor.methods({
 			var phoneNumber = participant.participant_id;
 			Meteor.call('participant_incrementReceivedTexts',participant);
 
-			Twilio.sendMessage(phoneNumber,outText.body, function (err,result) {
-				OutTexts.update({_id:outText._id, 'participants.participant_id':phoneNumber},
-						{ $set: { 'participants.$.status': result.data.status, 'participants.$.sid':result.data.sid } });
-			});
+			var message = {
+				to: phoneNumber,
+				body: outText.body
+			};
+
+			var result = Textuality.sendMessage(message);
+
+			OutTexts.update({_id:outText._id, 'participants.participant_id':phoneNumber},
+				{ $set: { 'participants.$.status': result.status, 'participants.$.sid':result.sid } });
 		});
 	},
 

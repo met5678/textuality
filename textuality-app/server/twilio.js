@@ -35,36 +35,33 @@ var twilioSendUrl = 'https://api.twilio.com/2010-04-01/Accounts/'+twilioAccountS
 var twilioNumber = '+15719894785';
 var twilioStatusUrl = 'http://www.textualityparty.com/textStatusHandler';
 
-Router.map(function() {
-	this.route('textHandler', {
-		where: 'server',
-		path: '/textHandler',
-		action: function() {
+var twilio = Twilio(twilioAccountSid,twilioToken);
+
+Router.route('/textHandler', { where: 'server' })
+	.post(function() {
 			var twJson = this.request.body;
 			Meteor.call('inText_receive',twJson);
 			this.response.writeHead(200,{'Content-Type':'text/xml'});
 			this.response.end('<?xml version="1.0" encoding="UTF-8" ?><Response></Response>');
-		}
 	});
 
-	this.route('textStatusHandler', {
-		where: 'server',
-		path: '/textStatusHandler',
-		action: function() {
-			Meteor.call('outText_updateStatus',this.request.body.SmsSid,this.request.body.SmsStatus);
-			this.response.writeHead(200);
-		}
+Router.route('/textStatusHandler', { where: 'server' })
+	.post(function() {
+		Meteor.call('outText_updateStatus',this.request.body.SmsSid,this.request.body.SmsStatus);
+		this.response.writeHead(200);
 	});
-});
 
-Twilio = {
-	sendMessage: function(phoneNumber,body,cb) {
-		var cleanBody = body.replace(/[\u2018\u2019]/g, "'").replace(/[\u201C\u201D]/g, '"');
-		console.log("Clean body:{"+cleanBody+"}");
-		HTTP.post(twilioSendUrl,{
-			params:{From:twilioNumber, To:'+'+phoneNumber, Body: cleanBody, StatusCallback:twilioStatusUrl},
-			auth: twilioAccountSid+':'+twilioToken,
-			headers: {'content-type':'application/x-www-form-urlencoded'}
-		}, cb);
-	}
+var sendMessage = function(message,cb) {
+	message.body = message.body.replace(/[\u2018\u2019]/g, "'").replace(/[\u201C\u201D]/g, '"');
+	message.from = twilioNumber;
+
+	twilio.sendSms(message,cb);
+
+	/*HTTP.post(twilioSendUrl,{
+		params:{From:twilioNumber, To:'+'+phoneNumber, Body: cleanBody, StatusCallback:twilioStatusUrl},
+		auth: twilioAccountSid+':'+twilioToken,
+		headers: {'content-type':'application/x-www-form-urlencoded'}
+	}, cb);*/
 };
+
+Textuality.sendMessage = Meteor.wrapAsync(sendMessage);

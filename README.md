@@ -18,7 +18,7 @@ Copying down prod DB to local
 -----------------------------
 First, ensure meteor is running. Next, run this:
 
-```sh
+```bash
 ./textuality-app/copyProdDB.sh
 ```
 

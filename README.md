@@ -3,14 +3,16 @@ Textuality
 
 Setup / Running Locally
 -----------------------
-1. Install node
-2. Install Meteor
+One time setup:
 
+1. Install [Node](http://nodejs.org/)
+2. Install Meteor: `curl https://install.meteor.com/ | sh`
+
+Run at http://localhost:3000:
 ```bash
 cd textuality-app
 meteor
 ```
-
 
 Copying down prod DB to local
 -----------------------------
@@ -22,6 +24,7 @@ First, ensure meteor is running. Next, run this:
 
 Deploying local build to production
 -----------------------------------
+Deploys to http://ec2-54-175-160-234.compute-1.amazonaws.com/
 
 ```bash
 cd textuality-deploy

@@ -1,5 +1,36 @@
 // Write your package code here!
-Cloudinary = {};
+var cloudinary = Cloudinary;
+
+cloudinary.config({
+	cloud_name:'datodq9yr',
+	api_key: '195557755776848',
+	api_secret: 'RP7EPikRQu7wdh_9Qtj7BmINtOU'
+});
+
+var intakeOptions = {
+	width: 1280,
+	height: 1280,
+	crop: 'limit',
+	format: 'png',
+	faces: true,
+	colors: true,
+	detection: 'rekognition_face',
+	eager: {
+		effect: 'improve'
+	}
+};
+
+var uploadImage = function(imageUrl,cb) {
+	cloudinary.uploader.upload(imageUrl,function(result) {
+		cb(undefined,result);
+	},intakeOptions);
+};
+
+var getTransformation = function(id,transformation) {
+	return cloudinary.url(id,transformation);
+};
+
+Textuality.uploadImage = Meteor.wrapAsync(uploadImage);
 
 /*var uploadOptions = {
 	detection:'rekognition_face'

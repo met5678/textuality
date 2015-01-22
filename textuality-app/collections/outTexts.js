@@ -53,7 +53,6 @@ Meteor.methods({
 		OutTexts.update({'participants.sid':sid},
 			{ $set: { 'participants.$.status': status,
 				    'participants.$.time': new Date() } });
-		
 	}
 });
 

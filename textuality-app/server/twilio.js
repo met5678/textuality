@@ -56,12 +56,6 @@ var sendMessage = function(message,cb) {
 	message.from = twilioNumber;
 
 	twilio.sendSms(message,cb);
-
-	/*HTTP.post(twilioSendUrl,{
-		params:{From:twilioNumber, To:'+'+phoneNumber, Body: cleanBody, StatusCallback:twilioStatusUrl},
-		auth: twilioAccountSid+':'+twilioToken,
-		headers: {'content-type':'application/x-www-form-urlencoded'}
-	}, cb);*/
 };
 
 Textuality.sendMessage = Meteor.wrapAsync(sendMessage);

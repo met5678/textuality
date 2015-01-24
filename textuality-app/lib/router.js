@@ -5,7 +5,7 @@ Router.configure({
 Router.map(function() {
 	this.route('screen',{
 		path: '/',
-		template:'screenMain',
+		template:'screenMain_face',
 		layoutTemplate:'layoutScreen',
 		waitOn: function() {
 			return [

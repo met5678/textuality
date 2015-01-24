@@ -11,9 +11,6 @@ var intakeOptions = {
 	width: 1280,
 	height: 1280,
 	crop: 'limit',
-	format: 'png',
-	faces: true,
-	colors: true,
 	detection: 'rekognition_face',
 	eager: {
 		effect: 'improve'

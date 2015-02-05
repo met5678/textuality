@@ -1,5 +1,5 @@
 Package.describe({
-  name: 'textuality:checkpoints',
+  name: 'textuality-aliases',
   version: '0.0.1',
   // Brief, one-line summary of the package.
   summary: '',
@@ -12,11 +12,12 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.0.3.1');
-  api.addFiles('textuality:checkpoints.js');
+  api.use(['textuality-core','textuality-admin']);
+  api.addFiles('textuality-aliases.js');
 });
 
 Package.onTest(function(api) {
   api.use('tinytest');
-  api.use('textuality:checkpoints');
-  api.addFiles('textuality:checkpoints-tests.js');
+  api.use('textuality-aliases');
+  api.addFiles('textuality-aliases-tests.js');
 });

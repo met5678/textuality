@@ -26,7 +26,8 @@ var longTextMillis = 1000;
 
 Meteor.methods({
 	inText_receive: function(twJson) {
-		console.log(twJson);
+		Textuality.Hooks.
+
 		if(parseInt(twJson.NumMedia) > 0) {
 			var id = Textuality.uploadImage(twJson.MediaUrl0);
 			console.log(id);

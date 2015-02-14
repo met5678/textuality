@@ -5,11 +5,6 @@ Template.screenLeadersTable.helpers({
 })
 
 Template.screenFeature.helpers({
-	aprilClass: function() {
-		if(ScreenSettings.findOne('hostessClass'))
-			return ScreenSettings.findOne('hostessClass').value;
-	},
-
 	featuredLabel: function() {
 		if(ScreenSettings.findOne('featuredTextLabel'))
 		return ScreenSettings.findOne('featuredTextLabel').value;
@@ -23,13 +18,5 @@ Template.screenFeature.helpers({
 	widgetClass: function() {
 		if(ScreenSettings.findOne('widgetClass'))
 			return ScreenSettings.findOne('widgetClass').value;
-	},
-
-	featuredText: function() {
-		if(ScreenSettings.findOne('featuredTextGroup')) {		
-			var favoriteGroup = Number(ScreenSettings.findOne('featuredTextGroup').value);
-			var inText = InTexts.findOne({favorite:favoriteGroup},{sort:{time:-1}});
-			return inText;
-		}
 	}
 })

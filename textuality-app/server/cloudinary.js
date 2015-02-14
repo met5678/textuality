@@ -11,13 +11,8 @@ var intakeOptions = {
 	width: 1280,
 	height: 1280,
 	crop: 'limit',
-	format: 'png',
-	faces: true,
-	colors: true,
-	detection: 'rekognition_face',
-	eager: {
-		effect: 'improve'
-	}
+	effect: 'improve',
+	detection: 'rekognition_face'
 };
 
 var uploadImage = function(imageUrl,cb) {
@@ -31,6 +26,7 @@ var getTransformation = function(id,transformation) {
 };
 
 Textuality.uploadImage = Meteor.wrapAsync(uploadImage);
+Textuality.transformImage = getTransformation;
 
 /*var uploadOptions = {
 	detection:'rekognition_face'

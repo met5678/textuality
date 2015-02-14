@@ -9,20 +9,18 @@
 <template name="screenFeedItem">
 	<div class="texts-feed-item {{textClass}} notransition" style="display: none;">
 
-		<div class="texts-feed-meta" style="background-image:url('{{avatarUrl}}');">
-			<div class="texts-feed-name">{{#if isMaster}}<i class="fa fa-heart"></i> {{/if}}{{alias}}{{#if isMaster}} <i class="fa fa-heart"></i>{{/if}}</div>
+		<div class="texts-feed-meta" style="background-image:url('{{avatar}}');">
+			<div class="texts-feed-name">{{alias}}</div>
 			<div class="texts-feed-badges">
 				{{#each badges}}
 					<i class="fa {{icon}}" style="color:{{color}}"></i>
 				{{/each}}
 			</div>
-			{{#unless isMaster}}
 			<div class="texts-feed-achievements" data-checkins="{{checkins}}">
 				{{#each checkpoints}}
 				<div class="texts-feed-achievement"></div>
 				{{/each}}
 			</div>
-			{{/unless}}
 		</div>
 
 		<div class="texts-feed-text rel-time-data" data-utc="{{timeUtc}}" data-reltime="{{timeRelative time true}}">{{bodyFormatted}}</div>

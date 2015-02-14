@@ -39,7 +39,8 @@ module.exports = {
     MessageSid: 'MM5b8d541b5c1529bc4d5181d999a3e019',
     AccountSid: 'AC482cf8d12c4fc97ee1d092472e25f436',
     From: '+12024948427',
-    MediaUrl0: 'https://api.twilio.com/2010-04-01/Accounts/AC482cf8d12c4fc97ee1d092472e25f436/Messages/MM5b8d541b5c1529bc4d5181d999a3e019/Media/ME7fd17d4e78acd2a89b18bad8888a554f',
+    //MediaUrl0: 'https://api.twilio.com/2010-04-01/Accounts/AC482cf8d12c4fc97ee1d092472e25f436/Messages/MM5b8d541b5c1529bc4d5181d999a3e019/Media/ME7fd17d4e78acd2a89b18bad8888a554f',
+    MediaUrl0: 'http://1.bp.blogspot.com/-lPVd6XdKv5U/T-YcDA9YxuI/AAAAAAAAAM8/J48CkR24QqA/s1600/Charlize+Theron+-+Queen+Ravenna+Pure+Evil.jpg',
     ApiVersion: '2010-04-01'
   },
 

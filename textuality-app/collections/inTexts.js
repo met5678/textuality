@@ -26,13 +26,6 @@ var longTextMillis = 1000;
 
 Meteor.methods({
 	inText_receive: function(twJson) {
-		console.log(twJson);
-		if(parseInt(twJson.NumMedia) > 0) {
-			var id = Textuality.uploadImage(twJson.MediaUrl0);
-			console.log(id);
-		}
-		
-		// Doing this first to get the timestamp sequence correct
 		var recTime = new Date();
 
 		var participant = Meteor.call('participant_getOrAdd',twJson);
@@ -41,6 +34,7 @@ Meteor.methods({
 			body:twJson.Body,
 			participant:participant._id,
 			alias:participant.alias,
+			avatar:participant.avatar,
 			checkins:participant.checkins.length,
 			badges:participant.badges,
 			moderation:null,
@@ -48,6 +42,12 @@ Meteor.methods({
 			favorite:0,
 			time:recTime
 		};
+
+		if(parseInt(twJson.NumMedia) > 0) {
+			handleImage(twJson,inText);
+		}
+		
+		// Doing this first to get the timestamp sequence correct
 
 		// Handle long text
 
@@ -58,9 +58,14 @@ Meteor.methods({
 			if(checkSystemText(inText,participant)) {
 				Meteor.call('participant_updateLatestActivity',participant);
 			}
+			else if(checkSuperText(inText,participant)) {
+				inText.purpose.type = 'super';
+			}
 			else if(checkCheckpointText(inText,participant)) {
 				inText.purpose.type = 'checkin';
 				Meteor.call('participant_updateLatestActivity',participant);
+			}
+			else if(checkActivityText(inText,participant)) {
 			}
 			else {
 				inText.purpose.type = 'feed';
@@ -161,7 +166,16 @@ var checkSystemText = function(inText,participant) {
 		Meteor.call('participant_changeAlias',participant);
 		return true;
 	}
-	else if(participant.status == 'Signed off' && inText.body.indexOf('#comeback') != -1) {
+	else if(inText.body.toLowerCase().indexOf('#avatar') != -1 && !!inText.image) {
+		inText.purpose = {
+			type:'system',
+			description:'Avatar change'
+		};
+		Meteor.call('participant_changeAvatar',participant,inText.image);
+		inText.avatar = participant.avatar;
+		return true;
+	}
+	else if(participant.status == 'Signed off') {
 		inText.purpose = {
 			type:'system',
 			description:'User resume'
@@ -186,7 +200,7 @@ var checkSuperText = function(inText,participant) {
 			return true;
 		}
 		else if(inText.body.toLowerCase().indexOf('#action') == 0 && inText.body.length > 7) {
-			Meteor.call('settings_action_update',inText.body.substring(7));
+			Meteor.call('settings_super_update','actionText',inText.body.substring(7));
 			return true;
 		}
 		else if(inText.body.toLowerCase().indexOf('#infobar') == 0 && inText.body.length > 8) {
@@ -195,4 +209,91 @@ var checkSuperText = function(inText,participant) {
 		}
 	}
 	return false;
+};
+
+var checkActivityText = function(inText,participant) {
+	if(checkEmotionText(inText,participant))
+		return true;
+
+	/*if(!!inText.image) {
+		if(!!inText.image.face && isGoodSelfie(inText.image)) {
+
+		}
+
+		inText.purpose.type = 'imageFeed';
+
+		if(inText.body.length > 0)
+			return false;
+		return true;
+	}*/
+
+	return false;
+};
+
+var checkEmotionText = function(inText,participant) {
+	var body = inText.body.toLowerCase();
+	var emotion = "";
+	if(body.indexOf('#happy') != -1) {
+		emotion = "happy";
+	}
+	else if(body.indexOf('#angry') != -1) {
+		emotion = "angry";
+	}
+	else if(body.indexOf('#surprised') != -1) {
+		emotion = "suprised";
+	}
+	else
+		return false;
+
+	inText.purpose = {
+		'type': 'emotion',
+		'emotion': emotion,
+		'score': 0
+	};
+
+	if(!inText.image) {
+		Meteor.call('autoText_send',participant,"EMOTION_NO_IMAGE");
+	}
+	else if (!inText.image.face) {
+		Meteor.call('autoText_send',participant,"EMOTION_NO_FACE");
+	}
+	else {
+		var emotionObj = inText.image.face.emotion;
+		if(!!emotionObj[emotion]) {
+			var score = emotionObj[emotion];
+			inText.image.transforms = inText.image.transforms || {};
+			inText.image.transforms.emotion = Textuality.transformImage(inText.image._id,{width: 200, height: 235, crop: "thumb", gravity: "rek_face", sign_url: true});
+		}
+		else
+			var score = 0;
+
+		inText.purpose.score = score;
+
+		if(score >= .5)
+			Meteor.call('autoText_send',participant,"EMOTION_"+emotion.toUpperCase()+"_SUCCEED",undefined,score*100);
+		else
+			Meteor.call('autoText_send',participant,"EMOTION_"+emotion.toUpperCase()+"_FAIL",undefined,score*100);
+	}
+	return true;
+};
+
+var handleImage = function(twJson,inText) {
+	if(twJson.MediaContentType0.indexOf('image') != 0)
+		return;
+
+	var imageObj = Textuality.uploadImage(twJson.MediaUrl0);
+
+	inText.image = {
+		_id: imageObj.public_id,
+		width: imageObj.width,
+		height: imageObj.height,
+		url: imageObj.url
+	};
+
+	var faceObj = imageObj.info.detection.rekognition_face;
+	if(!!faceObj.data) {
+		console.log("Face found");
+		inText.image.face = faceObj.data[0];
+		console.log(inText.image.face);
+	}
 };

@@ -69,3 +69,7 @@ Meteor.publish('leaderParticipants', function(limit) {
 Meteor.publish("featuredText", function(group) {
 	return InTexts.find({ favorite:group },{sort: {time: -1}, limit:1});
 });
+
+Meteor.publish("imageTexts", function() {
+	return InTexts.find({ "image": { $exists: true}});
+})

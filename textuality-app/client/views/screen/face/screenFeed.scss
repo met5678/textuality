@@ -2,7 +2,7 @@
   /* line 7, sass/_interface-texts.scss */
   .tscreen-main {
     position: absolute;
-    top: 70px;
+    top: 48px;
     bottom: 50px;
     width: 100%;
   }
@@ -22,10 +22,14 @@
   .texts-feed-item {
     margin-bottom: 1.1em;
     transition: opacity 300ms linear 300ms;
+
+    &.masterText .texts-feed-meta {
+      background-image: url(http://res.cloudinary.com/datodq9yr/image/upload/c_thumb,h_50,w_50/v1423920077/tumblr_inline_mnxu687b6o1qz4rgp_m6f2nm.gif) !important;
+    }
   }
 
   .texts-feed-meta {
-    width: 40%;
+    width: 35%;
     float: left;
     padding-left: 55px;
     padding-bottom: 4px;
@@ -39,6 +43,8 @@
 
     }
   }
+
+
   /* line 60, sass/_interface-texts.scss */
   .texts-feed-name {
     display: inline-block;
@@ -46,7 +52,7 @@
   /* line 64, sass/_interface-texts.scss */
   .texts-feed-text {
     float: left;
-    width: 60%;
+    width: 65%;
     line-height: 1.1em;
   }
   /* line 71, sass/_interface-texts.scss */

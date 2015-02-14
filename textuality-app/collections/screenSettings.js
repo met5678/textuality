@@ -25,5 +25,11 @@ Meteor.methods({
 		Participants.remove({});
 		Meteor.call('checkpoint_clearCheckins');
 		Meteor.call('alias_resetall');
+	},
+
+	settings_super_update: function(setting,value) {
+		ScreenSettings.update(setting,{
+			$set: {'value':value}
+		});
 	}
 });

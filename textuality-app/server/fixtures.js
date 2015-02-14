@@ -11,6 +11,11 @@ Meteor.startup(function() {
 		'number':false
 	});
 	AutoTextTemplates.insert({
+		'_id':'AUTO_AVATAR_CHANGE',
+		'description':'Avatar change',
+		'number':false
+	});
+	AutoTextTemplates.insert({
 		'_id':'AUTO_PARTICIPANT_EXIT',
 		'description':'Participant exit',
 		'number':false
@@ -65,6 +70,46 @@ Meteor.startup(function() {
 		'description':'Moderation: Banned',
 		'number':false
 	});
+	AutoTextTemplates.insert({
+		'_id':'EMOTION_NO_IMAGE',
+		'description':'Emotion: No Image',
+		'number':false
+	});
+	AutoTextTemplates.insert({
+		'_id':'EMOTION_NO_FACE',
+		'description':'Emotion: No Face',
+		'number':false
+	});
+	AutoTextTemplates.insert({
+		'_id':'EMOTION_HAPPY_SUCCEED',
+		'description':'Emotion: Happy Succeed',
+		'number':false
+	});
+	AutoTextTemplates.insert({
+		'_id':'EMOTION_HAPPY_FAIL',
+		'description':'Emotion: Happy Fail',
+		'number':false
+	});
+	AutoTextTemplates.insert({
+		'_id':'EMOTION_ANGRY_SUCCEED',
+		'description':'Emotion: Angry Succeed',
+		'number':false
+	});
+	AutoTextTemplates.insert({
+		'_id':'EMOTION_ANGRY_FAIL',
+		'description':'Emotion: Angry Fail',
+		'number':false
+	});
+	AutoTextTemplates.insert({
+		'_id':'EMOTION_SURPRISED_SUCCEED',
+		'description':'Emotion: Surprised Succeed',
+		'number':false
+	});
+	AutoTextTemplates.insert({
+		'_id':'EMOTION_SURPRISED_FAIL',
+		'description':'Emotion: Surprised Fail',
+		'number':false
+	});
 
 	var order = 0;
 	ScreenSettings.remove({});
@@ -95,11 +140,32 @@ Meteor.startup(function() {
 				description:"Question/Announcement box"
 			},
 			{
-				value:"featured-text",
-				description:"Featured text box"
+				value:"emotion",
+				description:"Emotion Challenge"
 			}
 		]
 	});
+	ScreenSettings.insert({
+		_id:"whichEmotion",
+		order:order++,
+		description:"Which emotion",
+		dataType:"options",
+		value:"happy",
+		options:[
+			{
+				value:"happy",
+				description:"#happy"
+			},
+			{
+				value:"angry",
+				description:"#angry"
+			},
+			{
+				value:"surprised",
+				description:"#surprised"
+			}
+		]
+	})
 	ScreenSettings.insert({
 		_id:"questionText",
 		order:order++,
@@ -114,7 +180,7 @@ Meteor.startup(function() {
 		dataType:"text",
 		value:""
 	});
-	ScreenSettings.insert({
+	/*ScreenSettings.insert({
 		_id:"featuredTextGroup",
 		order:order++,
 		description:"Featured box text group",
@@ -170,41 +236,7 @@ Meteor.startup(function() {
 				description:"Laying"
 			}
 		]
-	});
-	ScreenSettings.insert({
-		_id:"rainDensity",
-		order:order++,
-		description:"Rain Density",
-		dataType:"range",
-		value:0,
-		min:0,
-		max:100
-	});
-	ScreenSettings.insert({
-		_id:"rainSpeed",
-		order:order++,
-		description:"Rain Speed",
-		dataType:"range",
-		value:0,
-		min:0,
-		max:100
-	});
-	ScreenSettings.insert({
-		_id:"rainColor",
-		order:order++,
-		description:"Rain Color",
-		dataType:"color",
-		value:"#66AAAA"
-	})
-	ScreenSettings.insert({
-		_id:"windDirection",
-		order:order++,
-		description:"Wind Direction",
-		dataType:"range",
-		value:20,
-		min:-100,
-		max:100
-	});
+	});*/
 
 	Badges.remove({type:'auto'});
 	Badges.insert({

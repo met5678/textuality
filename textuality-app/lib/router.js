@@ -13,7 +13,8 @@ Router.map(function() {
 				Meteor.subscribe('screenSettings'),
 				Meteor.subscribe('leaderParticipants',10),
 				Meteor.subscribe('featuredText',ScreenSettings.findOne("featuredTextGroup")),
-				Meteor.subscribe('checkpoints')
+				Meteor.subscribe('checkpoints'),
+				Meteor.subscribe('imageTexts')
 			];
 		}
 	});

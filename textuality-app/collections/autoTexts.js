@@ -15,7 +15,7 @@ if(Meteor.isServer) {
 }
 
 Meteor.methods({
-	autoText_send: function(participant, type, number) {
+	autoText_send: function(participant, type, number, ph) {
 		console.log("Going to send text for " + type + " " + number);
 		autoTextQuery = { type:type, random: { $near: [Math.random(),0] }, destination:'user' };
 		if(number) {
@@ -24,6 +24,9 @@ Meteor.methods({
 		var autoText = AutoTexts.findOne(autoTextQuery);
 		if(autoText) {
 			var textBody = autoText.body.replace('[alias]',participant.alias);
+			if(!!ph)
+				textBody = textBody.replace('[ph]',ph);
+			
 			var outText = {
 				body:textBody,
 				favorite: false,

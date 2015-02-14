@@ -134,6 +134,20 @@ Meteor.methods({
 		Meteor.call('autoText_send',participant,'AUTO_ALIAS_CHANGE');
 	},
 
+	participant_changeAvatar: function(participant,image) {
+		var transform = {width: 50, height: 50, crop: "thumb", gravity: "center"};
+		if(!!image.face) {
+			transform.gravity = "rek_face";
+		}
+
+		var avatarUrl = Textuality.transformImage(image._id,transform);
+		participant.avatar = avatarUrl;
+		Participants.update(participant._id,{
+			$set: { avatar: avatarUrl }
+		});
+		Meteor.call('autoText_send',participant,'AUTO_AVATAR_CHANGE');
+	},
+
 	participant_signOff: function(participant) {
 		Participants.update(participant._id, {$set: { status:'Signed off' } });
 		Meteor.call('autoText_send',participant,'AUTO_PARTICIPANT_EXIT');

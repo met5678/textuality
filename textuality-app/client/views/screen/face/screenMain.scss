@@ -9,7 +9,8 @@
 }
 
 .tscreen-shell {
-  background-color: #0e0e18;
+  background-image: url('/images/background-face.jpg');
+  background-size: cover;
   height: 100%;
   width: 100%;
   position: fixed;
@@ -24,78 +25,6 @@
 
 }
 
-
-/* line 1, sass/_interface-bottom-bar.scss */
-.tscreen-shell .tscreen-bottom-bar {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  border-top: 1px solid #444444;
-  padding: 10px;
-  background-color: #2b1b17;
-  box-shadow: 0 0 4px;
-  height: 50px;
-}
-/* line 13, sass/_interface-bottom-bar.scss */
-.tscreen-shell .tscreen-ticker {
-  font-family: 'Open Sans', sans-serif;
-  color: #4BE;
-  width: 5000%;
-  font-size: 1.2em;
-  line-height: 30px;
-  position: relative;
-}
-/* line 21, sass/_interface-bottom-bar.scss */
-.tscreen-shell .tscreen-ticker .tscreen-ticker-group {
-  margin-right: 15px;
-}
-/* line 24, sass/_interface-bottom-bar.scss */
-.tscreen-shell .tscreen-ticker .tscreen-ticker-group:after {
-  font-family: FontAwesome;
-  content: '\f0c8';
-  margin-left: 15px;
-  color: #666;
-}
-/* line 33, sass/_interface-bottom-bar.scss */
-.tscreen-shell .tscreen-ticker .hashtag {
-  color: #FFA;
-  font-weight: bold;
-}
-/* line 37, sass/_interface-bottom-bar.scss */
-.tscreen-shell .tscreen-ticker .tscreen-ticker-item {
-  margin-right: 12px;
-}
-/* line 40, sass/_interface-bottom-bar.scss */
-.tscreen-shell .tscreen-ticker .tscreen-ticker-item:last-child {
-  margin-right: 0;
-}
-/* line 44, sass/_interface-bottom-bar.scss */
-.tscreen-shell .tscreen-ticker .achievement-square {
-  height: 10px;
-  width: 10px;
-  background-color: #333;
-  display: inline-block;
-}
-/* line 51, sass/_interface-bottom-bar.scss */
-.tscreen-shell .tscreen-ticker i.fa {
-  margin-right: 3px;
-}
-/* line 55, sass/_interface-bottom-bar.scss */
-.tscreen-shell .tscreen-ticker .fa-star {
-  color: #FE3;
-}
-/* line 58, sass/_interface-bottom-bar.scss */
-.tscreen-shell .tscreen-ticker .fa-location-arrow {
-  color: #FFF;
-}
-/* line 61, sass/_interface-bottom-bar.scss */
-.tscreen-shell .tscreen-ticker .fa-umbrella {
-  color: #FFF;
-}
-/* line 64, sass/_interface-bottom-bar.scss */
-.tscreen-shell .tscreen-ticker .fa-leaf {
-  color: #6E7;
-}
 /* line 42, sass/interface.scss */
 .tscreen-shell #tscreen-canvas {
   position: absolute;

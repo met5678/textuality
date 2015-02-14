@@ -56,8 +56,9 @@ Router.route('/textStatusHandler', { where: 'server' })
 var sendMessage = function(message,cb) {
 	message.body = message.body.replace(/[\u2018\u2019]/g, "'").replace(/[\u201C\u201D]/g, '"');
 	message.from = twilioNumber;
-  message.statusCallback = twilioSatusUrl;
+  message.statusCallback = twilioStatusUrl;
 
+  console.log(twilio);
 	twilio.sendMessage(message,cb);
 };
 

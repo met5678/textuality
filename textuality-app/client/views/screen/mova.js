@@ -1,11 +1,11 @@
-Template.screenMain.helpers({
+Template.screenMainMova.helpers({
 	actionText:function() {
 		if(ScreenSettings.findOne('actionText'))
 			return ScreenSettings.findOne('actionText').value;
 	}
 });
 
-Template.screenMain.rendered = function() {
+Template.screenMainMova.rendered = function() {
 	ScreenSettings.find('actionText').observeChanges({
 		changed: function() {
 			$('.tscreen-shell').addClass('actionText');

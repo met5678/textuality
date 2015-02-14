@@ -83,7 +83,7 @@ Meteor.methods({
 		var inText = {
 			body: body,
 			participant:'master',
-			alias:'AprilShowers',
+			alias:'Mother Tilda',
 			moderation: {
 				passed:true,
 				status:'OK',

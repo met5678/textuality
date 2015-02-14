@@ -14,6 +14,7 @@ Package.onUse(function(api) {
   api.versionsFrom('1.0.3.1');
   api.use(['textuality-core','textuality-admin']);
   api.addFiles('textuality-aliases.js');
+  api.export('Aliases');
 });
 
 Package.onTest(function(api) {

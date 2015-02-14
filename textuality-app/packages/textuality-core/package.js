@@ -12,12 +12,12 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.0.3.1');
-  api.use(['iron:router','mrt:twilio-meteor']);
+  api.use(['iron:router','mrt:twilio-meteor','textuality-hooks']);
   //api.use('mrt:twilio-meteor@1.1.0');
   api.addFiles('textuality-core.js');
-  api.addFiles(['src/collections/inTexts.js',
-                'src/collections/participants.js']);
-  api.addFiles('src/server/twilio.js','server');
+  api.addFiles(['collections/inTexts.js',
+                'collections/participants.js']);
+  api.addFiles('server/twilio.js','server');
   api.export('Textuality');
 });
 

@@ -1,2 +1,12 @@
 // Write your package code here!
-Hooks = {};
+var events = [];
+
+Hooks = {
+	fire: function(event,data) {
+		
+	},
+
+	register: function(event,methodName) {
+
+	}
+};

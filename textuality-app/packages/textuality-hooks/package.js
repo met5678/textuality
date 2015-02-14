@@ -12,7 +12,9 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.0.3.1');
+  api.use('underscore');
   api.addFiles('textuality-hooks.js');
+  api.export('Hooks');
 });
 
 Package.onTest(function(api) {

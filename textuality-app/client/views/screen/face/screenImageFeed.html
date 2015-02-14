@@ -1,0 +1,12 @@
+<template name="screenImageFeed">
+	<div class="tscreen-emotion-all-images clearfix">
+		{{#each feedImages}}
+			{{>screenFeedImage}}
+		{{/each}}
+	</div>
+</template>
+
+<template name="screenFeedImage">
+	<div class="tscreen-feed-image" style="background-image:url('{{url}}')">
+	</div>
+</template>

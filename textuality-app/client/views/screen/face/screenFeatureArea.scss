@@ -119,7 +119,7 @@
   transition: transform 1500ms;
   position: absolute;
   width: 100%;
-  height: 80%;
+  height: 90%;
   bottom: 0;
   right: 20px;
   transform: translateY(100%);
@@ -136,7 +136,7 @@
     background-image: url('/images/tilda-neck-cut.png');
     background-repeat: no-repeat;
     background-size: contain;
-    background-position: right bottom;
+    background-position: center bottom;
 
     animation-delay: 0s;
     animation-duration: 2000ms;

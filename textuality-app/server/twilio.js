@@ -39,6 +39,7 @@ var twilio = Twilio(twilioAccountSid,twilioToken);
 
 Router.route('/textHandler', { where: 'server' })
 	.post(function() {
+      console.log("RECEIVE");
 			var twJson = this.request.body;
 			Meteor.call('inText_receive',twJson);
 			this.response.writeHead(200,{'Content-Type':'text/xml'});

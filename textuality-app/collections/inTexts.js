@@ -166,13 +166,18 @@ var checkSystemText = function(inText,participant) {
 		Meteor.call('participant_changeAlias',participant);
 		return true;
 	}
-	else if(inText.body.toLowerCase().indexOf('#avatar') != -1 && !!inText.image) {
+	else if(inText.body.toLowerCase().indexOf('#avatar') != -1) {
 		inText.purpose = {
 			type:'system',
 			description:'Avatar change'
 		};
-		Meteor.call('participant_changeAvatar',participant,inText.image);
-		inText.avatar = participant.avatar;
+		if(!!inText.image) {
+			Meteor.call('participant_changeAvatar',participant,inText.image);
+			inText.avatar = participant.avatar;
+		}
+		else {
+			Meteor.call('autoText_send',participant,'AUTO_AVATAR_NO_IMAGE');
+		}
 		return true;
 	}
 	else if(participant.status == 'Signed off') {

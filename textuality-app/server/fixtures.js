@@ -12,7 +12,12 @@ Meteor.startup(function() {
 	});
 	AutoTextTemplates.insert({
 		'_id':'AUTO_AVATAR_CHANGE',
-		'description':'Avatar change',
+		'description':'Avatar: Change',
+		'number':false
+	});
+	AutoTextTemplates.insert({
+		'_id':'AUTO_AVATAR_NO_IMAGE',
+		'description':'Avatar: No Image',
 		'number':false
 	});
 	AutoTextTemplates.insert({

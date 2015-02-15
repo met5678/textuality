@@ -2,8 +2,22 @@ Template.screenMain.helpers({
 	actionText:function() {
 		if(ScreenSettings.findOne('actionText'))
 			return ScreenSettings.findOne('actionText').value;
+	},
+
+	backgroundImage:function() {
+		var text = InTexts.findOne({
+			"purpose.type": 'feed'
+		}, {
+			"sort": {time:-1}
+		});
+
+		if(!!text) {
+			return text.image.url;
+		}
 	}
+
 });
+
 
 Template.screenMain.rendered = function() {
 	ScreenSettings.find('actionText').observeChanges({
@@ -16,4 +30,15 @@ Template.screenMain.rendered = function() {
 			},3600);
 		}
 	});
+
+	InTexts.find({
+		"purpose.type": 'feed'
+	}).observe({
+		"added": function() {
+			$('.tscreen-background-image').addClass('active');
+			Meteor.setTimeout(function() {
+				$('.tscreen-background-image').removeClass('active');
+			}, 10000);
+		}
+	})
 };

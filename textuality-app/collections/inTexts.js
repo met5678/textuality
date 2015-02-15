@@ -29,7 +29,7 @@ Meteor.methods({
 		var recTime = new Date();
 
 		var participant = Meteor.call('participant_getOrAdd',twJson);
-	
+
 		var inText = {
 			body:twJson.Body,
 			participant:participant._id,
@@ -46,7 +46,7 @@ Meteor.methods({
 		if(parseInt(twJson.NumMedia) > 0) {
 			handleImage(twJson,inText);
 		}
-		
+
 		// Doing this first to get the timestamp sequence correct
 
 		// Handle long text
@@ -115,10 +115,10 @@ var processModeration = function(inText,participant) {
 	score += 10 * (text.match(/(n+i+g+g+e+r)|(f+a+g)/g) || []).length;
 	score += 4 * (text.match(/(c+u+n+t)|(s+l+u+t)|(t+w+i+n+k)|(w+h+o+r+e)|(p+u+s+s+y)|(r+e+t+a+r+d)|(c+o+c+k)|(d+y+k+e)/g) || []).length;
 	score += 2 * (text.match(/(f+u+c+k)|(b+i+t+c+h)|(d+i+c+k)|(t+i+t+s)/g) || []).length;
-	
+
 	inText.moderation = inText.moderation || {};
 	inText.moderation.score = score;
-	
+
 	if(participant.status == 'Banned') {
 		inText.moderation.passed = false;
 		inText.moderation.status = 'Banned user';
@@ -137,7 +137,7 @@ var processModeration = function(inText,participant) {
 	// Process text length
 	Meteor.call('participant_setLongText',participant,(inText.body.length >= longTextCharacters));
 
-	
+
 	if(score >= moderationCutoff) {
 		inText.moderation.passed = false;
 		inText.moderation.status = 'Stopped';
@@ -219,9 +219,9 @@ var checkSuperText = function(inText,participant) {
 var isGoodSelfie = function(face) {
 	return face.boundingbox.size.width >= 300 &&
 		face.boundingbox.size.height >= 300 &&
-		Math.abs(face.pose.roll) < 30 && 
-		Math.abs(face.pose.yaw) < 40 && 
-		Math.abs(face.pose.pitch) < 30; 
+		Math.abs(face.pose.roll) < 30 &&
+		Math.abs(face.pose.yaw) < 40 &&
+		Math.abs(face.pose.pitch) < 30;
 };
 
 var doFaceCrops = function(inText,participant) {
@@ -239,7 +239,7 @@ var doFaceCrops = function(inText,participant) {
 		height: (mouthH * (1+overflowFracMouth)) | 0,
 		x: (face.mouth_l.x - mouthW*overflowFracMouth*.5) | 0,
 		y: (face.m_u.y - mouthH*overflowFracMouth*.5) | 0,
-		crop: "crop", 
+		crop: "crop",
 		gravity: "custom",
 		effect: "contrast:50"
 	};
@@ -254,9 +254,9 @@ var doFaceCrops = function(inText,participant) {
 		height: (lEyeH * (1+overflowFrac)) | 0,
 		x: (face.e_ll.x - lEyeW*overflowFrac*.5) | 0,
 		y: (face.e_lu.y - lEyeH*overflowFrac*.5) | 0,
-		crop: "crop", 
+		crop: "crop",
 		gravity: "custom",
-		effect: "contrast:50"		
+		effect: "contrast:50"
 	};
 
 	var rEyeW = face.e_rr.x - face.e_rl.x;
@@ -269,9 +269,9 @@ var doFaceCrops = function(inText,participant) {
 		height: (rEyeH * (1+overflowFrac)) | 0,
 		x: (face.e_rl.x - rEyeW*overflowFrac*.5) | 0,
 		y: (face.e_ru.y - rEyeH*overflowFrac*.5) | 0,
-		crop: "crop", 
+		crop: "crop",
 		gravity: "custom",
-		effect: "contrast:50"		
+		effect: "contrast:50"
 	};
 
 	inText.image.transforms = inText.image.transforms || {};

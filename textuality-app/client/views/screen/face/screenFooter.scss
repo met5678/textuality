@@ -9,11 +9,12 @@ $secondary-color: #F38DFF;
   bottom: 0;
   width: 100%;
   border-top: 1px solid #444444;
-  padding: 10px;
   background-color: $background-color;
   box-shadow: 0 0 4px;
   height: 50px;
 }
+
+
 /* line 13, sass/_interface-bottom-bar.scss */
 .tscreen-ticker {
   font-family: 'Open Sans', sans-serif;
@@ -75,4 +76,51 @@ $secondary-color: #F38DFF;
   color: #6E7;
 }
 
+.tscreen-bottom-bar {
+  .tscreen-left-eyes, .tscreen-right-eyes {
+    width: 50%;
+    position: absolute;
+    height: 50px;
+    bottom: 0;
+  }
+
+  .tscreen-right-eyes {
+    right: 0;
+  }
+
+  .tscreen-eye {
+    height: 40px;
+    background-size: contain;
+    width: 100px;
+    margin-top: 5px;
+    background-repeat: no-repeat;
+    background-position: center center;
+
+    animation-delay: 0s;
+    animation-duration: 1500ms;
+    animation-name: eyeHover;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+    animation-direction: alternate;
+
+  }
+
+  .tscreen-left-eyes .tscreen-eye {
+    float: right;
+  }
+
+  .tscreen-right-eyes .tscreen-eye {
+    float: left;
+  }
+}
+
+}
+
+@keyframes eyeHover {
+  0% {
+    transform: translateY(-3px);
+  }
+  100% {
+    transform: translateY(4px)
+  }
 }

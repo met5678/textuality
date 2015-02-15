@@ -6,7 +6,8 @@ Template.screenMain.helpers({
 
 	backgroundImage:function() {
 		var text = InTexts.findOne({
-			"purpose.type": 'feed'
+			"purpose.type": {$in:['feed','imageFeed']},
+			"image": {$exists: true}
 		}, {
 			"sort": {time:-1}
 		});
@@ -32,7 +33,8 @@ Template.screenMain.rendered = function() {
 	});
 
 	InTexts.find({
-		"purpose.type": 'feed'
+		"purpose.type": {$in:['feed','imageFeed']},
+		"image": {$exists: true}
 	}).observe({
 		"added": function() {
 			$('.tscreen-background-image').addClass('active');

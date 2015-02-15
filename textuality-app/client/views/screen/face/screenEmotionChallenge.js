@@ -15,7 +15,7 @@ Template.screenEmotionChallenge.helpers({
 			"purpose.emotion": emotion,
 			"purpose.score": { $gte: .50 }
 		},{
-			sort: ["purpose.score", "desc"],
+			sort: {"purpose.score": -1},
 			limit: 2
 		});
 	},
@@ -28,7 +28,7 @@ Template.screenEmotionChallenge.helpers({
 			"purpose.emotion": emotion,
 			"purpose.score": { $gte: 0.01 }
 		},{
-			sort: ["time", "desc"],
+			sort: {"time": -1},
 			limit: 2
 		});		
 	}

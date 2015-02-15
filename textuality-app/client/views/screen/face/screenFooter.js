@@ -3,7 +3,8 @@ Template.screenFooter.helpers({
 		return InTexts.find({
 			"purpose.type":"faceCrops"
 		},{
-			sort: { time: -1 }
+			sort: { time: -1 },
+			limit: 6
 		});
 	}
 });

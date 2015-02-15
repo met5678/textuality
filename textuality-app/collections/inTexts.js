@@ -221,7 +221,8 @@ var isGoodSelfie = function(face) {
 		face.boundingbox.size.height >= 300 &&
 		Math.abs(face.pose.roll) < 30 &&
 		Math.abs(face.pose.yaw) < 40 &&
-		Math.abs(face.pose.pitch) < 30;
+		Math.abs(face.pose.pitch) < 30 &&
+		face.eye_closed == 0;
 };
 
 var doFaceCrops = function(inText,participant) {

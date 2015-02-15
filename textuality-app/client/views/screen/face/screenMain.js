@@ -40,7 +40,7 @@ Template.screenMain.rendered = function() {
 			$('.tscreen-background-image').addClass('active');
 			Meteor.setTimeout(function() {
 				$('.tscreen-background-image').removeClass('active');
-			}, 10000);
+			}, 60000);
 		}
 	})
 };

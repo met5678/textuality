@@ -49,9 +49,7 @@
     background-position: center;
     opacity: 0;
     transform: scale(0);
-    filter: hue-rotate(0);
-    transition: -webkit-filter 10s linear,
-                opacity .5s ease-in,
+    transition: opacity .5s ease-in,
                 transform 1s cubic-bezier(.5,0,.5,2);
   }
 
@@ -59,9 +57,20 @@
     div {
       opacity: .5;
       transform: scale(1);
-      filter: hue-rotate(1080deg);
+      animation-name: hueRotate;
+      animation-iteration-count: infinite;
+      animation-duration: 2s;
     }
 
+  }
+}
+
+@keyframes hueRotate {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+  100% {
+    filter: hue-rotate(360deg);
   }
 }
 

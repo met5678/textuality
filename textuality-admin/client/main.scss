@@ -1,0 +1,10 @@
+@import '{}/node_modules/bootswatch/dist/solar/variables';
+
+$body-bg: #290948;
+
+@import '{}/node_modules/bootstrap/scss/bootstrap';
+@import '{}/node_modules/bootswatch/dist/solar/bootswatch';
+
+.react-bootstrap-table th[data-row-selection] {
+  width: 50px !important;
+}

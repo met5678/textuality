@@ -1,6 +1,7 @@
 import SimpleSchema from 'simpl-schema';
 
 import Events from 'api/events';
+import Players from 'api/players';
 
 const InTextSchema = new SimpleSchema({
   event: {

@@ -21,6 +21,21 @@ npm start
 
 This will start the admin at `http://localhost:3000` and the client at `http://localhost:3002`. You may want to restart this command whenever you pull new code from github.
 
+### Configuring Credentials
+
+Both `twilio`, used for the texting, and `cloudinary`, used for the image storage, require API credentials to work. For security reasons, those API credentials are not present in this repository. You must create a `settings.json` file at the root of this repo with the following format:
+
+```json
+{
+  "private": {
+    "twilioSid": "XXXXXXXXXXXXXXXXXXXXXXX",
+    "twilioToken": "XXXXXXXXXXXXXXXXXXXXXXXX"
+  }
+}
+```
+
+Ask Roo for the credentials.
+
 ### Configuring Twilio for local development
 
 Textuality requires [Twilio](https://www.twilio.com/) to receive texts. Twilio needs a publicly-visible endpoint to post the texts to. When Textuality is running in production, this should be set to the Galaxy URL (see `Deploy` section below). In development, if two people are developing at once, you can't both be testing with the same phone number. Either purchase a new number or warn the other person you're gonna kick them off temporarily.

@@ -3,54 +3,57 @@ import { withTracker } from 'meteor/react-meteor-data';
 
 import LoadingBar from 'generic/LoadingBar';
 import { Table, generateObjColumn } from 'generic/Table';
-import Toggle from 'generic/Toggle';
+import DateDisplay from 'generic/DateDisplay';
 
-import Events from 'api/events';
+import InTexts from 'api/in-texts';
+import OutTexts from 'api/in-texts';
 
 const columns = [
   {
-    dataField: 'name',
+    dataField: 'alias',
     sort: true,
-    text: 'Name'
+    text: 'Alias'
   },
   {
-    dataField: 'phone_number',
-    text: 'Phone Number'
+    dataField: 'body',
+    text: 'Text'
   },
   {
-    dataField: 'active',
-    text: 'Active',
-    formatter: (cell, row) => (
-      <Toggle
-        value={cell}
-        onClick={() => {
-          Meteor.call('events.activate', row._id, cell);
-        }}
-      />
-    )
+    dataField: 'purpose',
+    text: 'Purpose'
+  },
+  {
+    dataField: 'time',
+    text: 'Time',
+    sort: true,
+    formatter: cell => <DateDisplay date={cell} />
   }
 ];
 
-const EventsTable = ({ loading, events }) => {
+const AllTextsTable = ({ loading, texts }) => {
   if (loading) return <LoadingBar />;
 
   return (
     <Table
       columns={columns}
-      data={events}
+      data={texts}
       canDelete={true}
-      onDelete={event => Meteor.call('events.delete', event)}
+      onDelete={event => Meteor.call('inTexts.delete', event)}
     />
   );
 };
 
 export default withTracker(props => {
-  const handles = [Meteor.subscribe('events.all')];
+  const handles = [Meteor.subscribe('inTexts.all')];
+
+  const inTexts = InTexts.find({}, { sort: { time: -1 } }).fetch();
+  inTexts.forEach(inText => (inText.direction = 'in'));
+  texts = [...inTexts];
 
   return {
     loading: handles.some(handle => !handle.ready()),
-    events: Events.find().fetch()
+    texts
   };
 
   return {};
-})(EventsTable);
+})(AllTextsTable);

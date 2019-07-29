@@ -1,6 +1,6 @@
 import React from 'react';
 
-import EventsTable from 'modules/events/EventsTable';
+import EventsTable from './EventsTable';
 
 const EventsPage = ({ match }) => {
   return (

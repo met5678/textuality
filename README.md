@@ -34,3 +34,66 @@ Textuality requires [Twilio](https://www.twilio.com/) to receive texts. Twilio n
 7. Scroll down to the `Messaging` section, and under `A Message Comes In`, select Webhook.
 8. Paste the URL from step 4 into the textbox, and add `/text-handler` to the end. For example: `https://d9a11bf7.ngrok.io/text-handler`. You can leave dropdown set to `HTTP POST`.
 9. Hit `Save`. You're done!
+
+## Deploying
+
+Coming soon...
+
+## Folder Structure
+
+Just a quick run through of the folder structure of this app.
+
+### Deprecated stuff
+
+The following folders are no longer in use in this new branch, but I'm not deleting them yet so I can easily reference them.
+
+- `textuality-app`
+- `textuality-deploy`
+- `textuality-tester`
+
+### Top Level Folders
+
+- `textuality-admin`: The Admin app for textuality, runs at `localhost:3000` in dev.
+- `textuality-client`: The Client app for textuality, runs at `localhost:3002` in dev.
+- `scripts`: Contains convenience scripts, like `npm run open-tunnel`
+- `bin`: Contains executables, currently just `ngrok`.
+
+### Meteor App Structure
+
+Within each meteor app, the structure is as follows:
+
+- `.meteor`: Meteor versioning stuff, generally don't touch.
+- `client`: Code that runs on the browser only. Boilerplate stuff, except for `main.scss` which is where we put all of our styles.
+- `imports`: This is where all the juicy bits go, broken down below.
+- `public`: Static content mostly, such as images (not including user submissions), videos, fonts, etc.
+- `server`: Code that runs from the server only.
+- `tests`: One day I'll bother with tests. Not today, Satan.
+
+#### The `imports` folder
+
+This is where basically everything lives. I use this folder instead of the `client` and `server` folders because this allows me to use npm's `import` statements to determine what gets sent to the client. Just a better development practice, Meteor devs also recommend it.
+
+- `api`: Where all of the collections live. All of the subfolders here are for the various collections, one for each. This folder is shared between the admin and client apps (the client app symlinks it to the admin app).
+- `schemas`: The schemas for the collections. Broken out because it's useful to have these all easily accessible. Also shared between the admin and client apps, symlinked from client.
+- `startup`: Code that runs when the app starts. Mostly initialization stuff.
+- `ui`: All of the react components in the whole app, basically the front end. Broken down further below.
+
+#### The `imports/api` folder
+
+Within each collection, the file structure is nearly idenctical:
+
+- `[name]/[name].js`: Where the collection is initialized
+- `[name]/helpers.js`: All of the helpers (aka computed properties) for this collection.
+- `[name]/methods.js`: All of the server methods for this collection. Generally add/update/delete methods, plus some special cases. Mostly used by the admin app.
+- `[name]/server/publications-admin.js`: The publications used by the admin app.
+- `[name]/server/publications-client.js`: The publications used by the client app.
+
+#### The `imports/ui` folder
+
+The UI folder is broken down as follows:
+
+- `generic`: Generic components, like buttons, tables, and form inputs. Nothing domain-specific allowed. Highly reusable.
+- `modules`: Catch-all for modules that appear in the app. Domain-specific, broken down by domain subfolders.
+- `pages`: Top-level pages on the app. Subscriptions are typically managed here.
+- `App.jsx`: The React entry point for the app.
+- `Shell.jsx`: The wrapper html for the app.

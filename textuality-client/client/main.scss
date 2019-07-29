@@ -10,6 +10,7 @@ $white: #ffffff;
   padding: 0;
   border: none;
   box-sizing: border-box;
+  font-family: sans-serif;
 }
 
 body {
@@ -33,7 +34,7 @@ header {
   width: 100%;
   background-color: #000000;
   border-bottom: 1px solid $yellow;
-  padding: 5px;
+  padding: 5px 8px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;

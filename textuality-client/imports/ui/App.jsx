@@ -1,17 +1,28 @@
 import React from 'react';
+import { withTracker } from 'meteor/react-meteor-data';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 
 import Shell from './Shell';
 import Screen from './Screen';
 
+import Events from 'api/events';
+// import Screens from 'api/sreens';
+
 const App = () => (
   <BrowserRouter>
     <Shell>
       <Switch>
-        <Route path="/" component={Screen} />
+        <Route path="/" render={() => <Screen event={event} />} />
       </Switch>
     </Shell>
   </BrowserRouter>
 );
 
-export default App;
+export default withTracker(() => {
+  const handles = [Meteor.subscribe('events.current')];
+
+  return {
+    loading: handles.some(handle => !handle.ready()),
+    event: Events.current()
+  };
+})(App);

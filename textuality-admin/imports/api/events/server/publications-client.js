@@ -1,15 +1,13 @@
 import { Meteor } from 'meteor/meteor';
 
-import Seasons from '../';
+import Events from '../';
 
-Meteor.publish('seasons.current', function() {
+Meteor.publish('events.current', function() {
   this.autorun(() => {
-    const curSeason = Seasons.current();
+    const curEvent = Events.current();
 
-    console.log(curSeason);
-
-    if (curSeason) {
-      return Seasons.find(curSeason._id);
+    if (curEvent) {
+      return Events.find(curEvent._id);
     } else {
       return this.ready();
     }

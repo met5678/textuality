@@ -1,0 +1,20 @@
+{
+  "name": "textuality",
+  "version": "1.0.0",
+  "description": "Textuality ==========",
+  "main": "index.js",
+  "scripts": {
+    "start": "node scripts/run-dev.js",
+    "open-tunnel": "bin/ngrok http 3002"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/met5678/textuality.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/met5678/textuality/issues"
+  },
+  "homepage": "https://github.com/met5678/textuality#readme"
+}

@@ -4,6 +4,7 @@ import Events from './events';
 
 Meteor.methods({
 	'events.new': event => {
+		if (event.active) Meteor.call('events.activate', null, true);
 		return Events.insert(event);
 	},
 
@@ -20,7 +21,6 @@ Meteor.methods({
 	},
 
 	'events.activate': (eventId, deactivate) => {
-		console.log('Updating eventId', eventId, deactivate);
 		if (!eventId || deactivate) {
 			Events.update({}, { $set: { active: false } }, { multi: true });
 		} else {

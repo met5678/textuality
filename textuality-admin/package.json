@@ -42,7 +42,6 @@
     "@babel/core": "~7.5.5",
     "@babel/plugin-proposal-class-properties": "~7.5.5",
     "@babel/plugin-proposal-decorators": "~7.4.4",
-    "babel-plugin-module-resolver": "~3.2.0",
-    "tinytest": "^1.1.5"
+    "babel-plugin-module-resolver": "~3.2.0"
   }
 }

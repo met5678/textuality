@@ -1,13 +1,17 @@
 import React from 'react';
-import Hello from './Hello.jsx';
-import Info from './Info.jsx';
+import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
+
+import Shell from './Shell';
+import Screen from './Screen';
 
 const App = () => (
-  <div>
-    <h1>Welcome to Meteor!</h1>
-    <Hello />
-    <Info />
-  </div>
+  <BrowserRouter>
+    <Shell>
+      <Switch>
+        <Route path="/" component={Screen} />
+      </Switch>
+    </Shell>
+  </BrowserRouter>
 );
 
 export default App;

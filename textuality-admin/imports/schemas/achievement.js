@@ -19,9 +19,13 @@ const AchievementSchema = new SimpleSchema({
     type: String,
     optional: true
   },
-  type: {
+  trigger: {
     type: String,
-    allowedValues: ['Checkpoint', 'Mission', 'Special']
+    allowedValues: ['checkpoint', 'mission', 'special']
+  },
+  triggerData: {
+    type: Object,
+    blackbox: true
   }
 });
 

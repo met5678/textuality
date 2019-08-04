@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 
+import Events from 'api/events';
 import Players from './players';
 
 Meteor.methods({
@@ -13,5 +14,9 @@ Meteor.methods({
 		} else {
 			Players.remove(playerId);
 		}
+	},
+
+	'players.resetEvent': () => {
+		Players.remove({ event: Events.currentId() });
 	}
 });

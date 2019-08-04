@@ -11,7 +11,10 @@ const InTextSchema = new SimpleSchema({
         .fetch()
         .map(event => event._id)
   },
-  body: String,
+  body: {
+    type: String,
+    optional: true
+  },
   time: Date,
   player: {
     type: String,
@@ -21,6 +24,11 @@ const InTextSchema = new SimpleSchema({
         .map(player => player._id);
     }
   },
+  media: {
+    type: Array,
+    defaultValue: []
+  },
+  'media.$': String,
   num_achievements: SimpleSchema.Integer,
   alias: String,
   avatar_url: {
@@ -29,7 +37,7 @@ const InTextSchema = new SimpleSchema({
   },
   purpose: {
     type: String,
-    allowedValues: ['feed', 'achievement', 'mission', 'system']
+    allowedValues: ['feed', 'system', 'checkpoint']
   },
   moderation_score: {
     type: SimpleSchema.Integer,

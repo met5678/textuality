@@ -1,11 +1,13 @@
 import React from 'react';
 
 import Header from 'modules/Header';
+import Feed from 'modules/Feed';
 import Host from 'modules/Host';
 
-const Screen = () => (
+const Screen = ({ event }) => (
   <div className="screen">
-    <Header />
+    <Header event={event} />
+    <Feed event={event} />
     <Host />
   </div>
 );

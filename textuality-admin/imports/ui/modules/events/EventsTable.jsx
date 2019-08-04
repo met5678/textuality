@@ -1,5 +1,6 @@
 import React from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
+import { Button } from 'reactstrap';
 
 import LoadingBar from 'generic/LoadingBar';
 import EventForm from './EventForm';
@@ -28,6 +29,23 @@ const columns = [
           Meteor.call('events.activate', row._id, cell);
         }}
       />
+    )
+  },
+  {
+    dataField: 'reset',
+    isDummyField: true,
+
+    formatter: (cell, row) => (
+      <Button
+        color="danger"
+        onClick={() =>
+          confirm(
+            'This will erase all current players/texts. Scripted items will remain. Are you sure?'
+          ) && Meteor.call('events.reset', row._id)
+        }
+      >
+        Reset
+      </Button>
     )
   }
 ];

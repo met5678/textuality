@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 
-import InTexts from './in-texts';
+import Events from 'api/events';
+import InTexts from './inTexts';
 
 Meteor.methods({
 	'inTexts.update': inText => {
@@ -13,5 +14,9 @@ Meteor.methods({
 		} else {
 			InTexts.remove(inTextId);
 		}
+	},
+
+	'inTexts.resetEvent': () => {
+		InTexts.remove({ event: Events.currentId() });
 	}
 });

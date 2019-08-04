@@ -1,6 +1,7 @@
 import SimpleSchema from 'simpl-schema';
 
 import Events from 'api/events';
+import Players from 'api/players';
 
 const OutTextSchema = new SimpleSchema({
   event: {
@@ -18,14 +19,14 @@ const OutTextSchema = new SimpleSchema({
   'players.$': {
     type: String,
     allowedValues: () => {
-      Players.find()
+      Players.find({ event: Events.currentId() })
         .fetch()
         .map(player => player._id);
     }
   },
   source: {
     type: String,
-    allowedValues: ['auto_text', 'manual']
+    allowedValues: ['auto', 'manual', 'unknown']
   }
 });
 

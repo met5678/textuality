@@ -1,9 +1,9 @@
 import React from 'react';
 import { Button } from 'reactstrap';
 
-const Toggle = ({ value, onClick }) => (
+const Toggle = ({ value, onClick, text }) => (
   <Button size="sm" color={value ? 'success' : 'danger'} onClick={onClick}>
-    {value ? 'True' : 'False'}
+    {text ? text : value ? 'True' : 'False'}
   </Button>
 );
 

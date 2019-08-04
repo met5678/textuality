@@ -31,5 +31,12 @@ Meteor.methods({
 			);
 			Events.update(eventId, { $set: { active: true } });
 		}
+	},
+
+	'events.reset': eventId => {
+		Meteor.call('inTexts.resetEvent', eventId);
+		Meteor.call('outTexts.resetEvent', eventId);
+		Meteor.call('aliases.resetEvent', eventId);
+		Meteor.call('players.resetEvent', eventId);
 	}
 });

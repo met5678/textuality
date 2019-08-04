@@ -40,25 +40,27 @@ function init() {
       }
     } catch (e) {}
 
-    onReceiveText(message);
-
     res.writeHead(200, { 'Content-Type': 'text/xml' });
     res.end();
+
+    onReceiveText(message);
   });
 }
 
 function send(message) {
-  const { body, from, to, media } = message;
+  const { body, from, to, media_url } = message;
   const twMessage = {
-    to: '+' + to,
-    from: '+' + from,
-    accountSid
+    To: '+' + to,
+    From: '+' + from
   };
 
-  body && (twMessage.body = body);
-  imageUrls && (twMessage.mediaUrl = imageUrls);
+  body && (twMessage.Body = body);
+  media_url && (twMessage.MediaUrl = media_url);
 
-  HTTP.call('POST', twilioSendEndpoint, { data: twMessage });
+  HTTP.call('POST', twilioSendEndpoint, {
+    params: twMessage,
+    auth: `${accountSid}:${authToken}`
+  });
 }
 
 init();

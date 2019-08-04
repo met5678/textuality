@@ -8,15 +8,21 @@ import Screen from './Screen';
 import Events from 'api/events';
 // import Screens from 'api/sreens';
 
-const App = () => (
-  <BrowserRouter>
-    <Shell>
-      <Switch>
-        <Route path="/" render={() => <Screen event={event} />} />
-      </Switch>
-    </Shell>
-  </BrowserRouter>
-);
+const App = ({ loading, event }) => {
+  if (loading) {
+    return null;
+  }
+
+  return (
+    <BrowserRouter>
+      <Shell>
+        <Switch>
+          <Route path="/" render={() => <Screen event={event} />} />
+        </Switch>
+      </Shell>
+    </BrowserRouter>
+  );
+};
 
 export default withTracker(() => {
   const handles = [Meteor.subscribe('events.current')];

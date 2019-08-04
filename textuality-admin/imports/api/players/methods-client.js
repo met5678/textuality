@@ -9,15 +9,24 @@ Meteor.methods({
       event: Events.currentId(),
       phone_number: message.from
     });
+    let isNew = false;
     if (!player) {
+      isNew = true;
+      const alias = Meteor.call('aliases.checkout');
       const id = Players.insert({
         event: Events.currentId(),
         phone_number: message.from,
-        alias: 'Test_alias'
+        alias
       });
       player = Players.findOne(id);
     }
 
-    return player;
-  }
+    return { player, isNew };
+  },
+
+  'players.changeAlias': ({ player }) => {},
+
+  'players.changeAvatar': ({ player, inText }) => {},
+
+  'players.processAvatar': ({ player, inText }) => {}
 });

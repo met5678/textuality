@@ -12,7 +12,8 @@
         "layouts": "./imports/ui/layouts",
         "pages": "./imports/ui/pages",
         "startup": "./imports/startup",
-        "services": "./imports/services"
+        "services": "./imports/services",
+        "utils": "./imports/utils"
       }
     }]
   ]

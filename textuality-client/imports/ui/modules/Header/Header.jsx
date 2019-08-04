@@ -1,10 +1,12 @@
 import React from 'react';
+import phoneNumberToString from 'utils/phone-number-to-string';
 
-const Header = () => {
+const Header = ({ event }) => {
   return (
     <header>
-      <h1>Achievement Unlocked</h1>
-      <p>202-494-8427</p>
+      {/*<h1>{event.name}</h1>*/}
+      <h1>Khameleon's Live Stream</h1>
+      <h1>{phoneNumberToString(event.phone_number)}</h1>
     </header>
   );
 };

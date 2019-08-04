@@ -15,7 +15,7 @@ Meteor.publish('events.current', function() {
     const curEvent = Events.current();
 
     if (curEvent) {
-      return Events.find(curSeason._id);
+      return Events.find(curEvent._id);
     } else {
       return this.ready();
     }

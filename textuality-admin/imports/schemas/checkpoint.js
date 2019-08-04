@@ -10,9 +10,10 @@ const CheckpointSchema = new SimpleSchema({
         .fetch()
         .map(event => event._id)
   },
+  number: SimpleSchema.Integer,
   hashtag: String,
   location: String,
-
+  hint: String,
   playerText: {
     type: String,
     optional: true
@@ -20,10 +21,6 @@ const CheckpointSchema = new SimpleSchema({
   screenText: {
     type: String,
     optional: true
-  },
-  type: {
-    type: String,
-    allowedValues: ['Checkpoint', 'Mission', 'Special']
   }
 });
 

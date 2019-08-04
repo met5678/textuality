@@ -1,4 +1,4 @@
-import InTexts from './in-texts';
+import InTexts from './inTexts';
 
 import './helpers';
 

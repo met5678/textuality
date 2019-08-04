@@ -5,14 +5,14 @@ import LoadingBar from 'generic/LoadingBar';
 import { Table, generateObjColumn } from 'generic/Table';
 import DateDisplay from 'generic/DateDisplay';
 
-import InTexts from 'api/in-texts';
-import OutTexts from 'api/in-texts';
+import InTexts from 'api/inTexts';
+// import OutTexts from 'api/outTexts';
 
 const columns = [
   {
     dataField: 'alias',
     sort: true,
-    text: 'Alias'
+    text: 'Player'
   },
   {
     dataField: 'body',

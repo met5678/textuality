@@ -25,19 +25,30 @@ const InTextSchema = new SimpleSchema({
     }
   },
   media: {
-    type: Array,
-    defaultValue: []
+    type: String,
+    optional: true
   },
-  'media.$': String,
   num_achievements: SimpleSchema.Integer,
+  num_checkpoints: SimpleSchema.Integer,
   alias: String,
-  avatar_url: {
+  avatar: {
     type: String,
     optional: true
   },
   purpose: {
     type: String,
-    allowedValues: ['feed', 'system', 'checkpoint']
+    allowedValues: [
+      'initial',
+      'feed',
+      'system',
+      'hashtag',
+      'mediaOnly',
+      'ignore'
+    ]
+  },
+  purpose_detail: {
+    type: String,
+    optional: true
   },
   moderation_score: {
     type: SimpleSchema.Integer,

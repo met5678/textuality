@@ -4,29 +4,27 @@ import Players from './players';
 import Events from 'api/events';
 
 Meteor.methods({
-  'players.getForMessage': message => {
+  'players.findOrJoin': phone_number => {
     let player = Players.findOne({
       event: Events.currentId(),
-      phone_number: message.from
+      phone_number
     });
-    let isNew = false;
+
     if (!player) {
-      isNew = true;
       const alias = Meteor.call('aliases.checkout');
       const id = Players.insert({
         event: Events.currentId(),
-        phone_number: message.from,
+        phone_number,
+        status: 'new',
         alias
       });
       player = Players.findOne(id);
     }
 
-    return { player, isNew };
+    return player;
   },
 
-  'players.changeAlias': ({ player }) => {},
-
-  'players.changeAvatar': ({ player, inText }) => {},
-
-  'players.processAvatar': ({ player, inText }) => {}
+  'players.update': player => {
+    Players.update(player._id, { $set: player });
+  }
 });

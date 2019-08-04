@@ -3,62 +3,34 @@ import { Meteor } from 'meteor/meteor';
 import InTexts from './inTexts';
 import Events from 'api/events';
 
-import { uploadImage, getImageUrl } from 'services/cloudinary';
+import receive from './receive-steps/receive';
 
 Meteor.methods({
   'inTexts.receive': message => {
-    // if(playerIsNew) {
-    //   // Create Player
-    // }
+    let player = Meteor.call('players.findOrJoin', message.from);
 
-    // else if(playerIsTentative) {
+    let media = message.media
+      ? Meteor.call('media.receive', {
+          url: message.media.url,
+          contentType: message.media.contentType,
+          player
+        })
+      : null;
 
-    // }
-
-    // else if(isSystemText) {
-
-    // }
-
-    // else if(isHashtag) {
-
-    // }
-
-    // const inText = {
-    //   event: Events.currentId(),
-    //   body: message.body,
-    //   time: new Date()
-    // };
-
-    const { player, isNew } = Meteor.call('players.getForMessage', message);
-
-    const inText = {
+    let inText = {
       event: Events.currentId(),
-      body: message.body,
       player: player._id,
       alias: player.alias,
-      avatar_url: player.avatar,
-      num_achievements: player.achievements.length,
-      purpose: 'feed',
+      avatar: player.avatar,
+      media: media ? media._id : null,
+      body: message.body,
       time: new Date()
     };
 
-    if (Array.isArray(message.media)) {
-      message.media.forEach(media => {
-        const imageObj = uploadImage(media.url, args => console.log(args));
-        console.log(imageObj);
-        console.log(
-          (inText.avatar_url = getImageUrl(imageObj.cloudinaryId, {
-            width: 300,
-            height: 300,
-            crop: 'thumb',
-            gravity: 'face',
-            zoom: 1.1
-          }))
-        );
-      });
-    }
+    inText = receive({ inText, player, media });
 
-    Meteor.call('autoTexts.send', { player, trigger: 'WELCOME' });
+    inText.num_achievements = player.achievements.length;
+    inText.num_checkpoints = player.checkpoints.length;
 
     InTexts.insert(inText);
   }

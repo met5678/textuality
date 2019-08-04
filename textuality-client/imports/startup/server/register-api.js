@@ -17,3 +17,7 @@ import 'api/autoTexts/methods-client';
 
 import 'api/outTexts/';
 import 'api/outTexts/methods-client';
+
+import 'api/media/';
+import 'api/media/methods-client';
+import 'api/media/server/publications-client';

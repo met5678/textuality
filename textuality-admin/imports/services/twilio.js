@@ -1,6 +1,5 @@
 import { WebApp } from 'meteor/webapp';
 import { HTTP } from 'meteor/http';
-import twilio from 'twilio';
 import bodyParser from 'body-parser';
 
 const accountSid = Meteor.settings.private.twilioSid;
@@ -31,11 +30,10 @@ function init() {
 
     try {
       const numMedia = Number.parseInt(twMessage.NumMedia);
-      for (let i = 0; i < numMedia; i++) {
-        message.media = message.media || [];
-        message.media[i] = {
-          type: twMessage[`MediaContentType${i}`],
-          url: twMessage[`MediaUrl${i}`]
+      if (numMedia > 0) {
+        message.media = {
+          url: twMessage.MediaUrl0,
+          contentType: twMessage.MediaContentType0
         };
       }
     } catch (e) {}

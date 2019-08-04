@@ -25,23 +25,31 @@ const AutoTextSchema = new SimpleSchema({
       'WELCOME_NO_IMAGE',
       'WELCOME_NO_FACE',
       'WELCOME_MULTI_FACES',
+
       'TENTATIVE_NO_IMAGE',
       'TENTATIVE_NO_FACE',
       'TENTATIVE_MULTI_FACES',
-      'WELCOME_FINALLY',
+      'TENTATIVE_WELCOME',
+
       'ALIAS_CHANGED',
       'ALIAS_MISSION_ACTIVE',
+
       'AVATAR_CHANGED',
       'AVATAR_NO_IMAGE',
       'AVATAR_NO_FACE',
       'AVATAR_MULTI_FACES',
       'AVATAR_MISSION_ACTIVE',
+
       'SIGN_OFF',
+      'SIGN_BACK_ON',
+
       'STATUS',
-      'WELCOME_BACK',
-      'INVALID_HASHTAG',
-      'HASHTAG_ALREADY_FOUND',
+
       'INVALID_COMMAND',
+
+      'HASHTAG_ALREADY_FOUND',
+      'INVALID_HASHTAG',
+
       'MODERATION',
 
       'N_TEXTS_SENT',

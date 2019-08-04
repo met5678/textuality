@@ -1,11 +1,8 @@
 import { HTTP } from 'meteor/http';
 import cloudinary from 'cloudinary';
 
-const cloudName = Meteor.settings.public.cloudinaryCloudName;
-
-// console.log({ cloudName, apiKey, apiSecret });
-
 if (Meteor.isServer) {
+  const cloudName = Meteor.settings.public.cloudinaryCloudName;
   const apiKey = Meteor.settings.private.cloudinaryKey;
   const apiSecret = Meteor.settings.private.cloudinarySecret;
 
@@ -13,10 +10,6 @@ if (Meteor.isServer) {
     cloud_name: cloudName,
     api_key: apiKey,
     api_secret: apiSecret
-  });
-} else {
-  cloudinary.config({
-    cloud_name: cloudName
   });
 }
 
@@ -30,7 +23,9 @@ function uploadImage(imageUrl, callback) {
   return {
     cloudinaryId: mediaProps.public_id,
     faces: mediaProps.faces,
-    url: mediaProps.url
+    url: mediaProps.url,
+    width: mediaProps.width,
+    height: mediaProps.height
   };
 }
 
@@ -42,8 +37,4 @@ const uploadMedia = Meteor.wrapAsync(function uploadMedia(
   cloudinary.v2.uploader.upload(mediaUrl, options, cb);
 });
 
-function getImageUrl(cloudinaryId, transform = {}) {
-  return cloudinary.url(cloudinaryId, transform);
-}
-
-export { uploadImage, getImageUrl };
+export default uploadImage;

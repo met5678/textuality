@@ -1,6 +1,7 @@
 import SimpleSchema from 'simpl-schema';
 
 import Events from 'api/events';
+import Media from 'api/media';
 
 const PlayerSchema = new SimpleSchema({
   event: {
@@ -21,8 +22,8 @@ const PlayerSchema = new SimpleSchema({
   },
   status: {
     type: 'String',
-    allowedValues: ['tentative', 'active', 'quit', 'banned'],
-    defaultValue: 'tentative'
+    allowedValues: ['new', 'tentative', 'active', 'quit', 'banned'],
+    defaultValue: 'new'
   },
   alias: String,
   old_aliases: {
@@ -42,6 +43,14 @@ const PlayerSchema = new SimpleSchema({
     type: Object,
     blackbox: true
   },
+  checkpoints: {
+    type: Array,
+    defaultValue: []
+  },
+  'checkpoints.$': {
+    type: Object,
+    blackbox: true
+  },
   texts_sent: {
     type: SimpleSchema.Integer,
     defaultValue: 0
@@ -50,9 +59,13 @@ const PlayerSchema = new SimpleSchema({
     type: SimpleSchema.Integer,
     defaultValue: 0
   },
-  avatar_url: {
+  avatar: {
     type: String,
-    optional: true
+    optional: true,
+    allowedValues: () =>
+      Media.find({ event: Events.currentId() })
+        .fetch()
+        .map(media => media._id)
   }
 });
 

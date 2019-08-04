@@ -4,8 +4,8 @@ import Events from 'api/events';
 import OutTexts from './outTexts';
 
 Meteor.methods({
-	'outTexts.update': inText => {
-		InTexts.update(inText._id, { $set: inText });
+	'outTexts.update': outText => {
+		OutTexts.update(outText._id, { $set: outText });
 	},
 
 	'outTexts.delete': outTextId => {

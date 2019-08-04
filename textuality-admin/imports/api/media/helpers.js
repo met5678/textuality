@@ -1,20 +1,20 @@
-import InTexts from './inTexts';
+import Media from './media';
 
 import getImageUrl from 'services/get-image-url';
 
-InTexts.helpers({
-  getAvatarUrl(dimension = 100) {
-    return getImageUrl(this.avatar, {
+Media.helpers({
+  getAvatarUrl(dimesion = 100) {
+    return getImageUrl({
       width: dimension,
       height: dimension,
       crop: 'thumb',
       gravity: 'face',
-      zoom: 1.1
+      zoom: 1.0
     });
   },
 
-  getImageUrl(dimension = 100) {
-    return getImageUrl(this.media, {
+  getUrl(dimension = 100) {
+    return getImageUrl({
       width: dimesion,
       height: dimension
     });

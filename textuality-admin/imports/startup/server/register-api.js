@@ -20,3 +20,7 @@ import 'api/autoTexts/server/publications-admin';
 import 'api/outTexts/';
 import 'api/outTexts/methods-admin';
 import 'api/outTexts/server/publications-admin';
+
+import 'api/media/';
+import 'api/media/methods-admin';
+import 'api/media/server/publications-admin';

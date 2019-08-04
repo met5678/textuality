@@ -4,14 +4,17 @@ import Aliases from './aliases';
 import Events from 'api/events';
 
 Meteor.methods({
-  'aliases.checkout': () => {
-    const aliases = Aliases.find({
+  'aliases.checkout': (old_aliases = []) => {
+    let aliases = Aliases.find({
       event: Events.currentId(),
-      used: false
+      used: false,
+      name: { $nin: old_aliases }
     }).fetch();
+
     if (!aliases.length) {
       return 'No Aliases Left';
     }
+
     const newAlias = aliases[Math.floor(Math.random() * aliases.length)];
     Aliases.update(newAlias._id, { $set: { used: true } });
     return newAlias.name;

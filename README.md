@@ -27,9 +27,15 @@ Both `twilio`, used for the texting, and `cloudinary`, used for the image storag
 
 ```json
 {
+  "public": {
+    "cloudinaryCloudName": "xxxxxxxxx"
+  },
+
   "private": {
-    "twilioSid": "XXXXXXXXXXXXXXXXXXXXXXX",
-    "twilioToken": "XXXXXXXXXXXXXXXXXXXXXXXX"
+    "twilioSid": "xxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "twilioToken": "xxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "cloudinaryKey": "xxxxxxxxxxxxxxxxxxxx",
+    "cloudinarySecret": "xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
   }
 }
 ```
@@ -89,9 +95,11 @@ Within each meteor app, the structure is as follows:
 This is where basically everything lives. I use this folder instead of the `client` and `server` folders because this allows me to use npm's `import` statements to determine what gets sent to the client. Just a better development practice, Meteor devs also recommend it.
 
 - `api`: Where all of the collections live. All of the subfolders here are for the various collections, one for each. This folder is shared between the admin and client apps (the client app symlinks it to the admin app).
-- `schemas`: The schemas for the collections. Broken out because it's useful to have these all easily accessible. Also shared between the admin and client apps, symlinked from client.
+- `schemas`: The schemas for the collections. Broken out because it's useful to have these all easily accessible. Shared between the admin and client apps, symlinked from client.
+- `services`: Connections to external services, such as Twilio and Cloudinary. Functional exports. Shared between the admin and client apps, symlinked from client.
 - `startup`: Code that runs when the app starts. Mostly initialization stuff.
 - `ui`: All of the react components in the whole app, basically the front end. Broken down further below.
+- `utils`: Little utility functions that prove useful across the app. Pure functions. Shared between the admin and client apps, symlinked from client.
 
 #### The `imports/api` folder
 

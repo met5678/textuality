@@ -1,13 +1,30 @@
 import React from 'react';
+import { withTracker } from 'meteor/react-meteor-data';
 
 import AutoTextSchema from 'schemas/autoText';
 
-import AutoForm from 'generic/AutoForm';
+import {
+  AutoForm,
+  AutoField,
+  ErrorsField,
+  LongTextField,
+  SubmitField
+} from 'generic/AutoForm';
+import EventField from 'modules/events/EventField';
 
-const AutoTextForm = props => {
-  let { model, onSubmit } = props;
+const AutoTextForm = ({ model, onSubmit }) => {
+  return (
+    <AutoForm schema={AutoTextSchema} onSubmit={onSubmit} model={model}>
+      <EventField />
+      <AutoField name="trigger" />
+      <AutoField name="trigger_num" />
+      <LongTextField name="playerText" />
+      <LongTextField name="screenText" />
 
-  return <AutoForm schema={AutoTextSchema} onSubmit={onSubmit} model={model} />;
+      <ErrorsField />
+      <SubmitField />
+    </AutoForm>
+  );
 };
 
 export default AutoTextForm;

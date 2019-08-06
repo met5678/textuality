@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css?family=Archivo+Narrow:400,700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap');
+
 $bg: #280842;
 $purple: #4f1c9d;
 $plum: #4c4781;
@@ -10,7 +13,6 @@ $white: #ffffff;
   padding: 0;
   border: none;
   box-sizing: border-box;
-  font-family: sans-serif;
 }
 
 body {
@@ -26,71 +28,313 @@ body {
   width: 100%;
   height: 100%;
   overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 header {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
   background-color: #000000;
-  border-bottom: 1px solid $yellow;
+  border-bottom: 2px solid $yellow;
   padding: 5px 8px;
+  font-family: 'Press Start 2P', sans-serif;
+
+  // Parent flex stuff
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+
+  // Child flex stuff
+  flex-basis: 45px;
+
+  h1 {
+    color: cyan;
+    font-weight: normal;
+    font-size: 2.5vw;
+  }
+}
+
+.lowerArea {
+  // Parent flex stuff
+  display: flex;
+  flex-direction: row;
+
+  // Child flex stuff
+  flex-grow: 1;
+}
+
+.leftColumn {
+  position: relative;
+
+  flex-grow: 1;
+}
+
+.rightColumn {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  flex-basis: 35%;
 }
 
 .feed {
-  padding: 60px 20px 20px 20px;
+  padding: 0 20px;
   overflow: hidden;
+  font-family: Arial, sans-serif;
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: 0;
-  height: 100%;
+  bottom: 40px;
+  right: 0;
 }
 
 .feedItem {
   display: flex;
   flex-direction: row;
-  margin-bottom: 20px;
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 1.8vw;
+  font-weight: normal;
+  overflow: hidden;
+  max-height: 200px;
+
+  animation-duration: 1000ms;
+  animation-name: feedSlideIn;
+}
+
+@keyframes feedSlideIn {
+  from {
+    max-height: 0;
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  to {
+    max-height: 200px;
+    opacity: 1;
+  }
 }
 
 .feedItem-player {
   display: flex;
   flex-direction: row;
-  margin-right: 30px;
+  align-items: flex-start;
+
+  flex-shrink: 0;
+  flex-basis: 24vw;
+
+  margin-top: 20px;
 }
 
 .feedItem-player-text {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  font-weight: bold;
+
+  height: 5vw;
+}
+
+.feedItem-achievements.hearts {
+  margin-left: -3px;
+  height: 2vw;
+
+  span {
+    margin-right: 0;
+    height: 2vw;
+    width: 2vw;
+  }
 }
 
 .feedItem-avatar {
-  height: 60px;
-  width: 60px;
+  width: 5vw;
+  height: 5vw;
+  max-width: 80px;
+  max-height: 80px;
   margin-right: 10px;
 }
 
-.host {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  height: 400px;
-  width: 400px;
-  background-color: #000;
-  overflow: hidden;
-  border-top: 1px solid $yellow;
-  border-left: 1px solid $yellow;
+.feedItem-body {
+  margin-top: 20px;
 }
 
-video {
-  object-fit: fill;
-  height: 100%;
+.host {
+  // position: absolute;
+  // bottom: 0;
+  // right: 0;
+  // width: 30%;
+  // max-width: 450px;
+  // max-height: 50%;
+
+  background-color: #000;
+  border-top: 2px solid $yellow;
+  border-left: 2px solid $yellow;
+  overflow: hidden;
+  position: relative;
+
+  video {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  flex-basis: 50%;
+  flex-grow: 0;
+}
+
+.varietyBox {
+  flex-grow: 2;
+  position: relative;
+
+  border-left: 2px solid $yellow;
+}
+
+.bottomBar {
+  background-color: #000;
+  border-top: 2px solid $yellow;
+  box-shadow: 0 -10px 10px #000;
   width: 100%;
+  height: 40px;
+  font-family: Arial, serif;
+  font-size: 1.4vw;
+  padding: 5px 10px;
+  color: $yellow;
+
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bottomBar-item {
+  &:first-child {
+    border: none;
+  }
+
+  border-left: 1px solid #fff;
+  text-align: center;
+
+  flex-grow: 1;
+}
+
+.bottomBar-command {
+  &:after {
+    content: '  ';
+    font-weight: normal;
+    color: $yellow;
+  }
+
+  font-weight: bold;
+  font-family: monospace;
+  color: white;
+}
+
+.achievementBox {
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+
+  font-family: Arial, sans-serif;
+}
+
+.achievementBox-title {
+  text-align: center;
+}
+
+.achievementBox-au {
+  color: #999;
+  font-weight: normal;
+  font-size: 1.8vw;
+  text-transform: uppercase;
+}
+
+.achievementBox-name {
+  color: $white;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 2.5vw;
+
+  &:before {
+    content: '"';
+  }
+
+  &:after {
+    content: '"';
+  }
+}
+
+.achievementBox-player {
+  text-align: center;
+  flex-shrink: 1;
+}
+
+.achievementBox-avatar {
+  object-fit: contain;
+  max-width: 12vw;
+  max-height: 18vh;
+  border-radius: 15px;
+  box-shadow: 0 0 10px $pink;
+}
+
+.achievementBox-alias {
+  font-size: 1.8vw;
+  font-weight: bold;
+  margin-bottom: 0.5vh;
+}
+
+.hearts {
+  height: 3vw;
+
+  span {
+    display: inline-block;
+    background-image: url('/images/hearts-sprite-all.png');
+    background-size: 300% 300%;
+    height: 3vw;
+    width: 3vw;
+    margin-right: 1px;
+    background-position: right top;
+
+    &.half {
+      background-position: center top;
+    }
+
+    &.full {
+      background-position: left top;
+    }
+
+    &.flash {
+      animation-name: heartFlash;
+      animation-duration: 250ms;
+      animation-iteration-count: infinite;
+      animation-timing-function: steps(2);
+    }
+  }
+}
+
+@keyframes heartFlash {
+  from {
+    background-position-y: 0;
+  }
+
+  to {
+    background-position-y: 100%;
+  }
 }

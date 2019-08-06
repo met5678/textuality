@@ -11,7 +11,7 @@ const AliasForm = () => {
   const [value, setValue] = React.useState('');
 
   const onKeyDown = React.useCallback(e => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && e.currentTarget.value) {
       Meteor.call('aliases.new', e.currentTarget.value, err => {
         if (err) {
           setError(err.reason);

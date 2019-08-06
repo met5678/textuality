@@ -10,8 +10,6 @@ const Feed = ({ loading, inTexts }) => {
     return null;
   }
 
-  console.log(inTexts);
-
   return (
     <div className="feed">
       {inTexts.map(inText => (
@@ -22,10 +20,10 @@ const Feed = ({ loading, inTexts }) => {
 };
 
 export default withTracker(({ event }) => {
-  const handles = [Meteor.subscribe('inTexts.feed', 20)];
+  const handles = [Meteor.subscribe('inTexts.feed', 10)];
 
   return {
     loading: handles.some(handle => !handle.ready()),
-    inTexts: InTexts.find({}, { sort: { time: -1 } }).fetch()
+    inTexts: InTexts.find({ purpose: 'feed' }, { sort: { time: -1 } }).fetch()
   };
 })(Feed);

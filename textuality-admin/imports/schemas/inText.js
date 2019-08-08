@@ -28,13 +28,6 @@ const InTextSchema = new SimpleSchema({
     type: String,
     optional: true
   },
-  numAchievements: SimpleSchema.Integer,
-  numCheckpoints: SimpleSchema.Integer,
-  alias: String,
-  avatar: {
-    type: String,
-    optional: true
-  },
   purpose: {
     type: String,
     allowedValues: [
@@ -50,8 +43,20 @@ const InTextSchema = new SimpleSchema({
     type: String,
     optional: true
   },
-  moderation_score: {
+  numAchievements: {
     type: SimpleSchema.Integer,
+    optional: true
+  },
+  numCheckpoints: {
+    type: SimpleSchema.Integer,
+    optional: true
+  },
+  alias: {
+    type: String,
+    optional: true
+  },
+  avatar: {
+    type: String,
     optional: true
   }
 });

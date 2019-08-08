@@ -9,7 +9,7 @@ Media.helpers({
       height: dimension,
       crop: 'thumb',
       gravity: 'face',
-      zoom: 1.0
+      zoom: 1.1
     });
   },
 
@@ -23,11 +23,20 @@ Media.helpers({
   },
 
   getFeedUrl() {
-    return getImageUrl(this._id, {
-      width: 800,
-      height: 800,
-      crop: 'lfill'
-    });
+    if (this.isPortrait()) {
+      return getImageUrl(this._id, {
+        width: 800,
+        height: 800,
+        crop: 'lfill',
+        gravity: 'faces'
+      });
+    } else {
+      return getImageUrl(this._id, {
+        width: 800,
+        height: 800,
+        crop: 'lfill'
+      });
+    }
   },
 
   ratio() {

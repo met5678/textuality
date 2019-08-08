@@ -16,7 +16,11 @@ const AchievementUnlockSchema = new SimpleSchema({
   player: String,
   alias: String,
   avatar: String,
-  numAchievements: SimpleSchema.Integer
+  numAchievements: SimpleSchema.Integer,
+  hideFromScreen: {
+    type: Boolean,
+    defaultValue: false
+  }
 });
 
 export default AchievementUnlockSchema;

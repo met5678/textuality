@@ -23,29 +23,55 @@ Meteor.methods({
       player = Players.findOne(id);
     }
 
+    player.numAchievements = player.numAchievements();
+
     return player;
   },
 
-  'players.update': player => {
-    Players.update(player._id, { $set: player });
-  },
+  'players.updateAfterInText': inText => {
+    const player = Players.findOne(inText.player);
 
-  'players.postInTextUpdate': ({ playerId, inText, media }) => {
     const playerFields = {
       recent: new Date(),
       feedTextsSent: InTexts.find({
         event: Events.currentId(),
-        player: playerId,
+        player: inText.player,
         purpose: 'feed'
       }).count(),
       feedMediaSent: Media.find({
         event: Events.currentId(),
-        player: playerId,
+        player: inText.player,
         purpose: 'feed'
       }).count()
     };
 
-    Players.update(playerId, { $set: playerFields });
-    // Meteor.call('achievements.checkForPlayer', player);
+    if (
+      player.status === 'quit' &&
+      !(inText.body && inText.body.startsWith('/leave'))
+    ) {
+      playerFields.status = 'active';
+      Meteor.call('autoTexts.send', {
+        playerId: player._id,
+        trigger: 'SIGN_BACK_ON'
+      });
+    }
+
+    Players.update(inText.player, { $set: playerFields });
+  },
+
+  'players.setStatus': ({ playerId, status }) => {
+    Players.update(playerId, { $set: { status } });
+  },
+
+  'players.setAlias': ({ playerId, alias }) => {
+    const player = Players.findOne(playerId);
+
+    const oldAliases = [player.alias, ...player.oldAliases];
+
+    Players.update(playerId, { $set: { alias, oldAliases } });
+  },
+
+  'players.setAvatar': ({ playerId, avatar }) => {
+    Players.update(playerId, { $set: { avatar } });
   }
 });

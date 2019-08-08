@@ -2,9 +2,10 @@ import { Meteor } from 'meteor/meteor';
 
 import AutoTexts from './autoTexts';
 import Events from 'api/events';
+import Players from 'api/players';
 
 Meteor.methods({
-  'autoTexts.send': ({ trigger, trigger_num, player }) => {
+  'autoTexts.send': ({ trigger, trigger_num, playerId }) => {
     const autoTextQuery = { event: Events.currentId(), trigger };
     if (trigger_num) autoTextQuery.trigger_num = trigger_num;
 
@@ -17,8 +18,23 @@ Meteor.methods({
     const autoText =
       matchingAutoTexts[Math.floor(Math.random() * matchingAutoTexts.length)];
 
-    if (autoText.playerText) {
-      const body = autoText.playerText.replace('[alias]', player.alias);
+    Meteor.call('autoTexts.sendCustom', {
+      ...autoText,
+      playerId,
+      source: 'auto'
+    });
+  },
+
+  'autoTexts.sendCustom': ({
+    playerText,
+    screenText,
+    playerId,
+    source = 'unknown'
+  }) => {
+    const player = Players.findOne(playerId);
+
+    if (playerText) {
+      const body = playerText.replace('[alias]', player.alias);
       Meteor.call('outTexts.send', {
         players: [player],
         body,
@@ -26,8 +42,8 @@ Meteor.methods({
       });
     }
 
-    // if (autoText.screenText) {
-    //   const body = autoText.screenText.replace('[alias]', player.alias);
+    // if (screenText) {
+    //   const body = screenText.replace('[alias]', player.alias);
     //   Meteor.call('inTexts.sendSystemText', { body, player });
     // }
   }

@@ -13,10 +13,14 @@ if (Meteor.isServer) {
   });
 }
 
-function uploadImage(imageUrl, callback) {
+function uploadImage(imageUrl, eagerTransforms) {
   const options = {
     faces: true
   };
+
+  if (eagerTransforms) {
+    options.eager = eagerTransforms;
+  }
 
   const mediaProps = uploadMedia(imageUrl, options);
 

@@ -4,39 +4,41 @@ import InTexts from './inTexts';
 import Events from 'api/events';
 
 import receive from './receive-steps/receive';
+import getPurpose from './get-purpose/get-purpose';
+import processInitialText from './process-purpose/process-initial-text';
+import processSystemText from './process-purpose/process-system-text';
 
 Meteor.methods({
   'inTexts.receive': message => {
-    let player = Meteor.call('players.findOrJoin', message.from);
+    const player = Meteor.call('players.findOrJoin', message.from);
+    const purpose = getPurpose({ message, player });
 
-    let media = message.media
-      ? Meteor.call('media.receive', {
-          url: message.media.url,
-          contentType: message.media.contentType,
-          player
-        })
-      : null;
+    console.log(player.numAchievements);
 
-    let inText = {
+    const inText = {
       event: Events.currentId(),
       player: player._id,
+      body: message.body,
+      time: new Date(),
+      purpose,
       alias: player.alias,
       avatar: player.avatar,
-      media: media ? media._id : null,
-      body: message.body,
-      time: new Date()
+      numAchievements: player.numAchievements
     };
 
-    inText = receive({ inText, player, media });
-
-    inText.numAchievements = player.achievements.length;
-    inText.numCheckpoints = player.checkpoints.length;
+    if (message.media) {
+      inText.media = Meteor.call('media.receive', { purpose, message, player });
+    }
 
     InTexts.insert(inText);
-    Meteor.call('players.postInTextUpdate', {
-      playerId: player._id,
-      inText,
-      media
-    });
+    Meteor.call('players.updateAfterInText', inText);
+    // inText = receive({ inText, player, media });
+
+    inText.purpose === 'initial' && processInitialText(inText);
+    inText.purpose === 'system' && processSystemText(inText);
+    inText.purpose === 'hashtag' && processHashtagText(inText);
+    inText.purpose === 'mission' && processMissionText(inText);
+
+    Meteor.call('achievements.checkAfterInText', inText);
   }
 });

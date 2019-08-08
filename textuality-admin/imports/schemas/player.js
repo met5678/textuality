@@ -35,14 +35,6 @@ const PlayerSchema = new SimpleSchema({
     type: Boolean,
     defaultValue: false
   },
-  achievements: {
-    type: Array,
-    defaultValue: []
-  },
-  'achievements.$': {
-    type: Object,
-    blackbox: true
-  },
   checkpoints: {
     type: Array,
     defaultValue: []

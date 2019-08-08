@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 
 import AchievementUnlocks from './achievementUnlocks';
+import Events from 'api/events';
 
 Meteor.methods({
 	'achievementUnlocks.update': achievementUnlock => {
@@ -15,5 +16,9 @@ Meteor.methods({
 		} else {
 			AchievementUnlocks.remove(achievementUnlockId);
 		}
+	},
+
+	'achievementUnlocks.resetEvent': () => {
+		AchievementUnlocks.remove({ event: Events.currentId() });
 	}
 });

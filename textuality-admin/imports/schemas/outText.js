@@ -26,7 +26,7 @@ const OutTextSchema = new SimpleSchema({
   },
   source: {
     type: String,
-    allowedValues: ['auto', 'manual', 'unknown']
+    allowedValues: ['auto', 'manual', 'achievement', 'mission', 'unknown']
   }
 });
 

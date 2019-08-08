@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node scripts/run-dev.js",
-    "open-tunnel": "bin/ngrok http 3002"
+    "open-tunnel": "bin/ngrok http 5002"
   },
   "repository": {
     "type": "git",

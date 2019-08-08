@@ -11,12 +11,5 @@ InTexts.helpers({
       gravity: 'face',
       zoom: 1.1
     });
-  },
-
-  getImageUrl(dimension = 100) {
-    return getImageUrl(this.media, {
-      width: dimesion,
-      height: dimension
-    });
   }
 });

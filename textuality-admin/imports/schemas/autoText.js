@@ -51,7 +51,8 @@ const AutoTextSchema = new SimpleSchema({
       'HASHTAG_ALREADY_FOUND',
       'INVALID_HASHTAG',
 
-      'MODERATION',
+      'SENT_VIDEO',
+      'INVALID_CONTENT_TYPE',
 
       'N_TEXTS_SENT',
       'N_COLLECTIVE_TEXTS_SENT',

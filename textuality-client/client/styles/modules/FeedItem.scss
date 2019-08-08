@@ -1,0 +1,74 @@
+@import '../colors';
+
+.feedItem {
+  display: flex;
+  flex-direction: row;
+  font-size: 1.8vw;
+  font-weight: normal;
+  text-shadow: 1px 1px 4px $black;
+  overflow: hidden;
+  max-height: 200px;
+
+  animation-duration: 1000ms;
+  animation-name: feedSlideIn;
+}
+
+@keyframes feedSlideIn {
+  from {
+    max-height: 0;
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  to {
+    max-height: 200px;
+    opacity: 1;
+  }
+}
+
+.feedItem-player {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+
+  flex-shrink: 0;
+  flex-basis: 24vw;
+
+  margin-top: 20px;
+}
+
+.feedItem-player-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-weight: bold;
+
+  height: 5vw;
+}
+
+.feedItem-achievements.hearts {
+  margin-left: -3px;
+  height: 2vw;
+
+  span {
+    margin-right: 0;
+    height: 2vw;
+    width: 2vw;
+  }
+}
+
+.feedItem-avatar {
+  width: 5vw;
+  height: 5vw;
+  max-width: 80px;
+  max-height: 80px;
+  margin-right: 10px;
+  border: 1px solid black;
+}
+
+.feedItem-body {
+  margin-top: 20px;
+}

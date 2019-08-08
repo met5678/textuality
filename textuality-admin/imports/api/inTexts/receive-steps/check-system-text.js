@@ -16,26 +16,40 @@ export default {
       .toLowerCase();
     const rest = inText.body.substring(firstSpace);
 
+    console.log('System text', { command, rest });
+
+    // Change alias
     if (command === 'alias') {
-      player = Meteor.call('player.changeAlias');
-      Meteor.call('autoTexts.send', { player, trigger: 'CHANGE_ALIAS' });
-    } else if (command === 'leave') {
-      const oldAliases = [player.alias, ...player.old_aliases];
+      const oldAliases = [player.alias, ...player.oldAliases];
       const newAlias = Meteor.call('aliases.checkout', oldAliases);
-      player.old_aliases = oldAliases;
+      player.oldAliases = oldAliases;
       player.alias = newAlias;
       inText.alias = newAlias;
 
       Meteor.call('players.update', player);
+      Meteor.call('autoTexts.send', { player, trigger: 'ALIAS_CHANGED' });
+    }
+
+    // Leave party
+    else if (command === 'leave') {
+      player.status = 'quit';
+
+      Meteor.call('players.update', player);
       Meteor.call('autoTexts.send', { player, trigger: 'SIGN_OFF' });
-    } else if (command === 'avatar') {
-      // We might not do this one
-    } else if (command === 'status') {
+    }
+
+    // Send status text
+    else if (command === 'status') {
       Meteor.call('autoTexts.sendStatus', { player });
-    } else {
+    }
+
+    // Invalid command
+    else {
       Meteor.call('autoTexts.send', { player, trigger: 'INVALID_COMMAND' });
     }
 
-    return { inText, player, media };
+    inText.purpose = 'system';
+
+    return { handled: true, inText, player, media };
   }
 };

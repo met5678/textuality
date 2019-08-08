@@ -74,6 +74,8 @@ class NavBar extends React.Component {
         <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="mr-auto" navbar>
             <RouterNavItem to="/texts">Texts</RouterNavItem>
+            <RouterNavItem to="/media">Media</RouterNavItem>
+            <RouterNavItem to="/unlocks">Unlocks</RouterNavItem>
             <RouterNavItem to="/players">Players</RouterNavItem>
             <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>

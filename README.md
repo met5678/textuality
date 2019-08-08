@@ -19,7 +19,7 @@ Textuality consists of an admin app and a client app. They are located in the `t
 npm start
 ```
 
-This will start the admin at `http://localhost:3000` and the client at `http://localhost:3002`. You may want to restart this command whenever you pull new code from github.
+This will start the admin at `http://localhost:5000` and the client at `http://localhost:5002`. You may want to restart this command whenever you pull new code from github.
 
 ### Configuring Credentials
 
@@ -74,8 +74,8 @@ The following folders are no longer in use in this new branch, but I'm not delet
 
 ### Top Level Folders
 
-- `textuality-admin`: The Admin app for textuality, runs at `localhost:3000` in dev.
-- `textuality-client`: The Client app for textuality, runs at `localhost:3002` in dev.
+- `textuality-admin`: The Admin app for textuality, runs at `localhost:5000` in dev.
+- `textuality-client`: The Client app for textuality, runs at `localhost:5002` in dev.
 - `scripts`: Contains convenience scripts, like `npm run open-tunnel`
 - `bin`: Contains executables, currently just `ngrok`.
 

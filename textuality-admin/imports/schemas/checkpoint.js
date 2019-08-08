@@ -12,13 +12,8 @@ const CheckpointSchema = new SimpleSchema({
   },
   number: SimpleSchema.Integer,
   hashtag: String,
-  location: String,
-  hint: String,
-  playerText: {
-    type: String,
-    optional: true
-  },
-  screenText: {
+  group: String,
+  location: {
     type: String,
     optional: true
   }

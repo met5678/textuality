@@ -28,8 +28,8 @@ const InTextSchema = new SimpleSchema({
     type: String,
     optional: true
   },
-  num_achievements: SimpleSchema.Integer,
-  num_checkpoints: SimpleSchema.Integer,
+  numAchievements: SimpleSchema.Integer,
+  numCheckpoints: SimpleSchema.Integer,
   alias: String,
   avatar: {
     type: String,
@@ -46,7 +46,7 @@ const InTextSchema = new SimpleSchema({
       'ignore'
     ]
   },
-  purpose_detail: {
+  purposeDetail: {
     type: String,
     optional: true
   },

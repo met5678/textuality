@@ -1,0 +1,40 @@
+@import '../colors';
+
+.hearts {
+  height: 3vw;
+
+  span {
+    display: inline-block;
+    background-image: url('/images/hearts-sprite-all.png');
+    background-size: 300% 300%;
+    height: 3vw;
+    width: 3vw;
+    margin-right: 1px;
+    background-position: right top;
+
+    &.half {
+      background-position: center top;
+    }
+
+    &.full {
+      background-position: left top;
+    }
+
+    &.flash {
+      animation-name: heartFlash;
+      animation-duration: 250ms;
+      animation-iteration-count: infinite;
+      animation-timing-function: steps(2);
+    }
+  }
+}
+
+@keyframes heartFlash {
+  from {
+    background-position-y: 0;
+  }
+
+  to {
+    background-position-y: 100%;
+  }
+}

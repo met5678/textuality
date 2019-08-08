@@ -11,7 +11,7 @@ const PlayerSchema = new SimpleSchema({
         .fetch()
         .map(event => event._id)
   },
-  phone_number: String,
+  phoneNumber: String,
   joined: {
     type: Date,
     defaultValue: new Date()
@@ -26,12 +26,12 @@ const PlayerSchema = new SimpleSchema({
     defaultValue: 'new'
   },
   alias: String,
-  old_aliases: {
+  oldAliases: {
     type: Array,
     defaultValue: []
   },
-  'old_aliases.$': String,
-  is_admin: {
+  'oldAliases.$': String,
+  isAdmin: {
     type: Boolean,
     defaultValue: false
   },
@@ -51,11 +51,11 @@ const PlayerSchema = new SimpleSchema({
     type: Object,
     blackbox: true
   },
-  texts_sent: {
+  feedTextsSent: {
     type: SimpleSchema.Integer,
     defaultValue: 0
   },
-  texts_received: {
+  feedMediaSent: {
     type: SimpleSchema.Integer,
     defaultValue: 0
   },

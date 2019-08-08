@@ -11,24 +11,33 @@ const AchievementSchema = new SimpleSchema({
         .map(event => event._id)
   },
   name: String,
-  playerText: {
-    type: String,
-    optional: true
-  },
-  screenText: {
-    type: String,
-    optional: true
-  },
+  number: SimpleSchema.Integer,
+  hint: String,
   trigger: {
     type: String,
-    allowedValues: ['checkpoint', 'mission', 'special']
+    allowedValues: [
+      'CHECKPOINT',
+      'CHECKPOINT_GROUP',
+      'EMOJIS_IN_TEXT',
+      'JOINED',
+      'MISSION',
+      'N_PICTURES_SENT',
+      'N_TEXTS_SENT',
+      'PICTURE_MULTI_FACES'
+    ]
   },
-  triggerData: {
-    type: Object,
-    blackbox: true
+  triggerDetail: {
+    type: SimpleSchema.oneOf(String, SimpleSchema.Integer),
+    optional: true
+  },
+  playerText: {
+    type: String,
+    max: 60
+  },
+  hideFromScreen: {
+    type: Boolean,
+    defaultValue: true
   }
 });
-
-// Maybe add 'theme'
 
 export default AchievementSchema;

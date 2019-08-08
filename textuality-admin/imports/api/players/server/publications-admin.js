@@ -14,10 +14,10 @@ Meteor.publish('players.basic', function() {
       {
         fields: {
           event: 1,
-          phone_number: 1,
+          phoneNumber: 1,
           alias: 1,
           status: 1,
-          texts_sent: 1
+          textsSent: 1
         }
       }
     )

@@ -33,7 +33,7 @@ const MediaSchema = new SimpleSchema({
   time: Date,
   purpose: {
     type: String,
-    allowedValues: ['none', 'avatar', 'feed']
+    allowedValues: ['none', 'avatar-fail', 'avatar', 'feed']
   }
 });
 

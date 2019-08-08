@@ -16,7 +16,7 @@ const columns = [
     text: 'Name'
   },
   {
-    dataField: 'phone_number',
+    dataField: 'phoneNumber',
     text: 'Phone Number'
   },
   {

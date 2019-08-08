@@ -12,6 +12,7 @@ const AutoTextSchema = new SimpleSchema({
   },
   playerText: {
     type: String,
+    max: 150,
     optional: true
   },
   screenText: {
@@ -59,7 +60,7 @@ const AutoTextSchema = new SimpleSchema({
       'N_PLAYERS_JOINED'
     ]
   },
-  trigger_num: {
+  triggerNum: {
     type: SimpleSchema.Integer,
     optional: true
   }

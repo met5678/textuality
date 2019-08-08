@@ -4,6 +4,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import InTexts from 'api/inTexts';
 
 import FeedItem from './FeedItem';
+import FeedImage from './FeedImage';
 
 const Feed = ({ loading, inTexts }) => {
   if (loading) {
@@ -12,6 +13,7 @@ const Feed = ({ loading, inTexts }) => {
 
   return (
     <div className="feed">
+      <FeedImage />
       {inTexts.map(inText => (
         <FeedItem inText={inText} key={inText._id} />
       ))}

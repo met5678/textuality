@@ -4,8 +4,15 @@ export default {
   test: ({ inText }) => !inText.purpose,
   action: ({ inText, player, media }) => {
     inText = { ...inText };
+    player = { ...player };
 
-    inText.purpose = 'feed';
+    if (inText.body) {
+      if (inText.body.toLowerCase().includes('nigger')) {
+        inText.purpose = 'ignore';
+      } else {
+        inText.purpose = 'feed';
+      }
+    }
 
     return {
       inText,

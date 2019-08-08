@@ -1,0 +1,61 @@
+@import '../colors';
+
+.achievementBox {
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+
+  font-family: Arial, sans-serif;
+}
+
+.achievementBox-title {
+  text-align: center;
+}
+
+.achievementBox-au {
+  color: #999;
+  font-weight: normal;
+  font-size: 1.8vw;
+  text-transform: uppercase;
+}
+
+.achievementBox-name {
+  color: $white;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 2.3vw;
+
+  &:before {
+    content: '"';
+  }
+
+  &:after {
+    content: '"';
+  }
+}
+
+.achievementBox-player {
+  text-align: center;
+  flex-shrink: 1;
+}
+
+.achievementBox-avatar {
+  object-fit: contain;
+  max-width: 15vw;
+  max-height: 20vh;
+  border-radius: 15px;
+  box-shadow: 0 0 10px $pink;
+}
+
+.achievementBox-alias {
+  font-size: 1.8vw;
+  font-weight: bold;
+  margin-bottom: 0.5vh;
+}

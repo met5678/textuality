@@ -12,7 +12,8 @@ import TableInsertModal from './TableInsertModal';
 import editItemHook from './editItemHook';
 
 const defaultArgs = {
-  hover: true
+  hover: true,
+  condensed: true
 };
 
 const deleteArgs = ({ selection, setSelection, keyField }) => {

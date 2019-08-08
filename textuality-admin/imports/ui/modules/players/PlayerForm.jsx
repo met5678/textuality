@@ -16,7 +16,7 @@ const PlayerForm = ({ model, onSubmit }) => {
   return (
     <AutoForm schema={PlayerSchema} onSubmit={onSubmit} model={model}>
       <EventField />
-      <AutoField name="phone_number" disabled={true} />
+      <AutoField name="phoneNumber" disabled={true} />
       <AutoField name="alias" disabled={true} />
       <AutoField name="status" />
       <ErrorsField />

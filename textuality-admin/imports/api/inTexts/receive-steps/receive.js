@@ -1,13 +1,17 @@
 import checkPlayerIsNew from './check-player-is-new';
 import checkPlayerIsTentative from './check-player-is-tentative';
+import checkPlayerIsQuit from './check-player-is-quit';
 import checkSystemText from './check-system-text';
 // import checkHashtag from './check-hashtag';
+import checkFeedMedia from './check-feed-media';
 import checkFeedText from './check-feed-text';
 
 const steps = [
   checkPlayerIsNew,
   checkPlayerIsTentative,
+  checkPlayerIsQuit,
   checkSystemText,
+  checkFeedMedia,
   checkFeedText
   // checkHashtag
 ];

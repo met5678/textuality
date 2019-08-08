@@ -6,17 +6,15 @@ import AutoTextsInventory from './AutoTextsInventory';
 
 const AutoTextsPage = ({ match }) => {
   return (
-    <Container>
-      <Row>
-        <Col xs="12" sm="9">
-          <h2>All AutoTexts</h2>
-          <AutoTextsTable />
-        </Col>
-        <Col xs="12" sm="3">
-          <AutoTextsInventory />
-        </Col>
-      </Row>
-    </Container>
+    <Row>
+      <Col xs="12" sm="9">
+        <h2>All AutoTexts</h2>
+        <AutoTextsTable />
+      </Col>
+      <Col xs="12" sm="3">
+        <AutoTextsInventory />
+      </Col>
+    </Row>
   );
 };
 

@@ -46,14 +46,14 @@ function init() {
 }
 
 function send(message) {
-  const { body, from, to, media_url } = message;
+  const { body, from, to, mediaUrl } = message;
   const twMessage = {
     To: '+' + to,
     From: '+' + from
   };
 
   body && (twMessage.Body = body);
-  media_url && (twMessage.MediaUrl = media_url);
+  mediaUrl && (twMessage.MediaUrl = mediaUrl);
 
   HTTP.call('POST', twilioSendEndpoint, {
     params: twMessage,

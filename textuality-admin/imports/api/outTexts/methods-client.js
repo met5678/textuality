@@ -6,7 +6,7 @@ import OutTexts from './outTexts';
 import { send } from 'services/twilio';
 
 Meteor.methods({
-  'outTexts.send': ({ body, media_url, players, source }) => {
+  'outTexts.send': ({ body, mediaUrl, players, source }) => {
     const event = Events.current();
 
     if (!source) {
@@ -25,12 +25,12 @@ Meteor.methods({
 
     players.forEach(player => {
       const message = {
-        to: player.phone_number,
-        from: event.phone_number
+        to: player.phoneNumber,
+        from: event.phoneNumber
       };
 
       if (body) message.body = body;
-      if (media_url) message.media_url = media_url;
+      if (mediaUrl) message.mediaUrl = mediaUrl;
 
       send(message);
     });

@@ -2,7 +2,7 @@ import SimpleSchema from 'simpl-schema';
 
 const EventSchema = new SimpleSchema({
   name: String,
-  phone_number: String,
+  phoneNumber: String,
   active: Boolean
 });
 

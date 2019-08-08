@@ -22,5 +22,9 @@ Meteor.methods({
     });
 
     return Media.findOne(cloudinaryId);
+  },
+
+  'media.update': media => {
+    Media.update(media._id, { $set: media });
   }
 });

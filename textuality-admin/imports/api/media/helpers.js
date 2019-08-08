@@ -4,7 +4,7 @@ import getImageUrl from 'services/get-image-url';
 
 Media.helpers({
   getAvatarUrl(dimesion = 100) {
-    return getImageUrl({
+    return getImageUrl(this._id, {
       width: dimension,
       height: dimension,
       crop: 'thumb',
@@ -13,10 +13,36 @@ Media.helpers({
     });
   },
 
-  getUrl(dimension = 100) {
-    return getImageUrl({
-      width: dimesion,
-      height: dimension
+  getUrl(width, height) {
+    if (!height) height = width;
+    return getImageUrl(this._id, {
+      width: width,
+      height: height,
+      crop: 'fit'
     });
+  },
+
+  getFeedUrl() {
+    return getImageUrl(this._id, {
+      width: 800,
+      height: 800,
+      crop: 'lfill'
+    });
+  },
+
+  ratio() {
+    return this.height / this.width;
+  },
+
+  isSquare() {
+    return this.ratio() >= 0.9 && this.ratio() <= 1.1;
+  },
+
+  isPortrait() {
+    return this.ratio() > 1.1;
+  },
+
+  isLandscape() {
+    return this.ratio() < 0.9;
   }
 });

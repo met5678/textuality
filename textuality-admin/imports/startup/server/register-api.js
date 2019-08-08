@@ -24,3 +24,15 @@ import 'api/outTexts/server/publications-admin';
 import 'api/media/';
 import 'api/media/methods-admin';
 import 'api/media/server/publications-admin';
+
+import 'api/checkpoints/';
+import 'api/checkpoints/methods-admin';
+import 'api/checkpoints/server/publications-admin';
+
+import 'api/achievements/';
+import 'api/achievements/methods-admin';
+import 'api/achievements/server/publications-admin';
+
+import 'api/achievementUnlocks/';
+import 'api/achievementUnlocks/methods-admin';
+import 'api/achievementUnlocks/server/publications-admin';

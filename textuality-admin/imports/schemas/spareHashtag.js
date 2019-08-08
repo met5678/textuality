@@ -2,7 +2,7 @@ import SimpleSchema from 'simpl-schema';
 
 import Events from 'api/events';
 
-const HashtagSchema = new SimpleSchema({
+const SpareHashtagSchema = new SimpleSchema({
   event: {
     type: String,
     allowedValues: () =>
@@ -14,4 +14,4 @@ const HashtagSchema = new SimpleSchema({
   used: Boolean
 });
 
-export default HashtagSchema;
+export default SpareHashtagSchema;

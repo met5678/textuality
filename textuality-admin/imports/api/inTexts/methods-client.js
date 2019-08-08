@@ -29,9 +29,14 @@ Meteor.methods({
 
     inText = receive({ inText, player, media });
 
-    inText.num_achievements = player.achievements.length;
-    inText.num_checkpoints = player.checkpoints.length;
+    inText.numAchievements = player.achievements.length;
+    inText.numCheckpoints = player.checkpoints.length;
 
     InTexts.insert(inText);
+    Meteor.call('players.postInTextUpdate', {
+      playerId: player._id,
+      inText,
+      media
+    });
   }
 });

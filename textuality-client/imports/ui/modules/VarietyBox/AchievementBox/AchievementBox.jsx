@@ -1,3 +1,5 @@
+// import './style.scss';
+
 import React from 'react';
 
 const AchievementBox = () => {
@@ -5,7 +7,7 @@ const AchievementBox = () => {
     <div className="achievementBox">
       <div className="achievementBox-title">
         <div className="achievementBox-au">- Achievement Unlocked -</div>
-        <div className="achievementBox-name">Is peeing right now</div>
+        <div className="achievementBox-name">Co-op Cuties</div>
       </div>
       <div className="achievementBox-player">
         <img

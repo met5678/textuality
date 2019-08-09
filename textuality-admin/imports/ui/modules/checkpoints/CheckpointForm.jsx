@@ -16,10 +16,10 @@ const CheckpointForm = ({ model, onSubmit }) => {
   return (
     <AutoForm schema={CheckpointSchema} onSubmit={onSubmit} model={model}>
       <EventField />
-      <AutoField name="number" />
       <AutoField name="hashtag" />
       <AutoField name="group" />
       <AutoField name="location" />
+      <LongTextField name="playerText" />
 
       <ErrorsField />
       <SubmitField />

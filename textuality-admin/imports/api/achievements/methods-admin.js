@@ -4,10 +4,14 @@ import Achievements from './achievements';
 
 Meteor.methods({
 	'achievements.new': achievement => {
+		if (achievement.trigger.startsWith('N_'))
+			achievement.triggerDetail = Number(achievement.triggerDetail);
 		const id = Achievements.insert(achievement);
 	},
 
 	'achievements.update': achievement => {
+		if (achievement.trigger.startsWith('N_'))
+			achievement.triggerDetail = Number(achievement.triggerDetail);
 		Achievements.update(achievement._id, { $set: achievement });
 	},
 

@@ -20,7 +20,6 @@ Meteor.methods({
 	},
 
 	'checkpoints.update': checkpoint => {
-		console.log(checkpoint);
 		if (
 			Checkpoints.findOne({
 				_id: { $ne: checkpoint._id },

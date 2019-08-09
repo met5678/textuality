@@ -13,7 +13,7 @@
 
   animation-name: imageAnimation;
   animation-duration: 40000ms;
-  animation-delay: 5000ms;
+  animation-delay: 3500ms;
   animation-timing-function: ease;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
@@ -97,7 +97,7 @@
 
   74% {
     opacity: 1;
-    transform: scale(1.8);
+    transform: scale(1.8) rotate(0deg);
   }
 
   85% {

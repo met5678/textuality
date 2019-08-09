@@ -1,11 +1,11 @@
 import React from 'react';
 
-import AchievementBox from './AchievementBox';
+import AchievementsBox from '../AchievementsBox';
 
 const VarietyBox = () => {
   return (
     <div className="varietyBox">
-      <AchievementBox />
+      <AchievementsBox />
     </div>
   );
 };

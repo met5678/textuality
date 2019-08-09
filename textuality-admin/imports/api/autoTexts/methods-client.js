@@ -3,15 +3,18 @@ import { Meteor } from 'meteor/meteor';
 import AutoTexts from './autoTexts';
 import Events from 'api/events';
 import Players from 'api/players';
+import Achievements from 'api/achievements';
+import AchievementUnlocks from 'api/achievementUnlocks';
+import Checkpoints from 'api/checkpoints';
 
 Meteor.methods({
-  'autoTexts.send': ({ trigger, trigger_num, playerId }) => {
+  'autoTexts.send': ({ trigger, triggerNum, playerId, templateVars }) => {
     const autoTextQuery = { event: Events.currentId(), trigger };
-    if (trigger_num) autoTextQuery.trigger_num = trigger_num;
+    if (triggerNum) autoTextQuery.triggerNum = triggerNum;
 
     const matchingAutoTexts = AutoTexts.find(autoTextQuery).fetch();
     if (matchingAutoTexts.length === 0) {
-      console.log('No matching autoTexts', { trigger, trigger_num });
+      console.log('No matching autoTexts', { trigger, triggerNum });
       return;
     }
 
@@ -21,7 +24,88 @@ Meteor.methods({
     Meteor.call('autoTexts.sendCustom', {
       ...autoText,
       playerId,
+      templateVars,
       source: 'auto'
+    });
+  },
+
+  'autoTexts.sendStatus': ({ playerId }) => {
+    const player = Players.findOne(playerId);
+    if (!player) return;
+
+    Meteor.call('autoTexts.send', { playerId, trigger: 'STATUS_GENERATING' });
+
+    const lines = [];
+
+    lines.push(`STATUS REPORT`);
+    lines.push(`Current alias: "${player.alias}"`);
+    lines.push('\n');
+    lines.push(`Texts sent to feed: ${player.feedTextsSent}`);
+    lines.push(`Images sent to feed: ${player.feedMediaSent}`);
+    lines.push('\n');
+
+    const unlocks = AchievementUnlocks.find({
+      player: playerId,
+      event: Events.currentId()
+    }).fetch();
+    const allAchievements = Achievements.find({
+      event: Events.currentId()
+    }).fetch();
+
+    lines.push(
+      `Achievements Unlocked: ${unlocks.length}/${allAchievements.length}`
+    );
+
+    if (unlocks.length < allAchievements.length) {
+      lines.push('Missing Achievements:');
+      const missingAchievements = allAchievements
+        .filter(
+          achievement =>
+            !unlocks.some(unlock => unlock.achievement === achievement._id)
+        )
+        .forEach(achievement => {
+          lines.push(`- ${achievement.name}`);
+        });
+    }
+
+    lines.push('\n');
+
+    let checkpointGroups = Checkpoints.find(
+      { event: Events.currentId() },
+      { fields: { group: 1 } }
+    )
+      .fetch()
+      .reduce((groups, checkpoint) => {
+        if (!groups[checkpoint.group])
+          groups[checkpoint.group] = { found: 0, total: 1 };
+        else groups[checkpoint.group].total++;
+        return groups;
+      }, {});
+
+    checkpointGroups = player.checkpoints.reduce((groups, checkpoint) => {
+      groups[checkpoint.group].found++;
+      return groups;
+    }, checkpointGroups);
+
+    lines.push(`Hashtags Discovered:`);
+    let unfoundHashtags = 0;
+    Object.keys(checkpointGroups).forEach(group => {
+      const { found, total } = checkpointGroups[group];
+      if (found) {
+        lines.push(`${found}/${total} ${group} hashtags`);
+      } else {
+        unfoundHashtags += total;
+      }
+    });
+
+    if (unfoundHashtags) {
+      lines.push(`...and ${unfoundHashtags} more elsewhere!`);
+    }
+
+    Meteor.call('autoTexts.sendCustom', {
+      playerId,
+      source: 'auto',
+      playerText: lines.join('\n')
     });
   },
 
@@ -29,12 +113,17 @@ Meteor.methods({
     playerText,
     screenText,
     playerId,
+    templateVars = {},
     source = 'unknown'
   }) => {
     const player = Players.findOne(playerId);
 
     if (playerText) {
-      const body = playerText.replace('[alias]', player.alias);
+      let body = playerText.replace(/\[alias\]/g, player.alias);
+      Object.keys(templateVars).forEach(key => {
+        body = body.replace(new RegExp(`\\[${key}\\]`, 'g'), templateVars[key]);
+      });
+
       Meteor.call('outTexts.send', {
         players: [player],
         body,

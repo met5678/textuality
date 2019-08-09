@@ -73,5 +73,9 @@ Meteor.methods({
 
   'players.setAvatar': ({ playerId, avatar }) => {
     Players.update(playerId, { $set: { avatar } });
+  },
+
+  'players.setCheckpoints': ({ playerId, checkpoints }) => {
+    Players.update(playerId, { $set: { checkpoints } });
   }
 });

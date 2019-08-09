@@ -19,7 +19,18 @@ const columns = [
   },
   {
     dataField: 'trigger',
-    text: 'Trigger'
+    text: 'Trigger',
+    formatter: (cell, row) => (
+      <>
+        {cell}
+        {typeof row.triggerDetail !== 'undefined' && (
+          <>
+            <br />
+            {row.triggerDetail}
+          </>
+        )}
+      </>
+    )
   },
   {
     dataField: 'playerText',
@@ -62,7 +73,7 @@ export default withTracker(props => {
 
   return {
     loading: handles.some(handle => !handle.ready()),
-    achievements: Achievements.find().fetch()
+    achievements: Achievements.find({}, { sort: { number: 1 } }).fetch()
   };
 
   return {};

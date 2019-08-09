@@ -11,10 +11,6 @@ import Checkpoints from 'api/checkpoints';
 
 const columns = [
   {
-    dataField: 'number',
-    text: 'Num'
-  },
-  {
     dataField: 'hashtag',
     text: 'Hashtag'
   },
@@ -25,6 +21,10 @@ const columns = [
   {
     dataField: 'location',
     text: 'Location'
+  },
+  {
+    dataField: 'playerText',
+    text: 'Player Text'
   }
 ];
 

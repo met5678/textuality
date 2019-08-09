@@ -10,10 +10,13 @@ const CheckpointSchema = new SimpleSchema({
         .fetch()
         .map(event => event._id)
   },
-  number: SimpleSchema.Integer,
   hashtag: String,
   group: String,
   location: {
+    type: String,
+    optional: true
+  },
+  playerText: {
     type: String,
     optional: true
   }

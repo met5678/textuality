@@ -51,12 +51,12 @@
 
 .feedItem-achievements.hearts {
   margin-left: -3px;
-  height: 2vw;
+  height: 2.2vw;
 
   span {
     margin-right: 0;
-    height: 2vw;
-    width: 2vw;
+    height: 2.2vw;
+    width: 2.2vw;
   }
 }
 
@@ -71,4 +71,8 @@
 
 .feedItem-body {
   margin-top: 20px;
+
+  &.emojiOnly {
+    font-size: 3.5vw;
+  }
 }

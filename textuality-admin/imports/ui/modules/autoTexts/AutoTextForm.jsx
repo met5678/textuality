@@ -17,7 +17,7 @@ const AutoTextForm = ({ model, onSubmit }) => {
     <AutoForm schema={AutoTextSchema} onSubmit={onSubmit} model={model}>
       <EventField />
       <AutoField name="trigger" />
-      <AutoField name="trigger_num" />
+      <AutoField name="triggerNum" />
       <LongTextField name="playerText" />
       <LongTextField name="screenText" />
 

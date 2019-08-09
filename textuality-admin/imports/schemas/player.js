@@ -40,9 +40,13 @@ const PlayerSchema = new SimpleSchema({
     defaultValue: []
   },
   'checkpoints.$': {
-    type: Object,
-    blackbox: true
+    type: Object
   },
+  'checkpoints.$.checkpoint': String,
+  'checkpoints.$.group': String,
+  'checkpoints.$.number': SimpleSchema.Integer,
+  'checkpoints.$.hashtag': String,
+  'checkpoints.$.time': Date,
   feedTextsSent: {
     type: SimpleSchema.Integer,
     defaultValue: 0

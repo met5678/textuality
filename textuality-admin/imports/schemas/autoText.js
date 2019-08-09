@@ -35,20 +35,19 @@ const AutoTextSchema = new SimpleSchema({
       'ALIAS_CHANGED',
       'ALIAS_MISSION_ACTIVE',
 
-      'AVATAR_CHANGED',
-      'AVATAR_NO_IMAGE',
-      'AVATAR_NO_FACE',
-      'AVATAR_MULTI_FACES',
-      'AVATAR_MISSION_ACTIVE',
+      'ACHIEVEMENT_UNLOCK',
+
+      'CHECKPOINT_FOUND',
+      'CHECKPOINT_ALREADY_FOUND',
 
       'SIGN_OFF',
       'SIGN_BACK_ON',
 
+      'STATUS_GENERATING',
       'STATUS',
 
       'INVALID_COMMAND',
 
-      'HASHTAG_ALREADY_FOUND',
       'INVALID_HASHTAG',
 
       'SENT_VIDEO',

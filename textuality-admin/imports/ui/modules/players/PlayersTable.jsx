@@ -28,6 +28,19 @@ const columns = [
     headerStyle: { width: '90px' }
   },
   {
+    dataField: 'checkpoints',
+    text: 'Checkpoints',
+    formatter: cell => {
+      return (
+        <>
+          <strong>{cell.length}</strong>
+          <br />
+          {cell.map(cell => cell.hashtag + '(' + cell.group + ')').join(', ')}
+        </>
+      );
+    }
+  },
+  {
     dataField: 'feedTextsSent',
     sort: true,
     text: 'Feed',

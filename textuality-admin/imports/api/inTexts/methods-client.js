@@ -7,13 +7,12 @@ import receive from './receive-steps/receive';
 import getPurpose from './get-purpose/get-purpose';
 import processInitialText from './process-purpose/process-initial-text';
 import processSystemText from './process-purpose/process-system-text';
+import processHashtagText from './process-purpose/process-hashtag-text';
 
 Meteor.methods({
   'inTexts.receive': message => {
     const player = Meteor.call('players.findOrJoin', message.from);
     const purpose = getPurpose({ message, player });
-
-    console.log(player.numAchievements);
 
     const inText = {
       event: Events.currentId(),

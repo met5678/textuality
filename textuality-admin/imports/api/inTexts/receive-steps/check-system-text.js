@@ -16,8 +16,6 @@ export default {
       .toLowerCase();
     const rest = inText.body.substring(firstSpace);
 
-    console.log('System text', { command, rest });
-
     // Change alias
     if (command === 'alias') {
       const oldAliases = [player.alias, ...player.oldAliases];

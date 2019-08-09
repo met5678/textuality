@@ -19,8 +19,6 @@ Meteor.methods({
   'media.receive': ({ purpose, message, player }) => {
     const { url, contentType } = message.media;
 
-    console.log({ contentType });
-
     // If not one of these, ignore the image
     if (!['feed', 'mediaOnly', 'initial'].includes(purpose)) return null;
 

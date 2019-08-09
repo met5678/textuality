@@ -3,8 +3,6 @@ import cloudinary from 'cloudinary';
 
 const cloudName = Meteor.settings.public.cloudinaryCloudName;
 
-// console.log({ cloudName, apiKey, apiSecret });
-
 if (Meteor.isServer) {
   const apiKey = Meteor.settings.private.cloudinaryKey;
   const apiSecret = Meteor.settings.private.cloudinarySecret;

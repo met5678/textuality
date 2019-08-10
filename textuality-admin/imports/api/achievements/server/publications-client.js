@@ -6,12 +6,13 @@ import Events from 'api/events';
 Meteor.publish('achievements.basic', function() {
   this.autorun(() =>
     Achievements.find(
-      { event: Events.current()._id },
+      { event: Events.currentId() },
       {
         fields: {
           event: 1,
           name: 1,
-          hideFromScreen: 1
+          hideFromScreen: 1,
+          earned: 1
         }
       }
     )

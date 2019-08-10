@@ -89,9 +89,11 @@ Meteor.methods({
 
     lines.push(`Hashtags Discovered:`);
     let unfoundHashtags = 0;
+    let didFind = false;
     Object.keys(checkpointGroups).forEach(group => {
       const { found, total } = checkpointGroups[group];
       if (found) {
+        didFind = true;
         lines.push(`${found}/${total} ${group} hashtags`);
       } else {
         unfoundHashtags += total;
@@ -99,7 +101,11 @@ Meteor.methods({
     });
 
     if (unfoundHashtags) {
-      lines.push(`...and ${unfoundHashtags} more elsewhere!`);
+      if (didFind) {
+        lines.push(`...and ${unfoundHashtags} more elsewhere!`);
+      } else {
+        lines.push(`...you haven't found any yet! Find some and text them in.`);
+      }
     }
 
     Meteor.call('autoTexts.sendCustom', {
@@ -113,6 +119,7 @@ Meteor.methods({
     playerText,
     screenText,
     playerId,
+    mediaUrl,
     templateVars = {},
     source = 'unknown'
   }) => {
@@ -127,7 +134,8 @@ Meteor.methods({
       Meteor.call('outTexts.send', {
         players: [player],
         body,
-        source: 'auto'
+        source: 'auto',
+        mediaUrl
       });
     }
 

@@ -47,6 +47,10 @@ const PlayerSchema = new SimpleSchema({
   'checkpoints.$.number': SimpleSchema.Integer,
   'checkpoints.$.hashtag': String,
   'checkpoints.$.time': Date,
+  numAchievements: {
+    type: SimpleSchema.Integer,
+    defaultValue: 0
+  },
   feedTextsSent: {
     type: SimpleSchema.Integer,
     defaultValue: 0

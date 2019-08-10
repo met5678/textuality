@@ -18,8 +18,14 @@ const MissionPairingSchema = new SimpleSchema({
   avatarA: String,
   avatarB: String,
   hashtag: String,
-  complete: Boolean,
-  timeComplete: Date
+  complete: {
+    type: Boolean,
+    defaultValue: false
+  },
+  timeComplete: {
+    type: Date,
+    optional: true
+  }
 });
 
 export default MissionPairingSchema;

@@ -20,7 +20,7 @@ const FeedImage = ({ loading, media }) => {
 };
 
 export default withTracker(({ event }) => {
-  const handles = [Meteor.subscribe('media.feed', 3)];
+  const handles = [Meteor.subscribe('media.feed', 5)];
 
   return {
     loading: handles.some(handle => !handle.ready()),

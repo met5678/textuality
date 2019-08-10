@@ -1,0 +1,40 @@
+.missionOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 300ms;
+
+  background-color: rgba(0, 0, 0, 0.8);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &.active {
+    opacity: 1;
+  }
+}
+
+.missionOverlay-title {
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 4vw;
+  padding: 2vw;
+  text-transform: uppercase;
+}
+
+.missionOverlay-countdown {
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 5vw;
+  padding: 2vw;
+}
+
+.missionOverlay-directions {
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 3vw;
+  padding: 2vw;
+  text-transform: uppercase;
+}

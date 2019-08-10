@@ -1,0 +1,64 @@
+.leaderboardsBox {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  padding: 1.5vw 2vw;
+}
+
+.leaderboard {
+  font-family: Arial, sans-serif;
+}
+
+.leaderboard-title {
+  font-size: 2vw;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 1vw;
+  text-align: center;
+  text-decoration: underline;
+}
+
+.leaderboard-body {
+  font-size: 1.9vw;
+}
+
+.leaderboard-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  color: violet;
+
+  margin-bottom: 0.8vw;
+
+  &:nth-child(3n + 1) {
+    color: yellow;
+  }
+
+  &:nth-child(3n + 2) {
+    color: cyan;
+  }
+}
+
+.leaderboard-item {
+  flex-grow: 1;
+}
+
+.leaderboard-value {
+  font-family: monospace;
+  font-weight: bold;
+  flex-basis: 3vw;
+  text-align: right;
+}
+
+.leaderboard-hearts {
+  display: inline-block;
+  height: 1.6vw;
+
+  span {
+    height: 1.6vw;
+    width: 1.6vw;
+  }
+}

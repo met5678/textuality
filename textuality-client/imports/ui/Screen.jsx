@@ -5,6 +5,7 @@ import Feed from 'modules/Feed';
 import Host from 'modules/Host';
 import BottomBar from 'modules/BottomBar';
 import VarietyBox from 'modules/VarietyBox';
+import MissionOverlay from 'modules/MissionOverlay';
 
 const Screen = ({ event }) => (
   <div className="screen">
@@ -19,6 +20,8 @@ const Screen = ({ event }) => (
         <Host event={event} />
       </div>
     </div>
+
+    <MissionOverlay />
   </div>
 );
 

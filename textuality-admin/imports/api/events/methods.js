@@ -39,6 +39,9 @@ Meteor.methods({
 		Meteor.call('aliases.resetEvent', eventId);
 		Meteor.call('players.resetEvent', eventId);
 		Meteor.call('media.resetEvent', eventId);
+		Meteor.call('achievements.resetEvent', eventId);
 		Meteor.call('achievementUnlocks.resetEvent', eventId);
+		Meteor.call('missions.resetEvent', eventId);
+		Meteor.call('missionPairings.resetEvent', eventId);
 	}
 });

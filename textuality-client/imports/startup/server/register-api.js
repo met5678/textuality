@@ -32,3 +32,11 @@ import 'api/achievements/server/publications-client';
 import 'api/achievementUnlocks/';
 import 'api/achievementUnlocks/methods-client';
 import 'api/achievementUnlocks/server/publications-client';
+
+import 'api/missions/';
+import 'api/missions/methods-client';
+import 'api/missions/server/publications-client';
+
+import 'api/missionPairings/';
+import 'api/missionPairings/methods-client';
+import 'api/missionPairings/server/publications-client';

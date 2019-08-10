@@ -37,6 +37,10 @@ const AchievementSchema = new SimpleSchema({
   hideFromScreen: {
     type: Boolean,
     defaultValue: true
+  },
+  earned: {
+    type: SimpleSchema.Integer,
+    defaultValue: 0
   }
 });
 

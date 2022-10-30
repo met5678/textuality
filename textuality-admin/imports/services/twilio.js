@@ -19,7 +19,7 @@ function init() {
     const message = {
       to: twMessage.To.substring(1),
       from: twMessage.From.substring(1),
-      body: twMessage.Body,
+      body: twMessage.Body.trim(),
       geo: {
         state: twMessage.FromState,
         city: twMessage.FromCity,

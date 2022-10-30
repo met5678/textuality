@@ -16,6 +16,8 @@ export default function(inText) {
     .toLowerCase();
   const rest = inText.body.substring(firstSpace);
 
+  if (Meteor.call('missions.processHashtag', { playerId, hashtag })) return;
+
   const checkpoint = Meteor.call('checkpoints.getForHashtag', hashtag);
   if (checkpoint) {
     if (
@@ -36,6 +38,4 @@ export default function(inText) {
   } else {
     Meteor.call('autoTexts.send', { playerId, trigger: 'INVALID_HASHTAG' });
   }
-
-  inText.purpose = 'hashtag';
 }

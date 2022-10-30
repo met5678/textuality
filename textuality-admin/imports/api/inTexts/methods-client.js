@@ -14,6 +14,8 @@ Meteor.methods({
     const player = Meteor.call('players.findOrJoin', message.from);
     const purpose = getPurpose({ message, player });
 
+    // console.log({ message, purpose });
+
     const inText = {
       event: Events.currentId(),
       player: player._id,

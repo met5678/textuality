@@ -11,15 +11,35 @@ const AchievementSchema = new SimpleSchema({
         .map(event => event._id)
   },
   name: String,
-  active: Boolean,
-  timePreText: Date,
-  timeStart: Date,
-  timeEnd: Date,
+  active: {
+    type: Boolean,
+    defaultValue: false
+  },
+  minutes: {
+    type: SimpleSchema.Integer,
+    defaultValue: 10
+  },
+  timePreText: {
+    type: Date,
+    optional: true
+  },
+  timeStart: {
+    type: Date,
+    optional: true
+  },
+  timeEnd: {
+    type: Date,
+    optional: true
+  },
   missionPreText: {
     type: String,
     max: 150
   },
-  missionStartText: {
+  missionStartTextA: {
+    type: String,
+    max: 150
+  },
+  missionStartTextB: {
     type: String,
     max: 150
   },

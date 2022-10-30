@@ -21,5 +21,13 @@ Meteor.methods({
 		} else {
 			Achievements.remove(achievementId);
 		}
+	},
+
+	'achievements.resetEvent': () => {
+		Achievements.update(
+			{ event: Events.currentId() },
+			{ $set: { earned: 0 } },
+			{ multi: true }
+		);
 	}
 });

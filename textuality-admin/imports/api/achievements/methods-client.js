@@ -44,6 +44,8 @@ Meteor.methods({
             avatar: player.avatar,
             numAchievements: playerAchievements.length + 1 + i
           });
+          Achievements.update(achievement._id, { $inc: { earned: 1 } });
+          Players.update(playerId, { $inc: { numAchievements: 1 } });
           Meteor.call('autoTexts.send', {
             trigger: 'ACHIEVEMENT_UNLOCK',
             playerId,

@@ -1,0 +1,113 @@
+@import '../colors';
+
+.pairingsBox {
+  height: 0;
+  margin-top: 0;
+  transition: height 500ms, margin-top 500ms;
+
+  &.active {
+    margin-top: 2vh;
+    height: 50vh;
+  }
+}
+
+.pairing {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  animation-name: appearAnim;
+  animation-duration: 12000ms;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+
+  font-family: Arial, sans-serif;
+}
+
+.pairing-avatar {
+  max-height: 40vh;
+  max-width: 30vw;
+  border-radius: 2vw;
+  box-shadow: 0 0 10px 10px $pink;
+}
+
+.pairing-player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  animation-name: tiltAnim;
+  animation-duration: 3000ms;
+  animation-iteration-count: infinite;
+}
+
+.pairing-alias {
+  font-size: 2.5vw;
+  font-weight: bold;
+  margin-bottom: 0.5vh;
+  margin-top: 10px;
+}
+
+.pairing-hearts {
+  height: 10vw;
+  z-index: 10;
+
+  animation-name: tiltAnim;
+  animation-duration: 3000ms;
+  animation-iteration-count: infinite;
+
+  span {
+    height: 10vw;
+    width: 10vw;
+  }
+}
+
+@keyframes appearAnim {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+
+  6% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+
+  10% {
+    filter: brightness(1);
+  }
+
+  11% {
+    opacity: 1;
+    transform: translateX(0%);
+    filter: brightness(3);
+  }
+
+  15% {
+    filter: brightness(1);
+  }
+
+  90% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+}
+
+@keyframes tiltAnim {
+  0% {
+    transform: rotate(-2deg);
+  }
+
+  50% {
+    transform: rotate(2deg);
+  }
+
+  100% {
+    transform: rotate(-2deg);
+  }
+}

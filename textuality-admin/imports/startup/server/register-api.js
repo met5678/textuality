@@ -15,10 +15,12 @@ import 'api/aliases/server/publications-admin';
 
 import 'api/autoTexts/';
 import 'api/autoTexts/methods-admin';
+import 'api/autoTexts/methods-client';
 import 'api/autoTexts/server/publications-admin';
 
 import 'api/outTexts/';
 import 'api/outTexts/methods-admin';
+import 'api/outTexts/methods-client';
 import 'api/outTexts/server/publications-admin';
 
 import 'api/media/';
@@ -36,3 +38,12 @@ import 'api/achievements/server/publications-admin';
 import 'api/achievementUnlocks/';
 import 'api/achievementUnlocks/methods-admin';
 import 'api/achievementUnlocks/server/publications-admin';
+
+import 'api/missions/';
+import 'api/missions/methods-admin';
+import 'api/missions/methods-client';
+import 'api/missions/server/publications-admin';
+
+import 'api/missionPairings/';
+import 'api/missionPairings/methods-admin';
+import 'api/missionPairings/server/publications-admin';

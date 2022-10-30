@@ -50,14 +50,13 @@ const AutoTextSchema = new SimpleSchema({
 
       'INVALID_HASHTAG',
 
+      'MISSION_ALREADY_COMPLETED',
+      'MISSION_COMPLETED_AGAIN',
+
       'SENT_VIDEO',
       'INVALID_CONTENT_TYPE',
 
-      'N_TEXTS_SENT',
-      'N_COLLECTIVE_TEXTS_SENT',
-      'N_ACHIEVEMENTS_UNLOCKED',
-      'ALL_ACHIEVEMENTS_UNLOCKED',
-      'N_PLAYERS_JOINED'
+      'ALL_ACHIEVEMENTS_UNLOCKED'
     ]
   },
   triggerNum: {

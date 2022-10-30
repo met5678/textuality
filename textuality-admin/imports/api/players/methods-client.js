@@ -23,8 +23,6 @@ Meteor.methods({
       player = Players.findOne(id);
     }
 
-    player.numAchievements = player.numAchievements();
-
     return player;
   },
 

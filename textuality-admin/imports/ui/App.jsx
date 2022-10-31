@@ -1,11 +1,21 @@
-import React from 'react';
-import { Hello } from './Hello.jsx';
-import { Info } from './Info.jsx';
+import React from "react";
 
-export const App = () => (
-  <div>
-    <h1>Welcome to Meteor!</h1>
-    <Hello/>
-    <Info/>
-  </div>
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  RouterProvider,
+  Route,
+} from "react-router-dom";
+
+import Shell from "./Shell";
+import AllTextsPage from "./modules/texts/AllTextsPage";
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route element={<Shell />} path="/">
+      <Route element={<AllTextsPage />} path="texts" />
+    </Route>
+  )
 );
+
+export const App = () => <RouterProvider router={router} />;

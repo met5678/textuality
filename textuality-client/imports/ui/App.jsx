@@ -1,5 +1,9 @@
 import React from 'react';
-import { withTracker } from 'meteor/react-meteor-data';
+import {
+  withTracker,
+  useSubscribe,
+  useTracker,
+} from 'meteor/react-meteor-data';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 
 import Shell from './Shell';
@@ -10,8 +14,11 @@ import ScreenAchievements from './ScreenAchievements';
 import Events from 'api/events';
 // import Screens from 'api/sreens';
 
-const App = ({ loading, event }) => {
-  if (loading) {
+const App = () => {
+  const isLoading = useSubscribe('events.current');
+  const event = useTracker(() => Events.current());
+
+  if (isLoading()) {
     return null;
   }
 
@@ -34,11 +41,4 @@ const App = ({ loading, event }) => {
   );
 };
 
-export default withTracker(() => {
-  const handles = [Meteor.subscribe('events.current')];
-
-  return {
-    loading: handles.some(handle => !handle.ready()),
-    event: Events.current()
-  };
-})(App);
+export default App;

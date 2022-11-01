@@ -9,7 +9,7 @@
 }
 
 .leaderboard {
-  font-family: Arial, sans-serif;
+  font-family: dashiell-fine, serif;
 }
 
 .leaderboard-title {
@@ -32,14 +32,14 @@
   color: violet;
 
   margin-bottom: 0.8vw;
+}
 
-  &:nth-child(3n + 1) {
-    color: yellow;
-  }
+.leaderboard-row:nth-child(3n + 1) {
+  color: yellow;
+}
 
-  &:nth-child(3n + 2) {
-    color: cyan;
-  }
+.leaderboard-row:nth-child(3n + 2) {
+  color: cyan;
 }
 
 .leaderboard-item {
@@ -56,9 +56,9 @@
 .leaderboard-hearts {
   display: inline-block;
   height: 1.6vw;
+}
 
-  span {
-    height: 1.6vw;
-    width: 1.6vw;
-  }
+.leaderboard-hearts span {
+  height: 1.6vw;
+  width: 1.6vw;
 }

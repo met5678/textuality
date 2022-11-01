@@ -1,9 +1,7 @@
-@import '../colors';
-
 .varietyBox {
   flex-grow: 2;
   position: relative;
   overflow: hidden;
 
-  border-left: 2px solid $yellow;
+  border-left: 2px solid var(--yellow);
 }

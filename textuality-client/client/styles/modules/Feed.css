@@ -1,9 +1,7 @@
-@import '../colors';
-
 .feed {
   padding: 0 20px;
   overflow: hidden;
-  font-family: Arial, sans-serif;
+  font-family: dashiell-fine, serif;
   position: absolute;
   top: 0;
   left: 0;

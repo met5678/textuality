@@ -47,3 +47,7 @@ import 'api/missions/server/publications-admin';
 import 'api/missionPairings/';
 import 'api/missionPairings/methods-admin';
 import 'api/missionPairings/server/publications-admin';
+
+import 'api/clues/';
+import 'api/clues/methods-admin';
+import 'api/clues/server/publications-admin';

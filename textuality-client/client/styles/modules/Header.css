@@ -1,0 +1,30 @@
+header {
+  background-color: var(--black);
+  border-bottom: 2px solid var(--yellow);
+  padding: 5px 8px;
+  font-family: dashiell-fine, serif;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  flex-basis: 2.8vw;
+}
+
+header h1 {
+  color: var(--white);
+  font-weight: normal;
+  font-size: 4vw;
+}
+
+header .name-name {
+  font-family: rhythm-two, sans-serif;
+  font-weight: normal;
+  transform: scale(1.3) translate(10px, 4px);
+  letter-spacing: 1px;
+}
+
+header .clue-l {
+  color: var(--red);
+}

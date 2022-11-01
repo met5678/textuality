@@ -1,0 +1,58 @@
+:root {
+  --black: #000000;
+  --bg: #1d1b12;
+  --white: #f3fcf0;
+  --red: #c23737;
+  --yellow: #c7b748;
+  --green: #74c76d;
+  --blue: #449fca;
+  --plum: #8344ca;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  border: none;
+  box-sizing: border-box;
+}
+
+body {
+  background-image: url('/au-background-dark.png');
+  background-color: var(--bg);
+  color: var(--white);
+  font-family: dashiell-fine, serif;
+}
+
+.screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.lowerArea {
+  display: flex;
+  flex-direction: row;
+
+  flex-grow: 1;
+}
+
+.leftColumn {
+  position: relative;
+
+  flex-grow: 1;
+}
+
+.rightColumn {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  flex-basis: 35%;
+}

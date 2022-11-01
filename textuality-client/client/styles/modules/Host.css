@@ -1,0 +1,19 @@
+.host {
+  background-color: #000;
+  border-top: 2px solid var(--yellow);
+  border-left: 2px solid var(--yellow);
+  overflow: hidden;
+  position: relative;
+
+  flex-basis: 50%;
+  flex-grow: 0;
+}
+
+.host video {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}

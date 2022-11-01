@@ -13,6 +13,7 @@ import AutoTextsPage from 'modules/autoTexts/AutoTextsPage';
 import CheckpointsPage from 'modules/checkpoints/CheckpointsPage';
 import AchievementsPage from 'modules/achievements/AchievementsPage';
 import MissionsPage from 'modules/missions/MissionsPage';
+import CluesPage from 'modules/clues/CluesPage';
 
 const App = () => (
   <BrowserRouter>
@@ -28,6 +29,7 @@ const App = () => (
         <Route path="/checkpoints" component={CheckpointsPage} />
         <Route path="/achievements" component={AchievementsPage} />
         <Route path="/missions" component={MissionsPage} />
+        <Route path="/clues" component={CluesPage} />
 
         {/*<Redirect from="/" to="/texts" />*/}
       </Switch>

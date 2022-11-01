@@ -10,7 +10,7 @@ import {
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem
+  DropdownItem,
 } from 'reactstrap';
 import { Route, Link } from 'react-router-dom';
 
@@ -44,12 +44,12 @@ class NavBar extends React.Component {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false
+      isOpen: false,
     };
   }
   toggle() {
     this.setState({
-      isOpen: !this.state.isOpen
+      isOpen: !this.state.isOpen,
     });
   }
 
@@ -88,6 +88,7 @@ class NavBar extends React.Component {
                 <RouterDropdownItem to="/checkpoints">
                   Checkpoints
                 </RouterDropdownItem>
+                <RouterDropdownItem to="/clues">Clues</RouterDropdownItem>
                 <RouterDropdownItem to="/missions">Missions</RouterDropdownItem>
                 <RouterDropdownItem to="/autoTexts">
                   Auto Texts

@@ -1,5 +1,5 @@
 import React from 'react';
-import { withTracker } from 'meteor/react-meteor-data';
+import { useSubscribe, useTracker } from 'meteor/react-meteor-data';
 
 import LoadingBar from 'generic/LoadingBar';
 import AutoTextForm from './AutoTextForm';
@@ -19,20 +19,25 @@ const columns = [
       } else {
         return cell;
       }
-    }
+    },
   },
   {
     dataField: 'playerText',
-    text: 'Player text'
+    text: 'Player text',
   },
   {
     dataField: 'screenText',
-    text: 'Screen text'
-  }
+    text: 'Screen text',
+  },
 ];
 
-const AutoTextsTable = ({ loading, autoTexts }) => {
-  if (loading) return <LoadingBar />;
+const AutoTextsTable = () => {
+  const isLoading = useSubscribe('autoTexts.all');
+  const autoTexts = useTracker(() =>
+    AutoTexts.find({}, { sort: { trigger: 1, triggerDetail: 1 } }).fetch()
+  );
+
+  if (isLoading()) return <LoadingBar />;
 
   return (
     <>
@@ -40,24 +45,15 @@ const AutoTextsTable = ({ loading, autoTexts }) => {
         columns={columns}
         data={autoTexts}
         canDelete={true}
-        onDelete={autoText => Meteor.call('autoTexts.delete', autoText)}
+        onDelete={(autoText) => Meteor.call('autoTexts.delete', autoText)}
         canInsert={true}
-        onInsert={autoText => Meteor.call('autoTexts.new', autoText)}
+        onInsert={(autoText) => Meteor.call('autoTexts.new', autoText)}
         canEdit={true}
-        onEdit={autoText => Meteor.call('autoTexts.update', autoText)}
+        onEdit={(autoText) => Meteor.call('autoTexts.update', autoText)}
         form={AutoTextForm}
       />
     </>
   );
 };
 
-export default withTracker(props => {
-  const handles = [Meteor.subscribe('autoTexts.all')];
-
-  return {
-    loading: handles.some(handle => !handle.ready()),
-    autoTexts: AutoTexts.find().fetch()
-  };
-
-  return {};
-})(AutoTextsTable);
+export default AutoTextsTable;

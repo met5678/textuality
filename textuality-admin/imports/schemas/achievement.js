@@ -38,11 +38,17 @@ const AchievementSchema = new SimpleSchema({
   },
   playerText: {
     type: String,
-    max: 60,
+    max: 140,
+    optional: true,
   },
-  hideFromScreen: {
+  screenText: {
+    type: String,
+    max: 140,
+    optional: true,
+  },
+  hideFromCasefile: {
     type: Boolean,
-    defaultValue: true,
+    defaultValue: false,
   },
   earned: {
     type: SimpleSchema.Integer,

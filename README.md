@@ -37,8 +37,17 @@ Both `twilio`, used for the texting, and `cloudinary`, used for the image storag
     "cloudinaryKey": "xxxxxxxxxxxxxxxxxxxx",
     "cloudinarySecret": "xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
   }
+
+  "galaxy.meteor.com": {
+    "env": {
+      "MONGO_URL": "mongodb+srv://<username>:<password>@<db-url>/?retryWrites=true&w=majority",
+      "MONGO_OPLOG_URL": "mongodb+srv://<oplog-username>:<oplog-password>@<db-url>/local?retryWrites=true&w=majority"
+    }
+  },
 }
 ```
+
+The `galaxy.meteor.com` section is only necessary if deploying or accessing the production admin. The urls here are in the format provided by MongoDB Atlas, but might change if using a different provider. Note: the `MONGO_OPLOG_URL` needs to specify the `local` collection, typically by including `/local` at the end of the connection url as you see here.
 
 Ask Roo for the credentials.
 

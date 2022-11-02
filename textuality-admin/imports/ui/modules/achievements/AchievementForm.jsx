@@ -22,7 +22,8 @@ const AutoTextForm = ({ model, onSubmit }) => {
       <AutoField name="triggerDetail" />
       <AutoField name="clueAwardType" />
       <LongTextField name="playerText" />
-      <AutoField name="hideFromScreen" />
+      <LongTextField name="screenText" />
+      <AutoField name="hideFromCasefile" />
 
       <ErrorsField />
       <SubmitField />

@@ -11,11 +11,12 @@ import Achievements from 'api/achievements';
 const columns = [
   {
     dataField: 'number',
-    text: 'Number'
+    text: 'Number',
+    headerStyle: { width: '60px' },
   },
   {
     dataField: 'name',
-    text: 'Name'
+    text: 'Name',
   },
   {
     dataField: 'trigger',
@@ -30,20 +31,26 @@ const columns = [
           </>
         )}
       </>
-    )
+    ),
   },
   {
     dataField: 'playerText',
-    text: 'Player Text'
+    text: 'Player Text',
   },
   {
-    dataField: 'hideFromScreen',
-    text: 'Hide'
+    dataField: 'screenText',
+    text: 'Screen Text',
+  },
+  {
+    dataField: 'hideFromCasefile',
+    text: 'Hide',
+    headerStyle: { width: '50px' },
   },
   {
     dataField: 'earned',
-    text: 'Earned'
-  }
+    text: 'Earned',
+    headerStyle: { width: '60px' },
+  },
 ];
 
 const AchievementsTable = ({ loading, achievements }) => {
@@ -55,25 +62,27 @@ const AchievementsTable = ({ loading, achievements }) => {
         columns={columns}
         data={achievements}
         canDelete={true}
-        onDelete={achievement =>
+        onDelete={(achievement) =>
           Meteor.call('achievements.delete', achievement)
         }
         canInsert={true}
-        onInsert={achievement => Meteor.call('achievements.new', achievement)}
+        onInsert={(achievement) => Meteor.call('achievements.new', achievement)}
         canEdit={true}
-        onEdit={achievement => Meteor.call('achievements.update', achievement)}
+        onEdit={(achievement) =>
+          Meteor.call('achievements.update', achievement)
+        }
         form={AchievementForm}
       />
     </>
   );
 };
 
-export default withTracker(props => {
+export default withTracker((props) => {
   const handles = [Meteor.subscribe('achievements.all')];
 
   return {
-    loading: handles.some(handle => !handle.ready()),
-    achievements: Achievements.find({}, { sort: { number: 1 } }).fetch()
+    loading: handles.some((handle) => !handle.ready()),
+    achievements: Achievements.find({}, { sort: { number: 1 } }).fetch(),
   };
 
   return {};

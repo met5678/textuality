@@ -5,7 +5,7 @@ import Events from 'api/events';
 import Players from 'api/players';
 
 Meteor.methods({
-  'checkpoints.getForHashtag': hashtag => {
+  'checkpoints.getForHashtag': (hashtag) => {
     const checkpointQuery = { event: Events.currentId(), hashtag };
 
     const checkpoint = Checkpoints.findOne(checkpointQuery);
@@ -24,23 +24,22 @@ Meteor.methods({
     playerCheckpoints.push({
       checkpoint: checkpoint._id,
       group: checkpoint.group,
-      number: checkpoint.number,
       hashtag: checkpoint.hashtag,
-      time: new Date()
+      time: new Date(),
     });
 
     Meteor.call('players.setCheckpoints', {
       playerId,
-      checkpoints: playerCheckpoints
+      checkpoints: playerCheckpoints,
     });
 
     const checkpointsInGroup = Checkpoints.find({
       event: Events.currentId(),
-      group: checkpoint.group
+      group: checkpoint.group,
     }).fetch();
-    const foundCheckpointsInGroup = checkpointsInGroup.filter(checkpoint =>
+    const foundCheckpointsInGroup = checkpointsInGroup.filter((checkpoint) =>
       playerCheckpoints.some(
-        pCheckpoint => pCheckpoint.checkpoint === checkpoint._id
+        (pCheckpoint) => pCheckpoint.checkpoint === checkpoint._id
       )
     );
 
@@ -48,7 +47,7 @@ Meteor.methods({
       Meteor.call('achievements.tryUnlock', {
         trigger: 'CHECKPOINT_GROUP',
         triggerDetail: checkpoint.group,
-        playerId
+        playerId,
       });
     } else {
       Meteor.call('autoTexts.send', {
@@ -57,13 +56,12 @@ Meteor.methods({
         templateVars: {
           group: checkpoint.group,
           text: checkpoint.playerText || '',
-          number: checkpoint.num,
           numFound: foundCheckpointsInGroup.length,
           numRemaining:
             checkpointsInGroup.length - foundCheckpointsInGroup.length,
-          totalInGroup: checkpointsInGroup.length
-        }
+          totalInGroup: checkpointsInGroup.length,
+        },
       });
     }
-  }
+  },
 });

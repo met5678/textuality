@@ -44,7 +44,6 @@ const PlayerSchema = new SimpleSchema({
   },
   'checkpoints.$.checkpoint': String,
   'checkpoints.$.group': String,
-  'checkpoints.$.number': SimpleSchema.Integer,
   'checkpoints.$.hashtag': String,
   'checkpoints.$.time': Date,
   numAchievements: {

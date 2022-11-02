@@ -1,5 +1,5 @@
 import React from 'react';
-import { withTracker } from 'meteor/react-meteor-data';
+import { useSubscribe, useTracker } from 'meteor/react-meteor-data';
 
 import LoadingBar from 'generic/LoadingBar';
 import ClueForm from './ClueForm';
@@ -31,8 +31,13 @@ const columns = [
   },
 ];
 
-const CluesTable = ({ loading, clues }) => {
-  if (loading) return <LoadingBar />;
+const CluesTable = () => {
+  const isLoading = useSubscribe('clues.all');
+  const clues = useTracker(() =>
+    Clues.find({}, { sort: { type: 1, shortName: 1 } }).fetch()
+  );
+
+  if (isLoading()) return <LoadingBar />;
 
   return (
     <>
@@ -51,11 +56,4 @@ const CluesTable = ({ loading, clues }) => {
   );
 };
 
-export default withTracker((props) => {
-  const handles = [Meteor.subscribe('clues.all')];
-
-  return {
-    loading: handles.some((handle) => !handle.ready()),
-    clues: Clues.find({}, { sort: { number: 1 } }).fetch(),
-  };
-})(CluesTable);
+export default CluesTable;

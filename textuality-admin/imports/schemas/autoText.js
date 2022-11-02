@@ -8,16 +8,16 @@ const AutoTextSchema = new SimpleSchema({
     allowedValues: () =>
       Events.find()
         .fetch()
-        .map(event => event._id)
+        .map((event) => event._id),
   },
   playerText: {
     type: String,
     max: 150,
-    optional: true
+    optional: true,
   },
   screenText: {
     type: String,
-    optional: true
+    optional: true,
   },
   trigger: {
     type: String,
@@ -36,6 +36,7 @@ const AutoTextSchema = new SimpleSchema({
       'ALIAS_MISSION_ACTIVE',
 
       'ACHIEVEMENT_UNLOCK',
+      'ACHIEVEMENT_UNLOCK_DURING_REVEAL',
 
       'CHECKPOINT_FOUND',
       'CHECKPOINT_ALREADY_FOUND',
@@ -56,13 +57,19 @@ const AutoTextSchema = new SimpleSchema({
       'SENT_VIDEO',
       'INVALID_CONTENT_TYPE',
 
-      'ALL_ACHIEVEMENTS_UNLOCKED'
-    ]
+      'ALL_ACHIEVEMENTS_UNLOCKED',
+
+      'ROUND_BEGIN',
+      'ROUND_10_MINS_REMAIN',
+      'ROUND_REVEAL_START',
+      'ROUND_REVEAL_RESULT_N_CLUES',
+      'ROUND_END',
+    ],
   },
   triggerNum: {
     type: SimpleSchema.Integer,
-    optional: true
-  }
+    optional: true,
+  },
 });
 
 export default AutoTextSchema;

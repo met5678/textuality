@@ -89,6 +89,7 @@ class NavBar extends React.Component {
                   Checkpoints
                 </RouterDropdownItem>
                 <RouterDropdownItem to="/clues">Clues</RouterDropdownItem>
+                <RouterDropdownItem to="/rounds">Rounds</RouterDropdownItem>
                 <RouterDropdownItem to="/missions">Missions</RouterDropdownItem>
                 <RouterDropdownItem to="/autoTexts">
                   Auto Texts

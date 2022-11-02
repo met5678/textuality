@@ -8,7 +8,7 @@ import {
   AutoField,
   ErrorsField,
   LongTextField,
-  SubmitField
+  SubmitField,
 } from 'generic/AutoForm';
 import EventField from 'modules/events/EventField';
 
@@ -20,7 +20,7 @@ const AutoTextForm = ({ model, onSubmit }) => {
       <AutoField name="number" />
       <AutoField name="trigger" />
       <AutoField name="triggerDetail" />
-      <AutoField name="hint" />
+      <AutoField name="clueAwardType" />
       <LongTextField name="playerText" />
       <AutoField name="hideFromScreen" />
 

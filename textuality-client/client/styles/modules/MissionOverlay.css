@@ -13,10 +13,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
 
-  &.active {
-    opacity: 1;
-  }
+.missionOverlay.active {
+  opacity: 1;
 }
 
 .missionOverlay-title {

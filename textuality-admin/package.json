@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "start": "meteor npm install && meteor run --settings ../settings.json --port 4000",
+    "start-prod": "./start-prod.sh",
     "test": "meteor test --once --driver-package meteortesting:mocha",
     "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
     "visualize": "meteor --production --extra-packages bundle-visualizer"

@@ -9,38 +9,38 @@ const PlayerSchema = new SimpleSchema({
     allowedValues: () =>
       Events.find()
         .fetch()
-        .map(event => event._id)
+        .map((event) => event._id),
   },
   phoneNumber: String,
   joined: {
     type: Date,
-    defaultValue: new Date()
+    defaultValue: new Date(),
   },
   recent: {
     type: Date,
-    defaultValue: new Date()
+    defaultValue: new Date(),
   },
   status: {
     type: 'String',
-    allowedValues: ['new', 'tentative', 'active', 'quit', 'banned'],
-    defaultValue: 'new'
+    allowedValues: ['new', 'tentative', 'active', 'inactive', 'quit', 'banned'],
+    defaultValue: 'new',
   },
   alias: String,
   oldAliases: {
     type: Array,
-    defaultValue: []
+    defaultValue: [],
   },
   'oldAliases.$': String,
   isAdmin: {
     type: Boolean,
-    defaultValue: false
+    defaultValue: false,
   },
   checkpoints: {
     type: Array,
-    defaultValue: []
+    defaultValue: [],
   },
   'checkpoints.$': {
-    type: Object
+    type: Object,
   },
   'checkpoints.$.checkpoint': String,
   'checkpoints.$.group': String,
@@ -49,15 +49,15 @@ const PlayerSchema = new SimpleSchema({
   'checkpoints.$.time': Date,
   numAchievements: {
     type: SimpleSchema.Integer,
-    defaultValue: 0
+    defaultValue: 0,
   },
   feedTextsSent: {
     type: SimpleSchema.Integer,
-    defaultValue: 0
+    defaultValue: 0,
   },
   feedMediaSent: {
     type: SimpleSchema.Integer,
-    defaultValue: 0
+    defaultValue: 0,
   },
   avatar: {
     type: String,
@@ -65,8 +65,8 @@ const PlayerSchema = new SimpleSchema({
     allowedValues: () =>
       Media.find({ event: Events.currentId() })
         .fetch()
-        .map(media => media._id)
-  }
+        .map((media) => media._id),
+  },
 });
 
 export default PlayerSchema;

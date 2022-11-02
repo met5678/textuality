@@ -14,6 +14,7 @@ import CheckpointsPage from 'modules/checkpoints/CheckpointsPage';
 import AchievementsPage from 'modules/achievements/AchievementsPage';
 import MissionsPage from 'modules/missions/MissionsPage';
 import CluesPage from 'modules/clues/CluesPage';
+import RoundsPage from 'modules/rounds/RoundsPage';
 
 const App = () => (
   <BrowserRouter>
@@ -30,8 +31,9 @@ const App = () => (
         <Route path="/achievements" component={AchievementsPage} />
         <Route path="/missions" component={MissionsPage} />
         <Route path="/clues" component={CluesPage} />
+        <Route path="/rounds" component={RoundsPage} />
 
-        {/*<Redirect from="/" to="/texts" />*/}
+        <Redirect from="/" to="/texts" />
       </Switch>
     </Shell>
   </BrowserRouter>

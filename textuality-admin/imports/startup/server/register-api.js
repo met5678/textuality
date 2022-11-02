@@ -51,3 +51,7 @@ import 'api/missionPairings/server/publications-admin';
 import 'api/clues/';
 import 'api/clues/methods-admin';
 import 'api/clues/server/publications-admin';
+
+import 'api/rounds/';
+import 'api/rounds/methods-admin';
+import 'api/rounds/server/publications-admin';

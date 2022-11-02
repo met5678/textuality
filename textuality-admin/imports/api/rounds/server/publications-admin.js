@@ -1,21 +1,21 @@
 import { Meteor } from 'meteor/meteor';
 
-import Clues from '../';
+import Rounds from '../';
 import Events from 'api/events';
 
-Meteor.publish('clues.all', function () {
-  this.autorun(() => Clues.find({ event: Events.current()._id }));
+Meteor.publish('rounds.all', function () {
+  this.autorun(() => Rounds.find({ event: Events.current()._id }));
 });
 
-Meteor.publish('clues.basic', function () {
+Meteor.publish('rounds.basic', function () {
   this.autorun(() =>
-    Clues.find(
+    Rounds.find(
       { event: Events.current()._id },
       {
         fields: {
           event: 1,
           name: 1,
-          shortName: 1,
+          hideFromScreen: 1,
         },
       }
     )

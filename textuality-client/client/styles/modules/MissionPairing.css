@@ -1,14 +1,12 @@
-@import '../colors';
-
 .pairingsBox {
   height: 0;
   margin-top: 0;
   transition: height 500ms, margin-top 500ms;
+}
 
-  &.active {
-    margin-top: 2vh;
-    height: 50vh;
-  }
+.pairingsBox.active {
+  margin-top: 2vh;
+  height: 50vh;
 }
 
 .pairing {
@@ -55,11 +53,11 @@
   animation-name: tiltAnim;
   animation-duration: 3000ms;
   animation-iteration-count: infinite;
+}
 
-  span {
-    height: 10vw;
-    width: 10vw;
-  }
+.pairing-hears span {
+  height: 10vw;
+  width: 10vw;
 }
 
 @keyframes appearAnim {

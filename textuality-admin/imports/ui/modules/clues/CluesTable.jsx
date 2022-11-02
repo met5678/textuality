@@ -18,7 +18,7 @@ const columns = [
     text: 'Name',
   },
   {
-    dataField: 'short_name',
+    dataField: 'shortName',
     text: 'Short name',
   },
   {

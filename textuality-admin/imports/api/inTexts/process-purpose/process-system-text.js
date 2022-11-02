@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 
 import Players from 'api/players';
 
-export default function(inText) {
+export default function (inText) {
   const player = Players.findOne(inText.player);
   const playerId = player._id;
 
@@ -10,18 +10,19 @@ export default function(inText) {
     inText.body.indexOf(' ') > 0
       ? inText.body.indexOf(' ')
       : inText.body.length;
-  const command = inText.body
-    .substring(1, firstSpace)
-    .trim()
-    .toLowerCase();
+  const command = inText.body.substring(1, firstSpace).trim().toLowerCase();
   const rest = inText.body.substring(firstSpace);
 
   // Change alias
-  if (command === 'alias') {
-    const oldAliases = [player.alias, ...player.oldAliases];
-    const newAlias = Meteor.call('aliases.checkout', oldAliases);
-    Meteor.call('players.setAlias', { playerId, alias: newAlias });
-    Meteor.call('autoTexts.send', { playerId, trigger: 'ALIAS_CHANGED' });
+  // if (command === 'alias') {
+  //   const oldAliases = [player.alias, ...player.oldAliases];
+  //   const newAlias = Meteor.call('aliases.checkout', oldAliases);
+  //   Meteor.call('players.setAlias', { playerId, alias: newAlias });
+  //   Meteor.call('autoTexts.send', { playerId, trigger: 'ALIAS_CHANGED' });
+  // }
+
+  if (['suspect', 'room', 'weapon'].includes(command)) {
+    // TODO: Process submission
   }
 
   // Leave party
@@ -31,7 +32,7 @@ export default function(inText) {
   }
 
   // Send status text
-  else if (command === 'status') {
+  else if (command === 'casefile') {
     Meteor.call('autoTexts.sendStatus', { playerId });
   }
 

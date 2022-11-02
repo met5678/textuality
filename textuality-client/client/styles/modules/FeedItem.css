@@ -1,11 +1,9 @@
-@import '../colors';
-
 .feedItem {
   display: flex;
   flex-direction: row;
   font-size: 1.8vw;
   font-weight: normal;
-  text-shadow: 1px 1px 4px $black;
+  text-shadow: 1px 1px 4px var(--black);
   overflow: hidden;
   max-height: 200px;
 
@@ -71,8 +69,8 @@
 
 .feedItem-body {
   margin-top: 20px;
+}
 
-  &.emojiOnly {
-    font-size: 3.5vw;
-  }
+.feedItem-body.emojiOnly {
+  font-size: 3.5vw;
 }

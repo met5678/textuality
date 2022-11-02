@@ -8,20 +8,18 @@ const CheckpointSchema = new SimpleSchema({
     allowedValues: () =>
       Events.find()
         .fetch()
-        .map(event => event._id)
+        .map((event) => event._id),
   },
   hashtag: String,
   group: String,
   location: {
     type: String,
-    optional: true
+    optional: true,
   },
   playerText: {
     type: String,
-    optional: true
-  }
+    optional: true,
+  },
 });
-
-// Maybe add 'theme'
 
 export default CheckpointSchema;

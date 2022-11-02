@@ -1,5 +1,5 @@
 import React from 'react';
-import { withTracker } from 'meteor/react-meteor-data';
+import { useSubscribe, useTracker } from 'meteor/react-meteor-data';
 
 import LoadingBar from 'generic/LoadingBar';
 import AchievementForm from './AchievementForm';
@@ -53,8 +53,13 @@ const columns = [
   },
 ];
 
-const AchievementsTable = ({ loading, achievements }) => {
-  if (loading) return <LoadingBar />;
+const AchievementsTable = () => {
+  const isLoading = useSubscribe('achievements.all');
+  const achievements = useTracker(() =>
+    Achievements.find({}, { sort: { number: 1 } }).fetch()
+  );
+
+  if (isLoading()) return <LoadingBar />;
 
   return (
     <>
@@ -77,13 +82,4 @@ const AchievementsTable = ({ loading, achievements }) => {
   );
 };
 
-export default withTracker((props) => {
-  const handles = [Meteor.subscribe('achievements.all')];
-
-  return {
-    loading: handles.some((handle) => !handle.ready()),
-    achievements: Achievements.find({}, { sort: { number: 1 } }).fetch(),
-  };
-
-  return {};
-})(AchievementsTable);
+export default AchievementsTable;

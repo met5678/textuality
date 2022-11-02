@@ -10,9 +10,9 @@ const AliasForm = () => {
   const [error, setError] = React.useState(null);
   const [value, setValue] = React.useState('');
 
-  const onKeyDown = React.useCallback(e => {
+  const onKeyDown = React.useCallback((e) => {
     if (e.key === 'Enter' && e.currentTarget.value) {
-      Meteor.call('aliases.new', e.currentTarget.value, err => {
+      Meteor.call('aliases.new', e.currentTarget.value, (err) => {
         if (err) {
           setError(err.reason);
         } else {
@@ -30,8 +30,8 @@ const AliasForm = () => {
           value={value}
           invalid={error}
           onKeyDown={onKeyDown}
-          onChange={e => setValue(e.currentTarget.value)}
-          maxLength="15"
+          onChange={(e) => setValue(e.currentTarget.value)}
+          maxLength="20"
         />
         {error && <FormFeedback>{error}</FormFeedback>}
       </FormGroup>

@@ -22,6 +22,7 @@ const AchievementSchema = new SimpleSchema({
       'EMOJIS_IN_TEXT',
       'JOINED',
       'MISSION',
+      'N_MISSION',
       'N_PICTURES_SENT',
       'N_TEXTS_SENT',
       'PICTURE_MULTI_FACES',

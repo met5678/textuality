@@ -8,51 +8,45 @@ const AchievementSchema = new SimpleSchema({
     allowedValues: () =>
       Events.find()
         .fetch()
-        .map(event => event._id)
+        .map((event) => event._id),
   },
   name: String,
+  number: SimpleSchema.Integer,
   active: {
     type: Boolean,
-    defaultValue: false
+    defaultValue: false,
   },
   minutes: {
     type: SimpleSchema.Integer,
-    defaultValue: 10
+    defaultValue: 10,
   },
   timePreText: {
     type: Date,
-    optional: true
+    optional: true,
   },
   timeStart: {
     type: Date,
-    optional: true
+    optional: true,
   },
   timeEnd: {
     type: Date,
-    optional: true
+    optional: true,
   },
   missionPreText: {
     type: String,
-    max: 150
-  },
-  missionStartTextA: {
-    type: String,
-    max: 150
-  },
-  missionStartTextB: {
-    type: String,
-    max: 150
+    max: 150,
+    optional: true,
   },
   missionSuccessText: {
     type: String,
-    max: 150
+    max: 150,
+    optional: true,
   },
   missionFailText: {
     type: String,
-    max: 150
-  }
+    max: 150,
+    optional: true,
+  },
 });
 
 export default AchievementSchema;
-
-

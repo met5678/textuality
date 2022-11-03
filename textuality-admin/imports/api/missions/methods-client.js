@@ -18,12 +18,26 @@ Meteor.methods({
     const mission = Missions.findOne(missionId);
     const eligiblePlayers = getEligiblePlayers();
 
-    eligiblePlayers.forEach(player => {
-      Meteor.call('autoTexts.sendCustom', {
-        playerText: mission.missionPreText,
-        playerId: player._id,
-        source: 'mission'
-      });
+    eligiblePlayers.forEach((player) => {
+      if (mission.missionPreText) {
+        Meteor.call('autoTexts.sendCustom', {
+          playerText: mission.missionPreText,
+          playerId: player._id,
+          source: 'mission',
+          templateVars: {
+            mins: mission.minutes,
+          },
+        });
+      } else {
+        Meteor.call('autoTexts.send', {
+          trigger: 'MISSION_PRESTART',
+          playerId: player._id,
+          source: 'mission',
+          templateVars: {
+            mins: mission.minutes,
+          },
+        });
+      }
     });
 
     Missions.update(missionId, { $set: { timePreText: new Date() } });
@@ -38,13 +52,13 @@ Meteor.methods({
 
     if (eligiblePlayers.length % 2 === 1) {
       eligiblePlayers = eligiblePlayers.filter(
-        player => player.phoneNumber !== '14127194740'
+        (player) => player.phoneNumber !== '14127194740'
       );
     }
 
     if (eligiblePlayers.length % 2 === 1) {
       eligiblePlayers = eligiblePlayers.filter(
-        player => player.phoneNumber !== '12024948427'
+        (player) => player.phoneNumber !== '12024948427'
       );
     }
 
@@ -62,7 +76,7 @@ Meteor.methods({
         aliasB: playerB.alias,
         avatarA: playerA.avatar,
         avatarB: playerB.avatar,
-        hashtag: pokemon.random().toLowerCase()
+        hashtag: pokemon.random().toLowerCase(),
       };
 
       MissionPairings.insert(missionPairing);
@@ -70,21 +84,21 @@ Meteor.methods({
 
     const pairings = MissionPairings.find({ mission: missionId }).fetch();
 
-    pairings.forEach(pairing => {
-      Meteor.call('autoTexts.sendCustom', {
-        playerText: mission.missionStartTextA,
+    pairings.forEach((pairing) => {
+      Meteor.call('autoTexts.send', {
+        trigger: 'MISSION_START_PLAYER_A',
         playerId: pairing.playerA,
         mediaUrl: pairing.getAvatarUrlB(),
         templateVars: { password: pairing.hashtag },
-        source: 'mission'
+        source: 'mission',
       });
 
-      Meteor.call('autoTexts.sendCustom', {
-        playerText: mission.missionStartTextB,
+      Meteor.call('autoTexts.send', {
+        trigger: 'MISSION_START_PLAYER_B',
         playerId: pairing.playerB,
         mediaUrl: pairing.getAvatarUrlA(),
         templateVars: { password: pairing.hashtag },
-        source: 'mission'
+        source: 'mission',
       });
     });
 
@@ -92,8 +106,8 @@ Meteor.methods({
       $set: {
         active: true,
         timeStart: new Date(),
-        timeEnd: new Date(Date.now() + 1000 * 60 * mission.minutes)
-      }
+        timeEnd: new Date(Date.now() + 1000 * 60 * mission.minutes),
+      },
     });
 
     if (currentTimeout) Meteor.clearTimeout(currentTimeout);
@@ -110,7 +124,7 @@ Meteor.methods({
 
     const pairing = MissionPairings.findOne({
       mission: mission._id,
-      playerB: playerId
+      playerB: playerId,
     });
 
     if (!pairing) return false;
@@ -120,33 +134,48 @@ Meteor.methods({
     if (pairing.complete) {
       Meteor.call('autoTexts.send', {
         trigger: 'MISSION_ALREADY_COMPLETED',
-        playerId
+        playerId,
       });
       return true;
     }
 
     MissionPairings.update(pairing._id, {
-      $set: { complete: true, timeComplete: new Date() }
+      $set: { complete: true, timeComplete: new Date() },
     });
 
-    Meteor.call('autoTexts.sendCustom', {
-      playerText: mission.missionSuccessText,
+    if (mission.missionSuccessText) {
+      Meteor.call('autoTexts.sendCustom', {
+        playerText: mission.missionSuccessText,
+        playerId: pairing.playerA,
+        source: 'mission',
+      });
+      Meteor.call('autoTexts.sendCustom', {
+        playerText: mission.missionSuccessText,
+        playerId: pairing.playerB,
+        source: 'mission',
+      });
+    } else {
+      Meteor.call('autoTexts.send', {
+        trigger: 'MISSION_COMPLETE',
+        playerId: pairing.playerA,
+        source: 'mission',
+      });
+      Meteor.call('autoTexts.send', {
+        trigger: 'MISSION_COMPLETE',
+        playerId: pairing.playerB,
+        source: 'mission',
+      });
+    }
+
+    Meteor.call('achievements.tryUnlock', {
+      trigger: 'N_MISSION',
+      triggerDetail: mission.number,
       playerId: pairing.playerA,
-      source: 'mission'
     });
-    Meteor.call('autoTexts.sendCustom', {
-      playerText: mission.missionSuccessText,
+    Meteor.call('achievements.tryUnlock', {
+      trigger: 'N_MISSION',
+      triggerDetail: mission.number,
       playerId: pairing.playerB,
-      source: 'mission'
-    });
-
-    Meteor.call('achievements.tryUnlock', {
-      trigger: 'MISSION',
-      playerId: pairing.playerA
-    });
-    Meteor.call('achievements.tryUnlock', {
-      trigger: 'MISSION',
-      playerId: pairing.playerB
     });
 
     return true;
@@ -161,25 +190,37 @@ Meteor.methods({
 
     const incompletePairings = MissionPairings.find({
       mission: missionId,
-      complete: false
+      complete: false,
     });
 
-    incompletePairings.forEach(pairing => {
-      Meteor.call('autoTexts.sendCustom', {
-        playerText: mission.missionFailText,
-        playerId: pairing.playerA,
-        source: 'mission'
-      });
-
-      Meteor.call('autoTexts.sendCustom', {
-        playerText: mission.missionFailText,
-        playerId: pairing.playerB,
-        source: 'mission'
-      });
+    incompletePairings.forEach((pairing) => {
+      if (mission.missionFailText) {
+        Meteor.call('autoTexts.sendCustom', {
+          playerText: mission.missionFailText,
+          playerId: pairing.playerA,
+          source: 'mission',
+        });
+        Meteor.call('autoTexts.sendCustom', {
+          playerText: mission.missionFailText,
+          playerId: pairing.playerB,
+          source: 'mission',
+        });
+      } else {
+        Meteor.call('autoTexts.send', {
+          trigger: 'MISSION_FAIL',
+          playerId: pairing.playerA,
+          source: 'mission',
+        });
+        Meteor.call('autoTexts.send', {
+          trigger: 'MISSION_FAIL',
+          playerId: pairing.playerB,
+          source: 'mission',
+        });
+      }
     });
 
     Missions.update(missionId, {
-      $set: { active: false, timeEnd: new Date() }
+      $set: { active: false, timeEnd: new Date() },
     });
-  }
+  },
 });

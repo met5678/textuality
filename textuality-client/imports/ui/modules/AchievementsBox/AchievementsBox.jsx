@@ -38,8 +38,8 @@ const AchievementBox = ({ loading, unlocks, totalAchievements }) => {
 
       // If this unlock is already in the queue, skip
       if (
-        unlockQueue.current.some(u => u._id === newUnlock._id) ||
-        oldQueue.current.some(u => u._id === newUnlock._id)
+        unlockQueue.current.some((u) => u._id === newUnlock._id) ||
+        oldQueue.current.some((u) => u._id === newUnlock._id)
       ) {
         continue;
       }
@@ -67,15 +67,15 @@ const AchievementBox = ({ loading, unlocks, totalAchievements }) => {
 export default withTracker(({ event }) => {
   const handles = [
     Meteor.subscribe('achievementUnlocks.latest', 5),
-    Meteor.subscribe('achievements.basic')
+    Meteor.subscribe('achievements.basic'),
   ];
 
   return {
-    loading: handles.some(handle => !handle.ready()),
+    loading: handles.some((handle) => !handle.ready()),
     unlocks: AchievementUnlocks.find(
       {},
       { sort: { time: -1 }, limit: 5 }
     ).fetch(),
-    totalAchievements: Achievements.find().count()
+    totalAchievements: Achievements.find().count(),
   };
 })(AchievementBox);

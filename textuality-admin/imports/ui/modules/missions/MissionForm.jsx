@@ -8,7 +8,7 @@ import {
   AutoField,
   ErrorsField,
   LongTextField,
-  SubmitField
+  SubmitField,
 } from 'generic/AutoForm';
 import EventField from 'modules/events/EventField';
 
@@ -17,10 +17,9 @@ const MissionForm = ({ model, onSubmit }) => {
     <AutoForm schema={MissionSchema} onSubmit={onSubmit} model={model}>
       <EventField />
       <AutoField name="name" />
+      <AutoField name="number" />
       <AutoField name="minutes" />
       <LongTextField name="missionPreText" />
-      <LongTextField name="missionStartTextA" />
-      <LongTextField name="missionStartTextB" />
       <LongTextField name="missionSuccessText" />
       <LongTextField name="missionFailText" />
 

@@ -12,7 +12,7 @@ const AutoTextSchema = new SimpleSchema({
   },
   playerText: {
     type: String,
-    max: 150,
+    max: 160,
     optional: true,
   },
   screenText: {
@@ -49,7 +49,6 @@ const AutoTextSchema = new SimpleSchema({
       'INVALID_HASHTAG',
 
       'MISSION_ALREADY_COMPLETED',
-      'MISSION_COMPLETED_AGAIN',
 
       'SENT_VIDEO',
       'INVALID_CONTENT_TYPE',

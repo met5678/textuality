@@ -13,27 +13,31 @@ import Missions from 'api/missions';
 const columns = [
   {
     dataField: 'name',
-    text: 'Name'
+    text: 'Name',
+  },
+  {
+    dataField: 'number',
+    text: 'Number',
   },
   {
     dataField: 'active',
     text: 'Active',
-    formatter: (cell, row) => <Toggle value={cell} />
+    formatter: (cell, row) => <Toggle value={cell} />,
   },
   {
     dataField: 'timePreText',
     text: 'Pre Time',
-    formatter: cell => <DateDisplay format="h:mma">{cell}</DateDisplay>
+    formatter: (cell) => <DateDisplay format="h:mma">{cell}</DateDisplay>,
   },
   {
     dataField: 'timeStart',
     text: 'Starts',
-    formatter: cell => <DateDisplay format="h:mma">{cell}</DateDisplay>
+    formatter: (cell) => <DateDisplay format="h:mma">{cell}</DateDisplay>,
   },
   {
     dataField: 'timeEnd',
     text: 'Ends',
-    formatter: cell => <DateDisplay format="h:mma">{cell}</DateDisplay>
+    formatter: (cell) => <DateDisplay format="h:mma">{cell}</DateDisplay>,
   },
   {
     dataField: 'actions',
@@ -60,8 +64,8 @@ const columns = [
           End
         </Button>
       </>
-    )
-  }
+    ),
+  },
 ];
 
 const MissionsTable = ({ loading, missions }) => {
@@ -73,22 +77,22 @@ const MissionsTable = ({ loading, missions }) => {
         columns={columns}
         data={missions}
         canDelete={true}
-        onDelete={achievement => Meteor.call('missions.delete', achievement)}
+        onDelete={(achievement) => Meteor.call('missions.delete', achievement)}
         canInsert={true}
-        onInsert={achievement => Meteor.call('missions.new', achievement)}
+        onInsert={(achievement) => Meteor.call('missions.new', achievement)}
         canEdit={true}
-        onEdit={achievement => Meteor.call('missions.update', achievement)}
+        onEdit={(achievement) => Meteor.call('missions.update', achievement)}
         form={MissionForm}
       />
     </>
   );
 };
 
-export default withTracker(props => {
+export default withTracker((props) => {
   const handles = [Meteor.subscribe('missions.all')];
 
   return {
-    loading: handles.some(handle => !handle.ready()),
-    missions: Missions.find({}).fetch()
+    loading: handles.some((handle) => !handle.ready()),
+    missions: Missions.find({}).fetch(),
   };
 })(MissionsTable);

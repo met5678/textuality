@@ -15,11 +15,11 @@ Meteor.methods({
       trigger,
     };
     if (triggerDetail) {
-      if (typeof triggerDetail === 'number') {
-        achievementQuery.triggerDetail = { $lte: triggerDetail };
-      } else {
-        achievementQuery.triggerDetail = triggerDetail;
-      }
+      // if (typeof triggerDetail === 'number') {
+      //   achievementQuery.triggerDetail = { $lte: triggerDetail };
+      // } else {
+      achievementQuery.triggerDetail = triggerDetail;
+      // }
     }
 
     const achievements = Achievements.find(achievementQuery).fetch();

@@ -50,18 +50,27 @@ Meteor.methods({
         playerId,
       });
     } else {
-      Meteor.call('autoTexts.send', {
-        trigger: 'CHECKPOINT_FOUND',
-        playerId,
-        templateVars: {
-          group: checkpoint.group,
-          text: checkpoint.playerText || '',
-          numFound: foundCheckpointsInGroup.length,
-          numRemaining:
-            checkpointsInGroup.length - foundCheckpointsInGroup.length,
-          totalInGroup: checkpointsInGroup.length,
-        },
-      });
+      const templateVars = {
+        group: checkpoint.group,
+        numFound: foundCheckpointsInGroup.length,
+        numRemaining:
+          checkpointsInGroup.length - foundCheckpointsInGroup.length,
+        totalInGroup: checkpointsInGroup.length,
+      };
+
+      if (checkpoint.playerText) {
+        Meteor.call('autoTexts.sendCustom', {
+          playerText: checkpoint.playerText,
+          playerId,
+          templateVars,
+        });
+      } else {
+        Meteor.call('autoTexts.send', {
+          trigger: 'CHECKPOINT_FOUND',
+          playerId,
+          templateVars,
+        });
+      }
     }
   },
 });

@@ -40,3 +40,15 @@ import 'api/missions/server/publications-client';
 import 'api/missionPairings/';
 import 'api/missionPairings/methods-client';
 import 'api/missionPairings/server/publications-client';
+
+import 'api/clues/';
+import 'api/clues/methods-client';
+import 'api/clues/server/publications-client';
+
+import 'api/clueRewards/';
+import 'api/clueRewards/methods-client';
+import 'api/clueRewards/server/publications-client';
+
+import 'api/rounds/';
+import 'api/rounds/methods-client';
+import 'api/rounds/server/publications-client';

@@ -12,22 +12,35 @@ const columns = [
   {
     dataField: 'type',
     text: 'Type',
+    headerStyle: { width: '100px' },
   },
   {
     dataField: 'name',
     text: 'Name',
+    headerStyle: { width: '100px' },
   },
   {
     dataField: 'shortName',
     text: 'Short name',
+    headerStyle: { width: '100px' },
   },
   {
     dataField: 'playerText',
     text: 'Player Text',
   },
   {
+    dataField: 'image',
+    text: 'Card',
+    isDummyField: true,
+    headerStyle: { width: '100px' },
+    formatter: (cell, row) => {
+      return <img src={row.getCardUrl()} style={{ height: '100px' }} />;
+    },
+  },
+  {
     dataField: 'earned',
     text: 'Earned',
+    headerStyle: { width: '60px' },
   },
 ];
 

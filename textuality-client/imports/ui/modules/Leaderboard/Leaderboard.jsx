@@ -7,8 +7,8 @@ import Players from 'api/players';
 
 import Hearts from 'generic/Hearts';
 
-const titles = ['Texts Sent', 'Achievements Unlocked', 'Hashtags Found'];
-const attributes = ['feedTextsSent', 'numAchievements', 'checkpoints'];
+const titles = ['Texts Sent', 'Clues Obtained', 'Evidence Found'];
+const attributes = ['feedTextsSent', 'numClues', 'checkpoints'];
 
 const Leaderboard = ({ loading, players, achievements }) => {
   const [mode, setMode] = React.useState(0);
@@ -54,12 +54,12 @@ const Leaderboard = ({ loading, players, achievements }) => {
 export default withTracker(({ event }) => {
   const handles = [
     Meteor.subscribe('players.basic'),
-    Meteor.subscribe('achievements.basic')
+    Meteor.subscribe('achievements.basic'),
   ];
 
   return {
-    loading: handles.some(handle => !handle.ready()),
+    loading: handles.some((handle) => !handle.ready()),
     achievements: Achievements.find().fetch(),
-    players: Players.find().fetch()
+    players: Players.find().fetch(),
   };
 })(Leaderboard);

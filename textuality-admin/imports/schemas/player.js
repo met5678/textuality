@@ -50,6 +50,10 @@ const PlayerSchema = new SimpleSchema({
     type: SimpleSchema.Integer,
     defaultValue: 0,
   },
+  numClues: {
+    type: SimpleSchema.Integer,
+    defaultValue: 0,
+  },
   feedTextsSent: {
     type: SimpleSchema.Integer,
     defaultValue: 0,

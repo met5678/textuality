@@ -30,10 +30,7 @@ const RoundSolution = new SimpleSchema({
 const Round = new SimpleSchema({
   event: {
     type: String,
-    allowedValues: () =>
-      Events.find()
-        .fetch()
-        .map((event) => event._id),
+    allowedValues: () => Events.allIds(),
   },
   number: SimpleSchema.Integer,
   name: String,
@@ -45,13 +42,23 @@ const Round = new SimpleSchema({
     type: String,
     allowedValues: [
       'active',
-      'ending',
+      'countdown',
+      'reveal-intro',
       'reveal-room',
       'reveal-person',
       'reveal-weapon',
       'reveal-finale',
       'complete',
+      'aborted',
     ],
+    optional: true,
+  },
+  timeStart: {
+    type: Date,
+    optional: true,
+  },
+  timeEnd: {
+    type: Date,
     optional: true,
   },
   solution: RoundSolution,

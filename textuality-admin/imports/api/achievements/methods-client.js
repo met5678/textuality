@@ -12,7 +12,7 @@ Meteor.methods({
   'achievements.tryUnlock': ({ trigger, triggerDetail, playerId }) => {
     const achievementQuery = {
       event: Events.currentId(),
-      trigger
+      trigger,
     };
     if (triggerDetail) {
       if (typeof triggerDetail === 'number') {
@@ -29,10 +29,10 @@ Meteor.methods({
       const playerAchievements = AchievementUnlocks.find(
         { event: Events.currentId(), player: playerId },
         { fields: { achievement: 1 } }
-      ).map(unlock => unlock.achievement);
+      ).map((unlock) => unlock.achievement);
 
       achievements
-        .filter(achievement => !playerAchievements.includes(achievement._id))
+        .filter((achievement) => !playerAchievements.includes(achievement._id))
         .forEach((achievement, i) => {
           AchievementUnlocks.insert({
             event: Events.currentId(),
@@ -42,27 +42,29 @@ Meteor.methods({
             player: playerId,
             alias: player.alias,
             avatar: player.avatar,
-            numAchievements: playerAchievements.length + 1 + i
+            numAchievements: playerAchievements.length + 1 + i,
           });
           Achievements.update(achievement._id, { $inc: { earned: 1 } });
           Players.update(playerId, { $inc: { numAchievements: 1 } });
-          Meteor.call('autoTexts.send', {
-            trigger: 'ACHIEVEMENT_UNLOCK',
+
+          Meteor.call('autoTexts.sendCustom', {
+            playerText: achievement.playerText,
+            screenText: achievement.screenText,
             playerId,
-            templateVars: {
-              name: achievement.name,
-              numAchievements: playerAchievements.length + 1 + i,
-              totalAchievements: Achievements.find().count(),
-              number: achievement.number,
-              text: achievement.playerText
-            },
-            source: 'achievement'
+            source: 'achievement',
           });
+
+          if (achievement.clueAwardType !== 'none') {
+            Meteor.call('clues.tryAwardClue', {
+              playerId,
+              type: achievement.clueAwardType,
+            });
+          }
         });
     }
   },
 
-  'achievements.checkAfterInText': inText => {
+  'achievements.checkAfterInText': (inText) => {
     const playerId = inText.player;
     const player = Players.findOne(playerId);
 
@@ -75,7 +77,7 @@ Meteor.methods({
         Meteor.call('achievements.tryUnlock', {
           playerId,
           trigger: 'N_TEXTS_SENT',
-          triggerDetail: player.feedTextsSent
+          triggerDetail: player.feedTextsSent,
         });
       }
 
@@ -83,7 +85,7 @@ Meteor.methods({
         Meteor.call('achievements.tryUnlock', {
           playerId,
           trigger: 'N_PICTURES_SENT',
-          triggerDetail: player.feedMediaSent
+          triggerDetail: player.feedMediaSent,
         });
       }
 
@@ -92,7 +94,7 @@ Meteor.methods({
         if (media.purpose === 'feed' && media.faces.length >= 2) {
           Meteor.call('achievements.tryUnlock', {
             playerId,
-            trigger: 'PICTURE_MULTI_FACES'
+            trigger: 'PICTURE_MULTI_FACES',
           });
         }
       }
@@ -100,9 +102,9 @@ Meteor.methods({
       if (inText.body && onlyEmoji(inText.body).length) {
         Meteor.call('achievements.tryUnlock', {
           playerId,
-          trigger: 'EMOJIS_IN_TEXT'
+          trigger: 'EMOJIS_IN_TEXT',
         });
       }
     }
-  }
+  },
 });

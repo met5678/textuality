@@ -12,15 +12,20 @@ import ScreenPortrait from './ScreenPortrait';
 import ScreenAchievements from './ScreenAchievements';
 
 import Events from 'api/events';
+import Rounds from 'api/rounds';
 // import Screens from 'api/sreens';
 
 const App = () => {
-  const isLoading = useSubscribe('events.current');
+  const isLoadingEvent = useSubscribe('events.current');
+  const isLoadingRound = useSubscribe('rounds.current');
   const event = useTracker(() => Events.current());
+  const round = useTracker(() => Rounds.current());
 
-  if (isLoading()) {
+  if (isLoadingEvent() || isLoadingRound()) {
     return null;
   }
+
+  console.log({ event, round });
 
   return (
     <BrowserRouter>

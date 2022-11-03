@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 
+import Events from 'api/events';
 import Rounds from './rounds';
 
 Meteor.methods({
@@ -22,7 +23,10 @@ Meteor.methods({
   'rounds.resetEvent': () => {
     Rounds.update(
       { event: Events.currentId() },
-      { $set: { active: false } },
+      {
+        $set: { active: false },
+        $unset: { status: 1, timeStart: 1, timeEnd: 1 },
+      },
       { multi: true }
     );
   },

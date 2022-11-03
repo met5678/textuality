@@ -75,7 +75,7 @@ const AutoTextSchema = new SimpleSchema({
       'GUESS_N_REMAINING',
 
       'ROUND_BEGIN',
-      'ROUND_10_MINS_REMAIN',
+      'ROUND_COUNTDOWN',
       'ROUND_REVEAL_START',
       'ROUND_REVEAL_RESULT_N_CLUES',
       'ROUND_END',

@@ -52,6 +52,11 @@ import 'api/clues/';
 import 'api/clues/methods-admin';
 import 'api/clues/server/publications-admin';
 
+import 'api/clueRewards/';
+import 'api/clueRewards/methods-admin';
+import 'api/clueRewards/server/publications-admin';
+
 import 'api/rounds/';
 import 'api/rounds/methods-admin';
+import 'api/rounds/methods-client';
 import 'api/rounds/server/publications-admin';

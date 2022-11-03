@@ -76,6 +76,7 @@ class NavBar extends React.Component {
             <RouterNavItem to="/texts">Texts</RouterNavItem>
             <RouterNavItem to="/media">Media</RouterNavItem>
             <RouterNavItem to="/unlocks">Unlocks</RouterNavItem>
+            <RouterNavItem to="/clue-rewards">Clue Rewards</RouterNavItem>
             <RouterNavItem to="/players">Players</RouterNavItem>
             <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>

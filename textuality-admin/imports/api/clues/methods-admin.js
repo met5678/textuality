@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 
 import Clues from './clues';
+import Events from 'api/events';
 
 Meteor.methods({
   'clues.new': (clue) => {

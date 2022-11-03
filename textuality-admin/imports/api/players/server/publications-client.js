@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import Players from '../';
 import Events from 'api/events';
 
-Meteor.publish('players.basic', function() {
+Meteor.publish('players.basic', function () {
   this.autorun(() =>
     Players.find(
       { event: Events.currentId() },
@@ -13,8 +13,9 @@ Meteor.publish('players.basic', function() {
           alias: 1,
           feedTextsSent: 1,
           checkpoints: 1,
-          numAchievements: 1
-        }
+          numAchievements: 1,
+          numClues: 1,
+        },
       }
     )
   );

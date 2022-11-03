@@ -18,7 +18,7 @@ const Clue = new SimpleSchema({
   },
   playerText: {
     type: String,
-    max: 60,
+    max: 160,
   },
   earned: {
     type: SimpleSchema.Integer,

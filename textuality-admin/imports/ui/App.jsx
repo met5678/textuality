@@ -6,6 +6,7 @@ import Shell from './Shell';
 import AllTextsPage from 'modules/texts/AllTextsPage';
 import MediaPage from 'modules/media/MediaPage';
 import AchievementUnlocksPage from 'modules/achievementUnlocks/AchievementUnlocksPage';
+import ClueRewardsPage from 'modules/clueRewards/ClueRewardsPage';
 import PlayersPage from 'modules/players/PlayersPage';
 import EventsPage from 'modules/events/EventsPage';
 import AliasesPage from 'modules/aliases/AliasesPage';
@@ -23,6 +24,7 @@ const App = () => (
         <Route path="/texts" component={AllTextsPage} />
         <Route path="/media" component={MediaPage} />
         <Route path="/unlocks" component={AchievementUnlocksPage} />
+        <Route path="/clue-rewards" component={ClueRewardsPage} />
         <Route path="/players" component={PlayersPage} />
         <Route path="/events" component={EventsPage} />
         <Route path="/aliases" component={AliasesPage} />

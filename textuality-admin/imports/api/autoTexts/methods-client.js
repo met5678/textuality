@@ -2,10 +2,16 @@ import { Meteor } from 'meteor/meteor';
 
 import AutoTexts from './autoTexts';
 import Events from 'api/events';
+import Rounds from 'api/rounds';
+import ClueRewards from 'api/clueRewards';
 import Players from 'api/players';
+import Guesses from 'api/guesses';
 import Achievements from 'api/achievements';
 import AchievementUnlocks from 'api/achievementUnlocks';
 import Checkpoints from 'api/checkpoints';
+
+const capitalizeFirstLetter = (str) =>
+  `${str[0].toUpperCase()}${str.substring(1)}`;
 
 Meteor.methods({
   'autoTexts.send': ({
@@ -44,38 +50,83 @@ Meteor.methods({
 
     const lines = [];
 
-    lines.push(`STATUS REPORT`);
-    lines.push(`Current alias: "${player.alias}"`);
-    lines.push('\n');
-    lines.push(`Texts sent to feed: ${player.feedTextsSent}`);
-    lines.push(`Images sent to feed: ${player.feedMediaSent}`);
-    lines.push('\n');
-
-    const unlocks = AchievementUnlocks.find({
-      player: playerId,
-      event: Events.currentId(),
-    }).fetch();
-    const allAchievements = Achievements.find({
-      event: Events.currentId(),
-    }).fetch();
-
-    lines.push(
-      `Achievements Unlocked: ${unlocks.length}/${allAchievements.length}`
+    const clueRewards = ClueRewards.find(
+      {
+        event: Events.currentId(),
+        round: Rounds.currentId(),
+        player: playerId,
+      },
+      { sort: { clueName: 1 } }
+    ).fetch();
+    const roomClues = clueRewards.filter(
+      (clueReward) => clueReward.clueType === 'room'
+    );
+    const personClues = clueRewards.filter(
+      (clueReward) => clueReward.clueType === 'person'
+    );
+    const weaponClues = clueRewards.filter(
+      (clueReward) => clueReward.clueType === 'weapon'
     );
 
-    if (unlocks.length < allAchievements.length) {
-      lines.push('Missing Achievements:');
-      const missingAchievements = allAchievements
-        .filter(
-          (achievement) =>
-            !unlocks.some((unlock) => unlock.achievement === achievement._id)
-        )
-        .forEach((achievement) => {
-          lines.push(`- ${achievement.name}`);
-        });
-    }
+    lines.push(`Case file for ${player.alias}:\n`);
 
-    lines.push('\n');
+    lines.push('Your current guess:');
+    const playerGuess = Guesses.findOne({
+      event: Events.currentId(),
+      round: Rounds.currentId(),
+      player: playerId,
+    });
+    lines.push(`Room: ${capitalizeFirstLetter(playerGuess?.room ?? '--')}`);
+    lines.push(
+      `Suspect: ${capitalizeFirstLetter(playerGuess?.suspect ?? '--')}`
+    );
+    lines.push(`Weapon: ${capitalizeFirstLetter(playerGuess?.weapon ?? '--')}`);
+
+    lines.push(`\n----------------\n`);
+
+    lines.push(`Eliminated Rooms:${roomClues.length === 0 ? ' NONE' : ''}`);
+    roomClues.forEach((clueReward, i) =>
+      lines.push(`${i + 1}. ${clueReward.clueName}`)
+    );
+
+    lines.push(`\nCleared Suspects:${personClues.length === 0 ? ' NONE' : ''}`);
+    personClues.forEach((clueReward, i) =>
+      lines.push(`${i + 1}. ${clueReward.clueName}`)
+    );
+
+    lines.push(
+      `\nEliminated Weapons:${weaponClues.length === 0 ? ' NONE' : ''}`
+    );
+    weaponClues.forEach((clueReward, i) =>
+      lines.push(`${i + 1}. ${clueReward.clueName}`)
+    );
+
+    lines.push(`\n----------------\n`);
+    // const unlocks = AchievementUnlocks.find({
+    //   player: playerId,
+    //   event: Events.currentId(),
+    // }).fetch();
+    // const allAchievements = Achievements.find({
+    //   event: Events.currentId(),
+    // }).fetch();
+
+    // lines.push(
+    //   `Achievements Unlocked: ${unlocks.length}/${allAchievements.length}`
+    // );
+
+    // if (unlocks.length < allAchievements.length) {
+    //   lines.push('Missing Achievements:');
+    //   const missingAchievements = allAchievements
+    //     .filter(
+    //       (achievement) =>
+    //         !unlocks.some((unlock) => unlock.achievement === achievement._id)
+    //     )
+    //     .forEach((achievement) => {
+    //       lines.push(`- ${achievement.name}`);
+    //     });
+    // }
+
+    // lines.push('\n');
 
     let checkpointGroups = Checkpoints.find(
       { event: Events.currentId() },
@@ -94,14 +145,14 @@ Meteor.methods({
       return groups;
     }, checkpointGroups);
 
-    lines.push(`Hashtags Discovered:`);
+    lines.push(`Evidence found:`);
     let unfoundHashtags = 0;
     let didFind = false;
     Object.keys(checkpointGroups).forEach((group) => {
       const { found, total } = checkpointGroups[group];
       if (found) {
         didFind = true;
-        lines.push(`${found}/${total} ${group} hashtags`);
+        lines.push(`- ${group}: ${found}/${total}`);
       } else {
         unfoundHashtags += total;
       }
@@ -109,7 +160,7 @@ Meteor.methods({
 
     if (unfoundHashtags) {
       if (didFind) {
-        lines.push(`...and ${unfoundHashtags} more elsewhere!`);
+        lines.push(`...and ${unfoundHashtags} left elsewhere!`);
       } else {
         lines.push(`...you haven't found any yet! Find some and text them in.`);
       }

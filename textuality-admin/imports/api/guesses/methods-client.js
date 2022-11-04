@@ -16,6 +16,9 @@ const getOptionsListForType = (type) => {
     .join(', ');
 };
 
+const capitalizeFirstLetter = (str) =>
+  `${str[0].toUpperCase()}${str.substring(1)}`;
+
 Meteor.methods({
   'guesses.tryMakeGuess': ({ playerId, type, shortName }) => {
     if (!Rounds.current()) {
@@ -127,9 +130,9 @@ Meteor.methods({
       trigger: `GUESS_${type.toUpperCase()}_SUCCESS`,
       playerId,
       templateVars: {
-        room: playerGuess.room,
-        weapon: playerGuess.weapon,
-        person: playerGuess.person,
+        room: capitalizeFirstLetter(playerGuess.room ?? '--'),
+        weapon: capitalizeFirstLetter(playerGuess.weapon ?? '--'),
+        person: capitalizeFirstLetter(playerGuess.person ?? '--'),
       },
     });
 

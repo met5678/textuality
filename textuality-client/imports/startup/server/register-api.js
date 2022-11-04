@@ -52,3 +52,7 @@ import 'api/clueRewards/server/publications-client';
 import 'api/rounds/';
 import 'api/rounds/methods-client';
 import 'api/rounds/server/publications-client';
+
+import 'api/guesses/';
+import 'api/guesses/methods-client';
+import 'api/guesses/server/publications-client';

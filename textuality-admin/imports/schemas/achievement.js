@@ -20,6 +20,7 @@ const AchievementSchema = new SimpleSchema({
       'CHECKPOINT',
       'CHECKPOINT_GROUP',
       'EMOJIS_IN_TEXT',
+      'GUESS_COMPLETE',
       'JOINED',
       'MISSION',
       'N_MISSION',

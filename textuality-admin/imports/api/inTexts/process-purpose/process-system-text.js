@@ -22,7 +22,11 @@ export default function (inText) {
   // }
 
   if (['suspect', 'room', 'weapon'].includes(command)) {
-    // TODO: Process submission
+    Meteor.call('guesses.tryMakeGuess', {
+      playerId,
+      type: command,
+      shortName: rest.trim(),
+    });
   }
 
   // Leave party

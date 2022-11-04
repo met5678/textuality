@@ -60,3 +60,8 @@ import 'api/rounds/';
 import 'api/rounds/methods-admin';
 import 'api/rounds/methods-client';
 import 'api/rounds/server/publications-admin';
+
+import 'api/guesses/';
+import 'api/guesses/methods-admin';
+import 'api/guesses/methods-client';
+import 'api/guesses/server/publications-admin';

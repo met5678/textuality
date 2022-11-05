@@ -62,7 +62,7 @@ const getWeaponsWithGuesses = (roundId) => {
   return weaponsWithGuesses;
 };
 
-const doSuspects = async (roundId) => {
+const doWeapons = async (roundId) => {
   const weaponsWithGuesses = getWeaponsWithGuesses(roundId);
 
   Rounds.update(roundId, {
@@ -89,9 +89,9 @@ const doSuspects = async (roundId) => {
       await waitForSeconds(5);
     } else {
       Rounds.update(roundId, { $set: { 'revealState.phase': 'weapon-yes' } });
-      await waitForSeconds(10);
+      await waitForSeconds(15);
     }
   }
 };
 
-export default doSuspects;
+export default doWeapons;

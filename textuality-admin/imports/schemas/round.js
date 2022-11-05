@@ -52,8 +52,8 @@ const RevealState = new SimpleSchema({
       'weapon-no',
       'weapon-yes',
 
+      'finale-intro',
       'finale-solution',
-      'finale-winners',
     ],
   },
 

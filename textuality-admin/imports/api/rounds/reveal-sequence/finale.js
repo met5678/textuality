@@ -44,22 +44,22 @@ const doFinale = async (roundId) => {
 
   Rounds.update(roundId, {
     $set: {
-      'revealState.phase': 'finale-solution',
+      'revealState.phase': 'finale-intro',
     },
     $unset: {
       'revealState.currentClue': 1,
       'revealState.currentPlayers': 1,
     },
   });
-  await waitForSeconds(10);
+  await waitForSeconds(5);
 
   Rounds.update(roundId, {
     $set: {
-      'revealState.phase': 'finale-winners',
+      'revealState.phase': 'finale-solution',
       'revealState.currentPlayers': currentPlayers,
     },
   });
-  await waitForSeconds(10);
+  await waitForSeconds(25);
 
   // Rounds.update(roundId, { $set: { 'revealState.phase': 'intro-evidence' } });
   // await waitForSeconds(5);

@@ -13,38 +13,49 @@ const getClueText = (part, name) => {
     case 'present':
       return (
         <>
-          Was it in the <span className="yellow">{name}</span>?
+          Was it <span className="yellow">{name}</span>?
         </>
       );
     case 'no':
       return (
         <>
-          Nope! Not the <span className="red">{name}</span>.
+          Nope! Not <span className="red">{name}</span>.
         </>
       );
     case 'yes':
       return (
         <>
-          In the <span className="green">{name}</span>!
+          It was <span className="green">{name}</span>!
         </>
       );
   }
 };
 
-const RoomImage = ({ part, clue }) => {
+const SuspectVideo = ({ part, clue }) => {
   const classes = classnames({
-    'revealOverlay-room-image-container': true,
+    'revealOverlay-suspect-video-container': true,
     [part]: true,
   });
+
+  const videoWord = {
+    no: 'no',
+    yes: 'evil',
+    present: 'accused',
+  };
+
+  const videoUrl = `/videos/person/textuality-${clue.shortName}-${videoWord[part]}.mp4`;
+
   return (
     <div className={classes}>
-      <img src={clue.getRevealImageUrl()} />
+      <video src={videoUrl} autoPlay muted />
     </div>
   );
 };
 
-const RoomName = ({ part, clue }) => (
-  <div className="revealOverlay-room-name">{getClueText(part, clue.name)}</div>
+const SuspectName = ({ part, clue }) => (
+  <div className="revealOverlay-suspect-name">
+    {getClueText(part, clue.name)}
+  </div>
 );
 
 const PlayerList = ({ currentPlayers, clue, part }) => {
@@ -78,24 +89,23 @@ const RevealRoom = ({ revealState }) => {
   const part = phaseParts[1];
 
   const clue = currentClue ? Clues.findOne({ shortName: currentClue }) : null;
-  const players = currentPlayers;
 
   const classes = classnames({
-    'revealOverlay-room-container': true,
+    'revealOverlay-suspect-container': true,
     [part]: true,
   });
 
   return (
     <div className={classes}>
       {part === 'intro' && (
-        <div className="revealOverlay-room-intro-title">
-          <span className="red">WHERE</span> did the murder take place?
+        <div className="revealOverlay-suspect-intro-title">
+          <span className="red">WHO</span> committed the murder?
         </div>
       )}
       {part !== 'intro' && (
         <>
-          <RoomImage clue={clue} part={part} />
-          <RoomName clue={clue} part={part} />
+          <SuspectVideo clue={clue} part={part} />
+          <SuspectName clue={clue} part={part} />
           <PlayerList currentPlayers={currentPlayers} clue={clue} part={part} />
         </>
       )}

@@ -8,3 +8,15 @@
   bottom: 40px;
   right: 0;
 }
+
+.feed-witness-chat {
+  font-family: dashiell-fine, serif;
+  font-size: 5vh;
+  text-decoration: underline;
+  text-align: center;
+  display: block;
+  width: 100%;
+  color: #aaa;
+  padding-top: 1vh;
+  text-transform: uppercase;
+}

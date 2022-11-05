@@ -6,7 +6,11 @@ import Leaderboard from '../Leaderboard';
 const VarietyBox = () => {
   return (
     <div className="varietyBox">
-      <Leaderboard />
+      <div className="varietyBox-clueLogo">
+        <div className="varietyBox-clueLogo-text">
+          C<span className="red">l</span>ue
+        </div>
+      </div>
       <AchievementsBox />
     </div>
   );

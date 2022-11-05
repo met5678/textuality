@@ -1,4 +1,4 @@
-.revealOverlay-room-container {
+.revealOverlay-weapon-container {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -9,51 +9,32 @@
   align-items: center;
 }
 
-.revealOverlay-room-container.intro {
+.revealOverlay-weapon-container.intro {
   animation-name: fadeIn, fadeOut;
   animation-duration: 0.5s, 0.5s;
   animation-delay: 0s, 9.5s;
   animation-fill-mode: forwards;
 }
 
-.revealOverlay-room-container.present {
+.revealOverlay-weapon-container.present {
   animation-name: fadeIn;
   animation-duration: 0.5s;
-  animation-delay: 0;
-  animation-fill-mode: forwards;
+  animation-delay: 0s;
 }
 
-.revealOverlay-room-container.no {
+.revealOverlay-weapon-container.no {
   animation-name: fadeOut;
   animation-duration: 0.5s;
   animation-delay: 4.5s;
-  animation-fill-mode: forwards;
 }
 
-.revealOverlay-room-container.yes {
+.revealOverlay-weapon-container.yes {
   animation-name: fadeOut;
   animation-duration: 0.5s;
-  animation-delay: 9.5s;
-  animation-fill-mode: forwards;
+  animation-delay: 4.5s;
 }
 
-.revealOverlay-room-container {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-
-  animation-name: fadeIn;
-  animation-duration: 0.5s;
-  animation-delay: 0;
-  animation-fill-mode: both;
-}
-
-.revealOverlay-room-intro-title {
+.revealOverlay-weapon-intro-title {
   font-family: dashiell-fine, serif;
   font-size: 4vw;
 
@@ -85,36 +66,34 @@
   border-color: var(--green);
 }
 
-.revealOverlay-room-image-container {
-  border: 8px solid var(--yellow);
-  border-radius: 8px;
-  flex-shrink: 1;
+.revealOverlay-weapon-video-container {
+  flex-shrink: 2;
 }
 
-.revealOverlay-room-image-container.no {
+.revealOverlay-weapon-video-container.no {
   border-color: var(--red);
-
-  animation-name: shakeNo;
-  animation-iteration-count: 4;
-  animation-duration: 1s;
-  animation-timing-function: ease-in-out;
 }
 
-.revealOverlay-room-image-container.yes {
+.revealOverlay-weapon-video-container.yes {
   border-color: var(--green);
 
   animation-name: enlarge;
   animation-duration: 20s;
 }
 
-.revealOverlay-room-image-container img {
+.revealOverlay-weapon-video-container img {
   height: 350px;
   width: 350px;
 }
 
-.revealOverlay-room-name {
+.revealOverlay-weapon-video-container video {
+  height: 100%;
+}
+
+.revealOverlay-weapon-name {
   font-family: dashiell-fine, serif;
   font-size: 4vw;
+  z-index: 10;
 }
 
 .red {

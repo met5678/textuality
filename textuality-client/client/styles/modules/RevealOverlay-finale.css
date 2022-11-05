@@ -1,0 +1,85 @@
+.revealOverlay-finale-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.revealOverlay-finale-container.intro {
+  animation-name: fadeIn, fadeOut;
+  animation-duration: 0.5s, 0.5s;
+  animation-delay: 0s, 4.5s;
+  animation-fill-mode: forwards;
+}
+
+.revealOverlay-finale-container.solution {
+  animation-name: fadeIn;
+  animation-duration: 0.5s;
+  animation-delay: 0s;
+}
+
+.revealOverlay-finale-intro-title {
+  font-family: dashiell-fine, serif;
+  font-size: 4vw;
+
+  animation-name: enlarge;
+  animation-delay: 0;
+  animation-duration: 10s;
+  animation-fill-mode: both;
+}
+
+.revealOverlay-players {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  min-height: 75px;
+}
+
+.revealOverlay-player {
+  flex-shrink: 1;
+  margin: 1vw;
+  border: 3px solid var(--green);
+  border-radius: 4px;
+}
+
+.solution-boxes {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
+.solution-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.solution-media-container {
+  max-height: 250px;
+  max-width: 250px;
+  border: 8px solid var(--white);
+  border-radius: 8px;
+}
+
+.solution-media-container > * {
+  height: 100%;
+  width: 100%;
+}
+
+.solution-box-type {
+  text-transform: uppercase;
+  color: var(--yellow);
+  font-size: 3vh;
+  margin-top: 1vh;
+}
+
+.solution-box-value {
+  font-size: 4vh;
+}

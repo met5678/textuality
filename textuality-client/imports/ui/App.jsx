@@ -39,7 +39,10 @@ const App = () => {
             path="/achievements"
             render={() => <ScreenAchievements event={event} />}
           />{' '}
-          <Route path="/" render={() => <Screen event={event} />} />
+          <Route
+            path="/"
+            render={() => <Screen event={event} round={round} />}
+          />
         </Switch>
       </Shell>
     </BrowserRouter>

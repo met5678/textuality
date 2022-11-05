@@ -8,10 +8,16 @@ import Rounds from 'api/rounds';
 
 import RevealIntro from './phases/Intro';
 import Room from './phases/Room';
+import Suspect from './phases/Suspect';
+import Weapon from './phases/Weapon';
+import Finale from './phases/Finale';
 
 const PhaseComponents = {
   intro: RevealIntro,
   room: Room,
+  person: Suspect,
+  weapon: Weapon,
+  finale: Finale,
 };
 
 const RevealOverlay = ({ event, mission }) => {

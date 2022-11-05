@@ -15,7 +15,8 @@ const Feed = ({ loading, inTexts, totalAchievements }) => {
   return (
     <div className="feed">
       <FeedImage />
-      {inTexts.map(inText => (
+      <div className="feed-witness-chat">Witness Chat!</div>
+      {inTexts.map((inText) => (
         <FeedItem
           inText={inText}
           key={inText._id}
@@ -29,12 +30,12 @@ const Feed = ({ loading, inTexts, totalAchievements }) => {
 export default withTracker(({ event }) => {
   const handles = [
     Meteor.subscribe('inTexts.feed', 10),
-    Meteor.subscribe('achievements.basic')
+    Meteor.subscribe('achievements.basic'),
   ];
 
   return {
-    loading: handles.some(handle => !handle.ready()),
+    loading: handles.some((handle) => !handle.ready()),
     inTexts: InTexts.find({ purpose: 'feed' }, { sort: { time: -1 } }).fetch(),
-    totalAchievements: Achievements.find().count()
+    totalAchievements: Achievements.find().count(),
   };
 })(Feed);

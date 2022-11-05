@@ -83,9 +83,9 @@ Meteor.methods({
 
     await doIntro(roundId);
     await doRooms(roundId);
-    // await doSuspects(roundId);
-    // await doWeapons(roundId);
-    // await doFinale(roundId);
+    await doSuspects(roundId);
+    await doWeapons(roundId);
+    await doFinale(roundId);
 
     // Cycle through all rooms with votes
     // Reveal Room
@@ -97,7 +97,7 @@ Meteor.methods({
     // Show top players
 
     // Set round to complete and inactive
-    Rounds.update(roundId, { $set: { active: false, status: 'complete' } });
+    Rounds.update(roundId, { $set: { status: 'complete' } });
   },
 
   'rounds.abort': ({ roundId }) => {

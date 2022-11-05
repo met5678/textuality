@@ -79,11 +79,11 @@ const doRooms = async (roundId) => {
         'revealState.currentPlayers': roomWithGuesses.currentPlayers,
       },
     });
-    await waitForSeconds(10);
+    await waitForSeconds(5);
 
     if (!roomWithGuesses.isSolutionRoom) {
       Rounds.update(roundId, { $set: { 'revealState.phase': 'room-no' } });
-      await waitForSeconds(60);
+      await waitForSeconds(5);
     } else {
       Rounds.update(roundId, { $set: { 'revealState.phase': 'room-yes' } });
       await waitForSeconds(10);

@@ -78,7 +78,7 @@ Meteor.methods({
     });
     lines.push(`Room: ${capitalizeFirstLetter(playerGuess?.room ?? '--')}`);
     lines.push(
-      `Suspect: ${capitalizeFirstLetter(playerGuess?.suspect ?? '--')}`
+      `Suspect: ${capitalizeFirstLetter(playerGuess?.person ?? '--')}`
     );
     lines.push(`Weapon: ${capitalizeFirstLetter(playerGuess?.weapon ?? '--')}`);
 

@@ -81,7 +81,7 @@ Meteor.methods({
 
     Rounds.update(roundId, { $set: { status: 'reveal', revealState: {} } });
 
-    // await doIntro(roundId);
+    await doIntro(roundId);
     await doRooms(roundId);
     // await doSuspects(roundId);
     // await doWeapons(roundId);

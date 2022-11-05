@@ -7,6 +7,45 @@
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+}
+
+.revealOverlay-room-container.intro {
+  animation-name: fadeIn, fadeOut;
+  animation-duration: 0.5s, 0.5s;
+  animation-delay: 0s, 9.5s;
+  animation-fill-mode: forwards;
+}
+
+.revealOverlay-room-container.present {
+  animation-name: fadeIn;
+  animation-duration: 0.5s;
+  animation-delay: 0;
+  animation-fill-mode: forwards;
+}
+
+.revealOverlay-room-container.no {
+  animation-name: fadeOut;
+  animation-duration: 0.5s;
+  animation-delay: 4.5s;
+  animation-fill-mode: forwards;
+}
+
+.revealOverlay-room-container.yes {
+  animation-name: fadeOut;
+  animation-duration: 0.5s;
+  animation-delay: 9.5s;
+  animation-fill-mode: forwards;
+}
+
+.revealOverlay-room-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
 
   animation-name: fadeIn;
   animation-duration: 0.5s;
@@ -27,6 +66,7 @@
 .revealOverlay-players {
   display: flex;
   flex-direction: row;
+  min-height: 75px;
 }
 
 .revealOverlay-player {
@@ -35,14 +75,33 @@
   border-radius: 4px;
 }
 
+.revealOverlay-players.no .revealOverlay-player {
+  border-color: var(--red);
+}
+
+.revealOverlay-players.yes .revealOverlay-player {
+  border-color: var(--green);
+}
+
 .revealOverlay-room-image-container {
   border: 8px solid var(--yellow);
   border-radius: 8px;
+}
+
+.revealOverlay-room-image-container.no {
+  border-color: var(--red);
+
+  animation-name: shakeNo;
+  animation-iteration-count: 4;
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+}
+
+.revealOverlay-room-image-container.yes {
+  border-color: var(--green);
 
   animation-name: enlarge;
-  animation-delay: 0;
-  animation-duration: 10s;
-  animation-fill-mode: both;
+  animation-duration: 20s;
 }
 
 .revealOverlay-room-image-container img {
@@ -53,9 +112,38 @@
 .revealOverlay-room-name {
   font-family: dashiell-fine, serif;
   font-size: 4vw;
+}
 
-  animation-name: enlarge;
-  animation-delay: 0;
-  animation-duration: 10s;
-  animation-fill-mode: both;
+.red {
+  color: var(--red);
+}
+
+.yellow {
+  color: var(--yellow);
+}
+
+.green {
+  color: var(--green);
+}
+
+@keyframes shakeNo {
+  0% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(10%);
+  }
+
+  50% {
+    transform: translateX(0);
+  }
+
+  75% {
+    transform: translateX(-10%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
 }

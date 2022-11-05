@@ -11,12 +11,320 @@ const getClueText = (part, name) => {
     case 'intro':
       return null;
     case 'present':
-      return `In the ${name}?`;
+      return (
+        <>
+          In the <span className="yellow">{name}</span>?
+        </>
+      );
     case 'no':
-      return `Nope!`;
+      return (
+        <>
+          Nope! Not the <span className="red">{name}</span>.
+        </>
+      );
     case 'yes':
-      return `In the ${name}!`;
+      return (
+        <>
+          In the <span className="green">{name}</span>!
+        </>
+      );
   }
+};
+
+const RoomImage = ({ part, clue }) => {
+  const classes = classnames({
+    'revealOverlay-room-image-container': true,
+    [part]: true,
+  });
+  return (
+    <div className={classes}>
+      <img src={clue.getRevealImageUrl()} />
+    </div>
+  );
+};
+
+const RoomName = ({ part, clue }) => (
+  <div className="revealOverlay-room-name">{getClueText(part, clue.name)}</div>
+);
+
+const PlayerList = ({ currentPlayers, clue, part }) => {
+  const classes = classnames({
+    'revealOverlay-players': true,
+    [part]: true,
+  });
+
+  return (
+    <div className={classes}>
+      {currentPlayers.map((player) => (
+        <>
+          <div className="revealOverlay-player">
+            <img
+              src={getImageUrl(player.avatar, {
+                width: 75,
+                height: 75,
+                crop: 'thumb',
+                gravity: 'face',
+                zoom: 0.75,
+              })}
+            />
+          </div>
+          <div className="revealOverlay-player">
+            <img
+              src={getImageUrl(player.avatar, {
+                width: 75,
+                height: 75,
+                crop: 'thumb',
+                gravity: 'face',
+                zoom: 0.75,
+              })}
+            />
+          </div>
+          <div className="revealOverlay-player">
+            <img
+              src={getImageUrl(player.avatar, {
+                width: 75,
+                height: 75,
+                crop: 'thumb',
+                gravity: 'face',
+                zoom: 0.75,
+              })}
+            />
+          </div>
+          <div className="revealOverlay-player">
+            <img
+              src={getImageUrl(player.avatar, {
+                width: 75,
+                height: 75,
+                crop: 'thumb',
+                gravity: 'face',
+                zoom: 0.75,
+              })}
+            />
+          </div>
+          <div className="revealOverlay-player">
+            <img
+              src={getImageUrl(player.avatar, {
+                width: 75,
+                height: 75,
+                crop: 'thumb',
+                gravity: 'face',
+                zoom: 0.75,
+              })}
+            />
+          </div>
+          <div className="revealOverlay-player">
+            <img
+              src={getImageUrl(player.avatar, {
+                width: 75,
+                height: 75,
+                crop: 'thumb',
+                gravity: 'face',
+                zoom: 0.75,
+              })}
+            />
+          </div>
+          <div className="revealOverlay-player">
+            <img
+              src={getImageUrl(player.avatar, {
+                width: 75,
+                height: 75,
+                crop: 'thumb',
+                gravity: 'face',
+                zoom: 0.75,
+              })}
+            />
+          </div>
+          <div className="revealOverlay-player">
+            <img
+              src={getImageUrl(player.avatar, {
+                width: 75,
+                height: 75,
+                crop: 'thumb',
+                gravity: 'face',
+                zoom: 0.75,
+              })}
+            />
+          </div>
+          <div className="revealOverlay-player">
+            <img
+              src={getImageUrl(player.avatar, {
+                width: 75,
+                height: 75,
+                crop: 'thumb',
+                gravity: 'face',
+                zoom: 0.75,
+              })}
+            />
+          </div>
+          <div className="revealOverlay-player">
+            <img
+              src={getImageUrl(player.avatar, {
+                width: 75,
+                height: 75,
+                crop: 'thumb',
+                gravity: 'face',
+                zoom: 0.75,
+              })}
+            />
+          </div>
+          <div className="revealOverlay-player">
+            <img
+              src={getImageUrl(player.avatar, {
+                width: 75,
+                height: 75,
+                crop: 'thumb',
+                gravity: 'face',
+                zoom: 0.75,
+              })}
+            />
+          </div>
+          <div className="revealOverlay-player">
+            <img
+              src={getImageUrl(player.avatar, {
+                width: 75,
+                height: 75,
+                crop: 'thumb',
+                gravity: 'face',
+                zoom: 0.75,
+              })}
+            />
+          </div>
+          <div className="revealOverlay-player">
+            <img
+              src={getImageUrl(player.avatar, {
+                width: 75,
+                height: 75,
+                crop: 'thumb',
+                gravity: 'face',
+                zoom: 0.75,
+              })}
+            />
+          </div>
+          <div className="revealOverlay-player">
+            <img
+              src={getImageUrl(player.avatar, {
+                width: 75,
+                height: 75,
+                crop: 'thumb',
+                gravity: 'face',
+                zoom: 0.75,
+              })}
+            />
+          </div>
+          <div className="revealOverlay-player">
+            <img
+              src={getImageUrl(player.avatar, {
+                width: 75,
+                height: 75,
+                crop: 'thumb',
+                gravity: 'face',
+                zoom: 0.75,
+              })}
+            />
+          </div>
+          <div className="revealOverlay-player">
+            <img
+              src={getImageUrl(player.avatar, {
+                width: 75,
+                height: 75,
+                crop: 'thumb',
+                gravity: 'face',
+                zoom: 0.75,
+              })}
+            />
+          </div>
+          <div className="revealOverlay-player">
+            <img
+              src={getImageUrl(player.avatar, {
+                width: 75,
+                height: 75,
+                crop: 'thumb',
+                gravity: 'face',
+                zoom: 0.75,
+              })}
+            />
+          </div>
+          <div className="revealOverlay-player">
+            <img
+              src={getImageUrl(player.avatar, {
+                width: 75,
+                height: 75,
+                crop: 'thumb',
+                gravity: 'face',
+                zoom: 0.75,
+              })}
+            />
+          </div>
+          <div className="revealOverlay-player">
+            <img
+              src={getImageUrl(player.avatar, {
+                width: 75,
+                height: 75,
+                crop: 'thumb',
+                gravity: 'face',
+                zoom: 0.75,
+              })}
+            />
+          </div>
+          <div className="revealOverlay-player">
+            <img
+              src={getImageUrl(player.avatar, {
+                width: 75,
+                height: 75,
+                crop: 'thumb',
+                gravity: 'face',
+                zoom: 0.75,
+              })}
+            />
+          </div>
+          <div className="revealOverlay-player">
+            <img
+              src={getImageUrl(player.avatar, {
+                width: 75,
+                height: 75,
+                crop: 'thumb',
+                gravity: 'face',
+                zoom: 0.75,
+              })}
+            />
+          </div>
+          <div className="revealOverlay-player">
+            <img
+              src={getImageUrl(player.avatar, {
+                width: 75,
+                height: 75,
+                crop: 'thumb',
+                gravity: 'face',
+                zoom: 0.75,
+              })}
+            />
+          </div>
+          <div className="revealOverlay-player">
+            <img
+              src={getImageUrl(player.avatar, {
+                width: 75,
+                height: 75,
+                crop: 'thumb',
+                gravity: 'face',
+                zoom: 0.75,
+              })}
+            />
+          </div>
+          <div className="revealOverlay-player">
+            <img
+              src={getImageUrl(player.avatar, {
+                width: 75,
+                height: 75,
+                crop: 'thumb',
+                gravity: 'face',
+                zoom: 0.75,
+              })}
+            />
+          </div>
+        </>
+      ))}
+    </div>
+  );
 };
 
 const RevealRoom = ({ revealState }) => {
@@ -27,8 +335,13 @@ const RevealRoom = ({ revealState }) => {
   const clue = currentClue ? Clues.findOne({ shortName: currentClue }) : null;
   const players = currentPlayers;
 
+  const classes = classnames({
+    'revealOverlay-room-container': true,
+    [part]: true,
+  });
+
   return (
-    <div className="revealOverlay-room-container">
+    <div className={classes}>
       {part === 'intro' && (
         <div className="revealOverlay-room-intro-title">
           WHERE did the murder take place?
@@ -36,106 +349,9 @@ const RevealRoom = ({ revealState }) => {
       )}
       {part !== 'intro' && (
         <>
-          <div className="revealOverlay-room-image-container">
-            <img src={clue.getRevealImageUrl()} />
-          </div>
-          <div className="revealOverlay-room-name">
-            {getClueText(part, clue.name)}
-          </div>
-          <div className="revealOverlay-players">
-            {currentPlayers.map((player) => (
-              <>
-                <div className="revealOverlay-player">
-                  <img
-                    src={getImageUrl(player.avatar, {
-                      width: 75,
-                      height: 75,
-                      crop: 'thumb',
-                      gravity: 'face',
-                      zoom: 0.75,
-                    })}
-                  />
-                </div>
-                <div className="revealOverlay-player">
-                  <img
-                    src={getImageUrl(player.avatar, {
-                      width: 75,
-                      height: 75,
-                      crop: 'thumb',
-                      gravity: 'face',
-                      zoom: 0.75,
-                    })}
-                  />
-                </div>
-                <div className="revealOverlay-player">
-                  <img
-                    src={getImageUrl(player.avatar, {
-                      width: 75,
-                      height: 75,
-                      crop: 'thumb',
-                      gravity: 'face',
-                      zoom: 0.75,
-                    })}
-                  />
-                </div>
-                <div className="revealOverlay-player">
-                  <img
-                    src={getImageUrl(player.avatar, {
-                      width: 75,
-                      height: 75,
-                      crop: 'thumb',
-                      gravity: 'face',
-                      zoom: 0.75,
-                    })}
-                  />
-                </div>
-                <div className="revealOverlay-player">
-                  <img
-                    src={getImageUrl(player.avatar, {
-                      width: 75,
-                      height: 75,
-                      crop: 'thumb',
-                      gravity: 'face',
-                      zoom: 0.75,
-                    })}
-                  />
-                </div>
-                <div className="revealOverlay-player">
-                  <img
-                    src={getImageUrl(player.avatar, {
-                      width: 75,
-                      height: 75,
-                      crop: 'thumb',
-                      gravity: 'face',
-                      zoom: 0.75,
-                    })}
-                  />
-                </div>
-                <div className="revealOverlay-player">
-                  <img
-                    src={getImageUrl(player.avatar, {
-                      width: 75,
-                      height: 75,
-                      crop: 'thumb',
-                      gravity: 'face',
-                      zoom: 0.75,
-                    })}
-                  />
-                </div>
-                <div className="revealOverlay-player">
-                  <img
-                    src={getImageUrl(player.avatar, {
-                      width: 75,
-                      height: 75,
-                      crop: 'thumb',
-                      gravity: 'face',
-                      zoom: 0.75,
-                    })}
-                  />
-                </div>
-              </>
-            ))}
-          </div>
+          <RoomImage clue={clue} part={part} />
+          <RoomName clue={clue} part={part} />
+          <PlayerList currentPlayers={currentPlayers} clue={clue} part={part} />
         </>
       )}
     </div>

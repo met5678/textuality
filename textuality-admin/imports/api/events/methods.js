@@ -46,5 +46,6 @@ Meteor.methods({
     Meteor.call('rounds.resetEvent', eventId);
     Meteor.call('clues.resetEvent', eventId);
     Meteor.call('clueRewards.resetEvent', eventId);
+    Meteor.call('guesses.resetEvent', eventId);
   },
 });

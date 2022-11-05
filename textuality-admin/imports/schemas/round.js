@@ -65,6 +65,7 @@ const RevealState = new SimpleSchema({
   currentPlayers: {
     type: Array,
     defaultValue: [],
+    optional: true,
   },
   'currentPlayers.$': Object,
   'currentPlayers.$.id': String,

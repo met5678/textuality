@@ -14,6 +14,8 @@ const Guess = new SimpleSchema({
     allowedValues: () => Rounds.allIds(),
   },
   player: String,
+  alias: String,
+  avatar: String,
 
   person: {
     type: String,

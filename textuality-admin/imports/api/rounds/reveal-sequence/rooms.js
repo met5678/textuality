@@ -9,7 +9,7 @@ import arraySort from 'array-sort';
 
 import waitForSeconds from './_wait-for-seconds';
 
-const getRoomWithGuesses = () => {
+const getRoomWithGuesses = (roundId) => {
   const roomClues = Clues.find({
     event: Events.currentId(),
     type: 'room',
@@ -32,7 +32,8 @@ const getRoomWithGuesses = () => {
         'timeRoom'
       );
 
-      if (guessesForRoom.length === 0) return [];
+      if (guessesForRoom.length === 0 && roomClue.shortName !== solutionRoom)
+        return [];
 
       const guessPlayers = guessesForRoom.map((guess) => {
         const player = playersDict[guess.player];
@@ -55,15 +56,19 @@ const getRoomWithGuesses = () => {
     ['isSolutionRoom', 'numPlayers']
   );
 
-  console.log('Rooms with guesses', roomsWithGuesses);
-
   return roomsWithGuesses;
 };
 
 const doRooms = async (roundId) => {
-  const roomsWithGuesses = getRoomWithGuesses();
+  const roomsWithGuesses = getRoomWithGuesses(roundId);
 
-  Rounds.update(roundId, { $set: { 'revealState.phase': 'room' } });
+  Rounds.update(roundId, {
+    $set: { 'revealState.phase': 'room-intro' },
+    $unset: {
+      'revealState.currentClue': 1,
+      'revealState.currentPlayers': 1,
+    },
+  });
   await waitForSeconds(10);
 
   for (const roomWithGuesses of roomsWithGuesses) {
@@ -74,13 +79,15 @@ const doRooms = async (roundId) => {
         'revealState.currentPlayers': roomWithGuesses.currentPlayers,
       },
     });
-    await waitForSeconds(5);
-
-    Rounds.update(roundId, { $set: { 'revealState.phase': 'room-no' } });
-    await waitForSeconds(5);
-
-    Rounds.update(roundId, { $set: { 'revealState.phase': 'room-yes' } });
     await waitForSeconds(10);
+
+    if (!roomWithGuesses.isSolutionRoom) {
+      Rounds.update(roundId, { $set: { 'revealState.phase': 'room-no' } });
+      await waitForSeconds(60);
+    } else {
+      Rounds.update(roundId, { $set: { 'revealState.phase': 'room-yes' } });
+      await waitForSeconds(10);
+    }
   }
 };
 

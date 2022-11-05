@@ -44,13 +44,13 @@
   font-size: 2.3vw;
 }
 
-.achievementSquare-name:before {
+/* .achievementSquare-name:before {
   content: '"';
 }
 
 .achievementSquare-name:after {
   content: '"';
-}
+} */
 
 .achievementSquare-player {
   text-align: center;

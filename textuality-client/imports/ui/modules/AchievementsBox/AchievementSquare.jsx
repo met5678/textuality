@@ -11,7 +11,7 @@ const AchievementSquare = ({ loading, unlock, totalAchievements }) => {
   return (
     <div className="achievementSquare">
       <div className="achievementSquare-title">
-        <div className="achievementSquare-au">Achievement Unlocked</div>
+        <div className="achievementSquare-au">Good Sleuthing!</div>
         <div className="achievementSquare-name">{unlock.name}</div>
       </div>
       <div className="achievementSquare-player">

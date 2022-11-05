@@ -1,35 +1,51 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import classnames from 'classnames';
 import Countdown from 'react-countdown-now';
 import { useSubscribe, useTracker } from 'meteor/react-meteor-data';
+import { CSSTransition, SwitchTransition } from 'react-transition-group';
 
 import Rounds from 'api/rounds';
 
+import RevealIntro from './phases/Intro';
+import Room from './phases/Room';
+
+const PhaseComponents = {
+  intro: RevealIntro,
+  room: Room,
+};
+
 const RevealOverlay = ({ event, mission }) => {
-  const isLoading = useSubscribe('rounds.current');
+  const roundLoading = useSubscribe('rounds.current');
+  const cluesLoading = useSubscribe('clues.basic');
+  const playersLoading = useSubscribe('players.basic');
   const round = useTracker(() => Rounds.current());
 
-  console.log('ROUND OVERLAY', {
-    round,
-    revealState: round?.revealState,
-    phase: round?.revealState?.phase,
-  });
-
-  if (isLoading()) return null;
+  if (roundLoading() || cluesLoading() || playersLoading() || !round)
+    return null;
   if (!round || round.status !== 'reveal' || !round.revealState) return null;
 
-  const revealState = round.revealState;
+  const { revealState, solution } = round;
+
   console.log({ revealState });
 
-  const classNames = {
+  const { phase } = revealState;
+
+  const classNames = classnames({
+    active: true,
     revealOverlay: true,
     [revealState.phase]: true,
-  };
+  });
+
+  const phaseParts = phase.split('-');
+  const phasePrefix = phaseParts[0];
+
+  const PhaseComponent = PhaseComponents[phasePrefix] ?? null;
 
   return (
     <div className={classNames}>
-      <div className="missionOverlay-title">Reveal Active</div>
-      <div className="missionOverlay-directions">{revealState.phase}</div>
+      {PhaseComponent && (
+        <PhaseComponent revealState={revealState} solution={solution} />
+      )}
     </div>
   );
 };

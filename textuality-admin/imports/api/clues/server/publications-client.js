@@ -11,6 +11,7 @@ Meteor.publish('clues.basic', function () {
         fields: {
           event: 1,
           name: 1,
+          shortName: 1,
           type: 1,
         },
       }

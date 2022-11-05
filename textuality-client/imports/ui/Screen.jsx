@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Header from 'modules/Header';
-import Feed from 'modules/Feed';
+import Tips from 'modules/Tips';
 import Host from 'modules/Host';
 import BottomBar from 'modules/BottomBar';
 import VarietyBox from 'modules/VarietyBox';
@@ -13,7 +13,7 @@ const Screen = ({ event }) => (
     <Header event={event} />
     <div className="lowerArea">
       <div className="leftColumn">
-        <Feed event={event} />
+        <Tips event={event} />
         <BottomBar event={event} />
       </div>
       <div className="rightColumn">

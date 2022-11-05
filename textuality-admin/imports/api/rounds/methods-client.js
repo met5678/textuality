@@ -6,7 +6,12 @@ import Rounds from './rounds';
 
 import doIntro from './reveal-sequence/intro';
 import doRooms from './reveal-sequence/rooms';
-import waitForSeconds from './reveal-sequence/_wait-for-seconds';
+import doSuspects from './reveal-sequence/suspects';
+import doWeapons from './reveal-sequence/weapons';
+import doFinale from './reveal-sequence/finale';
+import waitForSeconds, {
+  cancelTimeout,
+} from './reveal-sequence/_wait-for-seconds';
 
 function getEligiblePlayers() {
   return Players.find({ event: Events.currentId(), status: 'active' }).fetch();
@@ -71,16 +76,16 @@ Meteor.methods({
         playerId: player._id,
       });
     });
-    console.log('Waiting for 5...');
 
-    await waitForSeconds(5);
-
-    console.log('Waited for 5');
+    // await waitForSeconds(5);
 
     Rounds.update(roundId, { $set: { status: 'reveal', revealState: {} } });
 
-    await doIntro(roundId);
-    // await doRooms();
+    // await doIntro(roundId);
+    await doRooms(roundId);
+    // await doSuspects(roundId);
+    // await doWeapons(roundId);
+    // await doFinale(roundId);
 
     // Cycle through all rooms with votes
     // Reveal Room
@@ -92,11 +97,11 @@ Meteor.methods({
     // Show top players
 
     // Set round to complete and inactive
-    // Rounds.update(roundId, { $set: { active: false, status: 'completed' } });
+    Rounds.update(roundId, { $set: { active: false, status: 'complete' } });
   },
 
   'rounds.abort': ({ roundId }) => {
-    if (currentTimeout) Meteor.clearTimeout(currentTimeout);
+    cancelTimeout();
     Rounds.update(roundId, { $set: { active: false, status: 'aborted' } });
   },
 });

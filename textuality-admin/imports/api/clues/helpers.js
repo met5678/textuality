@@ -6,4 +6,9 @@ Clues.helpers({
       rootUrl: 'https://textuality.meteorapp.com/',
     });
   },
+
+  getRevealImageUrl() {
+    const ext = this.type === 'room' ? 'jpg' : 'png';
+    return `/reveal-images/${this.type}/${this.shortName}.${ext}`;
+  },
 });

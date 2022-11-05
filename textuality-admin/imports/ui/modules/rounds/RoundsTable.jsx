@@ -33,9 +33,15 @@ const columns = [
     dataField: 'revealState',
     text: 'Reveal Phase',
     headerStyle: { width: '150px' },
-    formatter: (cell, row) => {
-      return row.revealState?.phase ?? '--';
-    },
+    formatter: (cell, row) => (
+      <>
+        {row.revealState?.phase ?? '--'}
+        <br />
+        {row.revealState?.currentClue ?? '--'}
+        <br />
+        {row.revealState?.currentPlayers?.length ?? '--'}
+      </>
+    ),
   },
   {
     dataField: 'solution',

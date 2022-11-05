@@ -3,7 +3,7 @@ import React from 'react';
 const Host = () => {
   return (
     <div className="host">
-      <video autoPlay muted loop src="/" src="/jackie-streamer-gaming-1.mp4" />
+      <video autoPlay muted loop src="/videos/textuality-butler-ambient.mp4" />
     </div>
   );
 };

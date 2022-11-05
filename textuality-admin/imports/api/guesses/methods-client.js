@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import Guesses from './guesses';
 import Events from 'api/events';
 import Clues from 'api/clues';
+import Players from 'api/players';
 import Rounds from '../rounds';
 
 const getClueForGuess = ({ type, shortName }) => {
@@ -61,15 +62,19 @@ Meteor.methods({
     });
 
     if (!playerGuess) {
+      const player = Players.findOne(playerId);
       console.log('Inserting playerguess', {
         player: playerId,
+        alias: player.alias,
+        avatar: player.avatar,
         event: Events.currentId(),
         round: Rounds.currentId(),
-        roundIds: Rounds.allIds(),
       });
 
       const guessId = Guesses.insert({
         player: playerId,
+        alias: player.alias,
+        avatar: player.avatar,
         event: Events.currentId(),
         round: Rounds.currentId(),
       });
@@ -142,5 +147,37 @@ Meteor.methods({
         playerId,
       });
     }
+  },
+
+  'guesses.gradeGuesses': () => {
+    const guesses = Guesses.find({
+      event: Events.currentId(),
+      round: Rounds.currentId(),
+      numParts: { $gte: 1 },
+    }).fetch();
+
+    const solution = Rounds.current().solution;
+
+    guesses.forEach((guess) => {
+      let partsRight = 0;
+
+      guess.room === solution.room && partsRight++;
+      guess.person === solution.person && partsRight++;
+      guess.weapon === solution.weapon && partsRight++;
+
+      Meteor.call('autoTexts.send', {
+        trigger: 'ROUND_REVEAL_RESULT_N_CLUES',
+        triggerNum: partsRight,
+        playerId: guess.player,
+        templateVars: {
+          sRoom: solution.room,
+          sPerson: solution.person,
+          sWeapon: solution.weapon,
+          gRoom: guess.room,
+          gPerson: guess.person,
+          gWeapon: guess.weapon,
+        },
+      });
+    });
   },
 });

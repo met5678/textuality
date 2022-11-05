@@ -6,9 +6,10 @@ import Achievements from 'api/achievements';
 import Players from 'api/players';
 
 import Hearts from 'generic/Hearts';
+import arraySort from 'array-sort';
 
-const titles = ['Texts Sent', 'Clues Obtained', 'Evidence Found'];
-const attributes = ['feedTextsSent', 'numClues', 'checkpoints'];
+const titles = ['Clues Obtained', 'Evidence Found'];
+const attributes = ['numClues', 'checkpoints'];
 
 const Leaderboard = ({ loading, players, achievements }) => {
   const [mode, setMode] = React.useState(0);
@@ -20,6 +21,8 @@ const Leaderboard = ({ loading, players, achievements }) => {
     return () => clearInterval(interval);
   });
 
+  const orderedPlayers = arraySort(players, attributes[mode]);
+
   if (loading) return null;
 
   return (
@@ -27,17 +30,9 @@ const Leaderboard = ({ loading, players, achievements }) => {
       <div className="leaderboard">
         <div className="leaderboard-title">{titles[mode]}</div>
         <div className="leaderboard-body">
-          {players.map((player, i) => (
+          {orderedPlayers.map((player, i) => (
             <div key={player._id} className="leaderboard-row">
-              <span className="leaderboard-item">
-                {player.alias}{' '}
-                <Hearts
-                  className="leaderboard-hearts"
-                  unlocks={player.numAchievements}
-                  totalAchievements={achievements.length}
-                  sparkleOnFull={true}
-                />
-              </span>
+              <span className="leaderboard-item">{player.alias} </span>
               <span className="leaderboard-value">
                 {Array.isArray(player[attributes[mode]])
                   ? player[attributes[mode]].length

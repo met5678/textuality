@@ -27,6 +27,78 @@ const RoundSolution = new SimpleSchema({
   },
 });
 
+const RevealState = new SimpleSchema({
+  phase: {
+    type: String,
+    defaultValue: 'intro',
+    allowedValues: [
+      'intro',
+      'intro-evidence',
+      'intro-clues',
+      'intro-guesses',
+
+      'room-intro',
+      'room-present',
+      'room-no',
+      'room-yes',
+
+      'person-intro',
+      'person-present',
+      'person-no',
+      'person-yes',
+
+      'weapon-intro',
+      'weapon-present',
+      'weapon-no',
+      'weapon-yes',
+
+      'finale-solution',
+      'finale-winners',
+    ],
+  },
+
+  currentClue: {
+    type: String,
+    optional: true,
+  },
+
+  currentPlayers: {
+    type: Array,
+    defaultValue: [],
+  },
+  'currentPlayers.$': Object,
+  'currentPlayers.$.id': String,
+  'currentPlayers.$.alias': String,
+  'currentPlayers.$.avatar': String,
+
+  guessesSubmitted: {
+    type: SimpleSchema.Integer,
+    defaultValue: 0,
+  },
+
+  cluesCollected: {
+    type: SimpleSchema.Integer,
+    defaultValue: 0,
+  },
+
+  evidenceFound: {
+    type: SimpleSchema.Integer,
+    defaultValue: 0,
+  },
+
+  goddessBlackout: {
+    type: Boolean,
+    defaultValue: false,
+  },
+
+  goddessTags: {
+    type: Array,
+    defaultValue: [],
+  },
+
+  'goddessTags.$': String,
+});
+
 const Round = new SimpleSchema({
   event: {
     type: String,
@@ -40,17 +112,7 @@ const Round = new SimpleSchema({
   },
   status: {
     type: String,
-    allowedValues: [
-      'active',
-      'countdown',
-      'reveal-intro',
-      'reveal-room',
-      'reveal-person',
-      'reveal-weapon',
-      'reveal-finale',
-      'complete',
-      'aborted',
-    ],
+    allowedValues: ['active', 'countdown', 'reveal', 'complete', 'aborted'],
     optional: true,
   },
   timeStart: {
@@ -59,6 +121,10 @@ const Round = new SimpleSchema({
   },
   timeEnd: {
     type: Date,
+    optional: true,
+  },
+  revealState: {
+    type: RevealState,
     optional: true,
   },
   solution: RoundSolution,

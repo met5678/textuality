@@ -30,6 +30,14 @@ const columns = [
     headerStyle: { width: '100px' },
   },
   {
+    dataField: 'revealState',
+    text: 'Reveal Phase',
+    headerStyle: { width: '150px' },
+    formatter: (cell, row) => {
+      return row.revealState?.phase ?? '--';
+    },
+  },
+  {
     dataField: 'solution',
     text: 'Solution',
     headerStyle: { width: '150px' },

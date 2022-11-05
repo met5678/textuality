@@ -4,17 +4,15 @@ import Events from 'api/events';
 import Players from 'api/players';
 import Rounds from './rounds';
 
+import doIntro from './reveal-sequence/intro';
+import doRooms from './reveal-sequence/rooms';
+import waitForSeconds from './reveal-sequence/_wait-for-seconds';
+
 function getEligiblePlayers() {
   return Players.find({ event: Events.currentId(), status: 'active' }).fetch();
 }
 
 let currentTimeout = null;
-
-const waitForSeconds = (seconds) => {
-  return new Promise((resolve) =>
-    Meteor.setTimeout(() => resolve(), seconds * 1000)
-  );
-};
 
 Meteor.methods({
   'rounds.start': ({ roundId }) => {
@@ -36,7 +34,7 @@ Meteor.methods({
     });
   },
 
-  'rounds.startCountdown': ({ roundId, duration = 5 * 60 }) => {
+  'rounds.startCountdown': async ({ roundId, duration = 5 * 60 }) => {
     Rounds.update(roundId, {
       $set: {
         status: 'countdown',
@@ -73,15 +71,16 @@ Meteor.methods({
         playerId: player._id,
       });
     });
+    console.log('Waiting for 5...');
 
     await waitForSeconds(5);
 
-    players.forEach((player) =>
-      Meteor.call('autoTexts.sendCustom', {
-        playerText: 'Waited 5 seconds',
-        playerId: player._id,
-      })
-    );
+    console.log('Waited for 5');
+
+    Rounds.update(roundId, { $set: { status: 'reveal', revealState: {} } });
+
+    await doIntro(roundId);
+    // await doRooms();
 
     // Cycle through all rooms with votes
     // Reveal Room
@@ -93,7 +92,7 @@ Meteor.methods({
     // Show top players
 
     // Set round to complete and inactive
-    Rounds.update(roundId, { $set: { active: false, status: 'completed' } });
+    // Rounds.update(roundId, { $set: { active: false, status: 'completed' } });
   },
 
   'rounds.abort': ({ roundId }) => {

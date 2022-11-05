@@ -36,7 +36,7 @@ export default function (inText) {
   }
 
   // Send status text
-  else if (command === 'casefile') {
+  else if (['casefile', 'case'].includes(command)) {
     Meteor.call('autoTexts.sendStatus', { playerId });
   }
 

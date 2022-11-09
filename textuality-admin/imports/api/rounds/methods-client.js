@@ -39,7 +39,7 @@ Meteor.methods({
     });
   },
 
-  'rounds.startCountdown': async ({ roundId, duration = 5 * 60 }) => {
+  'rounds.startCountdown': async ({ roundId, duration = 10 * 60 }) => {
     Rounds.update(roundId, {
       $set: {
         status: 'countdown',
@@ -98,10 +98,33 @@ Meteor.methods({
 
     // Set round to complete and inactive
     Rounds.update(roundId, { $set: { status: 'complete' } });
+
+    // players.forEach((player) => {
+    //   Meteor.call('autoTexts.send', {
+    //     trigger: 'ROUND_END',
+    //     playerId: player._id,
+    //   });
+    // });
   },
 
   'rounds.abort': ({ roundId }) => {
     cancelTimeout();
     Rounds.update(roundId, { $set: { active: false, status: 'aborted' } });
+  },
+
+  'rounds.endMessage': ({ roundId }) => {
+    const players = Players.find({
+      event: Events.currentId(),
+    }).fetch();
+
+    console.log(players.length);
+
+    players.forEach((player) => {
+      console.log(player._id);
+      Meteor.call('autoTexts.send', {
+        trigger: 'ROUND_END',
+        playerId: player._id,
+      });
+    });
   },
 });

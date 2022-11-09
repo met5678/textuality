@@ -24,8 +24,8 @@ function init() {
         state: twMessage.FromState,
         city: twMessage.FromCity,
         zip: twMessage.FromZip,
-        country: twMessage.FromCountry
-      }
+        country: twMessage.FromCountry,
+      },
     };
 
     try {
@@ -33,7 +33,7 @@ function init() {
       if (numMedia > 0) {
         message.media = {
           url: twMessage.MediaUrl0,
-          contentType: twMessage.MediaContentType0
+          contentType: twMessage.MediaContentType0,
         };
       }
     } catch (e) {}
@@ -46,10 +46,13 @@ function init() {
 }
 
 function send(message) {
+  // Temporarily block
+  return;
+
   const { body, from, to, mediaUrl } = message;
   const twMessage = {
     To: '+' + to,
-    From: '+' + from
+    From: '+' + from,
   };
 
   body && (twMessage.Body = body);
@@ -57,7 +60,7 @@ function send(message) {
 
   HTTP.call('POST', twilioSendEndpoint, {
     params: twMessage,
-    auth: `${accountSid}:${authToken}`
+    auth: `${accountSid}:${authToken}`,
   });
 }
 

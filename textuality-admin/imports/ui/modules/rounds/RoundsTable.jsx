@@ -111,6 +111,11 @@ const columns = [
         >
           Abort
         </Button>
+        <Button
+          onClick={() => Meteor.call('rounds.endMessage', { roundId: row._id })}
+        >
+          End Msg
+        </Button>
       </>
     ),
   },

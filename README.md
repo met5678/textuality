@@ -10,6 +10,8 @@ Textuality is set up as two Meteor applications: an admin app for setting up the
 
 1. Install [Node](http://nodejs.org/)
 2. Install Meteor: `curl https://install.meteor.com/ | sh`
+3. Install [jq]: `brew install jq`
+4. Install [ngrok]: `brew install ngrok`
 
 ### Run Meteor Apps
 
@@ -65,9 +67,50 @@ Textuality requires [Twilio](https://www.twilio.com/) to receive texts. Twilio n
 8. Paste the URL from step 4 into the textbox, and add `/text-handler` to the end. For example: `https://d9a11bf7.ngrok.io/text-handler`. You can leave dropdown set to `HTTP POST`.
 9. Hit `Save`. You're done!
 
+## Accessing Production
+
+## Running the Production Admin
+
+To run your admin pointing to production, first, ensure you've [configured your galaxy credentials](#configuring-credentials). Then, run the following commands:
+
+```
+cd textuality-admin
+npm run start-prod
+```
+
+The production admin will be available at `localhost:4100`. You may run this at the same time as the local admin with no issues.
+
+## Copying Prod Data to Local
+
+To test with more useful/real data, you can copy the data currently on production into local. If you're not already, you'll want to be running the local (not prod) admin, aka:
+
+```
+cd textuality-admin
+npm start
+```
+
+Then, in a separate terminal, from the root of this repo, run:
+
+```
+npm run sync-prod-to-local
+```
+
+This script will prompt you to ensure you're running the local admin, then execute the sync.
+
+If this fails, it's likely that you need your IP whitelisted. Check with Roo abt that.
+
 ## Deploying
 
-Coming soon...
+Currently, only the `textuality-client` app is deployed to production. To reploy this, run the following:
+
+```
+cd textuality-client
+npm run deploy
+```
+
+Let the whole process finish. You can also monitor the deployment progress on Galaxy -- ask Roo for the link.
+
+The textuality client will be accessible at [textuality.meteorapp.com]
 
 ## Folder Structure
 
@@ -129,22 +172,3 @@ The UI folder is broken down as follows:
 - `pages`: Top-level pages on the app. Subscriptions are typically managed here.
 - `App.jsx`: The React entry point for the app.
 - `Shell.jsx`: The wrapper html for the app.
-
-## Copying Prod Data to Local
-
-To test with more useful/real data, you can copy the data currently on production into local. If you're not already, you'll want to be running the local (not prod) admin, aka:
-
-```
-cd textuality-admin
-npm start
-```
-
-Then, in a separate terminal, from the root of this repo, run:
-
-```
-npm run sync-prod-to-local
-```
-
-This script will prompt you to ensure you're running the local admin, then execute the sync.
-
-If this fails, it's likely that you need your IP whitelisted. Check with Roo abt that.

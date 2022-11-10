@@ -19,7 +19,7 @@ Textuality consists of an admin app and a client app. They are located in the `t
 npm start
 ```
 
-This will start the admin at `http://localhost:5000` and the client at `http://localhost:5002`. You may want to restart this command whenever you pull new code from github.
+This will start the admin at `http://localhost:4000` and the client at `http://localhost:4002`.
 
 ### Configuring Credentials
 
@@ -129,3 +129,22 @@ The UI folder is broken down as follows:
 - `pages`: Top-level pages on the app. Subscriptions are typically managed here.
 - `App.jsx`: The React entry point for the app.
 - `Shell.jsx`: The wrapper html for the app.
+
+## Copying Prod Data to Local
+
+To test with more useful/real data, you can copy the data currently on production into local. If you're not already, you'll want to be running the local (not prod) admin, aka:
+
+```
+cd textuality-admin
+npm start
+```
+
+Then, in a separate terminal, from the root of this repo, run:
+
+```
+npm run sync-prod-to-local
+```
+
+This script will prompt you to ensure you're running the local admin, then execute the sync.
+
+If this fails, it's likely that you need your IP whitelisted. Check with Roo abt that.

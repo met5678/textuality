@@ -10,8 +10,9 @@ Textuality is set up as two Meteor applications: an admin app for setting up the
 
 1. Install [Node](http://nodejs.org/)
 2. Install Meteor: `curl https://install.meteor.com/ | sh`
-3. Install [jq]: `brew install jq`
-4. Install [ngrok]: `brew install ngrok`
+3. Install Dependencies
+4. `brew tap mongodb/brew`
+5. `brew install jq ngrok mongodb-database-tools`
 
 ### Run Meteor Apps
 

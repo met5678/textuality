@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import Events from 'api/events';
 import Media from './media';
 
-import uploadImage from 'services/upload-image';
+import { uploadImage } from 'services/cloudinary';
 
 const acceptedContentTypes = [];
 const avatarTransformations = [

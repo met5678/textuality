@@ -1,6 +1,6 @@
 import Media from './media';
 
-import getImageUrl from 'services/get-image-url';
+import { getImageUrl } from 'services/cloudinary';
 
 Media.helpers({
   getAvatarUrl(dimesion = 100) {
@@ -9,7 +9,7 @@ Media.helpers({
       height: dimension,
       crop: 'thumb',
       gravity: 'face',
-      zoom: 1.1
+      zoom: 1.1,
     });
   },
 
@@ -18,7 +18,7 @@ Media.helpers({
     return getImageUrl(this._id, {
       width: width,
       height: height,
-      crop: 'fit'
+      crop: 'fit',
     });
   },
 
@@ -28,13 +28,13 @@ Media.helpers({
         width: 800,
         height: 800,
         crop: 'lfill',
-        gravity: 'faces'
+        gravity: 'faces',
       });
     } else {
       return getImageUrl(this._id, {
         width: 800,
         height: 800,
-        crop: 'lfill'
+        crop: 'lfill',
       });
     }
   },
@@ -53,5 +53,5 @@ Media.helpers({
 
   isLandscape() {
     return this.ratio() < 0.9;
-  }
+  },
 });

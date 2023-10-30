@@ -11,7 +11,9 @@
         "modules": "./imports/ui/modules",
         "layouts": "./imports/ui/layouts",
         "pages": "./imports/ui/pages",
-        "startup": "./imports/startup"
+        "startup": "./imports/startup",
+        "services": "./imports/services",
+        "cloudinary": "./node_modules/cloudinary/lib/cloudinary"
       }
     }]
   ]

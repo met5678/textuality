@@ -4,7 +4,7 @@ import Countdown from 'react-countdown-now';
 import { useSubscribe, useTracker } from 'meteor/react-meteor-data';
 
 import Clues from 'api/clues';
-import getImageUrl from 'services/get-image-url';
+import { getImageUrl } from 'services/cloudinary';
 
 const capitalizeFirstLetter = (str) =>
   `${str[0].toUpperCase()}${str.substring(1)}`;

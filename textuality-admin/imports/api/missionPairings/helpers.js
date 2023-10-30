@@ -1,6 +1,6 @@
 import MissionPairings from './missionPairings';
 
-import getImageUrl from 'services/get-image-url';
+import { getImageUrl } from 'services/cloudinary';
 
 MissionPairings.helpers({
   getAvatarUrlA(dimension = 400) {
@@ -9,7 +9,7 @@ MissionPairings.helpers({
       height: dimension,
       crop: 'thumb',
       gravity: 'face',
-      zoom: 0.75
+      zoom: 0.75,
     });
   },
 
@@ -19,7 +19,7 @@ MissionPairings.helpers({
       height: dimension,
       crop: 'thumb',
       gravity: 'face',
-      zoom: 0.75
+      zoom: 0.75,
     });
-  }
+  },
 });

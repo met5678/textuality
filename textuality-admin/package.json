@@ -10,17 +10,19 @@
   },
   "dependencies": {
     "@babel/runtime": "~7.5.5",
+    "@types/body-parser": "^1.19.4",
+    "@types/meteor": "^2.9.5",
     "array-sort": "~1.0.0",
     "autobind-decorator": "~2.4.0",
     "body-parser": "~1.19.0",
     "bootstrap": "~4.3.1",
     "bootswatch": "~4.3.1",
     "classnames": "~2.2.6",
-    "cloudinary": "~1.14.0",
-    "cloudinary-core": "~2.6.3",
+    "cloudinary": "~1.41.0",
+    "dotenv": "^16.3.1",
     "emoji-aware": "~3.0.5",
     "merge-options": "~1.0.1",
-    "meteor-node-stubs": "~0.4.1",
+    "meteor-node-stubs": "~1.2.5",
     "moment": "~2.24.0",
     "moment-timezone": "~0.5.26",
     "pokemon": "^2.0.0",
@@ -37,7 +39,8 @@
     "simpl-schema": "~1.5.5",
     "uniforms": "~2.2.0",
     "uniforms-bootstrap4": "~2.2.0",
-    "uniforms-bridge-simple-schema-2": "~2.2.0"
+    "uniforms-bridge-simple-schema-2": "~2.2.0",
+    "whatsapp": "0.0.5-Alpha"
   },
   "meteor": {
     "mainModule": {

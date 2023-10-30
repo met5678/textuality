@@ -2,7 +2,7 @@ import Players from './players';
 import Events from 'api/events';
 import AchievementUnlocks from 'api/achievementUnlocks';
 
-import getImageUrl from 'services/get-image-url';
+import { getImageUrl } from 'services/cloudinary';
 
 Players.helpers({
   getAvatarUrl(dimension = 400) {

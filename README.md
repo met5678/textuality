@@ -14,16 +14,6 @@ Textuality is set up as two Meteor applications: an admin app for setting up the
 4. `brew tap mongodb/brew`
 5. `brew install jq ngrok mongodb-database-tools`
 
-### Run Meteor Apps
-
-Textuality consists of an admin app and a client app. They are located in the `textuality-admin` and `textuality-client` directories. You have the option of running them individually, but it's easiest just to run them using the following command:
-
-```bash
-npm start
-```
-
-This will start the admin at `http://localhost:4000` and the client at `http://localhost:4002`.
-
 ### Configuring Credentials
 
 Both `twilio`, used for the texting, and `cloudinary`, used for the image storage, require API credentials to work. For security reasons, those API credentials are not present in this repository. You must create a `settings.json` file at the root of this repo with the following format:
@@ -53,6 +43,16 @@ Both `twilio`, used for the texting, and `cloudinary`, used for the image storag
 The `galaxy.meteor.com` section is only necessary if deploying or accessing the production admin. The urls here are in the format provided by MongoDB Atlas, but might change if using a different provider. Note: the `MONGO_OPLOG_URL` needs to specify the `local` collection, typically by including `/local` at the end of the connection url as you see here.
 
 Ask Roo for the credentials.
+
+### Run Meteor Apps
+
+Textuality consists of an admin app and a client app. They are located in the `textuality-admin` and `textuality-client` directories. You have the option of running them individually, but it's easiest just to run them using the following command:
+
+```bash
+npm start
+```
+
+This will start the admin at `http://localhost:4000` and the client at `http://localhost:4002`.
 
 ### Configuring Twilio for local development
 

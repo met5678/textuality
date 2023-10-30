@@ -10,12 +10,14 @@
   },
   "dependencies": {
     "@babel/runtime": "~7.5.5",
+    "@types/body-parser": "^1.19.4",
+    "@types/meteor": "~2.9.5",
     "array-sort": "~1.0.0",
     "autobind-decorator": "~2.4.0",
     "body-parser": "~1.19.0",
     "classnames": "~2.2.6",
-    "cloudinary": "~1.14.0",
-    "cloudinary-core": "~2.6.3",
+    "cloudinary": "~1.41.0",
+    "dotenv": "~16.3.1",
     "emoji-aware": "~3.0.5",
     "merge-options": "~1.0.1",
     "meteor-node-stubs": "~0.4.1",
@@ -30,7 +32,8 @@
     "react-router-dom": "~5.0.1",
     "react-transition-group": "^4.4.5",
     "shuffle-array": "^1.0.1",
-    "simpl-schema": "~1.5.5"
+    "simpl-schema": "~1.5.5",
+    "whatsapp": "0.0.5-Alpha"
   },
   "meteor": {
     "mainModule": {

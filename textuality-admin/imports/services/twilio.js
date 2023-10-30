@@ -13,7 +13,7 @@ function onReceive(callback) {
 }
 
 function init() {
-  WebApp.connectHandlers.use(bodyParser.urlencoded({ extended: false }));
+  WebApp.connectHandlers.use('/text-handler', bodyParser.urlencoded({ extended: false }));
   WebApp.connectHandlers.use('/text-handler', (req, res, next) => {
     const twMessage = req.body;
     const message = {
@@ -46,8 +46,8 @@ function init() {
 }
 
 function send(message) {
-  // Temporarily block
-  return;
+  // Uncomment to temporarily block
+  // return;
 
   const { body, from, to, mediaUrl } = message;
   const twMessage = {

@@ -2,7 +2,7 @@ import { onlyEmoji, withoutEmoji } from 'emoji-aware';
 
 import InTexts from './inTexts';
 
-import getImageUrl from 'services/get-image-url';
+import { getImageUrl } from 'services/cloudinary';
 
 InTexts.helpers({
   getAvatarUrl(dimension = 100) {
@@ -11,7 +11,7 @@ InTexts.helpers({
       height: dimension,
       crop: 'thumb',
       gravity: 'face',
-      zoom: 1.1
+      zoom: 1.1,
     });
   },
 
@@ -23,7 +23,7 @@ InTexts.helpers({
     return (
       this.body &&
       this.body.length < 12 &&
-      withoutEmoji(this.body).every(str => str === ' ')
+      withoutEmoji(this.body).every((str) => str === ' ')
     );
-  }
+  },
 });

@@ -8,10 +8,8 @@ import { fetch } from 'meteor/fetch';
 
 const waToken: string = Meteor.settings.private.waSystemToken;
 const waPhoneNumberId: number = Meteor.settings.private.waPhoneNumberId;
-const waWebhookToken: string = 'TEXTUALITY32768';
-const waAPIVersion = 'v17.0';
-process.env.CLOUD_API_ACCESS_TOKEN = waToken;
-process.env.CLOUD_API_VERSION = waAPIVersion;
+const waWebhookToken: string = Meteor.settings.private.waWebhookToken;
+const waAPIVersion = 'v18.0';
 
 interface WhatsappImage {
     mime_type: string;
@@ -116,6 +114,31 @@ function waMessage(req: IncomingMessage, res: ServerResponse<IncomingMessage>) {
     onReceiveText(message);
     res.statusCode = 200;
     res.end();
+
+    markAsRead(message.id);
+}
+
+async function markAsRead(messageId: string): Promise<boolean> {
+    const whatsappSendEndpoint = `https://graph.facebook.com/${waAPIVersion}/${waPhoneNumberId}/messages`;
+
+    const payload = {
+        messaging_product: 'whatsapp',
+        status: 'read',
+        message_id: messageId
+    };
+
+    const response = await fetch(whatsappSendEndpoint, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${waToken}`
+        },
+        body: JSON.stringify(payload)
+    });
+
+    console.log('Response', await response.json());
+
+    return true;
 }
 
 function send(message: any): boolean {

@@ -106,7 +106,9 @@ function waMessage(req: IncomingMessage, res: ServerResponse<IncomingMessage>) {
 
     if (messageRaw.type === 'image') {
         message.image = {
+            // @ts-ignore
             id: messageRaw.image.id,
+            // @ts-ignore
             mime_type: messageRaw.image.mime_type
         };
     }

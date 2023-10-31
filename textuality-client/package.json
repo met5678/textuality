@@ -17,10 +17,9 @@
     "body-parser": "~1.19.0",
     "classnames": "~2.2.6",
     "cloudinary": "~1.41.0",
-    "dotenv": "~16.3.1",
     "emoji-aware": "~3.0.5",
     "merge-options": "~1.0.1",
-    "meteor-node-stubs": "~0.4.1",
+    "meteor-node-stubs": "~1.2.5",
     "moment": "~2.24.0",
     "moment-timezone": "~0.5.26",
     "pokemon": "^2.0.0",
@@ -32,8 +31,7 @@
     "react-router-dom": "~5.0.1",
     "react-transition-group": "^4.4.5",
     "shuffle-array": "^1.0.1",
-    "simpl-schema": "~1.5.5",
-    "whatsapp": "0.0.5-Alpha"
+    "simpl-schema": "~3.4.1"
   },
   "meteor": {
     "mainModule": {

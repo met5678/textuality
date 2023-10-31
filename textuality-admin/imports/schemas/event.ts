@@ -14,6 +14,7 @@ const EventSchema = new SimpleSchema({
 });
 
 interface Event {
+    _id: string;
     name: string;
     phoneNumber: string;
     active: boolean;

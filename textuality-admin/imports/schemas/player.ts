@@ -3,13 +3,15 @@ import SimpleSchema from 'simpl-schema';
 import Events from 'api/events';
 import Media from 'api/media';
 
+import { Event } from './event';
+
 const PlayerSchema = new SimpleSchema({
   event: {
     type: String,
     allowedValues: () =>
       Events.find()
         .fetch()
-        .map((event) => event._id),
+        .map((event: Event) => event._id),
   },
   phoneNumber: String,
   joined: {
@@ -70,6 +72,15 @@ const PlayerSchema = new SimpleSchema({
         .fetch()
         .map((media) => media._id),
   },
+  money: SimpleSchema.Integer,
 });
 
+interface PlayerBase {
+  _id: string;
+  phoneNumber: string;
+  avatar: string;
+  money: number;
+}
+
 export default PlayerSchema;
+export { PlayerBase };

@@ -1,5 +1,6 @@
 **DS_Store
 textuality-dumps/
+node_modules/
 dump/
 bin/ngrok
 settings.json

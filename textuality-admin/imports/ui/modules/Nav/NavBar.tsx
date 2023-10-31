@@ -12,7 +12,7 @@ import {
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap';
-import { Route, Link } from 'react-router-dom';
+import { Route, Link } from 'wouter';
 
 const RouterNavItem = ({ to, children }) => (
   <Route
@@ -47,6 +47,7 @@ class NavBar extends React.Component {
       isOpen: false,
     };
   }
+
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen,

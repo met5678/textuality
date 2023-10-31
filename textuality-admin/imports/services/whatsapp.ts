@@ -47,7 +47,8 @@ interface MessageRaw {
     image?: MessageImage
 }
 
-let onReceiveText: (message: MessageData) => void = () => {
+let onReceiveText: (message: MessageData) => void = (message) => {
+    console.log('message received', message);
 };
 
 function onReceive(callback: (message: MessageData) => void) {

@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/met5678/textuality/issues"
   },
-  "homepage": "https://github.com/met5678/textuality#readme"
+  "homepage": "https://github.com/met5678/textuality#readme",
+  "devDependencies": {
+    "prettier": "~3.0.3"
+  }
 }

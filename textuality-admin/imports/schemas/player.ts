@@ -1,7 +1,7 @@
 import SimpleSchema from 'simpl-schema';
 
 import Events from '/imports/api/events';
-import Media from 'api/media';
+import Media from '/imports/api/media';
 
 const PlayerSchema = new SimpleSchema({
   event: {
@@ -63,19 +63,31 @@ const PlayerSchema = new SimpleSchema({
     type: String,
     optional: true,
     allowedValues: () =>
-      Media.find({ event: Events.currentId() })
+      Media.find({ event: Events.currentId()! })
         .fetch()
         .map((media) => media._id),
   },
   money: SimpleSchema.Integer,
 });
 
-interface PlayerBase {
-  _id: string;
+interface Player {
+  _id?: string;
+  event: string;
   phoneNumber: string;
-  avatar: string;
+  joined: Date;
+  recent: Date;
+  status: 'new' | 'tentative' | 'active' | 'inactive' | 'quit' | 'banned';
+  alias: string;
+  oldAliases: string[];
+  isAdmin: boolean;
+  checkpoints: any[];
+  numAchievements: number;
+  numClues: number;
+  feedTextsSent: number;
+  feedMediaSent: number;
+  avatar?: string;
   money: number;
 }
 
 export default PlayerSchema;
-export { PlayerBase };
+export { Player, PlayerSchema };

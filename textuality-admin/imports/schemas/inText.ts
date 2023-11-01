@@ -1,7 +1,6 @@
 import SimpleSchema from 'simpl-schema';
 
 import Events from '/imports/api/events';
-import Players from '/imports/api/players';
 
 const InTextSchema = new SimpleSchema({
   event: {
@@ -13,14 +12,7 @@ const InTextSchema = new SimpleSchema({
     optional: true,
   },
   time: Date,
-  player: {
-    type: String,
-    allowedValues: () => {
-      Players.find()
-        .fetch()
-        .map((player) => player._id);
-    },
-  },
+  player: String,
   media: {
     type: String,
     optional: true,
@@ -55,7 +47,7 @@ const InTextSchema = new SimpleSchema({
 });
 
 interface InText {
-  _id: string;
+  _id?: string;
   event: string;
   body: string;
   time: Date;

@@ -1,6 +1,6 @@
 import SimpleSchema from 'simpl-schema';
 
-import Events from 'api/events';
+import Events from '/imports/api/events';
 import { Event } from './event';
 
 const PlayerShort = new SimpleSchema({

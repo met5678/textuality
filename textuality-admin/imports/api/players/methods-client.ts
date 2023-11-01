@@ -1,24 +1,35 @@
 import { Meteor } from 'meteor/meteor';
 
 import Players from './players';
-import Events from 'api/events';
-import InTexts from 'api/inTexts';
-import Media from 'api/media';
+import Events from '/imports/api/events';
+import InTexts from '/imports/api/inTexts';
+import Media from '/imports/api/media';
+import PlayerSchema from '/imports/schemas/player';
 
 Meteor.methods({
-  'players.findOrJoin': phoneNumber => {
+  'players.findOrJoin': (phoneNumber) => {
     let player = Players.findOne({
-      event: Events.currentId(),
-      phoneNumber
+      event: Events.currentId()!,
+      phoneNumber,
     });
 
     if (!player) {
       const alias = Meteor.call('aliases.checkout');
       const id = Players.insert({
-        event: Events.currentId(),
+        event: Events.currentId()!,
         phoneNumber,
+        joined: new Date(),
+        recent: new Date(),
         status: 'new',
-        alias
+        alias,
+        oldAliases: [],
+        isAdmin: false,
+        checkpoints: [],
+        numAchievements: Number(PlayerSchema.defaultValue('numAchievements')),
+        numClues: Number(PlayerSchema.defaultValue('numClues')),
+        feedTextsSent: Number(PlayerSchema.defaultValue('feedTextsSent')),
+        feedMediaSent: Number(PlayerSchema.defaultValue('feedMediaSent')),
+        money: 20,
       });
       player = Players.findOne(id);
     }
@@ -26,21 +37,24 @@ Meteor.methods({
     return player;
   },
 
-  'players.updateAfterInText': inText => {
+  'players.updateAfterInText': (inText) => {
     const player = Players.findOne(inText.player);
+
+    if (!player) return;
 
     const playerFields = {
       recent: new Date(),
       feedTextsSent: InTexts.find({
-        event: Events.currentId(),
+        event: Events.currentId()!,
         player: inText.player,
-        purpose: 'feed'
+        purpose: 'feed',
       }).count(),
       feedMediaSent: Media.find({
-        event: Events.currentId(),
+        event: Events.currentId()!,
         player: inText.player,
-        purpose: 'feed'
-      }).count()
+        purpose: 'feed',
+      }).count(),
+      status: player.status,
     };
 
     if (
@@ -50,7 +64,7 @@ Meteor.methods({
       playerFields.status = 'active';
       Meteor.call('autoTexts.send', {
         playerId: player._id,
-        trigger: 'SIGN_BACK_ON'
+        trigger: 'SIGN_BACK_ON',
       });
     }
 
@@ -63,6 +77,7 @@ Meteor.methods({
 
   'players.setAlias': ({ playerId, alias }) => {
     const player = Players.findOne(playerId);
+    if (!player) return;
 
     const oldAliases = [player.alias, ...player.oldAliases];
 
@@ -75,5 +90,5 @@ Meteor.methods({
 
   'players.setCheckpoints': ({ playerId, checkpoints }) => {
     Players.update(playerId, { $set: { checkpoints } });
-  }
+  },
 });

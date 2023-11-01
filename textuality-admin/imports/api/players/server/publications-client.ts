@@ -1,12 +1,12 @@
 import { Meteor } from 'meteor/meteor';
 
-import Players from '../';
-import Events from 'api/events';
+import Players from '..';
+import Events from '/imports/api/events';
 
 Meteor.publish('players.basic', function () {
   this.autorun(() =>
     Players.find(
-      { event: Events.currentId() },
+      { event: Events.currentId()! },
       {
         fields: {
           event: 1,
@@ -17,7 +17,7 @@ Meteor.publish('players.basic', function () {
           numAchievements: 1,
           numClues: 1,
         },
-      }
-    )
+      },
+    ),
   );
 });

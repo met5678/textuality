@@ -1,22 +1,22 @@
 import { Meteor } from 'meteor/meteor';
 
-import Events from 'api/events';
+import Events from '/imports/api/events';
 import Media from './media';
 
-import { uploadImage } from 'services/cloudinary';
+import { uploadImage } from '/imports/services/cloudinary';
 
 const acceptedContentTypes = [];
 const avatarTransformations = [
   { width: 100, height: 100, crop: 'thumb', gravity: 'face', zoom: 1.1 },
-  { width: 400, height: 400, crop: 'thumb', gravity: 'face', zoom: 0.75 }
+  { width: 400, height: 400, crop: 'thumb', gravity: 'face', zoom: 0.75 },
 ];
 const feedTransformations = [
   { width: 800, height: 800, crop: 'lfill' },
-  { width: 800, height: 800, crop: 'lfill', gravity: 'faces' }
+  { width: 800, height: 800, crop: 'lfill', gravity: 'faces' },
 ];
 
 Meteor.methods({
-  'media.receive': ({ purpose, message, player }) => {
+  'media.receive': async ({ purpose, message, player }) => {
     const { url, contentType } = message.media;
 
     // If not one of these, ignore the image
@@ -26,13 +26,13 @@ Meteor.methods({
     if (contentType.startsWith('video/')) {
       Meteor.call('autoTexts.send', {
         playerId: player._id,
-        trigger: 'SENT_VIDEO'
+        trigger: 'SENT_VIDEO',
       });
       return null;
     } else if (!contentType.startsWith('image/')) {
       Meteor.call('autoTexts.send', {
         playerId: player._id,
-        trigger: 'INVALID_CONTENT_TYPE'
+        trigger: 'INVALID_CONTENT_TYPE',
       });
       return null;
     }
@@ -47,21 +47,23 @@ Meteor.methods({
       transformations = feedTransformations;
     }
 
-    const { cloudinaryId, faces, width, height } = uploadImage(
-      url,
-      transformations
-    );
+    // const { cloudinaryId, faces, width, height } = await uploadImage(
+    //   url,
+    //   transformations,
+    // );
+
+    const { cloudinaryId, faces, width, height } = await uploadImage(url);
 
     return Media.insert({
       _id: cloudinaryId,
-      event: Events.currentId(),
+      event: Events.currentId()!,
       purpose: imagePurpose,
       faces,
       width,
       height,
       type: contentType === 'image/gif' ? 'anim-gif' : 'image',
       time: new Date(),
-      player: player._id
+      player: player._id,
     });
-  }
+  },
 });

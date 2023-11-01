@@ -15,6 +15,7 @@ declare module 'meteor/meteor' {
           | Promise<void | Mongo.Cursor<any, any>>,
       ) => void;
       ready: () => void;
+      setData: (key: string, value: any) => void;
     }
   }
 }

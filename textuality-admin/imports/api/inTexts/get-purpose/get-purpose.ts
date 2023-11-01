@@ -1,4 +1,12 @@
-function getPurpose({ message, player }) {
+import { InText } from '/imports/schemas/inText';
+import { Player } from '/imports/schemas/player';
+
+interface GetPurposeArgs {
+  player: Player;
+  message: InText;
+}
+
+function getPurpose({ message, player }: GetPurposeArgs): string {
   if (player.status === 'new' || player.status === 'tentative') {
     return 'initial';
   }
@@ -17,14 +25,13 @@ function getPurpose({ message, player }) {
     }
 
     if (message.body.startsWith('#')) {
-      // if(Mission.current() && Mission.current().includesPlayer(player._id)) {
-      //   return 'mission';
-      // }
       return 'hashtag';
     }
 
     return 'feed';
   }
+
+  return 'ignore';
 }
 
 export default getPurpose;

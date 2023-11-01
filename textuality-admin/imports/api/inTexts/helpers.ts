@@ -2,10 +2,11 @@ import { onlyEmoji, withoutEmoji } from 'emoji-aware';
 
 import InTexts from './inTexts';
 
-import { getImageUrl } from 'services/cloudinary';
+import { getImageUrl } from '/imports/services/cloudinary';
 
 InTexts.helpers({
   getAvatarUrl(dimension = 100) {
+    if (!this.avatar) return '';
     return getImageUrl(this.avatar, {
       width: dimension,
       height: dimension,
@@ -23,7 +24,7 @@ InTexts.helpers({
     return (
       this.body &&
       this.body.length < 12 &&
-      withoutEmoji(this.body).every((str) => str === ' ')
+      withoutEmoji(this.body).every((str: string) => str === ' ')
     );
   },
 });

@@ -1,9 +1,9 @@
 import Media from './media';
 
-import { getImageUrl } from 'services/cloudinary';
+import { getImageUrl } from '/imports/services/cloudinary';
 
 Media.helpers({
-  getAvatarUrl(dimesion = 100) {
+  getAvatarUrl(dimension = 100) {
     return getImageUrl(this._id, {
       width: dimension,
       height: dimension,

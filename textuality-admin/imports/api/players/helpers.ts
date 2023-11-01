@@ -1,11 +1,11 @@
 import Players from './players';
-import Events from 'api/events';
-import AchievementUnlocks from 'api/achievementUnlocks';
 
-import { getImageUrl } from 'services/cloudinary';
+import { getImageUrl } from '/imports/services/cloudinary';
 
 Players.helpers({
   getAvatarUrl(dimension = 400) {
+    if (!this.avatar) return null;
+
     return getImageUrl(this.avatar, {
       width: dimension,
       height: dimension,

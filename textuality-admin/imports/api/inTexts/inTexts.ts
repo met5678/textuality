@@ -1,6 +1,6 @@
 import { Mongo } from 'meteor/mongo';
 
-import InTextSchema from 'schemas/inText';
+import InTextSchema from '/imports/schemas/inText';
 
 const InTexts = new Mongo.Collection('inTexts');
 

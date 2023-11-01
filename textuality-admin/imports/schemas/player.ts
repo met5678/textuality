@@ -1,17 +1,12 @@
 import SimpleSchema from 'simpl-schema';
 
-import Events from 'api/events';
+import Events from '/imports/api/events';
 import Media from 'api/media';
-
-import { Event } from './event';
 
 const PlayerSchema = new SimpleSchema({
   event: {
     type: String,
-    allowedValues: () =>
-      Events.find()
-        .fetch()
-        .map((event: Event) => event._id),
+    allowedValues: Events.allIds,
   },
   phoneNumber: String,
   joined: {

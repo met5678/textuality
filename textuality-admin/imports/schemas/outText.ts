@@ -9,13 +9,22 @@ const OutTextSchema = new SimpleSchema({
   },
   body: String,
   time: Date,
-  players: {
-    type: Array,
+  player: String,
+  from_number: String,
+  to_number: String,
+  media_url: {
+    type: String,
+    optional: true,
   },
-  'players.$': String,
+  status: {
+    type: String,
+    allowedValues: ['unsent', 'sending', 'sent', 'delivered', 'read'],
+    defaultValue: 'unsent',
+  },
   source: {
     type: String,
     allowedValues: ['auto', 'manual', 'achievement', 'mission', 'unknown'],
+    defaultValue: 'unknown',
   },
 });
 
@@ -23,9 +32,13 @@ interface OutText {
   _id?: string;
   event: string;
   body: string;
+  media_url?: string;
   time: Date;
-  players: string[];
-  source: string;
+  player: string;
+  from_number: string;
+  to_number: string;
+  status: 'unsent' | 'sending' | 'sent' | 'delivered' | 'read';
+  source: 'auto' | 'manual' | 'achievement' | 'mission' | 'unknown';
 }
 
 export default OutTextSchema;

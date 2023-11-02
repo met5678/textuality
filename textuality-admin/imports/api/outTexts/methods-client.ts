@@ -3,15 +3,14 @@ import { Meteor } from 'meteor/meteor';
 import Events from '/imports/api/events';
 import OutTexts from './outTexts';
 
-import { send as twilioSend } from '/imports/services/twilio';
-import { send as whatsappSend } from '/imports/services/whatsapp';
 import { Player } from '/imports/schemas/player';
+import { OutText } from '/imports/schemas/outText';
 
 interface OutTextSendArgs {
   body: string;
-  mediaUrl: string;
+  mediaUrl?: string;
   players: Player[];
-  source: string;
+  source: 'auto' | 'manual' | 'achievement' | 'mission' | 'unknown';
 }
 
 Meteor.methods({
@@ -23,24 +22,19 @@ Meteor.methods({
       source = 'unknown';
     }
 
-    const outText = {
-      event: event._id,
-      body,
-      players: players.map((player) => player._id!),
-      time: new Date(),
-      source,
-    };
-
-    OutTexts.insert(outText);
-
     players.forEach((player) => {
-      whatsappSend({
-        to: player.phoneNumber,
-        from: event.phoneNumber,
-        text: body,
-      });
+      const outText: OutText = {
+        event: event._id,
+        body,
+        player: player._id!,
+        to_number: player.phoneNumber,
+        from_number: '',
+        time: new Date(),
+        status: 'unsent',
+        source: source,
+      };
 
-      // send(message);
+      OutTexts.insert(outText);
     });
   },
 });

@@ -1,26 +1,17 @@
 import React from 'react';
-import arraySort from 'array-sort';
-import { useTracker, useSubscribe, useFind } from 'meteor/react-meteor-data';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data';
 import { DateTime } from 'luxon';
 
 import Table from '/imports/ui/generic/Table/Table';
 // import DateDisplay from 'generic/DateDisplay';
 
 import InTexts from '/imports/api/inTexts';
-import OutTexts from '/imports/api/outTexts';
-import Players from '/imports/api/players';
+// import OutTexts from '/imports/api/outTexts';
+// import Players from '/imports/api/players';
 import { GridColDef } from '@mui/x-data-grid';
 import LoadingBar from '../../generic/LoadingBar';
-import dayjs from 'dayjs';
 
 const columns: GridColDef[] = [
-  // {
-  //   field: 'direction',
-  //   headerName: '',
-  //   sortable: false,
-  //   valueFormatter: params => (params.value === 'in' ? '→' : '←'),
-  //   width: 35
-  // },
   {
     field: 'alias',
     headerName: 'Player',
@@ -34,7 +25,8 @@ const columns: GridColDef[] = [
   {
     field: 'media',
     headerName: 'Media',
-    valueFormatter: (cell) => (!!cell.value ? 'Yes' : 'No'),
+    valueGetter: (cell) => !!cell.value,
+    type: 'boolean',
     width: 65,
   },
   {

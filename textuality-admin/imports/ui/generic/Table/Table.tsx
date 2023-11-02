@@ -62,9 +62,11 @@ const Table = ({
       <DataGrid
         rows={data}
         columns={columns}
-        checkboxSelection={true}
         autoHeight={true}
         getRowId={(row) => row._id}
+        rowSelection={false}
+        checkboxSelection={false}
+        density="compact"
       />
     </Paper>
   );

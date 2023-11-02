@@ -3,10 +3,7 @@
     /* Basic Options */
     "target": "es2018",
     "module": "esNext",
-    "lib": [
-      "esnext",
-      "dom"
-    ],
+    "lib": ["esnext", "dom"],
     "allowJs": true,
     "checkJs": false,
     "jsx": "preserve",
@@ -25,9 +22,7 @@
     "baseUrl": ".",
     "paths": {
       /* Support absolute /imports/* with a leading '/' */
-      "/*": [
-        "*"
-      ],
+      "/*": ["*"],
       /* Pull in type declarations for Meteor packages from either zodern:types or @types/meteor packages */
       "meteor/*": [
         "node_modules/@types/meteor/*",
@@ -36,14 +31,9 @@
     },
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "types": [
-      "node",
-    ],
+    "types": ["node"],
     "esModuleInterop": true,
     "preserveSymlinks": true
   },
-  "exclude": [
-    "./.meteor/**",
-    "./packages/**"
-  ]
+  "exclude": ["./.meteor/**", "./packages/**"]
 }

@@ -1,10 +1,10 @@
 import React from 'react';
 
-import EventSchema from 'schemas/event';
+import EventSchema from '/imports/schemas/event';
 
-import AutoForm from 'generic/AutoForm';
+import AutoForm from '/imports/ui/generic/AutoForm';
 
-const EventForm = props => {
+const EventForm = (props) => {
   let { model, onSubmit } = props;
 
   return <AutoForm schema={EventSchema} onSubmit={onSubmit} model={model} />;

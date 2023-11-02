@@ -14,12 +14,12 @@ Meteor.methods({
     const player = Meteor.call('players.findOrJoin', message.from);
     const purpose = getPurpose({ message, player });
 
-    // console.log({ message, purpose });
+    console.log({ message, purpose });
 
     const inText: InText = {
       event: Events.currentId()!,
       player: player._id,
-      body: message.body,
+      body: message.text,
       time: new Date(),
       purpose,
       alias: player.alias,

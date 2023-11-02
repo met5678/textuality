@@ -1,12 +1,14 @@
 import React from 'react';
 import AllTextsTable from './AllTextsTable';
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 const AllTextsPage: React.FC = () => {
   return (
     <>
-      <Typography variant="h6">All Texts</Typography>
-      {/*<AllTextsTable />*/}
+      <Box mb={2}>
+        <Typography variant="h5">All Texts</Typography>
+      </Box>
+      <AllTextsTable />
     </>
   );
 };

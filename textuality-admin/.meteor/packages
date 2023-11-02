@@ -20,11 +20,11 @@ ecmascript@0.16.7 # Enable ECMAScript2015+ syntax in app code
 shell-server@0.5.0 # Server-side component of the `meteor shell` command
 
 static-html@1.3.2 # Define static page content in .html files
-react-meteor-data@2.5.1 # React higher-order component for reactively tracking Meteor data
+react-meteor-data # React higher-order component for reactively tracking Meteor data
 aldeed:collection2@3.0.0
 dburles:collection-helpers
 peerlibrary:reactive-publish
 webapp@1.13.5
 http@2.0.0
-typescript@4.9.4
+typescript
 zodern:types

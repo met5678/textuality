@@ -16,7 +16,7 @@ const Shell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       <Container maxWidth={false} disableGutters={true}>
         <Box sx={{ display: 'flex' }}>
           <Nav />
-          <Box p={3} sx={{ flexGrow: 1 }}>
+          <Box px={3} py={2} sx={{ flexGrow: 1 }}>
             {loading ? <LoadingBar /> : children}
           </Box>
         </Box>

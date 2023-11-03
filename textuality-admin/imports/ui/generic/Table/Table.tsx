@@ -50,11 +50,14 @@ const Table = ({
   }
 
   if (actions.length) {
-    columns.push({
-      field: 'actions',
-      type: 'actions',
-      getActions: (params) => actions.map((action) => action(params)),
-    });
+    columns = [
+      ...columns,
+      {
+        field: 'actions',
+        type: 'actions',
+        getActions: (params) => actions.map((action) => action(params)),
+      },
+    ];
   }
 
   return (

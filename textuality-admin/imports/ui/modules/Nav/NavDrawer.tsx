@@ -53,14 +53,19 @@ const navItems: Array<NavItem> = [
   },
   {
     startWithDivider: true,
-    title: 'AutoTexts',
-    href: '/autoTexts',
-    icon: <VoicemailIcon />,
-  },
-  {
     title: 'Achievements',
     href: '/achievements',
     icon: <TaskAltIcon />,
+  },
+  {
+    title: 'Aliases',
+    href: '/aliases',
+    icon: <BadgeTwoToneIcon />,
+  },
+  {
+    title: 'AutoTexts',
+    href: '/autoTexts',
+    icon: <VoicemailIcon />,
   },
   {
     title: 'Checkpoints',
@@ -73,11 +78,6 @@ const navItems: Array<NavItem> = [
     icon: <PersonSearchTwoToneIcon />,
   },
   {
-    title: 'Aliases',
-    href: '/aliases',
-    icon: <BadgeTwoToneIcon />,
-  },
-  {
     title: 'Slot Machines',
     href: '/casino/slot-machines',
     icon: <Typography>🎰</Typography>,
@@ -86,6 +86,11 @@ const navItems: Array<NavItem> = [
     title: 'Roulettes',
     href: '/casino/roulettes',
     icon: <Typography>🎡</Typography>,
+  },
+  {
+    title: 'Hacker',
+    href: '/casino/hacker',
+    icon: <Typography>🦹‍♀️</Typography>,
   },
   {
     startWithDivider: true,

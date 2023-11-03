@@ -7,5 +7,5 @@ AutoTexts.helpers({
       this.trigger.endsWith('_N') ||
       this.trigger.includes('_N_')
     );
-  }
+  },
 });

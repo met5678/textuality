@@ -26,9 +26,10 @@ Meteor.methods({
       const outText: OutText = {
         event: event._id,
         body,
-        player: player._id!,
-        to_number: player.phoneNumber,
-        from_number: '',
+        player_id: player._id!,
+        player_number: player.phoneNumber,
+        player_alias: player.alias,
+        media_url: mediaUrl,
         time: new Date(),
         status: 'unsent',
         source: source,

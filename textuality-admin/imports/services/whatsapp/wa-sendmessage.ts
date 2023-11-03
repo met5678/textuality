@@ -7,7 +7,6 @@ const waAPIVersion = 'v18.0';
 
 interface OutgoingMessageData {
   to: string;
-  from: string;
   text: string;
   mediaUrl?: string;
 }

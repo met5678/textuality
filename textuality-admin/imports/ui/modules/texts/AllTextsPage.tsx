@@ -1,14 +1,22 @@
 import React from 'react';
-import AllTextsTable from './AllTextsTable';
+import InTextsTable from './InTextsTable';
+import OutTextsTable from './OutTextsTable';
 import { Box, Typography } from '@mui/material';
 
-const AllTextsPage: React.FC = () => {
+const AllTextsPage = () => {
   return (
     <>
       <Box mb={2}>
         <Typography variant="h5">All Texts</Typography>
       </Box>
-      <AllTextsTable />
+      <Box mb={2}>
+        <Typography variant="h6">Incoming Texts</Typography>
+        <InTextsTable />
+      </Box>
+      <Box mb={2}>
+        <Typography variant="h6">Outgoing Texts</Typography>
+        <OutTextsTable />
+      </Box>
     </>
   );
 };

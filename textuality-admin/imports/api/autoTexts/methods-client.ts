@@ -1,16 +1,16 @@
 import { Meteor } from 'meteor/meteor';
 
 import AutoTexts from './autoTexts';
-import Events from 'api/events';
-import Rounds from 'api/rounds';
-import ClueRewards from 'api/clueRewards';
-import Players from 'api/players';
-import Guesses from 'api/guesses';
-import Achievements from 'api/achievements';
-import AchievementUnlocks from 'api/achievementUnlocks';
-import Checkpoints from 'api/checkpoints';
+import Events from '/imports/api/events';
+import Rounds from '/imports/api/rounds';
+import ClueRewards from '/imports/api/clueRewards';
+import Players from '/imports/api/players';
+import Guesses from '/imports/api/guesses';
+import Achievements from '/imports/api/achievements';
+import AchievementUnlocks from '/imports/api/achievementUnlocks';
+import Checkpoints from '/imports/api/checkpoints';
 
-const capitalizeFirstLetter = (str) =>
+const capitalizeFirstLetter = (str: string) =>
   `${str[0].toUpperCase()}${str.substring(1)}`;
 
 Meteor.methods({
@@ -56,16 +56,16 @@ Meteor.methods({
         round: Rounds.currentId(),
         player: playerId,
       },
-      { sort: { clueName: 1 } }
+      { sort: { clueName: 1 } },
     ).fetch();
     const roomClues = clueRewards.filter(
-      (clueReward) => clueReward.clueType === 'room'
+      (clueReward) => clueReward.clueType === 'room',
     );
     const personClues = clueRewards.filter(
-      (clueReward) => clueReward.clueType === 'person'
+      (clueReward) => clueReward.clueType === 'person',
     );
     const weaponClues = clueRewards.filter(
-      (clueReward) => clueReward.clueType === 'weapon'
+      (clueReward) => clueReward.clueType === 'weapon',
     );
 
     lines.push(`Case file for ${player.alias}:\n`);
@@ -78,7 +78,7 @@ Meteor.methods({
     });
     lines.push(`Room: ${capitalizeFirstLetter(playerGuess?.room ?? '--')}`);
     lines.push(
-      `Suspect: ${capitalizeFirstLetter(playerGuess?.person ?? '--')}`
+      `Suspect: ${capitalizeFirstLetter(playerGuess?.person ?? '--')}`,
     );
     lines.push(`Weapon: ${capitalizeFirstLetter(playerGuess?.weapon ?? '--')}`);
 
@@ -86,19 +86,19 @@ Meteor.methods({
 
     lines.push(`Eliminated Rooms:${roomClues.length === 0 ? ' NONE' : ''}`);
     roomClues.forEach((clueReward, i) =>
-      lines.push(`${i + 1}. ${clueReward.clueName}`)
+      lines.push(`${i + 1}. ${clueReward.clueName}`),
     );
 
     lines.push(`\nCleared Suspects:${personClues.length === 0 ? ' NONE' : ''}`);
     personClues.forEach((clueReward, i) =>
-      lines.push(`${i + 1}. ${clueReward.clueName}`)
+      lines.push(`${i + 1}. ${clueReward.clueName}`),
     );
 
     lines.push(
-      `\nEliminated Weapons:${weaponClues.length === 0 ? ' NONE' : ''}`
+      `\nEliminated Weapons:${weaponClues.length === 0 ? ' NONE' : ''}`,
     );
     weaponClues.forEach((clueReward, i) =>
-      lines.push(`${i + 1}. ${clueReward.clueName}`)
+      lines.push(`${i + 1}. ${clueReward.clueName}`),
     );
 
     lines.push(`\n----------------\n`);
@@ -130,7 +130,7 @@ Meteor.methods({
 
     let checkpointGroups = Checkpoints.find(
       { event: Events.currentId() },
-      { fields: { group: 1 } }
+      { fields: { group: 1 } },
     )
       .fetch()
       .reduce((groups, checkpoint) => {

@@ -1,20 +1,13 @@
 import SimpleSchema from 'simpl-schema';
 
-import Events from 'api/events';
+import Events from '/imports/api/events';
 
 const AutoTextSchema = new SimpleSchema({
   event: {
     type: String,
-    allowedValues: () =>
-      Events.find()
-        .fetch()
-        .map((event) => event._id),
+    allowedValues: Events.allIds,
   },
-  playerText: {
-    type: String,
-    max: 160,
-    optional: true,
-  },
+  playerText: String,
   screenText: {
     type: String,
     optional: true,
@@ -45,13 +38,51 @@ const AutoTextSchema = new SimpleSchema({
       'STATUS',
 
       'INVALID_COMMAND',
-
       'INVALID_HASHTAG',
-
-      'MISSION_ALREADY_COMPLETED',
 
       'SENT_VIDEO',
       'INVALID_CONTENT_TYPE',
+
+      'MISSION_PRESTART',
+      'MISSION_START_PLAYER_A',
+      'MISSION_START_PLAYER_B',
+      'MISSION_COMPLETE',
+      'MISSION_FAIL',
+      'MISSION_ALREADY_COMPLETED',
+
+      // Start casino-specific
+
+      'WALLET',
+
+      'SLOT_SPIN',
+      'SLOT_WIN_SMALL',
+      'SLOT_WIN_MEDIUM',
+      'SLOT_WIN_BIG',
+      'SLOT_WIN_HACKER',
+      'SLOT_LOSE',
+      'SLOT_QUEUE',
+      'SLOT_UNAVAILABLE',
+
+      'ROULETTE_BET_NUMBER',
+      'ROULETTE_BET_EVEN',
+      'ROULETTE_BET_ODD',
+      'ROULETTE_BET_RED',
+      'ROULETTE_BET_BLACK',
+      'ROULETTE_BET_STATUS',
+      'ROULETTE_LOSE',
+      'ROULETTE_WIN_SMALL',
+      'ROULETTE_WIN_NUMBER',
+      'ROULETTE_START_SPIN',
+      'ROULETTE_OPEN',
+      'ROULETTE_NOT_YET_ACCEPTING',
+      'ROULETTE_NO_MORE',
+
+      'HACKER_SLOT_CLUE',
+      'HACKER_ROULETTE_CLUE',
+
+      // End casino-specific
+
+      // Start clue-specific
 
       'CLUE_REWARD_PRE',
 
@@ -66,12 +97,6 @@ const AutoTextSchema = new SimpleSchema({
       'CLUE_REWARD_NONE_LEFT_PERSON',
       'CLUE_REWARD_NONE_LEFT_WEAPON',
       'CLUE_REWARD_NONE_LEFT_ANY',
-
-      'MISSION_PRESTART',
-      'MISSION_START_PLAYER_A',
-      'MISSION_START_PLAYER_B',
-      'MISSION_COMPLETE',
-      'MISSION_FAIL',
 
       'GUESS_PERSON_SUCCESS',
       'GUESS_PERSON_INVALID',
@@ -93,6 +118,8 @@ const AutoTextSchema = new SimpleSchema({
       'ROUND_REVEAL_RESULT_N_CLUES',
       'ROUND_END',
 
+      // End clue-specific
+
       // BELOW TEXTS NOT IN USE DURING CLUE
 
       'ALIAS_CHANGED',
@@ -107,4 +134,14 @@ const AutoTextSchema = new SimpleSchema({
   },
 });
 
+interface AutoText {
+  _id?: string;
+  event: string;
+  playerText: string;
+  screenText?: string;
+  trigger: string;
+  triggerNum: number;
+}
+
 export default AutoTextSchema;
+export { AutoText, AutoTextSchema };

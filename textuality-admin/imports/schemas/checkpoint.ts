@@ -1,14 +1,11 @@
 import SimpleSchema from 'simpl-schema';
 
-import Events from 'api/events';
+import Events from '/imports/api/events';
 
 const CheckpointSchema = new SimpleSchema({
   event: {
     type: String,
-    allowedValues: () =>
-      Events.find()
-        .fetch()
-        .map((event) => event._id),
+    allowedValues: Events.allIds,
   },
   hashtag: String,
   group: String,
@@ -22,4 +19,14 @@ const CheckpointSchema = new SimpleSchema({
   },
 });
 
+interface Checkpoint {
+  _id?: string;
+  event: string;
+  hashtag: string;
+  group: string;
+  location?: string;
+  playerText?: string;
+}
+
 export default CheckpointSchema;
+export { Checkpoint, CheckpointSchema };

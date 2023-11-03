@@ -15,8 +15,7 @@ Meteor.startup(() => {
   OutTexts.find({ status: 'unsent' }).observe({
     added(outText) {
       const outMessage: OutgoingMessageData = {
-        from: outText.from_number,
-        to: outText.to_number,
+        to: outText.player_number,
         text: outText.body,
         mediaUrl: outText.media_url,
       };

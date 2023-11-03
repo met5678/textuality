@@ -9,9 +9,13 @@ const OutTextSchema = new SimpleSchema({
   },
   body: String,
   time: Date,
-  player: String,
-  from_number: String,
-  to_number: String,
+  player_id: String,
+  player_alias: String,
+  player_number: String,
+  media_id: {
+    type: String,
+    optional: true,
+  },
   media_url: {
     type: String,
     optional: true,
@@ -34,9 +38,9 @@ interface OutText {
   body: string;
   media_url?: string;
   time: Date;
-  player: string;
-  from_number: string;
-  to_number: string;
+  player_id: string;
+  player_alias: string;
+  player_number: string;
   status: 'unsent' | 'sending' | 'sent' | 'delivered' | 'read';
   source: 'auto' | 'manual' | 'achievement' | 'mission' | 'unknown';
 }

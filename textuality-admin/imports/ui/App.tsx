@@ -5,11 +5,11 @@ import Shell from './Shell';
 
 import EventsPage from '/imports/ui/modules/events/EventsPage';
 import AllTextsPage from '/imports/ui/modules/texts/AllTextsPage';
+import PlayersPage from 'modules/players/PlayersPage';
 // import MediaPage from 'modules/media/MediaPage';
 // import AchievementUnlocksPage from 'modules/achievementUnlocks/AchievementUnlocksPage';
 // import ClueRewardsPage from 'modules/clueRewards/ClueRewardsPage';
 // import GuessesPage from 'modules/guesses/GuessesPage';
-// import PlayersPage from 'modules/players/PlayersPage';
 // import AliasesPage from 'modules/aliases/AliasesPage';
 // import AutoTextsPage from 'modules/autoTexts/AutoTextsPage';
 // import CheckpointsPage from 'modules/checkpoints/CheckpointsPage';
@@ -25,7 +25,7 @@ const darkTheme = createTheme({
   },
 });
 
-const App: React.FC = () => (
+const App = () => (
   <ThemeProvider theme={darkTheme}>
     <CssBaseline />
 
@@ -33,7 +33,7 @@ const App: React.FC = () => (
       <Switch>
         <Route path="/events" component={EventsPage} />
         <Route path="/texts" component={AllTextsPage} />
-        {/*<Route path="/players" component={PlayersPage} />*/}
+        <Route path="/players" component={PlayersPage} />
         {/*<Route path="/media" component={MediaPage} />*/}
         {/*<Route path="/unlocks" component={AchievementUnlocksPage} />*/}
         {/*<Route path="/clue-rewards" component={ClueRewardsPage} />*/}

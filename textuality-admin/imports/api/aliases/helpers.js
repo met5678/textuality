@@ -1,1 +1,0 @@
-import Aliases from './aliases';

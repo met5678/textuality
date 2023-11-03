@@ -1,8 +1,15 @@
 import { Mongo } from 'meteor/mongo';
 
-import { AutoText, AutoTextSchema } from '/imports/schemas/autoText';
+import {
+  AutoText as AutoTextOrig,
+  AutoTextSchema,
+} from '/imports/schemas/autoText';
 
-const AutoTexts = new Mongo.Collection<AutoText>('autoTexts');
+interface AutoText extends AutoTextOrig {
+  isNumeric: () => boolean;
+}
+
+const AutoTexts = new Mongo.Collection<AutoTextOrig, AutoText>('autoTexts');
 
 AutoTexts.attachSchema(AutoTextSchema);
 

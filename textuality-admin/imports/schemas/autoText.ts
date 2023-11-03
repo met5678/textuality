@@ -8,10 +8,6 @@ const AutoTextSchema = new SimpleSchema({
     allowedValues: Events.allIds,
   },
   playerText: String,
-  screenText: {
-    type: String,
-    optional: true,
-  },
   trigger: {
     type: String,
     allowedValues: [
@@ -138,7 +134,6 @@ interface AutoText {
   _id?: string;
   event: string;
   playerText: string;
-  screenText?: string;
   trigger: string;
   triggerNum: number;
 }

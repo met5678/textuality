@@ -41,6 +41,8 @@ import '/imports/api/missionPairings/';
 import '/imports/api/missionPairings/methods-client';
 import '/imports/api/missionPairings/server/publications-client';
 
+// Clue specific
+
 import '/imports/api/clues/';
 import '/imports/api/clues/methods-client';
 import '/imports/api/clues/server/publications-client';

@@ -2,13 +2,7 @@ import { Meteor } from 'meteor/meteor';
 
 import AutoTexts from './autoTexts';
 import Events from '/imports/api/events';
-import Rounds from '/imports/api/rounds';
-import ClueRewards from '/imports/api/clueRewards';
 import Players from '/imports/api/players';
-import Guesses from '/imports/api/guesses';
-import Achievements from '/imports/api/achievements';
-import AchievementUnlocks from '/imports/api/achievementUnlocks';
-import Checkpoints from '/imports/api/checkpoints';
 
 const capitalizeFirstLetter = (str: string) =>
   `${str[0].toUpperCase()}${str.substring(1)}`;
@@ -21,7 +15,10 @@ Meteor.methods({
     mediaUrl,
     templateVars,
   }) => {
-    const autoTextQuery = { event: Events.currentId(), trigger };
+    const autoTextQuery: Record<string, any> = {
+      event: Events.currentId(),
+      trigger,
+    };
     if (triggerNum) autoTextQuery.triggerNum = triggerNum;
 
     const matchingAutoTexts = AutoTexts.find(autoTextQuery).fetch();
@@ -42,6 +39,7 @@ Meteor.methods({
     });
   },
 
+  /*
   'autoTexts.sendStatus': ({ playerId }) => {
     const player = Players.findOne(playerId);
     if (!player) return;
@@ -172,16 +170,17 @@ Meteor.methods({
       playerText: lines.join('\n'),
     });
   },
+  */
 
   'autoTexts.sendCustom': ({
     playerText,
-    screenText,
     playerId,
     mediaUrl,
     templateVars = {},
-    source = 'unknown',
+    source = 'auto',
   }) => {
     const player = Players.findOne(playerId);
+    if (!player) return;
 
     if (playerText) {
       let body = playerText.replace(/\[alias\]/g, player.alias);
@@ -192,14 +191,9 @@ Meteor.methods({
       Meteor.call('outTexts.send', {
         players: [player],
         body,
-        source: 'auto',
+        source,
         mediaUrl,
       });
     }
-
-    // if (screenText) {
-    //   const body = screenText.replace('[alias]', player.alias);
-    //   Meteor.call('inTexts.sendSystemText', { body, player });
-    // }
   },
 });

@@ -5,13 +5,13 @@ import Shell from './Shell';
 
 import EventsPage from '/imports/ui/modules/events/EventsPage';
 import AllTextsPage from '/imports/ui/modules/texts/AllTextsPage';
-import PlayersPage from 'modules/players/PlayersPage';
+import PlayersPage from '/imports/ui/modules/players/PlayersPage';
 // import MediaPage from 'modules/media/MediaPage';
 // import AchievementUnlocksPage from 'modules/achievementUnlocks/AchievementUnlocksPage';
 // import ClueRewardsPage from 'modules/clueRewards/ClueRewardsPage';
 // import GuessesPage from 'modules/guesses/GuessesPage';
 // import AliasesPage from 'modules/aliases/AliasesPage';
-// import AutoTextsPage from 'modules/autoTexts/AutoTextsPage';
+import AutoTextsPage from '/imports/ui/modules/autoTexts/AutoTextsPage';
 // import CheckpointsPage from 'modules/checkpoints/CheckpointsPage';
 // import AchievementsPage from 'modules/achievements/AchievementsPage';
 // import MissionsPage from 'modules/missions/MissionsPage';
@@ -39,7 +39,7 @@ const App = () => (
         {/*<Route path="/clue-rewards" component={ClueRewardsPage} />*/}
         {/*<Route path="/guesses" component={GuessesPage} />*/}
         {/*<Route path="/aliases" component={AliasesPage} />*/}
-        {/*<Route path="/autoTexts" component={AutoTextsPage} />*/}
+        <Route path="/autoTexts" component={AutoTextsPage} />
         {/*<Route path="/checkpoints" component={CheckpointsPage} />*/}
         {/*<Route path="/achievements" component={AchievementsPage} />*/}
         {/*<Route path="/missions" component={MissionsPage} />*/}

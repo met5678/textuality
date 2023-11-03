@@ -5,7 +5,7 @@ import { AutoText } from '/imports/schemas/autoText';
 
 Meteor.methods({
   'autoTexts.new': (autoText: AutoText) => {
-    const id = AutoTexts.insert(autoText);
+    AutoTexts.insert(autoText);
   },
 
   'autoTexts.update': (autoText: Partial<AutoText>) => {

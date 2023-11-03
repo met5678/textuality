@@ -1,20 +1,21 @@
 {
   "plugins": [
-    ["@babel/plugin-proposal-decorators", { "legacy": true }],
-    ["@babel/plugin-proposal-class-properties", { "loose": true }],
-    ["babel-plugin-module-resolver", {
-      "root": ["./imports"],
-      "alias": {
-        "api": "./imports/api",
-        "schemas": "./imports/schemas",
-        "generic": "./imports/ui/generic",
-        "modules": "./imports/ui/modules",
-        "layouts": "./imports/ui/layouts",
-        "pages": "./imports/ui/pages",
-        "startup": "./imports/startup",
-        "services": "./imports/services",
-        "cloudinary": "./node_modules/cloudinary/lib/cloudinary"
+    [
+      "babel-plugin-module-resolver",
+      {
+        "root": ["./imports"],
+        "alias": {
+          "api": "./imports/api",
+          "schemas": "./imports/schemas",
+          "generic": "./imports/ui/generic",
+          "modules": "./imports/ui/modules",
+          "layouts": "./imports/ui/layouts",
+          "pages": "./imports/ui/pages",
+          "startup": "./imports/startup",
+          "services": "./imports/services",
+          "cloudinary": "./node_modules/cloudinary/lib/cloudinary"
+        }
       }
-    }]
+    ]
   ]
 }

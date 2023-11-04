@@ -1,6 +1,6 @@
 import Players from './players';
 
-import { getImageUrl } from '/imports/services/cloudinary';
+import { getImageUrl } from '/imports/services/cloudinary/cloudinary-geturl';
 
 Players.helpers({
   getAvatarUrl(dimension = 400) {

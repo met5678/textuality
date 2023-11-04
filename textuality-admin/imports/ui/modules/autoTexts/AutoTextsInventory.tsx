@@ -7,17 +7,27 @@ import AutoTexts from '/imports/api/autoTexts';
 import AutoTextSchema, { AutoText } from '/imports/schemas/autoText';
 import { List, ListItem, ListItemButton, ListItemText } from '@mui/material';
 
-const UnusedAutoTextListItem = ({ trigger }: { trigger: string }) => {
+const UnusedAutoTextListItem = ({
+  trigger,
+  onClick,
+}: {
+  trigger: string;
+  onClick: () => void;
+}) => {
   return (
     <ListItem disablePadding>
-      <ListItemButton>
+      <ListItemButton onClick={onClick}>
         <ListItemText primary={trigger} />
       </ListItemButton>
     </ListItem>
   );
 };
 
-const AutoTextsInvetory = () => {
+interface AutoTextInventoryProps {
+  createAutoText: (autoText: Partial<AutoText>) => any;
+}
+
+const AutoTextsInventory = ({ createAutoText }: AutoTextInventoryProps) => {
   const isLoading = useSubscribe('autoTexts.all');
   const autoTexts: AutoText[] = useFind(
     () => AutoTexts.find({}, { fields: { trigger: 1 }, sort: { trigger: 1 } }),
@@ -35,10 +45,14 @@ const AutoTextsInvetory = () => {
   return (
     <List dense={true}>
       {unusedTriggers.map((trigger) => (
-        <UnusedAutoTextListItem key={trigger} trigger={trigger} />
+        <UnusedAutoTextListItem
+          key={trigger}
+          trigger={trigger}
+          onClick={() => createAutoText({ trigger })}
+        />
       ))}
     </List>
   );
 };
 
-export default AutoTextsInvetory;
+export default AutoTextsInventory;

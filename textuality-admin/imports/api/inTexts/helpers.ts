@@ -2,7 +2,7 @@ import { onlyEmoji, withoutEmoji } from 'emoji-aware';
 
 import InTexts from './inTexts';
 
-import { getImageUrl } from '/imports/services/cloudinary';
+import { getImageUrl } from '/imports/services/cloudinary/cloudinary-geturl';
 
 InTexts.helpers({
   getAvatarUrl(dimension = 100) {

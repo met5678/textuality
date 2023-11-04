@@ -8,9 +8,10 @@ import Events from '/imports/api/events';
 import { Switch } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 import AutoFormDialog from '../../generic/AutoForm/AutoFormDialog';
-import EventSchema from '/imports/schemas/event';
+import EventSchema, { Event } from '/imports/schemas/event';
 import LoadingBar from '/imports/ui/generic/LoadingBar';
 import Table from '/imports/ui/generic/Table/Table';
+import AlertDialog from '../../generic/AlertDialog/AlertDialog';
 
 // const columns = [
 //   {
@@ -53,51 +54,61 @@ import Table from '/imports/ui/generic/Table/Table';
 //   }
 // ];
 
+const tableColumns: GridColDef<Event>[] = [
+  {
+    field: 'name',
+    headerName: 'Name',
+    flex: 1,
+  },
+  {
+    field: 'phoneNumber',
+    headerName: 'Phone Number',
+    flex: 1,
+  },
+  {
+    field: 'theme',
+    headerName: 'Theme',
+    flex: 1,
+  },
+  {
+    field: 'active',
+    headerName: 'Active',
+    renderCell: (params) => {
+      return (
+        <Switch
+          checked={params.value}
+          onChange={() =>
+            Meteor.call('events.activate', params.row._id, params.value)
+          }
+        />
+      );
+    },
+  },
+];
+
 const EventsTable = () => {
   const [model, setModel] = useState(null);
   const isLoading = useSubscribe('events.all');
-  const events = useTracker(() => Events.find().fetch());
-  if (isLoading()) return <LoadingBar />;
+  const events: Event[] = useTracker(() => Events.find().fetch());
 
-  const tableColumns: GridColDef[] = [
-    {
-      field: 'name',
-      headerName: 'Name',
-      flex: 1,
-    },
-    {
-      field: 'phoneNumber',
-      headerName: 'Phone Number',
-      flex: 1,
-    },
-    {
-      field: 'theme',
-      headerName: 'Theme',
-      flex: 1,
-    },
-    {
-      field: 'active',
-      headerName: 'Active',
-      renderCell: (params) => {
-        return (
-          <Switch
-            checked={params.value}
-            onChange={() =>
-              Meteor.call('events.activate', params.row._id, params.value)
-            }
-          />
-        );
-      },
-    },
-  ];
+  if (isLoading()) return <LoadingBar />;
 
   return (
     <>
-      <Table
+      <Table<Event>
         columns={tableColumns}
         data={events}
         canDelete={true}
-        onDelete={(_id: string) => console.log('Delete: ' + _id)}
+        onDelete={(event) => {
+          if (Array.isArray(event)) {
+            Meteor.call(
+              'events.delete',
+              event.map((event) => event._id),
+            );
+          } else {
+            Meteor.call('events.delete', event._id);
+          }
+        }}
         canEdit={true}
         onEdit={(obj: any) => setModel(obj)}
       />

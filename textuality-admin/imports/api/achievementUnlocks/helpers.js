@@ -1,6 +1,6 @@
 import AchievementUnlocks from './achievementUnlocks';
 
-import { getImageUrl } from 'services/cloudinary';
+import { getImageUrl } from '/imports/services/cloudinary/cloudinary-geturl';
 
 AchievementUnlocks.helpers({
   getAvatarUrl(dimension = 400) {

@@ -1,6 +1,6 @@
 import Media from './media';
 
-import { getImageUrl } from '/imports/services/cloudinary';
+import { getImageUrl } from '/imports/services/cloudinary/cloudinary-geturl';
 
 Media.helpers({
   getAvatarUrl(dimension = 100) {

@@ -1,6 +1,6 @@
 import MissionPairings from './missionPairings';
 
-import { getImageUrl } from 'services/cloudinary';
+import { getImageUrl } from '/imports/services/cloudinary/cloudinary-geturl';
 
 MissionPairings.helpers({
   getAvatarUrlA(dimension = 400) {

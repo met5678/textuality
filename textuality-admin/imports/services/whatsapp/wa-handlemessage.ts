@@ -1,9 +1,5 @@
+import { getMediaUrl } from './wa-getmediaurl';
 import { markAsRead } from './wa-markread';
-
-interface WhatsappImage {
-  mime_type: string;
-  id: string;
-}
 
 type MessageText = {
   body: string;
@@ -16,24 +12,39 @@ type MessageImage = {
   id: string;
 };
 
-interface MessageRaw {
+interface MessageBase {
   id: string;
-  type: string;
   timestamp: string;
   from: string;
-  text?: MessageText;
-  image?: MessageImage;
+}
+
+interface MessageWithText extends MessageBase {
+  type: 'text';
+  text: MessageText;
+}
+
+interface MessageWithImage extends MessageBase {
+  type: 'image';
+  image: MessageImage;
+}
+
+type MessageRaw = MessageWithText | MessageWithImage;
+
+interface IncomingMessageMedia {
+  content_type: string;
+  mime_type: string;
+  url: string;
+  external_id: string;
 }
 
 interface IncomingMessageData {
   id: string;
   source: string;
-  type: string;
   from: string;
   to: string;
-  text: string;
   timestamp: Date;
-  image?: WhatsappImage;
+  text: string;
+  media?: IncomingMessageMedia;
 }
 
 let onReceiveText: (message: IncomingMessageData) => void = () => {};
@@ -44,24 +55,21 @@ function onReceive(callback: (message: IncomingMessageData) => void) {
 
 function getWaText(messageRaw: MessageRaw): string {
   if (messageRaw.type === 'text') {
-    // @ts-ignore
     return messageRaw.text.body;
   }
   if (messageRaw.type === 'image') {
-    // @ts-ignore
     return messageRaw.image.caption;
   }
   return '';
 }
 
-function processWaMessage(messageRaw: MessageRaw, sentTo: string) {
+async function processWaMessage(messageRaw: MessageRaw, sentTo: string) {
   const timestamp = new Date(Number(parseInt(messageRaw.timestamp) * 1000));
   const text = getWaText(messageRaw);
 
   const message: IncomingMessageData = {
     id: messageRaw.id,
     source: 'whatsapp',
-    type: messageRaw.type,
     from: messageRaw.from,
     to: sentTo,
     timestamp,
@@ -69,11 +77,11 @@ function processWaMessage(messageRaw: MessageRaw, sentTo: string) {
   };
 
   if (messageRaw.type === 'image') {
-    message.image = {
-      // @ts-ignore
-      id: messageRaw.image.id,
-      // @ts-ignore
+    message.media = {
       mime_type: messageRaw.image.mime_type,
+      content_type: messageRaw.type,
+      external_id: messageRaw.image.id,
+      url: await getMediaUrl(messageRaw.image.id),
     };
   }
 

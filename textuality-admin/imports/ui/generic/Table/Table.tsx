@@ -1,116 +1,100 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 import {
   DataGrid,
-  GridActionsCellItem,
   GridColDef,
   GridRowParams,
   GridRowsProp,
+  GridValidRowModel,
 } from '@mui/x-data-grid';
 import { Paper } from '@mui/material';
-import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
+import useTableDelete from './useTableDelete';
+import useTableEdit from './useTableEdit';
 
-interface TableArgs {
-  data: GridRowsProp;
-  columns: GridColDef[];
+interface TableArgs<T extends GridValidRowModel> {
+  data: GridRowsProp<T>;
+  columns: GridColDef<T>[];
   canDelete?: boolean;
-  onDelete?: (_id: string) => void | Promise<unknown>;
+  onDelete?: (obj: T | T[]) => Promise<any> | void;
   canEdit?: boolean;
-  onEdit?: (obj: any) => void | Promise<unknown>;
+  onEdit?: (obj: T) => Promise<any> | void;
+  dynamicHeight?: boolean;
 }
 
-const Table = ({
+type TableRowAction = ((rowParams: GridRowParams<any>) => ReactElement) | null;
+
+const applyRowActions = (
+  rowActions: TableRowAction[],
+  columns: GridColDef[],
+): GridColDef[] => {
+  return [
+    ...columns,
+    {
+      field: 'actions',
+      type: 'actions',
+      getActions: (params) => rowActions.map((rowAction) => rowAction!(params)),
+    },
+  ];
+};
+
+const Table = <T extends GridValidRowModel>({
   data,
   columns,
-  canDelete,
+  canDelete = false,
   onDelete,
-  canEdit,
+  canEdit = false,
   onEdit,
-}: TableArgs) => {
-  const actions: ((params: GridRowParams<any>) => ReactElement)[] = [];
+  dynamicHeight = false,
+}: TableArgs<T>) => {
+  const rowActions: ((params: GridRowParams<any>) => ReactElement)[] = [];
+  const dialogs: ReactNode[] = [];
 
-  if (canEdit) {
-    actions.push((params) => (
-      <GridActionsCellItem
-        icon={<EditTwoToneIcon />}
-        onClick={() => onEdit?.(params.row)}
-        label="Edit"
-      />
-    ));
+  {
+    const { dialog, rowAction } = useTableDelete<T>({
+      canDelete,
+      onDelete: onDelete!,
+    });
+    rowAction && rowActions.push(rowAction);
+    dialog && dialogs.push(dialog);
   }
 
-  if (canDelete) {
-    actions.push((params) => (
-      <GridActionsCellItem
-        icon={<DeleteForeverTwoToneIcon />}
-        onClick={() => onDelete?.(params.row._id)}
-        label="Delete"
-      />
-    ));
+  {
+    const { dialog, rowAction } = useTableEdit<T>({
+      canEdit,
+      onEdit: onEdit!,
+    });
+    rowAction && rowActions.push(rowAction);
+    dialog && dialogs.push(dialog);
   }
 
-  if (actions.length) {
-    columns = [
-      ...columns,
-      {
-        field: 'actions',
-        type: 'actions',
-        getActions: (params) => actions.map((action) => action(params)),
-      },
-    ];
-  }
+  const useColumns = rowActions.length
+    ? applyRowActions(rowActions, columns)
+    : columns;
 
   return (
     <Paper>
-      <DataGrid
+      <DataGrid<T>
         rows={data}
-        columns={columns}
+        columns={useColumns}
         autoHeight={true}
         getRowId={(row) => row._id}
         rowSelection={false}
         checkboxSelection={false}
         density="compact"
+        getRowHeight={dynamicHeight ? () => 'auto' : undefined}
+        sx={{
+          '&.MuiDataGrid-root--densityCompact .MuiDataGrid-cell': { py: '8px' },
+          '&.MuiDataGrid-root--densityStandard .MuiDataGrid-cell': {
+            py: '15px',
+          },
+          '&.MuiDataGrid-root--densityComfortable .MuiDataGrid-cell': {
+            py: '22px',
+          },
+        }}
       />
+      {dialogs}
     </Paper>
   );
-
-  // const table = useReactTable({
-  //   columns,
-  //   data,
-  //   getCoreRowModel: getCoreRowModel(),
-  // });
-
-  // return (
-  //   <TableContainer component={Paper}>
-  //     <MuiTable>
-  //       <TableHead>
-  //         {table.getHeaderGroups().map((headerGroup) => (
-  //           <TableRow key={headerGroup.id}>
-  //             {headerGroup.headers.map((header) => (
-  //               <TableCell key={header.id}>
-  //                 {flexRender(
-  //                   header.column.columnDef.header,
-  //                   header.getContext(),
-  //                 )}
-  //               </TableCell>
-  //             ))}
-  //           </TableRow>
-  //         ))}
-  //       </TableHead>
-  //       <TableBody>
-  //         {table.getRowModel().rows.map((row) => (
-  //           <TableRow key={row.id}>
-  //             {row.getVisibleCells().map((cell) => (
-  //               <TableCell key={cell.id}>
-  //                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
-  //               </TableCell>
-  //             ))}
-  //           </TableRow>
-  //         ))}
-  //       </TableBody>
-  //     </MuiTable>
-  //   </TableContainer>
-  // );
 };
 
 export default Table;
+export { TableRowAction };

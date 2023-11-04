@@ -4,7 +4,7 @@ import Events from '/imports/api/events';
 import OutTexts from './outTexts';
 
 import { Player } from '/imports/schemas/player';
-import { OutText } from '/imports/schemas/outText';
+import { OutText, OutTextStatus } from '/imports/schemas/outText';
 
 interface OutTextSendArgs {
   body: string;
@@ -37,5 +37,27 @@ Meteor.methods({
 
       OutTexts.insert(outText);
     });
+  },
+
+  'outTexts.updateStatus': (message_id: string, status: OutTextStatus) => {
+    OutTexts.update(message_id, { $set: { status } });
+  },
+
+  'outTexts.updateStatusByExternalId': (
+    external_id: string,
+    status: OutTextStatus,
+  ) => {
+    const outText = OutTexts.findOne({ external_id });
+    if (outText) Meteor.call('outTexts.updateStatus', outText._id, status);
+    else {
+      console.warn('Trying to update status for nonexistent id', {
+        external_id,
+        status,
+      });
+    }
+  },
+
+  'outTexts.setExternalId': (message_id: string, external_id: string) => {
+    OutTexts.update(message_id, { $set: { external_id } });
   },
 });

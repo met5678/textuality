@@ -1,3 +1,5 @@
+import { OutTextStatus } from '/imports/schemas/outText';
+
 interface WaStatusRaw {
   id: string;
   conversation: WaStatusConversation;
@@ -10,10 +12,31 @@ interface WaStatusConversation {
   id: string;
 }
 
-function onMessageRead(messageReadHandler: (messageId: string) => any) {}
-
-function processWaStatus(statusRaw: WaStatusRaw, sentTo: string) {
-  console.log('Status update', statusRaw);
+interface WaStatusCallbackData {
+  message_id: string;
+  status: OutTextStatus;
 }
 
-export { processWaStatus, onMessageRead, WaStatusRaw };
+let onReceiveMessageStatus: (
+  statusData: WaStatusCallbackData,
+) => void = () => {};
+
+function onMessageStatus(callback: (statusData: WaStatusCallbackData) => void) {
+  if (typeof callback === 'function') onReceiveMessageStatus = callback;
+}
+
+function processWaStatus(statusRaw: WaStatusRaw, sentTo: string) {
+  const message_id = statusRaw.id;
+  const status = statusRaw.status;
+
+  if (status === 'delivered' || status === 'read' || status === 'sent') {
+    onReceiveMessageStatus({
+      message_id,
+      status,
+    });
+  } else {
+    console.warn('Received unexpected status update', statusRaw);
+  }
+}
+
+export { processWaStatus, onMessageStatus, WaStatusRaw };

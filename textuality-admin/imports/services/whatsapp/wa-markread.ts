@@ -23,7 +23,13 @@ async function markAsRead(messageId: string): Promise<boolean> {
     body: JSON.stringify(payload),
   });
 
-  console.log('Response', await response.json());
+  if (response.status !== 200) {
+    console.warn(
+      'Unexpected response from markAsRead call',
+      await response.json(),
+    );
+    return false;
+  }
 
   return true;
 }

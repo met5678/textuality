@@ -75,7 +75,6 @@ function waProcessPost(
   changes
     .map((change) => change.value)
     .forEach((changeValue) => {
-      console.log('Received change', changeValue);
       if (changeValue.errors && changeValue.errors.length) {
         changeValue.errors.forEach((error) => {
           console.warn('WA Webhook Error', error);

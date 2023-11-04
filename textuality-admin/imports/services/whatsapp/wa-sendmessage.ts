@@ -40,7 +40,22 @@ interface OutgoingMessagePayloadReply {
   message_id: string;
 }
 
-async function sendMessage(message: OutgoingMessageData): Promise<boolean> {
+interface WaContact {
+  input: string;
+  wa_id: string;
+}
+
+interface OutgoingMessageResponseId {
+  id: string;
+}
+
+interface OutgoingMessageResponse {
+  messaging_product: 'whatsapp';
+  contacts: WaContact[];
+  messages: OutgoingMessageResponseId[];
+}
+
+async function sendMessage(message: OutgoingMessageData): Promise<string> {
   const whatsappSendEndpoint = `https://graph.facebook.com/${waAPIVersion}/${waPhoneNumberId}/messages`;
 
   const payload: OutgoingMessagePayloadBase = {
@@ -65,7 +80,7 @@ async function sendMessage(message: OutgoingMessageData): Promise<boolean> {
     };
   }
 
-  await fetch(whatsappSendEndpoint, {
+  const result = await fetch(whatsappSendEndpoint, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -74,7 +89,10 @@ async function sendMessage(message: OutgoingMessageData): Promise<boolean> {
     body: JSON.stringify(payload),
   });
 
-  return true;
+  const jsonResult: OutgoingMessageResponse = await result.json();
+  const waId = jsonResult.messages?.[0]?.id ?? '';
+
+  return waId;
 }
 
 export { sendMessage, OutgoingMessageData };

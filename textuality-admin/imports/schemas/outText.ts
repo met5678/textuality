@@ -12,6 +12,10 @@ const OutTextSchema = new SimpleSchema({
   player_id: String,
   player_alias: String,
   player_number: String,
+  external_id: {
+    type: String,
+    optional: true,
+  },
   media_id: {
     type: String,
     optional: true,
@@ -22,15 +26,18 @@ const OutTextSchema = new SimpleSchema({
   },
   status: {
     type: String,
-    allowedValues: ['unsent', 'sending', 'sent', 'delivered', 'read'],
+    allowedValues: ['nosend', 'unsent', 'sending', 'sent', 'delivered', 'read'],
     defaultValue: 'unsent',
   },
-  source: {
-    type: String,
-    allowedValues: ['auto', 'manual', 'achievement', 'mission', 'unknown'],
-    defaultValue: 'unknown',
-  },
 });
+
+type OutTextStatus =
+  | 'nosend'
+  | 'unsent'
+  | 'sending'
+  | 'sent'
+  | 'delivered'
+  | 'read';
 
 interface OutText {
   _id?: string;
@@ -41,9 +48,9 @@ interface OutText {
   player_id: string;
   player_alias: string;
   player_number: string;
-  status: 'unsent' | 'sending' | 'sent' | 'delivered' | 'read';
-  source: 'auto' | 'manual' | 'achievement' | 'mission' | 'unknown';
+  status: OutTextStatus;
+  external_id?: string;
 }
 
 export default OutTextSchema;
-export { OutText, OutTextSchema };
+export { OutText, OutTextSchema, OutTextStatus };

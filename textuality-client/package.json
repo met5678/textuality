@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "start": "meteor npm install && MONGO_URL=mongodb://localhost:4001/meteor MONGO_OPLOG_URL=mongodb://localhost:4001/local meteor --port=4002 --settings ../settings.json",
+    "start-prod": "./start-prod.sh",
     "deploy": "DEPLOY_HOSTNAME=galaxy.meteor.com meteor deploy textuality.meteorapp.com --settings ../settings.json",
     "test": "meteor test --once --driver-package meteortesting:mocha",
     "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",

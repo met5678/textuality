@@ -19,6 +19,7 @@ Media.helpers({
       width: width,
       height: height,
       crop: 'fit',
+      gravity: 'faces',
     });
   },
 

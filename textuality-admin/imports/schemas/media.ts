@@ -26,12 +26,13 @@ const MediaSchema = new SimpleSchema({
 });
 
 type MediaPurpose = 'none' | 'avatar-fai' | 'avatar' | 'feed';
+type FaceCoords = [number, number, number, number];
 
 interface Media {
   _id: string;
   event: string;
   player: string;
-  faces: number[];
+  faces: FaceCoords[];
   width: number;
   height: number;
   content_type: string;

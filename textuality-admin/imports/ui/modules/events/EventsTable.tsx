@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 import Events from '/imports/api/events';
 
-import { Switch } from '@mui/material';
+import { Button, Switch } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 import AutoFormDialog from '../../generic/AutoForm/AutoFormDialog';
 import EventSchema, { Event } from '/imports/schemas/event';
@@ -80,6 +80,30 @@ const tableColumns: GridColDef<Event>[] = [
             Meteor.call('events.activate', params.row._id, params.value)
           }
         />
+      );
+    },
+  },
+  {
+    field: 'reset',
+    headerName: 'Reset',
+    renderCell: (params) => {
+      return (
+        <Button
+          size="small"
+          variant="contained"
+          color="warning"
+          onClick={() => {
+            if (
+              confirm(
+                'Resetting an event will erase all players and texts and reset everything to its initial state. Continue?',
+              )
+            ) {
+              Meteor.call('events.reset', params.row._id);
+            }
+          }}
+        >
+          Reset
+        </Button>
       );
     },
   },

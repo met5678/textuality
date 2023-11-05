@@ -5,7 +5,7 @@ import { useSubscribe, useFind } from 'meteor/react-meteor-data';
 import Aliases from '/imports/api/aliases';
 import LoadingBar from '../../generic/LoadingBar';
 import { Alias } from '/imports/schemas/alias';
-import { Box, Chip } from '@mui/material';
+import { Box, Chip, Typography } from '@mui/material';
 
 const AliasPill = ({ alias }: { alias: Alias }) => {
   const onDelete = useCallback(() => {
@@ -30,11 +30,18 @@ const AliasesList = () => {
   if (isLoading()) return <LoadingBar />;
 
   return (
-    <Box display="flex" flexWrap="wrap" gap={1}>
-      {aliases.map((alias: Alias) => (
-        <AliasPill alias={alias} key={alias._id} />
-      ))}
-    </Box>
+    <>
+      <Box mb={2}>
+        <Typography variant="body1">
+          Total: <strong>{aliases.length}</strong>
+        </Typography>
+      </Box>
+      <Box display="flex" flexWrap="wrap" gap={1}>
+        {aliases.map((alias: Alias) => (
+          <AliasPill alias={alias} key={alias._id} />
+        ))}
+      </Box>
+    </>
   );
 };
 

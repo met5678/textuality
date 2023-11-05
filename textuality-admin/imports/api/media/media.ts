@@ -1,8 +1,8 @@
 import { Mongo } from 'meteor/mongo';
 
-import { Media as MediaOrig, MediaSchema } from '/imports/schemas/media';
+import { Media, MediaSchema } from '/imports/schemas/media';
 
-interface Media extends MediaOrig {
+interface MediaWithHelpers extends Media {
   getAvatarUrl: (dimension: number) => string;
   getUrl: (width: number, height: number) => string;
   getFeedUrl: () => string;
@@ -12,8 +12,9 @@ interface Media extends MediaOrig {
   isLandscape: () => boolean;
 }
 
-const Media = new Mongo.Collection<MediaOrig, Media>('media');
+const Medias = new Mongo.Collection<Media, MediaWithHelpers>('media');
 
-Media.attachSchema(MediaSchema);
+Medias.attachSchema(MediaSchema);
 
-export default Media;
+export default Medias;
+export { MediaWithHelpers };

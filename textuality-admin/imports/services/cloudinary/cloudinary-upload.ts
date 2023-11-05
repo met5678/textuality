@@ -1,12 +1,10 @@
 import { Meteor } from 'meteor/meteor';
-import {
-  UploadApiResponse,
-  UploadApiOptions,
-  TransformationOptions,
-} from 'cloudinary';
-import { getWaImageBase64 } from '../whatsapp/wa-downloadmedia';
+import { UploadApiResponse, UploadApiOptions } from 'cloudinary';
+// import { getWaImageBase64 } from '../whatsapp/wa-downloadmedia';
 
 const cloudinary = require('cloudinary');
+
+const waToken: string = Meteor.settings.private.waSystemToken;
 
 interface MediaProps {
   cloudinaryId: string;
@@ -31,13 +29,19 @@ if (Meteor.isServer) {
 async function uploadImage(imageUrl: string): Promise<MediaProps> {
   const options: UploadApiOptions = {
     faces: true,
+    headers: `Authorization: Bearer ${waToken}`,
   };
 
   try {
-    const base64Image = await getWaImageBase64(imageUrl);
+    // const base64Image = await getWaImageBase64(imageUrl);
+
+    // const mediaProps: UploadApiResponse = await cloudinary.v2.uploader.upload(
+    //   base64Image,
+    //   options,
+    // );
 
     const mediaProps: UploadApiResponse = await cloudinary.v2.uploader.upload(
-      base64Image,
+      imageUrl,
       options,
     );
 

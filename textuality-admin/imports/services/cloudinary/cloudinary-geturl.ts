@@ -2,23 +2,32 @@ import { Meteor } from 'meteor/meteor';
 import { Cloudinary } from '@cloudinary/url-gen';
 import { thumbnail } from '@cloudinary/url-gen/actions/resize';
 import { focusOn } from '@cloudinary/url-gen/qualifiers/gravity';
-import { face } from '@cloudinary/url-gen/qualifiers/focusOn';
+import { FocusOn } from '@cloudinary/url-gen/qualifiers/focusOn';
 
 const cloudName: string = Meteor.settings.public.cloudinaryCloudName;
-const cloud = new Cloudinary({
-  cloud: {
-    cloudName,
-  },
-});
+const cloudinary = new Cloudinary({ cloud: { cloudName } });
 
-function getImageUrl(cloudinaryId: string, transformations: any): string {
-  const cldImage = cloud.image(cloudinaryId);
+interface CloudinaryTransformations {
+  width: number;
+  height: number;
+  crop?: 'thumb' | 'fill' | 'fit' | 'lfill' | string;
+  gravity?: 'none' | 'face' | 'faces' | string;
+  zoom?: number;
+}
 
-  cldImage.resize(
-    thumbnail().width(150).height(150).gravity(focusOn(face())).zoom(0.8),
+function getImageUrl(
+  cloudinaryId: string,
+  transformations: CloudinaryTransformations,
+): string {
+  const image = cloudinary.image(cloudinaryId);
+
+  const { width, height, crop, gravity, zoom = 1 } = transformations;
+
+  image.resize(
+    thumbnail(width, height).zoom(zoom).gravity(focusOn(FocusOn.face())),
   );
 
-  return cldImage.toURL();
+  return image.toURL();
 }
 
 export { getImageUrl };

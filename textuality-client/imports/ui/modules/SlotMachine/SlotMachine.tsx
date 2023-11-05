@@ -1,8 +1,8 @@
 import React from 'react';
-import { SlotMachine } from '/imports/schemas/slotMachine';
+import { SlotMachine as SlotMachineType } from '/imports/schemas/slotMachine';
 
 interface SlotMachineProps {
-  slotMachine: SlotMachine;
+  slotMachine: SlotMachineType;
 }
 
 const SlotMachine = ({ slotMachine }: SlotMachineProps) => {

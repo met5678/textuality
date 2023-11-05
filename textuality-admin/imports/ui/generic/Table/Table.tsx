@@ -49,18 +49,18 @@ const Table = <T extends GridValidRowModel>({
   const dialogs: ReactNode[] = [];
 
   {
-    const { dialog, rowAction } = useTableDelete<T>({
-      canDelete,
-      onDelete: onDelete!,
+    const { dialog, rowAction } = useTableEdit<T>({
+      canEdit,
+      onEdit: onEdit!,
     });
     rowAction && rowActions.push(rowAction);
     dialog && dialogs.push(dialog);
   }
 
   {
-    const { dialog, rowAction } = useTableEdit<T>({
-      canEdit,
-      onEdit: onEdit!,
+    const { dialog, rowAction } = useTableDelete<T>({
+      canDelete,
+      onDelete: onDelete!,
     });
     rowAction && rowActions.push(rowAction);
     dialog && dialogs.push(dialog);

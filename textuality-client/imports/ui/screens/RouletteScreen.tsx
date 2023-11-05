@@ -1,5 +1,6 @@
 import React from 'react';
-import Roulette from '/imports/schemas/roulette';
+import Roulette from '../modules/Roulette/Roulette';
+// import Roulette from '/imports/schemas/roulette';
 
 interface RouletteScreenProps {
   event: Partial<Event>;
@@ -8,7 +9,14 @@ interface RouletteScreenProps {
 const RouletteScreen = ({ event }: RouletteScreenProps) => {
   return (
     <>
-      <Roulette roulette={{}} />
+      <Roulette
+        roulette={{
+          status: 'pre-spin',
+          cost: 50,
+          result: 32,
+          _id: '121323',
+        }}
+      />
     </>
   );
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import { Roulette } from '/imports/schemas/roulette';
 
 interface RouletteProps {
-  roulette: Roulette;
+  roulette: Partial<Roulette>;
 }
 
 const Roulette = ({ roulette }: RouletteProps) => {

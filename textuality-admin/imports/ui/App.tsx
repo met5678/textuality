@@ -17,6 +17,7 @@ import AutoTextsPage from '/imports/ui/modules/autoTexts/AutoTextsPage';
 // import MissionsPage from 'modules/missions/MissionsPage';
 // import CluesPage from 'modules/clues/CluesPage';
 // import RoundsPage from 'modules/rounds/RoundsPage';
+import SlotMachinesPage from './modules/themes/casion/slotMachines/SlotMachinesPage';
 
 import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 
@@ -46,6 +47,7 @@ const App = () => (
         {/*<Route path="/missions" component={MissionsPage} />*/}
         {/*<Route path="/clues" component={CluesPage} />*/}
         {/*<Route path="/rounds" component={RoundsPage} />*/}
+        <Route path="/casino/slot-machines" component={SlotMachinesPage} />
 
         <Redirect to="/events" />
       </Switch>

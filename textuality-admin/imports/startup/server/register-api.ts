@@ -50,6 +50,10 @@ import 'api/missionPairings/server/publications-admin';
 
 // Casino Specific
 
+import '/imports/api/themes/casino/slotMachines/';
+import '/imports/api/themes/casino/slotMachines/methods-admin';
+import '/imports/api/themes/casino/slotMachines/server/publications-admin';
+
 // Clue specific
 
 import 'api/clues/';

@@ -7,7 +7,7 @@ const SlotMachinesPage = () => {
   return (
     <>
       <Box mb={2}>
-        <Typography variant="h5">All Slot Machiens</Typography>
+        <Typography variant="h5">All Slot Machines</Typography>
       </Box>
       <SlotMachinesTable />
     </>

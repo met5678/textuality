@@ -43,10 +43,6 @@ const SlotMachine = ({ slotMachine }: SlotMachineProps) => {
 
         <dt>Player Queue</dt>
         <dd>{player_queue.length}</dd>
-
-        <dt>Stats</dt>
-        <dd>{stats.profit}</dd>
-        <dd>{stats.spin_count}</dd>
       </dl>
     </>
   );

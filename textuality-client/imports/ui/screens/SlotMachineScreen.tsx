@@ -13,11 +13,12 @@ const SlotMachineScreen = ({
   event,
   slotMachineCode,
 }: SlotMachineScreenProps) => {
-  useSubscribe('slotMachine.forCode', slotMachineCode);
-  const slotMachines = useFind(() =>
-    SlotMachines.find({ code: slotMachineCode }),
-  );
+  const isLoading = useSubscribe('slotMachines.forCode', slotMachineCode);
+  const slotMachines = useFind(() => SlotMachines.find());
   const slotMachine = slotMachines[0];
+  console.log({ slotMachineCode, slotMachine });
+
+  if (isLoading()) return 'Loading';
 
   return (
     <>

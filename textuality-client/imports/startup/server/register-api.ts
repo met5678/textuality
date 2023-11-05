@@ -41,6 +41,11 @@ import '/imports/api/missionPairings/';
 import '/imports/api/missionPairings/methods-client';
 import '/imports/api/missionPairings/server/publications-client';
 
+// Casino specific
+import '/imports/api/themes/casino/slotMachines/';
+import '/imports/api/themes/casino/slotMachines/methods-client';
+import '/imports/api/themes/casino/slotMachines/server/publications-client';
+
 // Clue specific
 
 import '/imports/api/clues/';

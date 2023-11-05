@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data';
 
@@ -9,6 +9,8 @@ import { GridColDef } from '@mui/x-data-grid';
 import { SlotMachine } from '/imports/schemas/slotMachine';
 import LoadingBar from '/imports/ui/generic/LoadingBar';
 import SlotMachines from '/imports/api/themes/casino/slotMachines';
+import SlotMachineFormDialog from './SlotMachineFormDialog';
+import { Button } from '@mui/material';
 
 const tableColumns: GridColDef<SlotMachine>[] = [
   {
@@ -20,7 +22,7 @@ const tableColumns: GridColDef<SlotMachine>[] = [
     field: 'name',
     headerName: 'Name',
     width: 60,
-  }
+  },
   {
     field: 'cost',
     headerName: 'Cost',
@@ -34,6 +36,9 @@ const tableColumns: GridColDef<SlotMachine>[] = [
 ];
 
 const SlotMachinesTable = () => {
+  const [autoTextToEdit, setAutoTextToEdit] =
+    useState<Partial<SlotMachine> | null>(null);
+
   const isLoading = useSubscribe('slotMachines.all');
   const slotMachines = useFind(() => SlotMachines.find(), []);
   const columns = useMemo(() => tableColumns, []);
@@ -41,13 +46,20 @@ const SlotMachinesTable = () => {
   if (isLoading()) return <LoadingBar />;
 
   return (
-    <Table<SlotMachine>
-      columns={columns}
-      data={slotMachines}
-      canDelete={true}
-      density="standard"
-      onDelete={(player) => Meteor.call('slotMachines.delete', player)}
-    />
+    <>
+      <Button onClick={() => setAutoTextToEdit({})}>New Slot</Button>
+      <Table<SlotMachine>
+        columns={columns}
+        data={slotMachines}
+        canDelete={true}
+        density="standard"
+        onDelete={(player) => Meteor.call('slotMachines.delete', player)}
+      />
+      <SlotMachineFormDialog
+        model={autoTextToEdit}
+        onClose={() => setAutoTextToEdit(null)}
+      />
+    </>
   );
 };
 

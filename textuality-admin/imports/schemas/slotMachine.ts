@@ -50,18 +50,20 @@ const SlotMachineSchema = new SimpleSchema({
     type: String,
   },
   win_amount: Number,
-  player: {
-    type: PlayerShort,
-    optional: true,
-  },
+  // player: {
+  //   type: PlayerShort,
+  //   optional: true,
+  //   defaultValue: null,
+  // },
   player_queue: {
     type: Array,
+    defaultValue: [],
   },
   'player_queue.$': PlayerShort,
 
-  stats: Object,
-  'stats.spin_count': SimpleSchema.Integer,
-  'stats.profit': SimpleSchema.Integer,
+  // stats: Object,
+  // 'stats.spin_count': SimpleSchema.Integer,
+  // 'stats.profit': SimpleSchema.Integer,
 });
 
 type SlotMachineStatus =
@@ -97,7 +99,7 @@ interface SlotMachine {
   win_amount: number;
   player?: PlayerShort;
   player_queue: PlayerShort[];
-  stats: SlotMachineStats;
+  // stats: SlotMachineStats;
 }
 
 export default SlotMachineSchema;

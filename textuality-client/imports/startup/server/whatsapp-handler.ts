@@ -37,10 +37,14 @@ Meteor.startup(() => {
         mediaUrl: outText.media_url,
       };
 
-      sendMessage(outMessage).then((external_id) => {
-        Meteor.call('outTexts.setExternalId', outText._id, external_id);
-        Meteor.call('outTexts.updateStatus', outText._id, 'sent');
-      });
+      if (Meteor.isProduction) {
+        sendMessage(outMessage).then((external_id) => {
+          Meteor.call('outTexts.setExternalId', outText._id, external_id);
+          Meteor.call('outTexts.updateStatus', outText._id, 'sent');
+        });
+      } else {
+        console.log('Is dev, not sending message');
+      }
     },
   });
 });

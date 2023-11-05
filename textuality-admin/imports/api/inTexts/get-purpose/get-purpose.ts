@@ -1,9 +1,10 @@
 import { InText } from '/imports/schemas/inText';
 import { Player } from '/imports/schemas/player';
+import { IncomingMessageData } from '/imports/services/whatsapp';
 
 interface GetPurposeArgs {
   player: Player;
-  message: InText;
+  message: IncomingMessageData;
 }
 
 function getPurpose({ message, player }: GetPurposeArgs): string {
@@ -15,16 +16,16 @@ function getPurpose({ message, player }: GetPurposeArgs): string {
     return 'ignore';
   }
 
-  if (!message.body && message.media) {
+  if (!message.text && message.media) {
     return 'mediaOnly';
   }
 
-  if (message.body) {
-    if (message.body.startsWith('/')) {
+  if (message.text) {
+    if (message.text.startsWith('/')) {
       return 'system';
     }
 
-    if (message.body.startsWith('#')) {
+    if (message.text.startsWith('#')) {
       return 'hashtag';
     }
 

@@ -8,13 +8,12 @@ import processInitialText from './process-purpose/process-initial-text';
 import processSystemText from './process-purpose/process-system-text';
 import processHashtagText from './process-purpose/process-hashtag-text';
 import { InText } from '/imports/schemas/inText';
+import { IncomingMessageData } from '/imports/services/whatsapp';
 
 Meteor.methods({
-  'inTexts.receive': (message) => {
+  'inTexts.receive': (message: IncomingMessageData) => {
     const player = Meteor.call('players.findOrJoin', message.from);
     const purpose = getPurpose({ message, player });
-
-    console.log({ message, purpose });
 
     const inText: InText = {
       event: Events.currentId()!,

@@ -13,13 +13,12 @@ export default function (inText) {
   const command = inText.body.substring(1, firstSpace).trim().toLowerCase();
   const rest = inText.body.substring(firstSpace);
 
-  // Change alias
-  // if (command === 'alias') {
-  //   const oldAliases = [player.alias, ...player.oldAliases];
-  //   const newAlias = Meteor.call('aliases.checkout', oldAliases);
-  //   Meteor.call('players.setAlias', { playerId, alias: newAlias });
-  //   Meteor.call('autoTexts.send', { playerId, trigger: 'ALIAS_CHANGED' });
-  // }
+  if (command === 'alias') {
+    const oldAliases = [player.alias, ...player.oldAliases];
+    const newAlias = Meteor.call('aliases.checkout', oldAliases);
+    Meteor.call('players.setAlias', { playerId, alias: newAlias });
+    Meteor.call('autoTexts.send', { playerId, trigger: 'ALIAS_CHANGED' });
+  }
 
   if (['suspect', 'room', 'weapon'].includes(command)) {
     Meteor.call('guesses.tryMakeGuess', {

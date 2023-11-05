@@ -1,13 +1,14 @@
 import { Mongo } from 'meteor/mongo';
 
-import { Player as PlayerOrig, PlayerSchema } from '/imports/schemas/player';
+import { Player, PlayerSchema } from '/imports/schemas/player';
 
-interface Player extends PlayerOrig {
-  getAvatarUrl: (dimension: number) => string;
+interface PlayerWithHelpers extends Player {
+  getAvatarUrl: (dimension?: number, zoom?: number) => string;
 }
 
-const Players = new Mongo.Collection<PlayerOrig, Player>('players');
+const Players = new Mongo.Collection<Player, PlayerWithHelpers>('players');
 
 Players.attachSchema(PlayerSchema);
 
 export default Players;
+export { PlayerWithHelpers };

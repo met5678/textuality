@@ -5,14 +5,14 @@ import InTexts from './inTexts';
 import { getImageUrl } from '/imports/services/cloudinary/cloudinary-geturl';
 
 InTexts.helpers({
-  getAvatarUrl(dimension = 100) {
+  getAvatarUrl(dimension = 100, zoom = 1.1) {
     if (!this.avatar) return '';
     return getImageUrl(this.avatar, {
       width: dimension,
       height: dimension,
       crop: 'thumb',
       gravity: 'face',
-      zoom: 1.1,
+      zoom,
     });
   },
 

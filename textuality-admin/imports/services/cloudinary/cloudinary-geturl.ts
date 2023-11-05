@@ -24,7 +24,7 @@ function getImageUrl(
   const { width, height, crop, gravity, zoom = 1 } = transformations;
 
   image.resize(
-    thumbnail(width, height).zoom(zoom).gravity(focusOn(FocusOn.face())),
+    thumbnail(width, height).zoom(zoom).gravity(focusOn(FocusOn.faces())),
   );
 
   return image.toURL();

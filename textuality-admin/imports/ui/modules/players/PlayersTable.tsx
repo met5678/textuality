@@ -7,12 +7,23 @@ import Table from '/imports/ui/generic/Table/Table';
 import Players from '/imports/api/players';
 import LoadingBar from '../../generic/LoadingBar';
 import { GridColDef } from '@mui/x-data-grid';
+import { Player } from '/imports/schemas/player';
+import { PlayerWithHelpers } from '/imports/api/players/players';
 
-const tableColumns: GridColDef[] = [
+const tableColumns: GridColDef<PlayerWithHelpers>[] = [
   {
     field: 'phoneNumber',
     headerName: 'Phone #',
     width: 120,
+  },
+  {
+    field: 'avatar',
+    headerName: 'Avatar',
+    renderCell: (params) => {
+      if (!params.value) return null;
+      return <img src={params.row.getAvatarUrl(35, 1.2)} />;
+    },
+    width: 60,
   },
   {
     field: 'alias',
@@ -63,6 +74,7 @@ const PlayersTable = () => {
       columns={columns}
       data={players}
       canDelete={true}
+      density="standard"
       onDelete={(player) => Meteor.call('players.delete', player)}
     />
   );

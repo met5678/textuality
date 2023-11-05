@@ -2,6 +2,7 @@ import React, { ReactElement, ReactNode } from 'react';
 import {
   DataGrid,
   GridColDef,
+  GridDensity,
   GridRowParams,
   GridRowsProp,
   GridValidRowModel,
@@ -18,6 +19,7 @@ interface TableArgs<T extends GridValidRowModel> {
   canEdit?: boolean;
   onEdit?: (obj: T) => Promise<any> | void;
   dynamicHeight?: boolean;
+  density?: GridDensity;
 }
 
 type TableRowAction = ((rowParams: GridRowParams<any>) => ReactElement) | null;
@@ -44,6 +46,7 @@ const Table = <T extends GridValidRowModel>({
   canEdit = false,
   onEdit,
   dynamicHeight = false,
+  density = 'compact',
 }: TableArgs<T>) => {
   const rowActions: ((params: GridRowParams<any>) => ReactElement)[] = [];
   const dialogs: ReactNode[] = [];
@@ -79,7 +82,7 @@ const Table = <T extends GridValidRowModel>({
         getRowId={(row) => row._id}
         rowSelection={false}
         checkboxSelection={false}
-        density="compact"
+        density={density}
         getRowHeight={dynamicHeight ? () => 'auto' : undefined}
         sx={{
           '&.MuiDataGrid-root--densityCompact .MuiDataGrid-cell': { py: '8px' },

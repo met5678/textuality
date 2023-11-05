@@ -3,7 +3,7 @@ import Players from './players';
 import { getImageUrl } from '/imports/services/cloudinary/cloudinary-geturl';
 
 Players.helpers({
-  getAvatarUrl(dimension = 400) {
+  getAvatarUrl(dimension = 400, zoom = 1) {
     if (!this.avatar) return null;
 
     return getImageUrl(this.avatar, {
@@ -11,7 +11,7 @@ Players.helpers({
       height: dimension,
       crop: 'thumb',
       gravity: 'face',
-      zoom: 0.75,
+      zoom,
     });
   },
 });

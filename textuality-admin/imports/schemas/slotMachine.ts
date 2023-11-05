@@ -7,10 +7,10 @@ const PlayerShort = new SimpleSchema({
   id: String,
   alias: String,
   money: SimpleSchema.Integer,
-  thumbnail_url: String,
+  avatar_id: String,
 });
 
-const SlotMachine = new SimpleSchema({
+const SlotMachineSchema = new SimpleSchema({
   event: {
     type: String,
     allowedValues: () =>
@@ -18,7 +18,8 @@ const SlotMachine = new SimpleSchema({
         .fetch()
         .map((event: Event) => event._id),
   },
-  hashtag: String,
+  code: String,
+  name: String,
   cost: SimpleSchema.Integer,
   machine_on_left: {
     type: String,
@@ -63,4 +64,41 @@ const SlotMachine = new SimpleSchema({
   'stats.profit': SimpleSchema.Integer,
 });
 
-export default SlotMachine;
+type SlotMachineStatus =
+  | 'available'
+  | 'spinning'
+  | 'lose'
+  | 'win-normal'
+  | 'win-hacker'
+  | 'disabled';
+
+interface PlayerShort {
+  id: string;
+  alias: string;
+  money: number;
+  avatar_id: string;
+}
+
+interface SlotMachineStats {
+  spin_count: number;
+  profit: number;
+}
+
+interface SlotMachine {
+  _id?: string;
+  event: string;
+  code: string;
+  name: string;
+  cost: number;
+  machine_on_left?: string;
+  machine_on_right?: string;
+  status: SlotMachineStatus;
+  result?: [string, string, string];
+  win_amount: number;
+  player?: PlayerShort;
+  player_queue: PlayerShort[];
+  stats: SlotMachineStats;
+}
+
+export default SlotMachineSchema;
+export { SlotMachineSchema, SlotMachine };

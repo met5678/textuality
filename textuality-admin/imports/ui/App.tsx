@@ -10,7 +10,7 @@ import PlayersPage from '/imports/ui/modules/players/PlayersPage';
 // import AchievementUnlocksPage from 'modules/achievementUnlocks/AchievementUnlocksPage';
 // import ClueRewardsPage from 'modules/clueRewards/ClueRewardsPage';
 // import GuessesPage from 'modules/guesses/GuessesPage';
-// import AliasesPage from 'modules/aliases/AliasesPage';
+import AliasesPage from 'modules/aliases/AliasesPage';
 import AutoTextsPage from '/imports/ui/modules/autoTexts/AutoTextsPage';
 // import CheckpointsPage from 'modules/checkpoints/CheckpointsPage';
 // import AchievementsPage from 'modules/achievements/AchievementsPage';
@@ -38,7 +38,7 @@ const App = () => (
         {/*<Route path="/unlocks" component={AchievementUnlocksPage} />*/}
         {/*<Route path="/clue-rewards" component={ClueRewardsPage} />*/}
         {/*<Route path="/guesses" component={GuessesPage} />*/}
-        {/*<Route path="/aliases" component={AliasesPage} />*/}
+        <Route path="/aliases" component={AliasesPage} />
         <Route path="/autoTexts" component={AutoTextsPage} />
         {/*<Route path="/checkpoints" component={CheckpointsPage} />*/}
         {/*<Route path="/achievements" component={AchievementsPage} />*/}

@@ -16,11 +16,11 @@ const TextMessageInput = ({
       label={label}
       required={required}
       multiline
-      rows={4}
+      minRows={3}
       value={value}
       onChange={(event) => onChange(event.target.value)}
       disabled={disabled}
-      helperText={value?.length ?? '0'}
+      helperText={(value?.length ?? '0') + ' '}
       fullWidth
     />
   );

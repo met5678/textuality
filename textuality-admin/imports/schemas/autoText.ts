@@ -48,7 +48,11 @@ const AutoTextSchema = new SimpleSchema({
 
       // Start casino-specific
 
-      'WALLET',
+      'WALLET_STATUS',
+
+      'WALLET_MORETHAN_N',
+      'WALLET_LESSTHAN_N',
+      'WALLET_BANKRUPT',
 
       'SLOT_SPIN',
       'SLOT_WIN_SMALL',
@@ -128,6 +132,14 @@ const AutoTextSchema = new SimpleSchema({
     type: SimpleSchema.Integer,
     optional: true,
   },
+  image_url: {
+    type: String,
+    optional: true,
+  },
+  give_money: {
+    type: SimpleSchema.Integer,
+    optional: true,
+  },
 });
 
 interface AutoText {
@@ -136,6 +148,8 @@ interface AutoText {
   playerText: string;
   trigger: string;
   triggerNum: number;
+  image_url?: string;
+  give_money?: string;
 }
 
 export default AutoTextSchema;

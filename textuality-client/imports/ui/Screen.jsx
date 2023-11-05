@@ -28,7 +28,7 @@ const Screen = ({ event, round }) => (
     </div>
 
     <MissionOverlay />
-    <RevealOverlay />
+    {/* <RevealOverlay /> */}
   </div>
 );
 

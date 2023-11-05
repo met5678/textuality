@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import AlertDialog from '../AlertDialog/AlertDialog';
 import {
   GridActionsCellItem,
@@ -45,7 +45,10 @@ const useTableDelete = <T extends GridValidRowModel>({
       open={dialogOpen}
       title="Delete?"
       text="Delete items?"
-      onConfirm={() => onDelete(itemsToDelete)}
+      onConfirm={async () => {
+        await onDelete(itemsToDelete);
+        setItemsToDelete([]);
+      }}
       onCancel={() => setItemsToDelete([])}
       key="delete"
     />

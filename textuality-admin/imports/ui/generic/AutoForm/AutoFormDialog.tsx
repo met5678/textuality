@@ -1,6 +1,6 @@
 import React from 'react';
-import { CustomAutoForm, AutoFormArgs } from './AutoForm';
-import { AutoForm, AutoFields, SubmitField, ErrorField } from 'uniforms-mui';
+import { AutoFormArgs } from './AutoForm';
+import { AutoForm, AutoFields, SubmitField } from 'uniforms-mui';
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2';
 import {
   Dialog,

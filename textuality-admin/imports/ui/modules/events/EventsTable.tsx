@@ -11,7 +11,6 @@ import AutoFormDialog from '../../generic/AutoForm/AutoFormDialog';
 import EventSchema, { Event } from '/imports/schemas/event';
 import LoadingBar from '/imports/ui/generic/LoadingBar';
 import Table from '/imports/ui/generic/Table/Table';
-import AlertDialog from '../../generic/AlertDialog/AlertDialog';
 
 // const columns = [
 //   {

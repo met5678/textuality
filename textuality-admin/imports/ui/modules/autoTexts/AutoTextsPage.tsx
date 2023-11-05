@@ -1,9 +1,9 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 
 import AutoTextsTable from './AutoTextsTable';
 import AutoTextsInventory from './AutoTextsInventory';
 import { Box, Paper, Typography } from '@mui/material';
-import { AutoText, AutoTextSchema } from '/imports/schemas/autoText';
+import { AutoText } from '/imports/schemas/autoText';
 import AutoTextFormDialog from './AutoTextFormDialog';
 
 const AutoTextsPage = () => {

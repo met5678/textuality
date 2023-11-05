@@ -2,16 +2,6 @@ import { Meteor } from 'meteor/meteor';
 import { fetch } from 'meteor/fetch';
 
 const waToken: string = Meteor.settings.private.waSystemToken;
-const waAPIVersion = 'v18.0';
-
-interface WaMediaResponse {
-  messaging_product: 'whatsapp';
-  url: string;
-  mime_type: string;
-  sha256: string;
-  file_size: string;
-  id: string;
-}
 
 async function getWaImageBase64(url: string): Promise<string> {
   const response = await fetch(url, {

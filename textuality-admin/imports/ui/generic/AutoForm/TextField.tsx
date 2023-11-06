@@ -2,21 +2,19 @@ import React from 'react';
 import { TextField } from '@mui/material';
 import { HTMLFieldProps, connectField } from 'uniforms';
 
-type TextMessageInputProps = HTMLFieldProps<string, HTMLAnchorElement>;
+type TextInputProps = HTMLFieldProps<string, HTMLAnchorElement>;
 
-const TextMessageInput = ({
+const TextInput = ({
   label,
   onChange,
   required,
   value,
   disabled,
-}: TextMessageInputProps) => {
+}: TextInputProps) => {
   return (
     <TextField
       label={label}
       required={required}
-      multiline
-      minRows={3}
       value={value}
       onChange={(event) => onChange(event.target.value)}
       disabled={disabled}
@@ -27,4 +25,4 @@ const TextMessageInput = ({
   );
 };
 
-export default connectField(TextMessageInput);
+export default connectField(TextInput);

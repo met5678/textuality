@@ -42,7 +42,11 @@ const AutoTextFormDialog = ({ model, onClose }: AutoTextFormProps) => {
               <strong>[alias]</strong> Player's alias
             </li>
             <li>
-              <strong>[money]</strong> Player's money
+              <strong>[money]</strong> Player's money after this trigger
+            </li>
+            <li>
+              <strong>[money_award]</strong> Player's money awarded with this
+              trigger
             </li>
           </ul>
         </Typography>

@@ -16,6 +16,7 @@ const EventField = () => {
       value={event._id}
       options={[{ value: event._id, label: event.name }]}
       disabled={true}
+      size="small"
     />
   );
 };

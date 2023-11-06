@@ -1,3 +1,2 @@
-import SubmitField from 'uniforms-bootstrap4/SubmitField'; // Choose your theme package.
-
+import { SubmitField } from 'uniforms-mui';
 export default SubmitField;

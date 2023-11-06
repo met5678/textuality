@@ -1,12 +1,12 @@
 import { Meteor } from 'meteor/meteor';
 
 import Checkpoints from './checkpoints';
-import Events from 'api/events';
-import Players from 'api/players';
+import Events from '/imports/api/events';
+import Players from '/imports/api/players';
 
 Meteor.methods({
   'checkpoints.getForHashtag': (hashtag) => {
-    const checkpointQuery = { event: Events.currentId(), hashtag };
+    const checkpointQuery = { event: Events.currentId()!, hashtag };
 
     const checkpoint = Checkpoints.findOne(checkpointQuery);
     if (!checkpoint) {
@@ -19,6 +19,10 @@ Meteor.methods({
   'checkpoints.awardToPlayer': ({ playerId, checkpointId }) => {
     const player = Players.findOne(playerId);
     const checkpoint = Checkpoints.findOne(checkpointId);
+
+    if (!player || !checkpoint) {
+      return;
+    }
 
     const playerCheckpoints = player.checkpoints;
     playerCheckpoints.push({
@@ -39,8 +43,8 @@ Meteor.methods({
     }).fetch();
     const foundCheckpointsInGroup = checkpointsInGroup.filter((checkpoint) =>
       playerCheckpoints.some(
-        (pCheckpoint) => pCheckpoint.checkpoint === checkpoint._id
-      )
+        (pCheckpoint) => pCheckpoint.checkpoint === checkpoint._id,
+      ),
     );
 
     if (foundCheckpointsInGroup.length === checkpointsInGroup.length) {

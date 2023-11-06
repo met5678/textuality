@@ -8,9 +8,11 @@ const CheckpointSchema = new SimpleSchema({
     allowedValues: Events.allIds,
   },
   hashtag: String,
-  group: String,
-  location: {
-    type: String,
+  groups: [String],
+  location: String,
+  money_award: {
+    type: SimpleSchema.Integer,
+    defaultValue: 0,
     optional: true,
   },
   playerText: {
@@ -23,8 +25,9 @@ interface Checkpoint {
   _id?: string;
   event: string;
   hashtag: string;
-  group: string;
+  groups: string[];
   location?: string;
+  money_award?: number;
   playerText?: string;
 }
 

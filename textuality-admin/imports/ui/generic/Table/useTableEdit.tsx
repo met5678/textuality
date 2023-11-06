@@ -13,8 +13,8 @@ interface UseTableEditArgs<T> {
 }
 
 interface UseTableReturnValue {
-  rowAction: TableRowAction | null;
-  dialog: ReactNode;
+  rowAction?: TableRowAction;
+  dialog?: ReactNode;
 }
 
 const useTableEdit = <T extends GridValidRowModel>({

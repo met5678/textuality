@@ -89,5 +89,13 @@ interface Player {
   money: number;
 }
 
+interface PlayerBasic {
+  _id?: string;
+  phoneNumber: string;
+  alias: string;
+  avatar?: string;
+  money: number;
+}
+
 export default PlayerSchema;
-export { Player, PlayerSchema };
+export { Player, PlayerBasic, PlayerSchema };

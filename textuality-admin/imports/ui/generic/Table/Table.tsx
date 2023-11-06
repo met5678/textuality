@@ -5,11 +5,13 @@ import {
   GridDensity,
   GridRowParams,
   GridRowsProp,
+  GridToolbarContainer,
   GridValidRowModel,
 } from '@mui/x-data-grid';
 import { Paper } from '@mui/material';
 import useTableDelete from './useTableDelete';
 import useTableEdit from './useTableEdit';
+import useTableAdd from './useTableAdd';
 
 interface TableArgs<T extends GridValidRowModel> {
   data: GridRowsProp<T>;
@@ -18,8 +20,18 @@ interface TableArgs<T extends GridValidRowModel> {
   onDelete?: (obj: T | T[]) => Promise<any> | void;
   canEdit?: boolean;
   onEdit?: (obj: T) => Promise<any> | void;
+  canAdd?: boolean;
+  onAdd?: () => Promise<any> | void;
+  formModal?: ReactElement;
   dynamicHeight?: boolean;
   density?: GridDensity;
+  isLoading?: boolean;
+}
+
+interface UseTableReturnValue {
+  toolbarAction?: ReactNode;
+  rowAction?: TableRowAction;
+  dialog?: ReactNode;
 }
 
 type TableRowAction = ((rowParams: GridRowParams<any>) => ReactElement) | null;
@@ -38,6 +50,12 @@ const applyRowActions = (
   ];
 };
 
+const getCustomToolbar = (toolbarActions: ReactNode[]) => {
+  if (toolbarActions.length === 0) return null;
+
+  return <GridToolbarContainer>{toolbarActions}</GridToolbarContainer>;
+};
+
 const Table = <T extends GridValidRowModel>({
   data,
   columns,
@@ -45,11 +63,25 @@ const Table = <T extends GridValidRowModel>({
   onDelete,
   canEdit = false,
   onEdit,
+  canAdd = false,
+  onAdd,
   dynamicHeight = false,
   density = 'compact',
+  isLoading = false,
 }: TableArgs<T>) => {
   const rowActions: ((params: GridRowParams<any>) => ReactElement)[] = [];
+  const toolbarActions: ReactNode[] = [];
   const dialogs: ReactNode[] = [];
+
+  {
+    const { toolbarAction, dialog, rowAction } = useTableAdd<T>({
+      canAdd,
+      onAdd: onAdd!,
+    });
+    toolbarAction && toolbarActions.push(toolbarAction);
+    rowAction && rowActions.push(rowAction);
+    dialog && dialogs.push(dialog);
+  }
 
   {
     const { dialog, rowAction } = useTableEdit<T>({
@@ -83,7 +115,11 @@ const Table = <T extends GridValidRowModel>({
         rowSelection={false}
         checkboxSelection={false}
         density={density}
+        loading={isLoading}
         getRowHeight={dynamicHeight ? () => 'auto' : undefined}
+        slots={{
+          toolbar: () => getCustomToolbar(toolbarActions),
+        }}
         sx={{
           '&.MuiDataGrid-root--densityCompact .MuiDataGrid-cell': { py: '8px' },
           '&.MuiDataGrid-root--densityStandard .MuiDataGrid-cell': {
@@ -100,4 +136,4 @@ const Table = <T extends GridValidRowModel>({
 };
 
 export default Table;
-export { TableRowAction };
+export { TableRowAction, UseTableReturnValue };

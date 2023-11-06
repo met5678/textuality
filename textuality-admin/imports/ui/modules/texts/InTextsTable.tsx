@@ -6,7 +6,6 @@ import Table from '/imports/ui/generic/Table/Table';
 
 import InTexts from '/imports/api/inTexts';
 import { GridColDef } from '@mui/x-data-grid';
-import LoadingBar from '../../generic/LoadingBar';
 
 const columns: GridColDef[] = [
   {
@@ -46,9 +45,8 @@ const columns: GridColDef[] = [
 const InTextsTable = () => {
   const isLoading = useSubscribe('inTexts.all');
   const inTexts = useFind(() => InTexts.find({}, { sort: { time: -1 } }), []);
-  if (isLoading()) return <LoadingBar />;
 
-  return <Table columns={columns} data={inTexts} />;
+  return <Table isLoading={isLoading()} columns={columns} data={inTexts} />;
 };
 
 export default InTextsTable;

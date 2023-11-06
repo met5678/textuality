@@ -34,12 +34,12 @@ declare module 'meteor/react-meteor-data' {
 
   export function useSubscribe(name?: string, ...args: any[]): () => boolean;
 
-  export function useFind<T>(
-    factory: () => Mongo.Cursor<T>,
+  export function useFind<T, U>(
+    factory: () => Mongo.Cursor<T, U>,
     deps?: React.DependencyList,
-  ): T[];
-  export function useFind<T>(
-    factory: () => Mongo.Cursor<T> | undefined | null,
+  ): U[];
+  export function useFind<T, U>(
+    factory: () => Mongo.Cursor<T, U> | undefined | null,
     deps?: React.DependencyList,
-  ): T[] | null;
+  ): U[] | null;
 }

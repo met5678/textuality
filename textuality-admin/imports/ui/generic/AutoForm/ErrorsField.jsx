@@ -1,3 +1,2 @@
-import ErrorsField from 'uniforms-bootstrap4/ErrorsField'; // Choose your theme package.
-
+import { ErrorsField } from 'uniforms-mui';
 export default ErrorsField;

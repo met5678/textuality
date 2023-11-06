@@ -1,5 +1,4 @@
 import React, { ReactNode } from 'react';
-import { Meteor } from 'meteor/meteor';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data';
 import Medias from '/imports/api/media';
 import LoadingBar from '../../generic/LoadingBar';
@@ -9,6 +8,7 @@ import {
   ImageList,
   ImageListItem,
   ImageListItemBar,
+  Link,
   Typography,
 } from '@mui/material';
 import { MediaWithHelpers } from '/imports/api/media/media';
@@ -16,9 +16,14 @@ import { MediaWithHelpers } from '/imports/api/media/media';
 import PeopleAltTwoToneIcon from '@mui/icons-material/PeopleAltTwoTone';
 import Face6TwoToneIcon from '@mui/icons-material/Face6TwoTone';
 import FaceRetouchingOffTwoToneIcon from '@mui/icons-material/FaceRetouchingOffTwoTone';
+import Players from '/imports/api/players';
+import convertToIdDict from '/imports/utils/convert-to-id-dict';
+import { PlayerBasic } from '/imports/schemas/player';
+import { Link as WouterLink } from 'wouter';
 
 interface MediaItemProps {
   media: MediaWithHelpers;
+  player: PlayerBasic;
 }
 
 const GetFacesIcon = (numFaces: number): ReactNode => {
@@ -27,12 +32,17 @@ const GetFacesIcon = (numFaces: number): ReactNode => {
   else return <PeopleAltTwoToneIcon color="warning" />;
 };
 
-const MediaItem = ({ media }: MediaItemProps) => {
+const MediaItem = ({ media, player }: MediaItemProps) => {
   return (
     <ImageListItem>
       <img src={media.getUrl(200, 200)} />
       <ImageListItemBar
-        title="Ditzy"
+        title={
+          <Link component={WouterLink} to={`/players/${player._id}`}>
+            {player.alias}
+          </Link>
+        }
+        subtitle={media.purpose}
         actionIcon={<IconButton>{GetFacesIcon(media.faces.length)}</IconButton>}
       />
     </ImageListItem>
@@ -40,10 +50,18 @@ const MediaItem = ({ media }: MediaItemProps) => {
 };
 
 const MediaList = () => {
-  const isLoading = useSubscribe('media.all');
-  const medias: MediaWithHelpers[] = useFind(() => Medias.find());
+  const loadingHandles = [
+    useSubscribe('media.all'),
+    useSubscribe('players.basic'),
+  ];
+  const medias = useFind(() => Medias.find(), []);
+  const players = useFind(() => Players.find({}, { fields: { alias: 1 } }), []);
 
-  if (isLoading()) return <LoadingBar />;
+  const playersDict = convertToIdDict(players);
+  console.log({ players, playersDict });
+
+  if (loadingHandles.some((loadingHandle) => loadingHandle()))
+    return <LoadingBar />;
 
   return (
     <>
@@ -54,7 +72,11 @@ const MediaList = () => {
       </Box>
       <ImageList cols={5}>
         {medias.map((media) => (
-          <MediaItem key={media._id} media={media} />
+          <MediaItem
+            key={media._id}
+            media={media}
+            player={playersDict[media.player]}
+          />
         ))}
       </ImageList>
     </>

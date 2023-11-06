@@ -12,7 +12,7 @@ import MediaPage from '/imports/ui/modules/media/MediaPage';
 // import GuessesPage from 'modules/guesses/GuessesPage';
 import AliasesPage from '/imports/ui/modules/aliases/AliasesPage';
 import AutoTextsPage from '/imports/ui/modules/autoTexts/AutoTextsPage';
-// import CheckpointsPage from 'modules/checkpoints/CheckpointsPage';
+import CheckpointsPage from '/imports/ui/modules/checkpoints/CheckpointsPage';
 // import AchievementsPage from 'modules/achievements/AchievementsPage';
 // import MissionsPage from 'modules/missions/MissionsPage';
 // import CluesPage from 'modules/clues/CluesPage';
@@ -33,22 +33,25 @@ const App = () => (
 
     <Shell>
       <Switch>
-        <Route path="/events" component={EventsPage} />
         <Route path="/texts" component={AllTextsPage} />
         <Route path="/players" component={PlayersPage} />
         <Route path="/media" component={MediaPage} />
         {/*<Route path="/unlocks" component={AchievementUnlocksPage} />*/}
-        {/*<Route path="/clue-rewards" component={ClueRewardsPage} />*/}
-        {/*<Route path="/guesses" component={GuessesPage} />*/}
+        {/*<Route path="/achievements" component={AchievementsPage} />*/}
         <Route path="/aliases" component={AliasesPage} />
         <Route path="/autoTexts" component={AutoTextsPage} />
-        {/*<Route path="/checkpoints" component={CheckpointsPage} />*/}
-        {/*<Route path="/achievements" component={AchievementsPage} />*/}
-        {/*<Route path="/missions" component={MissionsPage} />*/}
-        {/*<Route path="/clues" component={CluesPage} />*/}
-        {/*<Route path="/rounds" component={RoundsPage} />*/}
+        <Route path="/checkpoints" component={CheckpointsPage} />
         <Route path="/casino/slot-machines" component={SlotMachinesPage} />
+        {/* <Route path="/casino/roulettes" component={RoulettesPage} />
+        <Route path="/casino/quests" component={HackerQuestsPage} /> */}
 
+        {/*<Route path="/clue-rewards" component={ClueRewardsPage} />*/}
+        {/*<Route path="/clues" component={CluesPage} />*/}
+        {/*<Route path="/guesses" component={GuessesPage} />*/}
+        {/*<Route path="/missions" component={MissionsPage} />*/}
+        {/*<Route path="/rounds" component={RoundsPage} />*/}
+
+        <Route path="/events" component={EventsPage} />
         <Redirect to="/events" />
       </Switch>
     </Shell>

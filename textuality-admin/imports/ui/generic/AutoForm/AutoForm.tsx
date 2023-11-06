@@ -6,7 +6,7 @@ import SimpleSchema from 'simpl-schema';
 interface AutoFormArgs<T> {
   schema: SimpleSchema;
   model: any;
-  onSubmit: (editedModel: any) => void | Promise<unknown>;
+  onSubmit: (editedModel: T) => void | Promise<unknown>;
 }
 
 const CustomAutoForm = <T,>(props: AutoFormArgs<T>) => {

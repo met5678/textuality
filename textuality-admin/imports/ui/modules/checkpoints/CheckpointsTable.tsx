@@ -5,7 +5,6 @@ import { useSubscribe, useFind } from 'meteor/react-meteor-data';
 import Checkpoints from '/imports/api/checkpoints';
 import CheckpointSchema, { Checkpoint } from '/imports/schemas/checkpoint';
 import { GridColDef } from '@mui/x-data-grid';
-import LoadingBar from '../../generic/LoadingBar';
 import Table from '../../generic/Table/Table';
 import CheckpointForm from './CheckpointForm';
 import { Chip } from '@mui/material';
@@ -22,7 +21,7 @@ const columns: GridColDef<Checkpoint>[] = [
     headerName: 'Groups',
     renderCell: (params) => (
       <>
-        {params.value.map((value) => (
+        {params.value.map((value: string) => (
           <Chip size="small" label={value} />
         ))}
       </>
@@ -66,12 +65,10 @@ const CheckpointsTable = () => {
         canEdit={true}
         onEdit={setEditCheckpoint}
       />
-      {editCheckpoint && (
-        <CheckpointForm
-          model={editCheckpoint}
-          onClose={() => setEditCheckpoint(null)}
-        />
-      )}
+      <CheckpointForm
+        model={editCheckpoint}
+        onClose={() => setEditCheckpoint(null)}
+      />
     </>
   );
 };

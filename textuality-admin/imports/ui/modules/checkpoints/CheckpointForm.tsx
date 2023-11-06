@@ -23,7 +23,10 @@ const CheckpointForm = ({
   onClose: () => void;
 }) => {
   const isLoading = useSubscribe('checkpoints.all');
-  const allCheckpoints = useFind(() => Checkpoints.find(), []);
+  const allCheckpoints = useFind(
+    () => Checkpoints.find({}, { fields: { location: 1, groups: 1 } }),
+    [],
+  );
 
   const existingLocations = [
     ...new Set(allCheckpoints.map((checkpoint) => checkpoint.location)),

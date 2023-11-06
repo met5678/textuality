@@ -8,6 +8,8 @@ import { AutoField, LongTextField } from 'uniforms-mui';
 import EventField from '../events/EventField';
 import { Box, Typography } from '@mui/material';
 import TextMessageField from '../../generic/AutoForm/TextMessageField';
+import NumberField from '../../generic/AutoForm/NumberField';
+import TextField from '../../generic/AutoForm/TextField';
 
 interface AutoTextFormProps {
   model: Partial<AutoText> | null;
@@ -33,8 +35,8 @@ const AutoTextFormDialog = ({ model, onClose }: AutoTextFormProps) => {
     >
       <EventField />
       <AutoField name="trigger" />
-      <AutoField name="image_url" />
-      <AutoField name="give_money" />
+      <TextField name="image_url" />
+      <NumberField name="give_money" />
       <Box>
         <Typography variant="body2">
           <ul>

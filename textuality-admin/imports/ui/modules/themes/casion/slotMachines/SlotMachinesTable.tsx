@@ -1,63 +1,63 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data';
 
 import Table from '/imports/ui/generic/Table/Table';
 
-import Players from '/imports/api/players';
 import { GridColDef } from '@mui/x-data-grid';
-import { SlotMachine } from '/imports/schemas/slotMachine';
-import LoadingBar from '/imports/ui/generic/LoadingBar';
+import { SlotMachineSchema, SlotMachine } from '/imports/schemas/slotMachine';
 import SlotMachines from '/imports/api/themes/casino/slotMachines';
 import SlotMachineFormDialog from './SlotMachineFormDialog';
 import { Button } from '@mui/material';
 
-const tableColumns: GridColDef<SlotMachine>[] = [
+const columns: GridColDef<SlotMachine>[] = [
   {
     field: 'code',
     headerName: 'Code',
-    width: 60,
+    width: 90,
   },
   {
     field: 'name',
     headerName: 'Name',
-    width: 60,
+    width: 120,
   },
   {
     field: 'cost',
     headerName: 'Cost',
-    width: 150,
+    width: 70,
   },
   {
     field: 'status',
     headerName: 'Status',
-    width: 90,
+    width: 100,
   },
 ];
 
 const SlotMachinesTable = () => {
-  const [autoTextToEdit, setAutoTextToEdit] =
-    useState<Partial<SlotMachine> | null>(null);
-
   const isLoading = useSubscribe('slotMachines.all');
-  const slotMachines = useFind(() => SlotMachines.find(), []);
-  const columns = useMemo(() => tableColumns, []);
-
-  if (isLoading()) return <LoadingBar />;
+  const slotMachines = useFind(
+    () => SlotMachines.find({}, { sort: { code: 1 } }),
+    [],
+  );
+  const [editSlotMachine, setEditSlotMachine] =
+    useState<Partial<SlotMachine> | null>(null);
 
   return (
     <>
-      <Button onClick={() => setAutoTextToEdit({})}>New Slot</Button>
       <Table<SlotMachine>
         columns={columns}
         data={slotMachines}
+        isLoading={isLoading()}
         canDelete={true}
-        density="standard"
         onDelete={(player) => Meteor.call('slotMachines.delete', player)}
+        canAdd={true}
+        onAdd={() => setEditSlotMachine(SlotMachineSchema.clean({}))}
+        canEdit={true}
+        onEdit={setEditSlotMachine}
       />
       <SlotMachineFormDialog
-        model={autoTextToEdit}
-        onClose={() => setAutoTextToEdit(null)}
+        model={editSlotMachine}
+        onClose={() => setEditSlotMachine(null)}
       />
     </>
   );

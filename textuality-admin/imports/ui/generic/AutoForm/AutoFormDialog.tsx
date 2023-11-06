@@ -7,6 +7,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Stack,
 } from '@mui/material';
 
 interface AutoFormDialogArgs<T> extends AutoFormArgs<T> {
@@ -24,7 +25,9 @@ const AutoFormDialog = <T,>(props: AutoFormDialogArgs<T>) => {
     <Dialog open={!!props.model} fullWidth={true} onClose={handleClose}>
       <AutoForm schema={convertedSchema} model={model} onSubmit={onSubmit}>
         <DialogTitle>Edit</DialogTitle>
-        <DialogContent>{children ?? <AutoFields />}</DialogContent>
+        <DialogContent>
+          {<Stack spacing={2}>{children}</Stack> ?? <AutoFields />}
+        </DialogContent>
         <DialogActions>
           <SubmitField />
         </DialogActions>

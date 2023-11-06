@@ -16,6 +16,10 @@ const App = () => {
     return <p>Loading</p>;
   }
 
+  if (!event) {
+    return <p>No Event</p>;
+  }
+
   return (
     <Shell>
       Hi! how are you

@@ -4,4 +4,5 @@ MONGO_OPLOG_URL=$(jq -r ".[\"galaxy.meteor.com\"].env.MONGO_OPLOG_URL" ../settin
 echo $MONGO_URL
 echo $MONGO_OPLOG_URL
 
+meteor npm install
 MONGO_URL=$MONGO_URL MONGO_OPLOG_URL=$MONGO_OPLOG_URL meteor run --settings ../settings.json --port 4102

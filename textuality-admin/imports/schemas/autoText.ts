@@ -54,7 +54,8 @@ const AutoTextSchema = new SimpleSchema({
       'SLOT_WIN_BIG',
       'SLOT_WIN_HACKER',
       'SLOT_LOSE',
-      'SLOT_QUEUE',
+      'SLOT_BUSY',
+      // 'SLOT_QUEUE',
       'SLOT_UNAVAILABLE',
 
       'ROULETTE_BET_NUMBER',

@@ -1,14 +1,11 @@
 import SimpleSchema from 'simpl-schema';
 
-import Events from 'api/events';
+import Events from '/imports/api/events';
 
-const AchievementSchema = new SimpleSchema({
+const MissionSchema = new SimpleSchema({
   event: {
     type: String,
-    allowedValues: () =>
-      Events.find()
-        .fetch()
-        .map((event) => event._id),
+    allowedValues: Events.allIds,
   },
   name: String,
   number: SimpleSchema.Integer,
@@ -49,4 +46,20 @@ const AchievementSchema = new SimpleSchema({
   },
 });
 
-export default AchievementSchema;
+interface Mission {
+  _id?: string;
+  event: string;
+  name: string;
+  number: number;
+  active: boolean;
+  minutes: number;
+  timePreText?: Date;
+  timeStart?: Date;
+  timeEnd?: Date;
+  missionPreText?: string;
+  missionSuccessText?: string;
+  missionFailText?: string;
+}
+
+export default MissionSchema;
+export { Mission, MissionSchema };

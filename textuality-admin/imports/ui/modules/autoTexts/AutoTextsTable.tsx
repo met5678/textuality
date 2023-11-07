@@ -16,7 +16,7 @@ const columns: GridColDef<AutoText>[] = [
     valueGetter: (cell) => {
       return (
         // @ts-ignore
-        cell.value + (cell.row.isNumeric() ? `(${cell.row.triggerNum})` : '')
+        cell.value + (cell.row?.isNumeric() ? `(${cell.row.triggerNum})` : '')
       );
     },
     width: 200,
@@ -55,6 +55,10 @@ const AutoTextsTable = ({ onEdit }: { onEdit: (obj: any) => any }) => {
         }}
         canEdit={true}
         onEdit={onEdit}
+        onEditCell={(autoText) => {
+          Meteor.call('autoTexts.update', autoText);
+          return autoText;
+        }}
         dynamicHeight={true}
         // canInsert={true}
         // onInsert={(autoText) => Meteor.call('autoTexts.new', autoText)}

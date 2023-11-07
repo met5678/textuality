@@ -13,7 +13,9 @@ const AchievementSchema = new SimpleSchema({
     allowedValues: [
       'CHECKPOINT_FOUND',
       'CHECKPOINT_GROUP_COMPLETE',
+      'CHECKPOINT_GROUP_FOUND_N',
       'CHECKPOINT_LOCATION_COMPLETE',
+      'CHECKPOINT_LOCATION_FOUND_N',
       'MISSION_COMPLETE',
 
       'SLOT_WIN_NORMAL',
@@ -23,6 +25,7 @@ const AchievementSchema = new SimpleSchema({
       'EMOJIS_IN_TEXT',
       'GUESS_COMPLETE',
       'JOINED',
+      'REJOINED',
       'MISSION',
       'N_MISSION',
       'N_PICTURES_SENT',
@@ -30,8 +33,12 @@ const AchievementSchema = new SimpleSchema({
       'PICTURE_MULTI_FACES',
     ],
   },
-  trigger_detail: {
-    type: SimpleSchema.oneOf(String, SimpleSchema.Integer),
+  trigger_detail_string: {
+    type: String,
+    optional: true,
+  },
+  trigger_detail_number: {
+    type: SimpleSchema.Integer,
     optional: true,
   },
   money_award: {
@@ -39,24 +46,18 @@ const AchievementSchema = new SimpleSchema({
     optional: true,
     defaultValue: 0,
   },
-  quest_type: {
+  quest_award_type: {
     type: String,
     optional: true,
     // TODO: Replace this list with a function that polls for quest types
     defaultValue: 'NONE',
-    allowedValues: [
-      'NONE',
-      'HACKER_RECRUIT',
-      'HACKER_QUEST_SLOT',
-      'HACKER_QUEST_ROULETTE',
-      'HACKER_QUEST_HASHTAG',
-    ],
+    allowedValues: ['NONE', 'HACKER_SLOT', 'HACKER_ROULETTE'],
   },
-  reward_id: {
+  player_text: {
     type: String,
     optional: true,
   },
-  player_text: {
+  player_text_image: {
     type: String,
     optional: true,
   },
@@ -74,13 +75,14 @@ interface Achievement {
   _id?: string;
   event: string;
   name: string;
-  number: number;
   trigger: string;
-  trigger_detail?: string | number;
-  money_award: number;
-  quest_type?: string;
-  quest_id?: string;
+  trigger_detail_string?: string;
+  trigger_detail_number?: number;
+  money_award?: number;
+  quest_award_type?: string;
   player_text?: string;
+  player_text_image?: string;
+
   hide_from_screen: boolean;
   earned: number;
 }

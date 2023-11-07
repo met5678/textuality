@@ -17,12 +17,30 @@ const columns: GridColDef<Achievement>[] = [
   {
     field: 'trigger',
     headerName: 'Trigger',
-    width: 200,
+    width: 300,
+    valueGetter: (params) => {
+      const { trigger, trigger_detail_string, trigger_detail_number } =
+        params.row;
+      let triggerString = trigger;
+      if (trigger_detail_string) {
+        triggerString += ` (${trigger_detail_string})`;
+      }
+      if (trigger_detail_number) {
+        triggerString += ` (${trigger_detail_number})`;
+      }
+      return triggerString;
+    },
   },
   {
     field: 'player_text',
     headerName: 'Player Text',
     flex: 1,
+  },
+  {
+    field: 'hide_from_screen',
+    type: 'boolean',
+    headerName: 'Hide',
+    width: 50,
   },
   {
     field: 'earned',
@@ -53,6 +71,7 @@ const AchievementsTable = () => {
         onAdd={() => setEditAchievement(AchievementSchema.clean({}))}
         canEdit={true}
         onEdit={setEditAchievement}
+        dynamicHeight={true}
         density="standard"
       />
       <AchievementForm

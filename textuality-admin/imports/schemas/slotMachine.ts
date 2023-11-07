@@ -10,6 +10,28 @@ const PlayerShort = new SimpleSchema({
   avatar_id: String,
 });
 
+const resultSchemaFields = {
+  result: {
+    type: Array,
+    minCount: 3,
+    maxCount: 3,
+    optional: true,
+  },
+  'result.$': {
+    type: String,
+    allowedValues: ['🍒', '💣', '💦', '🍆', '🍑', '🥴'],
+  },
+};
+
+const SlotMachineOddsSchema = new SimpleSchema({
+  ...resultSchemaFields,
+  payout_multiplier: SimpleSchema.Integer,
+  odds: Number,
+});
+
+type SlotMachineEmoji = '🍒' | '💣' | '💦' | '🍆' | '🍑' | '🥴';
+type SlotMachineResult = [SlotMachineEmoji, SlotMachineEmoji, SlotMachineEmoji];
+
 const SlotMachineSchema = new SimpleSchema({
   event: {
     type: String,
@@ -21,14 +43,6 @@ const SlotMachineSchema = new SimpleSchema({
   code: String,
   name: String,
   cost: SimpleSchema.Integer,
-  machine_on_left: {
-    type: String,
-    optional: true,
-  },
-  machine_on_right: {
-    type: String,
-    optional: true,
-  },
   status: {
     type: String,
     allowedValues: [
@@ -40,30 +54,31 @@ const SlotMachineSchema = new SimpleSchema({
       'disabled',
     ],
   },
-  result: {
-    type: Array,
-    minCount: 3,
-    maxCount: 3,
+  ...resultSchemaFields,
+  win_amount: {
+    type: SimpleSchema.Integer,
     optional: true,
   },
-  'result.$': {
-    type: String,
+  player: {
+    type: PlayerShort,
+    optional: true,
+    defaultValue: null,
   },
-  win_amount: Number,
-  // player: {
-  //   type: PlayerShort,
-  //   optional: true,
-  //   defaultValue: null,
+  // player_queue: {
+  //   type: Array,
+  //   defaultValue: [],
   // },
-  player_queue: {
+  // 'player_queue.$': PlayerShort,
+
+  odds: {
     type: Array,
     defaultValue: [],
   },
-  'player_queue.$': PlayerShort,
+  'odds.$': SlotMachineOddsSchema,
 
-  // stats: Object,
-  // 'stats.spin_count': SimpleSchema.Integer,
-  // 'stats.profit': SimpleSchema.Integer,
+  stats: Object,
+  'stats.spin_count': SimpleSchema.Integer,
+  'stats.profit': SimpleSchema.Integer,
 });
 
 type SlotMachineStatus =
@@ -86,21 +101,35 @@ interface SlotMachineStats {
   profit: number;
 }
 
+interface SlotMachineOdds {
+  result: SlotMachineResult;
+  payout_multiplier: number;
+  odds: number;
+}
+
 interface SlotMachine {
   _id?: string;
   event: string;
   code: string;
   name: string;
   cost: number;
-  machine_on_left?: string;
-  machine_on_right?: string;
   status: SlotMachineStatus;
-  result?: [string, string, string];
-  win_amount: number;
+  result?: SlotMachineResult;
+  win_amount?: number;
   player?: PlayerShort;
-  player_queue: PlayerShort[];
-  // stats: SlotMachineStats;
+  // player_queue: PlayerShort[];
+  odds: SlotMachineOdds[];
+  stats: SlotMachineStats;
 }
 
 export default SlotMachineSchema;
-export { SlotMachineSchema, SlotMachine };
+export {
+  SlotMachineSchema,
+  SlotMachine,
+  SlotMachineEmoji,
+  SlotMachineResult,
+  SlotMachineOdds,
+  SlotMachineStatus,
+  SlotMachineStats,
+  resultSchemaFields,
+};

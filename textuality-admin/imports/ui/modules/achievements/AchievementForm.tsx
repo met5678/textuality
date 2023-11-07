@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 
 import { Achievement, AchievementSchema } from '/imports/schemas/achievement';
@@ -8,6 +8,8 @@ import { AutoField, ErrorsField, SubmitField } from '../../generic/AutoForm';
 import TextMessageField from '../../generic/AutoForm/TextMessageField';
 import NumberField from '../../generic/AutoForm/NumberField';
 import EventField from '../events/EventField';
+import { RadioField } from 'uniforms-mui';
+import achievementsConfig from '/imports/api/achievements/config/achievements-config';
 
 const AutoTextForm = ({
   model,
@@ -24,6 +26,12 @@ const AutoTextForm = ({
     }
     onClose();
   };
+  const [liveModel, setLiveModel] = useState(model);
+  useEffect(() => setLiveModel(model), [model]);
+
+  const achievementConfig = liveModel
+    ? achievementsConfig[liveModel.trigger ?? '']
+    : null;
 
   return (
     <AutoFormDialog<Achievement>
@@ -31,18 +39,30 @@ const AutoTextForm = ({
       onSubmit={onSubmit}
       model={model}
       handleClose={onClose}
+      onChangeModel={setLiveModel}
     >
       <EventField />
       <TextField name="name" />
       <AutoField name="trigger" />
-      <AutoField name="trigger_detail" />
+      {achievementConfig && achievementConfig.useString && (
+        <TextField
+          name="trigger_detail_string"
+          label={achievementConfig.stringField}
+        />
+      )}
+      {achievementConfig && achievementConfig.useNumber && (
+        <NumberField
+          name="trigger_detail_number"
+          label={achievementConfig.numberField}
+        />
+      )}
       <NumberField name="money_award" />
-      <AutoField name="quest_type" />
+      <RadioField name="quest_award_type" />
       <TextMessageField name="player_text" />
+      <TextField name="player_text_image" />
       <AutoField name="hide_from_screen" />
 
       <ErrorsField />
-      <SubmitField />
     </AutoFormDialog>
   );
 };

@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 
 interface AutoFormDialogArgs<T> extends AutoFormArgs<T> {
+  onChangeModel?: (model: T) => void;
   handleClose: () => unknown;
   children?: React.ReactNode;
 }
@@ -18,12 +19,17 @@ interface AutoFormDialogArgs<T> extends AutoFormArgs<T> {
 const AutoFormDialog = <T,>(props: AutoFormDialogArgs<T>) => {
   const { children, handleClose } = props;
 
-  const { schema, model, onSubmit } = props;
+  const { schema, model, onSubmit, onChangeModel } = props;
   const convertedSchema = new SimpleSchema2Bridge({ schema });
 
   return (
     <Dialog open={!!props.model} fullWidth={true} onClose={handleClose}>
-      <AutoForm schema={convertedSchema} model={model} onSubmit={onSubmit}>
+      <AutoForm
+        schema={convertedSchema}
+        model={model}
+        onSubmit={onSubmit}
+        onChangeModel={onChangeModel}
+      >
         <DialogTitle>Edit</DialogTitle>
         <DialogContent>
           {<Stack spacing={2}>{children}</Stack> ?? <AutoFields />}

@@ -47,18 +47,18 @@ const PlayerSchema = new SimpleSchema({
     type: SimpleSchema.Integer,
     defaultValue: 0,
   },
-  numClues: {
-    type: SimpleSchema.Integer,
-    defaultValue: 0,
-  },
-  feedTextsSent: {
-    type: SimpleSchema.Integer,
-    defaultValue: 0,
-  },
-  feedMediaSent: {
-    type: SimpleSchema.Integer,
-    defaultValue: 0,
-  },
+  // numClues: {
+  //   type: SimpleSchema.Integer,
+  //   defaultValue: 0,
+  // },
+  // feedTextsSent: {
+  //   type: SimpleSchema.Integer,
+  //   defaultValue: 0,
+  // },
+  // feedMediaSent: {
+  //   type: SimpleSchema.Integer,
+  //   defaultValue: 0,
+  // },
   avatar: {
     type: String,
     optional: true,
@@ -68,7 +68,39 @@ const PlayerSchema = new SimpleSchema({
         .map((media) => media._id),
   },
   money: SimpleSchema.Integer,
+  slot_spins: {
+    type: Array,
+    defaultValue: [],
+  },
+  'slot_spins.$': Object,
+  'slot_spins.$.slot_id': String,
+  'slot_spins.$.time_spun': Date,
+  'slot_spins.$.cost': SimpleSchema.Integer,
+  'slot_spins.$.win_amount': SimpleSchema.Integer,
+  quests: {
+    type: Array,
+    defaultValue: [],
+  },
+  'quests.$': Object,
+  'quests.$.quest_id': String,
+  'quests.$.start_time': Date,
+  'quests.$.complete_time': Date,
+  'quests.$.is_complete': Boolean,
 });
+
+interface PlayerQuest {
+  quest_id: string;
+  start_time: Date;
+  complete_time: Date;
+  is_complete: boolean;
+}
+
+interface PlayerSlotSpin {
+  slot_id: string;
+  time_spun: Date;
+  cost: number;
+  win_amount: number;
+}
 
 interface Player {
   _id?: string;
@@ -82,11 +114,13 @@ interface Player {
   isAdmin: boolean;
   checkpoints: PlayerCheckpoint[];
   numAchievements: number;
-  numClues: number;
-  feedTextsSent: number;
-  feedMediaSent: number;
+  // numClues: number;
+  // feedTextsSent: number;
+  // feedMediaSent: number;
   avatar?: string;
   money: number;
+  slot_spins: PlayerSlotSpin[];
+  quests: PlayerQuest[];
 }
 
 interface PlayerCheckpoint {
@@ -105,4 +139,11 @@ interface PlayerBasic {
 }
 
 export default PlayerSchema;
-export { Player, PlayerBasic, PlayerSchema };
+export {
+  PlayerSchema,
+  Player,
+  PlayerBasic,
+  PlayerCheckpoint,
+  PlayerSlotSpin,
+  PlayerQuest,
+};

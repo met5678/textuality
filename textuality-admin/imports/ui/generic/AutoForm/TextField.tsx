@@ -2,7 +2,9 @@ import React from 'react';
 import { TextField } from '@mui/material';
 import { HTMLFieldProps, connectField } from 'uniforms';
 
-type TextInputProps = HTMLFieldProps<string, HTMLAnchorElement>;
+type TextInputProps = HTMLFieldProps<string, HTMLAnchorElement> & {
+  showCounter?: boolean;
+};
 
 const TextInput = ({
   label,
@@ -10,7 +12,10 @@ const TextInput = ({
   required,
   value,
   disabled,
+  showCounter,
 }: TextInputProps) => {
+  const helperText = showCounter ? (value?.length ?? '0') + ' ' : undefined;
+
   return (
     <TextField
       label={label}
@@ -19,7 +24,7 @@ const TextInput = ({
       onChange={(event) => onChange(event.target.value)}
       disabled={disabled}
       size="small"
-      helperText={(value?.length ?? '0') + ' '}
+      helperText={helperText}
       fullWidth
     />
   );

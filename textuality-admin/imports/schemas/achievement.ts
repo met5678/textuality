@@ -39,11 +39,13 @@ const AchievementSchema = new SimpleSchema({
     optional: true,
     defaultValue: 0,
   },
-  reward_type: {
+  quest_type: {
     type: String,
     optional: true,
     // TODO: Replace this list with a function that polls for quest types
+    defaultValue: 'NONE',
     allowedValues: [
+      'NONE',
       'HACKER_RECRUIT',
       'HACKER_QUEST_SLOT',
       'HACKER_QUEST_ROULETTE',
@@ -76,8 +78,8 @@ interface Achievement {
   trigger: string;
   trigger_detail?: string | number;
   money_award: number;
-  reward_type?: string;
-  reward_id?: string;
+  quest_type?: string;
+  quest_id?: string;
   player_text?: string;
   hide_from_screen: boolean;
   earned: number;

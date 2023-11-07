@@ -5,7 +5,6 @@ import CheckpointSchema, { Checkpoint } from '/imports/schemas/checkpoint';
 
 import TagsField from '../../generic/AutoForm/TagsField';
 import AutoFormDialog from '../../generic/AutoForm/AutoFormDialog';
-import AutoField from '../../generic/AutoForm/AutoField';
 import TextMessageField from '../../generic/AutoForm/TextMessageField';
 import { useFind, useSubscribe } from 'meteor/react-meteor-data';
 import Checkpoints from '/imports/api/checkpoints';
@@ -51,19 +50,17 @@ const CheckpointForm = ({
       model={model}
       handleClose={onClose}
     >
-      <Stack spacing={2}>
-        <EventField />
-        <TextField name="hashtag" />
-        <SelectField
-          name="location"
-          options={existingLocations}
-          creatable={true}
-        />
-        <TagsField name="groups" options={existingGroups} />
-        <NumberField name="money_award" />
-        <TextMessageField name="player_text" />
-        <ErrorsField />
-      </Stack>{' '}
+      <EventField />
+      <TextField name="hashtag" />
+      <SelectField
+        name="location"
+        options={existingLocations}
+        creatable={true}
+      />
+      <TagsField name="groups" options={existingGroups} />
+      <NumberField name="money_award" />
+      <TextMessageField name="player_text" />
+      <ErrorsField />
     </AutoFormDialog>
   );
 };

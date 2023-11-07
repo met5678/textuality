@@ -1,12 +1,14 @@
 import React from 'react';
-import { Container, Row, Col } from 'reactstrap';
 
 import AchievementUnlocksTable from './AchievementUnlocksTable';
+import { Box, Typography } from '@mui/material';
 
-const AchievementUnlocksPage = ({ match }) => {
+const AchievementUnlocksPage = () => {
   return (
     <>
-      <h2>All Achievement Unlocks</h2>
+      <Box mb={2}>
+        <Typography variant="h5">All Unlocks</Typography>
+      </Box>
       <AchievementUnlocksTable />
     </>
   );

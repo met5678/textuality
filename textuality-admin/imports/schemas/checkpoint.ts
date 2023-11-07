@@ -15,9 +15,13 @@ const CheckpointSchema = new SimpleSchema({
     defaultValue: 0,
     optional: true,
   },
-  playerText: {
+  player_text: {
     type: String,
     optional: true,
+  },
+  num_checkins: {
+    type: SimpleSchema.Integer,
+    defaultValue: 0,
   },
 });
 
@@ -26,9 +30,10 @@ interface Checkpoint {
   event: string;
   hashtag: string;
   groups: string[];
-  location?: string;
+  location: string;
   money_award?: number;
-  playerText?: string;
+  player_text?: string;
+  num_checkins: 0;
 }
 
 export default CheckpointSchema;

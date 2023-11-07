@@ -7,40 +7,72 @@ import CheckpointSchema, { Checkpoint } from '/imports/schemas/checkpoint';
 import { GridColDef } from '@mui/x-data-grid';
 import Table from '../../generic/Table/Table';
 import CheckpointForm from './CheckpointForm';
-import { Chip } from '@mui/material';
+import { Box, Chip, Stack } from '@mui/material';
+import InputSelect from '../../generic/InputSelect';
 
 const columns: GridColDef<Checkpoint>[] = [
   {
     field: 'hashtag',
     headerName: 'Hashtag',
+    editable: true,
     valueFormatter: (cell) => `#${cell.value}`,
-    width: 120,
+    width: 150,
   },
   {
     field: 'groups',
     headerName: 'Groups',
+    editable: true,
     renderCell: (params) => (
-      <>
+      <Box display="flex" flexDirection="row" flexWrap="wrap" gap={1}>
         {params.value.map((value: string) => (
-          <Chip size="small" label={value} />
+          <Chip key={value} size="small" label={value} />
         ))}
-      </>
+      </Box>
     ),
-    width: 150,
+    renderEditCell: (params) => {
+      const existingGroups = [
+        ...new Set(
+          params.api
+            .getAllRowIds()
+            .map((id) => params.api.getRow(id).groups)
+            .flat(),
+        ),
+      ];
+
+      return (
+        <InputSelect
+          value={params.value}
+          onChange={(val) =>
+            params.api.setEditCellValue({
+              id: params.id,
+              field: params.field,
+              value: val,
+            })
+          }
+          multi={true}
+          options={existingGroups}
+          creatable={true}
+        />
+      );
+    },
+    width: 200,
   },
   {
     field: 'location',
     headerName: 'Location',
-    width: 150,
+    width: 200,
+    editable: true,
+    type: 'singleSelect',
   },
   {
     field: 'money_award',
     type: 'number',
     headerName: 'Award',
     width: 80,
+    editable: true,
   },
   {
-    field: 'playerText',
+    field: 'player_text',
     headerName: 'Player Text',
     flex: 1,
   },
@@ -51,6 +83,21 @@ const CheckpointsTable = () => {
   const checkpoints = useFind(() => Checkpoints.find());
   const [editCheckpoint, setEditCheckpoint] =
     useState<Partial<Checkpoint> | null>(null);
+
+  const existingLocations = [
+    ...new Set(
+      checkpoints.map((checkpoint: Checkpoint) => checkpoint.location),
+    ),
+  ];
+
+  const existingGroups = [
+    ...new Set(
+      checkpoints.map((checkpoint: Checkpoint) => checkpoint.groups).flat(),
+    ),
+  ];
+
+  columns.find((col) => col.field === 'location')!.valueOptions =
+    existingLocations;
 
   return (
     <>
@@ -64,6 +111,11 @@ const CheckpointsTable = () => {
         onAdd={() => setEditCheckpoint(CheckpointSchema.clean({}))}
         canEdit={true}
         onEdit={setEditCheckpoint}
+        onEditCell={(checkpoint) => {
+          Meteor.call('checkpoints.update', checkpoint);
+          return checkpoint;
+        }}
+        dynamicHeight={true}
       />
       <CheckpointForm
         model={editCheckpoint}

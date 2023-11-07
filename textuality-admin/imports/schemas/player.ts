@@ -39,8 +39,8 @@ const PlayerSchema = new SimpleSchema({
   'checkpoints.$': {
     type: Object,
   },
-  'checkpoints.$.checkpoint': String,
-  'checkpoints.$.group': String,
+  'checkpoints.$.id': String,
+  'checkpoints.$.location': String,
   'checkpoints.$.hashtag': String,
   'checkpoints.$.time': Date,
   numAchievements: {
@@ -80,13 +80,20 @@ interface Player {
   alias: string;
   oldAliases: string[];
   isAdmin: boolean;
-  checkpoints: any[];
+  checkpoints: PlayerCheckpoint[];
   numAchievements: number;
   numClues: number;
   feedTextsSent: number;
   feedMediaSent: number;
   avatar?: string;
   money: number;
+}
+
+interface PlayerCheckpoint {
+  id: string;
+  location: string;
+  hashtag: string;
+  time: Date;
 }
 
 interface PlayerBasic {

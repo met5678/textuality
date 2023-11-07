@@ -32,9 +32,9 @@ Meteor.methods({
     }
   },
 
-  'aliases.resetEvent': () => {
+  'aliases.resetEvent': (eventId: string) => {
     Aliases.update(
-      { event: Events.currentId()! },
+      { event: eventId },
       { $set: { used: false } },
       { multi: true },
     );

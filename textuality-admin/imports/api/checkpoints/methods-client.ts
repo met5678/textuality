@@ -3,6 +3,8 @@ import { Meteor } from 'meteor/meteor';
 import Checkpoints from './checkpoints';
 import Events from '/imports/api/events';
 import Players from '/imports/api/players';
+import checkLocationForPlayer from './process-checkpoint/get-location-stats';
+import checkGroupsForPlayer from './process-checkpoint/check-groups';
 
 Meteor.methods({
   'checkpoints.getForHashtag': (hashtag) => {
@@ -24,10 +26,12 @@ Meteor.methods({
       return;
     }
 
+    Checkpoints.update(checkpointId, { $inc: { num_checkins: 1 } });
+
     const playerCheckpoints = player.checkpoints;
     playerCheckpoints.push({
-      checkpoint: checkpoint._id,
-      group: checkpoint.group,
+      id: checkpoint._id!,
+      location: checkpoint.location,
       hashtag: checkpoint.hashtag,
       time: new Date(),
     });
@@ -37,31 +41,36 @@ Meteor.methods({
       checkpoints: playerCheckpoints,
     });
 
-    const checkpointsInGroup = Checkpoints.find({
-      event: Events.currentId(),
-      group: checkpoint.group,
-    }).fetch();
-    const foundCheckpointsInGroup = checkpointsInGroup.filter((checkpoint) =>
-      playerCheckpoints.some(
-        (pCheckpoint) => pCheckpoint.checkpoint === checkpoint._id,
-      ),
+    Meteor.call('players.giveMoney', {
+      playerId,
+      money: checkpoint.money_award,
+    });
+
+    const locationStats = checkLocationForPlayer({
+      player,
+      location: checkpoint.location,
+    });
+    const foundGroup = checkpoint.groups.some((group) =>
+      checkGroupsForPlayer({ player, group }),
     );
 
-    if (foundCheckpointsInGroup.length === checkpointsInGroup.length) {
-      Meteor.call('achievements.tryUnlock', {
-        trigger: 'CHECKPOINT_GROUP',
-        triggerDetail: checkpoint.group,
-        playerId,
-      });
-    } else {
-      const templateVars = {
-        group: checkpoint.group,
-        numFound: foundCheckpointsInGroup.length,
-        numRemaining:
-          checkpointsInGroup.length - foundCheckpointsInGroup.length,
-        totalInGroup: checkpointsInGroup.length,
-      };
+    const templateVars = {
+      location: checkpoint.location,
+      money_award: checkpoint.money_award,
+      ...locationStats,
+    };
 
+    if (locationStats.complete) {
+      Meteor.call('achievements.tryUnlock', {
+        trigger: 'CHECKPOINT_LOCATION',
+        triggerDetail: checkpoint.location,
+        playerId: player._id,
+        templateVars,
+      });
+      return true;
+    }
+
+    if (!locationStats.complete && !foundGroup) {
       if (checkpoint.playerText) {
         Meteor.call('autoTexts.sendCustom', {
           playerText: checkpoint.playerText,

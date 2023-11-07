@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node scripts/run-dev.js",
     "open-tunnel": "ngrok http 4002",
+    "open-tunnel-prod": "ngrok http 4102",
     "sync-prod-to-local": "./scripts/sync-prod-to-local.sh"
   },
   "repository": {

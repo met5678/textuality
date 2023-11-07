@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 
-import Events from '/imports/api/events';
 import Media from './media';
 
 Meteor.methods({
@@ -16,7 +15,7 @@ Meteor.methods({
     }
   },
 
-  'media.resetEvent': () => {
-    Media.remove({ event: Events.currentId()! });
+  'media.resetEvent': (eventId: string) => {
+    Media.remove({ event: eventId });
   },
 });

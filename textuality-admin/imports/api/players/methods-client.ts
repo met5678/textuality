@@ -4,7 +4,7 @@ import Players from './players';
 import Events from '/imports/api/events';
 import InTexts from '/imports/api/inTexts';
 import Media from '/imports/api/media';
-import PlayerSchema from '/imports/schemas/player';
+import PlayerSchema, { Player } from '/imports/schemas/player';
 
 Meteor.methods({
   'players.findOrJoin': (phoneNumber) => {
@@ -29,7 +29,7 @@ Meteor.methods({
         numClues: Number(PlayerSchema.defaultValue('numClues')),
         feedTextsSent: Number(PlayerSchema.defaultValue('feedTextsSent')),
         feedMediaSent: Number(PlayerSchema.defaultValue('feedMediaSent')),
-        money: 20,
+        money: 0,
       });
       player = Players.findOne(id);
     }
@@ -42,19 +42,19 @@ Meteor.methods({
 
     if (!player) return;
 
-    const playerFields = {
+    const playerFields: Partial<Player> = {
       recent: new Date(),
-      feedTextsSent: InTexts.find({
-        event: Events.currentId()!,
-        player: inText.player,
-        purpose: 'feed',
-      }).count(),
-      feedMediaSent: Media.find({
-        event: Events.currentId()!,
-        player: inText.player,
-        purpose: 'feed',
-      }).count(),
-      status: player.status,
+      // feedTextsSent: InTexts.find({
+      //   event: Events.currentId()!,
+      //   player: inText.player,
+      //   purpose: 'feed',
+      // }).count(),
+      // feedMediaSent: Media.find({
+      //   event: Events.currentId()!,
+      //   player: inText.player,
+      //   purpose: 'feed',
+      // }).count(),
+      // status: player.status,
     };
 
     if (
@@ -90,5 +90,9 @@ Meteor.methods({
 
   'players.setCheckpoints': ({ playerId, checkpoints }) => {
     Players.update(playerId, { $set: { checkpoints } });
+  },
+
+  'players.giveMoney': ({ playerId, money }) => {
+    Players.update(playerId, { $inc: { money } });
   },
 });

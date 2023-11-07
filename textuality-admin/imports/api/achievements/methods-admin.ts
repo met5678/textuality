@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 
 import Achievements from './achievements';
-import Events from 'api/events';
+import Events from '/imports/api/events';
 
 Meteor.methods({
   'achievements.new': (achievement) => {
@@ -26,9 +26,9 @@ Meteor.methods({
 
   'achievements.resetEvent': () => {
     Achievements.update(
-      { event: Events.currentId() },
+      { event: Events.currentId()! },
       { $set: { earned: 0 } },
-      { multi: true }
+      { multi: true },
     );
   },
 });

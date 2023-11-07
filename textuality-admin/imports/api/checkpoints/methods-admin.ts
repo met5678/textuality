@@ -41,4 +41,12 @@ Meteor.methods({
       Checkpoints.remove(checkpointId);
     }
   },
+
+  'checkpoints.resetEvent': (eventId) => {
+    Checkpoints.update(
+      { event: eventId },
+      { $set: { num_checkins: 0 } },
+      { multi: true },
+    );
+  },
 });

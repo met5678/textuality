@@ -183,7 +183,10 @@ Meteor.methods({
     if (!player) return;
 
     if (playerText) {
-      let body = playerText.replace(/\[alias\]/g, player.alias);
+      // let body = playerText.replace(/\[alias\]/g, player.alias);
+      let body = playerText;
+      templateVars.alias = player.alias;
+      templateVars.money = player.money;
       Object.keys(templateVars).forEach((key) => {
         body = body.replace(new RegExp(`\\[${key}\\]`, 'g'), templateVars[key]);
       });

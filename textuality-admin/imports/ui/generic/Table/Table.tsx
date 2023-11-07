@@ -20,6 +20,7 @@ interface TableArgs<T extends GridValidRowModel> {
   onDelete?: (obj: T | T[]) => Promise<any> | void;
   canEdit?: boolean;
   onEdit?: (obj: T) => Promise<any> | void;
+  onEditCell?: (row: T, origRow: T) => Promise<T> | T;
   canAdd?: boolean;
   onAdd?: () => Promise<any> | void;
   formModal?: ReactElement;
@@ -63,6 +64,7 @@ const Table = <T extends GridValidRowModel>({
   onDelete,
   canEdit = false,
   onEdit,
+  onEditCell,
   canAdd = false,
   onAdd,
   dynamicHeight = false,
@@ -74,7 +76,7 @@ const Table = <T extends GridValidRowModel>({
   const dialogs: ReactNode[] = [];
 
   {
-    const { toolbarAction, dialog, rowAction } = useTableAdd<T>({
+    const { toolbarAction, dialog, rowAction } = useTableAdd({
       canAdd,
       onAdd: onAdd!,
     });
@@ -117,6 +119,8 @@ const Table = <T extends GridValidRowModel>({
         density={density}
         loading={isLoading}
         getRowHeight={dynamicHeight ? () => 'auto' : undefined}
+        processRowUpdate={onEditCell}
+        onProcessRowUpdateError={(error) => console.error(error)}
         slots={{
           toolbar: () => getCustomToolbar(toolbarActions),
         }}

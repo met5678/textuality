@@ -61,7 +61,7 @@ const CheckpointForm = ({
         />
         <TagsField name="groups" options={existingGroups} />
         <NumberField name="money_award" />
-        <TextMessageField name="playerText" />
+        <TextMessageField name="player_text" />
         <ErrorsField />
       </Stack>{' '}
     </AutoFormDialog>

@@ -27,7 +27,7 @@ Meteor.methods({
       Events.update(
         { _id: { $ne: eventId } },
         { $set: { active: false } },
-        { multi: true }
+        { multi: true },
       );
       Events.update(eventId, { $set: { active: true } });
     }
@@ -41,6 +41,7 @@ Meteor.methods({
     Meteor.call('media.resetEvent', eventId);
     Meteor.call('achievements.resetEvent', eventId);
     Meteor.call('achievementUnlocks.resetEvent', eventId);
+    Meteor.call('checkpoints.resetEvent', eventId);
     Meteor.call('missions.resetEvent', eventId);
     Meteor.call('missionPairings.resetEvent', eventId);
     Meteor.call('rounds.resetEvent', eventId);

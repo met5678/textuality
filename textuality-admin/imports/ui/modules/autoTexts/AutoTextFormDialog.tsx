@@ -36,7 +36,6 @@ const AutoTextFormDialog = ({ model, onClose }: AutoTextFormProps) => {
       <EventField />
       <AutoField name="trigger" />
       <TextField name="image_url" />
-      <NumberField name="give_money" />
       <Box>
         <Typography variant="body2">
           <ul>

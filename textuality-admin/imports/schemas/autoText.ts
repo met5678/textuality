@@ -136,10 +136,6 @@ const AutoTextSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
-  give_money: {
-    type: SimpleSchema.Integer,
-    optional: true,
-  },
 });
 
 interface AutoText {
@@ -149,7 +145,6 @@ interface AutoText {
   trigger: string;
   triggerNum: number;
   image_url?: string;
-  give_money?: string;
 }
 
 export default AutoTextSchema;

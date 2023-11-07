@@ -1,6 +1,5 @@
 import React from 'react';
-import { GridValidRowModel } from '@mui/x-data-grid';
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
+import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import { UseTableReturnValue } from './Table';
 import { Button } from '@mui/material';
 
@@ -16,7 +15,7 @@ const useTableAdd = ({
   if (!canAdd) return {};
   return {
     toolbarAction: (
-      <Button key="add" startIcon={<EditTwoToneIcon />} onClick={onAdd}>
+      <Button key="add" startIcon={<AddTwoToneIcon />} onClick={onAdd}>
         Add
       </Button>
     ),

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Autocomplete, TextField } from '@mui/material';
 
 interface InputSelectPropsCommon {
@@ -58,6 +58,7 @@ const InputSelect = ({
       onChange={handleChange}
       autoSelect={creatable}
       size="small"
+      fullWidth={true}
       renderInput={(params) => (
         <TextField {...params} variant="outlined" label={label} />
       )}

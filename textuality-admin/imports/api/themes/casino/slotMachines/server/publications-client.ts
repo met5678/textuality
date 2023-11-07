@@ -4,13 +4,12 @@ import SlotMachines from '../slotMachines';
 import Events from '/imports/api/events';
 
 Meteor.publish('slotMachines.forCode', function (code) {
-  console.log('Subscribing', { code });
   this.autorun(() =>
     SlotMachines.find(
       { event: Events.currentId()!, code },
       {
-        limit: 1,
         fields: {
+          code: 1,
           name: 1,
           cost: 1,
           status: 1,

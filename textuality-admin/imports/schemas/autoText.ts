@@ -21,17 +21,11 @@ const AutoTextSchema = new SimpleSchema({
       'TENTATIVE_MULTI_FACES',
       'TENTATIVE_WELCOME',
 
-      'ACHIEVEMENT_UNLOCK',
-      'ACHIEVEMENT_UNLOCK_DURING_REVEAL',
-
       'CHECKPOINT_FOUND',
       'CHECKPOINT_ALREADY_FOUND',
 
       'SIGN_OFF',
       'SIGN_BACK_ON',
-
-      'STATUS_GENERATING',
-      'STATUS',
 
       'INVALID_COMMAND',
       'INVALID_HASHTAG',
@@ -125,6 +119,8 @@ const AutoTextSchema = new SimpleSchema({
       'ALIAS_CHANGED',
       'ALIAS_MISSION_ACTIVE',
 
+      'ACHIEVEMENT_UNLOCK',
+      'ACHIEVEMENT_UNLOCK_DURING_REVEAL',
       'ALL_ACHIEVEMENTS_UNLOCKED',
     ],
   },

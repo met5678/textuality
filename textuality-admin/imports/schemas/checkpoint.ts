@@ -19,6 +19,10 @@ const CheckpointSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
+  suppress_autotext: {
+    type: Boolean,
+    defaultValue: false,
+  },
   num_checkins: {
     type: SimpleSchema.Integer,
     defaultValue: 0,
@@ -33,6 +37,7 @@ interface Checkpoint {
   location: string;
   money_award?: number;
   player_text?: string;
+  suppress_autotext?: boolean;
   num_checkins: 0;
 }
 

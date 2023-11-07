@@ -74,7 +74,15 @@ const columns: GridColDef<Checkpoint>[] = [
   {
     field: 'player_text',
     headerName: 'Player Text',
+    editable: true,
     flex: 1,
+  },
+  {
+    field: 'suppress_autotext',
+    headerName: 'Hide',
+    editable: true,
+    type: 'boolean',
+    width: 50,
   },
 ];
 

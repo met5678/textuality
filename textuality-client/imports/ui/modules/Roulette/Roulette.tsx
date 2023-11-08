@@ -1,5 +1,10 @@
 import React from 'react';
+
+import RouletteWheel from './RouletteWheel';
+
 import { Roulette } from '/imports/schemas/roulette';
+import './Roulette.css';
+import RouletteGrid from './RouletteGrid';
 
 interface RouletteProps {
   roulette: Partial<Roulette>;
@@ -17,19 +22,20 @@ const Roulette = ({ roulette }: RouletteProps) => {
   } = roulette;
 
   return (
-    <>
+    <div className="roulette">
       <h2>Roulette!</h2>
-      <dl>
-        <dt>Cost</dt>
-        <dd>{cost}</dd>
+      <div className="rouletteTable">
+        <div className="bettingArea">
+          <div className="instructions">
+            <p>Text # to place your bet</p>
+            <p>Cost: {cost}</p>
+          </div>
+          <RouletteGrid />
+        </div>
 
-        <dt>Status</dt>
-        <dd>{status}</dd>
-
-        <dt>Result</dt>
-        <dd>{result}</dd>
-      </dl>
-    </>
+        <RouletteWheel />
+      </div>
+    </div>
   );
 };
 

@@ -38,6 +38,7 @@
   "devDependencies": {
     "@babel/core": "~7.5.5",
     "@types/body-parser": "^1.19.4",
+    "@types/luxon": "^3.3.4",
     "@types/node": "~20.8.10",
     "@types/react": "~18.2.33",
     "@types/react-dom": "~18.2.14",

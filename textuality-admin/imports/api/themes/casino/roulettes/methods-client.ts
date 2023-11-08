@@ -11,7 +11,7 @@ Meteor.methods({
     });
   },
 
-  'roulette.openBets': (rouletteId) => {
+  'roulettes.openBets': (rouletteId) => {
     Roulettes.update(rouletteId, {
       $set: {
         bets_open: true,
@@ -20,28 +20,29 @@ Meteor.methods({
     });
   },
 
-  'roulette.startSpin': async (rouletteId) => {
+  'roulettes.startSpin': async (rouletteId) => {
     const roulette = Roulettes.findOne(rouletteId);
     if (!roulette) return;
 
     Roulettes.update(rouletteId, {
       $set: {
         status: 'spinning',
+        bets_open: true,
         spin_started_at: new Date(),
       },
     });
 
     waitForSeconds(roulette.spin_seconds - roulette.bets_cutoff_seconds).then(
       () => {
-        Meteor.call('roulette.closeBets', rouletteId);
+        Meteor.call('roulettes.closeBets', rouletteId);
       },
     );
     waitForSeconds(roulette.spin_seconds).then(() => {
-      Meteor.call('roulette.finishSpin', rouletteId);
+      Meteor.call('roulettes.finishSpin', rouletteId);
     });
   },
 
-  'roulette.finishSpin': async (rouletteId) => {
+  'roulettes.finishSpin': async (rouletteId) => {
     Roulettes.update(rouletteId, {
       $set: {
         status: 'end-spin',
@@ -66,11 +67,26 @@ Meteor.methods({
     });
   },
 
-  'roulette.closeBets': (rouletteId) => {
+  'roulettes.closeBets': (rouletteId) => {
     Roulettes.update(rouletteId, {
       $set: {
         bets_open: false,
         bets_ended_at: new Date(),
+      },
+    });
+  },
+
+  'roulettes.resetRoulette': (rouletteId) => {
+    Roulettes.update(rouletteId, {
+      $set: {
+        bets_open: false,
+        status: 'inactive',
+      },
+      $unset: {
+        spin_started_at: '',
+        spin_ended_at: '',
+        bets_started_at: '',
+        bets_ended_at: '',
       },
     });
   },

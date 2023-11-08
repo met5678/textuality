@@ -24,9 +24,9 @@ Meteor.methods({
     }
   },
 
-  'achievements.resetEvent': () => {
+  'achievements.resetEvent': (event_id) => {
     Achievements.update(
-      { event: Events.currentId()! },
+      { event: event_id },
       { $set: { earned: 0 } },
       { multi: true },
     );

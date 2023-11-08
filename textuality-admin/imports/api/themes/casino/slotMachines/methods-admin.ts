@@ -29,6 +29,26 @@ Meteor.methods({
     }
   },
 
+  'slotMachines.resetEvent': (event_id) => {
+    SlotMachines.update(
+      { event: event_id },
+      {
+        $set: {
+          stats: {
+            profit: 0,
+            spin_count: 0,
+          },
+        },
+        $unset: {
+          player: 1,
+          result: 1,
+          win_amount: 1,
+        },
+      },
+      { multi: true },
+    );
+  },
+
   'slotMachines.copyOddsToAll': (odds) => {
     SlotMachines.update(
       { event: Events.currentId()! },

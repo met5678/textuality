@@ -4,13 +4,14 @@ import { useSubscribe, useFind } from 'meteor/react-meteor-data';
 
 import Table from '/imports/ui/generic/Table/Table';
 
-import { GridColDef } from '@mui/x-data-grid';
+import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid';
 import { SlotMachineSchema, SlotMachine } from '/imports/schemas/slotMachine';
 import SlotMachines from '/imports/api/themes/casino/slotMachines';
 import SlotMachineFormDialog from './SlotMachineFormDialog';
 import { Button } from '@mui/material';
+import { SlotMachineWithHelpers } from '/imports/api/themes/casino/slotMachines/slotMachines';
 
-const columns: GridColDef<SlotMachine>[] = [
+const columns: GridColDef<SlotMachineWithHelpers>[] = [
   {
     field: 'code',
     headerName: 'Code',
@@ -27,9 +28,30 @@ const columns: GridColDef<SlotMachine>[] = [
     width: 70,
   },
   {
+    field: 'odds',
+    headerName: 'Return',
+    valueGetter: (params) => params.row.getExpectedReturn(),
+    type: 'number',
+    width: 60,
+  },
+  {
     field: 'status',
     headerName: 'Status',
+    width: 90,
+  },
+  {
+    field: 'result',
+    headerName: 'Result',
     width: 100,
+    valueFormatter: (params) => {
+      return params.value?.join(' - ');
+    },
+  },
+  {
+    field: 'player',
+    headerName: 'Player',
+    valueFormatter: (params) => params.value?.alias,
+    width: 120,
   },
 ];
 
@@ -44,7 +66,7 @@ const SlotMachinesTable = () => {
 
   return (
     <>
-      <Table<SlotMachine>
+      <Table<SlotMachineWithHelpers>
         columns={columns}
         data={slotMachines}
         isLoading={isLoading()}
@@ -54,6 +76,17 @@ const SlotMachinesTable = () => {
         onAdd={() => setEditSlotMachine(SlotMachineSchema.clean({}))}
         canEdit={true}
         onEdit={setEditSlotMachine}
+        customRowActions={[
+          (params) => (
+            <GridActionsCellItem
+              showInMenu={true}
+              onClick={() =>
+                Meteor.call('slotMachines.copyOddsToAll', params.row.odds)
+              }
+              label="Copy odds to all"
+            />
+          ),
+        ]}
       />
       <SlotMachineFormDialog
         model={editSlotMachine}

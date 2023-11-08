@@ -16,6 +16,9 @@ const AchievementSchema = new SimpleSchema({
       'CHECKPOINT_GROUP_FOUND_N',
       'CHECKPOINT_LOCATION_COMPLETE',
       'CHECKPOINT_LOCATION_FOUND_N',
+
+      'SLOT_QUEST_COMPLETE',
+      'HACKER_TASK_COMPLETE',
       'MISSION_COMPLETE',
 
       'SLOT_WIN_NORMAL',
@@ -51,7 +54,7 @@ const AchievementSchema = new SimpleSchema({
     optional: true,
     // TODO: Replace this list with a function that polls for quest types
     defaultValue: 'NONE',
-    allowedValues: ['NONE', 'HACKER_SLOT', 'HACKER_ROULETTE'],
+    allowedValues: ['NONE', 'HACKER_TASK', 'HACKER_SLOT', 'HACKER_ROULETTE'],
   },
   player_text: {
     type: String,
@@ -79,7 +82,7 @@ interface Achievement {
   trigger_detail_string?: string;
   trigger_detail_number?: number;
   money_award?: number;
-  quest_award_type?: string;
+  quest_award_type?: 'NONE' | 'HACKER_TASK' | 'HACKER_SLOT' | 'HACKER_ROULETTE';
   player_text?: string;
   player_text_image?: string;
 

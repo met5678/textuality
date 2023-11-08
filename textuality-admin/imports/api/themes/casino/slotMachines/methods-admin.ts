@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 
 import SlotMachines from './slotMachines';
+import Events from '/imports/api/events';
 
 Meteor.methods({
   'slotMachines.new': (slotMachine) => {
@@ -26,5 +27,17 @@ Meteor.methods({
     } else {
       SlotMachines.remove(slotMachineId);
     }
+  },
+
+  'slotMachines.copyOddsToAll': (odds) => {
+    SlotMachines.update(
+      { event: Events.currentId()! },
+      {
+        $set: {
+          odds,
+        },
+      },
+      { multi: true },
+    );
   },
 });

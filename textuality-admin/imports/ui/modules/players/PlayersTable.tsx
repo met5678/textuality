@@ -6,7 +6,7 @@ import Table from '/imports/ui/generic/Table/Table';
 
 import Players from '/imports/api/players';
 import LoadingBar from '../../generic/LoadingBar';
-import { GridColDef } from '@mui/x-data-grid';
+import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid';
 import { Player } from '/imports/schemas/player';
 import { PlayerWithHelpers } from '/imports/api/players/players';
 
@@ -76,6 +76,20 @@ const PlayersTable = () => {
       canDelete={true}
       density="standard"
       onDelete={(player) => Meteor.call('players.delete', player)}
+      customRowActions={[
+        (params) => (
+          <GridActionsCellItem
+            showInMenu={true}
+            label="Give Money"
+            onClick={() =>
+              Meteor.call('players.giveMoney', {
+                playerId: params.row._id,
+                money: 100,
+              })
+            }
+          />
+        ),
+      ]}
     />
   );
 };

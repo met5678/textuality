@@ -1,4 +1,4 @@
-import { InText } from '/imports/schemas/inText';
+import { InText, InTextPurpose } from '/imports/schemas/inText';
 import { Player } from '/imports/schemas/player';
 import { IncomingMessageData } from '/imports/services/whatsapp';
 
@@ -7,7 +7,7 @@ interface GetPurposeArgs {
   message: IncomingMessageData;
 }
 
-function getPurpose({ message, player }: GetPurposeArgs): string {
+function getPurpose({ message, player }: GetPurposeArgs): InTextPurpose {
   if (player.status === 'new' || player.status === 'tentative') {
     return 'initial';
   }
@@ -27,6 +27,10 @@ function getPurpose({ message, player }: GetPurposeArgs): string {
 
     if (message.text.startsWith('#')) {
       return 'hashtag';
+    }
+
+    if (message.text.startsWith('%')) {
+      return 'percent';
     }
 
     return 'feed';

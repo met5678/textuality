@@ -1,34 +1,23 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import {
   GridActionsCellItem,
   GridRowParams,
   GridValidRowModel,
 } from '@mui/x-data-grid';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
-import { TableRowAction } from './Table';
+import { UseTableReturnValue } from './Table';
 
 interface UseTableEditArgs<T> {
   canEdit: boolean;
   onEdit: (obj: T) => Promise<any> | void;
 }
 
-interface UseTableReturnValue {
-  rowAction?: TableRowAction;
-  dialog?: ReactNode;
-}
-
 const useTableEdit = <T extends GridValidRowModel>({
   canEdit,
   onEdit,
-}: UseTableEditArgs<T>): UseTableReturnValue => {
-  // const [itemToEdit, setItemToEdit] = useState<T | null>(null);
-  // const dialogOpen = !!itemToEdit;
-
+}: UseTableEditArgs<T>): UseTableReturnValue<T> => {
   if (!canEdit) {
-    return {
-      rowAction: null,
-      dialog: null,
-    };
+    return {};
   }
 
   const rowAction = (rowParams: GridRowParams<T>) => (
@@ -39,20 +28,7 @@ const useTableEdit = <T extends GridValidRowModel>({
     />
   );
 
-  const dialog = null;
-
-  // const dialog = (
-  //   <AlertDialog
-  //     open={dialogOpen}
-  //     title="Edit?"
-  //     text="Edit items?"
-  //     onConfirm={() => onDelete(itemsToDelete)}
-  //     onCancel={() => setItemsToDelete([])}
-  //     key="delete"
-  //   />
-  // );
-
-  return { rowAction, dialog };
+  return { rowAction };
 };
 
 export default useTableEdit;

@@ -12,12 +12,13 @@ import {
 
 interface AutoFormDialogArgs<T> extends AutoFormArgs<T> {
   onChangeModel?: (model: T) => void;
+  onValidate?: (model: T, error: any) => void;
   handleClose: () => unknown;
   children?: React.ReactNode;
 }
 
 const AutoFormDialog = <T,>(props: AutoFormDialogArgs<T>) => {
-  const { children, handleClose } = props;
+  const { children, handleClose, onValidate } = props;
 
   const { schema, model, onSubmit, onChangeModel } = props;
   const convertedSchema = new SimpleSchema2Bridge({ schema });
@@ -29,6 +30,7 @@ const AutoFormDialog = <T,>(props: AutoFormDialogArgs<T>) => {
         model={model}
         onSubmit={onSubmit}
         onChangeModel={onChangeModel}
+        onValidate={onValidate ?? undefined}
       >
         <DialogTitle>Edit</DialogTitle>
         <DialogContent>

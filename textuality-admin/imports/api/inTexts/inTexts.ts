@@ -1,15 +1,16 @@
 import { Mongo } from 'meteor/mongo';
 
-import { InText as InTextOrig, InTextSchema } from '/imports/schemas/inText';
+import { InText, InTextSchema } from '/imports/schemas/inText';
 
-interface InText extends InTextOrig {
+interface InTextWithHelpers extends InText {
   getAvatarUrl: (dimension: number) => string;
   hasEmoji: () => boolean;
   bigEmojiOnFeed: () => boolean;
 }
 
-const InTexts = new Mongo.Collection<InTextOrig, InText>('inTexts');
+const InTexts = new Mongo.Collection<InText, InTextWithHelpers>('inTexts');
 
 InTexts.attachSchema(InTextSchema);
 
 export default InTexts;
+export { InTextWithHelpers };

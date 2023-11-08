@@ -24,6 +24,7 @@ const InTextSchema = new SimpleSchema({
       'feed',
       'system',
       'hashtag',
+      'percent',
       'mediaOnly',
       'ignore',
     ],
@@ -46,6 +47,15 @@ const InTextSchema = new SimpleSchema({
   },
 });
 
+type InTextPurpose =
+  | 'initial'
+  | 'feed'
+  | 'system'
+  | 'hashtag'
+  | 'percent'
+  | 'mediaOnly'
+  | 'ignore';
+
 interface InText {
   _id?: string;
   event: string;
@@ -53,7 +63,7 @@ interface InText {
   time: Date;
   player: string;
   media?: string;
-  purpose: string;
+  purpose: InTextPurpose;
   numAchievements?: number;
   numCheckpoints?: number;
   alias?: string;
@@ -61,4 +71,4 @@ interface InText {
 }
 
 export default InTextSchema;
-export { InText, InTextSchema };
+export { InText, InTextSchema, InTextPurpose };

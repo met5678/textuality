@@ -6,16 +6,7 @@ interface SlotMachineProps {
 }
 
 const SlotMachine = ({ slotMachine }: SlotMachineProps) => {
-  const {
-    name,
-    cost,
-    status,
-    result,
-    win_amount,
-    player,
-    player_queue,
-    stats,
-  } = slotMachine;
+  const { name, cost, status, result, win_amount, player, stats } = slotMachine;
 
   return (
     <>
@@ -41,8 +32,9 @@ const SlotMachine = ({ slotMachine }: SlotMachineProps) => {
         <dd>{player?.avatar_id}</dd>
         <dd>{player?.money}</dd>
 
-        <dt>Player Queue</dt>
-        <dd>{player_queue.length}</dd>
+        <dt>Stats</dt>
+        <dd>{stats.spin_count}</dd>
+        <dd>{stats.profit}</dd>
       </dl>
     </>
   );

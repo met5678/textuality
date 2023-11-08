@@ -3,12 +3,15 @@ import SimpleSchema from 'simpl-schema';
 import Events from '/imports/api/events';
 import { Event } from './event';
 
-const PlayerShort = new SimpleSchema({
-  id: String,
-  alias: String,
-  money: SimpleSchema.Integer,
-  avatar_id: String,
-});
+const SlotMachineEmojis: SlotMachineEmoji[] = [
+  '🍒',
+  '💣',
+  '💦',
+  '🍆',
+  '🍑',
+  '🥴',
+];
+type SlotMachineEmoji = '🍒' | '💣' | '💦' | '🍆' | '🍑' | '🥴';
 
 const resultSchemaFields = {
   result: {
@@ -19,7 +22,7 @@ const resultSchemaFields = {
   },
   'result.$': {
     type: String,
-    allowedValues: ['🍒', '💣', '💦', '🍆', '🍑', '🥴'],
+    allowedValues: SlotMachineEmojis,
   },
 };
 
@@ -29,16 +32,12 @@ const SlotMachineOddsSchema = new SimpleSchema({
   odds: Number,
 });
 
-type SlotMachineEmoji = '🍒' | '💣' | '💦' | '🍆' | '🍑' | '🥴';
 type SlotMachineResult = [SlotMachineEmoji, SlotMachineEmoji, SlotMachineEmoji];
 
 const SlotMachineSchema = new SimpleSchema({
   event: {
     type: String,
-    allowedValues: () =>
-      Events.find()
-        .fetch()
-        .map((event: Event) => event._id),
+    allowedValues: Events.allIds,
   },
   code: String,
   name: String,
@@ -53,6 +52,7 @@ const SlotMachineSchema = new SimpleSchema({
       'win-hacker',
       'disabled',
     ],
+    defaultValue: 'available',
   },
   ...resultSchemaFields,
   win_amount: {
@@ -60,10 +60,13 @@ const SlotMachineSchema = new SimpleSchema({
     optional: true,
   },
   player: {
-    type: PlayerShort,
+    type: Object,
     optional: true,
-    defaultValue: null,
   },
+  'player.id': String,
+  'player.alias': String,
+  'player.money': SimpleSchema.Integer,
+  'player.avatar_id': String,
   // player_queue: {
   //   type: Array,
   //   defaultValue: [],
@@ -76,7 +79,13 @@ const SlotMachineSchema = new SimpleSchema({
   },
   'odds.$': SlotMachineOddsSchema,
 
-  stats: Object,
+  stats: {
+    type: Object,
+    defaultValue: {
+      spin_count: 0,
+      profit: 0,
+    },
+  },
   'stats.spin_count': SimpleSchema.Integer,
   'stats.profit': SimpleSchema.Integer,
 });
@@ -113,13 +122,14 @@ interface SlotMachine {
   code: string;
   name: string;
   cost: number;
+  odds: SlotMachineOdds[];
+
   status: SlotMachineStatus;
   result?: SlotMachineResult;
   win_amount?: number;
   player?: PlayerShort;
-  // player_queue: PlayerShort[];
-  odds: SlotMachineOdds[];
   stats: SlotMachineStats;
+  // player_queue: PlayerShort[];
 }
 
 export default SlotMachineSchema;
@@ -131,5 +141,6 @@ export {
   SlotMachineOdds,
   SlotMachineStatus,
   SlotMachineStats,
+  SlotMachineEmojis,
   resultSchemaFields,
 };

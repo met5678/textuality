@@ -26,19 +26,22 @@ interface TableArgs<T extends GridValidRowModel> {
   formModal?: ReactElement;
   dynamicHeight?: boolean;
   density?: GridDensity;
+  customRowActions?: ((params: GridRowParams<T>) => ReactElement)[];
   isLoading?: boolean;
 }
 
-interface UseTableReturnValue {
+interface UseTableReturnValue<T extends GridValidRowModel> {
   toolbarAction?: ReactNode;
-  rowAction?: TableRowAction;
+  rowAction?: TableRowAction<T>;
   dialog?: ReactNode;
 }
 
-type TableRowAction = ((rowParams: GridRowParams<any>) => ReactElement) | null;
+type TableRowAction<T extends GridValidRowModel> =
+  | ((rowParams: GridRowParams<T>) => ReactElement)
+  | null;
 
-const applyRowActions = (
-  rowActions: TableRowAction[],
+const applyRowActions = <T extends GridValidRowModel>(
+  rowActions: TableRowAction<T>[],
   columns: GridColDef[],
 ): GridColDef[] => {
   return [
@@ -69,14 +72,17 @@ const Table = <T extends GridValidRowModel>({
   onAdd,
   dynamicHeight = false,
   density = 'compact',
+  customRowActions = [],
   isLoading = false,
 }: TableArgs<T>) => {
-  const rowActions: ((params: GridRowParams<any>) => ReactElement)[] = [];
+  const rowActions: ((params: GridRowParams<T>) => ReactElement)[] = [
+    ...customRowActions,
+  ];
   const toolbarActions: ReactNode[] = [];
   const dialogs: ReactNode[] = [];
 
   {
-    const { toolbarAction, dialog, rowAction } = useTableAdd({
+    const { toolbarAction, dialog, rowAction } = useTableAdd<T>({
       canAdd,
       onAdd: onAdd!,
     });

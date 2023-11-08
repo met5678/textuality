@@ -7,6 +7,7 @@ import 'api/inTexts/server/publications-admin';
 
 import 'api/players/';
 import 'api/players/methods-admin';
+import 'api/players/methods-client';
 import 'api/players/server/publications-admin';
 
 import 'api/aliases/';

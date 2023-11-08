@@ -8,6 +8,7 @@ interface InputSelectPropsCommon {
   disabled?: boolean;
   disableClearable?: boolean;
   label?: string;
+  notFullWidth?: boolean;
 }
 
 interface InputSelectPropsSingle extends InputSelectPropsCommon {
@@ -33,6 +34,7 @@ const InputSelect = ({
   disableClearable,
   onChange,
   label,
+  notFullWidth = false,
 }: InputSelectProps) => {
   const handleChange = (e: any, newVal: string | string[] | null) => {
     if (newVal === null) {
@@ -58,7 +60,7 @@ const InputSelect = ({
       onChange={handleChange}
       autoSelect={creatable}
       size="small"
-      fullWidth={true}
+      fullWidth={!notFullWidth}
       renderInput={(params) => (
         <TextField {...params} variant="outlined" label={label} />
       )}

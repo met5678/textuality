@@ -14,6 +14,7 @@ import EventField from '../../../events/EventField';
 import AutoFormDialog from '/imports/ui/generic/AutoForm/AutoFormDialog';
 import TextField from '/imports/ui/generic/AutoForm/TextField';
 import NumberField from '/imports/ui/generic/AutoForm/NumberField';
+import SlotMachineOddsField from './SlotMachineOddsField';
 
 interface SlotMachineFormProps {
   model: Partial<SlotMachine> | null;
@@ -41,8 +42,7 @@ const SlotMachineFormDialog = ({ model, onClose }: SlotMachineFormProps) => {
       <TextField name="code" />
       <TextField name="name" />
       <NumberField name="cost" />
-      <AutoField name="status" />
-      <NumberField name="win_amount" />
+      <SlotMachineOddsField name="odds" />
       <ErrorsField />
     </AutoFormDialog>
   );

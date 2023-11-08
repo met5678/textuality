@@ -1,5 +1,5 @@
 import SlotMachines from './slotMachines';
 
-// import './helpers';
+import './helpers';
 
 export default SlotMachines;

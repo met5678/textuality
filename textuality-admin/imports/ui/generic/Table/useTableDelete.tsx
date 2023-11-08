@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React, { useState } from 'react';
 import AlertDialog from '../AlertDialog/AlertDialog';
 import {
   GridActionsCellItem,
@@ -6,22 +6,17 @@ import {
   GridValidRowModel,
 } from '@mui/x-data-grid';
 import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
-import { TableRowAction } from './Table';
+import { UseTableReturnValue } from './Table';
 
 interface UseTableDeleteArgs<T> {
   canDelete: boolean;
   onDelete: (obj: T | T[]) => Promise<any> | void;
 }
 
-interface UseTableReturnValue {
-  rowAction: TableRowAction | null;
-  dialog: ReactNode;
-}
-
 const useTableDelete = <T extends GridValidRowModel>({
   canDelete,
   onDelete,
-}: UseTableDeleteArgs<T>): UseTableReturnValue => {
+}: UseTableDeleteArgs<T>): UseTableReturnValue<T> => {
   const [itemsToDelete, setItemsToDelete] = useState<T[]>([]);
   const dialogOpen = itemsToDelete.length > 0;
 

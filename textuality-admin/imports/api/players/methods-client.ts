@@ -25,11 +25,10 @@ Meteor.methods({
         oldAliases: [],
         isAdmin: false,
         checkpoints: [],
-        numAchievements: Number(PlayerSchema.defaultValue('numAchievements')),
-        numClues: Number(PlayerSchema.defaultValue('numClues')),
-        feedTextsSent: Number(PlayerSchema.defaultValue('feedTextsSent')),
-        feedMediaSent: Number(PlayerSchema.defaultValue('feedMediaSent')),
         money: 0,
+        numAchievements: 0,
+        slot_spins: [],
+        quests: [],
       });
       player = Players.findOne(id);
     }
@@ -94,5 +93,19 @@ Meteor.methods({
 
   'players.giveMoney': ({ playerId, money }) => {
     Players.update(playerId, { $inc: { money } });
+  },
+
+  'players.takeMoney': ({ playerId, money }) => {
+    const player = Players.findOne(playerId);
+    if (!player) return;
+    if (money > player.money) {
+      Players.update(playerId, { $set: { money: 0 } });
+      Meteor.call('autoTexts.send', {
+        playerId: player._id,
+        trigger: 'WALLET_BANKRUPT',
+      });
+    } else {
+      Players.update(playerId, { $inc: { money: -money } });
+    }
   },
 });

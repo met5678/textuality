@@ -22,7 +22,6 @@ const App = () => {
 
   return (
     <Shell>
-      Hi! how are you
       <Switch>
         <Route path="/slot-machine/:code">
           {(params) => (

@@ -17,7 +17,7 @@ import CheckpointsPage from '/imports/ui/modules/checkpoints/CheckpointsPage';
 // import MissionsPage from 'modules/missions/MissionsPage';
 // import CluesPage from 'modules/clues/CluesPage';
 // import RoundsPage from 'modules/rounds/RoundsPage';
-import SlotMachinesPage from './modules/themes/casion/slotMachines/SlotMachinesPage';
+import SlotMachinesPage from './modules/themes/casino/slotMachines/SlotMachinesPage';
 
 import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 

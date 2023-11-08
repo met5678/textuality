@@ -1,5 +1,6 @@
 import React from 'react';
 import { SlotMachine as SlotMachineType } from '/imports/schemas/slotMachine';
+import { getImageUrl } from '/imports/services/cloudinary/cloudinary-geturl';
 
 interface SlotMachineProps {
   slotMachine: SlotMachineType;
@@ -31,6 +32,16 @@ const SlotMachine = ({ slotMachine }: SlotMachineProps) => {
         <dd>{player?.alias}</dd>
         <dd>{player?.avatar_id}</dd>
         <dd>{player?.money}</dd>
+        {player?.avatar_id && (
+          <img
+            src={getImageUrl(player?.avatar_id, {
+              width: 100,
+              height: 100,
+              zoom: 1.2,
+            })}
+            alt="avatar"
+          />
+        )}
 
         <dt>Stats</dt>
         <dd>{stats.spin_count}</dd>

@@ -108,6 +108,15 @@ const SlotMachinesTable = () => {
               label="Copy odds to all"
             />
           ),
+          (params) => (
+            <GridActionsCellItem
+              showInMenu={true}
+              onClick={() =>
+                Meteor.call('slotMachines.resetMachine', params.row._id)
+              }
+              label="Reset Machine"
+            />
+          ),
         ]}
       />
       <SlotMachineFormDialog

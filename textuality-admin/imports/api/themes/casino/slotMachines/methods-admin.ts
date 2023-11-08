@@ -29,6 +29,19 @@ Meteor.methods({
     }
   },
 
+  'slotMachines.resetMachine': (slot_id) => {
+    SlotMachines.update(slot_id, {
+      $set: {
+        status: 'available',
+      },
+      $unset: {
+        player: 1,
+        result: 1,
+        win_amount: 1,
+      },
+    });
+  },
+
   'slotMachines.resetEvent': (event_id) => {
     SlotMachines.update(
       { event: event_id },

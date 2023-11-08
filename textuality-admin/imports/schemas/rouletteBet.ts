@@ -9,16 +9,28 @@ const PlayerShortSchema = new SimpleSchema({
   avatar_id: String,
 });
 
+type RouletteBetSlot = number | 'even' | 'odd' | 'red' | 'black';
+
 const RouletteBetSchema = new SimpleSchema({
   event: {
     type: String,
     allowedValues: Events.allIds,
   },
   roulette: String,
-  bet: String,
+  bet_slot: {
+    type: SimpleSchema.oneOf(String, SimpleSchema.Integer),
+    allowedValues: () => {
+      const slots: RouletteBetSlot[] = [];
+      for (let i = 0; i <= 36; i++) {
+        slots.push(i);
+      }
+      slots.push('even', 'odd', 'red', 'black');
+      return slots;
+    },
+  },
+  wager: SimpleSchema.Integer,
   player: PlayerShortSchema,
   time: Date,
-  value: SimpleSchema.Integer,
 });
 
 interface PlayerShort {
@@ -32,10 +44,10 @@ interface RouletteBet {
   _id?: string;
   event: string;
   roulette: string;
-  bet: string;
+  bet_slot: RouletteBetSlot;
+  wager: number;
   player: PlayerShort;
   time: Date;
-  value: number;
 }
 
 export default RouletteBetSchema;

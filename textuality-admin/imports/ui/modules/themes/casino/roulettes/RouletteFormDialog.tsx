@@ -38,11 +38,11 @@ const RouletteFormDialog = ({ model, onClose }: RouletteFormProps) => {
       handleClose={onClose}
     >
       <EventField />
-      <NumberField name="cost" />
+      <NumberField name="minimum_bet" />
       <AutoField name="bets_start_at" />
       <AutoField name="spin_starts_at" />
-      <AutoField name="bets_end_at" />
-      <AutoField name="spin_ends_at" />
+      <NumberField name="spin_seconds" />
+      <NumberField name="bets_cutoff_seconds" />
       <NumberField name="result" />
       <ErrorsField />
     </AutoFormDialog>

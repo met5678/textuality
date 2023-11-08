@@ -7,12 +7,8 @@ const RouletteSchema = new SimpleSchema({
     type: String,
     allowedValues: Events.allIds,
   },
-  cost: SimpleSchema.Integer,
+  minimum_bet: SimpleSchema.Integer,
   bets_start_at: {
-    type: Date,
-    optional: true,
-  },
-  bets_end_at: {
     type: Date,
     optional: true,
   },
@@ -20,9 +16,13 @@ const RouletteSchema = new SimpleSchema({
     type: Date,
     optional: true,
   },
-  spin_ends_at: {
-    type: Date,
-    optional: true,
+  spin_seconds: {
+    type: SimpleSchema.Integer,
+    defaultValue: 120,
+  },
+  bets_cutoff_seconds: {
+    type: SimpleSchema.Integer,
+    defaultValue: 10,
   },
   result: {
     type: SimpleSchema.Integer,
@@ -40,6 +40,28 @@ const RouletteSchema = new SimpleSchema({
     ],
     defaultValue: 'inactive',
   },
+
+  bets_started_at: {
+    type: Date,
+    optional: true,
+  },
+  spin_started_at: {
+    type: Date,
+    optional: true,
+  },
+  bets_ended_at: {
+    type: Date,
+    optional: true,
+  },
+  spin_ended_at: {
+    type: Date,
+    optional: true,
+  },
+
+  bets_open: {
+    type: Boolean,
+    defaultValue: false,
+  },
 });
 
 type RouletteStatus =
@@ -53,11 +75,19 @@ type RouletteStatus =
 interface Roulette {
   _id?: string;
   event: string;
-  cost: number;
+  minimum_bet: number;
   bets_start_at?: Date;
   spin_starts_at?: Date;
-  bets_end_at?: Date;
-  spin_ends_at?: Date;
+  spin_seconds: number;
+  bets_cutoff_seconds: number;
+
+  bets_started_at?: Date;
+  spin_started_at?: Date;
+  bets_ended_at?: Date;
+  spin_ended_at?: Date;
+
+  bets_open: boolean;
+
   result?: number;
   status: RouletteStatus;
 }

@@ -25,6 +25,7 @@ const InTextSchema = new SimpleSchema({
       'system',
       'hashtag',
       'percent',
+      'bet',
       'mediaOnly',
       'ignore',
     ],
@@ -53,6 +54,7 @@ type InTextPurpose =
   | 'system'
   | 'hashtag'
   | 'percent'
+  | 'bet'
   | 'mediaOnly'
   | 'ignore';
 

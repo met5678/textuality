@@ -13,10 +13,10 @@ const processPercentText = function (inText: InText) {
     inText.body.indexOf(' ') > 0
       ? inText.body.indexOf(' ')
       : inText.body.length;
-  const percentCode = inText.body.substring(1, firstSpace).trim().toLowerCase();
+  const betCode = inText.body.substring(1, firstSpace).trim().toLowerCase();
   const rest = inText.body.substring(firstSpace);
 
-  const slotMachine = Meteor.call('slotMachines.getForName', percentCode);
+  const slotMachine = Meteor.call('slotMachines.getForShort', betCode);
   if (slotMachine) {
     Meteor.call('slotMachines.spinRequest', {
       slot_id: slotMachine._id,
@@ -28,9 +28,9 @@ const processPercentText = function (inText: InText) {
 
   Meteor.call('autoTexts.send', {
     playerId,
-    trigger: 'INVALID_PERCENT',
+    trigger: 'INVALID_BET',
     templateVars: {
-      percentCode,
+      betCode,
     },
   });
 };

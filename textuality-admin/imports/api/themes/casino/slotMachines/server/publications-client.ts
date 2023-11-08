@@ -11,6 +11,7 @@ Meteor.publish('slotMachines.forCode', function (code) {
         fields: {
           code: 1,
           name: 1,
+          short: 1,
           cost: 1,
           status: 1,
           result: 1,

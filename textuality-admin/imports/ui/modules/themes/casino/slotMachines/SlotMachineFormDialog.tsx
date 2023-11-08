@@ -39,8 +39,9 @@ const SlotMachineFormDialog = ({ model, onClose }: SlotMachineFormProps) => {
       handleClose={onClose}
     >
       <EventField />
-      <TextField name="code" />
+      <TextField name="code" label="URL segment" />
       <TextField name="name" />
+      <TextField name="short" label="Short text code" />
       <NumberField name="cost" />
       <SlotMachineOddsField name="odds" />
       <ErrorsField />

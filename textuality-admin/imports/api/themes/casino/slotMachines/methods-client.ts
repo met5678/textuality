@@ -15,11 +15,11 @@ import waitForSeconds from '/imports/api/rounds/reveal-sequence/_wait-for-second
 //
 
 Meteor.methods({
-  'slotMachines.getForName': (name: string) => {
-    name = name.toLowerCase();
+  'slotMachines.getForShort': (short: string) => {
+    short = short.toLowerCase();
     const slotMachine = SlotMachines.findOne({
       event: Events.currentId()!,
-      name,
+      short,
     });
     if (!slotMachine) return;
     return slotMachine;

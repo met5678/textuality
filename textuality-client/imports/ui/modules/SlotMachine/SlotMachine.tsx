@@ -8,7 +8,8 @@ interface SlotMachineProps {
 }
 
 const SlotMachine = ({ slotMachine }: SlotMachineProps) => {
-  const { name, cost, status, result, win_amount, player, stats } = slotMachine;
+  const { name, short, cost, status, result, win_amount, player, stats } =
+    slotMachine;
 
   return (
     <>
@@ -19,6 +20,9 @@ const SlotMachine = ({ slotMachine }: SlotMachineProps) => {
 
         <dt>Cost</dt>
         <dd>{cost}</dd>
+
+        <dt>Short</dt>
+        <dd>!{short}</dd>
 
         <dt>Status</dt>
         <dd>{status}</dd>

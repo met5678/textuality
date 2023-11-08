@@ -14,13 +14,18 @@ import { SlotMachineWithHelpers } from '/imports/api/themes/casino/slotMachines/
 const columns: GridColDef<SlotMachineWithHelpers>[] = [
   {
     field: 'code',
-    headerName: 'Code',
+    headerName: 'URL',
     width: 90,
   },
   {
     field: 'name',
     headerName: 'Name',
     width: 120,
+  },
+  {
+    field: 'short',
+    headerName: 'Short',
+    width: 90,
   },
   {
     field: 'cost',

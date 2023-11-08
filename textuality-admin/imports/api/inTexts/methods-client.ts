@@ -9,7 +9,7 @@ import processSystemText from './process-purpose/process-system-text';
 import processHashtagText from './process-purpose/process-hashtag-text';
 import { InText } from '/imports/schemas/inText';
 import { IncomingMessageData } from '/imports/services/whatsapp';
-import processPercentText from './process-purpose/process-percent.text';
+import processBetText from './process-purpose/process-bet-text';
 
 Meteor.methods({
   'inTexts.receive': (message: IncomingMessageData) => {
@@ -38,7 +38,7 @@ Meteor.methods({
     inText.purpose === 'initial' && processInitialText(inText);
     inText.purpose === 'system' && processSystemText(inText);
     inText.purpose === 'hashtag' && processHashtagText(inText);
-    inText.purpose === 'percent' && processPercentText(inText);
+    inText.purpose === 'bet' && processBetText(inText);
     // inText.purpose === 'mission' && processMissionText(inText);
 
     Meteor.call('achievements.checkAfterInText', inText);

@@ -33,6 +33,10 @@ function getPurpose({ message, player }: GetPurposeArgs): InTextPurpose {
       return 'percent';
     }
 
+    if (message.text.startsWith('!')) {
+      return 'bet';
+    }
+
     return 'feed';
   }
 

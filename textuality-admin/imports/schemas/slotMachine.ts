@@ -41,6 +41,7 @@ const SlotMachineSchema = new SimpleSchema({
   },
   code: String,
   name: String,
+  short: String,
   cost: SimpleSchema.Integer,
   status: {
     type: String,
@@ -121,6 +122,7 @@ interface SlotMachine {
   event: string;
   code: string;
   name: string;
+  short: string;
   cost: number;
   odds: SlotMachineOdds[];
 

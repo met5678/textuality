@@ -61,6 +61,7 @@ const AutoTextSchema = new SimpleSchema({
       'SLOT_UNAVAILABLE',
 
       'ROULETTE_BET',
+      'ROULETTE_LOSE',
       'ROULETTE_WIN_SMALL',
       'ROULETTE_WIN_NUMBER',
       'ROULETTE_NOT_YET_ACCEPTING',

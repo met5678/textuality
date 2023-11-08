@@ -59,6 +59,7 @@ const SlotMachine = ({ slotMachine }: SlotMachineProps) => {
 
   return (
     <>
+      <SlotMachineSounds slotMachine={slotMachine} />
       {/* <dt>Short</dt>
         <dd>!{short}</dd>
 
@@ -187,7 +188,6 @@ const SlotMachine = ({ slotMachine }: SlotMachineProps) => {
         <dd>{stats.spin_count}</dd>
         <dd>{stats.profit}</dd>
       </dl>
-      <SlotMachineSounds slotMachine={slotMachine} />
         <p>Player Queue</p>
         <p>{player_queue.length}</p>
       </div> */}

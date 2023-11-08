@@ -70,7 +70,10 @@ Meteor.methods({
       return;
     }
 
-    Meteor.call('players.takeMoney', slotMachine.cost);
+    Meteor.call('players.takeMoney', {
+      playerId: player_id,
+      money: slotMachine.cost,
+    });
 
     const { result, win, payout_multiplier } = generateResult(slotMachine);
     const win_amount = win ? slotMachine.cost * payout_multiplier : 0;
@@ -82,7 +85,7 @@ Meteor.methods({
       player: {
         id: player_id,
         alias: player.alias,
-        money: player.money,
+        money: player.money - slotMachine.cost,
         avatar_id: player.avatar!,
       },
       stats: {
@@ -103,7 +106,12 @@ Meteor.methods({
     await waitForSeconds(5);
 
     if (win) {
-      SlotMachines.update(slot_id, { $set: { status: 'win-normal' } });
+      SlotMachines.update(slot_id, {
+        $set: {
+          status: 'win-normal',
+          'player.money': player.money - slotMachine.cost + win_amount,
+        },
+      });
       Meteor.call('players.giveMoney', {
         playerId: player_id,
         money: win_amount,
@@ -120,7 +128,7 @@ Meteor.methods({
           slot_result: result.join('-'),
         },
       });
-      await waitForSeconds(8);
+      await waitForSeconds(7);
     } else {
       SlotMachines.update(slot_id, { $set: { status: 'lose' } });
       Meteor.call('autoTexts.send', {
@@ -132,7 +140,7 @@ Meteor.methods({
           slot_result: result.join('-'),
         },
       });
-      await waitForSeconds(5);
+      await waitForSeconds(4);
     }
 
     SlotMachines.update(slot_id, {

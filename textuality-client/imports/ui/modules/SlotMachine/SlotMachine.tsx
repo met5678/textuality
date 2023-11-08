@@ -1,9 +1,10 @@
 import React from 'react';
-import { SlotMachine as SlotMachineType } from '/imports/schemas/slotMachine';
 import { getImageUrl } from '/imports/services/cloudinary/cloudinary-geturl';
+import SlotMachineSounds from './SlotMachineSounds';
+import { SlotMachineWithHelpers } from '/imports/api/themes/casino/slotMachines/slotMachines';
 
 interface SlotMachineProps {
-  slotMachine: SlotMachineType;
+  slotMachine: SlotMachineWithHelpers;
 }
 
 const SlotMachine = ({ slotMachine }: SlotMachineProps) => {
@@ -47,6 +48,7 @@ const SlotMachine = ({ slotMachine }: SlotMachineProps) => {
         <dd>{stats.spin_count}</dd>
         <dd>{stats.profit}</dd>
       </dl>
+      <SlotMachineSounds slotMachine={slotMachine} />
     </>
   );
 };

@@ -60,17 +60,9 @@ const AutoTextSchema = new SimpleSchema({
       // 'SLOT_QUEUE',
       'SLOT_UNAVAILABLE',
 
-      'ROULETTE_BET_NUMBER',
-      'ROULETTE_BET_EVEN',
-      'ROULETTE_BET_ODD',
-      'ROULETTE_BET_RED',
-      'ROULETTE_BET_BLACK',
-      'ROULETTE_BET_STATUS',
-      'ROULETTE_LOSE',
+      'ROULETTE_BET',
       'ROULETTE_WIN_SMALL',
       'ROULETTE_WIN_NUMBER',
-      'ROULETTE_START_SPIN',
-      'ROULETTE_OPEN',
       'ROULETTE_NOT_YET_ACCEPTING',
       'ROULETTE_NO_MORE',
 

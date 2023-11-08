@@ -34,6 +34,7 @@ Meteor.methods({
       { event: event_id },
       {
         $set: {
+          status: 'available',
           stats: {
             profit: 0,
             spin_count: 0,

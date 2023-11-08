@@ -16,7 +16,6 @@ Meteor.publish('slotMachines.forCode', function (code) {
           result: 1,
           win_amount: 1,
           player: 1,
-          player_queue: 1,
           stats: 1,
         },
       },

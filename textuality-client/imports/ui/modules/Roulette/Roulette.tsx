@@ -25,6 +25,9 @@ const Roulette = ({ roulette }: RouletteProps) => {
 
         <dt>Status</dt>
         <dd>{status}</dd>
+
+        <dt>Result</dt>
+        <dd>{result}</dd>
       </dl>
     </>
   );

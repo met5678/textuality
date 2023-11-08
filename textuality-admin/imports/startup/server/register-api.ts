@@ -55,6 +55,10 @@ import '/imports/api/themes/casino/slotMachines/';
 import '/imports/api/themes/casino/slotMachines/methods-admin';
 import '/imports/api/themes/casino/slotMachines/server/publications-admin';
 
+import '/imports/api/themes/casino/roulettes/';
+import '/imports/api/themes/casino/roulettes/methods-admin';
+import '/imports/api/themes/casino/roulettes/server/publications-admin';
+
 // Clue specific
 
 import 'api/clues/';

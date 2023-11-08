@@ -18,6 +18,7 @@ import CheckpointsPage from '/imports/ui/modules/checkpoints/CheckpointsPage';
 // import CluesPage from 'modules/clues/CluesPage';
 // import RoundsPage from 'modules/rounds/RoundsPage';
 import SlotMachinesPage from './modules/themes/casino/slotMachines/SlotMachinesPage';
+import RoulettesPage from './modules/themes/casino/roulettes/RoulettesPage';
 
 import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 
@@ -42,8 +43,8 @@ const App = () => (
         <Route path="/autoTexts" component={AutoTextsPage} />
         <Route path="/checkpoints" component={CheckpointsPage} />
         <Route path="/casino/slot-machines" component={SlotMachinesPage} />
-        {/* <Route path="/casino/roulettes" component={RoulettesPage} />
-        <Route path="/casino/quests" component={HackerQuestsPage} /> */}
+        <Route path="/casino/roulettes" component={RoulettesPage} />
+        {/*<Route path="/casino/quests" component={HackerQuestsPage} /> */}
 
         {/*<Route path="/clue-rewards" component={ClueRewardsPage} />*/}
         {/*<Route path="/clues" component={CluesPage} />*/}

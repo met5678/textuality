@@ -40,6 +40,12 @@ const columns: GridColDef<SlotMachineWithHelpers>[] = [
     width: 90,
   },
   {
+    field: 'player',
+    headerName: 'Player',
+    valueFormatter: (params) => params.value?.alias,
+    width: 120,
+  },
+  {
     field: 'result',
     headerName: 'Result',
     width: 100,
@@ -48,10 +54,21 @@ const columns: GridColDef<SlotMachineWithHelpers>[] = [
     },
   },
   {
-    field: 'player',
-    headerName: 'Player',
-    valueFormatter: (params) => params.value?.alias,
-    width: 120,
+    field: 'win_amount',
+    headerName: 'Payout',
+    width: 60,
+  },
+  {
+    field: 'stats.spin_count',
+    headerName: 'Spins',
+    valueGetter: (params) => params.row.stats.spin_count,
+    width: 60,
+  },
+  {
+    field: 'stats.profit',
+    headerName: 'Profit',
+    valueGetter: (params) => params.row.stats.profit,
+    width: 60,
   },
 ];
 

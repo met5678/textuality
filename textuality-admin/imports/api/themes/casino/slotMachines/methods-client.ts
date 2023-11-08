@@ -73,11 +73,12 @@ Meteor.methods({
     Meteor.call('players.takeMoney', slotMachine.cost);
 
     const { result, win, payout_multiplier } = generateResult(slotMachine);
+    const win_amount = win ? slotMachine.cost * payout_multiplier : 0;
 
     const slotMachineUpdate: Partial<SlotMachine> = {
       status: 'spinning',
       result,
-      win_amount: slotMachine.cost * payout_multiplier,
+      win_amount,
       player: {
         id: player_id,
         alias: player.alias,
@@ -85,10 +86,7 @@ Meteor.methods({
         avatar_id: player.avatar!,
       },
       stats: {
-        profit:
-          slotMachine.stats.profit +
-          slotMachine.cost -
-          slotMachine.cost * payout_multiplier,
+        profit: slotMachine.stats.profit + slotMachine.cost - win_amount,
         spin_count: slotMachine.stats.spin_count + 1,
       },
     };
@@ -100,6 +98,7 @@ Meteor.methods({
         slot_name: slotMachine.name,
       },
     });
+    Meteor.call('players.recordSlotSpin', { player_id, slot_id, win_amount });
     SlotMachines.update(slot_id, { $set: slotMachineUpdate });
     await waitForSeconds(5);
 
@@ -107,7 +106,7 @@ Meteor.methods({
       SlotMachines.update(slot_id, { $set: { status: 'win-normal' } });
       Meteor.call('players.giveMoney', {
         playerId: player_id,
-        money: slotMachine.cost * payout_multiplier,
+        money: win_amount,
       });
 
       const trigger = getAutotextWinTriggerForPayout(payout_multiplier);
@@ -117,7 +116,7 @@ Meteor.methods({
         templateVars: {
           slot_name: slotMachine.name,
           slot_cost: slotMachine.cost.toString(),
-          slot_payout: (slotMachine.cost * payout_multiplier).toString(),
+          slot_payout: win_amount.toString(),
           slot_result: result.join('-'),
         },
       });

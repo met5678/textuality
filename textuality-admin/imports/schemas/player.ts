@@ -75,7 +75,6 @@ const PlayerSchema = new SimpleSchema({
   'slot_spins.$': Object,
   'slot_spins.$.slot_id': String,
   'slot_spins.$.time_spun': Date,
-  'slot_spins.$.cost': SimpleSchema.Integer,
   'slot_spins.$.win_amount': SimpleSchema.Integer,
   quests: {
     type: Array,
@@ -98,7 +97,6 @@ interface PlayerQuest {
 interface PlayerSlotSpin {
   slot_id: string;
   time_spun: Date;
-  cost: number;
   win_amount: number;
 }
 

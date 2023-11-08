@@ -49,6 +49,13 @@ const tableColumns: GridColDef<PlayerWithHelpers>[] = [
     width: 80,
   },
   {
+    field: 'slot_spins',
+    headerName: 'Slot Spins',
+    type: 'number',
+    valueGetter: (cell) => cell.value.length,
+    width: 80,
+  },
+  {
     field: 'joined',
     headerName: 'Joined',
     type: 'dateTime',

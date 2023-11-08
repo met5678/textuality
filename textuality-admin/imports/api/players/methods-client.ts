@@ -108,4 +108,16 @@ Meteor.methods({
       Players.update(playerId, { $inc: { money: -money } });
     }
   },
+
+  'players.recordSlotSpin': ({ player_id, slot_id, win_amount }) => {
+    Players.update(player_id, {
+      $push: {
+        slot_spins: {
+          slot_id,
+          win_amount,
+          time_spun: new Date(),
+        },
+      },
+    });
+  },
 });

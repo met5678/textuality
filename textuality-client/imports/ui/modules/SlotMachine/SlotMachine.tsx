@@ -14,44 +14,36 @@ export type SlotItem = {
   url: string;
 };
 
+enum SlotMachineState {
+  IDLE,
+  SPINNING,
+}
+
 const SlotMachine = ({ slotMachine }: SlotMachineProps) => {
   const { name, short, cost, status, code, result, win_amount, player, stats } =
     slotMachine;
-
-  const itemHeight = 20;
-  // const [state, setState] = useState(SlotMachineState.IDLE);
+  const [state, setState] = useState(SlotMachineState.IDLE);
   const [index, setIndex] = useState(0);
-  // const [isStopping, setStopping] = useState(false);
-  // const [targetItem, setTargetItem] = useState('');
-
-  const timePerIcon = 100;
 
   useEffect(() => {
+    console.log(status);
+
     if (status === 'spinning') {
+      setState(SlotMachineState.SPINNING);
     } else {
       console.log();
+      setState(SlotMachineState.IDLE);
     }
   }, [status]);
 
-  const [items, setItems] = useState([
+  const items = [
     { id: '🥴', url: '/images/emojis/emoji-swoozy.svg' },
     { id: '🍒', url: '/images/emojis/emoji-cherry.svg' },
     { id: '💣', url: '/images/emojis/emoji-bomb.svg' },
     { id: '🍆', url: '/images/emojis/emoji-eggplant.svg' },
     { id: '🍑', url: '/images/emojis/emoji-peach.svg' },
     { id: '💦', url: '/images/emojis/emoji-splash.svg' },
-  ]);
-
-  const [isSpinning, setSpinning] = useState(false);
-
-  const startSpin = () => {
-    setSpinning(true);
-  };
-
-  const stopReelAtIndex = (targetItem: string) => {
-    // setTargetItem(targetItem);
-    // setStopping(true);
-  };
+  ];
 
   const avatarUrl = player
     ? getImageUrl(player?.avatar_id, { width: 80, height: 80 })
@@ -59,138 +51,71 @@ const SlotMachine = ({ slotMachine }: SlotMachineProps) => {
 
   return (
     <>
-      <SlotMachineSounds slotMachine={slotMachine} />
-      {/* <dt>Short</dt>
-        <dd>!{short}</dd>
-
-        <dt>Status</dt>
-        <dd>{status}</dd> */}
       <div
         className="slot-machine"
         style={{ backgroundImage: `url(\/images/slot-machine/${code}.jpg)` }}
       >
-        <div className="stats">
-          <div className="flex">
-            <div>
-              <p className="subtitle">Slot Machine: </p>
-              <p className="title">{name}</p>
+        <div className="info">
+          <div>
+            <p className="subtitle text-center">{name}</p>
 
-              <div className="flex">
-                <p className="subtitle">Price: </p>
-                <p className="subtitle">{cost}</p>
-              </div>
-
-              <div className="flex">
-                <p className="subtitle">Status: </p>
-                <p className="subtitle">{status}</p>
-              </div>
+            <div className="text-center" style={{ marginTop: '10px' }}>
+              <p className="subtitle">TO SPIN,</p>
+              <p className="title">💬 !{short}</p>
             </div>
-          </div>
 
-          {/* TODO: Dynamically show without jumping */}
-          {
-            <>
-              <div className="flex">
-                <img src={avatarUrl} className="avatar" alt="Avatar" />
-                <div>
-                  <div>
-                    <p className="body-small">Player:</p>
-                    <p className="body">{player?.alias}</p>
-                  </div>
-                  <div className="flex wallet">
-                    <p className="body-small">Wallet:</p>
-                    <p className="body-small">{player?.money}</p>
-                  </div>
-                </div>
-              </div>
-            </>
-          }
+            <p className="subtitle text-center" style={{ marginTop: '8px' }}>
+              Price: {cost}
+            </p>
+          </div>
         </div>
         <div className="reels">
           <Reel
-            key={index}
             items={items}
-            isSpinning={isSpinning}
-            targetItem={''}
+            isSpinning={status === 'spinning'}
+            targetItem={result?.[0]}
             setIsStopping={() => {}}
             isStopping={false}
           />
           <Reel
-            key={index}
+            key="2"
             items={items}
-            isSpinning={isSpinning}
-            targetItem={''}
+            isSpinning={state === SlotMachineState.SPINNING}
+            targetItem={result?.[1]}
             setIsStopping={() => {}}
             isStopping={false}
           />
           <Reel
-            key={index}
+            key="3"
             items={items}
-            isSpinning={isSpinning}
-            targetItem={''}
+            isSpinning={state === SlotMachineState.SPINNING}
+            targetItem={result?.[2]}
             setIsStopping={() => {}}
             isStopping={false}
           />
         </div>
+
+        {/* TODO: Dynamically show without jumping */}
+        {
+          <>
+            <div className="flex">
+              <img src={avatarUrl} className="avatar" alt="Avatar" />
+              <div>
+                <div>
+                  <p className="body">Player:</p>
+                  <p className="body">{player?.alias}</p>
+                </div>
+                <div className="flex wallet">
+                  <p className="body">Wallet:</p>
+                  <p className="body">{player?.money}</p>
+                </div>
+              </div>
+            </div>
+          </>
+        }
       </div>
-      {/* <div className="slot-machine">
-        <div className="roller-container">
-          <div className="roller" style={rollerStyles} ref={reelRef}>
-            {urls.map((url, i) => (
-              <img key={url} src={url} alt="" style={rollItemStyles} />
-            ))}
-          </div>
-        </div> */}
-      {/* {rollers.map((roller, i) => (
-        <div className="rollers">
-          {roller.map((roller-item, j) => (
-            <div className="roller roll-animation">{item}</div>
-          ))}
-        </div>
-      ))} */}
-      {/* <div className="slot-machine">
-        <p>{name}</p>
-        <p>{cost}</p>
-        <p>{status}</p>
-        <p>Result</p>
-        <p>{result?.join(' - ')}</p>
 
-        <p>Win Amount</p>
-        <p>{win_amount}</p>
-
-        <p>Player</p>
-        <p>{player?.alias}</p>
-        <p>{player?.avatar_id}</p>
-        <p>{player?.money}</p>
-
-        <dt>Result</dt>
-        <dd>{result?.join(' - ')}</dd>
-
-        <dt>Win Amount</dt>
-        <dd>{win_amount}</dd>
-
-        <dt>Player</dt>
-        <dd>{player?.alias}</dd>
-        <dd>{player?.avatar_id}</dd>
-        <dd>{player?.money}</dd>
-        {player?.avatar_id && (
-          <img
-            src={getImageUrl(player?.avatar_id, {
-              width: 100,
-              height: 100,
-              zoom: 1.2,
-            })}
-            alt="avatar"
-          />
-        )}
-
-        <dt>Stats</dt>
-        <dd>{stats.spin_count}</dd>
-        <dd>{stats.profit}</dd>
-      </dl>
-        <p>Player Queue</p>
-        <p>{player_queue.length}</p>
-      </div> */}
+      <SlotMachineSounds slotMachine={slotMachine} />
     </>
   );
 };

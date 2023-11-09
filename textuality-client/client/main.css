@@ -20,7 +20,7 @@ body {
   background-image: url('/au-background-dark.png');
   background-color: var(--bg);
   color: var(--white);
-  font-family: dashiell-fine, serif;
+  font-family: Roboto, sans-serif;
 }
 
 .screen {

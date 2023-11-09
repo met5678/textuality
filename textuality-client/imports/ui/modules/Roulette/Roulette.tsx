@@ -71,7 +71,11 @@ const Roulette = ({ roulette }: RouletteProps) => {
           <RouletteGrid />
         </div>
 
-        <RouletteWheel />
+        <RouletteWheel
+          result={result}
+          status={status!}
+          spin_seconds={spin_seconds!}
+        />
       </div>
     </div>
   );

@@ -93,4 +93,4 @@ interface Roulette {
 }
 
 export default RouletteSchema;
-export { Roulette, RouletteSchema };
+export { Roulette, RouletteSchema, RouletteStatus };

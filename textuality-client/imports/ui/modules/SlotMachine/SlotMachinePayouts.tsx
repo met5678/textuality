@@ -17,14 +17,11 @@ const SlotMachinePayouts = ({
   );
   const [active, setActive] = useState(true);
   useEffect(() => {
-    console.log('effect', { odds, payoutIndex });
     const interval = setInterval(() => {
-      console.log('Interval', { odds, payoutIndex });
       if (!Array.isArray(odds)) return;
       setActive(false);
       setTimeout(() => {
         setPayoutIndex((payoutIndex + 1) % odds.length);
-        console.log({ payoutIndex });
         setActive(true);
       }, 500);
     }, 4000);
@@ -34,6 +31,7 @@ const SlotMachinePayouts = ({
   if (!odds) return;
 
   const currentPayout = odds[payoutIndex];
+  if (!currentPayout) return null;
 
   return (
     <div className="slot-payout" style={{ opacity: active ? 1 : 0 }}>

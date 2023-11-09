@@ -4,6 +4,7 @@ import SlotMachineSounds from './SlotMachineSounds';
 import { SlotMachineWithHelpers } from '/imports/api/themes/casino/slotMachines/slotMachines';
 import './slot-machine.css';
 import Reel from './Reel';
+import RouletteChip from '../Roulette/RouletteChip';
 
 interface SlotMachineProps {
   slotMachine: SlotMachineWithHelpers;
@@ -22,19 +23,6 @@ enum SlotMachineState {
 const SlotMachine = ({ slotMachine }: SlotMachineProps) => {
   const { name, short, cost, status, code, result, win_amount, player, stats } =
     slotMachine;
-  const [state, setState] = useState(SlotMachineState.IDLE);
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    console.log(status);
-
-    if (status === 'spinning') {
-      setState(SlotMachineState.SPINNING);
-    } else {
-      console.log();
-      setState(SlotMachineState.IDLE);
-    }
-  }, [status]);
 
   const items = [
     { id: '🥴', url: '/images/emojis/emoji-swoozy.svg' },
@@ -55,64 +43,60 @@ const SlotMachine = ({ slotMachine }: SlotMachineProps) => {
         className="slot-machine"
         style={{ backgroundImage: `url(\/images/slot-machine/${code}.jpg)` }}
       >
-        <div className="info">
-          <div>
-            <p className="subtitle text-center">{name}</p>
+        <div className="title-container">
+          <div className="title-name">{name}</div>
 
-            <div className="text-center" style={{ marginTop: '10px' }}>
-              <p className="subtitle">TO SPIN,</p>
-              <p className="title">💬 !{short}</p>
-            </div>
+          <div className="instrux-area">
+            <div className="title-tospin">TO SPIN:</div>
+            <div className="title-short">!{short}</div>
+          </div>
 
-            <p className="subtitle text-center" style={{ marginTop: '8px' }}>
-              Price: {cost}
-            </p>
+          <div className="title-price">
+            Price: <span className="title-price-bb">{cost} BB</span>
           </div>
         </div>
-        <div className="reels">
-          <Reel
-            items={items}
-            isSpinning={status === 'spinning'}
-            targetItem={result?.[0]}
-            setIsStopping={() => {}}
-            isStopping={false}
-          />
-          <Reel
-            key="2"
-            items={items}
-            isSpinning={state === SlotMachineState.SPINNING}
-            targetItem={result?.[1]}
-            setIsStopping={() => {}}
-            isStopping={false}
-          />
-          <Reel
-            key="3"
-            items={items}
-            isSpinning={state === SlotMachineState.SPINNING}
-            targetItem={result?.[2]}
-            setIsStopping={() => {}}
-            isStopping={false}
-          />
+        <div className="reels-container">
+          <div className="reels">
+            <Reel
+              items={items}
+              status={status}
+              targetItem={result?.[0]}
+              index={0}
+            />
+            <Reel
+              key="2"
+              items={items}
+              status={status}
+              targetItem={result?.[1]}
+              index={1}
+            />
+            <Reel
+              key="3"
+              items={items}
+              status={status}
+              targetItem={result?.[2]}
+              index={2}
+            />
+          </div>
         </div>
 
-        {/* TODO: Dynamically show without jumping */}
-        {
-          <>
-            <div className="flex">
-              <img src={avatarUrl} className="avatar" alt="Avatar" />
-              <div>
-                <div>
-                  <p className="body">Player:</p>
-                  <p className="body">{player?.alias}</p>
-                </div>
-                <div className="flex wallet">
-                  <p className="body">Wallet:</p>
-                  <p className="body">{player?.money}</p>
-                </div>
-              </div>
+        <div className="slot-bottom">
+          {player && (
+            <div className="slot-player">
+              <div
+                className="player-avatar-chip"
+                style={{
+                  backgroundImage: `url(${getImageUrl(player.avatar_id, {
+                    width: 100,
+                    height: 100,
+                  })})`,
+                }}
+              ></div>
+              <div className="player-alias">{player.alias}</div>
+              <div className="player-money">{player.money} BB</div>
             </div>
-          </>
-        }
+          )}
+        </div>
       </div>
 
       <SlotMachineSounds slotMachine={slotMachine} />

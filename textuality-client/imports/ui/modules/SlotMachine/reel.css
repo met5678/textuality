@@ -1,32 +1,56 @@
-.container {
-  height: 52vw;
+.reel-container {
   border: solid;
   overflow: hidden;
   background-color: white;
   box-shadow: inset 0vw 1vw 4vw 0vw black;
+  flex-basis: 33.33%;
+  width: 100%;
+  position: relative;
 }
 
 .reel {
-  display: inline-block;
-  height: 50vw;
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
   transition: transform 500ms ease;
+
+  display: flex;
+  flex-direction: row;
 }
 
 .reel img {
   width: 100%;
   height: 100%;
+  padding: min(4vw, 1vh);
 }
 
 @keyframes spin {
   0% {
-    transform: translateY(0);
+    transform: translateX(0);
   }
   100% {
-    transform: translateY(calc(-52vw * 6));
+    transform: translateX(calc((6 / 7) * -100%));
   }
 }
 
-.spinning {
-  animation: spin 500ms linear infinite;
+@keyframes winFlash {
+  0% {
+    background-color: #333;
+  }
+  50% {
+    background-color: yellow;
+  }
+  100% {
+    background-color: #333;
+  }
+}
+
+.is-spinning {
+  animation: spin 350ms linear infinite;
+}
+
+.is-win-normal {
+  animation: winFlash 500ms linear infinite;
+  animation-fill-mode: none;
 }

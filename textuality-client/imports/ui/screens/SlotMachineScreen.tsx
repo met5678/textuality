@@ -14,22 +14,24 @@ const SlotMachineScreen = ({
   slotMachineCode,
 }: SlotMachineScreenProps) => {
   const isLoading = useSubscribe('slotMachines.forCode', slotMachineCode);
-  // const slotMachines = useFind(
-  //   () => SlotMachines.find({}, { limit: 1, sort: { code: 1 } }),
-  //   [],
-  // );
   const slotMachines = useTracker(() =>
     SlotMachines.find({ code: slotMachineCode }).fetch(),
   );
   const slotMachine = slotMachines[0];
-  console.log({ slotMachineCode, slotMachine });
 
   if (isLoading() || !slotMachine) return 'Loading';
 
   return (
-    <>
+    <div
+      style={{
+        overflow: 'hidden',
+        height: '100%',
+        width: '100%',
+        position: 'absolute',
+      }}
+    >
       <SlotMachine slotMachine={slotMachine} />
-    </>
+    </div>
   );
 };
 

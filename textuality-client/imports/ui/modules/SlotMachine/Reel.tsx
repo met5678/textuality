@@ -1,41 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import './reel.css';
 import { SlotItem } from './SlotMachine';
+import classNames from 'classnames';
+import { SlotMachineStatus } from '/imports/schemas/slotMachine';
 
 type ReelProps = {
   items: SlotItem[];
-  isSpinning: boolean;
+  status: SlotMachineStatus;
   targetItem: string | undefined;
-  isStopping: boolean;
-  setIsStopping: (isStopping: boolean) => void;
+  index: number;
 };
 
-export default function Reel({ items, isSpinning, targetItem }: ReelProps) {
-  const [t, setT] = useState(0);
+export default function Reel({ items, status, targetItem, index }: ReelProps) {
+  const reelClasses = classNames('reel', {
+    'is-spinning': status === 'spinning',
+  });
 
-  useEffect(() => {
-    const slots = document.querySelectorAll('.reel');
-    console.log('asdsa', slots);
-    slots.forEach((slot) => {
-      slot.classList.add('spinning');
-    });
-  }, []);
+  const reelContainerClasses = classNames('reel-container', {
+    'is-win-normal': status === 'win-normal',
+  });
 
-  useEffect(() => {
-    const targetIndex = items.findIndex((item) => item.id === targetItem);
-    setT(targetIndex * 52);
-  }, [targetItem]);
+  const itemsWithWraparound = [...items, items[0]];
+  const targetIndex = items.findIndex((item) => item.id === targetItem);
 
-  const reelStyles = {
-    // transform: `translateY(-${t}vw)`,
-    transition: `transform 1s ease-in-out`,
+  const reelStyle: Record<string, string> = {
+    width: `${itemsWithWraparound.length * 100}%`,
+    animationDelay: index * 50 + 'ms',
   };
 
+  if (status !== 'spinning') {
+    reelStyle.transform = `translateX(-${
+      (targetIndex / itemsWithWraparound.length) * 100
+    }%)`;
+  }
+
   return (
-    <div className="container">
-      <div className="reel" style={reelStyles}>
-        {items.map((item, index) => (
-          <img key={index} src={item.url} alt="Slot Machine Item" />
+    <div className={reelContainerClasses}>
+      <div className={reelClasses} style={reelStyle}>
+        {itemsWithWraparound.map((item, idx) => (
+          <img key={idx} src={item.url} alt="Slot Machine Item" />
         ))}
       </div>
     </div>

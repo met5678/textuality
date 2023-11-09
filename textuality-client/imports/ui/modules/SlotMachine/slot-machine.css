@@ -16,6 +16,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
+  text-shadow: min(1vw, 0.25vh) min(1.5vw, 0.4vh) min(2vw, 0.5vh) black;
 }
 
 .instrux-area {
@@ -28,7 +29,7 @@
   font-family: gin, serif;
   font-weight: 400;
   font-style: italic;
-  font-size: min(26vw, 6vh);
+  font-size: min(26vw, 8vh);
   text-transform: uppercase;
   text-align: center;
   line-height: 1;
@@ -36,18 +37,18 @@
 
 .title-tospin {
   font-family: rockwell-nova, sans-serif;
-  font-weight: 400;
+  font-weight: 700;
   font-style: normal;
   font-size: min(11vw, 2.5vh);
   text-transform: uppercase;
-  margin-bottom: -1vh;
+  line-height: 0.8;
 }
 
 .title-short {
   font-family: rockwell-nova, sans-serif;
   font-weight: 700;
   font-style: normal;
-  font-size: min(28vw, 6vh);
+  font-size: min(28vw, 8vh);
   text-transform: uppercase;
 }
 
@@ -89,35 +90,4 @@
   width: 100%;
   position: absolute;
   bottom: 0;
-}
-
-.title {
-  font-family: gin, serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.body {
-  font-family: rockwell-nova, sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.body-medium {
-  font-family: rockwell-nova, sans-serif;
-  font-weight: 700;
-  font-style: medium;
-}
-
-.align-right {
-  text-align: right;
-}
-
-.wallet {
-  margin-top: 1vw;
-  justify-content: flex-end;
-}
-
-.text-center {
-  text-align: center;
 }

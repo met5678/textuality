@@ -9,10 +9,15 @@ Meteor.publish('roulettes.current', function () {
       { event: Events.currentId()! },
       {
         fields: {
-          cost: 1,
+          minimum_bet: 1,
           bets_start_at: 1,
           spin_starts_at: 1,
           spin_ends_at: 1,
+          spin_started_at: 1,
+          bets_open: 1,
+          spin_seconds: 1,
+          bets_cutoff_seconds: 1,
+
           result: 1,
           status: 1,
         },

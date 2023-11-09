@@ -83,6 +83,22 @@ const RoulettesTable = () => {
               label="Start Spin"
             />
           ),
+          (params) => (
+            <GridActionsCellItem
+              showInMenu={true}
+              onClick={() => Meteor.call('roulettes.openBets', params.row._id)}
+              label="Open Bets"
+            />
+          ),
+          (params) => (
+            <GridActionsCellItem
+              showInMenu={true}
+              onClick={() =>
+                Meteor.call('roulettes.resetRoulette', params.row._id)
+              }
+              label="Reset"
+            />
+          ),
         ]}
       />
       <RouletteFormDialog

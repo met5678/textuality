@@ -12,7 +12,7 @@ const RouletteSounds = ({
     return <audio src="/casino/sounds/roulette-spin.ogg" autoPlay />;
 
   if (status === 'end-spin')
-    return <audio src="/casino/sounds/roulette-spin.ogg" autoPlay />;
+    return <audio src="/casino/sounds/roulette-spin-end.ogg" autoPlay />;
   return null;
 };
 

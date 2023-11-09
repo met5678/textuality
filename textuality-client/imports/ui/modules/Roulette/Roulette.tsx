@@ -1,5 +1,6 @@
 import React from 'react';
 
+import RouletteInstr from './RouletteInstr';
 import RouletteWheel from './RouletteWheel';
 
 import { Roulette } from '/imports/schemas/roulette';
@@ -23,12 +24,14 @@ const Roulette = ({ roulette }: RouletteProps) => {
 
   return (
     <div className="roulette">
-      <h2>Roulette!</h2>
+      <h2>
+        R<span>o</span>u<span>l</span>e<span>t</span>t<span>e</span>
+      </h2>
       <div className="rouletteTable">
         <div className="bettingArea">
           <div className="instructions">
-            <p>Text # to place your bet</p>
-            <p>Cost: {cost}</p>
+            <RouletteInstr />
+            <p>Minimum: {cost} BB</p>
           </div>
           <RouletteGrid />
         </div>

@@ -138,10 +138,10 @@ body {
   right: -6px;
   bottom: -6px;
   left: -6px;
-  border: 6px solid gold;
+  border: 6px solid #fea70a;
   box-shadow:
-    inset 0px 0px 0px 2px #b39700,
-    0px 0px 0px 2px #ffeb80;
+    inset 0px 0px 0px 2px #865701,
+    0px 0px 0px 2px #e5bc70;
 }
 .plate:before {
   background: rgba(0, 0, 0, 0.65);
@@ -169,7 +169,7 @@ body {
   box-sizing: border-box;
 }
 .number:nth-child(odd) {
-  border-top-color: red;
+  border-top-color: #d01935;
 }
 .number:nth-child(37) {
   border-top-color: green;

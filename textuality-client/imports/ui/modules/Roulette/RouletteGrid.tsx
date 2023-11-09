@@ -1,6 +1,8 @@
 import React from 'react';
 import './RouletteGrid.css';
 
+import RouletteChip from './RouletteChip';
+
 const RouletteGrid = ({}) => {
   const getNumbers = (start: number) => {
     return Array.from({ length: 12 }, (_, index) => index * 3 + start);
@@ -9,6 +11,7 @@ const RouletteGrid = ({}) => {
     1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36,
   ];
   const isRed = (num: number) => redNumbers.includes(num);
+  const hasBet = false;
 
   return (
     <div className="rouletteGrid">
@@ -21,7 +24,7 @@ const RouletteGrid = ({}) => {
               className={isRed(number) ? 'red' : 'black'}
               id={`${number}`}
             >
-              {number}
+              {hasBet ? <RouletteChip /> : number}
             </td>
           ))}
         </tr>

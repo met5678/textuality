@@ -1,0 +1,57 @@
+.rouletteGrid {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.rouletteGrid .noBorder {
+  border-top: none;
+  border-bottom: none;
+}
+
+.rouletteGrid table {
+  border-collapse: collapse;
+}
+
+.rouletteGrid td {
+  width: 52px;
+  height: 52px;
+  text-align: center;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 2px solid #fff;
+  background-color: rgb(63, 63, 63);
+  font-size: 18px;
+  text-transform: uppercase;
+}
+
+.rouletteGrid td.red {
+  background-color: rgb(209, 26, 53);
+  color: #fff;
+}
+
+.rouletteGrid td.black {
+  background-color: #000;
+  color: #fff;
+}
+
+.rouletteGrid td.green {
+  color: #fff;
+}
+
+.rouletteGrid td.zero {
+  border: none;
+  border-left: 2px solid #fff;
+}
+
+.rouletteGrid tr:first-child .zero {
+  border-top: 2px solid #fff;
+}
+
+.rouletteGrid tr:nth-of-type(3) .zero {
+  border-bottom: 2px solid #fff;
+}
+
+.rouletteGrid td.empty {
+  border: none;
+  background-color: transparent;
+}

@@ -37,10 +37,10 @@
         hsla(103, 30%, 20%, 0) 70%
       )
       0 0;
-
   background-color: #300;
   background-size: 100px 100px;
   font-family: rockwell-nova, sans-serif;
+  padding: 50px 50px 60px 50px;
 }
 
 h2 {
@@ -50,8 +50,6 @@ h2 {
   font-size: 100px;
   letter-spacing: 5px;
   margin-bottom: 8px;
-  margin-top: 42px;
-  margin-left: 58px;
   text-shadow: 4px 4px 3px rgba(0, 0, 0, 0.4);
   font-style: italic;
 }
@@ -62,17 +60,18 @@ h2 span {
 
 p {
   font-weight: 400;
-  font-size: 34px;
+  font-size: 26px;
   line-height: 1.6;
 }
 
 p + p {
-  font-size: 26px;
+  font-size: 24px;
 }
 
 .instructions {
   margin-bottom: 40px;
-  width: 740px;
+  margin-top: 40px;
+  margin-top: 60px;
 }
 
 .instructions code {
@@ -91,90 +90,36 @@ p + p {
 
 .rouletteTable {
   display: flex;
-  justify-content: space-evenly;
   align-items: start;
   height: 100%;
 }
 
-.rouletteTable > div {
-  padding-top: 40px;
-}
-
 .rouletteGrid {
   margin-top: 24px;
-  border-collapse: collapse;
-  border-spacing: 0;
-  padding-bottom: 200px;
-}
-
-.rouletteGrid .noBorder {
-  border-top: none;
-  border-bottom: none;
-}
-
-.rouletteGrid table {
-  border-collapse: collapse;
-}
-
-.rouletteGrid td {
-  width: 52px;
-  height: 52px;
-  text-align: center;
-  border-collapse: collapse;
-  border-spacing: 0;
-  border: 2px solid #fff;
-  background-color: rgb(63, 63, 63);
-  font-size: 18px;
-  text-transform: uppercase;
-}
-
-.rouletteGrid td.red {
-  background-color: rgb(209, 26, 53);
-  color: #fff;
-}
-
-.rouletteGrid td.black {
-  background-color: #000;
-  color: #fff;
-}
-
-.rouletteGrid td.green {
-  color: #fff;
-}
-
-.rouletteGrid td.zero {
-  border: none;
-  border-left: 2px solid #fff;
-}
-
-.rouletteGrid tr:first-child .zero {
-  border-top: 2px solid #fff;
-}
-
-.rouletteGrid tr:nth-of-type(3) .zero {
-  border-bottom: 2px solid #fff;
-}
-
-.rouletteGrid td.empty {
-  border: none;
-  background-color: transparent;
 }
 
 .rouletteWheel {
-  padding-bottom: 200px;
+  position: relative;
+  top: -68px;
+  left: 30px;
+  transform: scale(0.9);
 }
 
 @media (max-height: 720px) {
   h2 {
-    margin-top: 54px;
     font-size: 90px;
   }
-  .rouletteTable > div {
-    padding-top: 40px;
+
+  .rouletteWheel {
+    top: -100px;
+    transform: scale(0.9);
   }
 }
 
 @media (max-height: 600px) {
+  .roulette {
+    padding-top: 30px;
+  }
   h2 {
     display: none;
   }
@@ -192,27 +137,23 @@ p + p {
     align-items: center;
   }
 
-  .rouletteTable > div {
-    padding: 0;
-  }
-
   .rouletteGrid {
     margin-top: 0;
-    transform: scale(0.9);
     padding-bottom: 60px;
     margin-top: 12px;
   }
 
-  .rouletteWheel {
-    transform: scale(0.73);
-    width: 33%;
-    position: relative;
-    margin-top: -32px;
+  .bettingArea {
+    flex-grow: 2;
   }
 
   .instructions {
-    margin-bottom: 0px;
-    margin-left: 18px;
-    width: 650px;
+    width: 48vw;
+  }
+
+  .rouletteWheel {
+    transform: scale(0.68);
+    top: 16px;
+    left: -30px;
   }
 }

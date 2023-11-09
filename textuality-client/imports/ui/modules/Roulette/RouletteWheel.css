@@ -237,7 +237,7 @@ body {
   content: '\2022';
 }
 .inner[data-spinto='4']:before {
-  transform: rotateZ(-16111deg);
+  transform: rotateZ(-16107deg);
   transition: transform 45s ease-out;
   content: '\2022';
 }
@@ -372,7 +372,7 @@ body {
   content: '\2022';
 }
 .inner[data-spinto='31']:before {
-  transform: rotateZ(-15895deg);
+  transform: rotateZ(-15893deg);
   transition: transform 45s ease-out;
   content: '\2022';
 }
@@ -412,10 +412,10 @@ body {
     right 0.5s ease-in,
     bottom 0.5s ease-in,
     left 0.5s ease-in;
-  top: 25.7%;
-  right: 25.7%;
-  bottom: 25.7%;
-  left: 25.7%;
+  top: 24.5%;
+  right: 24.5%;
+  bottom: 24.5%;
+  left: 24.5%;
 }
 .btn {
   background: green;

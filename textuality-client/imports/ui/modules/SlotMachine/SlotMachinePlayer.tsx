@@ -1,20 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { getImageUrl } from '/imports/services/cloudinary/cloudinary-geturl';
-import SlotMachineSounds from './SlotMachineSounds';
-import { SlotMachineWithHelpers } from '/imports/api/themes/casino/slotMachines/slotMachines';
-import './slot-machine.css';
-import Reel from './Reel';
-import RouletteChip from '../Roulette/RouletteChip';
+import './SlotMachinePlayer.css';
 import { PlayerShort } from '/imports/schemas/rouletteBet';
+import { SlotMachineStatus } from '/imports/schemas/slotMachine';
 
-export type SlotItem = {
-  id: string;
-  url: string;
-};
-
-const SlotMachinePlayer = ({ player }: { player: PlayerShort }) => {
+const SlotMachinePlayer = ({
+  player,
+  status,
+}: {
+  player: PlayerShort;
+  status: SlotMachineStatus;
+}) => {
   return (
-    <div className="slot-player">
+    <div className={`slot-player ${status ?? ''}`}>
       <div
         className="player-avatar-chip"
         style={{

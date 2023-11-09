@@ -5,6 +5,9 @@ import { SlotMachineWithHelpers } from '/imports/api/themes/casino/slotMachines/
 import './slot-machine.css';
 import Reel from './Reel';
 import RouletteChip from '../Roulette/RouletteChip';
+import SlotMachinePlayer from './SlotMachinePlayer';
+import { useConfetti } from '../../hooks/use-confetti';
+import SlotMachinePayouts from './SlotMachinePayouts';
 
 interface SlotMachineProps {
   slotMachine: SlotMachineWithHelpers;
@@ -15,27 +18,20 @@ export type SlotItem = {
   url: string;
 };
 
-enum SlotMachineState {
-  IDLE,
-  SPINNING,
-}
+const items = [
+  { id: '🥴', url: '/images/emojis/emoji-swoozy.svg' },
+  { id: '🍒', url: '/images/emojis/emoji-cherry.svg' },
+  { id: '💣', url: '/images/emojis/emoji-bomb.svg' },
+  { id: '🍆', url: '/images/emojis/emoji-eggplant.svg' },
+  { id: '🍑', url: '/images/emojis/emoji-peach.svg' },
+  { id: '💦', url: '/images/emojis/emoji-splash.svg' },
+];
 
 const SlotMachine = ({ slotMachine }: SlotMachineProps) => {
   const { name, short, cost, status, code, result, win_amount, player, stats } =
     slotMachine;
 
-  const items = [
-    { id: '🥴', url: '/images/emojis/emoji-swoozy.svg' },
-    { id: '🍒', url: '/images/emojis/emoji-cherry.svg' },
-    { id: '💣', url: '/images/emojis/emoji-bomb.svg' },
-    { id: '🍆', url: '/images/emojis/emoji-eggplant.svg' },
-    { id: '🍑', url: '/images/emojis/emoji-peach.svg' },
-    { id: '💦', url: '/images/emojis/emoji-splash.svg' },
-  ];
-
-  const avatarUrl = player
-    ? getImageUrl(player?.avatar_id, { width: 80, height: 80 })
-    : '';
+  useConfetti(status === 'win-normal');
 
   return (
     <>
@@ -81,20 +77,10 @@ const SlotMachine = ({ slotMachine }: SlotMachineProps) => {
         </div>
 
         <div className="slot-bottom">
-          {player && (
-            <div className="slot-player">
-              <div
-                className="player-avatar-chip"
-                style={{
-                  backgroundImage: `url(${getImageUrl(player.avatar_id, {
-                    width: 100,
-                    height: 100,
-                  })})`,
-                }}
-              ></div>
-              <div className="player-alias">{player.alias}</div>
-              <div className="player-money">{player.money} BB</div>
-            </div>
+          {player ? (
+            <SlotMachinePlayer player={player} status={status} />
+          ) : (
+            <SlotMachinePayouts slotMachine={slotMachine} items={items} />
           )}
         </div>
       </div>

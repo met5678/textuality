@@ -38,7 +38,12 @@ export default function Reel({ items, status, targetItem, index }: ReelProps) {
     <div className={reelContainerClasses}>
       <div className={reelClasses} style={reelStyle}>
         {itemsWithWraparound.map((item, idx) => (
-          <img key={idx} src={item.url} alt="Slot Machine Item" />
+          <img
+            key={idx}
+            src={item.url}
+            alt="Slot Machine Item"
+            style={{ width: 100 / itemsWithWraparound.length + '%' }}
+          />
         ))}
       </div>
     </div>

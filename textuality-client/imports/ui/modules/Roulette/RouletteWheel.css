@@ -227,12 +227,12 @@ body {
   content: '\2022';
 }
 .inner[data-spinto='2']:before {
-  transform: rotateZ(-16091deg);
+  transform: rotateZ(-16088deg);
   transition: transform 45s ease-out;
   content: '\2022';
 }
 .inner[data-spinto='3']:before {
-  transform: rotateZ(-16170deg);
+  transform: rotateZ(-16166deg);
   transition: transform 45s ease-out;
   content: '\2022';
 }
@@ -247,17 +247,17 @@ body {
   content: '\2022';
 }
 .inner[data-spinto='6']:before {
-  transform: rotateZ(-16054deg);
+  transform: rotateZ(-16049deg);
   transition: transform 45s ease-out;
   content: '\2022';
 }
 .inner[data-spinto='7']:before {
-  transform: rotateZ(-15846deg);
+  transform: rotateZ(-15844deg);
   transition: transform 45s ease-out;
   content: '\2022';
 }
 .inner[data-spinto='8']:before {
-  transform: rotateZ(-15993deg);
+  transform: rotateZ(-15990deg);
   transition: transform 45s ease-out;
   content: '\2022';
 }
@@ -267,52 +267,52 @@ body {
   content: '\2022';
 }
 .inner[data-spinto='10']:before {
-  transform: rotateZ(-15972deg);
+  transform: rotateZ(-15971deg);
   transition: transform 45s ease-out;
   content: '\2022';
 }
 .inner[data-spinto='11']:before {
-  transform: rotateZ(-16013deg);
+  transform: rotateZ(-16010deg);
   transition: transform 45s ease-out;
   content: '\2022';
 }
 .inner[data-spinto='12']:before {
-  transform: rotateZ(-16188deg);
+  transform: rotateZ(-16185deg);
   transition: transform 45s ease-out;
   content: '\2022';
 }
 .inner[data-spinto='13']:before {
-  transform: rotateZ(-16034deg);
+  transform: rotateZ(-16029deg);
   transition: transform 45s ease-out;
   content: '\2022';
 }
 .inner[data-spinto='14']:before {
-  transform: rotateZ(-15902deg);
+  transform: rotateZ(-15903deg);
   transition: transform 45s ease-out;
   content: '\2022';
 }
 .inner[data-spinto='15']:before {
-  transform: rotateZ(-16130deg);
+  transform: rotateZ(-16127deg);
   transition: transform 45s ease-out;
   content: '\2022';
 }
 .inner[data-spinto='16']:before {
-  transform: rotateZ(-15944deg);
+  transform: rotateZ(-15942deg);
   transition: transform 45s ease-out;
   content: '\2022';
 }
 .inner[data-spinto='17']:before {
-  transform: rotateZ(-16075deg);
+  transform: rotateZ(-16068deg);
   transition: transform 45s ease-out;
   content: '\2022';
 }
 .inner[data-spinto='18']:before {
-  transform: rotateZ(-15865deg);
+  transform: rotateZ(-15864deg);
   transition: transform 45s ease-out;
   content: '\2022';
 }
 .inner[data-spinto='19']:before {
-  transform: rotateZ(-16123deg);
+  transform: rotateZ(-16117deg);
   transition: transform 45s ease-out;
   content: '\2022';
 }
@@ -327,12 +327,12 @@ body {
   content: '\2022';
 }
 .inner[data-spinto='22']:before {
-  transform: rotateZ(-15877deg);
+  transform: rotateZ(-15874deg);
   transition: transform 45s ease-out;
   content: '\2022';
 }
 .inner[data-spinto='23']:before {
-  transform: rotateZ(-15982deg);
+  transform: rotateZ(-15980deg);
   transition: transform 45s ease-out;
   content: '\2022';
 }
@@ -342,22 +342,22 @@ body {
   content: '\2022';
 }
 .inner[data-spinto='25']:before {
-  transform: rotateZ(-16084deg);
+  transform: rotateZ(-16078deg);
   transition: transform 45s ease-out;
   content: '\2022';
 }
 .inner[data-spinto='26']:before {
-  transform: rotateZ(-16161deg);
+  transform: rotateZ(-16156deg);
   transition: transform 45s ease-out;
   content: '\2022';
 }
 .inner[data-spinto='27']:before {
-  transform: rotateZ(-16044deg);
+  transform: rotateZ(-16039deg);
   transition: transform 45s ease-out;
   content: '\2022';
 }
 .inner[data-spinto='28']:before {
-  transform: rotateZ(-16197deg);
+  transform: rotateZ(-16195deg);
   transition: transform 45s ease-out;
   content: '\2022';
 }
@@ -367,7 +367,7 @@ body {
   content: '\2022';
 }
 .inner[data-spinto='30']:before {
-  transform: rotateZ(-16004deg);
+  transform: rotateZ(-16000deg);
   transition: transform 45s ease-out;
   content: '\2022';
 }
@@ -377,32 +377,32 @@ body {
   content: '\2022';
 }
 .inner[data-spinto='32']:before {
-  transform: rotateZ(-16140.5deg);
+  transform: rotateZ(-16136deg);
   transition: transform 45s ease-out;
   content: '\2022';
 }
 .inner[data-spinto='33']:before {
-  transform: rotateZ(-15934deg);
+  transform: rotateZ(-15932deg);
   transition: transform 45s ease-out;
   content: '\2022';
 }
 .inner[data-spinto='34']:before {
-  transform: rotateZ(-16065deg);
+  transform: rotateZ(-16059deg);
   transition: transform 45s ease-out;
   content: '\2022';
 }
 .inner[data-spinto='35']:before {
-  transform: rotateZ(-15819deg);
+  transform: rotateZ(-15815deg);
   transition: transform 45s ease-out;
   content: '\2022';
 }
 .inner[data-spinto='36']:before {
-  transform: rotateZ(-16023deg);
+  transform: rotateZ(-16020deg);
   transition: transform 45s ease-out;
   content: '\2022';
 }
 .inner[data-spinto='0']:before {
-  transform: rotateZ(-16151deg);
+  transform: rotateZ(-16147deg);
   transition: transform 45s ease-out;
   content: '\2022';
 }
@@ -512,18 +512,20 @@ body {
   background-color: green;
   color: white;
   transform: rotateY(180deg);
-  align-items: center;
   color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .data .result-number {
-  font-size: 72px;
-  font-weight: 500;
-  line-height: 1.2;
-  margin-top: 12px;
+  font-size: 8vw;
+  font-weight: 400;
+  line-height: 1;
 }
 .data .result-color {
   text-transform: uppercase;
-  font-size: 21px;
+  font-size: 2vw;
   line-height: 1;
 }
 .color-green {

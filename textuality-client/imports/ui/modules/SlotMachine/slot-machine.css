@@ -41,7 +41,7 @@
   font-style: normal;
   font-size: min(11vw, 2.5vh);
   text-transform: uppercase;
-  line-height: 0.8;
+  transform: translateY(min(6vw, 1.5vh));
 }
 
 .title-short {

@@ -8,9 +8,11 @@ import './Roulette.css';
 import RouletteGrid from './RouletteGrid';
 import Countdown from 'react-countdown';
 import { DateTime } from 'luxon';
+import RouletteSounds from './RouletteSounds';
+import { RouletteWithHelpers } from '/imports/api/themes/casino/roulettes/roulettes';
 
 interface RouletteProps {
-  roulette: Partial<Roulette>;
+  roulette: Partial<RouletteWithHelpers>;
 }
 
 const Roulette = ({ roulette }: RouletteProps) => {
@@ -105,6 +107,7 @@ const Roulette = ({ roulette }: RouletteProps) => {
           }
         />
       </div>
+      <RouletteSounds roulette={roulette} />
     </div>
   );
 };

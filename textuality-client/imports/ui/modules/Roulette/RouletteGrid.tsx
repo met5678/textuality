@@ -14,38 +14,38 @@ const RouletteGrid = ({}) => {
     <div className="rouletteGrid">
       <table>
         <tr className="nums">
-          <td className="num green zero" row-span="3">
-            <span>0</span>
-          </td>
+          <td className="green zero" />
           {getNumbers(3).map((number, index) => (
             <td
               key={index}
               className={isRed(number) ? 'red' : 'black'}
-              id="number"
+              id={`${number}`}
             >
               {number}
             </td>
           ))}
         </tr>
         <tr className="nums">
-          <td className="hidden" />
+          <td className="green zero" id="0">
+            <span>0</span>
+          </td>
           {getNumbers(2).map((number, index) => (
             <td
               key={index}
               className={isRed(number) ? 'red' : 'black'}
-              id="number"
+              id={`${number}`}
             >
               {number}
             </td>
           ))}
         </tr>
         <tr className="nums">
-          <td className="hidden" />
+          <td className="green zero" />
           {getNumbers(1).map((number, index) => (
             <td
               key={index}
               className={isRed(number) ? 'red' : 'black'}
-              id="number"
+              id={`${number}`}
             >
               {number}
             </td>

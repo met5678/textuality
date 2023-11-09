@@ -1,49 +1,131 @@
 .roulette {
-  position: absolute;
+  position: fixed;
   width: 100vw;
   height: 100vh;
-  background: rgb(6, 177, 9);
-  background: radial-gradient(circle at center, #537c43 0%, #254419 100%);
-  background-attachment: fixed;
-  padding: 40px 40px 60px;
+  background:
+    radial-gradient(
+        hsl(103, 30%, 27%) 4%,
+        hsl(103, 30%, 18%) 9%,
+        hsla(103, 30%, 20%, 0) 9%
+      )
+      0 0,
+    radial-gradient(
+        hsl(103, 30%, 27%) 4%,
+        hsl(103, 30%, 18%) 8%,
+        hsla(103, 30%, 20%, 0) 10%
+      )
+      50px 50px,
+    radial-gradient(hsla(103, 30%, 30%, 0.8) 20%, hsla(103, 30%, 20%, 0)) 50px 0,
+    radial-gradient(hsla(103, 30%, 30%, 0.8) 20%, hsla(103, 30%, 20%, 0)) 0 50px,
+    radial-gradient(hsla(103, 30%, 20%, 1) 35%, hsla(103, 30%, 20%, 0) 60%) 50px
+      0,
+    radial-gradient(hsla(103, 30%, 20%, 1) 35%, hsla(103, 30%, 20%, 0) 60%)
+      100px 50px,
+    radial-gradient(hsla(103, 30%, 15%, 0.7), hsla(103, 30%, 20%, 0)) 0 0,
+    radial-gradient(hsla(103, 30%, 15%, 0.7), hsla(103, 30%, 20%, 0)) 50px 50px,
+    linear-gradient(
+        45deg,
+        hsla(103, 30%, 20%, 0) 49%,
+        hsla(103, 30%, 0%, 1) 50%,
+        hsla(103, 30%, 20%, 0) 70%
+      )
+      0 0,
+    linear-gradient(
+        -45deg,
+        hsla(103, 30%, 20%, 0) 49%,
+        hsla(103, 30%, 0%, 1) 50%,
+        hsla(103, 30%, 20%, 0) 70%
+      )
+      0 0;
+
+  background-color: #300;
+  background-size: 100px 100px;
+  font-family: rockwell-nova, sans-serif;
 }
 
 h2 {
-  font-size: 64px;
+  font-family: gin, serif;
+  color: #fea70a;
+  font-weight: 700;
+  font-size: 100px;
+  letter-spacing: 5px;
   margin-bottom: 8px;
+  margin-top: 42px;
+  margin-left: 58px;
+  text-shadow: 4px 4px 3px rgba(0, 0, 0, 0.4);
+  font-style: italic;
+}
+
+h2 span {
+  color: #d01935;
 }
 
 p {
-  font-size: 28px;
-  line-height: 1.5;
+  font-weight: 400;
+  font-size: 34px;
+  line-height: 1.6;
 }
 
 p + p {
-  font-size: 21px;
+  font-size: 26px;
+}
+
+.instructions {
+  margin-bottom: 40px;
+  width: 740px;
+}
+
+.instructions code {
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 2px;
+}
+
+.fade-in-out {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.fade-in-out.active {
+  opacity: 1;
 }
 
 .rouletteTable {
   display: flex;
-  margin-top: 40px;
+  justify-content: space-evenly;
+  align-items: start;
+  height: 100%;
 }
 
-.bettingArea {
-  flex: 1;
+.rouletteTable > div {
+  padding-top: 40px;
 }
 
 .rouletteGrid {
   margin-top: 24px;
   border-collapse: collapse;
   border-spacing: 0;
+  padding-bottom: 200px;
+}
+
+.rouletteGrid .noBorder {
+  border-top: none;
+  border-bottom: none;
+}
+
+.rouletteGrid table {
+  border-collapse: collapse;
 }
 
 .rouletteGrid td {
-  width: 58px;
-  height: 58px;
+  width: 52px;
+  height: 52px;
   text-align: center;
   border-collapse: collapse;
   border-spacing: 0;
   border: 2px solid #fff;
+  background-color: rgb(63, 63, 63);
+  font-size: 18px;
+  text-transform: uppercase;
 }
 
 .rouletteGrid td.red {
@@ -60,6 +142,77 @@ p + p {
   color: #fff;
 }
 
+.rouletteGrid td.zero {
+  border: none;
+  border-left: 2px solid #fff;
+}
+
+.rouletteGrid tr:first-child .zero {
+  border-top: 2px solid #fff;
+}
+
+.rouletteGrid tr:nth-of-type(3) .zero {
+  border-bottom: 2px solid #fff;
+}
+
 .rouletteGrid td.empty {
   border: none;
+  background-color: transparent;
+}
+
+.rouletteWheel {
+  padding-bottom: 200px;
+}
+
+@media (max-height: 720px) {
+  h2 {
+    margin-top: 54px;
+    font-size: 90px;
+  }
+  .rouletteTable > div {
+    padding-top: 40px;
+  }
+}
+
+@media (max-height: 600px) {
+  h2 {
+    display: none;
+  }
+
+  p {
+    font-size: 24px;
+  }
+
+  p + p {
+    font-size: 20px;
+    padding-top: 4px;
+  }
+
+  .rouletteTable {
+    align-items: center;
+  }
+
+  .rouletteTable > div {
+    padding: 0;
+  }
+
+  .rouletteGrid {
+    margin-top: 0;
+    transform: scale(0.9);
+    padding-bottom: 60px;
+    margin-top: 12px;
+  }
+
+  .rouletteWheel {
+    transform: scale(0.73);
+    width: 33%;
+    position: relative;
+    margin-top: -32px;
+  }
+
+  .instructions {
+    margin-bottom: 0px;
+    margin-left: 18px;
+    width: 650px;
+  }
 }

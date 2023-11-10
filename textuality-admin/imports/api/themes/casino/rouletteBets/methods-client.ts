@@ -104,7 +104,7 @@ Meteor.methods({
     });
   },
 
-  'rouletteBets.doPayouts': ({ roulette_id }: { roulette_id: string }) => {
+  'rouletteBets.doPayouts': (roulette_id: string) => {
     const roulette = Roulettes.findOne(roulette_id);
     if (!roulette || !roulette.result) return;
 

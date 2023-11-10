@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import Roulettes from './roulettes';
 import waitForSeconds from '/imports/api/rounds/reveal-sequence/_wait-for-seconds';
 import Events from '/imports/api/events';
+import { DateTime } from 'luxon';
 
 Meteor.methods({
   'roulettes.findCurrent': () => {
@@ -43,12 +44,23 @@ Meteor.methods({
     });
     // }
 
-    Roulettes.update(rouletteId, {
-      $set: {
-        bets_open: true,
-        status: 'pre-spin',
-      },
-    });
+    if (!roulette.scheduled) {
+      Roulettes.update(rouletteId, {
+        $set: {
+          bets_open: true,
+          status: 'pre-spin',
+          bets_start_at: new Date(),
+          spin_starts_at: DateTime.local().plus({ minutes: 5 }).toJSDate(),
+        },
+      });
+    } else {
+      Roulettes.update(rouletteId, {
+        $set: {
+          bets_open: true,
+          status: 'pre-spin',
+        },
+      });
+    }
 
     if (roulette?.linked_mission && roulette?.linked_mission !== 'none') {
       console.log('Starting mission associated with roulette');

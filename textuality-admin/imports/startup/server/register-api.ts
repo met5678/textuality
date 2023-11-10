@@ -62,6 +62,7 @@ import '/imports/api/themes/casino/roulettes/server/publications-admin';
 
 import '/imports/api/themes/casino/rouletteBets/';
 import '/imports/api/themes/casino/rouletteBets/methods-admin';
+import '/imports/api/themes/casino/rouletteBets/methods-client';
 import '/imports/api/themes/casino/rouletteBets/server/publications-admin';
 
 // Clue specific

@@ -139,6 +139,15 @@ const RoulettesTable = () => {
               label="Copy Payouts"
             />
           ),
+          (params) => (
+            <GridActionsCellItem
+              showInMenu={true}
+              onClick={() =>
+                Meteor.call('rouletteBets.doPayouts', params.row._id)
+              }
+              label="Process Bets"
+            />
+          ),
         ]}
       />
       <RouletteFormDialog

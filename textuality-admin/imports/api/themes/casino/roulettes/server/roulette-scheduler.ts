@@ -83,14 +83,14 @@ if (Meteor.isServer && Meteor.isProduction) {
           expectedStatus,
         );
 
-        if (roulette.bets_open !== expectedBetsOpen) {
-          expectedBetsOpen
-            ? Meteor.call('roulettes.openBets', roulette._id)
-            : Meteor.call('roulettes.closeBets', roulette._id);
-        }
-
         if (roulette.status !== expectedStatus) {
-          Roulettes.update(roulette._id!, { $set: { status: expectedStatus } });
+          console.log(
+            `Updating roulette ${roulette._id} from ${roulette.status} to ${expectedStatus}`,
+          );
+
+          if (expectedStatus === 'pre-spin') {
+            Meteor.call('roulettes.openBets', roulette._id);
+          }
 
           if (expectedStatus === 'spinning') {
             Meteor.call('roulettes.startSpin', roulette._id);
@@ -107,6 +107,11 @@ if (Meteor.isServer && Meteor.isProduction) {
           if (expectedStatus === 'inactive') {
             Meteor.call('roulettes.deactivateRoulette', roulette._id);
           }
+        }
+
+        if (roulette.bets_open && !expectedBetsOpen) {
+          console.log(`Closing bets for ${roulette._id}`);
+          Meteor.call('roulettes.closeBets', roulette._id);
         }
       });
     });

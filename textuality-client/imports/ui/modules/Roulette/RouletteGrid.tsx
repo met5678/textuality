@@ -27,7 +27,6 @@ const RouletteGrid = ({ rouletteId, status, betsOpen }: RouletteGridProps) => {
   const hasBet = (bet: RouletteBetSlot) => !!getBet(bet);
 
   const queueBet = useTimedQueue<RouletteBet>(bets, 5000);
-
   const getNumbers = (start: number) => {
     return Array.from({ length: 12 }, (_, index) => index * 3 + start);
   };

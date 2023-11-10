@@ -48,7 +48,7 @@ const AchievementSchema = new SimpleSchema({
     optional: true,
     // TODO: Replace this list with a function that polls for quest types
     defaultValue: 'NONE',
-    allowedValues: ['NONE', 'HACKER_TASK', 'HACKER_SLOT', 'HACKER_ROULETTE'],
+    allowedValues: ['NONE', 'HACKER_TASK', 'HACKER_SLOT'],
   },
   player_text: {
     type: String,

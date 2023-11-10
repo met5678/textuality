@@ -18,7 +18,7 @@
 .leaderboard-casino {
   display: flex;
   flex-direction: column;
-  max-height: 85vh;
+  max-height: 88vh;
   overflow: hidden;
 }
 
@@ -70,4 +70,18 @@ p.leaderboard-value {
   height: 40px;
   border-radius: 50%;
   margin-right: 24px;
+}
+
+@media (max-height: 600px) {
+  .leaderboard-title {
+    margin-bottom: 20px;
+  }
+  .leaderboard-body {
+    margin-left: 0;
+    max-width: 100%;
+  }
+
+  .leaderboard-casino {
+    max-height: 90vh;
+  }
 }

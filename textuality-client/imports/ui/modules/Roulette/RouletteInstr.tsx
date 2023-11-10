@@ -28,22 +28,22 @@ const RouletteInstr = ({}) => {
 const Instructions = [
   () => (
     <>
-      Send <code>![BET] [WAGER]</code> to place your bet
+      Text: <strong><i>![bet] [wager]</i></strong> to place your bet
     </>
   ),
   () => (
     <>
-      Example: <code>!odd 50</code> places <b>50BB</b> on <b>ODD</b>
+      Example: <strong><i>!odd 50</i></strong> places 50BB on ODD
     </>
   ),
   () => (
     <>
-      Send <code>![BET] [WAGER]</code> to place your bet
+      Send <strong><i>![bet] [wager]</i></strong> to place your bet
     </>
   ),
   () => (
     <>
-      Example: <code>!21 100</code> places <b>100BB</b> on <b>21</b>
+      Example: <strong><i>!21 100</i></strong> places 100BB on 21
     </>
   ),
 ];

@@ -102,7 +102,7 @@ Meteor.methods({
       Players.update(playerId, { $set: { money: 0 } });
       Meteor.call('autoTexts.send', {
         playerId: player._id,
-        trigger: 'WALLET_BANKRUPT',
+        trigger: 'BANKRUPT',
       });
     } else {
       Players.update(playerId, { $inc: { money: -money } });

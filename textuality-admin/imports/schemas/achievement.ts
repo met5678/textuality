@@ -24,10 +24,10 @@ const AchievementSchema = new SimpleSchema({
       'SLOT_WIN_HACKER',
       'SLOT_SPIN_ALL',
 
-      'EMOJIS_IN_TEXT',
-      'GUESS_COMPLETE',
       'JOINED',
       'REJOINED',
+
+      'BANKRUPT',
     ],
   },
   trigger_detail_string: {

@@ -10,6 +10,7 @@ import processHashtagText from './process-purpose/process-hashtag-text';
 import { InText } from '/imports/schemas/inText';
 import { IncomingMessageData } from '/imports/services/whatsapp';
 import processBetText from './process-purpose/process-bet-text';
+import processFeedText from './process-purpose/process-feed-text';
 
 Meteor.methods({
   'inTexts.receive': (message: IncomingMessageData) => {
@@ -33,13 +34,13 @@ Meteor.methods({
 
     InTexts.insert(inText);
     Meteor.call('players.updateAfterInText', inText);
-    // inText = receive({ inText, player, media });
 
-    inText.purpose === 'initial' && processInitialText(inText);
-    inText.purpose === 'system' && processSystemText(inText);
-    inText.purpose === 'hashtag' && processHashtagText(inText);
-    inText.purpose === 'bet' && processBetText(inText);
-    // inText.purpose === 'mission' && processMissionText(inText);
+    inText.purpose === 'initial' && processInitialText(inText, player);
+    inText.purpose === 'system' && processSystemText(inText, player);
+    inText.purpose === 'hashtag' && processHashtagText(inText, player);
+    inText.purpose === 'bet' && processBetText(inText, player);
+    inText.purpose === 'feed' && processFeedText(inText, player);
+    inText.purpose === 'mediaOnly' && processFeedText(inText, player);
 
     Meteor.call('achievements.checkAfterInText', inText);
   },

@@ -1,9 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 
-import Players from 'api/players';
+import { PlayerWithHelpers } from '../../players/players';
+import { InText } from '/imports/schemas/inText';
 
-export default function (inText) {
-  const player = Players.findOne(inText.player);
+export default function (inText: InText, player: PlayerWithHelpers) {
   const playerId = player._id;
 
   const firstSpace =
@@ -37,6 +37,11 @@ export default function (inText) {
   // Send status text
   else if (command === 'wallet') {
     Meteor.call('autoTexts.sendStatus', { playerId });
+  }
+
+  // Send help text
+  else if (command === 'help') {
+    Meteor.call('autoTexts.send', { playerId, trigger: 'HELP' });
   }
 
   // Invalid command

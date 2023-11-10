@@ -1,10 +1,10 @@
 import { Meteor } from 'meteor/meteor';
 
-import Players from 'api/players';
-import Media from 'api/media';
+import Media from '/imports/api/media';
+import { InText } from '/imports/schemas/inText';
+import { PlayerWithHelpers } from '../../players/players';
 
-export default function(inText) {
-  const player = Players.findOne(inText.player);
+export default function (inText: InText, player: PlayerWithHelpers) {
   const playerId = player._id;
 
   const prefix = player.status === 'new' ? 'WELCOME' : 'TENTATIVE';
@@ -15,29 +15,30 @@ export default function(inText) {
     Meteor.call('autoTexts.send', { playerId, trigger: `${prefix}_NO_IMAGE` });
   } else {
     const media = Media.findOne(inText.media);
+    if (!media) return;
 
     if (media.faces.length === 0) {
       Meteor.call('autoTexts.send', { playerId, trigger: `${prefix}_NO_FACE` });
-    } else if (media.faces.length > 2) {
+    } else if (media.faces.length >= 2) {
       Meteor.call('autoTexts.send', {
         playerId,
-        trigger: `${prefix}_MULTI_FACES`
+        trigger: `${prefix}_MULTI_FACES`,
       });
     } else {
       Meteor.call('players.setAvatar', {
         playerId,
-        avatar: media._id
+        avatar: media._id,
       });
       Meteor.call('players.setStatus', {
         playerId,
-        status: 'active'
+        status: 'active',
       });
       if (prefix === 'WELCOME')
         Meteor.call('autoTexts.send', { playerId, trigger: 'WELCOME' });
       else
         Meteor.call('autoTexts.send', {
           playerId,
-          trigger: 'TENTATIVE_WELCOME'
+          trigger: 'TENTATIVE_WELCOME',
         });
     }
   }

@@ -73,10 +73,7 @@ const handleRouletteBet = function ({
   }
 };
 
-const processPercentText = function (inText: InText) {
-  const player = Players.findOne(inText.player);
-  if (!player) return;
-
+const processBetText = function (inText: InText, player: PlayerWithHelpers) {
   const playerId = player._id;
 
   const firstSpace =
@@ -110,4 +107,4 @@ const processPercentText = function (inText: InText) {
   });
 };
 
-export default processPercentText;
+export default processBetText;

@@ -1,9 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 
-import Players from 'api/players';
+import { InText } from '/imports/schemas/inText';
+import { PlayerWithHelpers } from '../../players/players';
 
-export default function (inText) {
-  const player = Players.findOne(inText.player);
+export default function (inText: InText, player: PlayerWithHelpers) {
   const playerId = player._id;
 
   const firstSpace =
@@ -19,7 +19,7 @@ export default function (inText) {
   if (checkpoint) {
     if (
       player.checkpoints.some(
-        (pCheckpoint) => pCheckpoint.checkpoint === checkpoint._id,
+        (pCheckpoint) => pCheckpoint.id === checkpoint._id,
       )
     ) {
       if (checkpoint.suppress_autotext) {

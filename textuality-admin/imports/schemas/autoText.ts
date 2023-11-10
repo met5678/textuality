@@ -32,6 +32,9 @@ const AutoTextSchema = new SimpleSchema({
       'INVALID_COMMAND',
       'INVALID_HASHTAG',
       'INVALID_BET',
+      'INVALID_REGULAR_TEXT',
+      'INVALID_MEDIA_ONLY_TEXT',
+      'HELP',
 
       'SENT_VIDEO',
       'INVALID_CONTENT_TYPE',

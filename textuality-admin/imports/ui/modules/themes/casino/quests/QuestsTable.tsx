@@ -12,23 +12,28 @@ const columns: GridColDef<Quest>[] = [
   {
     field: 'name',
     headerName: 'Name',
-    flex: 1,
+    width: 150,
   },
   {
     field: 'type',
     headerName: 'Type',
-    width: 150,
+    width: 120,
+  },
+  {
+    field: 'start_text',
+    headerName: 'Start Text',
+    flex: 1,
   },
   {
     field: 'num_assigned',
-    headerName: 'Assigned',
-    width: 100,
+    headerName: 'Given',
+    width: 90,
     type: 'number',
   },
   {
     field: 'num_completed',
     headerName: 'Completed',
-    width: 100,
+    width: 90,
     type: 'number',
   },
 ];

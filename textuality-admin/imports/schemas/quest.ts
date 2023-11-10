@@ -3,30 +3,11 @@ import SimpleSchema from 'simpl-schema';
 import Events from '/imports/api/events';
 
 const SlotQuestSchema = new SimpleSchema({
-  start_text: String,
-  start_text_image: {
-    type: String,
-    optional: true,
-  },
-  complete_text: String,
-  complete_text_image: {
-    type: String,
-    optional: true,
-  },
-  slot_sequence: {
-    type: Array,
-    minCount: 2,
-  },
-  'slot_sequence.$': String,
+  slot_sequence: [String],
   win_amount: SimpleSchema.Integer,
 });
 
 const TaskQuestSchema = new SimpleSchema({
-  start_text: String,
-  start_text_image: {
-    type: String,
-    optional: true,
-  },
   hashtag: String,
 });
 
@@ -40,6 +21,12 @@ const QuestSchema = new SimpleSchema({
     type: String,
     allowedValues: ['HACKER_TASK', 'HACKER_SLOT'],
   },
+  start_text: String,
+  start_text_image: {
+    type: String,
+    optional: true,
+  },
+
   slot_quest: {
     type: SlotQuestSchema,
     optional: true,
@@ -60,16 +47,11 @@ const QuestSchema = new SimpleSchema({
 });
 
 interface SlotQuest {
-  start_text: string;
-  start_text_image?: string;
-  complete_text: string;
-  complete_text_image?: string;
   slot_sequence: string[];
+  win_amount: number;
 }
 
 interface TaskQuest {
-  start_text: string;
-  start_text_image?: string;
   hashtag: string;
 }
 
@@ -80,6 +62,8 @@ interface Quest {
   event: string;
   name: string;
   type: QuestType;
+  start_text: string;
+  start_text_image?: string;
 
   slot_quest?: SlotQuest;
   task_quest?: TaskQuest;

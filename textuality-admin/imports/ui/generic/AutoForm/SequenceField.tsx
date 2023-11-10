@@ -1,5 +1,12 @@
 import React from 'react';
-import { Box, Button, MenuItem, Paper, Select } from '@mui/material';
+import {
+  Box,
+  Button,
+  MenuItem,
+  Paper,
+  Select,
+  Typography,
+} from '@mui/material';
 import { HTMLFieldProps, connectField } from 'uniforms';
 import InputSelect from '../InputSelect';
 import { SelectField } from 'uniforms-mui';
@@ -24,6 +31,8 @@ const SequenceField = ({
   return (
     <Paper variant="outlined">
       <Box display="flex" flexDirection="column" gap={1} p={1}>
+        <Typography variant="body2">{label}</Typography>
+
         {value?.map((val, index) => {
           return (
             <Box display="flex" flexDirection="row" gap={2} alignItems="center">

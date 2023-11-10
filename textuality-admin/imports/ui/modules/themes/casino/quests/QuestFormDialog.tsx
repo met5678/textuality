@@ -51,19 +51,13 @@ const QuestFormDialog = ({ model, onClose }: QuestFormProps) => {
       <EventField />
       <TextField name="name" />
       <RadioField name="type" />
+      <TextMessageField name="start_text" />
+      <TextField name="start_text_image" />
       {liveModel?.type === 'HACKER_TASK' && (
-        <>
-          <TextMessageField name="task_quest.start_text" />
-          <TextField name="task_quest.start_text_image" />
-          <TextField name="task_quest.hashtag" />
-        </>
+        <TextField name="task_quest.hashtag" />
       )}
       {liveModel?.type === 'HACKER_SLOT' && (
         <>
-          <TextMessageField name="slot_quest.start_text" />
-          <TextField name="slot_quest.start_text_image" />
-          <TextMessageField name="slot_quest.complete_text" />
-          <TextField name="slot_quest.complete_text_image" />
           <SequenceField
             name="slot_quest.slot_sequence"
             options={slotMachineOptions}

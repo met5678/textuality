@@ -8,6 +8,7 @@ import AutoFormDialog from '/imports/ui/generic/AutoForm/AutoFormDialog';
 import TextField from '/imports/ui/generic/AutoForm/TextField';
 import NumberField from '/imports/ui/generic/AutoForm/NumberField';
 import EventField from '../events/EventField';
+import TextMessageField from '../../generic/AutoForm/TextMessageField';
 
 interface MissionFormProps {
   model: Partial<Mission> | null;
@@ -39,6 +40,11 @@ const MissionFormDialog = ({ model, onClose }: MissionFormProps) => {
       <TextField name="name" />
       <NumberField name="number" />
       <NumberField name="minutes" />
+      <TextMessageField name="missionPreText" />
+      <TextMessageField name="missionPlayerAText" />
+      <TextMessageField name="missionPlayerBText" />
+      <TextMessageField name="missionSuccessText" />
+      <TextMessageField name="missionFailText" />
       <ErrorsField />
     </AutoFormDialog>
   );

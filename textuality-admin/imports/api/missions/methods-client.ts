@@ -46,6 +46,7 @@ Meteor.methods({
 
   'missions.start': ({ missionId }) => {
     const mission = Missions.findOne(missionId);
+    if (!mission) return;
     let eligiblePlayers = getEligiblePlayers();
 
     if (!mission) return;
@@ -69,14 +70,14 @@ Meteor.methods({
       const playerA = eligiblePlayers[i];
       const playerB = eligiblePlayers[i + 1];
       const missionPairing = {
-        event: Events.currentId(),
+        event: Events.currentId()!,
         mission: missionId,
-        playerA: playerA._id,
-        playerB: playerB._id,
+        playerA: playerA._id!,
+        playerB: playerB._id!,
         aliasA: playerA.alias,
         aliasB: playerB.alias,
-        avatarA: playerA.avatar,
-        avatarB: playerB.avatar,
+        avatarA: playerA.avatar!,
+        avatarB: playerB.avatar!,
         hashtag: pokemon.random().toLowerCase(),
       };
 
@@ -86,21 +87,37 @@ Meteor.methods({
     const pairings = MissionPairings.find({ mission: missionId }).fetch();
 
     pairings.forEach((pairing) => {
-      Meteor.call('autoTexts.send', {
-        trigger: 'MISSION_START_PLAYER_A',
-        playerId: pairing.playerA,
-        mediaUrl: pairing.getAvatarUrlB(),
-        templateVars: { password: pairing.hashtag },
-        source: 'mission',
-      });
+      if (mission.missionPlayerAText && mission.missionPlayerAText.length) {
+        Meteor.call('autoTexts.sendCustom', {
+          playerText: mission.missionPlayerAText,
+          playerId: pairing.playerA,
+          source: 'mission',
+        });
+      } else {
+        Meteor.call('autoTexts.send', {
+          trigger: 'MISSION_START_PLAYER_A',
+          playerId: pairing.playerA,
+          mediaUrl: pairing.getAvatarUrlB(),
+          templateVars: { password: pairing.hashtag },
+          source: 'mission',
+        });
+      }
 
-      Meteor.call('autoTexts.send', {
-        trigger: 'MISSION_START_PLAYER_B',
-        playerId: pairing.playerB,
-        mediaUrl: pairing.getAvatarUrlA(),
-        templateVars: { password: pairing.hashtag },
-        source: 'mission',
-      });
+      if (mission.missionPlayerBText && mission.missionPlayerBText.length) {
+        Meteor.call('autoTexts.sendCustom', {
+          playerText: mission.missionPlayerBText,
+          playerId: pairing.playerB,
+          source: 'mission',
+        });
+      } else {
+        Meteor.call('autoTexts.send', {
+          trigger: 'MISSION_START_PLAYER_B',
+          playerId: pairing.playerB,
+          mediaUrl: pairing.getAvatarUrlA(),
+          templateVars: { password: pairing.hashtag },
+          source: 'mission',
+        });
+      }
     });
 
     Missions.update(mission._id!, {
@@ -140,11 +157,11 @@ Meteor.methods({
       return true;
     }
 
-    MissionPairings.update(pairing._id, {
+    MissionPairings.update(pairing._id!, {
       $set: { complete: true, timeComplete: new Date() },
     });
 
-    if (mission.missionSuccessText) {
+    if (mission.missionSuccessText && mission.missionSuccessText.length) {
       Meteor.call('autoTexts.sendCustom', {
         playerText: mission.missionSuccessText,
         playerId: pairing.playerA,

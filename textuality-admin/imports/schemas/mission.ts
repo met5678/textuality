@@ -31,17 +31,22 @@ const MissionSchema = new SimpleSchema({
   },
   missionPreText: {
     type: String,
-    max: 150,
+    optional: true,
+  },
+  missionPlayerAText: {
+    type: String,
+    optional: true,
+  },
+  missionPlayerBText: {
+    type: String,
     optional: true,
   },
   missionSuccessText: {
     type: String,
-    max: 150,
     optional: true,
   },
   missionFailText: {
     type: String,
-    max: 150,
     optional: true,
   },
 });
@@ -57,6 +62,8 @@ interface Mission {
   timeStart?: Date;
   timeEnd?: Date;
   missionPreText?: string;
+  missionPlayerAText?: string;
+  missionPlayerBText?: string;
   missionSuccessText?: string;
   missionFailText?: string;
 }

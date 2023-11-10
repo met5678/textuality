@@ -3,7 +3,7 @@ import React from 'react';
 import MissionsTable from './MissionsTable';
 import { Box, Typography } from '@mui/material';
 
-const MissionsPage = ({ match }) => {
+const MissionsPage = () => {
   return (
     <>
       <Box mb={2}>

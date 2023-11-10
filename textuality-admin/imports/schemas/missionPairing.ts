@@ -36,7 +36,7 @@ interface MissionPairing {
   avatarA: string;
   avatarB: string;
   hashtag: string;
-  complete: boolean;
+  complete?: boolean;
   timeComplete?: Date;
 }
 

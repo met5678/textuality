@@ -501,13 +501,6 @@ body {
   overflow: hidden;
   display: inline-block;
 }
-.data .mask {
-  color: #fff;
-  font-size: 24px;
-  margin: auto;
-  line-height: 1.4;
-  padding-top: 36px;
-}
 .data .result {
   background-color: green;
   color: white;

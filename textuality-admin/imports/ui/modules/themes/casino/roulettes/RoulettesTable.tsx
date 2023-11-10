@@ -14,9 +14,49 @@ import { DateTime } from 'luxon';
 
 const columns: GridColDef<RouletteWithHelpers>[] = [
   {
-    field: 'minimum_bet',
-    headerName: 'Min Bet',
-    width: 80,
+    field: 'scheduled',
+    headerName: 'Auto',
+    type: 'boolean',
+    width: 50,
+  },
+  {
+    field: 'bets_start_at',
+    headerName: 'Bets Start',
+    type: 'dateTime',
+    valueFormatter: (params) =>
+      params.value
+        ? DateTime.fromJSDate(params.value).toLocaleString(DateTime.TIME_SIMPLE)
+        : '--',
+    width: 100,
+  },
+  {
+    field: 'spin_starts_at',
+    headerName: 'Spin Starts',
+    type: 'dateTime',
+    valueFormatter: (params) =>
+      params.value
+        ? DateTime.fromJSDate(params.value).toLocaleString(DateTime.TIME_SIMPLE)
+        : '--',
+    width: 100,
+  },
+  {
+    field: 'spin_seconds',
+    headerName: 'Spin Time',
+    valueFormatter: (params) => params.value + 's',
+    width: 90,
+  },
+  {
+    field: 'bets_cutoff_seconds',
+    headerName: 'Bets Cutoff',
+    valueFormatter: (params) => params.value + 's',
+    width: 90,
+  },
+  {
+    field: 'number_payout_multiplier',
+    headerName: 'Payouts',
+    renderCell: (params) =>
+      `${params.row.number_payout_multiplier}x / ${params.row.special_payout_multiplier}x`,
+    width: 90,
   },
   {
     field: 'status',
@@ -24,29 +64,12 @@ const columns: GridColDef<RouletteWithHelpers>[] = [
     width: 90,
   },
   {
-    field: 'bets_start_at',
-    headerName: 'Bets Start',
-    type: 'dateTime',
-    width: 120,
+    field: 'bets_open',
+    headerName: 'Bets Open',
+    type: 'boolean',
+    width: 80,
   },
-  {
-    field: 'spin_starts_at',
-    headerName: 'Spin Starts',
-    type: 'dateTime',
-    width: 120,
-  },
-  {
-    field: 'spin_seconds',
-    headerName: 'Spin Time',
-    valueFormatter: (params) => params.value + 's',
-    width: 120,
-  },
-  {
-    field: 'bets_cutoff_seconds',
-    headerName: 'Bets Cutoff',
-    valueFormatter: (params) => params.value + 's',
-    width: 120,
-  },
+
   {
     field: 'result',
     headerName: 'Result',
@@ -57,7 +80,7 @@ const columns: GridColDef<RouletteWithHelpers>[] = [
 const RoulettesTable = () => {
   const isLoading = useSubscribe('roulettes.all');
   const roulettes = useFind(
-    () => Roulettes.find({}, { sort: { code: 1 } }),
+    () => Roulettes.find({}, { sort: { bets_start_at: 1 } }),
     [],
   );
   const [editRoulette, setEditRoulette] =
@@ -70,7 +93,12 @@ const RoulettesTable = () => {
         data={roulettes}
         isLoading={isLoading()}
         canDelete={true}
-        onDelete={(player) => Meteor.call('roulettes.delete', player)}
+        onDelete={(roulette) => {
+          Meteor.call(
+            'roulettes.delete',
+            roulette.map((r) => r._id),
+          );
+        }}
         canAdd={true}
         onAdd={() => setEditRoulette(RouletteSchema.clean({}))}
         canEdit={true}
@@ -97,6 +125,19 @@ const RoulettesTable = () => {
                 Meteor.call('roulettes.resetRoulette', params.row._id)
               }
               label="Reset"
+            />
+          ),
+          (params) => (
+            <GridActionsCellItem
+              showInMenu={true}
+              onClick={() =>
+                Meteor.call('roulettes.copyMultiplesToAll', {
+                  number_payout_multiplier: params.row.number_payout_multiplier,
+                  special_payout_multiplier:
+                    params.row.special_payout_multiplier,
+                })
+              }
+              label="Copy Payouts"
             />
           ),
         ]}

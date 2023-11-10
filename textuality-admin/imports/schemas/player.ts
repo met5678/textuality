@@ -136,12 +136,28 @@ interface PlayerBasic {
   money: number;
 }
 
+const PlayerShortSchema = new SimpleSchema({
+  id: String,
+  alias: String,
+  avatar_id: String,
+  money: SimpleSchema.Integer,
+});
+
+interface PlayerShort {
+  id: string;
+  alias: string;
+  avatar_id: string;
+  money: number;
+}
+
 export default PlayerSchema;
 export {
   PlayerSchema,
+  PlayerShortSchema,
   Player,
   PlayerBasic,
   PlayerCheckpoint,
   PlayerSlotSpin,
   PlayerQuest,
+  PlayerShort,
 };

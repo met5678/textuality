@@ -16,6 +16,7 @@
     "@mui/icons-material": "^5.14.16",
     "@mui/material": "^5.14.16",
     "@mui/x-data-grid": "^6.17.0",
+    "@mui/x-date-pickers": "^6.18.1",
     "array-sort": "~1.0.0",
     "body-parser": "~1.19.0",
     "classnames": "~2.2.6",

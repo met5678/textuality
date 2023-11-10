@@ -8,6 +8,20 @@ const RouletteSchema = new SimpleSchema({
     allowedValues: Events.allIds,
   },
   minimum_bet: SimpleSchema.Integer,
+  spin_seconds: {
+    type: SimpleSchema.Integer,
+    defaultValue: 45,
+  },
+  bets_cutoff_seconds: {
+    type: SimpleSchema.Integer,
+    defaultValue: 10,
+    min: 0,
+  },
+
+  scheduled: {
+    type: Boolean,
+    defaultValue: false,
+  },
   bets_start_at: {
     type: Date,
     optional: true,
@@ -16,14 +30,7 @@ const RouletteSchema = new SimpleSchema({
     type: Date,
     optional: true,
   },
-  spin_seconds: {
-    type: SimpleSchema.Integer,
-    defaultValue: 120,
-  },
-  bets_cutoff_seconds: {
-    type: SimpleSchema.Integer,
-    defaultValue: 10,
-  },
+
   result: {
     type: SimpleSchema.Integer,
     optional: true,
@@ -40,27 +47,25 @@ const RouletteSchema = new SimpleSchema({
     ],
     defaultValue: 'inactive',
   },
-
-  bets_started_at: {
-    type: Date,
-    optional: true,
-  },
-  spin_started_at: {
-    type: Date,
-    optional: true,
-  },
-  bets_ended_at: {
-    type: Date,
-    optional: true,
-  },
-  spin_ended_at: {
-    type: Date,
-    optional: true,
-  },
-
   bets_open: {
     type: Boolean,
     defaultValue: false,
+  },
+
+  number_payout_multiplier: {
+    type: Number,
+    defaultValue: 20,
+  },
+
+  special_payout_multiplier: {
+    type: Number,
+    defaultValue: 2,
+  },
+
+  linked_mission: {
+    type: String,
+    optional: true,
+    // allowedValues: Missions.allIds
   },
 });
 
@@ -76,20 +81,20 @@ interface Roulette {
   _id?: string;
   event: string;
   minimum_bet: number;
-  bets_start_at?: Date;
-  spin_starts_at?: Date;
   spin_seconds: number;
   bets_cutoff_seconds: number;
+  number_payout_multiplier: number;
+  special_payout_multiplier: number;
 
-  bets_started_at?: Date;
-  spin_started_at?: Date;
-  bets_ended_at?: Date;
-  spin_ended_at?: Date;
+  scheduled: true;
+  bets_start_at?: Date;
+  spin_starts_at?: Date;
 
+  status: RouletteStatus;
+  result?: number;
   bets_open: boolean;
 
-  result?: number;
-  status: RouletteStatus;
+  linked_mission?: string;
 }
 
 export default RouletteSchema;

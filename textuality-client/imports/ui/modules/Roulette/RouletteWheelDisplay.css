@@ -1,0 +1,19 @@
+.wheel-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.wheel-title {
+  font-size: 3vw;
+}
+
+.wheel-title.with-countdown {
+  font-size: 2vw;
+}
+
+.wheel-countdown {
+  font-size: 5vw;
+}

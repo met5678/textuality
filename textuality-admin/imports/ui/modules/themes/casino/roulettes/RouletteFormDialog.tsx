@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 
 import { RouletteSchema, Roulette } from '/imports/schemas/roulette';
@@ -8,12 +8,15 @@ import {
   AutoFields,
   ErrorsField,
   LongTextField,
+  SelectField,
 } from 'uniforms-mui';
 import { Box, Typography } from '@mui/material';
 import EventField from '../../../events/EventField';
 import AutoFormDialog from '/imports/ui/generic/AutoForm/AutoFormDialog';
 import TextField from '/imports/ui/generic/AutoForm/TextField';
 import NumberField from '/imports/ui/generic/AutoForm/NumberField';
+import { useSubscribe } from 'meteor/react-meteor-data';
+import { DateField } from '/imports/ui/generic/AutoForm';
 
 interface RouletteFormProps {
   model: Partial<Roulette> | null;
@@ -21,6 +24,8 @@ interface RouletteFormProps {
 }
 
 const RouletteFormDialog = ({ model, onClose }: RouletteFormProps) => {
+  // const isLoading = useSubscribe('missions.all');
+  // const missions = useFind(() => Missions.find({}).fetch(), [isLoading]
   const onSubmit = (roulette: Partial<Roulette>) => {
     if (roulette._id) {
       Meteor.call('roulettes.update', roulette);
@@ -30,18 +35,44 @@ const RouletteFormDialog = ({ model, onClose }: RouletteFormProps) => {
     onClose();
   };
 
+  const [liveModel, setLiveModel] = useState(model);
+  useEffect(() => setLiveModel(model), [model]);
+
   return (
     <AutoFormDialog
       schema={RouletteSchema}
       onSubmit={onSubmit}
       model={model}
       handleClose={onClose}
+      onChangeModel={setLiveModel}
     >
       <EventField />
       <NumberField name="minimum_bet" />
-      <AutoField name="bets_start_at" />
-      <AutoField name="spin_starts_at" />
-      <NumberField name="spin_seconds" />
+      <AutoField name="scheduled" />
+      {liveModel?.scheduled && (
+        <>
+          <DateField name="bets_start_at" type="datetime-local" />
+          <DateField name="spin_starts_at" type="datetime-local" />
+        </>
+      )}
+      <NumberField name="number_payout_multiplier" />
+      <NumberField name="special_payout_multiplier" />
+
+      <SelectField
+        name="linked_mission"
+        options={[
+          {
+            label: 'None',
+            value: 'none',
+          },
+          {
+            label: 'mission 1',
+            value: 'm1',
+          },
+          { label: 'mission 2', value: 'm2' },
+        ]}
+      />
+      <NumberField name="spin_seconds" disabled={true} />
       <NumberField name="bets_cutoff_seconds" />
       <NumberField name="result" />
       <ErrorsField />

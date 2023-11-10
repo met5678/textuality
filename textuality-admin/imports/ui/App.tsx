@@ -21,6 +21,8 @@ import SlotMachinesPage from './modules/themes/casino/slotMachines/SlotMachinesP
 import RoulettesPage from './modules/themes/casino/roulettes/RoulettesPage';
 
 import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
 
 const darkTheme = createTheme({
   palette: {
@@ -30,32 +32,34 @@ const darkTheme = createTheme({
 
 const App = () => (
   <ThemeProvider theme={darkTheme}>
-    <CssBaseline />
+    <LocalizationProvider dateAdapter={AdapterLuxon}>
+      <CssBaseline />
 
-    <Shell>
-      <Switch>
-        <Route path="/texts" component={AllTextsPage} />
-        <Route path="/players" component={PlayersPage} />
-        <Route path="/media" component={MediaPage} />
-        {/*<Route path="/unlocks" component={AchievementUnlocksPage} />*/}
-        <Route path="/achievements" component={AchievementsPage} />
-        <Route path="/aliases" component={AliasesPage} />
-        <Route path="/autoTexts" component={AutoTextsPage} />
-        <Route path="/checkpoints" component={CheckpointsPage} />
-        <Route path="/casino/slot-machines" component={SlotMachinesPage} />
-        <Route path="/casino/roulettes" component={RoulettesPage} />
-        {/*<Route path="/casino/quests" component={HackerQuestsPage} /> */}
+      <Shell>
+        <Switch>
+          <Route path="/texts" component={AllTextsPage} />
+          <Route path="/players" component={PlayersPage} />
+          <Route path="/media" component={MediaPage} />
+          {/*<Route path="/unlocks" component={AchievementUnlocksPage} />*/}
+          <Route path="/achievements" component={AchievementsPage} />
+          <Route path="/aliases" component={AliasesPage} />
+          <Route path="/autoTexts" component={AutoTextsPage} />
+          <Route path="/checkpoints" component={CheckpointsPage} />
+          <Route path="/casino/slot-machines" component={SlotMachinesPage} />
+          <Route path="/casino/roulettes" component={RoulettesPage} />
+          {/*<Route path="/casino/quests" component={HackerQuestsPage} /> */}
 
-        {/*<Route path="/clue-rewards" component={ClueRewardsPage} />*/}
-        {/*<Route path="/clues" component={CluesPage} />*/}
-        {/*<Route path="/guesses" component={GuessesPage} />*/}
-        {/*<Route path="/missions" component={MissionsPage} />*/}
-        {/*<Route path="/rounds" component={RoundsPage} />*/}
+          {/*<Route path="/clue-rewards" component={ClueRewardsPage} />*/}
+          {/*<Route path="/clues" component={CluesPage} />*/}
+          {/*<Route path="/guesses" component={GuessesPage} />*/}
+          {/*<Route path="/missions" component={MissionsPage} />*/}
+          {/*<Route path="/rounds" component={RoundsPage} />*/}
 
-        <Route path="/events" component={EventsPage} />
-        <Redirect to="/events" />
-      </Switch>
-    </Shell>
+          <Route path="/events" component={EventsPage} />
+          <Redirect to="/events" />
+        </Switch>
+      </Shell>
+    </LocalizationProvider>{' '}
   </ThemeProvider>
 );
 

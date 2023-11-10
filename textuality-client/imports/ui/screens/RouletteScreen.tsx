@@ -9,19 +9,16 @@ interface RouletteScreenProps {
 }
 
 const RouletteScreen = ({ event }: RouletteScreenProps) => {
-  const isLoading = useSubscribe('roulettes.current');
+  const isLoading = useSubscribe('roulettes.currentOrNext');
   const roulettes = useFind(() => Roulettes.find(), []);
-
   const roulette = roulettes[0];
-
-  if (isLoading()) return 'Loading';
 
   if (!roulette) return 'No roulette';
 
   return (
-    <>
+    <div className="rouletteScreen">
       <Roulette roulette={roulette} />
-    </>
+    </div>
   );
 };
 

@@ -65,6 +65,8 @@ const AutoTextSchema = new SimpleSchema({
       'ROULETTE_WIN_SMALL',
       'ROULETTE_WIN_NUMBER',
       'ROULETTE_NOT_YET_ACCEPTING',
+      'ROULETTE_BET_TOO_LATE',
+      'ROULETTE_NOT_ENOUGH_MONEY',
       'ROULETTE_NO_MORE',
 
       'HACKER_SLOT_CLUE',

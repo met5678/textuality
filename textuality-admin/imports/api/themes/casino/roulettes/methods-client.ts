@@ -2,6 +2,10 @@ import { Meteor } from 'meteor/meteor';
 import Roulettes from './roulettes';
 import waitForSeconds from '/imports/api/rounds/reveal-sequence/_wait-for-seconds';
 import Events from '/imports/api/events';
+import {
+  SPIN_END_DWELL_SECONDS,
+  WINNERBOARD_DWELL_SECONDS,
+} from './server/roulette-scheduler';
 
 Meteor.methods({
   'roulettes.findCurrent': () => {
@@ -11,82 +15,97 @@ Meteor.methods({
     });
   },
 
+  'roulettes.findNext': () => {
+    return Roulettes.findOne(
+      {
+        event: Events.currentId()!,
+        bets_start_at: { $gt: new Date() },
+      },
+      {
+        sort: { bets_start_at: 1 },
+        limit: 1,
+      },
+    );
+  },
+
   'roulettes.openBets': (rouletteId) => {
+    const roulette = Roulettes.findOne(rouletteId);
+
+    if (!roulette) return;
+
+    // Commenting this conditional out -- we'll randomize
+    // the bets each time
+    // if (
+    //   typeof roulette.result !== 'number' ||
+    //   roulette.result < 0 ||
+    //   roulette.result > 36
+    // ) {
+    Roulettes.update(rouletteId, {
+      $set: {
+        result: Math.floor(Math.random() * 37),
+      },
+    });
+    // }
+
     Roulettes.update(rouletteId, {
       $set: {
         bets_open: true,
-        bets_started_at: new Date(),
+        status: 'pre-spin',
       },
     });
+
+    if (roulette?.linked_mission && roulette?.linked_mission !== 'none') {
+      console.log('Starting mission associated with roulette');
+    }
   },
 
-  'roulettes.startSpin': async (rouletteId) => {
+  'roulettes.startSpin': (rouletteId) => {
     const roulette = Roulettes.findOne(rouletteId);
     if (!roulette) return;
+
+    if (!roulette.bets_open) {
+      Meteor.call('roulettes.openBets', rouletteId);
+    }
 
     Roulettes.update(rouletteId, {
       $set: {
         status: 'spinning',
         bets_open: true,
-        spin_started_at: new Date(),
       },
-    });
-
-    waitForSeconds(roulette.spin_seconds - roulette.bets_cutoff_seconds).then(
-      () => {
-        Meteor.call('roulettes.closeBets', rouletteId);
-      },
-    );
-    waitForSeconds(roulette.spin_seconds).then(() => {
-      Meteor.call('roulettes.finishSpin', rouletteId);
     });
   },
 
-  'roulettes.finishSpin': async (rouletteId) => {
+  'roulettes.finishSpin': (rouletteId) => {
     Roulettes.update(rouletteId, {
       $set: {
         status: 'end-spin',
-        spin_ended_at: new Date(),
+        bets_open: false,
       },
     });
+  },
 
-    await waitForSeconds(10);
-
+  'roulettes.revealWinners': (rouletteId) => {
     Roulettes.update(rouletteId, {
       $set: {
         status: 'winners-board',
       },
     });
-
-    await waitForSeconds(30);
-
-    Roulettes.update(rouletteId, {
-      $set: {
-        status: 'inactive',
-      },
-    });
+    Meteor.call('rouletteBets.doPayouts', rouletteId);
   },
 
   'roulettes.closeBets': (rouletteId) => {
     Roulettes.update(rouletteId, {
       $set: {
         bets_open: false,
-        bets_ended_at: new Date(),
       },
     });
   },
 
-  'roulettes.resetRoulette': (rouletteId) => {
+  'roulettes.deactivateRoulette': (rouletteId) => {
     Roulettes.update(rouletteId, {
       $set: {
         bets_open: false,
         status: 'inactive',
-      },
-      $unset: {
-        spin_started_at: '',
-        spin_ended_at: '',
-        bets_started_at: '',
-        bets_ended_at: '',
       },
     });
   },

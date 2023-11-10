@@ -1,7 +1,8 @@
-.roulette {
+.rouletteScreen {
   position: fixed;
   width: 100vw;
   height: 100vh;
+
   background:
     radial-gradient(
         hsl(103, 30%, 27%) 4%,
@@ -39,8 +40,37 @@
       0 0;
   background-color: #300;
   background-size: 100px 100px;
+}
+
+.roulette {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
   font-family: rockwell-nova, sans-serif;
   padding: 50px 50px 60px 50px;
+}
+
+.bettingArea {
+  transition: transform 500ms;
+}
+
+.roulette.inactive .bettingArea {
+  transform: translateY(100vh);
+}
+
+.roulette.inactive h2 {
+  transform: translateY(-100vh);
+}
+
+.leaderboardArea {
+  transition: transform 500ms;
+  position: absolute;
+  width: 42vw;
+  transform: translateX(-100vw);
+}
+
+.roulette.inactive .leaderboardArea {
+  transform: translateX(0);
 }
 
 h2 {
@@ -52,6 +82,7 @@ h2 {
   margin-bottom: 8px;
   text-shadow: 4px 4px 3px rgba(0, 0, 0, 0.4);
   font-style: italic;
+  transition: transform 500ms;
 }
 
 h2 span {

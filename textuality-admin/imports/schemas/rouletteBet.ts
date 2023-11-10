@@ -1,13 +1,7 @@
 import SimpleSchema from 'simpl-schema';
 
 import Events from '/imports/api/events';
-
-const PlayerShortSchema = new SimpleSchema({
-  id: String,
-  alias: String,
-  money: SimpleSchema.Integer,
-  avatar_id: String,
-});
+import { PlayerShort, PlayerShortSchema } from './player';
 
 type RouletteBetSlot = number | 'even' | 'odd' | 'red' | 'black';
 
@@ -16,7 +10,7 @@ const RouletteBetSchema = new SimpleSchema({
     type: String,
     allowedValues: Events.allIds,
   },
-  roulette: String,
+  roulette_id: String,
   bet_slot: {
     type: SimpleSchema.oneOf(String, SimpleSchema.Integer),
     allowedValues: () => {
@@ -33,17 +27,10 @@ const RouletteBetSchema = new SimpleSchema({
   time: Date,
 });
 
-interface PlayerShort {
-  id: string;
-  alias: string;
-  money: number;
-  avatar_id: string;
-}
-
 interface RouletteBet {
   _id?: string;
   event: string;
-  roulette: string;
+  roulette_id: string;
   bet_slot: RouletteBetSlot;
   wager: number;
   player: PlayerShort;
@@ -51,4 +38,4 @@ interface RouletteBet {
 }
 
 export default RouletteBetSchema;
-export { RouletteBetSchema, RouletteBet, PlayerShort };
+export { RouletteBetSchema, RouletteBet };

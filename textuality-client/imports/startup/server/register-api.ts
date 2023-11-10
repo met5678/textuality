@@ -50,6 +50,11 @@ import '/imports/api/themes/casino/slotMachines/server/publications-client';
 import '/imports/api/themes/casino/roulettes/';
 import '/imports/api/themes/casino/roulettes/methods-client';
 import '/imports/api/themes/casino/roulettes/server/publications-client';
+import '/imports/api/themes/casino/roulettes/server/roulette-scheduler';
+
+import '/imports/api/themes/casino/rouletteBets/';
+import '/imports/api/themes/casino/rouletteBets/methods-client';
+import '/imports/api/themes/casino/rouletteBets/server/publications-client';
 
 // Clue specific
 

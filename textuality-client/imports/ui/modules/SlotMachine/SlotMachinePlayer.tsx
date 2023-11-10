@@ -26,7 +26,7 @@ const SlotMachinePlayer = ({
       ></div>
       <div className="player-alias">{player.alias}</div>
       <div className="player-money">
-        {win_amount ? `+ ${win_amount} BB` : `${player.money} BB`}
+        {win_amount ? `+ ${win_amount} BB` : ``}
       </div>
     </div>
   );

@@ -1,15 +1,17 @@
 import React from 'react';
 import { getImageUrl } from '/imports/services/cloudinary/cloudinary-geturl';
 import './SlotMachinePlayer.css';
-import { PlayerShort } from '/imports/schemas/rouletteBet';
 import { SlotMachineStatus } from '/imports/schemas/slotMachine';
+import { PlayerShort } from '/imports/schemas/player';
 
 const SlotMachinePlayer = ({
   player,
   status,
+  win_amount,
 }: {
   player: PlayerShort;
   status: SlotMachineStatus;
+  win_amount: number;
 }) => {
   return (
     <div className={`slot-player ${status ?? ''}`}>
@@ -23,7 +25,9 @@ const SlotMachinePlayer = ({
         }}
       ></div>
       <div className="player-alias">{player.alias}</div>
-      <div className="player-money">{player.money} BB</div>
+      <div className="player-money">
+        {win_amount ? `+ ${win_amount} BB` : `${player.money} BB`}
+      </div>
     </div>
   );
 };

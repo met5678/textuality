@@ -31,6 +31,8 @@ const SlotMachine = ({ slotMachine }: SlotMachineProps) => {
   const { name, short, cost, status, code, result, win_amount, player, stats } =
     slotMachine;
 
+  const showWin = status === 'win-normal' || status === 'win-hacker';
+
   useConfetti(status === 'win-normal');
 
   return (
@@ -78,7 +80,11 @@ const SlotMachine = ({ slotMachine }: SlotMachineProps) => {
 
         <div className="slot-bottom">
           {player ? (
-            <SlotMachinePlayer player={player} status={status} />
+            <SlotMachinePlayer
+              player={player}
+              status={status}
+              win_amount={showWin ? win_amount! : 0}
+            />
           ) : (
             <SlotMachinePayouts slotMachine={slotMachine} items={items} />
           )}

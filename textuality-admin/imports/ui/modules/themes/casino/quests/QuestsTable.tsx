@@ -25,6 +25,12 @@ const columns: GridColDef<Quest>[] = [
     flex: 1,
   },
   {
+    field: 'slot_quest',
+    headerName: 'Award',
+    width: 80,
+    valueGetter: (params) => params.row.slot_quest?.win_amount || '--',
+  },
+  {
     field: 'num_assigned',
     headerName: 'Given',
     width: 90,

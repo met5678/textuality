@@ -47,7 +47,10 @@ const RouletteGrid = ({ rouletteId, status, betsOpen }: RouletteGridProps) => {
       id={String(number)}
     >
       {hasBet(number) && (
-        <RouletteChip avatar_id={getBet(number)?.player.avatar_id} />
+        <RouletteChip
+          avatar_id={getBet(number)?.player.avatar_id}
+          zoom={1.25}
+        />
       )}
       {number}
     </td>
@@ -77,7 +80,10 @@ const RouletteGrid = ({ rouletteId, status, betsOpen }: RouletteGridProps) => {
         </tr>
         <tr className="nums">
           <td className="green zero" id="0">
-            {hasBet(0) && <RouletteChip />}0
+            {hasBet(0) && (
+              <RouletteChip avatar_id={getBet(0)?.player.avatar_id} />
+            )}
+            0
           </td>
           {getNumbers(2).map((number) => renderCell(number))}
         </tr>

@@ -1,6 +1,7 @@
 import React from 'react';
 import './CasinoLeaderboard.css';
 
+import RouletteChip from '../Roulette/RouletteChip';
 import Players from '/imports/api/players';
 import { useFind, useSubscribe } from 'meteor/react-meteor-data';
 import { getImageUrl } from '/imports/services/cloudinary/cloudinary-geturl';
@@ -24,9 +25,7 @@ const CasinoLeaderboard = () => {
           {players.map((player, i) => (
             <div key={player._id} className="leaderboard-row">
               <div className="leaderboard-img">
-                <img
-                  src={getImageUrl(player.avatar!, { width: 100, height: 100 })}
-                />
+                <RouletteChip avatar_id={player.avatar!} zoom={1} />
               </div>
               <p className="leaderboard-item">{player.alias} </p>
               <p className="leaderboard-value">{player.money} BB</p>

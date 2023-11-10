@@ -2,8 +2,29 @@ import React from 'react';
 import './RouletteGrid.css';
 
 import RouletteChip from './RouletteChip';
+import { useFind, useSubscribe } from 'meteor/react-meteor-data';
+import RouletteBets from '/imports/api/themes/casino/rouletteBets';
+import { RouletteStatus } from '/imports/schemas/roulette';
+import useTimedQueue from '../../hooks/use-timed-queue';
+import { RouletteBet } from '/imports/schemas/rouletteBet';
+import { getImageUrl } from '/imports/services/cloudinary/cloudinary-geturl';
 
-const RouletteGrid = ({}) => {
+interface RouletteGridProps {
+  status: RouletteStatus;
+  betsOpen: boolean;
+  rouletteId: string;
+}
+
+const RouletteGrid = ({ rouletteId, status, betsOpen }: RouletteGridProps) => {
+  const isLoading = useSubscribe('rouletteBets.forRoulette', rouletteId);
+  const bets = useFind(
+    () =>
+      RouletteBets.find({ roulette_id: rouletteId }, { sort: { time: -1 } }),
+    [rouletteId],
+  );
+
+  const queueBet = useTimedQueue<RouletteBet>(bets, 5000);
+
   const getNumbers = (start: number) => {
     return Array.from({ length: 12 }, (_, index) => index * 3 + start);
   };
@@ -70,6 +91,18 @@ const RouletteGrid = ({}) => {
           </td>
         </tr>
       </table>
+      {queueBet && (
+        <div>
+          {queueBet?.player.alias}{' '}
+          <img
+            src={getImageUrl(queueBet.player.avatar_id, {
+              height: 100,
+              width: 100,
+            })}
+          />
+          {queueBet.wager}BB, {queueBet.bet_slot}
+        </div>
+      )}
     </div>
   );
 };

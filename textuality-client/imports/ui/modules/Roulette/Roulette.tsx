@@ -20,7 +20,8 @@ interface RouletteProps {
 const Roulette = ({ roulette }: RouletteProps) => {
   const {
     event,
-    minimum_bet,
+    number_payout_multiplier,
+    special_payout_multiplier
     bets_start_at,
     spin_starts_at,
     bets_open,
@@ -48,9 +49,9 @@ const Roulette = ({ roulette }: RouletteProps) => {
         <div className="bettingArea">
           <div className="instructions">
             <RouletteInstr />
-            <p>Minimum: {minimum_bet} BB</p>
+            <p>Number Payout: {number_payout_multiplier}x, Red/Black/Odd/Even Payout: {special_payout_multiplier}x</p>
           </div>
-          <RouletteGrid />
+          <RouletteGrid status={status} betsOpen={bets_open} rouletteId={roulette._id} />
         </div>
 
         <div className="leaderboardArea">

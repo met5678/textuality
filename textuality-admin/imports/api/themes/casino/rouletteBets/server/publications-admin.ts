@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 
-import RouletteBets from '../';
+import RouletteBets from '..';
 import Events from '/imports/api/events';
 
 Meteor.publish('missionPairings.all', function () {

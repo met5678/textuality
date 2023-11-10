@@ -114,7 +114,12 @@ const CheckpointsTable = () => {
         data={checkpoints}
         isLoading={isLoading()}
         canDelete={true}
-        onDelete={(checkpoint) => Meteor.call('checkpoints.delete', checkpoint)}
+        onDelete={(checkpoint) => {
+          Meteor.call(
+            'checkpoints.delete',
+            checkpoint.map((r) => r._id),
+          );
+        }}
         canAdd={true}
         onAdd={() => setEditCheckpoint(CheckpointSchema.clean({}))}
         canEdit={true}

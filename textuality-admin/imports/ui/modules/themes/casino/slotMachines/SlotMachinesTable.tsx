@@ -93,7 +93,12 @@ const SlotMachinesTable = () => {
         data={slotMachines}
         isLoading={isLoading()}
         canDelete={true}
-        onDelete={(player) => Meteor.call('slotMachines.delete', player)}
+        onDelete={(slotMachine) => {
+          Meteor.call(
+            'slotMachines.delete',
+            slotMachine.map((r) => r._id),
+          );
+        }}
         canAdd={true}
         onAdd={() => setEditSlotMachine(SlotMachineSchema.clean({}))}
         canEdit={true}

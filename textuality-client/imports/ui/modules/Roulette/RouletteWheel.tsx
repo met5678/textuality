@@ -68,7 +68,11 @@ const RouletteWheel = ({
             <div
               className="result"
               style={{
-                backgroundColor: ballDoneSpinning ? resultColor : 'inherit',
+                backgroundColor: ballDoneSpinning
+                  ? resultColor == 'red'
+                    ? '#d01935'
+                    : resultColor
+                  : 'inherit',
               }}
             >
               <div className="result-number">{result}</div>

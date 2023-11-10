@@ -1,26 +1,33 @@
 .chip {
-  margin: 0.5em;
-  font-size: 1.2em;
-  display: inline-block;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  max-width: 100%; /* Ensure the chip doesn't grow larger than its parent */
-  max-height: 100%; /* Ensure the chip doesn't grow larger than its parent */
-  background: #fff;
-  border-radius: 50%;
   position: relative;
-  border: 40px solid #121639; /* Border width is 20% of the chip's size */
-  backface-visibility: hidden;
-  box-shadow: 0 0 0 0.2em #121639;
-  overflow: hidden; /* Hide content that overflows the chip */
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
+  width: 40px;
+  height: 40px;
+  background: white;
+  border-radius: 50%;
 }
 
+.chipRing {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 50%;
+  border: 6px dashed #121639;
+}
+
+/* box-shadow: 0 0 0 0.2em #121639;
+  overflow: hidden; /* Hide content that overflows the chip */
+/* display: flex; */
+/* align-items: center;
+  justify-content: center; 
+}
+*/
+
 .chip img {
-  max-height: 80%; /* Make sure the image takes the full width of the container */
-  max-width: 80%; /* Make sure the image takes the full height of the container */
+  max-height: 100%; /* Make sure the image takes the full width of the container */
+  max-width: 100%; /* Make sure the image takes the full height of the container */
   object-fit: cover; /* Ensure the image covers the container without stretching */
+  border-radius: 50%;
 }

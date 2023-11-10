@@ -67,6 +67,7 @@
   position: absolute;
   width: 42vw;
   transform: translateX(-100vw);
+  top: 120px;
 }
 
 .roulette.inactive .leaderboardArea {
@@ -89,20 +90,20 @@ h2 span {
   color: #d01935;
 }
 
-p {
-  font-weight: 400;
+p:first-child {
   font-size: 26px;
-  line-height: 1.6;
+  margin-bottom: 8px;
 }
 
-p + p {
+p {
+  font-weight: 400;
+  line-height: 1.6;
   font-size: 24px;
 }
 
 .instructions {
   margin-bottom: 40px;
-  margin-top: 40px;
-  margin-top: 60px;
+  margin-top: 16px;
 }
 
 .instructions code {
@@ -180,11 +181,16 @@ p + p {
 
   .instructions {
     width: 48vw;
+    margin-top: 32px;
   }
 
   .rouletteWheel {
     transform: scale(0.68);
     top: 16px;
     left: -30px;
+  }
+
+  .leaderboardArea {
+    top: 80px;
   }
 }

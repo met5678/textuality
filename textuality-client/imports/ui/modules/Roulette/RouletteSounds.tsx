@@ -6,14 +6,32 @@ const RouletteSounds = ({
 }: {
   roulette: Partial<RouletteWithHelpers>;
 }) => {
-  const { status } = roulette;
+  const { status, bets_open } = roulette;
 
-  if (status === 'spinning')
-    return <audio src="/casino/sounds/roulette-spin.ogg" autoPlay />;
-
-  if (status === 'end-spin')
-    return <audio src="/casino/sounds/roulette-spin-end.ogg" autoPlay />;
-  return null;
+  return (
+    <>
+      {status === 'pre-spin' && (
+        <audio src="/casino/sounds/roulette-bets-open.ogg" autoPlay />
+      )}
+      {status === 'spinning' && (
+        <audio src="/casino/sounds/roulette-spin.ogg" autoPlay />
+      )}
+      {status === 'end-spin' && (
+        <audio src="/casino/sounds/roulette-spin-end.ogg" autoPlay />
+      )}
+      {status === 'winners-board' && (
+        <audio src="/casino/sounds/roulette-winnerboard.ogg" autoPlay />
+      )}
+      {status === 'spinning' && !bets_open && (
+        <audio
+          src={`/casino/sounds/roulette-bets-close-${
+            Math.round(Math.random()) + 1
+          }.ogg`}
+          autoPlay
+        />
+      )}
+    </>
+  );
 };
 
 export default RouletteSounds;

@@ -47,7 +47,6 @@ const RouletteFormDialog = ({ model, onClose }: RouletteFormProps) => {
       onChangeModel={setLiveModel}
     >
       <EventField />
-      <NumberField name="minimum_bet" />
       <AutoField name="scheduled" />
       {liveModel?.scheduled && (
         <>

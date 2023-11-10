@@ -1,5 +1,5 @@
 import TextField, { TextFieldProps } from '@mui/material/TextField';
-import { TimePicker } from '@mui/x-date-pickers';
+import { DateTimePicker, TimePicker } from '@mui/x-date-pickers';
 import React from 'react';
 import { FieldProps, connectField, filterDOMProps } from 'uniforms';
 import { DateTime } from 'luxon';
@@ -28,7 +28,7 @@ function Date({
   };
 
   return (
-    <TimePicker
+    <DateTimePicker
       disabled={disabled}
       label={label}
       onChange={handleChange}

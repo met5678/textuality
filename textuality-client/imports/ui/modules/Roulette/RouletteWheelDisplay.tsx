@@ -49,11 +49,6 @@ const RouletteWheelDisplay = ({
 
   if (wheelDisplay == null) return null;
 
-  console.log('wheelDisplay', {
-    wheelDisplay,
-    date: wheelDisplay.luxonDate?.toJSDate(),
-  });
-
   return (
     <div className="wheel-display">
       {wheelDisplay.title && (

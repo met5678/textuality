@@ -64,16 +64,15 @@ const columns: GridColDef<RouletteWithHelpers>[] = [
     width: 90,
   },
   {
+    field: 'result',
+    headerName: 'Result',
+    width: 90,
+  },
+  {
     field: 'bets_open',
     headerName: 'Bets Open',
     type: 'boolean',
     width: 80,
-  },
-
-  {
-    field: 'result',
-    headerName: 'Result',
-    width: 90,
   },
 ];
 

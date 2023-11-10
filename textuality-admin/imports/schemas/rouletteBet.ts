@@ -38,4 +38,4 @@ interface RouletteBet {
 }
 
 export default RouletteBetSchema;
-export { RouletteBetSchema, RouletteBet };
+export { RouletteBetSchema, RouletteBet, RouletteBetSlot };

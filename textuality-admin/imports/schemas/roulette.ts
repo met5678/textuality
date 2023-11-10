@@ -7,7 +7,6 @@ const RouletteSchema = new SimpleSchema({
     type: String,
     allowedValues: Events.allIds,
   },
-  minimum_bet: SimpleSchema.Integer,
   spin_seconds: {
     type: SimpleSchema.Integer,
     defaultValue: 45,
@@ -80,7 +79,6 @@ type RouletteStatus =
 interface Roulette {
   _id?: string;
   event: string;
-  minimum_bet: number;
   spin_seconds: number;
   bets_cutoff_seconds: number;
   number_payout_multiplier: number;

@@ -62,9 +62,12 @@ const getExpectedBetsOpen = (
   return false;
 };
 
+let computation: Tracker.Computation | null = null;
+
 if (Meteor.isServer) {
   Meteor.startup(() => {
-    Tracker.autorun(() => {
+    if (computation) computation.stop();
+    computation = Tracker.autorun(() => {
       const now = reactiveDate.get();
 
       const eventRoulettes = Roulettes.find({

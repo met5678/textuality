@@ -19,7 +19,10 @@ const RouletteGrid = ({ rouletteId, status, betsOpen }: RouletteGridProps) => {
   const isLoading = useSubscribe('rouletteBets.forRoulette', rouletteId);
   const bets = useFind(
     () =>
-      RouletteBets.find({ roulette_id: rouletteId }, { sort: { time: -1 } }),
+      RouletteBets.find(
+        { roulette_id: rouletteId },
+        { sort: { time: -1 }, limit: 6 },
+      ),
     [rouletteId],
   );
 

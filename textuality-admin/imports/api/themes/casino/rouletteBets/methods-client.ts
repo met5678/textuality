@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 
-import RouletteBets from './rouletteBets';
+import RouletteBets, { RouletteBetWithHelpers } from './rouletteBets';
 import Players from '/imports/api/players';
 import Roulettes from '../roulettes';
 import Events from '/imports/api/events';
@@ -27,6 +27,25 @@ Meteor.methods({
 
     if (!player || !roulette) return;
 
+    if (betWager === 0) {
+      Meteor.call('autoTexts.send', {
+        playerId: player._id,
+        trigger: 'ROULETTE_BET_ZERO',
+      });
+      return;
+    }
+
+    if (betWager < 0) {
+      Meteor.call('autoTexts.send', {
+        playerId: player._id,
+        trigger: 'ROULETTE_BET_NEGATIVE',
+        templateVars: {
+          bet_wager: betWager,
+        },
+      });
+      return;
+    }
+
     if (player.money < betWager) {
       Meteor.call('autoTexts.send', {
         playerId: player._id,
@@ -35,6 +54,7 @@ Meteor.methods({
           bet_wager: betWager,
         },
       });
+      return;
     }
     Meteor.call('players.takeMoney', { playerId: player_id, money: betWager });
 
@@ -42,7 +62,7 @@ Meteor.methods({
       betCode,
     )
       ? betCode
-      : Number.parseInt(betCode);
+      : parseInt(betCode);
 
     const existingBet = RouletteBets.findOne({
       event: Events.currentId()!,
@@ -72,6 +92,7 @@ Meteor.methods({
           avatar_id: player.avatar!,
           money: player.money,
         },
+        win_payout: 0,
         time: new Date(),
       });
     }
@@ -110,7 +131,7 @@ Meteor.methods({
 
     const bets = RouletteBets.find({ roulette_id }).fetch();
 
-    const playersDict: Record<string, RouletteBet[]> = {};
+    const playersDict: Record<string, RouletteBetWithHelpers[]> = {};
 
     bets.forEach((bet) => {
       if (!playersDict[bet.player.id]) playersDict[bet.player.id] = [];
@@ -127,7 +148,7 @@ Meteor.methods({
 
 const processBetsForPlayer = (
   playerId: string,
-  playerBets: RouletteBet[],
+  playerBets: RouletteBetWithHelpers[],
   specialSlots: RouletteBetSlot[],
   roulette: RouletteWithHelpers,
 ) => {
@@ -151,24 +172,27 @@ const processBetsForPlayer = (
     return;
   }
 
-  const hasNumberWin = playerWinningBets.some(
-    (bet) => String(bet.bet_slot) === String(roulette.result),
+  const hasNumberWin = playerWinningBets.some((bet) => bet.isNumberBet());
+
+  playerWinningBets.forEach((bet) => {
+    if (bet.isNumberBet()) {
+      bet.win_payout = bet.wager * roulette.number_payout_multiplier;
+      RouletteBets.update(bet._id!, { $set: { win_payout: bet.win_payout } });
+    } else {
+      bet.win_payout = bet.wager * roulette.number_payout_multiplier;
+      RouletteBets.update(bet._id!, { $set: { win_payout: bet.win_payout } });
+    }
+  });
+
+  const totalPayout = playerWinningBets.reduce(
+    (total, bet) => total + bet.win_payout,
+    0,
   );
 
-  const totalPayout = playerWinningBets.reduce((total, bet) => {
-    if (isSpecialSlot(bet.bet_slot))
-      return total + bet.wager * roulette.special_payout_multiplier;
-    return total + bet.wager * roulette.number_payout_multiplier;
-  }, 0);
-
   const payoutDetailText = playerWinningBets.map((bet) => {
-    if (isSpecialSlot(bet.bet_slot))
-      return `${bet.wager} BB on ${bet.bet_slot} (${
-        roulette.special_payout_multiplier
-      }x) nets ${bet.wager * roulette.special_payout_multiplier} BB`;
-    return `${bet.wager} BB on ${bet.bet_slot} (${
-      roulette.number_payout_multiplier
-    }x) nets ${bet.wager * roulette.number_payout_multiplier} BB`;
+    if (bet.isSpecialBet())
+      return `${bet.wager} BB on ${bet.bet_slot} (${roulette.special_payout_multiplier}x) nets ${bet.win_payout} BB`;
+    return `${bet.wager} BB on ${bet.bet_slot} (${roulette.number_payout_multiplier}x) nets ${bet.win_payout} BB`;
   });
 
   Meteor.call('players.giveMoney', {
@@ -196,8 +220,4 @@ const processBetsForPlayer = (
       },
     });
   }
-};
-
-const isSpecialSlot = (slot: RouletteBetSlot) => {
-  return ['even', 'odd', 'red', 'black'].includes(String(slot));
 };

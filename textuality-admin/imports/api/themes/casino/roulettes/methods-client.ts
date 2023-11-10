@@ -90,6 +90,7 @@ Meteor.methods({
         bets_open: false,
       },
     });
+    Meteor.call('rouletteBets.doPayouts', rouletteId);
   },
 
   'roulettes.revealWinners': (rouletteId) => {
@@ -98,7 +99,6 @@ Meteor.methods({
         status: 'winners-board',
       },
     });
-    Meteor.call('rouletteBets.doPayouts', rouletteId);
   },
 
   'roulettes.closeBets': (rouletteId) => {

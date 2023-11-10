@@ -46,6 +46,7 @@
   position: fixed;
   width: 100vw;
   height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
   font-family: rockwell-nova, sans-serif;
   padding: 50px 50px 60px 50px;
 }
@@ -72,6 +73,14 @@
 
 .roulette.inactive .leaderboardArea {
   transform: translateX(0);
+}
+
+.roulette.inactive .rouletteWheel .inner {
+  filter: brightness(25%);
+}
+
+.rouletteWheel .inner {
+  transition: filter 1000ms;
 }
 
 h2 {

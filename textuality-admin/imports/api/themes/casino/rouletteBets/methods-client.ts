@@ -108,7 +108,7 @@ Meteor.methods({
     const roulette = Roulettes.findOne(roulette_id);
     if (!roulette || !roulette.result) return;
 
-    const bets = RouletteBets.find().fetch();
+    const bets = RouletteBets.find({ roulette_id }).fetch();
 
     const playersDict: Record<string, RouletteBet[]> = {};
 
@@ -142,8 +142,9 @@ const processBetsForPlayer = (
   if (!playerWinningBets.length) {
     Meteor.call('autoTexts.send', {
       playerId,
-      trigger: 'ROULETTE_LOSS',
+      trigger: 'ROULETTE_LOSE',
       templateVars: {
+        number: roulette.result,
         money_lost: totalSpent,
       },
     });

@@ -147,6 +147,10 @@ p {
   filter: drop-shadow(10px 10px 16px black);
 }
 
+.betFeeds {
+  margin-top: 32px;
+}
+
 @media (max-height: 720px) {
   h2 {
     font-size: 90px;
@@ -175,10 +179,6 @@ p {
     padding-top: 4px;
   }
 
-  .rouletteTable {
-    align-items: center;
-  }
-
   .rouletteGrid {
     margin-top: 0;
     padding-bottom: 60px;
@@ -191,16 +191,24 @@ p {
 
   .instructions {
     width: 48vw;
-    margin-top: 32px;
+    margin-top: 0;
   }
 
   .rouletteWheel {
     transform: scale(0.68);
-    top: 16px;
     left: -30px;
   }
 
   .leaderboardArea {
     top: 30px;
+  }
+
+  .betFeeds {
+    margin-top: 24px;
+    font-size: 20px;
+  }
+
+  .betFeeds .chip {
+    margin-right: 8px;
   }
 }

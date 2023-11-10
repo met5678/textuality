@@ -19,10 +19,7 @@ const RouletteGrid = ({ rouletteId, status, betsOpen }: RouletteGridProps) => {
   const isLoading = useSubscribe('rouletteBets.forRoulette', rouletteId);
   const bets = useFind(
     () =>
-      RouletteBets.find(
-        { roulette_id: rouletteId },
-        { sort: { time: -1 }, limit: 6 },
-      ),
+      RouletteBets.find({ roulette_id: rouletteId }, { sort: { time: -1 } }),
     [rouletteId],
   );
 
@@ -100,16 +97,11 @@ const RouletteGrid = ({ rouletteId, status, betsOpen }: RouletteGridProps) => {
         </tr>
       </table>
       {queueBet && (
-        <div>
-          {queueBet?.player.alias}{' '}
-          <img
-            src={getImageUrl(queueBet.player.avatar_id, {
-              height: 100,
-              width: 100,
-            })}
-          />
-          {queueBet.wager}BB, {queueBet.bet_slot}
-        </div>
+        <p className="betFeeds">
+          <RouletteChip avatar_id={queueBet?.player.avatar_id} />{' '}
+          {queueBet?.player.alias} put {queueBet.wager} BB on{' '}
+          {queueBet.bet_slot}!
+        </p>
       )}
     </div>
   );

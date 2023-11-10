@@ -6,6 +6,7 @@ import {
   GridRowParams,
   GridRowsProp,
   GridToolbarContainer,
+  GridToolbarExport,
   GridValidRowModel,
 } from '@mui/x-data-grid';
 import { Paper } from '@mui/material';
@@ -57,7 +58,12 @@ const applyRowActions = <T extends GridValidRowModel>(
 const getCustomToolbar = (toolbarActions: ReactNode[]) => {
   if (toolbarActions.length === 0) return null;
 
-  return <GridToolbarContainer>{toolbarActions}</GridToolbarContainer>;
+  return (
+    <GridToolbarContainer>
+      {toolbarActions}
+      <GridToolbarExport />
+    </GridToolbarContainer>
+  );
 };
 
 const Table = <T extends GridValidRowModel>({

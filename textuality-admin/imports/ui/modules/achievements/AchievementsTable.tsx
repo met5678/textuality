@@ -64,9 +64,12 @@ const AchievementsTable = () => {
         data={achievements}
         isLoading={isLoading()}
         canDelete={true}
-        onDelete={(achievement) =>
-          Meteor.call('achievements.delete', achievement)
-        }
+        onDelete={(achievement) => {
+          Meteor.call(
+            'achievements.delete',
+            achievement.map((r) => r._id),
+          );
+        }}
         canAdd={true}
         onAdd={() => setEditAchievement(AchievementSchema.clean({}))}
         canEdit={true}

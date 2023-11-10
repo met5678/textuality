@@ -76,7 +76,10 @@ const AutoTextSchema = new SimpleSchema({
       'ROULETTE_BET_ZERO',
       'ROULETTE_BET_NEGATIVE',
 
-      'HACKER_SLOT_SUCCESS',
+      'QUESTS_SLOT_COMPLETE',
+      'QUESTS_NO_TASKS_LEFT',
+      'QUESTS_NO_SLOTS_LEFT',
+
       'HACKER_ROULETTE_SIMPLE',
       'HACKER_ROULETTE_MATH',
 

@@ -72,32 +72,21 @@ const PlayerSchema = new SimpleSchema({
     type: Array,
     defaultValue: [],
   },
-  'slot_spins.$': Object,
-  'slot_spins.$.slot_id': String,
-  'slot_spins.$.time_spun': Date,
-  'slot_spins.$.win_amount': SimpleSchema.Integer,
+  'slot_spins.$': String,
   quests: {
     type: Array,
     defaultValue: [],
   },
   'quests.$': Object,
-  'quests.$.quest_id': String,
-  'quests.$.start_time': Date,
-  'quests.$.complete_time': Date,
-  'quests.$.is_complete': Boolean,
+  'quests.$.id': String,
+  'quests.$.complete': Boolean,
+  'quests.$.cheated': Boolean,
 });
 
 interface PlayerQuest {
-  quest_id: string;
-  start_time: Date;
-  complete_time: Date;
-  is_complete: boolean;
-}
-
-interface PlayerSlotSpin {
-  slot_id: string;
-  time_spun: Date;
-  win_amount: number;
+  id: string;
+  complete: boolean;
+  cheated: boolean;
 }
 
 interface Player {
@@ -117,7 +106,7 @@ interface Player {
   // feedMediaSent: number;
   avatar?: string;
   money: number;
-  slot_spins: PlayerSlotSpin[];
+  slot_spins: string[];
   quests: PlayerQuest[];
 }
 
@@ -157,7 +146,6 @@ export {
   Player,
   PlayerBasic,
   PlayerCheckpoint,
-  PlayerSlotSpin,
   PlayerQuest,
   PlayerShort,
 };

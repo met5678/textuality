@@ -75,6 +75,26 @@ Meteor.methods({
       money: slotMachine.cost,
     });
 
+    const {
+      hackerSpin,
+      hackerWin,
+      quest_id,
+    }: { hackerSpin: boolean; hackerWin: boolean; quest_id?: string } =
+      Meteor.call('quests.checkForHackerSpin', {
+        player_id,
+        slot_id,
+      });
+
+    if (hackerSpin) {
+      Meteor.call('slotMachines.doHackerSpin', {
+        player_id,
+        slot_id,
+        is_final: hackerWin,
+        quest_id,
+      });
+      return;
+    }
+
     const { result, win, payout_multiplier } = generateResult(slotMachine);
     const win_amount = win ? slotMachine.cost * payout_multiplier : 0;
 
@@ -142,6 +162,80 @@ Meteor.methods({
       });
       await waitForSeconds(4);
     }
+
+    SlotMachines.update(slot_id, {
+      $set: { status: 'available' },
+      $unset: { player: 1, win_amount: 1, result: 1 },
+    });
+  },
+
+  'slotMachines.doHackerSpin': async ({
+    slot_id,
+    player_id,
+    is_final,
+    quest_id,
+  }) => {
+    const slotMachine = SlotMachines.findOne(slot_id);
+    const player = Players.findOne(player_id);
+    if (!slotMachine || !player) return;
+
+    const result: SlotMachineResult = ['💣', '💣', '💣'];
+    const payout_multiplier = 1;
+
+    const win_amount = slotMachine.cost * payout_multiplier;
+
+    const slotMachineUpdate: Partial<SlotMachine> = {
+      status: 'spinning',
+      result,
+      win_amount,
+      player: {
+        id: player_id,
+        alias: player.alias,
+        money: player.money - slotMachine.cost,
+        avatar_id: player.avatar!,
+      },
+      stats: {
+        profit: slotMachine.stats.profit + slotMachine.cost - win_amount,
+        spin_count: slotMachine.stats.spin_count + 1,
+      },
+    };
+
+    Meteor.call('autoTexts.send', {
+      trigger: 'SLOT_SPIN',
+      playerId: player_id,
+      templateVars: {
+        slot_name: slotMachine.name,
+      },
+    });
+    Meteor.call('players.recordSlotSpin', { player_id, slot_id, win_amount });
+    SlotMachines.update(slot_id, { $set: slotMachineUpdate });
+    await waitForSeconds(5);
+
+    const quest = Meteor.call('quests.completeQuest', {
+      playerId: player_id,
+      questId: quest_id,
+    });
+
+    const slotStatus = is_final ? 'win-hacker-final' : 'win-hacker-partial';
+
+    const final_win_amount = is_final ? quest.win_amount : win_amount;
+
+    SlotMachines.update(slot_id, {
+      $set: {
+        status: slotStatus,
+        'player.money': player.money - slotMachine.cost + final_win_amount,
+        win_amount: final_win_amount,
+      },
+    });
+
+    if (!is_final) {
+      Meteor.call('players.giveMoney', {
+        playerId: player_id,
+        money: final_win_amount,
+      });
+    }
+
+    await waitForSeconds(7);
 
     SlotMachines.update(slot_id, {
       $set: { status: 'available' },

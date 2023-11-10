@@ -50,7 +50,8 @@ const SlotMachineSchema = new SimpleSchema({
       'spinning',
       'lose',
       'win-normal',
-      'win-hacker',
+      'win-hacker-partial',
+      'win-hacker-final',
       'disabled',
     ],
     defaultValue: 'available',
@@ -96,7 +97,8 @@ type SlotMachineStatus =
   | 'spinning'
   | 'lose'
   | 'win-normal'
-  | 'win-hacker'
+  | 'win-hacker-partial'
+  | 'win-hacker-final'
   | 'disabled';
 
 interface PlayerShort {

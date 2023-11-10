@@ -14,6 +14,7 @@ export default function (inText: InText, player: PlayerWithHelpers) {
   const rest = inText.body.substring(firstSpace);
 
   if (Meteor.call('missions.processHashtag', { playerId, hashtag })) return;
+  if (Meteor.call('quests.processHashtag', { playerId, hashtag })) return;
 
   const checkpoint = Meteor.call('checkpoints.getForHashtag', hashtag);
   if (checkpoint) {

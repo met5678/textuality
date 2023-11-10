@@ -16,6 +16,16 @@
   transform-origin: center bottom;
 }
 
+.slot-player.win-hacker-partial {
+  animation: playerWin 2s ease-out infinite;
+  transform-origin: center bottom;
+}
+
+.slot-player.win-hacker-final {
+  animation: playerWin 2s ease-out infinite;
+  transform-origin: center bottom;
+}
+
 .player-avatar-chip {
   border-radius: 50%;
   height: min(60vw, 12vh);

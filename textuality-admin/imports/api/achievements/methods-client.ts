@@ -25,10 +25,7 @@ Meteor.methods({
     typeof trigger_detail_string === 'string' &&
       (achievementQuery.trigger_detail_string = trigger_detail_string);
 
-    console.log('achievementQuery', achievementQuery);
-
     const achievements = Achievements.find(achievementQuery).fetch();
-    console.log('achievements', achievements);
 
     let earnedAchievement = false;
     if (achievements.length) {
@@ -63,7 +60,14 @@ Meteor.methods({
             player.money += achievement.money_award;
           }
 
-          if (achievement.player_text) {
+          if (achievement.quest_award_type !== 'NONE') {
+            Meteor.call('quests.startQuestOfType', {
+              playerId: player._id,
+              type: achievement.quest_award_type,
+            });
+          }
+
+          if (achievement.player_text?.trim()) {
             Meteor.call('autoTexts.sendCustom', {
               playerText: achievement.player_text,
               playerId,

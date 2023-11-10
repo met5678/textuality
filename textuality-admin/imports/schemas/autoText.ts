@@ -22,7 +22,9 @@ const AutoTextSchema = new SimpleSchema({
       'TENTATIVE_WELCOME',
 
       'CHECKPOINT_FOUND',
+      'CHECKPOINT_FOUND_HIDDEN',
       'CHECKPOINT_ALREADY_FOUND',
+      'CHECKPOINT_ALREADY_FOUND_HIDDEN',
 
       'SIGN_OFF',
       'SIGN_BACK_ON',

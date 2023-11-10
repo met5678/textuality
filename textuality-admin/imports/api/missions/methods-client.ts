@@ -170,12 +170,14 @@ Meteor.methods({
 
     Meteor.call('achievements.tryUnlock', {
       trigger: 'N_MISSION',
-      triggerDetail: mission.number,
+      trigger_detail_number: mission.number,
+      trigger_detail_string: mission._id,
       playerId: pairing.playerA,
     });
     Meteor.call('achievements.tryUnlock', {
       trigger: 'N_MISSION',
-      triggerDetail: mission.number,
+      trigger_detail_number: mission.number,
+      trigger_detail_string: mission._id,
       playerId: pairing.playerB,
     });
 

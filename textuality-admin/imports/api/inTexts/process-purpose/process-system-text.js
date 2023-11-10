@@ -35,7 +35,7 @@ export default function (inText) {
   }
 
   // Send status text
-  else if (['casefile', 'case'].includes(command)) {
+  else if (command === 'wallet') {
     Meteor.call('autoTexts.sendStatus', { playerId });
   }
 

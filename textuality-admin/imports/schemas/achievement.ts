@@ -17,9 +17,8 @@ const AchievementSchema = new SimpleSchema({
       'CHECKPOINT_LOCATION_COMPLETE',
       'CHECKPOINT_LOCATION_FOUND_N',
 
-      'SLOT_QUEST_COMPLETE',
       'HACKER_TASK_COMPLETE',
-      'MISSION_COMPLETE',
+      'N_MISSION',
 
       'SLOT_WIN_NORMAL',
       'SLOT_WIN_HACKER',
@@ -29,7 +28,6 @@ const AchievementSchema = new SimpleSchema({
       'GUESS_COMPLETE',
       'JOINED',
       'REJOINED',
-      'N_MISSION',
     ],
   },
   trigger_detail_string: {

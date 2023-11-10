@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import AutoTexts from './autoTexts';
 import Events from '/imports/api/events';
 import Players from '/imports/api/players';
+import Checkpoints from '../checkpoints';
 
 const capitalizeFirstLetter = (str: string) =>
   `${str[0].toUpperCase()}${str.substring(1)}`;
@@ -39,118 +40,47 @@ Meteor.methods({
     });
   },
 
-  /*
   'autoTexts.sendStatus': ({ playerId }) => {
     const player = Players.findOne(playerId);
     if (!player) return;
 
-    Meteor.call('autoTexts.send', { playerId, trigger: 'STATUS_GENERATING' });
-
-    const lines = [];
-
-    const clueRewards = ClueRewards.find(
-      {
-        event: Events.currentId(),
-        round: Rounds.currentId(),
-        player: playerId,
-      },
-      { sort: { clueName: 1 } },
-    ).fetch();
-    const roomClues = clueRewards.filter(
-      (clueReward) => clueReward.clueType === 'room',
-    );
-    const personClues = clueRewards.filter(
-      (clueReward) => clueReward.clueType === 'person',
-    );
-    const weaponClues = clueRewards.filter(
-      (clueReward) => clueReward.clueType === 'weapon',
-    );
-
-    lines.push(`Case file for ${player.alias}:\n`);
-
-    lines.push('Your current guess:');
-    const playerGuess = Guesses.findOne({
-      event: Events.currentId(),
-      round: Rounds.currentId(),
-      player: playerId,
-    });
-    lines.push(`Room: ${capitalizeFirstLetter(playerGuess?.room ?? '--')}`);
-    lines.push(
-      `Suspect: ${capitalizeFirstLetter(playerGuess?.person ?? '--')}`,
-    );
-    lines.push(`Weapon: ${capitalizeFirstLetter(playerGuess?.weapon ?? '--')}`);
-
-    lines.push(`\n----------------\n`);
-
-    lines.push(`Eliminated Rooms:${roomClues.length === 0 ? ' NONE' : ''}`);
-    roomClues.forEach((clueReward, i) =>
-      lines.push(`${i + 1}. ${clueReward.clueName}`),
-    );
-
-    lines.push(`\nCleared Suspects:${personClues.length === 0 ? ' NONE' : ''}`);
-    personClues.forEach((clueReward, i) =>
-      lines.push(`${i + 1}. ${clueReward.clueName}`),
-    );
-
-    lines.push(
-      `\nEliminated Weapons:${weaponClues.length === 0 ? ' NONE' : ''}`,
-    );
-    weaponClues.forEach((clueReward, i) =>
-      lines.push(`${i + 1}. ${clueReward.clueName}`),
-    );
-
-    lines.push(`\n----------------\n`);
-    // const unlocks = AchievementUnlocks.find({
-    //   player: playerId,
-    //   event: Events.currentId(),
-    // }).fetch();
-    // const allAchievements = Achievements.find({
-    //   event: Events.currentId(),
-    // }).fetch();
-
-    // lines.push(
-    //   `Achievements Unlocked: ${unlocks.length}/${allAchievements.length}`
-    // );
-
-    // if (unlocks.length < allAchievements.length) {
-    //   lines.push('Missing Achievements:');
-    //   const missingAchievements = allAchievements
-    //     .filter(
-    //       (achievement) =>
-    //         !unlocks.some((unlock) => unlock.achievement === achievement._id)
-    //     )
-    //     .forEach((achievement) => {
-    //       lines.push(`- ${achievement.name}`);
-    //     });
-    // }
-
-    // lines.push('\n');
-
-    let checkpointGroups = Checkpoints.find(
-      { event: Events.currentId() },
-      { fields: { group: 1 } },
+    let checkpointLocations = Checkpoints.find(
+      { event: Events.currentId()! },
+      { fields: { location: 1, suppress_autotext: 1 } },
     )
       .fetch()
-      .reduce((groups, checkpoint) => {
-        if (!groups[checkpoint.group])
-          groups[checkpoint.group] = { found: 0, total: 1 };
-        else groups[checkpoint.group].total++;
-        return groups;
+      .reduce<
+        Record<string, { found: number; total: number; hidden: boolean }>
+      >((locations, checkpoint) => {
+        if (!locations[checkpoint.location])
+          locations[checkpoint.location] = {
+            found: 0,
+            total: 1,
+            hidden: !!checkpoint.suppress_autotext,
+          };
+        else {
+          locations[checkpoint.location].total++;
+          if (!checkpoint.suppress_autotext)
+            locations[checkpoint.location].hidden = false;
+        }
+        return locations;
       }, {});
 
-    checkpointGroups = player.checkpoints.reduce((groups, checkpoint) => {
-      groups[checkpoint.group].found++;
-      return groups;
-    }, checkpointGroups);
+    checkpointLocations = player.checkpoints.reduce((locations, checkpoint) => {
+      if (!locations[checkpoint.location]) return locations;
+      locations[checkpoint.location].found++;
+      return locations;
+    }, checkpointLocations);
 
-    lines.push(`Evidence found:`);
     let unfoundHashtags = 0;
     let didFind = false;
-    Object.keys(checkpointGroups).forEach((group) => {
-      const { found, total } = checkpointGroups[group];
+    const lines: string[] = [];
+    Object.keys(checkpointLocations).forEach((location) => {
+      const { found, total, hidden } = checkpointLocations[location];
+      if (hidden) return;
       if (found) {
         didFind = true;
-        lines.push(`- ${group}: ${found}/${total}`);
+        lines.push(`- ${location}: ${found}/${total}`);
       } else {
         unfoundHashtags += total;
       }
@@ -164,13 +94,15 @@ Meteor.methods({
       }
     }
 
-    Meteor.call('autoTexts.sendCustom', {
+    Meteor.call('autoTexts.send', {
+      trigger: 'WALLET_STATUS',
       playerId,
+      templateVars: {
+        checkpoint_list: lines.join('\n'),
+      },
       source: 'auto',
-      playerText: lines.join('\n'),
     });
   },
-  */
 
   'autoTexts.sendCustom': ({
     playerText,

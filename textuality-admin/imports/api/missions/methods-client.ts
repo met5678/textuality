@@ -3,19 +3,20 @@ import shuffle from 'shuffle-array';
 import pokemon from 'pokemon';
 
 import Missions from './missions';
-import MissionPairings from 'api/missionPairings';
-import Events from 'api/events';
-import Players from 'api/players';
+import MissionPairings from '/imports/api/missionPairings';
+import Events from '/imports/api/events';
+import Players from '/imports/api/players';
 
 function getEligiblePlayers() {
-  return Players.find({ event: Events.currentId(), status: 'active' }).fetch();
+  return Players.find({ event: Events.currentId()!, status: 'active' }).fetch();
 }
 
-let currentTimeout = null;
+let currentTimeout: number | null = null;
 
 Meteor.methods({
   'missions.preStart': ({ missionId }) => {
     const mission = Missions.findOne(missionId);
+    if (!mission) return;
     const eligiblePlayers = getEligiblePlayers();
 
     eligiblePlayers.forEach((player) => {
@@ -52,13 +53,13 @@ Meteor.methods({
 
     if (eligiblePlayers.length % 2 === 1) {
       eligiblePlayers = eligiblePlayers.filter(
-        (player) => player.phoneNumber !== '14127194740'
+        (player) => player.phoneNumber !== '14127194740',
       );
     }
 
     if (eligiblePlayers.length % 2 === 1) {
       eligiblePlayers = eligiblePlayers.filter(
-        (player) => player.phoneNumber !== '12024948427'
+        (player) => player.phoneNumber !== '12024948427',
       );
     }
 
@@ -102,7 +103,7 @@ Meteor.methods({
       });
     });
 
-    Missions.update(mission._id, {
+    Missions.update(mission._id!, {
       $set: {
         active: true,
         timeStart: new Date(),
@@ -113,12 +114,12 @@ Meteor.methods({
     if (currentTimeout) Meteor.clearTimeout(currentTimeout);
     currentTimeout = Meteor.setTimeout(
       () => Meteor.call('missions.end', { missionId }),
-      1000 * 60 * mission.minutes
+      1000 * 60 * mission.minutes,
     );
   },
 
   'missions.processHashtag': ({ playerId, hashtag }) => {
-    const mission = Missions.active();
+    const mission = Missions.findOne({ active: true });
 
     if (!mission) return false;
 
@@ -175,6 +176,16 @@ Meteor.methods({
     Meteor.call('achievements.tryUnlock', {
       trigger: 'N_MISSION',
       triggerDetail: mission.number,
+      playerId: pairing.playerB,
+    });
+
+    // This shouldn't be here but it is so we're just gonna do it here
+    Meteor.call('roulettes.sendHackerClue', {
+      missionId: mission._id,
+      playerId: pairing.playerA,
+    });
+    Meteor.call('roulettes.sendHackerClue', {
+      missionId: mission._id,
       playerId: pairing.playerB,
     });
 

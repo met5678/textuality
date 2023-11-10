@@ -3,6 +3,8 @@ import Roulettes from './roulettes';
 import waitForSeconds from '/imports/api/rounds/reveal-sequence/_wait-for-seconds';
 import Events from '/imports/api/events';
 import { DateTime } from 'luxon';
+import Players from '/imports/api/players';
+import generateHackerClue from './hacker-clues/generate-hacker-clue';
 
 Meteor.methods({
   'roulettes.findCurrent': () => {
@@ -90,6 +92,7 @@ Meteor.methods({
         bets_open: false,
       },
     });
+    Meteor.call('rouletteBets.doPayouts', rouletteId);
   },
 
   'roulettes.revealWinners': (rouletteId) => {
@@ -98,7 +101,6 @@ Meteor.methods({
         status: 'winners-board',
       },
     });
-    Meteor.call('rouletteBets.doPayouts', rouletteId);
   },
 
   'roulettes.closeBets': (rouletteId) => {
@@ -116,5 +118,18 @@ Meteor.methods({
         status: 'inactive',
       },
     });
+  },
+
+  'roulettes.sendHackerClue': ({ missionId, playerId }) => {
+    const roulette = Roulettes.findOne({
+      linked_mission: missionId,
+    });
+
+    const player = Players.findOne(playerId);
+
+    if (!roulette || !player) return;
+    if (!roulette.result) return;
+
+    generateHackerClue({ roulette, player });
   },
 });

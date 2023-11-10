@@ -11,3 +11,12 @@ Meteor.publish('rouletteBets.forRoulette', function (roulette_id) {
     ),
   );
 });
+
+Meteor.publish('rouletteBets.winnersForRoulette', function (roulette_id) {
+  this.autorun(() =>
+    RouletteBets.find(
+      { event: Events.currentId()!, roulette_id, win_amount: { $gt: 0 } },
+      { sort: { win_amount: -1 } },
+    ),
+  );
+});

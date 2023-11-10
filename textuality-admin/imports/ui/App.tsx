@@ -14,7 +14,7 @@ import AliasesPage from '/imports/ui/modules/aliases/AliasesPage';
 import AutoTextsPage from '/imports/ui/modules/autoTexts/AutoTextsPage';
 import CheckpointsPage from '/imports/ui/modules/checkpoints/CheckpointsPage';
 // import AchievementsPage from 'modules/achievements/AchievementsPage';
-// import MissionsPage from 'modules/missions/MissionsPage';
+import MissionsPage from '/imports/ui/modules/missions/MissionsPage';
 // import CluesPage from 'modules/clues/CluesPage';
 // import RoundsPage from 'modules/rounds/RoundsPage';
 import SlotMachinesPage from './modules/themes/casino/slotMachines/SlotMachinesPage';
@@ -52,7 +52,7 @@ const App = () => (
           {/*<Route path="/clue-rewards" component={ClueRewardsPage} />*/}
           {/*<Route path="/clues" component={CluesPage} />*/}
           {/*<Route path="/guesses" component={GuessesPage} />*/}
-          {/*<Route path="/missions" component={MissionsPage} />*/}
+          <Route path="/missions" component={MissionsPage} />
           {/*<Route path="/rounds" component={RoundsPage} />*/}
 
           <Route path="/events" component={EventsPage} />

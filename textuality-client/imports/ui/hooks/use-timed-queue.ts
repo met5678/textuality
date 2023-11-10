@@ -9,6 +9,8 @@ const useTimedQueue = <T>(items: T[], timeout: number) => {
 
   const changeTimeout = useCallback(() => {
     if (itemQueue.current.length) {
+      console.log({ itemQueue, oldQueue });
+
       const newItem = itemQueue.current.shift();
 
       oldQueue.current.unshift(newItem);
@@ -22,7 +24,7 @@ const useTimedQueue = <T>(items: T[], timeout: number) => {
   }, []);
 
   useEffect(() => {
-    for (let i = items.length - 1; i >= 0; i--) {
+    for (let i = 0; i < items.length; i++) {
       const newItem = items[i];
 
       // If the item is already in the queue, skip it

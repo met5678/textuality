@@ -24,6 +24,10 @@ const RouletteBetSchema = new SimpleSchema({
   },
   wager: SimpleSchema.Integer,
   player: PlayerShortSchema,
+  win_payout: {
+    type: SimpleSchema.Integer,
+    defaultValue: 0,
+  },
   time: Date,
 });
 
@@ -34,6 +38,7 @@ interface RouletteBet {
   bet_slot: RouletteBetSlot;
   wager: number;
   player: PlayerShort;
+  win_payout: number;
   time: Date;
 }
 

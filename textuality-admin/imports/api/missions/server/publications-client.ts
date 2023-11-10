@@ -1,29 +1,29 @@
 import { Meteor } from 'meteor/meteor';
 
-import Missions from '../';
-import Events from 'api/events';
+import Missions from '..';
+import Events from '/imports/api/events';
 
-Meteor.publish('missions.basic', function() {
+Meteor.publish('missions.basic', function () {
   this.autorun(() =>
     Missions.find(
-      { event: Events.current()._id },
+      { event: Events.currentId()! },
       {
         fields: {
           event: 1,
           name: 1,
           timePreText: 1,
           timeStart: 1,
-          timeEnd: 1
-        }
-      }
-    )
+          timeEnd: 1,
+        },
+      },
+    ),
   );
 });
 
-Meteor.publish('missions.active', function() {
+Meteor.publish('missions.active', function () {
   this.autorun(() =>
     Missions.find(
-      { event: Events.current()._id, active: true },
+      { event: Events.currentId()!, active: true },
       {
         fields: {
           event: 1,
@@ -31,9 +31,9 @@ Meteor.publish('missions.active', function() {
           active: 1,
           timePreText: 1,
           timeStart: 1,
-          timeEnd: 1
-        }
-      }
-    )
+          timeEnd: 1,
+        },
+      },
+    ),
   );
 });

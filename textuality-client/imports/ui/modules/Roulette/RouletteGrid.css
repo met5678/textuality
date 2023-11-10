@@ -71,7 +71,7 @@
 
 @keyframes enter {
   0% {
-    transform: scale(3) rotateX(0deg) rotateY(0deg);
+    transform: scale(2) rotateX(0deg) rotateY(0deg);
     opacity: 0;
   }
   15% {

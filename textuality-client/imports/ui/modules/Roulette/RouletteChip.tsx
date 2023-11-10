@@ -2,10 +2,13 @@ import React from 'react';
 import './RouletteChip.css';
 import { getImageUrl } from '/imports/services/cloudinary/cloudinary-geturl';
 
-const RouletteChip = (
-  { avatar_id }: { avatar_id?: string },
-  { zoom }: { zoom?: number },
-) => {
+const RouletteChip = ({
+  avatar_id,
+  zoom,
+}: {
+  avatar_id?: string;
+  zoom?: number;
+}) => {
   return (
     <div className="chip">
       <div className="chipRing">

@@ -15,8 +15,9 @@ import EventField from '../../../events/EventField';
 import AutoFormDialog from '/imports/ui/generic/AutoForm/AutoFormDialog';
 import TextField from '/imports/ui/generic/AutoForm/TextField';
 import NumberField from '/imports/ui/generic/AutoForm/NumberField';
-import { useSubscribe } from 'meteor/react-meteor-data';
+import { useFind, useSubscribe } from 'meteor/react-meteor-data';
 import { DateField } from '/imports/ui/generic/AutoForm';
+import Missions from '/imports/api/missions';
 
 interface RouletteFormProps {
   model: Partial<Roulette> | null;
@@ -24,8 +25,8 @@ interface RouletteFormProps {
 }
 
 const RouletteFormDialog = ({ model, onClose }: RouletteFormProps) => {
-  // const isLoading = useSubscribe('missions.all');
-  // const missions = useFind(() => Missions.find({}).fetch(), [isLoading]
+  const isLoading = useSubscribe('missions.all');
+  const missions = useFind(() => Missions.find(), []);
   const onSubmit = (roulette: Partial<Roulette>) => {
     if (roulette._id) {
       Meteor.call('roulettes.update', roulette);
@@ -64,11 +65,10 @@ const RouletteFormDialog = ({ model, onClose }: RouletteFormProps) => {
             label: 'None',
             value: 'none',
           },
-          {
-            label: 'mission 1',
-            value: 'm1',
-          },
-          { label: 'mission 2', value: 'm2' },
+          ...missions.map((mission) => ({
+            label: mission.name,
+            value: mission._id!,
+          })),
         ]}
       />
       <NumberField name="spin_seconds" disabled={true} />

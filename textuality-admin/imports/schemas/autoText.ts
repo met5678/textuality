@@ -68,9 +68,11 @@ const AutoTextSchema = new SimpleSchema({
       'ROULETTE_BET_TOO_LATE',
       'ROULETTE_NOT_ENOUGH_MONEY',
       'ROULETTE_NO_MORE',
+      'ROULETTE_BET_ZERO',
+      'ROULETTE_BET_NEGATIVE',
 
-      'HACKER_SLOT_CLUE',
-      'HACKER_ROULETTE_CLUE',
+      'HACKER_ROULETTE_SIMPLE',
+      'HACKER_ROULETTE_MATH',
 
       // End casino-specific
 

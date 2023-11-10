@@ -59,6 +59,13 @@ const columns: GridColDef<RouletteWithHelpers>[] = [
     width: 90,
   },
   {
+    field: 'linked_mission',
+    headerName: 'Mission',
+    valueGetter: (params) =>
+      params.row.linked_mission && params.row.linked_mission !== 'none',
+    type: 'boolean',
+  },
+  {
     field: 'status',
     headerName: 'Status',
     width: 90,

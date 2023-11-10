@@ -1,12 +1,14 @@
 import React from 'react';
-import { Container, Row, Col } from 'reactstrap';
 
 import MissionsTable from './MissionsTable';
+import { Box, Typography } from '@mui/material';
 
 const MissionsPage = ({ match }) => {
   return (
     <>
-      <h2>All Missions</h2>
+      <Box mb={2}>
+        <Typography variant="h5">All Roulettes</Typography>
+      </Box>
       <MissionsTable />
     </>
   );

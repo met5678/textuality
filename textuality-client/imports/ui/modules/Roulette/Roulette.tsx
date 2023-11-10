@@ -21,7 +21,7 @@ const Roulette = ({ roulette }: RouletteProps) => {
   const {
     event,
     number_payout_multiplier,
-    special_payout_multiplier
+    special_payout_multiplier,
     bets_start_at,
     spin_starts_at,
     bets_open,
@@ -49,9 +49,16 @@ const Roulette = ({ roulette }: RouletteProps) => {
         <div className="bettingArea">
           <div className="instructions">
             <RouletteInstr />
-            <p>Number Payout: {number_payout_multiplier}x, Red/Black/Odd/Even Payout: {special_payout_multiplier}x</p>
+            <p>
+              Number Payout: {number_payout_multiplier}x, Red/Black/Odd/Even
+              Payout: {special_payout_multiplier}x
+            </p>
           </div>
-          <RouletteGrid status={status} betsOpen={bets_open} rouletteId={roulette._id} />
+          <RouletteGrid
+            status={status}
+            betsOpen={bets_open}
+            rouletteId={roulette._id}
+          />
         </div>
 
         <div className="leaderboardArea">

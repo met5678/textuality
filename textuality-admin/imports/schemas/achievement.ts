@@ -29,11 +29,7 @@ const AchievementSchema = new SimpleSchema({
       'GUESS_COMPLETE',
       'JOINED',
       'REJOINED',
-      'MISSION',
       'N_MISSION',
-      'N_PICTURES_SENT',
-      'N_TEXTS_SENT',
-      'PICTURE_MULTI_FACES',
     ],
   },
   trigger_detail_string: {

@@ -2,32 +2,31 @@ import SimpleSchema from 'simpl-schema';
 
 import Events from '/imports/api/events';
 
-const SlotQuestSequenceItemSchema = new SimpleSchema({
-  slot_id: String,
-  win_amount: {
-    type: SimpleSchema.Integer,
-    optional: true,
-  },
-});
-
 const SlotQuestSchema = new SimpleSchema({
   start_text: String,
-  start_text_image: String,
+  start_text_image: {
+    type: String,
+    optional: true,
+  },
   complete_text: String,
-  complete_text_image: String,
+  complete_text_image: {
+    type: String,
+    optional: true,
+  },
   slot_sequence: {
     type: Array,
     minCount: 2,
   },
   'slot_sequence.$': String,
   win_amount: SimpleSchema.Integer,
-  // 'slot_sequence.$': SlotQuestSequenceItemSchema,
 });
 
 const TaskQuestSchema = new SimpleSchema({
-  name: String,
   start_text: String,
-  start_text_image: String,
+  start_text_image: {
+    type: String,
+    optional: true,
+  },
   hashtag: String,
 });
 
@@ -36,43 +35,57 @@ const QuestSchema = new SimpleSchema({
     type: String,
     allowedValues: Events.allIds,
   },
+  name: String,
   type: {
     type: String,
     allowedValues: ['HACKER_TASK', 'HACKER_SLOT'],
   },
-
   slot_quest: {
     type: SlotQuestSchema,
     optional: true,
   },
-
   task_quest: {
     type: TaskQuestSchema,
     optional: true,
+  },
+
+  num_assigned: {
+    type: SimpleSchema.Integer,
+    defaultValue: 0,
+  },
+  num_completed: {
+    type: SimpleSchema.Integer,
+    defaultValue: 0,
   },
 });
 
 interface SlotQuest {
   start_text: string;
-  start_text_image: string;
+  start_text_image?: string;
   complete_text: string;
-  complete_text_image: string;
+  complete_text_image?: string;
   slot_sequence: string[];
 }
 
 interface TaskQuest {
   start_text: string;
-  start_text_image: string;
+  start_text_image?: string;
   hashtag: string;
 }
+
+type QuestType = 'HACKER_TASK' | 'HACKER_SLOT';
 
 interface Quest {
   _id?: string;
   event: string;
-  type: string;
+  name: string;
+  type: QuestType;
 
   slot_quest?: SlotQuest;
   task_quest?: TaskQuest;
+
+  num_assigned: number;
+  num_competed: number;
 }
 
 export default QuestSchema;
@@ -81,8 +94,7 @@ export {
   QuestSchema,
   SlotQuest,
   SlotQuestSchema,
-  SlotQuestSequenceItem,
-  SlotQuestSequenceItemSchema,
   TaskQuest,
   TaskQuestSchema,
+  QuestType,
 };

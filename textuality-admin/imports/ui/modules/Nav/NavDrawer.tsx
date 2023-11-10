@@ -88,8 +88,8 @@ const navItems: Array<NavItem> = [
     icon: <Typography>🎡</Typography>,
   },
   {
-    title: 'Hacker',
-    href: '/casino/hacker',
+    title: 'Quests',
+    href: '/casino/quests',
     icon: <Typography>🦹‍♀️</Typography>,
   },
   {

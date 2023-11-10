@@ -49,7 +49,9 @@
   animation: spin 350ms linear infinite;
 }
 
-.is-win-normal {
+.is-win-normal,
+.is-win-hacker-partial,
+.is-win-hacker-final {
   animation: winFlash 500ms linear infinite;
   animation-fill-mode: none;
 }

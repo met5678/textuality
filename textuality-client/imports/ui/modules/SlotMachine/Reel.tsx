@@ -18,6 +18,8 @@ export default function Reel({ items, status, targetItem, index }: ReelProps) {
 
   const reelContainerClasses = classNames('reel-container', {
     'is-win-normal': status === 'win-normal',
+    'is-win-hacker-partial': status === 'win-hacker-partial',
+    'is-win-hacker-final': status === 'win-hacker-final',
   });
 
   const itemsWithWraparound = [...items, items[0]];

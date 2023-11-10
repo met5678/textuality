@@ -119,10 +119,9 @@ Meteor.methods({
         money: quest.slot_quest?.win_amount ?? 0,
       });
       Meteor.call('autoTexts.send', {
-        trigger: 'QUEST_SLOT_COMPLETE',
+        trigger: 'SLOT_WIN_HACKER',
         playerId,
         templateVars: {
-          quest_name: quest.name,
           money_award: quest.slot_quest?.win_amount ?? 0,
         },
       });
@@ -153,9 +152,10 @@ Meteor.methods({
     if (activeSlotQuests.length === 0)
       return { hackerSpin: false, hackerWin: false };
 
+    const playerSpins = [...player.slot_spins, slot_id];
+
     const unlockStatuses = activeSlotQuests.map((slotQuest) => {
       const unlockSequence = slotQuest.slot_quest!.slot_sequence;
-      const playerSpins = player.slot_spins;
 
       return {
         quest: slotQuest,

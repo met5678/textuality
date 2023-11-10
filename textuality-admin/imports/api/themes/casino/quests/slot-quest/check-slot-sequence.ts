@@ -30,7 +30,7 @@ const checkSlotSequence = (
       unlockSequence.slice(0, u),
       playerSequence.slice(playerSequence.length - u),
     );
-    if (!match) break;
+    if (!match) continue;
 
     unlockStatus = 'CORRECT';
     if (u == unlockSequence.length) {

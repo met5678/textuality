@@ -42,7 +42,7 @@ const columns: GridColDef<SlotMachineWithHelpers>[] = [
   {
     field: 'status',
     headerName: 'Status',
-    width: 90,
+    width: 120,
   },
   {
     field: 'player',

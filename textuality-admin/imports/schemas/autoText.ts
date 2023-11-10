@@ -59,6 +59,7 @@ const AutoTextSchema = new SimpleSchema({
       'SLOT_WIN_MEDIUM',
       'SLOT_WIN_BIG',
       'SLOT_WIN_HACKER',
+      'SLOT_WIN_HACKER_PARTIAL',
       'SLOT_LOSE',
       'SLOT_BUSY',
       'SLOT_NOT_ENOUGH_MONEY',
@@ -76,7 +77,6 @@ const AutoTextSchema = new SimpleSchema({
       'ROULETTE_BET_ZERO',
       'ROULETTE_BET_NEGATIVE',
 
-      'QUESTS_SLOT_COMPLETE',
       'QUESTS_NO_TASKS_LEFT',
       'QUESTS_NO_SLOTS_LEFT',
 

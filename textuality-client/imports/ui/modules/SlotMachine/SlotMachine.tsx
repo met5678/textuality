@@ -36,7 +36,7 @@ const SlotMachine = ({ slotMachine }: SlotMachineProps) => {
     status === 'win-hacker-partial' ||
     status === 'win-hacker-final';
 
-  useConfetti(status === 'win-normal');
+  useConfetti(showWin);
 
   return (
     <>

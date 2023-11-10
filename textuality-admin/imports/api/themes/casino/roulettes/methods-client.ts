@@ -2,10 +2,6 @@ import { Meteor } from 'meteor/meteor';
 import Roulettes from './roulettes';
 import waitForSeconds from '/imports/api/rounds/reveal-sequence/_wait-for-seconds';
 import Events from '/imports/api/events';
-import {
-  SPIN_END_DWELL_SECONDS,
-  WINNERBOARD_DWELL_SECONDS,
-} from './server/roulette-scheduler';
 
 Meteor.methods({
   'roulettes.findCurrent': () => {

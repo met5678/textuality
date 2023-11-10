@@ -64,7 +64,7 @@ const getExpectedBetsOpen = (
 
 let computation: Tracker.Computation | null = null;
 
-if (Meteor.isServer) {
+if (Meteor.isServer && Meteor.isProduction) {
   Meteor.startup(() => {
     if (computation) computation.stop();
     computation = Tracker.autorun(() => {

@@ -9,18 +9,27 @@ const CasinoLeaderboard = () => {
   const isLoading = useSubscribe('players.basic');
   const players = useFind(() => Players.find({}, { sort: { money: -1 } }), []);
 
+  const title = 'High Rollers';
+  const displayTitle = title.split('').map((letter, index) => (
+    <span key={index} className={index % 2 === 0 ? '' : 'red'}>
+      {letter}
+    </span>
+  ));
+
   return (
     <div className="leaderboard-casino">
-      <div className="leaderboard-title">High Rollers</div>
+      <div className="leaderboard-title">{displayTitle}</div>
       <div className="leaderboard-window">
         <div className="leaderboard-body">
           {players.map((player, i) => (
             <div key={player._id} className="leaderboard-row">
-              <img
-                src={getImageUrl(player.avatar!, { width: 100, height: 100 })}
-              />
-              <span className="leaderboard-item">{player.alias} </span>
-              <span className="leaderboard-value">{player.money} BB</span>
+              <div className="leaderboard-img">
+                <img
+                  src={getImageUrl(player.avatar!, { width: 100, height: 100 })}
+                />
+              </div>
+              <p className="leaderboard-item">{player.alias} </p>
+              <p className="leaderboard-value">{player.money} BB</p>
             </div>
           ))}
         </div>

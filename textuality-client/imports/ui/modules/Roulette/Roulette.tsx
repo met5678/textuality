@@ -12,6 +12,7 @@ import RouletteSounds from './RouletteSounds';
 import { RouletteWithHelpers } from '/imports/api/themes/casino/roulettes/roulettes';
 import CasinoLeaderboard from '../CasinoLeaderboard/CasinoLeaderboard';
 import RouletteWheelDisplay from './RouletteWheelDisplay';
+import { useConfetti } from '../../hooks/use-confetti';
 
 interface RouletteProps {
   roulette: Partial<RouletteWithHelpers>;
@@ -40,6 +41,8 @@ const Roulette = ({ roulette }: RouletteProps) => {
       .toJSDate();
   }
 
+  useConfetti(status === 'end-spin');
+
   return (
     <div className={`roulette ${status}`}>
       <h2>
@@ -49,7 +52,8 @@ const Roulette = ({ roulette }: RouletteProps) => {
         <div className="bettingArea">
           <div className="instructions">
             <RouletteInstr />
-            <p>Number Payout: {number_payout_multiplier}x, Red/Black/Odd/Even Payout: {special_payout_multiplier}x</p>
+            <p>Number Payout: {number_payout_multiplier}x</p>
+            <p>Red/Black/Odd/Even Payout: {special_payout_multiplier}x</p>
           </div>
           <RouletteGrid status={status} betsOpen={bets_open} rouletteId={roulette._id} />
         </div>

@@ -11,7 +11,7 @@ const CasinoLeaderboard = () => {
 
   return (
     <div className="leaderboard-casino">
-      <div className="leaderboard-title">🎲 High Rollers 🎲</div>
+      <div className="leaderboard-title">High Rollers</div>
       <div className="leaderboard-window">
         <div className="leaderboard-body">
           {players.map((player, i) => (

@@ -6,7 +6,7 @@ import { useFind, useSubscribe } from 'meteor/react-meteor-data';
 import RouletteBets from '/imports/api/themes/casino/rouletteBets';
 import { RouletteStatus } from '/imports/schemas/roulette';
 import useTimedQueue from '../../hooks/use-timed-queue';
-import { RouletteBet } from '/imports/schemas/rouletteBet';
+import { RouletteBet, RouletteBetSlot } from '/imports/schemas/rouletteBet';
 import { getImageUrl } from '/imports/services/cloudinary/cloudinary-geturl';
 
 interface RouletteGridProps {
@@ -23,6 +23,9 @@ const RouletteGrid = ({ rouletteId, status, betsOpen }: RouletteGridProps) => {
     [rouletteId],
   );
 
+  const getBet = (bet: RouletteBetSlot) => bets.find((b) => b.bet_slot === bet);
+  const hasBet = (bet: RouletteBetSlot) => !!getBet(bet);
+
   const queueBet = useTimedQueue<RouletteBet>(bets, 5000);
 
   const getNumbers = (start: number) => {
@@ -32,63 +35,59 @@ const RouletteGrid = ({ rouletteId, status, betsOpen }: RouletteGridProps) => {
     1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36,
   ];
   const isRed = (num: number) => redNumbers.includes(num);
-  const hasBet = false;
+  const isGreen = (bet: string) => ['even', 'odd'].includes(bet);
+
+  const renderCell = (number: number, isGreen: boolean = false) => (
+    <td
+      key={number}
+      className={`${isGreen ? 'green ' : ''}${isRed(number) ? 'red' : 'black'}`}
+      id={String(number)}
+    >
+      {hasBet(number) && (
+        <RouletteChip avatar_id={getBet(number)?.player.avatar_id} />
+      )}
+      {number}
+    </td>
+  );
+
+  const renderSpecialCell = (bet: string) => (
+    <td
+      colSpan={3}
+      className={`${bet} ${isGreen(bet) ? 'green' : ''}`}
+      id={bet}
+    >
+      {hasBet(bet as RouletteBetSlot) && (
+        <RouletteChip
+          avatar_id={getBet(bet as RouletteBetSlot)?.player.avatar_id}
+        />
+      )}
+      {bet}
+    </td>
+  );
 
   return (
     <div className="rouletteGrid">
       <table>
         <tr className="nums">
           <td className="green zero" />
-          {getNumbers(3).map((number, index) => (
-            <td
-              key={index}
-              className={isRed(number) ? 'red' : 'black'}
-              id={`${number}`}
-            >
-              {hasBet ? <RouletteChip /> : number}
-            </td>
-          ))}
+          {getNumbers(3).map((number) => renderCell(number))}
         </tr>
         <tr className="nums">
           <td className="green zero" id="0">
-            <span>0</span>
+            {hasBet(0) && <RouletteChip />}0
           </td>
-          {getNumbers(2).map((number, index) => (
-            <td
-              key={index}
-              className={isRed(number) ? 'red' : 'black'}
-              id={`${number}`}
-            >
-              {number}
-            </td>
-          ))}
+          {getNumbers(2).map((number) => renderCell(number))}
         </tr>
         <tr className="nums">
           <td className="green zero" />
-          {getNumbers(1).map((number, index) => (
-            <td
-              key={index}
-              className={isRed(number) ? 'red' : 'black'}
-              id={`${number}`}
-            >
-              {number}
-            </td>
-          ))}
+          {getNumbers(1).map((number) => renderCell(number))}
         </tr>
         <tr>
           <td className="empty"></td>
-          <td colSpan={3} className="even" id="even">
-            Even
-          </td>
-          <td colSpan={3} className="red" id="red">
-            Red
-          </td>
-          <td colSpan={3} className="black" id="black">
-            Black
-          </td>
-          <td colSpan={3} className="odd" id="odd">
-            Odd
-          </td>
+          {renderSpecialCell('even')}
+          {renderSpecialCell('red')}
+          {renderSpecialCell('black')}
+          {renderSpecialCell('odd')}
         </tr>
       </table>
       {queueBet && (

@@ -71,11 +71,11 @@
 
 @keyframes enter {
   0% {
-    transform: scale(2) rotateX(0deg);
-    opacity: 0;
+    transform: scale(5) rotate3d(0, 1, 0, 0);
+    opacity: 0.5;
   }
   15% {
-    transform: scale(4) rotate3d(0, 1, 0, 0);
+    transform: scale(10) rotate3d(0, 1, 0, 0);
     opacity: 1;
   }
   100% {

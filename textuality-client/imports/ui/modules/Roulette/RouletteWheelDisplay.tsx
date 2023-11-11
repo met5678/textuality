@@ -19,8 +19,10 @@ const getWheelDisplay = (
   }
   if (roulette.status === 'pre-spin' && roulette.spin_starts_at) {
     return {
-      luxonDate: DateTime.fromJSDate(roulette.spin_starts_at),
-      title: 'Spin Starts:',
+      luxonDate: DateTime.fromJSDate(roulette.spin_starts_at).plus({
+        seconds: roulette.spin_seconds! - roulette.bets_cutoff_seconds!,
+      }),
+      title: 'Bets Close:',
     };
   }
   if (roulette.status === 'spinning' && roulette.spin_starts_at) {
@@ -29,7 +31,7 @@ const getWheelDisplay = (
         luxonDate: DateTime.fromJSDate(roulette.spin_starts_at).plus({
           seconds: roulette.spin_seconds! - roulette.bets_cutoff_seconds!,
         }),
-        title: 'Betting Closes:',
+        title: 'Bets Close:',
       };
     } else {
       return {

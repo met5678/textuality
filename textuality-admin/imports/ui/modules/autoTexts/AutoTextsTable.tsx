@@ -26,6 +26,19 @@ const columns: GridColDef<AutoText>[] = [
     headerName: 'Player text',
     flex: 1,
   },
+  {
+    field: 'image_url',
+    headerName: 'Image',
+    renderCell: (params) => {
+      if (!params.value) return null;
+      return (
+        <img
+          src={params.value}
+          style={{ width: 50, height: 50, objectFit: 'contain' }}
+        />
+      );
+    },
+  },
 ];
 
 const AutoTextsTable = ({ onEdit }: { onEdit: (obj: any) => any }) => {

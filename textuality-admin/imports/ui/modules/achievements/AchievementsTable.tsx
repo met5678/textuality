@@ -37,6 +37,19 @@ const columns: GridColDef<Achievement>[] = [
     flex: 1,
   },
   {
+    field: 'player_text_image',
+    headerName: 'Image',
+    renderCell: (params) => {
+      if (!params.value) return null;
+      return (
+        <img
+          src={params.value}
+          style={{ width: 50, height: 50, objectFit: 'contain' }}
+        />
+      );
+    },
+  },
+  {
     field: 'hide_from_screen',
     type: 'boolean',
     headerName: 'Hide',

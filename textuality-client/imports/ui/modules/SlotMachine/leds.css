@@ -58,10 +58,10 @@
   }
   50% {
     background-color: #a00;
-    box-shadow:
+    /* box-shadow:
       rgba(0, 0, 0, 0.2) 0 -1px 7px 1px,
       inset #441313 0 -1px 9px,
-      rgba(255, 0, 0, 0.5) 0 2px 0;
+      rgba(255, 0, 0, 0.5) 0 2px 0; */
   }
   to {
     background-color: #f00;
@@ -74,10 +74,10 @@
   }
   50% {
     background-color: #aa0;
-    box-shadow:
+    /* box-shadow:
       rgba(0, 0, 0, 0.2) 0 -1px 7px 1px,
       inset #808002 0 -1px 9px,
-      #ff0 0 2px 0;
+      #ff0 0 2px 0; */
   }
   to {
     background-color: #ff0;
@@ -90,10 +90,10 @@
   }
   50% {
     background-color: #007a10;
-    box-shadow:
+    /* box-shadow:
       rgba(0, 0, 0, 0.2) 0 -1px 7px 1px,
       inset #007a10 0 -1px 9px,
-      #00e01e 0 2px 0;
+      #00e01e 0 2px 0; */
   }
   to {
     background-color: #00e01e;
@@ -106,17 +106,17 @@
   }
   50% {
     background-color: #68006b;
-    box-shadow:
+    /* box-shadow:
       rgba(0, 0, 0, 0.2) 0 -1px 7px 1px,
       inset #68006b 0 -1px 9px,
-      #d900e0 0 2px 0;
+      #d900e0 0 2px 0; */
   }
   to {
     background-color: #d900e0;
   }
 }
 
-@media screen and (max-width: 250px) {
+@media screen and (max-aspect-ratio: 3/1) {
   .led-container {
     display: none;
   }

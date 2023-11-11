@@ -75,7 +75,6 @@ const AutoTextSchema = new SimpleSchema({
       'ROULETTE_NOT_ENOUGH_MONEY',
       'ROULETTE_NO_MORE',
       'ROULETTE_BET_ZERO',
-      'ROULETTE_BET_NEGATIVE',
 
       'QUESTS_NO_TASKS_LEFT',
       'QUESTS_NO_SLOTS_LEFT',

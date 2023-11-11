@@ -25,6 +25,20 @@ const columns: GridColDef<Quest>[] = [
     flex: 1,
   },
   {
+    field: 'start_text_image',
+    headerName: 'Image',
+    renderCell: (params) => {
+      if (!params.value) return null;
+      return (
+        <img
+          src={params.value}
+          style={{ width: 50, height: 50, objectFit: 'contain' }}
+        />
+      );
+    },
+  },
+
+  {
     field: 'slot_quest',
     headerName: 'Award',
     width: 80,

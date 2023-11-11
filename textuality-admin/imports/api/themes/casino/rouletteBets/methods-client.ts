@@ -46,7 +46,7 @@ Meteor.methods({
     if (betWager < 0) {
       Meteor.call('autoTexts.send', {
         playerId: player._id,
-        trigger: 'ROULETTE_BET_NEGATIVE',
+        trigger: 'INVALID_BET',
         templateVars: {
           bet_wager: betWager,
         },

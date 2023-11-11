@@ -188,10 +188,14 @@ const processBetsForPlayer = (
 
   playerWinningBets.forEach((bet) => {
     if (bet.isNumberBet()) {
-      bet.win_payout = bet.wager * roulette.number_payout_multiplier;
+      bet.win_payout = Math.round(
+        bet.wager * roulette.number_payout_multiplier,
+      );
       RouletteBets.update(bet._id!, { $set: { win_payout: bet.win_payout } });
     } else {
-      bet.win_payout = bet.wager * roulette.special_payout_multiplier;
+      bet.win_payout = Math.round(
+        bet.wager * roulette.special_payout_multiplier,
+      );
       RouletteBets.update(bet._id!, { $set: { win_payout: bet.win_payout } });
     }
   });

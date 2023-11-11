@@ -95,8 +95,26 @@ h2 {
   transition: transform 500ms;
 }
 
-h2 span {
+h2 .evenLetter {
   color: #d01935;
+  animation: flashYellow 2s infinite linear;
+}
+
+h2 .oddLetter {
+  color: #fea70a;
+  animation: flashRed 2s infinite linear;
+}
+
+@keyframes flashRed {
+  50% {
+    color: #d01935;
+  }
+}
+
+@keyframes flashYellow {
+  50% {
+    color: #fea70a;
+  }
 }
 
 p:first-child {

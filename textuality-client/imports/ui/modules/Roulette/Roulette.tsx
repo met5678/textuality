@@ -41,13 +41,18 @@ const Roulette = ({ roulette }: RouletteProps) => {
       .toJSDate();
   }
 
+  const title = 'Roulette';
+  const displayTitle = title.split('').map((letter, index) => (
+    <span key={index} className={index % 2 === 0 ? 'evenLetter' : 'oddLetter'}>
+      {letter}
+    </span>
+  ));
+
   useConfetti(status === 'end-spin');
 
   return (
     <div className={`roulette ${status}`}>
-      <h2>
-        R<span>o</span>u<span>l</span>e<span>t</span>t<span>e</span>
-      </h2>
+      <h2>{displayTitle}</h2>
       <div className="rouletteTable">
         <div className="bettingArea">
           <div className="instructions">

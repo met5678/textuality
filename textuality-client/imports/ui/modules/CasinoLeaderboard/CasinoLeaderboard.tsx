@@ -11,7 +11,7 @@ const CasinoLeaderboard = () => {
   const players = useFind(() => Players.find({}, { sort: { money: -1 } }), []);
   const title = 'High Rollers';
   const displayTitle = title.split('').map((letter, index) => (
-    <span key={index} className={index % 2 === 0 ? '' : 'red'}>
+    <span key={index} className={index % 2 === 0 ? 'evenLetter' : 'oddLetter'}>
       {letter}
     </span>
   ));
@@ -24,7 +24,7 @@ const CasinoLeaderboard = () => {
           {players.map((player, i) => (
             <div key={player._id} className="leaderboard-row">
               <div className="leaderboard-img">
-                <RouletteChip avatar_id={player.avatar!} zoom={1} />
+                <RouletteChip avatar_id={player.avatar!} zoom={1} rotate />
               </div>
               <p className="leaderboard-item">{player.alias} </p>
               <p className="leaderboard-value">{player.money} BB</p>

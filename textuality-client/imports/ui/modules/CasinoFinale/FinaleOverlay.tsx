@@ -45,6 +45,51 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
           <video src="/casino/videos/gray.mp4" autoPlay muted />
         </div>
       )}
+      {phase === 'most-checkpoints' && (
+        <div className="finale-split-video-right">
+          <div className="finale-player">
+            {finale_data.player.alias}
+            {finale_data.player.checkpoints}
+            {finale_data.player.avatar}
+          </div>
+          <video src="/casino/videos/morgan.mp4" autoPlay muted />
+        </div>
+      )}
+      {phase === 'emily-cat' && (
+        <div className="finale-split-video-right">
+          <div className="finale-text">
+            You helped Ramona foster a cat in need!
+          </div>
+          <video src="/casino/videos/emily.mp4" autoPlay muted />
+        </div>
+      )}
+      {phase === 'most-slot-spins' && (
+        <div className="finale-split-video-right">
+          <div className="finale-player">
+            {finale_data.player.alias}
+            {finale_data.player.slot_spins}
+            {finale_data.player.avatar}
+          </div>
+          <video src="/casino/videos/shady.mp4" autoPlay muted />
+        </div>
+      )}{' '}
+      {phase === 'most-popular-slot' && (
+        <div className="finale-split-video-right">
+          <div className="finale-player">
+            {finale_data.slotMachine.name}
+            {finale_data.slotMachine.spins}
+          </div>
+          <video src="/casino/videos/liz.mp4" autoPlay muted />
+        </div>
+      )}{' '}
+      {phase === 'end' && (
+        <div className="finale-split-video-right">
+          <div className="finale-text">
+            Now put down your phones and enjoy the rest of the party!
+          </div>
+          <video src="/casino/videos/jackie.mp4" autoPlay muted />
+        </div>
+      )}{' '}
     </div>
   );
 };

@@ -135,7 +135,7 @@ Meteor.methods({
     ).fetch();
     if (slotMachineWithMostSpins[0]) {
       finaleData = {
-        phase: 'most-slot-machine-spins',
+        phase: 'most-popular-slot',
         slotMachine: {
           name: slotMachineWithMostSpins[0].name,
           spins: slotMachineWithMostSpins[0].stats.spin_count,
@@ -149,6 +149,8 @@ Meteor.methods({
     Events.update(eventId, { $set: { 'finale_data.phase': 'end' } });
 
     await waitForSeconds(11);
+
+    Events.update(eventId, { $set: { finale_data: {}, state: 'normal' } });
 
     Meteor.call('finale.endMessage', eventId);
   },

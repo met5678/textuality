@@ -4,9 +4,9 @@ import './FinaleOverlay.css';
 
 const FinaleOverlay = ({ event }: { event: Event }) => {
   const { state, finale_data } = event;
-  const { phase } = finale_data;
-  if (state !== 'finale') return null;
-
+  //const { phase } = finale_data;
+  //if (state !== 'finale') return null;
+  const phase = 'total-money';
   console.log(finale_data);
 
   const videosForPhases: Record<string, string> = {
@@ -18,7 +18,18 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
     'emily-cat': '/casino/videos/emily.mp4',
     'most-slot-spins': '/casino/videos/shady.mp4',
     'most-popular-slot': '/casino/videos/liz.mp4',
-    end: '/casino/videos/jackie.mp4',
+    end: '/casino/videos/hackerwin-1.mp4',
+  };
+
+  const titleSpans = (title: string) => {
+    return title.split('').map((letter, index) => (
+      <span
+        key={index}
+        className={index % 2 === 0 ? 'evenLetter' : 'oddLetter'}
+      >
+        {letter}
+      </span>
+    ));
   };
 
   return (
@@ -32,7 +43,10 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
       {phase === 'total-money' && (
         <div className="finale-split-video-left">
           <video src="/casino/videos/jon.mp4" autoPlay muted />
-          <div className="finale-money-stolen">{finale_data.totalMoney} BB</div>
+          <div className="finale-money-stolen">
+            <h2>{titleSpans('Total Money Stolen')}</h2>
+            <p>{finale_data.totalMoney} BB</p>
+          </div>
         </div>
       )}
       {phase === 'most-money' && (

@@ -10,6 +10,8 @@ const sendLastDigitClue = (result: number, player_id: string) => {
 
   const clueText = `The last digit's not gonna be a *${eliminationDigit}*!`;
 
+  console.log('Sending last digit clue text', clueText);
+
   Meteor.call('autoTexts.send', {
     trigger: 'HACKER_ROULETTE_SIMPLE',
     playerId: player_id,

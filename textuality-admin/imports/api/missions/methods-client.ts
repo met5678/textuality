@@ -45,6 +45,7 @@ Meteor.methods({
   },
 
   'missions.start': ({ missionId }) => {
+    console.log('Attempting to start', missionId);
     const mission = Missions.findOne(missionId);
     if (!mission) return;
     let eligiblePlayers = getEligiblePlayers();
@@ -91,6 +92,8 @@ Meteor.methods({
         Meteor.call('autoTexts.sendCustom', {
           playerText: mission.missionPlayerAText,
           playerId: pairing.playerA,
+          mediaUrl: pairing.getAvatarUrlB(),
+          templateVars: { password: pairing.hashtag },
           source: 'mission',
         });
       } else {
@@ -107,6 +110,8 @@ Meteor.methods({
         Meteor.call('autoTexts.sendCustom', {
           playerText: mission.missionPlayerBText,
           playerId: pairing.playerB,
+          mediaUrl: pairing.getAvatarUrlA(),
+          templateVars: { password: pairing.hashtag },
           source: 'mission',
         });
       } else {

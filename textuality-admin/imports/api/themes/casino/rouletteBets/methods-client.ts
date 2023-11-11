@@ -27,6 +27,14 @@ Meteor.methods({
 
     if (!player || !roulette) return;
 
+    if (Number.isNaN(betWager)) {
+      Meteor.call('autoTexts.send', {
+        playerId: player._id,
+        trigger: 'INVALID_BET',
+      });
+      return;
+    }
+
     if (betWager === 0) {
       Meteor.call('autoTexts.send', {
         playerId: player._id,
@@ -179,7 +187,7 @@ const processBetsForPlayer = (
       bet.win_payout = bet.wager * roulette.number_payout_multiplier;
       RouletteBets.update(bet._id!, { $set: { win_payout: bet.win_payout } });
     } else {
-      bet.win_payout = bet.wager * roulette.number_payout_multiplier;
+      bet.win_payout = bet.wager * roulette.special_payout_multiplier;
       RouletteBets.update(bet._id!, { $set: { win_payout: bet.win_payout } });
     }
   });
@@ -191,8 +199,8 @@ const processBetsForPlayer = (
 
   const payoutDetailText = playerWinningBets.map((bet) => {
     if (bet.isSpecialBet())
-      return `${bet.wager} BB on ${bet.bet_slot} (${roulette.special_payout_multiplier}x) nets ${bet.win_payout} BB`;
-    return `${bet.wager} BB on ${bet.bet_slot} (${roulette.number_payout_multiplier}x) nets ${bet.win_payout} BB`;
+      return `${bet.wager} BB on ${bet.bet_slot} (x${roulette.special_payout_multiplier}) nets ${bet.win_payout} BB`;
+    return `${bet.wager} BB on ${bet.bet_slot} (x${roulette.number_payout_multiplier}) nets ${bet.win_payout} BB`;
   });
 
   Meteor.call('players.giveMoney', {

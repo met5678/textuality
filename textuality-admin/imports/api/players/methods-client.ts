@@ -100,12 +100,24 @@ Meteor.methods({
     if (!player) return;
     if (money > player.money) {
       Players.update(playerId, { $set: { money: 0 } });
-      Meteor.call('autoTexts.send', {
-        playerId: player._id,
-        trigger: 'BANKRUPT',
-      });
+      player.money = 0;
     } else {
       Players.update(playerId, { $inc: { money: -money } });
+      player.money -= money;
+    }
+
+    if (player.money === 0) {
+      if (
+        !Meteor.call('achievements.tryUnlock', {
+          trigger: 'BANKRUPT',
+          playerId: player._id,
+        })
+      ) {
+        Meteor.call('autoTexts.send', {
+          trigger: 'WALLET_BANKRUPT',
+          playerId: player._id,
+        });
+      }
     }
   },
 

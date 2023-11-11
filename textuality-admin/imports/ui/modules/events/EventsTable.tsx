@@ -11,6 +11,7 @@ import AutoFormDialog from '../../generic/AutoForm/AutoFormDialog';
 import EventSchema, { Event } from '/imports/schemas/event';
 import LoadingBar from '/imports/ui/generic/LoadingBar';
 import Table from '/imports/ui/generic/Table/Table';
+import EventForm from './EventForm';
 
 // const columns = [
 //   {
@@ -84,6 +85,14 @@ const tableColumns: GridColDef<Event>[] = [
     },
   },
   {
+    field: 'state',
+    headerName: 'State',
+    width: 120,
+    editable: true,
+    type: 'singleSelect',
+    valueOptions: EventSchema.getAllowedValuesForKey('state') as string[],
+  },
+  {
     field: 'reset',
     headerName: 'Reset',
     renderCell: (params) => {
@@ -110,15 +119,15 @@ const tableColumns: GridColDef<Event>[] = [
 ];
 
 const EventsTable = () => {
-  const [model, setModel] = useState(null);
   const isLoading = useSubscribe('events.all');
   const events: Event[] = useTracker(() => Events.find().fetch());
+  const [editEvent, setEditEvent] = useState<Event | null>(null);
 
   if (isLoading()) return <LoadingBar />;
 
   return (
     <>
-      <Table<Event>
+      <Table
         columns={tableColumns}
         data={events}
         canDelete={true}
@@ -132,15 +141,16 @@ const EventsTable = () => {
             Meteor.call('events.delete', event._id);
           }
         }}
+        canAdd={true}
+        onAdd={() => setEditEvent(EventSchema.clean({}))}
         canEdit={true}
-        onEdit={(obj: any) => setModel(obj)}
+        onEdit={setEditEvent}
+        onEditCell={(events) => {
+          Meteor.call('events.update', events);
+          return events;
+        }}
       />
-      <AutoFormDialog
-        schema={EventSchema}
-        model={model}
-        onSubmit={(obj) => console.log('Submitted', obj)}
-        handleClose={() => setModel(null)}
-      />
+      <EventForm model={editEvent} onClose={() => setEditEvent(null)} />
     </>
   );
 };

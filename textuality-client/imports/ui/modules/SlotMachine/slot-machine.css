@@ -91,3 +91,125 @@
   position: absolute;
   bottom: 0;
 }
+
+.led-container {
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+@media screen and (max-width: 280px) {
+  .led-container {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
+
+.led {
+  margin: 0 auto;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+.led-red {
+  background-color: #f00;
+  box-shadow:
+    rgba(0, 0, 0, 0.2) 0 -1px 7px 1px,
+    inset #441313 0 -1px 9px,
+    rgba(255, 0, 0, 0.5) 0 2px 12px;
+  animation: blink-red 0.5s infinite;
+}
+
+.led-yellow {
+  background-color: #ff0;
+  box-shadow:
+    rgba(0, 0, 0, 0.2) 0 -1px 7px 1px,
+    inset #808002 0 -1px 9px,
+    #ff0 0 2px 12px;
+  animation: blink-yellow 0.5s infinite;
+}
+
+.led-magenta {
+  background-color: #d900e0;
+  box-shadow:
+    rgba(0, 0, 0, 0.2) 0 -1px 7px 1px,
+    inset #68006b 0 -1px 9px,
+    #d900e0 0 2px 12px;
+  animation: blink-magenta 0.5s infinite;
+}
+
+.led-green {
+  background-color: #00e01e;
+  box-shadow:
+    rgba(0, 0, 0, 0.2) 0 -1px 7px 1px,
+    inset #007a10 0 -1px 9px,
+    #00e01e 0 2px 12px;
+  animation: blink-green 0.5s infinite;
+}
+
+@keyframes blink-red {
+  from {
+    background-color: #f00;
+  }
+  50% {
+    background-color: #a00;
+    box-shadow:
+      rgba(0, 0, 0, 0.2) 0 -1px 7px 1px,
+      inset #441313 0 -1px 9px,
+      rgba(255, 0, 0, 0.5) 0 2px 0;
+  }
+  to {
+    background-color: #f00;
+  }
+}
+
+@keyframes blink-yellow {
+  from {
+    background-color: #ff0;
+  }
+  50% {
+    background-color: #aa0;
+    box-shadow:
+      rgba(0, 0, 0, 0.2) 0 -1px 7px 1px,
+      inset #808002 0 -1px 9px,
+      #ff0 0 2px 0;
+  }
+  to {
+    background-color: #ff0;
+  }
+}
+
+@keyframes blink-green {
+  from {
+    background-color: #00e01e;
+  }
+  50% {
+    background-color: #007a10;
+    box-shadow:
+      rgba(0, 0, 0, 0.2) 0 -1px 7px 1px,
+      inset #007a10 0 -1px 9px,
+      #00e01e 0 2px 0;
+  }
+  to {
+    background-color: #00e01e;
+  }
+}
+
+@keyframes blink-magenta {
+  from {
+    background-color: #d900e0;
+  }
+  50% {
+    background-color: #68006b;
+    box-shadow:
+      rgba(0, 0, 0, 0.2) 0 -1px 7px 1px,
+      inset #68006b 0 -1px 9px,
+      #d900e0 0 2px 0;
+  }
+  to {
+    background-color: #d900e0;
+  }
+}

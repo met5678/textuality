@@ -3,6 +3,7 @@ import { getImageUrl } from '/imports/services/cloudinary/cloudinary-geturl';
 import SlotMachineSounds from './SlotMachineSounds';
 import { SlotMachineWithHelpers } from '/imports/api/themes/casino/slotMachines/slotMachines';
 import './slot-machine.css';
+import classNames from 'classnames';
 import Reel from './Reel';
 import RouletteChip from '../Roulette/RouletteChip';
 import SlotMachinePlayer from './SlotMachinePlayer';
@@ -26,6 +27,30 @@ const items = [
   { id: '🍑', url: '/images/emojis/emoji-peach.svg' },
   { id: '💦', url: '/images/emojis/emoji-splash.svg' },
 ];
+
+const Leds = () => {
+  const getLedClass = (index: number) => {
+    if (index % 4 === 0) {
+      return 'led-green';
+    } else if (index % 4 === 1) {
+      return 'led-yellow';
+    } else if (index % 4 === 2) {
+      return 'led-red';
+    } else if (index % 4 === 3) {
+      return 'led-magenta';
+    }
+  };
+
+  return (
+    <div className="led-container">
+      {[...Array(8).keys()]
+        .map((i) => i + 1)
+        .map((v) => (
+          <div key={v} className={classNames('led', getLedClass(v))}></div>
+        ))}
+    </div>
+  );
+};
 
 const SlotMachine = ({ slotMachine }: SlotMachineProps) => {
   const { name, short, cost, status, code, result, win_amount, player, stats } =
@@ -56,7 +81,8 @@ const SlotMachine = ({ slotMachine }: SlotMachineProps) => {
             Price: <span className="title-price-bb">{cost} BB</span>
           </div>
         </div>
-        <div className="reels-container">
+        <div className="reels-container flex">
+          <Leds />
           <div className="reels">
             <Reel
               items={items}
@@ -79,6 +105,7 @@ const SlotMachine = ({ slotMachine }: SlotMachineProps) => {
               index={2}
             />
           </div>
+          <Leds />
         </div>
 
         <div className="slot-bottom">

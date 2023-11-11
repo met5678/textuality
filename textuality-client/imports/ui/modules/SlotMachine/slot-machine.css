@@ -100,13 +100,6 @@
   flex-direction: column;
 }
 
-@media screen and (max-width: 280px) {
-  .led-container {
-    padding-left: 8px;
-    padding-right: 8px;
-  }
-}
-
 .led {
   margin: 0 auto;
   width: 24px;
@@ -211,5 +204,11 @@
   }
   to {
     background-color: #d900e0;
+  }
+}
+
+@media screen and (max-width: 250px) {
+  .led-container {
+    display: none;
   }
 }

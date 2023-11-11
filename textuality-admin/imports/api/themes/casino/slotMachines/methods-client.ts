@@ -57,6 +57,19 @@ Meteor.methods({
       return;
     }
 
+    if (player.money === 0) {
+      Meteor.call('autoTexts.send', {
+        trigger: 'SLOT_NO_MONEY',
+        playerId: player_id,
+        templateVars: {
+          slot_name: slotMachine.name,
+          slot_cost: slotMachine.cost.toString(),
+          short_money: slotMachine.cost - player.money,
+        },
+      });
+      return;
+    }
+
     if (player.money < slotMachine.cost) {
       Meteor.call('autoTexts.send', {
         trigger: 'SLOT_NOT_ENOUGH_MONEY',

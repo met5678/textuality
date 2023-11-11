@@ -11,8 +11,26 @@
   color: #fea70a;
 }
 
-.leaderboard-title .red {
+.leaderboard-title .oddLetter {
+  color: #fea70a;
+  animation: flashRed 2s infinite linear;
+}
+
+.leaderboard-title .evenLetter {
   color: #d01935;
+  animation: flashYellow 2s infinite linear;
+}
+
+@keyframes flashRed {
+  50% {
+    color: #d01935;
+  }
+}
+
+@keyframes flashYellow {
+  50% {
+    color: #fea70a;
+  }
 }
 
 .leaderboard-casino {
@@ -37,12 +55,31 @@
   text-shadow: 3px 3px 4px rgba(0, 0, 0, 0.4);
 }
 
-.leaderboard-row:nth-child(3n + 1) {
+.leaderboard-row:nth-child(3n + 1),
+.leaderboard-row:nth-child(3n + 2) {
   color: white;
 }
 
-.leaderboard-row:nth-child(3n + 2) {
-  color: white;
+.leaderboard-row:nth-child(4n + 2) {
+  .chipRing {
+    border-color: #537c43;
+  }
+  position: relative;
+  left: 32px;
+}
+
+.leaderboard-row:nth-child(4n + 3) {
+  .chipRing {
+    border-color: #fea70a;
+  }
+}
+
+.leaderboard-row:nth-child(4n + 4) {
+  .chipRing {
+    border-color: #d01935;
+  }
+  position: relative;
+  left: 32px;
 }
 
 p.leaderboard-item,
@@ -66,10 +103,13 @@ p.leaderboard-value {
 }
 
 .leaderboard-img {
+  display: flex;
+  align-items: center;
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  margin-right: 24px;
+  margin-right: 20px;
+  transform: scale(1.2);
 }
 
 @media (max-height: 600px) {

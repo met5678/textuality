@@ -71,18 +71,32 @@
 
 @keyframes enter {
   0% {
-    transform: scale(2) rotateX(0deg) rotateY(0deg);
+    transform: scale(2) rotateX(0deg);
     opacity: 0;
   }
   15% {
-    transform: scale(4) rotateX(0deg) rotateY(0deg);
+    transform: scale(4) rotate3d(0, 1, 0, 0);
     opacity: 1;
   }
   100% {
     transform-origin: 50% 50%;
-    transform: scale(1) rotateX(360deg) rotateY(1440deg) translate(-50%, -50%);
+    transform: scale(1) rotate3d(0, 1, 0, 3600deg) translate(-50%, -50%);
   }
 }
+/* 
+@keyframes enter {
+  0% {
+    transform: scale(2) translate(-50%, -50%);
+    opacity: 0;
+  }
+  15% {
+    transform: scale(4) translate(-50%, -50%);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) translate(-50%, -50%);
+  }
+} */
 
 .betFeeds {
   display: flex;

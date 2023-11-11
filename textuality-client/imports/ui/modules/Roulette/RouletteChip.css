@@ -17,17 +17,35 @@
   border: 6px dashed #121639;
 }
 
-/* box-shadow: 0 0 0 0.2em #121639;
-  overflow: hidden; /* Hide content that overflows the chip */
-/* display: flex; */
-/* align-items: center;
-  justify-content: center; 
-}
-*/
-
 .chip img {
   max-height: 100%; /* Make sure the image takes the full width of the container */
   max-width: 100%; /* Make sure the image takes the full height of the container */
   object-fit: cover; /* Ensure the image covers the container without stretching */
   border-radius: 50%;
+}
+
+.chip.rotate {
+  animation: rotateOuter 6s infinite linear;
+}
+
+.chip.rotate img {
+  animation: rotateInner 6s infinite linear;
+}
+
+@keyframes rotateOuter {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes rotateInner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

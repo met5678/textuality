@@ -43,10 +43,7 @@ const RouletteGrid = ({ rouletteId, status, betsOpen }: RouletteGridProps) => {
       id={String(number)}
     >
       {hasBet(number) && (
-        <RouletteChip
-          avatar_id={getBet(number)?.player.avatar_id}
-          zoom={1.25}
-        />
+        <RouletteChip avatar_id={getBet(number)?.player.avatar_id} />
       )}
       {number}
     </td>

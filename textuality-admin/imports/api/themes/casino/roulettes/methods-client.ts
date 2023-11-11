@@ -32,19 +32,13 @@ Meteor.methods({
 
     if (!roulette) return;
 
-    // Commenting this conditional out -- we'll randomize
-    // the bets each time
-    // if (
-    //   typeof roulette.result !== 'number' ||
-    //   roulette.result < 0 ||
-    //   roulette.result > 36
-    // ) {
+    Meteor.call('rouletteBets.clearBets', rouletteId);
+
     Roulettes.update(rouletteId, {
       $set: {
         result: Math.floor(Math.random() * 37),
       },
     });
-    // }
 
     if (!roulette.scheduled) {
       Roulettes.update(rouletteId, {

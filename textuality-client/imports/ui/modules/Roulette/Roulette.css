@@ -59,7 +59,19 @@
   transform: translateY(100vh);
 }
 
+.roulette.winners-board .bettingArea {
+  transform: translateX(-100vw);
+}
+
+.roulette.winners-board .rouletteWheel {
+  transform: translateX(100vw);
+}
+
 .roulette.inactive h2 {
+  transform: translateY(-100vh);
+}
+
+.roulette.winners-board h2 {
   transform: translateY(-100vh);
 }
 
@@ -73,6 +85,20 @@
 
 .roulette.inactive .leaderboardArea {
   transform: translateX(0);
+}
+
+.winnerBoard {
+  transition: transform 500ms;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  transform: translateY(100vh);
+}
+
+.roulette.winners-board .winnerBoard {
+  transform: translateY(0);
 }
 
 .roulette.inactive .rouletteWheel .inner {
@@ -145,6 +171,7 @@ p {
   left: 30px;
   transform: scale(0.9);
   filter: drop-shadow(10px 10px 16px black);
+  transition: transform 500ms;
 }
 
 .betFeeds {

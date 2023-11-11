@@ -152,6 +152,10 @@ Meteor.methods({
       processBetsForPlayer(playerId, playerBets, specialSlots, roulette);
     });
   },
+
+  'rouletteBets.clearBets': (roulette_id: string) => {
+    RouletteBets.remove({ roulette_id });
+  },
 });
 
 const processBetsForPlayer = (

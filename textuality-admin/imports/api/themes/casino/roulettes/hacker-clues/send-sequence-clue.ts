@@ -5,14 +5,14 @@ const PRIME_NUMBERS = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31];
 const TRIANGLE_NUMBERS = [0, 1, 3, 6, 10, 15, 21, 28, 36];
 
 const sequences = [
-  {
-    name: 'number in the Fibonacci sequence',
-    sequence: FIBONACCI,
-  },
-  {
-    name: 'triangular number',
-    sequence: TRIANGLE_NUMBERS,
-  },
+  // {
+  //   name: 'number in the Fibonacci sequence',
+  //   sequence: FIBONACCI,
+  // },
+  // {
+  //   name: 'triangular number',
+  //   sequence: TRIANGLE_NUMBERS,
+  // },
   {
     name: 'prime number',
     sequence: PRIME_NUMBERS,

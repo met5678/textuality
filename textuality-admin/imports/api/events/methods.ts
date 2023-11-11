@@ -44,10 +44,13 @@ Meteor.methods({
     Meteor.call('checkpoints.resetEvent', eventId);
     Meteor.call('missions.resetEvent', eventId);
     Meteor.call('missionPairings.resetEvent', eventId);
-    Meteor.call('rounds.resetEvent', eventId);
-    Meteor.call('clues.resetEvent', eventId);
-    Meteor.call('clueRewards.resetEvent', eventId);
-    Meteor.call('guesses.resetEvent', eventId);
+    // Meteor.call('rounds.resetEvent', eventId);
+    // Meteor.call('clues.resetEvent', eventId);
+    // Meteor.call('clueRewards.resetEvent', eventId);
+    // Meteor.call('guesses.resetEvent', eventId);
     Meteor.call('slotMachines.resetEvent', eventId);
+    Meteor.call('roulettes.resetEvent', eventId);
+    Meteor.call('rouletteBets.resetEvent', eventId);
+    Meteor.call('quests.resetEvent', eventId);
   },
 });

@@ -9,8 +9,6 @@ const useTimedQueue = <T>(items: T[], timeout: number) => {
 
   const changeTimeout = useCallback(() => {
     if (itemQueue.current.length) {
-      console.log({ itemQueue, oldQueue });
-
       const newItem = itemQueue.current.shift();
 
       oldQueue.current.unshift(newItem);

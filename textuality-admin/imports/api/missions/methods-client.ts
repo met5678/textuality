@@ -45,12 +45,10 @@ Meteor.methods({
   },
 
   'missions.start': ({ missionId }) => {
-    console.log('Attempting to start', missionId);
     const mission = Missions.findOne(missionId);
     if (!mission) return;
-    let eligiblePlayers = getEligiblePlayers();
 
-    if (!mission) return;
+    let eligiblePlayers = getEligiblePlayers();
     MissionPairings.remove({ mission: missionId });
 
     if (eligiblePlayers.length % 2 === 1) {
@@ -67,7 +65,7 @@ Meteor.methods({
 
     shuffle(eligiblePlayers);
 
-    for (let i = 0; i < eligiblePlayers.length; i += 2) {
+    for (let i = 0; i < eligiblePlayers.length - 1; i += 2) {
       const playerA = eligiblePlayers[i];
       const playerB = eligiblePlayers[i + 1];
       const missionPairing = {
@@ -93,7 +91,7 @@ Meteor.methods({
           playerText: mission.missionPlayerAText,
           playerId: pairing.playerA,
           mediaUrl: pairing.getAvatarUrlB(),
-          templateVars: { password: pairing.hashtag },
+          templateVars: { password: pairing.hashtag, mins: mission.minutes },
           source: 'mission',
         });
       } else {
@@ -101,7 +99,7 @@ Meteor.methods({
           trigger: 'MISSION_START_PLAYER_A',
           playerId: pairing.playerA,
           mediaUrl: pairing.getAvatarUrlB(),
-          templateVars: { password: pairing.hashtag },
+          templateVars: { password: pairing.hashtag, mins: mission.minutes },
           source: 'mission',
         });
       }
@@ -111,7 +109,7 @@ Meteor.methods({
           playerText: mission.missionPlayerBText,
           playerId: pairing.playerB,
           mediaUrl: pairing.getAvatarUrlA(),
-          templateVars: { password: pairing.hashtag },
+          templateVars: { password: pairing.hashtag, mins: mission.minutes },
           source: 'mission',
         });
       } else {
@@ -119,7 +117,7 @@ Meteor.methods({
           trigger: 'MISSION_START_PLAYER_B',
           playerId: pairing.playerB,
           mediaUrl: pairing.getAvatarUrlA(),
-          templateVars: { password: pairing.hashtag },
+          templateVars: { password: pairing.hashtag, mins: mission.minutes },
           source: 'mission',
         });
       }

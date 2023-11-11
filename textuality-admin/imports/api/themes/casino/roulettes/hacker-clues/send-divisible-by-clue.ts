@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { PlayerWithHelpers } from '/imports/api/players/players';
 
-const DIVISORS = [3, 4, 5, 6, 7];
+const DIVISORS = [3, 4, 5, 7];
 
 const isDivisibleBy = (number: number, divisor: number) => {
   return number % divisor === 0;

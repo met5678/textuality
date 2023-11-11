@@ -53,9 +53,14 @@ Meteor.methods({
     if (!player) return;
     const assignedQuests = player.quests.map((quests) => quests.id);
     const questsOfType = Quests.find({ type }).fetch();
-    const availableQuests = questsOfType.filter(
+    let availableQuests = questsOfType.filter(
       (quest) => !assignedQuests.includes(quest._id!),
     );
+
+    if (availableQuests.length === 0 && type === 'HACKER_TASK') {
+      Meteor.call('quests.startQuestOfType', { playerId, type: 'HACKER_SLOT' });
+      return;
+    }
 
     if (availableQuests.length === 0) {
       const trigger =

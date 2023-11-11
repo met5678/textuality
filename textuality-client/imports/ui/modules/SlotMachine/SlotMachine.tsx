@@ -3,6 +3,7 @@ import { getImageUrl } from '/imports/services/cloudinary/cloudinary-geturl';
 import SlotMachineSounds from './SlotMachineSounds';
 import { SlotMachineWithHelpers } from '/imports/api/themes/casino/slotMachines/slotMachines';
 import './slot-machine.css';
+import './leds.css';
 import classNames from 'classnames';
 import Reel from './Reel';
 import RouletteChip from '../Roulette/RouletteChip';
@@ -62,6 +63,15 @@ const SlotMachine = ({ slotMachine }: SlotMachineProps) => {
     status === 'win-hacker-final';
 
   useConfetti(showWin);
+
+  const slotClasses = classNames('slot-machine', {
+    spinning: status === 'spinning',
+    lose: status === 'lose',
+    'win-normal': status === 'win-normal',
+    'win-hacker-partial': status === 'win-hacker-partial',
+    'win-hacker-final': status === 'win-hacker-final',
+    win: showWin,
+  });
 
   return (
     <>

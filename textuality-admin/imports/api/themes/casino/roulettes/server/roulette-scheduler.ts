@@ -6,8 +6,8 @@ import Roulettes, { RouletteWithHelpers } from '../roulettes';
 import { DateTime } from 'luxon';
 import { RouletteStatus } from '/imports/schemas/roulette';
 
-const SPIN_END_DWELL_SECONDS = 8;
-const WINNERBOARD_DWELL_SECONDS = 30;
+const SPIN_END_DWELL_SECONDS = 5;
+const WINNERBOARD_DWELL_SECONDS = 36;
 
 const getExpectedStatus = (
   roulette: RouletteWithHelpers,

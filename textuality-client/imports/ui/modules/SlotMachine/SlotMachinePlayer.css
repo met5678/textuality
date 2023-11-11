@@ -26,6 +26,10 @@
   transform-origin: center bottom;
 }
 
+.slot-player.lose {
+  animation: playerShakeHead 1s ease-out infinite;
+}
+
 .player-avatar-chip {
   border-radius: 50%;
   height: min(60vw, 12vh);
@@ -39,8 +43,6 @@
   font-weight: 400;
   font-style: normal;
   font-size: min(12vw, 4vh);
-  background-color: rgba(0, 0, 0, 0.8);
-  border-radius: 2px;
   padding: min(2vw, 0.4vh);
 }
 
@@ -51,8 +53,6 @@
   font-size: min(8vw, 2.5vh);
   color: #ffc250;
   font-weight: 700;
-  background-color: rgba(0, 0, 0, 0.8);
-  border-radius: 2px;
   padding: min(2vw, 0.4vh);
 }
 
@@ -105,5 +105,23 @@
   }
   100% {
     transform: scale(1);
+  }
+}
+
+@keyframes playerShakeHead {
+  0% {
+    transform: translateX(0vw);
+  }
+  25% {
+    transform: translateX(3vw);
+  }
+  50% {
+    transform: translateX(0vw);
+  }
+  75% {
+    transform: translateX(-3vw);
+  }
+  100% {
+    transform: translateX(0vw);
   }
 }

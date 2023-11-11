@@ -13,6 +13,7 @@ import { RouletteWithHelpers } from '/imports/api/themes/casino/roulettes/roulet
 import CasinoLeaderboard from '../CasinoLeaderboard/CasinoLeaderboard';
 import RouletteWheelDisplay from './RouletteWheelDisplay';
 import { useConfetti } from '../../hooks/use-confetti';
+import RouletteWinnerBoard from './RouletteWinnerBoard';
 
 interface RouletteProps {
   roulette: Partial<RouletteWithHelpers>;
@@ -65,6 +66,12 @@ const Roulette = ({ roulette }: RouletteProps) => {
         <div className="leaderboardArea">
           <CasinoLeaderboard />
         </div>
+
+        {status === 'winners-board' && (
+          <div className="winnerBoard">
+            <RouletteWinnerBoard roulette={roulette} />
+          </div>
+        )}
 
         <RouletteWheel
           result={result}

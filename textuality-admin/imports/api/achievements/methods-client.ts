@@ -71,6 +71,7 @@ Meteor.methods({
             Meteor.call('autoTexts.sendCustom', {
               playerText: achievement.player_text,
               playerId,
+              mediaUrl: achievement.player_text_image ?? undefined,
               source: 'achievement',
               templateVars: {
                 money_award: achievement.money_award,

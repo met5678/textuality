@@ -31,6 +31,8 @@ Meteor.methods({
     const autoText =
       matchingAutoTexts[Math.floor(Math.random() * matchingAutoTexts.length)];
 
+    if (!mediaUrl) mediaUrl = autoText.image_url ?? undefined;
+
     Meteor.call('autoTexts.sendCustom', {
       ...autoText,
       playerId,

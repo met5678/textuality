@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import shuffle from 'shuffle-array';
 import pokemon from 'pokemon';
+import superb from 'superb';
 
 import Missions from './missions';
 import MissionPairings from '/imports/api/missionPairings';
@@ -12,6 +13,9 @@ function getEligiblePlayers() {
 }
 
 let currentTimeout: number | null = null;
+
+const aToZ = /^[a-z]+$/;
+const elegibleHashtags = superb.all.filter((word) => aToZ.test(word));
 
 Meteor.methods({
   'missions.preStart': ({ missionId }) => {
@@ -68,6 +72,10 @@ Meteor.methods({
     for (let i = 0; i < eligiblePlayers.length - 1; i += 2) {
       const playerA = eligiblePlayers[i];
       const playerB = eligiblePlayers[i + 1];
+
+      const hashtag =
+        elegibleHashtags[Math.floor(Math.random() * elegibleHashtags.length)];
+
       const missionPairing = {
         event: Events.currentId()!,
         mission: missionId,
@@ -77,7 +85,7 @@ Meteor.methods({
         aliasB: playerB.alias,
         avatarA: playerA.avatar!,
         avatarB: playerB.avatar!,
-        hashtag: pokemon.random().toLowerCase(),
+        hashtag,
       };
 
       MissionPairings.insert(missionPairing);

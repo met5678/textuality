@@ -6,7 +6,7 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
   const { state, finale_data } = event;
   //const { phase } = finale_data;
   //if (state !== 'finale') return null;
-  const phase = 'total-money';
+  const phase = 'pre';
   console.log(finale_data);
 
   const videosForPhases: Record<string, string> = {
@@ -34,7 +34,12 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
 
   return (
     <div className={`finale-overlay ${phase}`}>
-      {phase === 'pre' && <div></div>}
+      {phase === 'pre' && (
+        <>
+          <div className="glitch-fullscreen" />
+          <audio src="/casino/sounds/glitch.ogg" autoPlay />
+        </>
+      )}
       {phase === 'hacker-appears' && (
         <div className="video-fullscreen">
           <video src="/casino/videos/jackie-moneybags.mp4" autoPlay muted />

@@ -65,7 +65,7 @@ Meteor.methods({
     }
 
     if (roulette?.linked_mission && roulette?.linked_mission !== 'none') {
-      console.log('Starting mission associated with roulette');
+      Meteor.call('missions.start', { missionId: roulette.linked_mission });
     }
   },
 

@@ -25,8 +25,10 @@ const sendSequenceClue = (result: number, player_id: string) => {
   const inSequence = sequence.sequence.includes(result);
 
   const clueText = `The spin's result is ${
-    !inSequence ? 'NOT' : ''
+    inSequence ? '' : 'NOT'
   } gonna be a *${sequence.name}*!`;
+
+  console.log('Sending sequence clue text', clueText);
 
   Meteor.call('autoTexts.send', {
     trigger: 'HACKER_ROULETTE_MATH',

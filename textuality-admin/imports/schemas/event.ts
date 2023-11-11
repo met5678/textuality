@@ -14,6 +14,11 @@ const EventSchema = new SimpleSchema({
     defaultValue: 'normal',
     allowedValues: ['normal', 'finale'],
   },
+  finale_data: {
+    type: Object,
+    optional: true,
+    blackbox: true,
+  },
 });
 
 type EventState = 'normal' | 'finale';
@@ -25,6 +30,7 @@ interface Event {
   active: boolean;
   theme: string;
   state: EventState;
+  finale_data: any;
 }
 
 export default EventSchema;

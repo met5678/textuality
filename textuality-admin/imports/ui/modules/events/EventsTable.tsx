@@ -6,7 +6,7 @@ import { useState } from 'react';
 import Events from '/imports/api/events';
 
 import { Button, Switch } from '@mui/material';
-import { GridColDef } from '@mui/x-data-grid';
+import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid';
 import AutoFormDialog from '../../generic/AutoForm/AutoFormDialog';
 import EventSchema, { Event } from '/imports/schemas/event';
 import LoadingBar from '/imports/ui/generic/LoadingBar';
@@ -88,9 +88,6 @@ const tableColumns: GridColDef<Event>[] = [
     field: 'state',
     headerName: 'State',
     width: 120,
-    editable: true,
-    type: 'singleSelect',
-    valueOptions: EventSchema.getAllowedValuesForKey('state') as string[],
   },
   {
     field: 'reset',
@@ -145,10 +142,15 @@ const EventsTable = () => {
         onAdd={() => setEditEvent(EventSchema.clean({}))}
         canEdit={true}
         onEdit={setEditEvent}
-        onEditCell={(events) => {
-          Meteor.call('events.update', events);
-          return events;
-        }}
+        customRowActions={[
+          (params) => (
+            <GridActionsCellItem
+              showInMenu={true}
+              onClick={() => Meteor.call('finale.casino.start', params.row._id)}
+              label="Start Finale"
+            />
+          ),
+        ]}
       />
       <EventForm model={editEvent} onClose={() => setEditEvent(null)} />
     </>

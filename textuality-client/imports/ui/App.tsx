@@ -8,6 +8,7 @@ import Events from '/imports/api/events';
 import SlotMachineScreen from './screens/SlotMachineScreen';
 import RouletteScreen from './screens/RouletteScreen';
 import LeaderboardScreen from './screens/LeaderboardScreen';
+import FinaleOverlay from './modules/CasinoFinale/FinaleOverlay';
 
 const App = () => {
   const isLoadingEvent = useSubscribe('events.current');
@@ -20,6 +21,8 @@ const App = () => {
   if (!event) {
     return <p>No Event</p>;
   }
+
+  console.log({ state: event.state, finale_data: event.finale_data });
 
   return (
     <Shell>
@@ -38,6 +41,8 @@ const App = () => {
 
         <Redirect to="/roulette" />
       </Switch>
+
+      {event.state === 'finale' && <FinaleOverlay event={event} />}
     </Shell>
   );
 };

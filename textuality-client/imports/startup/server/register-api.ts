@@ -59,6 +59,8 @@ import '/imports/api/themes/casino/rouletteBets/server/publications-client';
 import '/imports/api/themes/casino/quests/';
 import '/imports/api/themes/casino/quests/methods-client';
 
+import '/imports/api/events/finale/finale-casino';
+
 // Clue specific
 
 import '/imports/api/clues/';

@@ -70,6 +70,8 @@ import '/imports/api/themes/casino/quests/methods-admin';
 import '/imports/api/themes/casino/quests/methods-client';
 import '/imports/api/themes/casino/quests/server/publications-admin';
 
+import '/imports/api/events/finale/finale-casino';
+
 // Clue specific
 
 import 'api/clues/';

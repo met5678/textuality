@@ -11,93 +11,113 @@ import Roulettes, {
 } from '/imports/api/themes/casino/roulettes/roulettes';
 import RouletteSchema from '/imports/schemas/roulette';
 import { DateTime } from 'luxon';
+import RouletteBets from '/imports/api/themes/casino/rouletteBets';
+import { RouletteBetWithHelpers } from '/imports/api/themes/casino/rouletteBets/rouletteBets';
 
-const columns: GridColDef<RouletteWithHelpers>[] = [
-  {
-    field: 'scheduled',
-    headerName: 'Auto',
-    type: 'boolean',
-    width: 50,
-  },
-  {
-    field: 'bets_start_at',
-    headerName: 'Bets Start',
-    type: 'dateTime',
-    valueFormatter: (params) =>
-      params.value
-        ? DateTime.fromJSDate(params.value).toLocaleString(DateTime.TIME_SIMPLE)
-        : '--',
-    width: 100,
-  },
-  {
-    field: 'spin_starts_at',
-    headerName: 'Spin Starts',
-    type: 'dateTime',
-    valueFormatter: (params) =>
-      params.value
-        ? DateTime.fromJSDate(params.value).toLocaleString(DateTime.TIME_SIMPLE)
-        : '--',
-    width: 100,
-  },
-  {
-    field: 'spin_seconds',
-    headerName: 'Spin Time',
-    valueFormatter: (params) => params.value + 's',
-    width: 90,
-  },
-  {
-    field: 'bets_cutoff_seconds',
-    headerName: 'Bets Cutoff',
-    valueFormatter: (params) => params.value + 's',
-    width: 90,
-  },
-  {
-    field: 'number_payout_multiplier',
-    headerName: 'Payouts',
-    renderCell: (params) =>
-      `${params.row.number_payout_multiplier}x / ${params.row.special_payout_multiplier}x`,
-    width: 90,
-  },
-  {
-    field: 'linked_mission',
-    headerName: 'Mission',
-    valueGetter: (params) =>
-      params.row.linked_mission && params.row.linked_mission !== 'none',
-    type: 'boolean',
-  },
-  {
-    field: 'status',
-    headerName: 'Status',
-    width: 90,
-  },
-  {
-    field: 'result',
-    headerName: 'Result',
-    width: 90,
-  },
-  {
-    field: 'bets_open',
-    headerName: 'Bets Open',
-    type: 'boolean',
-    width: 80,
-  },
-];
+const getColumns = (
+  rouletteBets: RouletteBetWithHelpers[],
+): GridColDef<RouletteWithHelpers>[] => {
+  const columns: GridColDef<RouletteWithHelpers>[] = [
+    {
+      field: 'scheduled',
+      headerName: 'Auto',
+      type: 'boolean',
+      width: 50,
+    },
+    {
+      field: 'bets_start_at',
+      headerName: 'Bets Start',
+      type: 'dateTime',
+      valueFormatter: (params) =>
+        params.value
+          ? DateTime.fromJSDate(params.value).toLocaleString(
+              DateTime.TIME_SIMPLE,
+            )
+          : '--',
+      width: 100,
+    },
+    {
+      field: 'spin_starts_at',
+      headerName: 'Spin Starts',
+      type: 'dateTime',
+      valueFormatter: (params) =>
+        params.value
+          ? DateTime.fromJSDate(params.value).toLocaleString(
+              DateTime.TIME_SIMPLE,
+            )
+          : '--',
+      width: 100,
+    },
+    {
+      field: 'spin_seconds',
+      headerName: 'Spin Time',
+      valueFormatter: (params) => params.value + 's',
+      width: 90,
+    },
+    {
+      field: 'bets_cutoff_seconds',
+      headerName: 'Bets Cutoff',
+      valueFormatter: (params) => params.value + 's',
+      width: 90,
+    },
+    {
+      field: 'number_payout_multiplier',
+      headerName: 'Payouts',
+      renderCell: (params) =>
+        `${params.row.number_payout_multiplier}x / ${params.row.special_payout_multiplier}x`,
+      width: 90,
+    },
+    {
+      field: 'linked_mission',
+      headerName: 'Mission',
+      valueGetter: (params) =>
+        params.row.linked_mission && params.row.linked_mission !== 'none',
+      type: 'boolean',
+    },
+    {
+      field: 'status',
+      headerName: 'Status',
+      width: 90,
+    },
+    {
+      field: 'result',
+      headerName: 'Result',
+      width: 90,
+    },
+    {
+      field: 'bets_open',
+      headerName: 'Bets Open',
+      type: 'boolean',
+      width: 80,
+    },
+    {
+      field: 'num_bets',
+      headerName: 'Num Bets',
+      type: 'number',
+      valueGetter: (params) =>
+        rouletteBets.filter((bet) => bet.roulette_id === params.row._id).length,
+    },
+  ];
+  return columns;
+};
 
 const RoulettesTable = () => {
   const isLoading = useSubscribe('roulettes.all');
+  const isLoadingBets = useSubscribe('rouletteBets.all');
   const roulettes = useFind(
     () => Roulettes.find({}, { sort: { bets_start_at: 1 } }),
     [],
   );
+  const rouletteBets = useFind(() => RouletteBets.find({}), []);
   const [editRoulette, setEditRoulette] =
     useState<Partial<RouletteWithHelpers> | null>(null);
 
   return (
     <>
       <Table<RouletteWithHelpers>
-        columns={columns}
+        columns={getColumns(rouletteBets)}
         data={roulettes}
-        isLoading={isLoading()}
+        isLoading={isLoading() || isLoadingBets()}
         canDelete={true}
         onDelete={(roulette) => {
           Meteor.call(

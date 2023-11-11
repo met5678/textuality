@@ -66,6 +66,7 @@ const QuestsTable = () => {
         onAdd={() => setEditQuest(QuestSchema.clean({}))}
         canEdit={true}
         onEdit={setEditQuest}
+        dynamicHeight={true}
         customRowActions={[]}
       />
       <QuestFormDialog model={editQuest} onClose={() => setEditQuest(null)} />

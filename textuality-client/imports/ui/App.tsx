@@ -7,6 +7,7 @@ import Shell from './Shell';
 import Events from '/imports/api/events';
 import SlotMachineScreen from './screens/SlotMachineScreen';
 import RouletteScreen from './screens/RouletteScreen';
+import LeaderboardScreen from './screens/LeaderboardScreen';
 
 const App = () => {
   const isLoadingEvent = useSubscribe('events.current');
@@ -30,6 +31,9 @@ const App = () => {
         </Route>
         <Route path="/roulette">
           <RouletteScreen event={event} />
+        </Route>
+        <Route path="/leaderboard">
+          <LeaderboardScreen event={event} />
         </Route>
 
         <Redirect to="/roulette" />

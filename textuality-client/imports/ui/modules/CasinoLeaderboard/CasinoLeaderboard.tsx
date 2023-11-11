@@ -8,7 +8,10 @@ import { getImageUrl } from '/imports/services/cloudinary/cloudinary-geturl';
 
 const CasinoLeaderboard = () => {
   const isLoading = useSubscribe('players.basic');
-  const players = useFind(() => Players.find({}, { sort: { money: -1 } }), []);
+  const players = useFind(
+    () => Players.find({}, { sort: { money: -1 }, limit: 12 }),
+    [],
+  );
   const title = 'High Rollers';
   const displayTitle = title.split('').map((letter, index) => (
     <span key={index} className={index % 2 === 0 ? 'evenLetter' : 'oddLetter'}>

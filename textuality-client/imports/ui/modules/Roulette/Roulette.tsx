@@ -57,9 +57,18 @@ const Roulette = ({ roulette }: RouletteProps) => {
       <div className="rouletteTable">
         <div className="bettingArea">
           <div className="instructions">
+            <p>
+              Send{' '}
+              <strong>
+                <i>![bet] [wager]</i>
+              </strong>{' '}
+              to place your bet
+            </p>
             <RouletteInstr />
-            <p>Number Payout: {number_payout_multiplier}x</p>
-            <p>Red/Black/Odd/Even Payout: {special_payout_multiplier}x</p>
+            <p class="note">
+              Number Payout: {number_payout_multiplier}x, Red/Black/Odd/Even
+              Payout: {special_payout_multiplier}x
+            </p>
           </div>
           <RouletteGrid
             status={status}

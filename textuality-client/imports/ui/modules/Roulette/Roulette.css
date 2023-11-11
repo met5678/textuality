@@ -144,24 +144,30 @@ h2 .oddLetter {
 }
 
 p:first-child {
-  font-size: 26px;
+  font-size: 32px;
   margin-bottom: 8px;
+  width: 120%;
 }
 
 p {
   font-weight: 400;
   line-height: 1.6;
-  font-size: 24px;
+  font-size: 26px;
 }
 
 .instructions {
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   margin-top: 16px;
 }
 
 .instructions code {
   background-color: rgba(0, 0, 0, 0.4);
   padding: 2px;
+}
+
+.instructions .note {
+  margin-top: 30px;
+  font-size: 20px;
 }
 
 .fade-in-out {
@@ -216,11 +222,11 @@ p {
   }
 
   p {
-    font-size: 24px;
+    font-size: 32px;
   }
 
   p + p {
-    font-size: 20px;
+    font-size: 24px;
     padding-top: 4px;
   }
 

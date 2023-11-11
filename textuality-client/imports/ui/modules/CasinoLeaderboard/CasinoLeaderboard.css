@@ -60,26 +60,23 @@
   color: white;
 }
 
-.leaderboard-row:nth-child(4n + 2) {
-  .chipRing {
-    border-color: #537c43;
-  }
-  position: relative;
-  left: 32px;
-}
-
-.leaderboard-row:nth-child(4n + 3) {
-  .chipRing {
-    border-color: #fea70a;
-  }
-}
-
+.leaderboard-row:nth-child(4n + 2),
 .leaderboard-row:nth-child(4n + 4) {
-  .chipRing {
-    border-color: #d01935;
-  }
   position: relative;
   left: 32px;
+  margin-right: 32px;
+}
+
+.leaderboard-row:nth-child(4n + 2) .chipRing {
+  border-color: #537c43;
+}
+
+.leaderboard-row:nth-child(4n + 3) .chipRing {
+  border-color: #fea70a;
+}
+
+.leaderboard-row:nth-child(4n + 4) .chipRing {
+  border-color: #d01935;
 }
 
 p.leaderboard-item,
@@ -123,5 +120,9 @@ p.leaderboard-value {
 
   .leaderboard-casino {
     max-height: 90vh;
+  }
+
+  .leaderboard-row {
+    padding-left: 16px;
   }
 }

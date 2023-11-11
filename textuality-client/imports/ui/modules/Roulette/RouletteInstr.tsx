@@ -11,7 +11,7 @@ const RouletteInstr = ({}) => {
         setInstrIndex((instrIndex + 1) % Instructions.length);
         setActive(true);
       }, 500); // Delay for 500ms before fading in the new instruction
-    }, 15000);
+    }, 8000);
 
     return () => clearInterval(interval);
   }, [instrIndex]);
@@ -28,22 +28,20 @@ const RouletteInstr = ({}) => {
 const Instructions = [
   () => (
     <>
-      Text: <strong><i>![bet] [wager]</i></strong> to place your bet
+      e.g.{' '}
+      <strong>
+        <i>!odd 50</i>
+      </strong>{' '}
+      places 50BB on ODD
     </>
   ),
   () => (
     <>
-      Example: <strong><i>!odd 50</i></strong> places 50BB on ODD
-    </>
-  ),
-  () => (
-    <>
-      Send <strong><i>![bet] [wager]</i></strong> to place your bet
-    </>
-  ),
-  () => (
-    <>
-      Example: <strong><i>!21 100</i></strong> places 100BB on 21
+      e.g.{' '}
+      <strong>
+        <i>!21 100</i>
+      </strong>{' '}
+      places 100BB on 21
     </>
   ),
 ];

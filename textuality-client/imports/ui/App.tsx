@@ -34,6 +34,7 @@ const App = () => {
         </Route>
         <Route path="/roulette">
           <RouletteScreen event={event} />
+          {event.state === 'finale' && <FinaleOverlay event={event} />}
         </Route>
         <Route path="/leaderboard">
           <LeaderboardScreen event={event} />
@@ -41,8 +42,6 @@ const App = () => {
 
         <Redirect to="/roulette" />
       </Switch>
-
-      {event.state === 'finale' && <FinaleOverlay event={event} />}
     </Shell>
   );
 };

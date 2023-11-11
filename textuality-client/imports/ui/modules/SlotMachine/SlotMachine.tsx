@@ -131,6 +131,18 @@ const SlotMachine = ({ slotMachine }: SlotMachineProps) => {
         </div>
       </div>
 
+      {status === 'win-hacker-final' && (
+        <div className="slot-overlay-video">
+          <video
+            src={`/casino/videos/hackerwin-${Math.floor(
+              Math.random() * 3,
+            )}.mp4`}
+            autoPlay
+            muted
+          />
+        </div>
+      )}
+
       <SlotMachineSounds slotMachine={slotMachine} />
     </>
   );

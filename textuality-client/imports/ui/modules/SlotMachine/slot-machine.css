@@ -143,3 +143,41 @@
     opacity: 1;
   }
 }
+
+.slot-overlay-video {
+  animation: fadeLate 9s linear;
+  animation-delay: 1s;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.slot-overlay-video video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  object-fit: cover;
+}
+
+@keyframes fadeLate {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.5;
+  }
+  90% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+  }
+}

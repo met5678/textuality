@@ -1,26 +1,13 @@
 import React, { ReactNode } from 'react';
 import { Event } from '/imports/schemas/event';
 import './FinaleOverlay.css';
+import RouletteChip from '../Roulette/RouletteChip';
 
 const FinaleOverlay = ({ event }: { event: Event }) => {
   const { state, finale_data } = event;
-  // const { phase } = finale_data;
-  const phase = 'most-money';
-  //if (state !== 'finale') return null;
+  const { phase } = finale_data;
 
   console.log(finale_data);
-
-  const videosForPhases: Record<string, string> = {
-    pre: '',
-    'hacker-appears': '/casino/videos/jackie-moneybags.mp4',
-    'total-money': '/casino/videos/jon.mp4',
-    'most-money': '/casino/videos/gray.mp4',
-    'most-checkpoints': '/casino/videos/morgan.mp4',
-    'emily-cat': '/casino/videos/emily.mp4',
-    'most-slot-spins': '/casino/videos/shady.mp4',
-    'most-popular-slot': '/casino/videos/liz.mp4',
-    end: '/casino/videos/hackerwin-1.mp4',
-  };
 
   const titleSpans = (title: string) => {
     return title.split('').map((letter, index) => (
@@ -47,62 +34,93 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
         </div>
       )}
       {phase === 'total-money' && (
-        <div className="finale-split-video-left">
+        <div className="finale-split finale-split-video-left">
           <video src="/casino/videos/jon.mp4" autoPlay muted />
           <div className="finale-money-stolen">
             <h2>{titleSpans('Total Money Stolen')}</h2>
-            <p>{finale_data.totalMoney} BB</p>
+            <div className="finale-player-datum">
+              {finale_data.totalMoney} BB
+            </div>
           </div>
         </div>
       )}
       {phase === 'most-money' && (
-        <div className="finale-split-video-right">
+        <div className="finale-split finale-split-video-left">
           <div className="finale-player">
-            {finale_data.player.alias}
-            {finale_data.player.money}
-            {finale_data.player.avatar}
+            <h2>{titleSpans('Biggest Winner')}</h2>
+            <RouletteChip
+              width={250}
+              height={250}
+              avatar_id={finale_data.player.avatar}
+            />
+            <div className="finale-player-name">{finale_data.player.alias}</div>
+            <div className="finale-player-datum">
+              {finale_data.player.money}
+            </div>
           </div>
           <video src="/casino/videos/gray.mp4" autoPlay muted />
         </div>
       )}
       {phase === 'most-checkpoints' && (
-        <div className="finale-split-video-right">
+        <div className="finale-split finale-split-video-left">
           <div className="finale-player">
-            {finale_data.player.alias}
-            {finale_data.player.checkpoints}
-            {finale_data.player.avatar}
+            <h2>{titleSpans('Hashtag Finder')}</h2>
+            <RouletteChip
+              width={250}
+              height={250}
+              avatar_id={finale_data.player.avatar}
+            />
+            <div className="finale-player-name">{finale_data.player.alias}</div>
+            <div className="finale-player-datum">
+              {finale_data.player.checkpoints} hashtags found!
+            </div>
           </div>
           <video src="/casino/videos/morgan.mp4" autoPlay muted />
         </div>
       )}
       {phase === 'emily-cat' && (
-        <div className="finale-split-video-right">
-          <h2>{titleSpans('You helped Ramona foster a cat in need!')}</h2>
-
+        <div className="finale-split finale-split-video-left">
+          <div>
+            <h2>{titleSpans('You helped Ramona foster a cat in need!')}</h2>
+          </div>
           <video src="/casino/videos/emily.mp4" autoPlay muted />
         </div>
       )}
       {phase === 'most-slot-spins' && (
-        <div className="finale-split-video-right">
+        <div className="finale-split finale-split-video-left">
           <div className="finale-player">
-            {finale_data.player.alias}
-            {finale_data.player.slot_spins}
-            {finale_data.player.avatar}
+            <h2>{titleSpans('Slot Spinner')}</h2>
+            <RouletteChip
+              width={250}
+              height={250}
+              avatar_id={finale_data.player.avatar}
+            />
+            <div className="finale-player-name">{finale_data.player.alias}</div>
+            <div className="finale-player-datum">
+              {finale_data.player.slot_spins} spins!
+            </div>
           </div>
           <video src="/casino/videos/shady.mp4" autoPlay muted />
         </div>
       )}{' '}
       {phase === 'most-popular-slot' && (
-        <div className="finale-split-video-right">
+        <div className="finale-split finale-split-video-left">
           <div className="finale-player">
-            {finale_data.slotMachine.name}
-            {finale_data.slotMachine.spins}
+            <h2>{titleSpans('Most Popular Slot')}</h2>
+
+            <div className="finale-player-name">
+              {finale_data.slotMachine.name}
+            </div>
+            <div className="finale-player-datum">
+              {finale_data.slotMachine.spins} spins!
+            </div>
           </div>
+
           <video src="/casino/videos/liz.mp4" autoPlay muted />
         </div>
       )}{' '}
       {phase === 'end' && (
-        <div className="finale-split-video-right">
+        <div className="finale-split finale-split-video-left">
           <div className="finale-text">
             Now put down your phones and enjoy the rest of the party!
           </div>

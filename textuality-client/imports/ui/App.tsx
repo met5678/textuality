@@ -38,7 +38,7 @@ const App = () => {
         </Route>
         <Route path="/roulette">
           <RouletteScreen event={event} />
-          {event.state !== 'finale' && <FinaleOverlay event={event} />}
+          {event.state === 'finale' && <FinaleOverlay event={event} />}
         </Route>
         <Route path="/leaderboard">
           <LeaderboardScreen event={event} />

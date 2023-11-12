@@ -9,6 +9,7 @@ import SlotMachineScreen from './screens/SlotMachineScreen';
 import RouletteScreen from './screens/RouletteScreen';
 import LeaderboardScreen from './screens/LeaderboardScreen';
 import FinaleOverlay from './modules/CasinoFinale/FinaleOverlay';
+import GlitchOverlay from './modules/CasinoFinale/GlitchOverlay';
 
 const App = () => {
   const isLoadingEvent = useSubscribe('events.current');
@@ -29,7 +30,10 @@ const App = () => {
       <Switch>
         <Route path="/slot-machine/:code">
           {(params) => (
-            <SlotMachineScreen event={event} slotMachineCode={params.code} />
+            <>
+              <SlotMachineScreen event={event} slotMachineCode={params.code} />
+              {event.state === 'finale' && <GlitchOverlay event={event} />}
+            </>
           )}
         </Route>
         <Route path="/roulette">
@@ -38,6 +42,7 @@ const App = () => {
         </Route>
         <Route path="/leaderboard">
           <LeaderboardScreen event={event} />
+          {event.state === 'finale' && <GlitchOverlay event={event} />}
         </Route>
 
         <Redirect to="/roulette" />

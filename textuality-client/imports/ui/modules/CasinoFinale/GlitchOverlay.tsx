@@ -1,7 +1,14 @@
 import React from 'react';
 
+import './GlitchOverlay.css';
+
 const GlitchOverlay = ({ event }: { event: Partial<Event> }) => {
-  <div className="glitchOverlayPortrait" />;
+  return (
+    <div
+      className="glitchOverlay"
+      style={{ backgroundImage: "url('/casino/hacker/glitch.png')" }}
+    />
+  );
 };
 
 export default GlitchOverlay;

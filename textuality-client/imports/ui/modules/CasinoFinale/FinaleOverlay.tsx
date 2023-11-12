@@ -4,9 +4,10 @@ import './FinaleOverlay.css';
 
 const FinaleOverlay = ({ event }: { event: Event }) => {
   const { state, finale_data } = event;
-  //const { phase } = finale_data;
+  // const { phase } = finale_data;
+  const phase = 'most-money';
   //if (state !== 'finale') return null;
-  const phase = 'pre';
+
   console.log(finale_data);
 
   const videosForPhases: Record<string, string> = {
@@ -76,9 +77,8 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
       )}
       {phase === 'emily-cat' && (
         <div className="finale-split-video-right">
-          <div className="finale-text">
-            You helped Ramona foster a cat in need!
-          </div>
+          <h2>{titleSpans('You helped Ramona foster a cat in need!')}</h2>
+
           <video src="/casino/videos/emily.mp4" autoPlay muted />
         </div>
       )}

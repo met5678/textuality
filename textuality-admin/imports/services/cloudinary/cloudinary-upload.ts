@@ -8,7 +8,7 @@ const waToken: string = Meteor.settings.private.waSystemToken;
 
 interface MediaProps {
   cloudinaryId: string;
-  faces: any;
+  faces?: any;
   url: string;
   width: number;
   height: number;
@@ -33,13 +33,6 @@ async function uploadImage(imageUrl: string): Promise<MediaProps> {
   };
 
   try {
-    // const base64Image = await getWaImageBase64(imageUrl);
-
-    // const mediaProps: UploadApiResponse = await cloudinary.v2.uploader.upload(
-    //   base64Image,
-    //   options,
-    // );
-
     const mediaProps: UploadApiResponse = await cloudinary.v2.uploader.upload(
       imageUrl,
       options,
@@ -58,4 +51,30 @@ async function uploadImage(imageUrl: string): Promise<MediaProps> {
   }
 }
 
-export { uploadImage };
+async function uploadVideo(videoUrl: string): Promise<MediaProps> {
+  const options: UploadApiOptions = {
+    resource_type: 'video',
+    headers: `Authorization: Bearer ${waToken}`,
+  };
+
+  console.log('Uploading video', videoUrl);
+
+  try {
+    const mediaProps: UploadApiResponse = await cloudinary.v2.uploader.upload(
+      videoUrl,
+      options,
+    );
+
+    return {
+      cloudinaryId: mediaProps.public_id,
+      url: mediaProps.url,
+      width: mediaProps.width,
+      height: mediaProps.height,
+    };
+  } catch (e) {
+    console.warn('Upload error', e);
+    throw 'Error';
+  }
+}
+
+export { uploadImage, uploadVideo };

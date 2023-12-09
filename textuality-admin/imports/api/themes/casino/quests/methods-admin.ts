@@ -24,8 +24,10 @@ Meteor.methods({
     Quests.update(
       { event: event_id },
       {
-        num_assigned: 0,
-        num_completed: 0,
+        $set: {
+          num_assigned: 0,
+          num_completed: 0,
+        },
       },
       { multi: true },
     );

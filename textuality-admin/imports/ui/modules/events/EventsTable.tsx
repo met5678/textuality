@@ -150,6 +150,13 @@ const EventsTable = () => {
               label="Start Finale"
             />
           ),
+          (params) => (
+            <GridActionsCellItem
+              showInMenu={true}
+              onClick={() => Meteor.call('finale.endMessage', params.row._id)}
+              label="Send End"
+            />
+          ),
         ]}
       />
       <EventForm model={editEvent} onClose={() => setEditEvent(null)} />

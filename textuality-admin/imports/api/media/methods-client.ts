@@ -3,7 +3,10 @@ import { Meteor } from 'meteor/meteor';
 import Events from '/imports/api/events';
 import Media from './media';
 
-import { uploadImage } from '/imports/services/cloudinary/cloudinary-upload';
+import {
+  uploadImage,
+  uploadVideo,
+} from '/imports/services/cloudinary/cloudinary-upload';
 import { MediaPurpose } from '/imports/schemas/media';
 
 const avatarTransformations = [
@@ -25,13 +28,7 @@ Meteor.methods({
     if (!['feed', 'mediaOnly', 'initial'].includes(purpose)) return null;
 
     // If not an accepted content type, ignore the image
-    if (content_type.startsWith('video')) {
-      Meteor.call('autoTexts.send', {
-        playerId: player._id,
-        trigger: 'SENT_VIDEO',
-      });
-      return null;
-    } else if (!content_type.startsWith('image')) {
+    if (!['video', 'image'].includes(content_type)) {
       Meteor.call('autoTexts.send', {
         playerId: player._id,
         trigger: 'INVALID_CONTENT_TYPE',
@@ -40,12 +37,12 @@ Meteor.methods({
     }
 
     // let transformations = null;
-    let imagePurpose: MediaPurpose = 'none';
+    let mediaPurpose: MediaPurpose = 'none';
     if (purpose === 'initial') {
-      imagePurpose = 'avatar';
+      mediaPurpose = 'avatar';
       // transformations = avatarTransformations;
     } else {
-      imagePurpose = 'feed';
+      mediaPurpose = 'feed';
       // transformations = feedTransformations;
     }
 
@@ -54,18 +51,25 @@ Meteor.methods({
     //   transformations,
     // );
 
-    const { cloudinaryId, faces, width, height } = await uploadImage(url);
+    const {
+      cloudinaryId,
+      faces = [],
+      width,
+      height,
+    } = content_type === 'image'
+      ? await uploadImage(url)
+      : await uploadVideo(url);
 
     console.log('Uploaded', { cloudinaryId, faces, width, height });
 
     return Media.insert({
       _id: cloudinaryId,
       event: Events.currentId()!,
-      purpose: imagePurpose,
+      purpose: mediaPurpose,
       faces,
       width,
       height,
-      content_type: 'image',
+      content_type,
       mime_type,
       external_id,
       time: new Date(),

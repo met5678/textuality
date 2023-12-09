@@ -30,4 +30,17 @@ function getImageUrl(
   return image.toURL();
 }
 
-export { getImageUrl };
+function getVideoUrl(
+  cloudinaryId: string,
+  transformations: CloudinaryTransformations,
+): string {
+  const video = cloudinary.video(cloudinaryId);
+
+  const { width, height } = transformations;
+
+  video.resize(thumbnail(width, height));
+
+  return video.toURL();
+}
+
+export { getImageUrl, getVideoUrl };

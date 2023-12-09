@@ -25,7 +25,7 @@ const MediaSchema = new SimpleSchema({
   },
 });
 
-type MediaPurpose = 'none' | 'avatar-fai' | 'avatar' | 'feed';
+type MediaPurpose = 'none' | 'avatar-fail' | 'avatar' | 'feed';
 type FaceCoords = [number, number, number, number];
 
 interface Media {

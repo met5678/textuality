@@ -35,7 +35,11 @@ const GetFacesIcon = (numFaces: number): ReactNode => {
 const MediaItem = ({ media, player }: MediaItemProps) => {
   return (
     <ImageListItem>
-      <img src={media.getUrl(200, 200)} />
+      {media.content_type === 'image' ? (
+        <img src={media.getUrl(200, 200)} />
+      ) : (
+        <video src={media.getUrl(200, 200)} />
+      )}
       <ImageListItemBar
         title={
           <Link component={WouterLink} to={`/players/${player._id}`}>

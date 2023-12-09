@@ -4,7 +4,7 @@ const sendOverUnderClue = (result: number, player_id: string) => {
   let pivotNumber: number;
 
   do {
-    pivotNumber = Math.floor(Math.random() * 25) + 6;
+    pivotNumber = Math.floor(Math.random() * 23) + 7;
   } while (pivotNumber === result);
 
   const clueText = `The spin's gonna land on a number ${

@@ -1,6 +1,9 @@
 import Media from './media';
 
-import { getImageUrl } from '/imports/services/cloudinary/cloudinary-geturl';
+import {
+  getImageUrl,
+  getVideoUrl,
+} from '/imports/services/cloudinary/cloudinary-geturl';
 
 Media.helpers({
   getAvatarUrl(dimension = 100) {
@@ -15,12 +18,19 @@ Media.helpers({
 
   getUrl(width, height) {
     if (!height) height = width;
-    return getImageUrl(this._id, {
-      width: width,
-      height: height,
-      crop: 'fit',
-      gravity: 'faces',
-    });
+    if (this.content_type === 'image') {
+      return getImageUrl(this._id, {
+        width: width,
+        height: height,
+        crop: 'fit',
+        gravity: 'faces',
+      });
+    } else {
+      return getVideoUrl(this._id, {
+        width: width,
+        height: height,
+      });
+    }
   },
 
   getFeedUrl() {

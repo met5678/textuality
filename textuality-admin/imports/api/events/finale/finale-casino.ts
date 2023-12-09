@@ -161,9 +161,8 @@ Meteor.methods({
     }).fetch();
 
     players.forEach((player) => {
-      console.log(player._id);
       Meteor.call('autoTexts.send', {
-        trigger: 'END_MESSAGE',
+        trigger: 'ROUND_END',
         playerId: player._id,
       });
     });

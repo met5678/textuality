@@ -12,6 +12,14 @@ type MessageImage = {
   id: string;
 };
 
+type MessageVideo = {
+  caption: string;
+  filename: string;
+  mime_type: string;
+  sha256: string;
+  id: string;
+};
+
 interface MessageBase {
   id: string;
   timestamp: string;
@@ -28,7 +36,12 @@ interface MessageWithImage extends MessageBase {
   image: MessageImage;
 }
 
-type MessageRaw = MessageWithText | MessageWithImage;
+interface MessageWithVideo extends MessageBase {
+  type: 'video';
+  video: MessageVideo;
+}
+
+type MessageRaw = MessageWithText | MessageWithImage | MessageWithVideo;
 
 interface IncomingMessageMedia {
   content_type: string;
@@ -60,12 +73,17 @@ function getWaText(messageRaw: MessageRaw): string {
   if (messageRaw.type === 'image') {
     return messageRaw.image.caption;
   }
+  if (messageRaw.type === 'video') {
+    return messageRaw.video.caption;
+  }
   return '';
 }
 
 async function processWaMessage(messageRaw: MessageRaw, sentTo: string) {
   const timestamp = new Date(Number(parseInt(messageRaw.timestamp) * 1000));
   const text = getWaText(messageRaw);
+
+  console.log('Receiving', messageRaw);
 
   const message: IncomingMessageData = {
     id: messageRaw.id,
@@ -82,6 +100,15 @@ async function processWaMessage(messageRaw: MessageRaw, sentTo: string) {
       content_type: messageRaw.type,
       external_id: messageRaw.image.id,
       url: await getMediaUrl(messageRaw.image.id),
+    };
+  }
+
+  if (messageRaw.type === 'video') {
+    message.media = {
+      mime_type: messageRaw.video.mime_type,
+      content_type: messageRaw.type,
+      external_id: messageRaw.video.id,
+      url: await getMediaUrl(messageRaw.video.id),
     };
   }
 

@@ -46,7 +46,13 @@ Ask Roo for the credentials.
 
 ### Run Meteor Apps
 
-Textuality consists of an admin app and a client app. They are located in the `textuality-admin` and `textuality-client` directories. You have the option of running them individually, but it's easiest just to run them using the following command:
+Textuality consists of an admin app and a client app. They are located in the `textuality-admin` and `textuality-client` directories. To run the app locally, cd into `textuality-admin` and run:
+
+```bash
+npm start
+```
+
+Open a new tab and cd into `textuality-client` and again run:
 
 ```bash
 npm start

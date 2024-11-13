@@ -9,6 +9,11 @@ const EventSchema = new SimpleSchema({
     allowedValues: ['clue', 'casino'],
     defaultValue: 'casino',
   },
+  skin: {
+    type: String,
+    allowedValues: ['normal', 'space'],
+    defaultValue: 'normal',
+  },
   state: {
     type: String,
     defaultValue: 'normal',
@@ -29,6 +34,7 @@ interface Event {
   phoneNumber: string;
   active: boolean;
   theme: string;
+  skin: 'normal' | 'space';
   state: EventState;
   finale_data: any;
 }

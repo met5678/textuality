@@ -19,4 +19,21 @@ Meteor.methods({
       AutoTexts.remove(autoTextId);
     }
   },
+
+  'autoTexts.copyFrom': (destinationEventId: string, sourceEventId: string) => {
+    // First, delete existing achievements in the destination event
+    AutoTexts.remove({ event: destinationEventId });
+
+    const sourceAutoTexts = AutoTexts.find({ event: sourceEventId }).fetch();
+    console.log('here', sourceAutoTexts);
+    sourceAutoTexts.forEach((sourceAutoText) => {
+      console.log('sourceAutoText', sourceAutoText);
+      const destinationAutoText = {
+        ...sourceAutoText,
+        event: destinationEventId,
+      };
+      delete destinationAutoText._id;
+      AutoTexts.insert(destinationAutoText);
+    });
+  },
 });

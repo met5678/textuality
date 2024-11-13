@@ -53,4 +53,11 @@ Meteor.methods({
     Meteor.call('rouletteBets.resetEvent', eventId);
     Meteor.call('quests.resetEvent', eventId);
   },
+
+  'events.copyFrom': (destinationEventId, sourceEventId) => {
+    Meteor.call('achievements.copyFrom', destinationEventId, sourceEventId);
+    // Meteor.call('aliases.copyFrom', destinationEventId, sourceEventId);
+    Meteor.call('autoTexts.copyFrom', destinationEventId, sourceEventId);
+    // Meteor.call('checkpoints.copyFrom', destinationEventId, sourceEventId);
+  },
 });

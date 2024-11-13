@@ -12,6 +12,7 @@ import EventSchema, { Event } from '/imports/schemas/event';
 import LoadingBar from '/imports/ui/generic/LoadingBar';
 import Table from '/imports/ui/generic/Table/Table';
 import EventForm from './EventForm';
+import { EventCopyFromModal } from './EventCopyFromModal';
 
 // const columns = [
 //   {
@@ -71,6 +72,11 @@ const tableColumns: GridColDef<Event>[] = [
     flex: 1,
   },
   {
+    field: 'skin',
+    headerName: 'Skin',
+    flex: 1,
+  },
+  {
     field: 'active',
     headerName: 'Active',
     renderCell: (params) => {
@@ -119,6 +125,7 @@ const EventsTable = () => {
   const isLoading = useSubscribe('events.all');
   const events: Event[] = useTracker(() => Events.find().fetch());
   const [editEvent, setEditEvent] = useState<Event | null>(null);
+  const [copyToEvent, setCopyToEvent] = useState<Event | null>(null);
 
   if (isLoading()) return <LoadingBar />;
 
@@ -139,7 +146,7 @@ const EventsTable = () => {
           }
         }}
         canAdd={true}
-        onAdd={() => setEditEvent(EventSchema.clean({}))}
+        onAdd={() => setEditEvent({} as Event)}
         canEdit={true}
         onEdit={setEditEvent}
         customRowActions={[
@@ -157,9 +164,22 @@ const EventsTable = () => {
               label="Send End"
             />
           ),
+          (params) => (
+            <GridActionsCellItem
+              showInMenu={true}
+              onClick={() => setCopyToEvent(params.row)}
+              label="Copy From Event..."
+            />
+          ),
         ]}
       />
       <EventForm model={editEvent} onClose={() => setEditEvent(null)} />
+      {copyToEvent && (
+        <EventCopyFromModal
+          destinationEvent={copyToEvent}
+          onClose={() => setCopyToEvent(null)}
+        />
+      )}
     </>
   );
 };

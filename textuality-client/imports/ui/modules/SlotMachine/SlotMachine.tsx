@@ -67,9 +67,9 @@ const SlotMachine = ({ slotMachine, skin }: SlotMachineProps) => {
   const items =
     skin === 'space'
       ? [
+          { id: '💣', url: `/images/emojis/${skin}/fv.svg` },
           { id: '🥴', url: `/images/emojis/${skin}/planet.svg` },
           { id: '🍒', url: `/images/emojis/${skin}/satellite.svg` },
-          { id: '💣', url: `/images/emojis/${skin}/fv.svg` },
           { id: '🍆', url: `/images/emojis/${skin}/rocket.svg` },
           { id: '🍑', url: `/images/emojis/${skin}/alien.svg` },
           { id: '💦', url: `/images/emojis/${skin}/saucer.svg` },
@@ -138,7 +138,11 @@ const SlotMachine = ({ slotMachine, skin }: SlotMachineProps) => {
               win_amount={showWin ? win_amount! : 0}
             />
           ) : (
-            <SlotMachinePayouts slotMachine={slotMachine} items={items} />
+            <SlotMachinePayouts
+              slotMachine={slotMachine}
+              items={items}
+              skin={skin}
+            />
           )}
         </div>
       </div>

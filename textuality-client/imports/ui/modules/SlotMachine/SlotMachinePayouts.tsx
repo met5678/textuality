@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { SlotMachine } from '/imports/schemas/slotMachine';
 import { SlotItem } from './SlotMachine';
+import classNames from 'classnames';
 import './SlotMachinePayouts.css';
 
 const SlotMachinePayouts = ({
   slotMachine,
   items,
+  skin,
 }: {
   slotMachine: Partial<SlotMachine>;
   items: SlotItem[];
+  skin: string;
 }) => {
   const { odds } = slotMachine;
 
@@ -34,7 +37,10 @@ const SlotMachinePayouts = ({
   if (!currentPayout) return null;
 
   return (
-    <div className="slot-payout" style={{ opacity: active ? 1 : 0 }}>
+    <div
+      className={classNames('slot-payout', skin)}
+      style={{ opacity: active ? 1 : 0 }}
+    >
       <div className="slot-payout-emojis">
         {currentPayout.result.map((emoji, i) => {
           const item = items.find(({ id }) => id === emoji);

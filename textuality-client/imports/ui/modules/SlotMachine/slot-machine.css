@@ -13,6 +13,10 @@
   background-position: center;
 }
 
+.slot-machine.space img {
+  filter: drop-shadow(0px 2px 2px #330066);
+}
+
 .slot-machine.win-hacker-final {
   animation: backgroundMove 1s linear infinite;
 }

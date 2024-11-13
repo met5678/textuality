@@ -20,15 +20,6 @@ export type SlotItem = {
   url: string;
 };
 
-const items = [
-  { id: '🥴', url: '/images/emojis/emoji-swoozy.svg' },
-  { id: '🍒', url: '/images/emojis/emoji-cherry.svg' },
-  { id: '💣', url: '/images/emojis/emoji-bomb.svg' },
-  { id: '🍆', url: '/images/emojis/emoji-eggplant.svg' },
-  { id: '🍑', url: '/images/emojis/emoji-peach.svg' },
-  { id: '💦', url: '/images/emojis/emoji-splash.svg' },
-];
-
 const Leds = () => {
   const getLedClass = (index: number) => {
     if (index % 4 === 0) {
@@ -57,7 +48,6 @@ const SlotMachine = ({ slotMachine, skin }: SlotMachineProps) => {
   const { name, short, cost, status, code, result, win_amount, player, stats } =
     slotMachine;
 
-  console.log('skin', skin);
   const showWin =
     status === 'win-normal' ||
     status === 'win-hacker-partial' ||
@@ -73,6 +63,25 @@ const SlotMachine = ({ slotMachine, skin }: SlotMachineProps) => {
     'win-hacker-final': status === 'win-hacker-final',
     win: showWin,
   });
+
+  const items =
+    skin === 'space'
+      ? [
+          { id: '🥴', url: `/images/emojis/${skin}/planet.svg` },
+          { id: '🍒', url: `/images/emojis/${skin}/satellite.svg` },
+          { id: '💣', url: `/images/emojis/${skin}/fv.svg` },
+          { id: '🍆', url: `/images/emojis/${skin}/rocket.svg` },
+          { id: '🍑', url: `/images/emojis/${skin}/alien.svg` },
+          { id: '💦', url: `/images/emojis/${skin}/saucer.svg` },
+        ]
+      : [
+          { id: '🥴', url: `/images/emojis/${skin}/emoji-swoozy.svg` },
+          { id: '🍒', url: `/images/emojis/${skin}/emoji-cherry.svg` },
+          { id: '💣', url: `/images/emojis/${skin}/emoji-bomb.svg` },
+          { id: '🍆', url: `/images/emojis/${skin}/emoji-eggplant.svg` },
+          { id: '🍑', url: `/images/emojis/${skin}/emoji-peach.svg` },
+          { id: '💦', url: `/images/emojis/${skin}/emoji-splash.svg` },
+        ];
 
   return (
     <>

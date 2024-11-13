@@ -21,6 +21,7 @@ const SlotMachineScreen = ({
 
   if (isLoading() || !slotMachine) return 'Loading';
 
+  // ROO HELP - error with skin as undefined, guessing before full load?
   return (
     <div
       style={{
@@ -30,7 +31,7 @@ const SlotMachineScreen = ({
         position: 'absolute',
       }}
     >
-      <SlotMachine slotMachine={slotMachine} />
+      <SlotMachine slotMachine={slotMachine} skin={event.skin} />
     </div>
   );
 };

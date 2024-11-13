@@ -7,6 +7,12 @@
   color: #ccc;
 }
 
+.slot-machine.space {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
 .slot-machine.win-hacker-final {
   animation: backgroundMove 1s linear infinite;
 }

@@ -6,13 +6,13 @@ import './slot-machine.css';
 import './leds.css';
 import classNames from 'classnames';
 import Reel from './Reel';
-import RouletteChip from '../Roulette/RouletteChip';
 import SlotMachinePlayer from './SlotMachinePlayer';
 import { useConfetti } from '../../hooks/use-confetti';
 import SlotMachinePayouts from './SlotMachinePayouts';
 
 interface SlotMachineProps {
   slotMachine: SlotMachineWithHelpers;
+  skin: string;
 }
 
 export type SlotItem = {
@@ -53,10 +53,11 @@ const Leds = () => {
   );
 };
 
-const SlotMachine = ({ slotMachine }: SlotMachineProps) => {
+const SlotMachine = ({ slotMachine, skin }: SlotMachineProps) => {
   const { name, short, cost, status, code, result, win_amount, player, stats } =
     slotMachine;
 
+  console.log('skin', skin);
   const showWin =
     status === 'win-normal' ||
     status === 'win-hacker-partial' ||
@@ -76,8 +77,10 @@ const SlotMachine = ({ slotMachine }: SlotMachineProps) => {
   return (
     <>
       <div
-        className="slot-machine"
-        style={{ backgroundImage: `url(\/images/slot-machine/${code}.jpg)` }}
+        className={classNames('slot-machine', skin)}
+        style={{
+          backgroundImage: `url(\/images/slot-machine/${skin}/${code}.jpg)`,
+        }}
       >
         <div className="title-container">
           <div className="title-name">{name}</div>

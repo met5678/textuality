@@ -31,4 +31,18 @@ Meteor.methods({
       { multi: true },
     );
   },
+
+  'missions.copyFrom': (destinationEventId: string, sourceEventId: string) => {
+    Missions.remove({ event: destinationEventId });
+
+    const sourceMissions = Missions.find({ event: sourceEventId }).fetch();
+    sourceMissions.forEach((sourceMission) => {
+      const destinationMission = {
+        ...sourceMission,
+        event: destinationEventId,
+      };
+      delete destinationMission._id;
+      Missions.insert(destinationMission);
+    });
+  },
 });

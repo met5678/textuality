@@ -56,8 +56,8 @@ Meteor.methods({
 
   'events.copyFrom': (destinationEventId, sourceEventId) => {
     Meteor.call('achievements.copyFrom', destinationEventId, sourceEventId);
-    // Meteor.call('aliases.copyFrom', destinationEventId, sourceEventId);
     Meteor.call('autoTexts.copyFrom', destinationEventId, sourceEventId);
-    // Meteor.call('checkpoints.copyFrom', destinationEventId, sourceEventId);
+    Meteor.call('missions.copyFrom', destinationEventId, sourceEventId);
+    Meteor.call('quests.copyFrom', destinationEventId, sourceEventId);
   },
 });

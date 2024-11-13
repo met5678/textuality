@@ -80,6 +80,8 @@ async function sendMessage(message: OutgoingMessageData): Promise<string> {
     };
   }
 
+  console.log('Sending message', payload);
+
   const result = await fetch(whatsappSendEndpoint, {
     method: 'POST',
     headers: {
@@ -91,6 +93,8 @@ async function sendMessage(message: OutgoingMessageData): Promise<string> {
 
   const jsonResult: OutgoingMessageResponse = await result.json();
   const waId = jsonResult.messages?.[0]?.id ?? '';
+
+  console.log('Sent message', waId);
 
   return waId;
 }

@@ -5,7 +5,7 @@ import SlotMachine from '../modules/SlotMachine/SlotMachine';
 import SlotMachines from '/imports/api/themes/casino/slotMachines';
 
 interface SlotMachineScreenProps {
-  event: Partial<Event>;
+  event: Event;
   slotMachineCode: string;
 }
 

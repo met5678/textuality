@@ -8,7 +8,11 @@ import { IncomingMessageData } from '/imports/services/whatsapp/wa-handlemessage
 import { sendMessage } from '/imports/services/whatsapp/index';
 import OutTexts from '/imports/api/outTexts';
 
-Meteor.startup(() => {
+let observeHandle: Meteor.LiveQueryHandle | null = null;
+let hasStartedUp = false;
+
+const initializeWhatsappHandler = () => {
+  console.log('Initializing WhatsApp handler');
   onReceive((message: IncomingMessageData) => {
     Meteor.call('inTexts.receive', message);
   });
@@ -29,8 +33,14 @@ Meteor.startup(() => {
     { multi: true },
   );
 
-  OutTexts.find({ status: 'unsent' }).observe({
+  if (observeHandle) {
+    observeHandle.stop();
+  }
+
+  observeHandle = OutTexts.find({ status: 'unsent' }).observe({
     added(outText) {
+      console.log('Should send message');
+
       const outMessage: OutgoingMessageData = {
         to: outText.player_number,
         text: outText.body,
@@ -38,6 +48,7 @@ Meteor.startup(() => {
       };
 
       if (Meteor.isProduction) {
+        console.log('Is production, will send message');
         sendMessage(outMessage).then((external_id) => {
           Meteor.call('outTexts.setExternalId', outText._id, external_id);
           Meteor.call('outTexts.updateStatus', outText._id, 'sent');
@@ -47,4 +58,12 @@ Meteor.startup(() => {
       }
     },
   });
+};
+
+Meteor.startup(() => {
+  if (hasStartedUp) return;
+  hasStartedUp = true;
+  initializeWhatsappHandler();
 });
+
+initializeWhatsappHandler();

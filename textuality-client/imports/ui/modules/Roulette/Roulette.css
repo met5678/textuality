@@ -143,49 +143,6 @@ h2 .oddLetter {
   }
 }
 
-/* SPACE CSS - TODO: make a theme*/
-.rouletteScreen.space {
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-
-  background-image: url('/images/roulette/bg2.jpg');
-  background-size: cover;
-}
-
-.space .roulette {
-  font-family: magistral, sans-serif;
-}
-
-.space h2 {
-  font-family: magistral, sans-serif;
-  color: #04ffff;
-  text-transform: uppercase;
-  font-size: 84px;
-}
-
-.space h2 .oddLetter {
-  color: #04ffff;
-  animation: flashPink 2s infinite linear;
-}
-
-.space h2 .evenLetter {
-  color: #ff01ff;
-  animation: flashBlue 2s infinite linear;
-}
-
-@keyframes flashPink {
-  50% {
-    color: #ff01ff;
-  }
-}
-
-@keyframes flashBlue {
-  50% {
-    color: #04ffff;
-  }
-}
-
 p:first-child {
   font-size: 32px;
   margin-bottom: 8px;
@@ -304,11 +261,64 @@ p {
 
   .betFeeds .chip {
     margin-right: 8px;
+    font-size: 0;
   }
 }
 
 @media (max-width: 400px) {
   .leaderboard-title {
     margin-bottom: 40px;
+  }
+}
+
+/* SPACE CSS - TODO: make a theme*/
+.rouletteScreen.space {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+
+  background-image: url('/images/roulette/bg2.jpg');
+  background-size: cover;
+}
+
+.space .roulette {
+  font-family: magistral, sans-serif;
+}
+
+.space h2 {
+  font-family: magistral, sans-serif;
+  color: #04ffff;
+  text-transform: uppercase;
+  font-size: 84px;
+  letter-spacing: 2px;
+}
+
+.space h2 .oddLetter {
+  color: #04ffff;
+  animation: flashPink 2s infinite linear;
+}
+
+.space h2 .evenLetter {
+  color: #ff01ff;
+  animation: flashBlue 2s infinite linear;
+}
+
+.space .instructions {
+  font-family: univia-pro, serif;
+}
+
+.space .betFeeds {
+  font-family: univia-pro, serif;
+}
+
+@keyframes flashPink {
+  50% {
+    color: #ff01ff;
+  }
+}
+
+@keyframes flashBlue {
+  50% {
+    color: #04ffff;
   }
 }

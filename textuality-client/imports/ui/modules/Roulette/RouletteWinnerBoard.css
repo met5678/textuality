@@ -85,7 +85,7 @@
 }
 
 .roulette-winner-alias {
-  font-size: 2vw;
+  font-size: 3vw;
 }
 
 .roulette-winner-amount {
@@ -115,12 +115,13 @@
   background: white;
   border-radius: 50%;
   animation: tiltChip 2s ease-in-out infinite;
+  background: #121639;
 }
 
-.roulette-winner-board .chipRing {
+/* .roulette-winner-board .chipRing {
   border-radius: 50%;
   border: 20px dashed #121639;
-}
+} */
 
 @keyframes tiltChip {
   0% {
@@ -135,7 +136,7 @@
 }
 
 /* SPACE CSS - TODO CLEANUP*/
-.space.roulette-winner-board .chipRing {
+/* .space.roulette-winner-board .chipRing {
   border: 20px dashed #abd301;
 }
 .space.roulette-winner-board.even-idx
@@ -146,6 +147,17 @@
 
 .space.roulette-winner-board.odd-idx .roulette-winner:nth-child(odd) .chipRing {
   border: 20px dashed #ff01ff;
+} */
+
+.space.roulette-winner-board .chip {
+  background: #abd301;
+}
+.space.roulette-winner-board.even-idx .roulette-winner:nth-child(even) .chip {
+  background: #ff01ff;
+}
+
+.space.roulette-winner-board.odd-idx .roulette-winner:nth-child(odd) .chip {
+  background: #ff01ff;
 }
 
 .space .roulette-winner-alias {

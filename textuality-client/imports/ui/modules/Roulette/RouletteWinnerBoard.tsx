@@ -12,8 +12,10 @@ const NUM_TO_SHOW = 3;
 
 const RouletteWinnerBoard = ({
   roulette,
+  skin,
 }: {
   roulette: Partial<RouletteWithHelpers>;
+  skin: string;
 }) => {
   const isLoading = useSubscribe(
     'rouletteBets.winnersForRoulette',
@@ -64,7 +66,9 @@ const RouletteWinnerBoard = ({
               height={250}
             />
             <div className="roulette-winner-alias">{bet.player.alias}</div>
-            <div className="roulette-winner-amount">+{bet.win_payout} BB</div>
+            <div className="roulette-winner-amount">
+              +{bet.win_payout} {skin === 'space' ? 'VC' : 'BB'}
+            </div>
             <div className={`roulette-winner-bet ${bet.bet_slot}`}>
               {bet.bet_slot}
             </div>

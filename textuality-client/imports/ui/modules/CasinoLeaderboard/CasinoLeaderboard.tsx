@@ -6,7 +6,7 @@ import Players from '/imports/api/players';
 import { useFind, useSubscribe } from 'meteor/react-meteor-data';
 import { getImageUrl } from '/imports/services/cloudinary/cloudinary-geturl';
 
-const CasinoLeaderboard = () => {
+const CasinoLeaderboard = ({ skin }: { skin: string }) => {
   const isLoading = useSubscribe('players.basic');
   const players = useFind(
     () => Players.find({}, { sort: { money: -1 }, limit: 12 }),
@@ -19,8 +19,10 @@ const CasinoLeaderboard = () => {
     </span>
   ));
 
+  console.log('SKIN', skin);
+
   return (
-    <div className="leaderboard-casino">
+    <div className={`leaderboard-casino ${skin}`}>
       <div className="leaderboard-title">{displayTitle}</div>
       <div className="leaderboard-window">
         <div className="leaderboard-body">
@@ -30,7 +32,9 @@ const CasinoLeaderboard = () => {
                 <RouletteChip avatar_id={player.avatar!} zoom={1} rotate />
               </div>
               <p className="leaderboard-item">{player.alias} </p>
-              <p className="leaderboard-value">{player.money} BB</p>
+              <p className="leaderboard-value">
+                {player.money} {skin == 'space' ? 'VC' : 'BB'}
+              </p>
             </div>
           ))}
         </div>

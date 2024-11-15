@@ -23,6 +23,34 @@
   animation-delay: 0.125s;
 }
 
+/* SPACE CSS - TODO CLEAN */
+
+.space .led-red {
+  background-color: #04ffff;
+  box-shadow:
+    rgba(0, 0, 0, 0.2) 0 -1px 7px 1px,
+    inset #005252 0 -1px 9px,
+    rgba(4, 255, 255, 0.5) 0 2px 12px;
+  animation: blink-cyan 0.5s infinite;
+  animation-delay: 0.125s;
+}
+
+@keyframes blink-cyan {
+  from {
+    background-color: #04ffff;
+  }
+  50% {
+    background-color: #008f8f;
+    /* box-shadow:
+      rgba(0, 0, 0, 0.2) 0 -1px 7px 1px,
+      inset #441313 0 -1px 9px,
+      rgba(255, 0, 0, 0.5) 0 2px 0; */
+  }
+  to {
+    background-color: #04ffff;
+  }
+}
+
 .led-yellow {
   background-color: #ff0;
   box-shadow:

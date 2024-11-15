@@ -100,7 +100,10 @@ const SlotMachine = ({ slotMachine, skin }: SlotMachineProps) => {
           </div>
 
           <div className="title-price">
-            Price: <span className="title-price-bb">{cost} BB</span>
+            Price:{' '}
+            <span className="title-price-bb">
+              {cost} {skin === 'space' ? 'VC' : 'BB'}
+            </span>
           </div>
         </div>
         <div className="reels-container flex">

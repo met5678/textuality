@@ -4,7 +4,7 @@ import './FinaleOverlay.css';
 import RouletteChip from '../Roulette/RouletteChip';
 
 const FinaleOverlay = ({ event }: { event: Event }) => {
-  const { state, finale_data } = event;
+  const { state, finale_data, skin } = event;
   const { phase } = finale_data;
 
   console.log(finale_data);
@@ -39,7 +39,7 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
           <div className="finale-money-stolen">
             <h2>{titleSpans('Total Money Stolen')}</h2>
             <div className="finale-player-datum">
-              {finale_data.totalMoney} BB
+              {finale_data.totalMoney} {skin === 'space' ? 'VC' : 'BB'}
             </div>
           </div>
         </div>

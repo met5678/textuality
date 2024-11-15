@@ -53,6 +53,7 @@ const RouletteWinnerBoard = ({
     'roulette-winner-board': true,
     'even-idx': startIdx % 2 === 0,
     'odd-idx': startIdx % 2 === 1,
+    skin,
   });
 
   return (

@@ -208,7 +208,7 @@ p {
   }
 
   .rouletteWheel {
-    top: -120px;
+    /* top: -120px; */
     transform: scale(0.9);
   }
 }

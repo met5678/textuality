@@ -20,6 +20,28 @@ export type SlotItem = {
   url: string;
 };
 
+const HACKER_WIN_VIDEOS: Record<string, string[]> = {
+  normal: [
+    '/casino/videos/hackerwin-1.mp4',
+    '/casino/videos/hackerwin-2.mp4',
+    '/casino/videos/hackerwin-3.mp4',
+  ],
+  space: [
+    '/casino/space/videos/liz-finale-1.mp4',
+    '/casino/space/videos/liz-finale-2.mp4',
+    '/casino/space/videos/shady-finale-1.mp4',
+    '/casino/space/videos/shady-finale-2.mp4',
+  ],
+};
+
+const getHackerWinVideo = (skin: string) => {
+  const videos = HACKER_WIN_VIDEOS[skin];
+  if (!videos) {
+    return '';
+  }
+  return videos[Math.floor(Math.random() * videos.length)];
+};
+
 const Leds = () => {
   const getLedClass = (index: number) => {
     if (index % 4 === 0) {
@@ -153,13 +175,7 @@ const SlotMachine = ({ slotMachine, skin }: SlotMachineProps) => {
 
       {status === 'win-hacker-final' && (
         <div className="slot-overlay-video">
-          <video
-            src={`/casino/videos/hackerwin-${Math.floor(
-              Math.random() * 3,
-            )}.mp4`}
-            autoPlay
-            muted
-          />
+          <video src={getHackerWinVideo(skin)} autoPlay muted />
         </div>
       )}
 

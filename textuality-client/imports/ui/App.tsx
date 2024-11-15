@@ -32,7 +32,9 @@ const App = () => {
           {(params) => (
             <>
               <SlotMachineScreen event={event} slotMachineCode={params.code} />
-              {event.state === 'finale' && <GlitchOverlay event={event} />}
+              {event.state === 'finale' && event.skin === 'normal' && (
+                <GlitchOverlay event={event} />
+              )}
             </>
           )}
         </Route>
@@ -42,7 +44,9 @@ const App = () => {
         </Route>
         <Route path="/leaderboard">
           <LeaderboardScreen event={event} />
-          {event.state === 'finale' && <GlitchOverlay event={event} />}
+          {event.state === 'finale' && event.skin === 'normal' && (
+            <GlitchOverlay event={event} />
+          )}
         </Route>
 
         <Redirect to="/roulette" />

@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react';
 import { Event } from '/imports/schemas/event';
 import './FinaleOverlay.css';
 import RouletteChip from '../Roulette/RouletteChip';
+import commaNumber from 'comma-number';
 
 const FinaleOverlay = ({ event }: { event: Event }) => {
   const { state, finale_data, skin } = event;
@@ -35,11 +36,17 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
       )}
       {phase === 'total-money' && (
         <div className="finale-split finale-split-video-left">
-          <video src="/casino/videos/jon.mp4" autoPlay muted />
+          {event.skin === 'space' && (
+            <video src="/casino/space/videos/liz-finale-1.mp4" autoPlay muted />
+          )}
+          {event.skin === 'normal' && (
+            <video src="/casino/videos/jon.mp4" autoPlay muted />
+          )}
           <div className="finale-money-stolen">
             <h2>{titleSpans('Total Money Stolen')}</h2>
             <div className="finale-player-datum">
-              {finale_data.totalMoney} {skin === 'space' ? 'VC' : 'BB'}
+              {commaNumber(finale_data.totalMoney)}{' '}
+              {skin === 'space' ? 'VC' : 'BB'}
             </div>
           </div>
         </div>
@@ -55,10 +62,19 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
             />
             <div className="finale-player-name">{finale_data.player.alias}</div>
             <div className="finale-player-datum">
-              {finale_data.player.money}
+              {commaNumber(finale_data.player.money)}
             </div>
           </div>
-          <video src="/casino/videos/gray.mp4" autoPlay muted />
+          {event.skin === 'space' && (
+            <video
+              src="/casino/space/videos/shady-finale-1.mp4"
+              autoPlay
+              muted
+            />
+          )}
+          {event.skin === 'normal' && (
+            <video src="/casino/videos/gray.mp4" autoPlay muted />
+          )}
         </div>
       )}
       {phase === 'most-checkpoints' && (
@@ -75,7 +91,12 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
               {finale_data.player.checkpoints} hashtags found!
             </div>
           </div>
-          <video src="/casino/videos/morgan.mp4" autoPlay muted />
+          {event.skin === 'space' && (
+            <video src="/casino/space/videos/liz-finale-2.mp4" autoPlay muted />
+          )}
+          {event.skin === 'normal' && (
+            <video src="/casino/videos/morgan.mp4" autoPlay muted />
+          )}
         </div>
       )}
       {phase === 'emily-cat' && (
@@ -100,7 +121,16 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
               {finale_data.player.slot_spins} spins!
             </div>
           </div>
-          <video src="/casino/videos/shady.mp4" autoPlay muted />
+          {event.skin === 'space' && (
+            <video
+              src="/casino/space/videos/shady-finale-1.mp4"
+              autoPlay
+              muted
+            />
+          )}
+          {event.skin === 'normal' && (
+            <video src="/casino/videos/shady.mp4" autoPlay muted />
+          )}
         </div>
       )}{' '}
       {phase === 'most-popular-slot' && (

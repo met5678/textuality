@@ -49,11 +49,10 @@ const RouletteWinnerBoard = ({
 
   const winnersToShow = winningBets.slice(startIdx, startIdx + NUM_TO_SHOW);
 
-  const rouletteWinnerBoardClass = classNames({
+  const rouletteWinnerBoardClass = classNames(skin, {
     'roulette-winner-board': true,
     'even-idx': startIdx % 2 === 0,
     'odd-idx': startIdx % 2 === 1,
-    skin,
   });
 
   return (

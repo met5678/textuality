@@ -22,7 +22,7 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
   };
 
   return (
-    <div className={`finale-overlay ${phase}`}>
+    <div className={`finale-overlay ${phase} ${skin}`}>
       {phase === 'pre' && (
         <>
           <div className="glitch-fullscreen" />

@@ -192,3 +192,38 @@ h2 .oddLetter {
   padding: 2vw 2vh;
   font-size: 12vh;
 }
+
+/* SPACE CSS - FIX LATER */
+.space.finale-overlay {
+  font-family: magistral, sans-serif;
+}
+
+.space .finale-player-datum {
+  color: #ff9404;
+}
+
+.space h2 {
+  color: #04ffff;
+}
+
+.space h2 .oddLetter {
+  color: #04ffff;
+  animation: flashPink 2s infinite linear;
+}
+
+.space h2 .evenLetter {
+  color: #ff01ff;
+  animation: flashBlue 2s infinite linear;
+}
+
+@keyframes flashPink {
+  50% {
+    color: #ff01ff;
+  }
+}
+
+@keyframes flashBlue {
+  50% {
+    color: #04ffff;
+  }
+}

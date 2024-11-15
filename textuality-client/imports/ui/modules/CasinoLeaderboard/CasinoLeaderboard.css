@@ -165,17 +165,17 @@ p.leaderboard-value {
 }
 
 .space .chipRing {
-  border-color: #0000fe;
+  border-color: #ff01ff;
 }
 
 .space .leaderboard-row:nth-child(4n + 2) .chipRing {
-  border-color: #abd301;
-}
-
-.space .leaderboard-row:nth-child(4n + 3) .chipRing {
   border-color: #ff9404;
 }
 
+.space .leaderboard-row:nth-child(4n + 3) .chipRing {
+  border-color: #abd301;
+}
+
 .space .leaderboard-row:nth-child(4n + 4) .chipRing {
-  border-color: #ff01ff;
+  border-color: #0000fe;
 }

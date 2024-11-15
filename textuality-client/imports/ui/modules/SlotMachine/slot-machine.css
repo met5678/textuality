@@ -200,6 +200,14 @@
   font-weight: 700;
 }
 
+.space .title-name.condensed {
+  font-family: magistral-condensed, sans-serif;
+}
+
+.space .title-name.compressed {
+  font-family: magistral-compressed, sans-serif;
+}
+
 .space .title-tospin {
   font-family: univia-pro, sans-serif;
   transform: translateY(min(6vw, 1vh));

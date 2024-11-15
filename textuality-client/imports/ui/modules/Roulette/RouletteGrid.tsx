@@ -8,6 +8,7 @@ import { RouletteStatus } from '/imports/schemas/roulette';
 import useTimedQueue from '../../hooks/use-timed-queue';
 import { RouletteBet, RouletteBetSlot } from '/imports/schemas/rouletteBet';
 import { getImageUrl } from '/imports/services/cloudinary/cloudinary-geturl';
+import commaNumber from 'comma-number';
 
 interface RouletteGridProps {
   status: RouletteStatus;
@@ -101,7 +102,7 @@ const RouletteGrid = ({
       {queueBet && (
         <p className="betFeeds">
           <RouletteChip avatar_id={queueBet?.player.avatar_id} />{' '}
-          {queueBet?.player.alias} put {queueBet.wager}{' '}
+          {queueBet?.player.alias} put {commaNumber(queueBet.wager)}{' '}
           {skin === 'space' ? 'VC' : 'BB'} on {queueBet.bet_slot}!
         </p>
       )}

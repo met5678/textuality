@@ -43,7 +43,7 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
             <video src="/casino/videos/jon.mp4" autoPlay muted />
           )}
           <div className="finale-money-stolen">
-            <h2>{titleSpans('Total VC Won')}</h2>
+            <h2>{titleSpans('Total VC Won:')}</h2>
             <div className="finale-player-datum">
               {commaNumber(finale_data.totalMoney)}{' '}
               {skin === 'space' ? 'VC' : 'BB'}

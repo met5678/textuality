@@ -18,10 +18,10 @@ Meteor.methods({
     const players = getEligiblePlayers();
 
     players.forEach((player) => {
-      Meteor.call('autoTexts.send', {
-        trigger: 'FINALE_START',
-        playerId: player._id,
-      });
+      // Meteor.call('autoTexts.send', {
+      //   trigger: 'FINALE_START',
+      //   playerId: player._id,
+      // });
     });
 
     // await waitForSeconds(11);
@@ -161,10 +161,10 @@ Meteor.methods({
     }).fetch();
 
     players.forEach((player) => {
-      Meteor.call('autoTexts.send', {
-        trigger: 'ROUND_END',
-        playerId: player._id,
-      });
+      // Meteor.call('autoTexts.send', {
+      //   trigger: 'ROUND_END',
+      //   playerId: player._id,
+      // });
     });
   },
 });

@@ -57,12 +57,6 @@ Meteor.methods({
 
     if (eligiblePlayers.length % 2 === 1) {
       eligiblePlayers = eligiblePlayers.filter(
-        (player) => player.phoneNumber !== '14127194740',
-      );
-    }
-
-    if (eligiblePlayers.length % 2 === 1) {
-      eligiblePlayers = eligiblePlayers.filter(
         (player) => player.phoneNumber !== '12024948427',
       );
     }

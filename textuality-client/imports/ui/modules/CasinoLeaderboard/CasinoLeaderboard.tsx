@@ -5,6 +5,7 @@ import RouletteChip from '../Roulette/RouletteChip';
 import Players from '/imports/api/players';
 import { useFind, useSubscribe } from 'meteor/react-meteor-data';
 import { getImageUrl } from '/imports/services/cloudinary/cloudinary-geturl';
+import commaNumber from 'comma-number';
 
 const CasinoLeaderboard = ({ skin }: { skin: string }) => {
   const isLoading = useSubscribe('players.basic');
@@ -33,7 +34,7 @@ const CasinoLeaderboard = ({ skin }: { skin: string }) => {
               </div>
               <p className="leaderboard-item">{player.alias} </p>
               <p className="leaderboard-value">
-                {player.money} {skin == 'space' ? 'VC' : 'BB'}
+                {commaNumber(player.money)} {skin == 'space' ? 'VC' : 'BB'}
               </p>
             </div>
           ))}

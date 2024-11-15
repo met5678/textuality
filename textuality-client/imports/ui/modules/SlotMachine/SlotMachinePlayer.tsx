@@ -3,6 +3,7 @@ import { getImageUrl } from '/imports/services/cloudinary/cloudinary-geturl';
 import './SlotMachinePlayer.css';
 import { SlotMachineStatus } from '/imports/schemas/slotMachine';
 import { PlayerShort } from '/imports/schemas/player';
+import commaNumber from 'comma-number';
 
 const SlotMachinePlayer = ({
   player,
@@ -26,7 +27,7 @@ const SlotMachinePlayer = ({
       ></div>
       <div className="player-alias">{player.alias}</div>
       <div className="player-money">
-        {win_amount ? `+ ${win_amount} BB` : ``}
+        {win_amount ? `+ ${commaNumber(win_amount)} VC` : ``}
       </div>
     </div>
   );

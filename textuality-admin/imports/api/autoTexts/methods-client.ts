@@ -5,6 +5,8 @@ import Events from '/imports/api/events';
 import Players from '/imports/api/players';
 import Checkpoints from '../checkpoints';
 
+import commaNumber from 'comma-number';
+
 const capitalizeFirstLetter = (str: string) =>
   `${str[0].toUpperCase()}${str.substring(1)}`;
 
@@ -117,12 +119,18 @@ Meteor.methods({
     if (!player) return;
 
     if (playerText) {
-      // let body = playerText.replace(/\[alias\]/g, player.alias);
       let body = playerText;
       templateVars.alias = player.alias;
       templateVars.money = player.money;
       Object.keys(templateVars).forEach((key) => {
-        body = body.replace(new RegExp(`\\[${key}\\]`, 'g'), templateVars[key]);
+        let value = templateVars[key];
+
+        // If value is either a number or a string that can be converted to a number, format it with commas
+        if (!isNaN(value) || !isNaN(parseFloat(value))) {
+          value = commaNumber(value);
+        }
+
+        body = body.replace(new RegExp(`\\[${key}\\]`, 'g'), value);
       });
 
       Meteor.call('outTexts.send', {

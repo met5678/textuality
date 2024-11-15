@@ -5,6 +5,7 @@ import RouletteChip from '../Roulette/RouletteChip';
 import Players from '/imports/api/players';
 import { useFind, useSubscribe } from 'meteor/react-meteor-data';
 import { getImageUrl } from '/imports/services/cloudinary/cloudinary-geturl';
+import commaNumber from 'comma-number';
 
 const CasinoLeaderboard = () => {
   const isLoading = useSubscribe('players.basic');
@@ -30,7 +31,9 @@ const CasinoLeaderboard = () => {
                 <RouletteChip avatar_id={player.avatar!} zoom={1} rotate />
               </div>
               <p className="leaderboard-item">{player.alias} </p>
-              <p className="leaderboard-value">{player.money} BB</p>
+              <p className="leaderboard-value">
+                {commaNumber(player.money)} VC
+              </p>
             </div>
           ))}
         </div>

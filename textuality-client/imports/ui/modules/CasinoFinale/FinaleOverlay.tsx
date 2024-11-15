@@ -35,15 +35,15 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
         </div>
       )}
       {phase === 'total-money' && (
-        <div className="finale-split finale-split-video-left">
-          {event.skin === 'space' && (
+        <div className="finale-split">
+          {/* {event.skin === 'space' && (
             <video src="/casino/space/videos/liz-finale-1.mp4" autoPlay muted />
-          )}
+          )} */}
           {event.skin === 'normal' && (
             <video src="/casino/videos/jon.mp4" autoPlay muted />
           )}
           <div className="finale-money-stolen">
-            <h2>{titleSpans('Total Money Stolen')}</h2>
+            <h2>{titleSpans('Total VC Won')}</h2>
             <div className="finale-player-datum">
               {commaNumber(finale_data.totalMoney)}{' '}
               {skin === 'space' ? 'VC' : 'BB'}
@@ -62,7 +62,8 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
             />
             <div className="finale-player-name">{finale_data.player.alias}</div>
             <div className="finale-player-datum">
-              {commaNumber(finale_data.player.money)}
+              {commaNumber(finale_data.player.money)}{' '}
+              {skin === 'space' ? 'VC' : 'BB'}
             </div>
           </div>
           {event.skin === 'space' && (

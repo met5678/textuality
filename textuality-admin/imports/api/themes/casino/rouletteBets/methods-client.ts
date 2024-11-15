@@ -216,10 +216,10 @@ const processBetsForPlayer = (
     if (bet.isSpecialBet())
       return `${commaNumber(bet.wager)} ${CURRENCY} on ${bet.bet_slot} (x${
         roulette.special_payout_multiplier
-      }) nets ${bet.win_payout} ${CURRENCY}`;
+      }) nets ${commaNumber(bet.win_payout)} ${CURRENCY}`;
     return `${commaNumber(bet.wager)} ${CURRENCY} on ${bet.bet_slot} (x${
       roulette.number_payout_multiplier
-    }) nets ${bet.win_payout} ${CURRENCY}`;
+    }) nets ${commaNumber(bet.win_payout)} ${CURRENCY}`;
   });
 
   Meteor.call('players.giveMoney', {

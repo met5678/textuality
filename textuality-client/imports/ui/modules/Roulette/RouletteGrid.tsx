@@ -17,6 +17,11 @@ interface RouletteGridProps {
   skin: string;
 }
 
+const COLOR_OPTIONS = ['blue', 'orange', 'green', 'yellow'];
+
+const getColorForBet = (bet: RouletteBet) =>
+  COLOR_OPTIONS[String(bet?._id!).charCodeAt(0) % COLOR_OPTIONS.length];
+
 const RouletteGrid = ({
   rouletteId,
   status,
@@ -56,20 +61,26 @@ const RouletteGrid = ({
     </td>
   );
 
-  const renderSpecialCell = (bet: string) => (
-    <td
-      colSpan={3}
-      className={`${bet} ${isGreen(bet) ? 'green' : ''}`}
-      id={bet}
-    >
-      {hasBet(bet as RouletteBetSlot) && (
-        <RouletteChip
-          avatar_id={getBet(bet as RouletteBetSlot)?.player.avatar_id}
-        />
-      )}
-      {bet}
-    </td>
-  );
+  const renderSpecialCell = (bet: string) => {
+    const betObj = getBet(bet as RouletteBetSlot);
+    if (!betObj) return null;
+
+    return (
+      <td
+        colSpan={3}
+        className={`${bet} ${isGreen(bet) ? 'green' : ''}`}
+        id={bet}
+      >
+        {hasBet(bet as RouletteBetSlot) && (
+          <RouletteChip
+            avatar_id={betObj?.player.avatar_id}
+            color={getColorForBet(betObj)}
+          />
+        )}
+        {bet}
+      </td>
+    );
+  };
 
   return (
     <div className="rouletteGrid">

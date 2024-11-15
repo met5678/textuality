@@ -17,7 +17,7 @@ const SlotMachinePlayer = ({
   skin: string;
 }) => {
   return (
-    <div className={`slot-player ${status ?? ''}`}>
+    <div className={`slot-player ${status ?? ''} ${skin}`}>
       <div
         className="player-avatar-chip"
         style={{

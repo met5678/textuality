@@ -100,27 +100,6 @@
   text-transform: uppercase;
 }
 
-/* SPACE CSS - TODO: make a theme*/
-.space .title-name {
-  font-family: univia-pro, serif;
-  transform: translateY(min(6vw, 0.5vh));
-  font-weight: 700;
-}
-
-.space .title-tospin {
-  font-family: univia-pro, sans-serif;
-  transform: translateY(min(6vw, 2.5vh));
-}
-
-.space .title-short {
-  font-family: univia-pro, sans-serif;
-}
-
-.space .title-price {
-  font-family: univia-pro, sans-serif;
-  transform: translateY(min(6vw, -1vh));
-}
-
 .title-price-bb {
   color: #ffc250;
   font-weight: 700;
@@ -212,4 +191,30 @@
   100% {
     opacity: 0;
   }
+}
+
+/* SPACE CSS - TODO: make a theme*/
+.space .title-name {
+  font-family: univia-pro, serif;
+  transform: translateY(min(6vw, 0.5vh));
+  font-weight: 700;
+}
+
+.space .title-tospin {
+  font-family: univia-pro, sans-serif;
+  transform: translateY(min(6vw, 2.5vh));
+}
+
+.space .title-short {
+  font-family: univia-pro, sans-serif;
+}
+
+.space .title-price {
+  font-family: univia-pro, sans-serif;
+  transform: translateY(min(6vw, -1vh));
+}
+
+.space .title-price-bb {
+  color: #ff9404;
+  font-weight: 700;
 }

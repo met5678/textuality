@@ -149,43 +149,8 @@ h2 .oddLetter {
   width: 100vw;
   height: 100vh;
 
-  background:
-    radial-gradient(
-        hsl(260, 75%, 37%) 4%,
-        hsl(260, 75%, 28%) 9%,
-        hsla(260, 75%, 30%, 0) 9%
-      )
-      0 0,
-    radial-gradient(
-        hsl(260, 75%, 37%) 4%,
-        hsl(260, 75%, 28%) 8%,
-        hsla(260, 75%, 30%, 0) 10%
-      )
-      50px 50px,
-    radial-gradient(hsla(260, 75%, 40%, 0.8) 20%, hsla(260, 75%, 30%, 0)) 50px 0,
-    radial-gradient(hsla(260, 75%, 40%, 0.8) 20%, hsla(260, 75%, 30%, 0)) 0 50px,
-    radial-gradient(hsla(260, 75%, 30%, 1) 35%, hsla(260, 75%, 30%, 0) 60%) 50px
-      0,
-    radial-gradient(hsla(260, 75%, 30%, 1) 35%, hsla(260, 75%, 30%, 0) 60%)
-      100px 50px,
-    radial-gradient(hsla(260, 75%, 25%, 0.7), hsla(260, 75%, 30%, 0)) 0 0,
-    radial-gradient(hsla(260, 75%, 25%, 0.7), hsla(260, 75%, 30%, 0)) 50px 50px,
-    linear-gradient(
-        45deg,
-        hsla(260, 75%, 30%, 0) 49%,
-        hsla(260, 75%, 0%, 1) 50%,
-        hsla(260, 75%, 30%, 0) 70%
-      )
-      0 0,
-    linear-gradient(
-        -45deg,
-        hsla(260, 75%, 30%, 0) 49%,
-        hsla(260, 75%, 0%, 1) 50%,
-        hsla(260, 75%, 30%, 0) 70%
-      )
-      0 0;
-  background-color: #300;
-  background-size: 100px 100px;
+  background-image: url('/images/roulette/bg2.jpg');
+  background-size: cover;
 }
 
 .space .roulette {

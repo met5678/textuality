@@ -64,6 +64,11 @@ const SlotMachine = ({ slotMachine, skin }: SlotMachineProps) => {
     win: showWin,
   });
 
+  const titleClasses = classNames(
+    'title-name',
+    name.length > 8 ? 'compressed' : name.length > 6 ? 'condensed' : '',
+  );
+
   const items =
     skin === 'space'
       ? [
@@ -92,7 +97,7 @@ const SlotMachine = ({ slotMachine, skin }: SlotMachineProps) => {
         }}
       >
         <div className="title-container">
-          <div className="title-name">{name}</div>
+          <div className={titleClasses}>{name}</div>
 
           <div className="instrux-area">
             <div className="title-tospin">TO SPIN:</div>

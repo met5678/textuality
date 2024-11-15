@@ -129,10 +129,12 @@ p.leaderboard-value {
 
 /* SPACE CSS - TODO: make a theme*/
 .space .leaderboard-title {
-  font-family: univia-pro, serif;
+  font-family: magistral, sans-serif;
   text-transform: uppercase;
   color: #04ffff;
   font-size: 64px;
+  letter-spacing: 1px;
+  font-weight: 700;
 }
 
 .space .leaderboard-body p {

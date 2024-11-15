@@ -101,7 +101,6 @@
 
 .roulette-winner-bet.red {
   color: #ff0000;
-  font-weight: bold;
 }
 
 .roulette-winner-bet.black {
@@ -133,4 +132,32 @@
   100% {
     transform: rotate(-5deg);
   }
+}
+
+/* SPACE CSS - TODO CLEANUP*/
+.space.roulette-winner-board .chipRing {
+  border: 20px dashed #abd301;
+}
+.space.roulette-winner-board.even-idx
+  .roulette-winner:nth-child(even)
+  .chipRing {
+  border: 20px dashed #ff01ff;
+}
+
+.space.roulette-winner-board.odd-idx .roulette-winner:nth-child(odd) .chipRing {
+  border: 20px dashed #ff01ff;
+}
+
+.space .roulette-winner-alias {
+  font-family: magistral, sans-serif;
+}
+
+.space .roulette-winner-amount {
+  font-family: univia-pro, serif;
+  color: #ff9404;
+}
+
+.space .roulette-winner-bet {
+  font-family: univia-pro, serif;
+  color: #ff9404;
 }

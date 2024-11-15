@@ -20,8 +20,6 @@ const CasinoLeaderboard = ({ skin }: { skin: string }) => {
     </span>
   ));
 
-  console.log('SKIN', skin);
-
   return (
     <div className={`leaderboard-casino ${skin}`}>
       <div className="leaderboard-title">{displayTitle}</div>

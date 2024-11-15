@@ -195,22 +195,22 @@
 
 /* SPACE CSS - TODO: make a theme*/
 .space .title-name {
-  font-family: univia-pro, serif;
+  font-family: magistral, sans-serif;
   transform: translateY(min(6vw, 0.5vh));
   font-weight: 700;
 }
 
 .space .title-tospin {
   font-family: univia-pro, sans-serif;
-  transform: translateY(min(6vw, 2.5vh));
+  transform: translateY(min(6vw, 1vh));
 }
 
 .space .title-short {
-  font-family: univia-pro, sans-serif;
+  font-family: magistral, sans-serif;
 }
 
 .space .title-price {
-  font-family: univia-pro, sans-serif;
+  font-family: magistral, sans-serif;
   transform: translateY(min(6vw, -1vh));
 }
 

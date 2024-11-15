@@ -82,7 +82,16 @@ const PlayersTable = () => {
       data={players}
       canDelete={true}
       density="standard"
-      onDelete={(player) => Meteor.call('players.delete', player)}
+      onDelete={(player) => {
+        if (Array.isArray(player)) {
+          Meteor.call(
+            'players.delete',
+            player.map((player) => player._id),
+          );
+        } else {
+          Meteor.call('players.delete', player._id);
+        }
+      }}
       customRowActions={[
         (params) => (
           <GridActionsCellItem

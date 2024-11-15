@@ -153,7 +153,16 @@ const EventsTable = () => {
           (params) => (
             <GridActionsCellItem
               showInMenu={true}
-              onClick={() => Meteor.call('finale.casino.start', params.row._id)}
+              onClick={() => {
+                if (params.row.skin === 'normal') {
+                  Meteor.call('finale.casino.start', params.row._id);
+                } else {
+                  Meteor.call(
+                    `finale.casino.${params.row.skin}.start`,
+                    params.row._id,
+                  );
+                }
+              }}
               label="Start Finale"
             />
           ),

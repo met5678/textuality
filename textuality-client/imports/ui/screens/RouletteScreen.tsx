@@ -3,6 +3,7 @@ import { Event } from '/imports/schemas/event';
 import Roulette from '../modules/Roulette/Roulette';
 import { useFind, useSubscribe } from 'meteor/react-meteor-data';
 import Roulettes from '/imports/api/themes/casino/roulettes';
+import LeaderboardScreen from './LeaderboardScreen';
 // import Roulette from '/imports/schemas/roulette';
 
 interface RouletteScreenProps {
@@ -14,7 +15,7 @@ const RouletteScreen = ({ event }: RouletteScreenProps) => {
   const roulettes = useFind(() => Roulettes.find(), []);
   const roulette = roulettes[0];
 
-  if (!roulette) return 'No roulette';
+  if (!roulette) return <LeaderboardScreen event={event} />;
 
   return (
     <div className={`rouletteScreen ${event.skin}`}>

@@ -139,6 +139,7 @@ const SlotMachine = ({ slotMachine, skin }: SlotMachineProps) => {
               player={player}
               status={status}
               win_amount={showWin ? win_amount! : 0}
+              skin={skin}
             />
           ) : (
             <SlotMachinePayouts

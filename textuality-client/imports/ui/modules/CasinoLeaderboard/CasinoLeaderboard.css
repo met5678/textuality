@@ -164,7 +164,7 @@ p.leaderboard-value {
   }
 }
 
-.space .chipRing {
+/* .space .chipRing {
   border-color: #ff01ff;
 }
 
@@ -178,4 +178,20 @@ p.leaderboard-value {
 
 .space .leaderboard-row:nth-child(4n + 4) .chipRing {
   border-color: #0000fe;
+} */
+
+.space .chip {
+  background: #ff01ff;
+}
+
+.space .leaderboard-row:nth-child(4n + 2) .chip {
+  background: #ff9404;
+}
+
+.space .leaderboard-row:nth-child(4n + 3) .chip {
+  background: #abd301;
+}
+
+.space .leaderboard-row:nth-child(4n + 4) .chip {
+  background: #0000fe;
 }

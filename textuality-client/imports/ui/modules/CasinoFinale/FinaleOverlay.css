@@ -206,6 +206,10 @@ h2 .oddLetter {
 }
 
 /* SPACE CSS - FIX LATER */
+.space.finale-overlay .chip {
+  background: #abd301;
+}
+
 .space.finale-overlay {
   font-family: magistral, sans-serif;
 }

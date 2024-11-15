@@ -43,6 +43,7 @@
 .rouletteGrid td.zero {
   border: none;
   border-left: 2px solid #fff;
+  background-color: hsla(120, 100%, 16%, 1);
 }
 
 .rouletteGrid tr:first-child .zero {

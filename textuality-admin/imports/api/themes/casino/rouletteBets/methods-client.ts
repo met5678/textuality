@@ -137,7 +137,10 @@ Meteor.methods({
     const roulette = Roulettes.findOne(roulette_id);
     if (!roulette || !roulette.result) return;
 
-    const bets = RouletteBets.find({ roulette_id }).fetch();
+    const bets = RouletteBets.find({
+      roulette_id,
+      event: Events.currentId()!,
+    }).fetch();
 
     const playersDict: Record<string, RouletteBetWithHelpers[]> = {};
 

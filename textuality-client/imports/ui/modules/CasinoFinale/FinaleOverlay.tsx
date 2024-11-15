@@ -123,7 +123,7 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
           </div>
           {event.skin === 'space' && (
             <video
-              src="/casino/space/videos/shady-finale-1.mp4"
+              src="/casino/space/videos/shady-finale-2.mp4"
               autoPlay
               muted
             />

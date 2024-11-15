@@ -13,9 +13,15 @@ interface RouletteGridProps {
   status: RouletteStatus;
   betsOpen: boolean;
   rouletteId: string;
+  skin: string;
 }
 
-const RouletteGrid = ({ rouletteId, status, betsOpen }: RouletteGridProps) => {
+const RouletteGrid = ({
+  rouletteId,
+  status,
+  betsOpen,
+  skin,
+}: RouletteGridProps) => {
   const isLoading = useSubscribe('rouletteBets.forRoulette', rouletteId);
   const bets = useFind(
     () =>
@@ -95,8 +101,8 @@ const RouletteGrid = ({ rouletteId, status, betsOpen }: RouletteGridProps) => {
       {queueBet && (
         <p className="betFeeds">
           <RouletteChip avatar_id={queueBet?.player.avatar_id} />{' '}
-          {queueBet?.player.alias} put {queueBet.wager} BB on{' '}
-          {queueBet.bet_slot}!
+          {queueBet?.player.alias} put {queueBet.wager}{' '}
+          {skin === 'space' ? 'VC' : 'BB'} on {queueBet.bet_slot}!
         </p>
       )}
     </div>

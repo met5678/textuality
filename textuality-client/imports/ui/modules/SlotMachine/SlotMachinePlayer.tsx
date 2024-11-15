@@ -9,10 +9,12 @@ const SlotMachinePlayer = ({
   player,
   status,
   win_amount,
+  skin,
 }: {
   player: PlayerShort;
   status: SlotMachineStatus;
   win_amount: number;
+  skin: string;
 }) => {
   return (
     <div className={`slot-player ${status ?? ''}`}>
@@ -27,7 +29,9 @@ const SlotMachinePlayer = ({
       ></div>
       <div className="player-alias">{player.alias}</div>
       <div className="player-money">
-        {win_amount ? `+ ${commaNumber(win_amount)} VC` : ``}
+        {win_amount
+          ? `+ ${commaNumber(win_amount)} ${skin === 'space' ? 'VC' : 'BB'}`
+          : ``}
       </div>
     </div>
   );

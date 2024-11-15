@@ -126,3 +126,54 @@ p.leaderboard-value {
     padding-left: 16px;
   }
 }
+
+/* SPACE CSS - TODO: make a theme*/
+.space .leaderboard-title {
+  font-family: univia-pro, serif;
+  text-transform: uppercase;
+  color: #04ffff;
+  font-size: 64px;
+}
+
+.space .leaderboard-body p {
+  font-family: univia-pro, serif;
+  font-weight: 700;
+}
+
+.space .leaderboard-title .oddLetter {
+  color: #04ffff;
+  animation: flashPink 2s infinite linear;
+}
+
+.space .leaderboard-title .evenLetter {
+  color: #ff01ff;
+  animation: flashBlue 2s infinite linear;
+}
+
+@keyframes flashPink {
+  50% {
+    color: #ff01ff;
+  }
+}
+
+@keyframes flashBlue {
+  50% {
+    color: #04ffff;
+  }
+}
+
+.space .chipRing {
+  border-color: #0000fe;
+}
+
+.space .leaderboard-row:nth-child(4n + 2) .chipRing {
+  border-color: #abd301;
+}
+
+.space .leaderboard-row:nth-child(4n + 3) .chipRing {
+  border-color: #ff9404;
+}
+
+.space .leaderboard-row:nth-child(4n + 4) .chipRing {
+  border-color: #ff01ff;
+}

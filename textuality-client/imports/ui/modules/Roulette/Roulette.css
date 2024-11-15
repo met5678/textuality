@@ -143,6 +143,84 @@ h2 .oddLetter {
   }
 }
 
+/* SPACE CSS - TODO: make a theme*/
+.rouletteScreen.space {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+
+  background:
+    radial-gradient(
+        hsl(260, 75%, 37%) 4%,
+        hsl(260, 75%, 28%) 9%,
+        hsla(260, 75%, 30%, 0) 9%
+      )
+      0 0,
+    radial-gradient(
+        hsl(260, 75%, 37%) 4%,
+        hsl(260, 75%, 28%) 8%,
+        hsla(260, 75%, 30%, 0) 10%
+      )
+      50px 50px,
+    radial-gradient(hsla(260, 75%, 40%, 0.8) 20%, hsla(260, 75%, 30%, 0)) 50px 0,
+    radial-gradient(hsla(260, 75%, 40%, 0.8) 20%, hsla(260, 75%, 30%, 0)) 0 50px,
+    radial-gradient(hsla(260, 75%, 30%, 1) 35%, hsla(260, 75%, 30%, 0) 60%) 50px
+      0,
+    radial-gradient(hsla(260, 75%, 30%, 1) 35%, hsla(260, 75%, 30%, 0) 60%)
+      100px 50px,
+    radial-gradient(hsla(260, 75%, 25%, 0.7), hsla(260, 75%, 30%, 0)) 0 0,
+    radial-gradient(hsla(260, 75%, 25%, 0.7), hsla(260, 75%, 30%, 0)) 50px 50px,
+    linear-gradient(
+        45deg,
+        hsla(260, 75%, 30%, 0) 49%,
+        hsla(260, 75%, 0%, 1) 50%,
+        hsla(260, 75%, 30%, 0) 70%
+      )
+      0 0,
+    linear-gradient(
+        -45deg,
+        hsla(260, 75%, 30%, 0) 49%,
+        hsla(260, 75%, 0%, 1) 50%,
+        hsla(260, 75%, 30%, 0) 70%
+      )
+      0 0;
+  background-color: #300;
+  background-size: 100px 100px;
+}
+
+.space .roulette {
+  font-family: univia-pro, serif;
+}
+
+.space h2 {
+  font-family: univia-pro, serif;
+  color: #04ffff;
+  text-transform: uppercase;
+  font-size: 84px;
+}
+
+.space h2 .oddLetter {
+  color: #04ffff;
+  animation: flashPink 2s infinite linear;
+}
+
+.space h2 .evenLetter {
+  color: #ff01ff;
+  animation: flashBlue 2s infinite linear;
+}
+
+@keyframes flashPink {
+  50% {
+    color: #ff01ff;
+  }
+}
+
+@keyframes flashBlue {
+  50% {
+    color: #04ffff;
+  }
+}
+
 p:first-child {
   font-size: 32px;
   margin-bottom: 8px;
@@ -208,7 +286,7 @@ p {
   }
 
   .rouletteWheel {
-    top: -100px;
+    top: -120px;
     transform: scale(0.9);
   }
 }

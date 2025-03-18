@@ -8,14 +8,28 @@ import { RouletteStatus } from '/imports/schemas/roulette';
 import useTimedQueue from '../../hooks/use-timed-queue';
 import { RouletteBet, RouletteBetSlot } from '/imports/schemas/rouletteBet';
 import { getImageUrl } from '/imports/services/cloudinary/cloudinary-geturl';
+import commaNumber from 'comma-number';
+import classNames from 'classnames';
 
 interface RouletteGridProps {
   status: RouletteStatus;
   betsOpen: boolean;
   rouletteId: string;
+  skin: string;
 }
 
-const RouletteGrid = ({ rouletteId, status, betsOpen }: RouletteGridProps) => {
+const COLOR_OPTIONS_NORMAL = ['#121639', '#fea70a'];
+const COLOR_OPTIONS_SPACE = ['#ff01ff', '#ff9404', '#abd301', '#0000fe'];
+
+const getColorForBet = (bet: RouletteBet, colors: string[]) =>
+  colors[String(bet?._id!).charCodeAt(0) % colors.length];
+
+const RouletteGrid = ({
+  rouletteId,
+  status,
+  betsOpen,
+  skin,
+}: RouletteGridProps) => {
   const isLoading = useSubscribe('rouletteBets.forRoulette', rouletteId);
   const bets = useFind(
     () =>
@@ -23,8 +37,9 @@ const RouletteGrid = ({ rouletteId, status, betsOpen }: RouletteGridProps) => {
     [rouletteId],
   );
 
+  const colorOptions =
+    skin === 'space' ? COLOR_OPTIONS_SPACE : COLOR_OPTIONS_NORMAL;
   const getBet = (bet: RouletteBetSlot) => bets.find((b) => b.bet_slot === bet);
-  const hasBet = (bet: RouletteBetSlot) => !!getBet(bet);
 
   const queueBet = useTimedQueue<RouletteBet>(bets, 5000);
   const getNumbers = (start: number) => {
@@ -36,33 +51,47 @@ const RouletteGrid = ({ rouletteId, status, betsOpen }: RouletteGridProps) => {
   const isRed = (num: number) => redNumbers.includes(num);
   const isGreen = (bet: string) => ['even', 'odd'].includes(bet);
 
-  const renderCell = (number: number, isGreen: boolean = false) => (
-    <td
-      key={number}
-      className={`${isGreen ? 'green ' : ''}${isRed(number) ? 'red' : 'black'}`}
-      id={String(number)}
-    >
-      {hasBet(number) && (
-        <RouletteChip avatar_id={getBet(number)?.player.avatar_id} />
-      )}
-      {number}
-    </td>
-  );
+  const renderCell = (number: number) => {
+    const betObj = getBet(number as RouletteBetSlot);
 
-  const renderSpecialCell = (bet: string) => (
-    <td
-      colSpan={3}
-      className={`${bet} ${isGreen(bet) ? 'green' : ''}`}
-      id={bet}
-    >
-      {hasBet(bet as RouletteBetSlot) && (
-        <RouletteChip
-          avatar_id={getBet(bet as RouletteBetSlot)?.player.avatar_id}
-        />
-      )}
-      {bet}
-    </td>
-  );
+    return (
+      <td
+        key={number}
+        className={`${isRed(number) ? 'red' : 'black'} ${
+          number === 0 ? 'zero' : ''
+        }`}
+        id={String(number)}
+      >
+        {betObj && (
+          <RouletteChip
+            avatar_id={betObj?.player.avatar_id}
+            color={getColorForBet(betObj, colorOptions)}
+          />
+        )}
+        {number}
+      </td>
+    );
+  };
+
+  const renderSpecialCell = (bet: string) => {
+    const betObj = getBet(bet as RouletteBetSlot);
+
+    return (
+      <td
+        colSpan={3}
+        className={`${bet} ${isGreen(bet) ? 'green' : ''}`}
+        id={bet}
+      >
+        {betObj && (
+          <RouletteChip
+            avatar_id={betObj?.player.avatar_id}
+            color={getColorForBet(betObj, colorOptions)}
+          />
+        )}
+        {bet}
+      </td>
+    );
+  };
 
   return (
     <div className="rouletteGrid">
@@ -72,12 +101,7 @@ const RouletteGrid = ({ rouletteId, status, betsOpen }: RouletteGridProps) => {
           {getNumbers(3).map((number) => renderCell(number))}
         </tr>
         <tr className="nums">
-          <td className="green zero" id="0">
-            {hasBet(0) && (
-              <RouletteChip avatar_id={getBet(0)?.player.avatar_id} />
-            )}
-            0
-          </td>
+          {renderCell(0)}
           {getNumbers(2).map((number) => renderCell(number))}
         </tr>
         <tr className="nums">
@@ -94,9 +118,12 @@ const RouletteGrid = ({ rouletteId, status, betsOpen }: RouletteGridProps) => {
       </table>
       {queueBet && (
         <p className="betFeeds">
-          <RouletteChip avatar_id={queueBet?.player.avatar_id} />{' '}
-          {queueBet?.player.alias} put {queueBet.wager} BB on{' '}
-          {queueBet.bet_slot}!
+          <RouletteChip
+            avatar_id={queueBet?.player.avatar_id}
+            color={getColorForBet(queueBet, colorOptions)}
+          />{' '}
+          {queueBet?.player.alias} put {commaNumber(queueBet.wager)}{' '}
+          {skin === 'space' ? 'VC' : 'BB'} on {queueBet.bet_slot}!
         </p>
       )}
     </div>

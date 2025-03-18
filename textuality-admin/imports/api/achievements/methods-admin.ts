@@ -31,4 +31,24 @@ Meteor.methods({
       { multi: true },
     );
   },
+
+  'achievements.copyFrom': (
+    destinationEventId: string,
+    sourceEventId: string,
+  ) => {
+    // First, delete existing achievements in the destination event
+    Achievements.remove({ event: destinationEventId });
+
+    const sourceAchievements = Achievements.find({
+      event: sourceEventId,
+    }).fetch();
+    sourceAchievements.forEach((sourceAchievement) => {
+      const destinationAchievement = {
+        ...sourceAchievement,
+        event: destinationEventId,
+      };
+      delete destinationAchievement._id;
+      Achievements.insert(destinationAchievement);
+    });
+  },
 });

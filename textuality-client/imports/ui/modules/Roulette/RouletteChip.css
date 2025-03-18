@@ -3,7 +3,7 @@
   display: block;
   width: 40px;
   height: 40px;
-  background: white;
+  background: #121639;
   border-radius: 50%;
 }
 
@@ -13,24 +13,40 @@
   right: 0;
   bottom: 0;
   left: 0;
-  border-radius: 50%;
-  border: 6px dashed #121639;
+  /* border-radius: 50%; */
+  /* border: 5px dashed #121639; */
+}
+
+.dashed-circle {
+  fill: none; /* No fill inside the circle */
+  stroke: white; /* Circle border color */
+  stroke-width: 8; /* Border thickness */
+  stroke-dasharray: 16, 16; /* Dash pattern: 8 units dash, 8 units gap */
+}
+
+.chip.rotate .dashed-circle {
+  animation: rotate 6s infinite linear;
+  transform-origin: center center;
 }
 
 .chip img {
-  max-height: 100%; /* Make sure the image takes the full width of the container */
-  max-width: 100%; /* Make sure the image takes the full height of the container */
+  max-height: 80%;
+  max-width: 80%;
   object-fit: cover; /* Ensure the image covers the container without stretching */
   border-radius: 50%;
+  position: absolute; /* Absolute positioning relative to container */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-.chip.rotate {
+/* .chip.rotate {
   animation: rotateOuter 6s infinite linear;
 }
 
 .chip.rotate img {
   animation: rotateInner 6s infinite linear;
-}
+} */
 
 @keyframes rotateOuter {
   0% {

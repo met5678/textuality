@@ -22,6 +22,7 @@
     "classnames": "~2.2.6",
     "cloudinary": "~1.41.0",
     "cloudinary-core": "^2.13.0",
+    "comma-number": "^2.1.0",
     "emoji-aware": "~3.0.5",
     "luxon": "^3.4.3",
     "meteor-node-stubs": "~1.2.5",
@@ -40,6 +41,7 @@
   "devDependencies": {
     "@babel/core": "~7.5.5",
     "@types/body-parser": "^1.19.4",
+    "@types/comma-number": "^2.1.2",
     "@types/luxon": "^3.3.3",
     "@types/node": "~20.8.10",
     "@types/react": "~18.2.33",

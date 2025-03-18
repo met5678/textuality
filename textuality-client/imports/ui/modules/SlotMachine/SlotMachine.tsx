@@ -6,13 +6,13 @@ import './slot-machine.css';
 import './leds.css';
 import classNames from 'classnames';
 import Reel from './Reel';
-import RouletteChip from '../Roulette/RouletteChip';
 import SlotMachinePlayer from './SlotMachinePlayer';
 import { useConfetti } from '../../hooks/use-confetti';
 import SlotMachinePayouts from './SlotMachinePayouts';
 
 interface SlotMachineProps {
   slotMachine: SlotMachineWithHelpers;
+  skin: string;
 }
 
 export type SlotItem = {
@@ -20,14 +20,27 @@ export type SlotItem = {
   url: string;
 };
 
-const items = [
-  { id: '🥴', url: '/images/emojis/emoji-swoozy.svg' },
-  { id: '🍒', url: '/images/emojis/emoji-cherry.svg' },
-  { id: '💣', url: '/images/emojis/emoji-bomb.svg' },
-  { id: '🍆', url: '/images/emojis/emoji-eggplant.svg' },
-  { id: '🍑', url: '/images/emojis/emoji-peach.svg' },
-  { id: '💦', url: '/images/emojis/emoji-splash.svg' },
-];
+const HACKER_WIN_VIDEOS: Record<string, string[]> = {
+  normal: [
+    '/casino/videos/hackerwin-1.mp4',
+    '/casino/videos/hackerwin-2.mp4',
+    '/casino/videos/hackerwin-3.mp4',
+  ],
+  space: [
+    '/casino/space/videos/liz-finale-1.mp4',
+    '/casino/space/videos/liz-finale-2.mp4',
+    '/casino/space/videos/shady-finale-1.mp4',
+    '/casino/space/videos/shady-finale-2.mp4',
+  ],
+};
+
+const getHackerWinVideo = (skin: string) => {
+  const videos = HACKER_WIN_VIDEOS[skin];
+  if (!videos) {
+    return '';
+  }
+  return videos[Math.floor(Math.random() * videos.length)];
+};
 
 const Leds = () => {
   const getLedClass = (index: number) => {
@@ -53,7 +66,7 @@ const Leds = () => {
   );
 };
 
-const SlotMachine = ({ slotMachine }: SlotMachineProps) => {
+const SlotMachine = ({ slotMachine, skin }: SlotMachineProps) => {
   const { name, short, cost, status, code, result, win_amount, player, stats } =
     slotMachine;
 
@@ -73,14 +86,40 @@ const SlotMachine = ({ slotMachine }: SlotMachineProps) => {
     win: showWin,
   });
 
+  const titleClasses = classNames(
+    'title-name',
+    name.length > 8 ? 'compressed' : name.length > 6 ? 'condensed' : '',
+  );
+
+  const items =
+    skin === 'space'
+      ? [
+          { id: '💣', url: `/images/emojis/${skin}/fv.svg` },
+          { id: '🥴', url: `/images/emojis/${skin}/planet.svg` },
+          { id: '🍒', url: `/images/emojis/${skin}/satellite.svg` },
+          { id: '🍆', url: `/images/emojis/${skin}/rocket.svg` },
+          { id: '🍑', url: `/images/emojis/${skin}/alien.svg` },
+          { id: '💦', url: `/images/emojis/${skin}/saucer.svg` },
+        ]
+      : [
+          { id: '🥴', url: `/images/emojis/${skin}/emoji-swoozy.svg` },
+          { id: '🍒', url: `/images/emojis/${skin}/emoji-cherry.svg` },
+          { id: '💣', url: `/images/emojis/${skin}/emoji-bomb.svg` },
+          { id: '🍆', url: `/images/emojis/${skin}/emoji-eggplant.svg` },
+          { id: '🍑', url: `/images/emojis/${skin}/emoji-peach.svg` },
+          { id: '💦', url: `/images/emojis/${skin}/emoji-splash.svg` },
+        ];
+
   return (
     <>
       <div
-        className="slot-machine"
-        style={{ backgroundImage: `url(\/images/slot-machine/${code}.jpg)` }}
+        className={classNames('slot-machine', skin)}
+        style={{
+          backgroundImage: `url(\/images/slot-machine/${skin}/${code}.jpg)`,
+        }}
       >
         <div className="title-container">
-          <div className="title-name">{name}</div>
+          <div className={titleClasses}>{name}</div>
 
           <div className="instrux-area">
             <div className="title-tospin">TO SPIN:</div>
@@ -88,7 +127,10 @@ const SlotMachine = ({ slotMachine }: SlotMachineProps) => {
           </div>
 
           <div className="title-price">
-            Price: <span className="title-price-bb">{cost} BB</span>
+            Price:{' '}
+            <span className="title-price-bb">
+              {cost} {skin === 'space' ? 'VC' : 'BB'}
+            </span>
           </div>
         </div>
         <div className="reels-container flex">
@@ -124,22 +166,21 @@ const SlotMachine = ({ slotMachine }: SlotMachineProps) => {
               player={player}
               status={status}
               win_amount={showWin ? win_amount! : 0}
+              skin={skin}
             />
           ) : (
-            <SlotMachinePayouts slotMachine={slotMachine} items={items} />
+            <SlotMachinePayouts
+              slotMachine={slotMachine}
+              items={items}
+              skin={skin}
+            />
           )}
         </div>
       </div>
 
       {status === 'win-hacker-final' && (
         <div className="slot-overlay-video">
-          <video
-            src={`/casino/videos/hackerwin-${Math.floor(
-              Math.random() * 3,
-            )}.mp4`}
-            autoPlay
-            muted
-          />
+          <video src={getHackerWinVideo(skin)} autoPlay muted />
         </div>
       )}
 

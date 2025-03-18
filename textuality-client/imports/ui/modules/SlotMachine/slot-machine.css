@@ -7,6 +7,17 @@
   color: #ccc;
 }
 
+/* SPACE CSS - TODO: make a theme*/
+.slot-machine.space {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.slot-machine.space img {
+  filter: drop-shadow(0px 2px 2px #330066);
+}
+
 .slot-machine.win-hacker-final {
   animation: backgroundMove 1s linear infinite;
 }
@@ -172,12 +183,46 @@
     opacity: 0;
   }
   10% {
-    opacity: 0.5;
+    opacity: 0.8;
   }
   90% {
-    opacity: 0.5;
+    opacity: 0.8;
   }
   100% {
     opacity: 0;
   }
+}
+
+/* SPACE CSS - TODO: make a theme*/
+.space .title-name {
+  font-family: magistral, sans-serif;
+  transform: translateY(min(6vw, 0.5vh));
+  font-weight: 700;
+}
+
+.space .title-name.condensed {
+  font-family: magistral-condensed, sans-serif;
+}
+
+.space .title-name.compressed {
+  font-family: magistral-compressed, sans-serif;
+}
+
+.space .title-tospin {
+  font-family: univia-pro, sans-serif;
+  transform: translateY(min(6vw, 1vh));
+}
+
+.space .title-short {
+  font-family: magistral, sans-serif;
+}
+
+.space .title-price {
+  font-family: magistral, sans-serif;
+  transform: translateY(min(6vw, -1vh));
+}
+
+.space .title-price-bb {
+  color: #ff9404;
+  font-weight: 700;
 }

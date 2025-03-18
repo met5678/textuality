@@ -33,7 +33,7 @@
 }
 
 .finale-player h2 {
-  font-size: 12vh;
+  font-size: 10vh;
 }
 
 .finale-player-name {
@@ -110,6 +110,18 @@
 .finale-split-video-right > video {
   right: 0;
   width: 33%;
+}
+
+.finale-money-stolen {
+  width: 100% !important;
+}
+
+.finale-money-stolen h2 {
+  font-size: 14vh;
+}
+
+.finale-money-stolen .finale-player-datum {
+  font-size: 15vh;
 }
 
 h2 .evenLetter {
@@ -191,4 +203,43 @@ h2 .oddLetter {
 .finale-text {
   padding: 2vw 2vh;
   font-size: 12vh;
+}
+
+/* SPACE CSS - FIX LATER */
+.space.finale-overlay .chip {
+  background: #abd301;
+}
+
+.space.finale-overlay {
+  font-family: magistral, sans-serif;
+}
+
+.space .finale-player-datum {
+  color: #ff9404;
+}
+
+.space h2 {
+  color: #04ffff;
+}
+
+.space h2 .oddLetter {
+  color: #04ffff;
+  animation: flashPink 2s infinite linear;
+}
+
+.space h2 .evenLetter {
+  color: #ff01ff;
+  animation: flashBlue 2s infinite linear;
+}
+
+@keyframes flashPink {
+  50% {
+    color: #ff01ff;
+  }
+}
+
+@keyframes flashBlue {
+  50% {
+    color: #04ffff;
+  }
 }

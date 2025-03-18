@@ -32,4 +32,22 @@ Meteor.methods({
       { multi: true },
     );
   },
+
+  'quests.copyFrom': (destinationEventId: string, sourceEventId: string) => {
+    // First, delete existing quests in the destination event
+    Quests.remove({ event: destinationEventId, type: 'HACKER_TASK' });
+
+    const sourceQuests = Quests.find({
+      event: sourceEventId,
+      type: 'HACKER_TASK',
+    }).fetch();
+    sourceQuests.forEach((sourceQuest) => {
+      const destinationQuest = {
+        ...sourceQuest,
+        event: destinationEventId,
+      };
+      delete destinationQuest._id;
+      Quests.insert(destinationQuest);
+    });
+  },
 });

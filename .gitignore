@@ -1,6 +1,7 @@
-**DS_Store
+.DS_Store
+**/.DS_Store
 textuality-dumps/
 node_modules/
-dump/
+**/dump/
 bin/ngrok
 settings.json

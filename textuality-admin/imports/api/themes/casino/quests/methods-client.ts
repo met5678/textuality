@@ -49,10 +49,13 @@ Meteor.methods({
     playerId: string;
     type: QuestType;
   }) => {
+    const eventId = Events.currentId();
+    if (!eventId) return;
+
     const player = Players.findOne(playerId, { fields: { quests: 1 } });
     if (!player) return;
     const assignedQuests = player.quests.map((quests) => quests.id);
-    const questsOfType = Quests.find({ type }).fetch();
+    const questsOfType = Quests.find({ type, event: eventId }).fetch();
     let availableQuests = questsOfType.filter(
       (quest) => !assignedQuests.includes(quest._id!),
     );
@@ -153,6 +156,7 @@ Meteor.methods({
     const activeSlotQuests = Quests.find({
       _id: { $in: questIds },
       type: 'HACKER_SLOT',
+      event: Events.currentId()!,
     }).fetch();
     if (activeSlotQuests.length === 0)
       return { hackerSpin: false, hackerWin: false };

@@ -7,6 +7,10 @@ import Events from '/imports/api/events';
 import { RouletteBet, RouletteBetSlot } from '/imports/schemas/rouletteBet';
 import getSpecialBetSlotsForResult from './get-special-bet-slots-for-result';
 import { RouletteWithHelpers } from '../roulettes/roulettes';
+import commaNumber from 'comma-number';
+
+// const CURRENCY = 'BB';
+const CURRENCY = 'VC';
 
 Meteor.methods({
   'rouletteBets.makeBet': ({
@@ -119,7 +123,7 @@ Meteor.methods({
     ).fetch();
 
     const wagerLines = allPlayerBets.map((bet) => {
-      return `${bet.bet_slot}: ${bet.wager} BB`;
+      return `${bet.bet_slot}: ${commaNumber(bet.wager)} ${CURRENCY}`;
     });
 
     Meteor.call('autoTexts.send', {
@@ -137,7 +141,10 @@ Meteor.methods({
     const roulette = Roulettes.findOne(roulette_id);
     if (!roulette || !roulette.result) return;
 
-    const bets = RouletteBets.find({ roulette_id }).fetch();
+    const bets = RouletteBets.find({
+      roulette_id,
+      event: Events.currentId()!,
+    }).fetch();
 
     const playersDict: Record<string, RouletteBetWithHelpers[]> = {};
 
@@ -207,8 +214,12 @@ const processBetsForPlayer = (
 
   const payoutDetailText = playerWinningBets.map((bet) => {
     if (bet.isSpecialBet())
-      return `${bet.wager} BB on ${bet.bet_slot} (x${roulette.special_payout_multiplier}) nets ${bet.win_payout} BB`;
-    return `${bet.wager} BB on ${bet.bet_slot} (x${roulette.number_payout_multiplier}) nets ${bet.win_payout} BB`;
+      return `${commaNumber(bet.wager)} ${CURRENCY} on ${bet.bet_slot} (x${
+        roulette.special_payout_multiplier
+      }) nets ${commaNumber(bet.win_payout)} ${CURRENCY}`;
+    return `${commaNumber(bet.wager)} ${CURRENCY} on ${bet.bet_slot} (x${
+      roulette.number_payout_multiplier
+    }) nets ${commaNumber(bet.win_payout)} ${CURRENCY}`;
   });
 
   Meteor.call('players.giveMoney', {

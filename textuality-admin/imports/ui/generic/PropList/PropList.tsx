@@ -1,6 +1,11 @@
 import React from 'react';
 
-const PropList = ({ object, grid = 3 }) => (
+interface PropListProps {
+  object: Record<string, any>;
+  grid?: number;
+}
+
+const PropList: React.FC<PropListProps> = ({ object, grid = 3 }) => (
   <dl className="row">
     {Object.entries(object).map(([key, value]) => (
       <React.Fragment key={key}>
@@ -11,4 +16,4 @@ const PropList = ({ object, grid = 3 }) => (
   </dl>
 );
 
-export default PropList;
+export default PropList; 

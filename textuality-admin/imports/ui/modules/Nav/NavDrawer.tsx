@@ -81,6 +81,7 @@ const navItems: Array<NavItem> = [
     title: 'Slot Machines',
     href: '/casino/slot-machines',
     icon: <Typography>🎰</Typography>,
+    startWithDivider: true,
   },
   {
     title: 'Roulettes',
@@ -91,6 +92,32 @@ const navItems: Array<NavItem> = [
     title: 'Quests',
     href: '/casino/quests',
     icon: <Typography>🦹‍♀️</Typography>,
+  },
+  {
+    title: 'Horses',
+    href: '/derby/horses',
+    icon: <Typography>🐎</Typography>,
+    startWithDivider: true,
+  },
+  {
+    title: 'Races',
+    href: '/derby/races',
+    icon: <Typography>🏁</Typography>,
+  },
+  {
+    title: 'Tellers',
+    href: '/derby/tellers',
+    icon: <Typography>👩‍🏫</Typography>,
+  },
+  {
+    title: 'Fortune Teller',
+    href: '/derby/tasks',
+    icon: <Typography>🔮</Typography>,
+  },
+  {
+    title: 'Tasks',
+    href: '/derby/stable-tasks',
+    icon: <Typography>🚜</Typography>,
   },
   {
     startWithDivider: true,

@@ -27,56 +27,24 @@ const columns: GridColDef<HorseWithHelpers>[] = [
     width: 90,
   },
   {
-    field: 'stats.speed',
-    headerName: 'Speed',
+    field: 'speed',
+    headerName: 'Spd',
     type: 'number',
-    width: 70,
+    width: 60,
+    valueGetter: (_params, row) => row.stats.speed,
   },
   {
-    field: 'stats.endurance',
-    headerName: 'Endurance',
+    field: 'endurance',
+    headerName: 'End',
     type: 'number',
-    width: 70,
-  },
-  {
-    field: 'stats.luck',
-    headerName: 'Luck',
-    type: 'number',
-    width: 70,
-  },
-  {
-    field: 'stats.traction',
-    headerName: 'Traction',
-    type: 'number',
-    width: 70,
-  },
-  {
-    field: 'stats.distractibility',
-    headerName: 'Distractibility',
-    type: 'number',
-    width: 70,
-  },
-  {
-    field: 'stats.boots',
-    headerName: 'Boots',
-    type: 'number',
-    width: 70,
-  },
-  {
-    field: 'totalStats',
-    headerName: 'Total Stats',
-    valueGetter: (params) => params.row.getTotalStats(),
-    type: 'number',
-    width: 70,
+    width: 60,
+    valueGetter: (_params, row) => row.stats.endurance,
   },
 ];
 
 const HorsesTable = () => {
   const isLoading = useSubscribe('horses.all');
-  const horses = useFind(
-    () => Horses.find({}, { sort: { name: 1 } }),
-    [],
-  );
+  const horses = useFind(() => Horses.find({}, { sort: { name: 1 } }), []);
   const [editHorse, setEditHorse] = useState<Partial<Horse> | null>(null);
 
   return (
@@ -97,12 +65,9 @@ const HorsesTable = () => {
         canEdit={true}
         onEdit={setEditHorse}
       />
-      <HorseFormDialog
-        model={editHorse}
-        onClose={() => setEditHorse(null)}
-      />
+      <HorseFormDialog model={editHorse} onClose={() => setEditHorse(null)} />
     </>
   );
 };
 
-export default HorsesTable; 
+export default HorsesTable;

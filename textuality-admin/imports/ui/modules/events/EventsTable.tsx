@@ -7,53 +7,11 @@ import Events from '/imports/api/events';
 
 import { Button, Switch } from '@mui/material';
 import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid';
-import AutoFormDialog from '../../generic/AutoForm/AutoFormDialog';
-import EventSchema, { Event } from '/imports/schemas/event';
+import { Event } from '/imports/schemas/event';
 import LoadingBar from '/imports/ui/generic/LoadingBar';
 import Table from '/imports/ui/generic/Table/Table';
 import EventForm from './EventForm';
 import { EventCopyFromModal } from './EventCopyFromModal';
-
-// const columns = [
-//   {
-//     dataField: 'name',
-//     sort: true,
-//     text: 'Name'
-//   },
-//   {
-//     dataField: 'phoneNumber',
-//     text: 'Phone Number'
-//   },
-//   {
-//     dataField: 'active',
-//     text: 'Active',
-//     formatter: (cell, row) => (
-//       <Toggle
-//         value={cell}
-//         onClick={() => {
-//           Meteor.call('events.activate', row._id, cell);
-//         }}
-//       />
-//     )
-//   },
-//   {
-//     dataField: 'reset',
-//     isDummyField: true,
-
-//     formatter: (cell, row) => (
-//       <Button
-//         color="danger"
-//         onClick={() =>
-//           confirm(
-//             'This will erase all current players/texts. Scripted items will remain. Are you sure?'
-//           ) && Meteor.call('events.reset', row._id)
-//         }
-//       >
-//         Reset
-//       </Button>
-//     )
-//   }
-// ];
 
 const tableColumns: GridColDef<Event>[] = [
   {

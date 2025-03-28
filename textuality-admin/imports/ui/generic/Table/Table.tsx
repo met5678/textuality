@@ -8,6 +8,7 @@ import {
   GridToolbarContainer,
   GridToolbarExport,
   GridValidRowModel,
+  GridPaginationModel,
 } from '@mui/x-data-grid';
 import { Paper } from '@mui/material';
 import useTableDelete from './useTableDelete';
@@ -29,6 +30,10 @@ interface TableArgs<T extends GridValidRowModel> {
   density?: GridDensity;
   customRowActions?: ((params: GridRowParams<T>) => ReactElement)[];
   isLoading?: boolean;
+  paginationModel?: GridPaginationModel;
+  onPaginationModelChange?: (model: GridPaginationModel) => void;
+  rowCount?: number;
+  paginationMode?: 'client' | 'server';
 }
 
 interface UseTableReturnValue<T extends GridValidRowModel> {
@@ -80,6 +85,10 @@ const Table = <T extends GridValidRowModel>({
   density = 'compact',
   customRowActions = [],
   isLoading = false,
+  paginationModel,
+  onPaginationModelChange,
+  rowCount,
+  paginationMode = 'client',
 }: TableArgs<T>) => {
   const rowActions: ((params: GridRowParams<T>) => ReactElement)[] = [
     ...customRowActions,
@@ -136,15 +145,10 @@ const Table = <T extends GridValidRowModel>({
         slots={{
           toolbar: () => getCustomToolbar(toolbarActions),
         }}
-        sx={{
-          '&.MuiDataGrid-root--densityCompact .MuiDataGrid-cell': { py: '8px' },
-          '&.MuiDataGrid-root--densityStandard .MuiDataGrid-cell': {
-            py: '15px',
-          },
-          '&.MuiDataGrid-root--densityComfortable .MuiDataGrid-cell': {
-            py: '22px',
-          },
-        }}
+        paginationModel={paginationModel}
+        onPaginationModelChange={onPaginationModelChange}
+        rowCount={rowCount}
+        paginationMode={paginationMode}
       />
       {dialogs}
     </Paper>

@@ -105,6 +105,11 @@ const navItems: Array<NavItem> = [
     icon: <Typography>🏁</Typography>,
   },
   {
+    title: 'Powerups',
+    href: '/derby/powerups',
+    icon: <Typography>🍄</Typography>,
+  },
+  {
     title: 'Tellers',
     href: '/derby/tellers',
     icon: <Typography>👩‍🏫</Typography>,

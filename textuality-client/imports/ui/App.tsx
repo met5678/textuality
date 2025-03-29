@@ -23,8 +23,6 @@ const App = () => {
     return <p>No Event</p>;
   }
 
-  console.log({ state: event.state, finale_data: event.finale_data });
-
   return (
     <Shell>
       <Switch>
@@ -33,7 +31,7 @@ const App = () => {
             <>
               <SlotMachineScreen event={event} slotMachineCode={params.code} />
               {event.state === 'finale' && event.skin === 'normal' && (
-                <GlitchOverlay event={event} />
+                <GlitchOverlay />
               )}
             </>
           )}
@@ -45,7 +43,7 @@ const App = () => {
         <Route path="/leaderboard">
           <LeaderboardScreen event={event} />
           {event.state === 'finale' && event.skin === 'normal' && (
-            <GlitchOverlay event={event} />
+            <GlitchOverlay />
           )}
         </Route>
 

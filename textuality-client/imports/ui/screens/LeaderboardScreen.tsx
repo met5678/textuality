@@ -4,6 +4,7 @@ import { useFind, useSubscribe } from 'meteor/react-meteor-data';
 import Roulettes from '/imports/api/themes/casino/roulettes';
 import CasinoLeaderboard from '../modules/CasinoLeaderboard/CasinoLeaderboard';
 import './LeaderboardScreen.css';
+import { Event } from '/imports/schemas/event';
 
 interface LeaderboardScreenProps {
   event: Event;

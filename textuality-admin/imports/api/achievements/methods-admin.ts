@@ -1,7 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 
 import Achievements from './achievements';
-import Events from '/imports/api/events';
+import { Achievement } from '/imports/schemas/achievement';
+import { OptionalId } from '/imports/utils/optional-id';
 
 Meteor.methods({
   'achievements.new': (achievement) => {
@@ -43,7 +44,7 @@ Meteor.methods({
       event: sourceEventId,
     }).fetch();
     sourceAchievements.forEach((sourceAchievement) => {
-      const destinationAchievement = {
+      const destinationAchievement: OptionalId<Achievement> = {
         ...sourceAchievement,
         event: destinationEventId,
       };

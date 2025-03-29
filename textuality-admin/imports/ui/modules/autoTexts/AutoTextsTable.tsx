@@ -7,9 +7,10 @@ import LoadingBar from '../../generic/LoadingBar';
 
 import AutoTexts from '/imports/api/autoTexts';
 import { GridColDef } from '@mui/x-data-grid';
-import { AutoText } from '/imports/schemas/autoText';
+import AutoTextSchema, { AutoText } from '/imports/schemas/autoText';
+import { AutoTextWithHelpers } from '/imports/api/autoTexts/autoTexts';
 
-const columns: GridColDef<AutoText>[] = [
+const columns: GridColDef<AutoTextWithHelpers>[] = [
   {
     field: 'trigger',
     headerName: 'Trigger',
@@ -49,7 +50,7 @@ const AutoTextsTable = ({ onEdit }: { onEdit: (obj: any) => any }) => {
 
   return (
     <>
-      <Table<AutoText>
+      <Table
         columns={columns}
         data={autoTexts}
         canDelete={true}
@@ -65,7 +66,8 @@ const AutoTextsTable = ({ onEdit }: { onEdit: (obj: any) => any }) => {
         }}
         canEdit={true}
         onEdit={onEdit}
-        onEditCell={(autoText) => {
+        onEditCell={(row) => {
+          const autoText = row;
           Meteor.call('autoTexts.update', autoText);
           return autoText;
         }}

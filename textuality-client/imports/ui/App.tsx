@@ -1,15 +1,9 @@
 import React from 'react';
 import { useSubscribe, useTracker } from 'meteor/react-meteor-data';
-import { Route, Redirect, Switch } from 'wouter';
-
-import Shell from './Shell';
 
 import Events from '/imports/api/events';
-import SlotMachineScreen from './screens/SlotMachineScreen';
-import RouletteScreen from './screens/RouletteScreen';
-import LeaderboardScreen from './screens/LeaderboardScreen';
-import FinaleOverlay from './modules/CasinoFinale/FinaleOverlay';
-import GlitchOverlay from './modules/CasinoFinale/GlitchOverlay';
+import CasinoRoot from './themes/casino/CasinoRoot';
+import DerbyRoot from './themes/derby/DerbyRoot';
 
 const App = () => {
   const isLoadingEvent = useSubscribe('events.current');
@@ -23,34 +17,15 @@ const App = () => {
     return <p>No Event</p>;
   }
 
-  return (
-    <Shell>
-      <Switch>
-        <Route path="/slot-machine/:code">
-          {(params) => (
-            <>
-              <SlotMachineScreen event={event} slotMachineCode={params.code} />
-              {event.state === 'finale' && event.skin === 'normal' && (
-                <GlitchOverlay />
-              )}
-            </>
-          )}
-        </Route>
-        <Route path="/roulette">
-          <RouletteScreen event={event} />
-          {event.state === 'finale' && <FinaleOverlay event={event} />}
-        </Route>
-        <Route path="/leaderboard">
-          <LeaderboardScreen event={event} />
-          {event.state === 'finale' && event.skin === 'normal' && (
-            <GlitchOverlay />
-          )}
-        </Route>
+  const theme = event.theme;
 
-        <Redirect to="/roulette" />
-      </Switch>
-    </Shell>
-  );
+  if (theme === 'casino') {
+    return <CasinoRoot event={event} />;
+  }
+
+  if (theme === 'derby') {
+    return <DerbyRoot event={event} />;
+  }
 };
 
 export default App;

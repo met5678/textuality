@@ -1,7 +1,7 @@
 {
   "name": "textuality",
   "version": "1.0.0",
-  "description": "Textuality ==========",
+  "description": "Textuality - Multiplayer Text-Based Party Games",
   "main": "index.js",
   "scripts": {
     "start": "node scripts/run-dev.js",
@@ -21,5 +21,6 @@
   "homepage": "https://github.com/met5678/textuality#readme",
   "devDependencies": {
     "prettier": "~3.0.3"
+    "prettier": "^3.5.3",
   }
 }

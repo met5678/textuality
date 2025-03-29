@@ -6,7 +6,7 @@ interface HorseWithHelpers extends Horse {
   getTotalStats(): number;
 }
 
-const Horses = new Mongo.Collection<Horse, HorseWithHelpers>('horses');
+const Horses = new Mongo.Collection<Horse, HorseWithHelpers>('derby_horses');
 
 Horses.attachSchema(HorseSchema);
 

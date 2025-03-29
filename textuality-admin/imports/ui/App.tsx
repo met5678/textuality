@@ -19,7 +19,8 @@ import MissionsPage from '/imports/ui/modules/missions/MissionsPage';
 import SlotMachinesPage from './modules/themes/casino/slotMachines/SlotMachinesPage';
 import RoulettesPage from './modules/themes/casino/roulettes/RoulettesPage';
 import QuestsPage from './modules/themes/casino/quests/QuestsPage';
-import HorsesPage from './modules/themes/derby/horse/HorsesPage';
+import HorsesPage from './modules/themes/derby/horses/HorsesPage';
+import RacesPage from './modules/themes/derby/races/RacesPage';
 
 import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -51,6 +52,7 @@ const App = () => (
           <Route path="/casino/roulettes" component={RoulettesPage} />
           <Route path="/casino/quests" component={QuestsPage} />
           <Route path="/derby/horses" component={HorsesPage} />
+          <Route path="/derby/races" component={RacesPage} />
 
           {/*<Route path="/clue-rewards" component={ClueRewardsPage} />*/}
           {/*<Route path="/clues" component={CluesPage} />*/}

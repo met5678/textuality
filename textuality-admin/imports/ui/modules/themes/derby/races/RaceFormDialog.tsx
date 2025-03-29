@@ -1,0 +1,69 @@
+import React from 'react';
+import { Meteor } from 'meteor/meteor';
+
+import { RaceSchema, Race } from '/imports/schemas/derby/race';
+
+import { ErrorsField } from 'uniforms-mui';
+import EventField from '../../../events/EventField';
+import AutoFormDialog from '/imports/ui/generic/AutoForm/AutoFormDialog';
+import SelectField from '/imports/ui/generic/AutoForm/SelectField';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data';
+import Horses from '/imports/api/themes/derby/horse';
+import UniformsAutoField from '/imports/ui/generic/AutoForm/AutoField';
+
+interface RaceFormProps {
+  model: Partial<Race> | null;
+  onClose: () => void;
+}
+
+const RaceFormDialog = ({ model, onClose }: RaceFormProps) => {
+  const isLoadingHorses = useSubscribe('horses.all');
+  const horses = useFind(() => Horses.find(), []);
+
+  const horseOptions = horses.map((horse) => ({
+    value: horse._id,
+    label: horse.name,
+  }));
+
+  const onSubmit = (race: Partial<Race>) => {
+    if (race._id) {
+      Meteor.call('races.update', race);
+    } else {
+      Meteor.call('races.new', race);
+    }
+    onClose();
+  };
+
+  if (isLoadingHorses()) {
+    return null;
+  }
+
+  return (
+    <AutoFormDialog
+      schema={RaceSchema}
+      onSubmit={onSubmit}
+      model={model}
+      handleClose={onClose}
+    >
+      <EventField />
+      <UniformsAutoField name="scheduled" label="Scheduled" />
+      <UniformsAutoField name="time_bets_start_at" label="Bets Start Time" />
+      <UniformsAutoField
+        name="time_race_intro_starts_at"
+        label="Race Intro Start Time"
+      />
+      <UniformsAutoField name="time_race_starts_at" label="Race Start Time" />
+      <SelectField
+        name="track_condition"
+        label="Track Condition"
+        creatable={false}
+        options={
+          RaceSchema.getAllowedValuesForKey('track_condition') as string[]
+        }
+      />
+      <ErrorsField />
+    </AutoFormDialog>
+  );
+};
+
+export default RaceFormDialog;

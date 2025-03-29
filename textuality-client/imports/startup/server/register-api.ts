@@ -78,3 +78,12 @@ import '/imports/api/rounds/server/publications-client';
 import '/imports/api/guesses/';
 import '/imports/api/guesses/methods-client';
 import '/imports/api/guesses/server/publications-client';
+
+// Derby specific
+
+import '/imports/api/themes/derby/horse/';
+import '/imports/api/themes/derby/horse/server/publications-client';
+
+import '/imports/api/themes/derby/race/';
+import '/imports/api/themes/derby/race/methods-client';
+import '/imports/api/themes/derby/race/server/publications-client';

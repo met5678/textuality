@@ -2,7 +2,6 @@ import { EventId } from '../event';
 import { HorseId } from './horse';
 import Events from '/imports/api/events';
 import SimpleSchema from 'simpl-schema';
-import Missions from '/imports/api/missions';
 import { MissionId } from '../mission';
 
 const KEYFRAME_INTERPOLATION_VALUES = ['linear', 'step'] as const;
@@ -50,7 +49,7 @@ type RaceTimeline = {
   current_frame: number;
 };
 
-export type RaceId = string;
+type RaceId = string;
 
 type Race = {
   _id: RaceId;
@@ -171,4 +170,20 @@ const RaceSchema = new SimpleSchema({
 });
 
 export default RaceSchema;
-export type { Race, RaceTimeline, RaceSchema, RaceTimelineSchema };
+export {
+  RaceSchema,
+  RaceTimelineSchema,
+  RaceTimelineHorseKeyframeSchema,
+  RaceTimelineEventKeyframeSchema,
+};
+export type {
+  Race,
+  RaceId,
+  RaceStatus,
+  RaceTimeline,
+  RaceTimelineHorseKeyframe,
+  RaceTimelineEventKeyframe,
+  TrackCondition,
+  HorseStatus,
+  JockeyStatus,
+};

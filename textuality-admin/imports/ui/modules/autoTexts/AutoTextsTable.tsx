@@ -13,11 +13,8 @@ const columns: GridColDef<AutoText>[] = [
   {
     field: 'trigger',
     headerName: 'Trigger',
-    valueGetter: (cell) => {
-      return (
-        // @ts-ignore
-        cell.value + (cell.row?.isNumeric() ? `(${cell.row.triggerNum})` : '')
-      );
+    valueFormatter: (value, row) => {
+      return value + (row.isNumeric() ? `(${row.triggerNum})` : '');
     },
     width: 200,
   },

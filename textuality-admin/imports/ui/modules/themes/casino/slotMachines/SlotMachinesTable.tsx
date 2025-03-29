@@ -35,7 +35,7 @@ const columns: GridColDef<SlotMachineWithHelpers>[] = [
   {
     field: 'odds',
     headerName: 'Return',
-    valueGetter: (params) => params.row.getExpectedReturn(),
+    valueGetter: (_value, row) => row.getExpectedReturn(),
     type: 'number',
     width: 60,
   },
@@ -47,15 +47,15 @@ const columns: GridColDef<SlotMachineWithHelpers>[] = [
   {
     field: 'player',
     headerName: 'Player',
-    valueFormatter: (params) => params.value?.alias,
+    valueFormatter: (value: SlotMachineWithHelpers['player']) => value,
     width: 120,
   },
   {
     field: 'result',
     headerName: 'Result',
     width: 100,
-    valueFormatter: (params) => {
-      return params.value?.join(' - ');
+    valueFormatter: (value: SlotMachineWithHelpers['result']) => {
+      return value?.join(' - ');
     },
   },
   {
@@ -66,13 +66,13 @@ const columns: GridColDef<SlotMachineWithHelpers>[] = [
   {
     field: 'stats.spin_count',
     headerName: 'Spins',
-    valueGetter: (params) => params.row.stats.spin_count,
+    valueGetter: (value: SlotMachineWithHelpers['stats']) => value.spin_count,
     width: 60,
   },
   {
     field: 'stats.profit',
     headerName: 'Profit',
-    valueGetter: (params) => params.row.stats.profit,
+    valueGetter: (value: SlotMachineWithHelpers['stats']) => value.profit,
     width: 60,
   },
 ];

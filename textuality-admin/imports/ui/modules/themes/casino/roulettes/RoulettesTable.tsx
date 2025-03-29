@@ -28,7 +28,7 @@ const getColumns = (
       field: 'bets_start_at',
       headerName: 'Bets Start',
       type: 'dateTime',
-      valueFormatter: (value) =>
+      valueFormatter: (value: RouletteWithHelpers['bets_start_at']) =>
         value
           ? DateTime.fromJSDate(value).toLocaleString(DateTime.TIME_SIMPLE)
           : '--',
@@ -38,7 +38,7 @@ const getColumns = (
       field: 'spin_starts_at',
       headerName: 'Spin Starts',
       type: 'dateTime',
-      valueFormatter: (value) =>
+      valueFormatter: (value: RouletteWithHelpers['spin_starts_at']) =>
         value
           ? DateTime.fromJSDate(value).toLocaleString(DateTime.TIME_SIMPLE)
           : '--',
@@ -47,13 +47,15 @@ const getColumns = (
     {
       field: 'spin_seconds',
       headerName: 'Spin Time',
-      valueFormatter: (value) => value + 's',
+      valueFormatter: (value: RouletteWithHelpers['spin_seconds']) =>
+        value + 's',
       width: 90,
     },
     {
       field: 'bets_cutoff_seconds',
       headerName: 'Bets Cutoff',
-      valueFormatter: (value) => value + 's',
+      valueFormatter: (value: RouletteWithHelpers['bets_cutoff_seconds']) =>
+        value + 's',
       width: 90,
     },
     {

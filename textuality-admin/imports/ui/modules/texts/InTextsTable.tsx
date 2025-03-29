@@ -6,8 +6,9 @@ import Table from '/imports/ui/generic/Table/Table';
 
 import InTexts from '/imports/api/inTexts';
 import { GridColDef } from '@mui/x-data-grid';
+import { InTextWithHelpers } from '/imports/api/inTexts/inTexts';
 
-const columns: GridColDef[] = [
+const columns: GridColDef<InTextWithHelpers>[] = [
   {
     field: 'alias',
     headerName: 'Player',
@@ -21,7 +22,7 @@ const columns: GridColDef[] = [
   {
     field: 'media',
     headerName: 'Media',
-    valueGetter: (cell) => !!cell.value,
+    valueGetter: (value: InTextWithHelpers['media']) => !!value,
     type: 'boolean',
     width: 65,
   },
@@ -34,10 +35,8 @@ const columns: GridColDef[] = [
     field: 'time',
     headerName: 'Time',
     type: 'dateTime',
-    valueFormatter: (cell) =>
-      DateTime.fromJSDate(cell.value).toLocaleString(
-        DateTime.TIME_24_WITH_SECONDS,
-      ),
+    valueFormatter: (value: InTextWithHelpers['time']) =>
+      DateTime.fromJSDate(value).toLocaleString(DateTime.TIME_24_WITH_SECONDS),
     width: 95,
   },
 ];

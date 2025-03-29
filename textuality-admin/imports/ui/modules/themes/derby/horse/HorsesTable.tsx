@@ -31,14 +31,14 @@ const columns: GridColDef<HorseWithHelpers>[] = [
     headerName: 'Spd',
     type: 'number',
     width: 60,
-    valueGetter: (_params, row) => row.stats.speed,
+    valueGetter: (_value, row) => row.stats.speed,
   },
   {
     field: 'endurance',
     headerName: 'End',
     type: 'number',
     width: 60,
-    valueGetter: (_params, row) => row.stats.endurance,
+    valueGetter: (_value, row) => row.stats.endurance,
   },
 ];
 

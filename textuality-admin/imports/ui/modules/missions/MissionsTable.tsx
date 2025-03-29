@@ -34,18 +34,18 @@ const columns: GridColDef<Mission>[] = [
   {
     field: 'timeStart',
     headerName: 'Starts',
-    valueFormatter: (params) =>
-      params.value
-        ? DateTime.fromJSDate(params.value).toLocaleString(DateTime.TIME_SIMPLE)
+    valueFormatter: (value: Mission['timeStart']) =>
+      value
+        ? DateTime.fromJSDate(value).toLocaleString(DateTime.TIME_SIMPLE)
         : '--',
     width: 150,
   },
   {
     field: 'timeEnd',
     headerName: 'Ends',
-    valueFormatter: (params) =>
-      params.value
-        ? DateTime.fromJSDate(params.value).toLocaleString(DateTime.TIME_SIMPLE)
+    valueFormatter: (value: Mission['timeEnd']) =>
+      value
+        ? DateTime.fromJSDate(value).toLocaleString(DateTime.TIME_SIMPLE)
         : '--',
     width: 150,
   },

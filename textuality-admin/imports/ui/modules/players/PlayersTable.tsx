@@ -7,7 +7,6 @@ import Table from '/imports/ui/generic/Table/Table';
 import Players from '/imports/api/players';
 import LoadingBar from '../../generic/LoadingBar';
 import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid';
-import { Player } from '/imports/schemas/player';
 import { PlayerWithHelpers } from '/imports/api/players/players';
 
 const tableColumns: GridColDef<PlayerWithHelpers>[] = [
@@ -45,14 +44,14 @@ const tableColumns: GridColDef<PlayerWithHelpers>[] = [
     field: 'checkpoints',
     headerName: 'Hashtags',
     type: 'number',
-    valueGetter: (cell) => cell.value.length,
+    valueGetter: (value: PlayerWithHelpers['checkpoints']) => value.length,
     width: 80,
   },
   {
     field: 'slot_spins',
     headerName: 'Slot Spins',
     type: 'number',
-    valueGetter: (cell) => cell.value.length,
+    valueGetter: (value: PlayerWithHelpers['slot_spins']) => value.length,
     width: 80,
   },
   {

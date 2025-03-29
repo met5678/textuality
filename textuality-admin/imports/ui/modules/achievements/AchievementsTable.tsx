@@ -18,9 +18,8 @@ const columns: GridColDef<Achievement>[] = [
     field: 'trigger',
     headerName: 'Trigger',
     width: 300,
-    valueGetter: (params) => {
-      const { trigger, trigger_detail_string, trigger_detail_number } =
-        params.row;
+    valueGetter: (_value, row) => {
+      const { trigger, trigger_detail_string, trigger_detail_number } = row;
       let triggerString = trigger;
       if (trigger_detail_string) {
         triggerString += ` (${trigger_detail_string})`;

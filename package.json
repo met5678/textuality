@@ -20,7 +20,6 @@
   },
   "homepage": "https://github.com/met5678/textuality#readme",
   "devDependencies": {
-    "prettier": "~3.0.3"
-    "prettier": "^3.5.3",
+    "prettier": "^3.5.3"
   }
 }

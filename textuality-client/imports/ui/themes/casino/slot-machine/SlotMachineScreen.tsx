@@ -1,8 +1,8 @@
 import React from 'react';
 import { Event } from '/imports/schemas/event';
 import { useSubscribe, useFind, useTracker } from 'meteor/react-meteor-data';
-import SlotMachine from '../modules/SlotMachine/SlotMachine';
 import SlotMachines from '/imports/api/themes/casino/slotMachines';
+import SlotMachine from '/imports/ui/modules/SlotMachine/SlotMachine';
 
 interface SlotMachineScreenProps {
   event: Event;

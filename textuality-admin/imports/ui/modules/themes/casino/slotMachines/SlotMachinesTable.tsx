@@ -8,7 +8,6 @@ import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid';
 import { SlotMachineSchema, SlotMachine } from '/imports/schemas/slotMachine';
 import SlotMachines from '/imports/api/themes/casino/slotMachines';
 import SlotMachineFormDialog from './SlotMachineFormDialog';
-import { Button } from '@mui/material';
 import { SlotMachineWithHelpers } from '/imports/api/themes/casino/slotMachines/slotMachines';
 
 const columns: GridColDef<SlotMachineWithHelpers>[] = [

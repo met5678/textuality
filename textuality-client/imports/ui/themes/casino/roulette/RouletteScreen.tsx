@@ -1,10 +1,9 @@
-import React from 'react';
-import { Event } from '/imports/schemas/event';
-import Roulette from '../modules/Roulette/Roulette';
 import { useFind, useSubscribe } from 'meteor/react-meteor-data';
+import React from 'react';
 import Roulettes from '/imports/api/themes/casino/roulettes';
-import LeaderboardScreen from './LeaderboardScreen';
-// import Roulette from '/imports/schemas/roulette';
+import { Event } from '/imports/schemas/event';
+import Roulette from '/imports/ui/modules/Roulette/Roulette';
+import LeaderboardScreen from '/imports/ui/screens/LeaderboardScreen';
 
 interface RouletteScreenProps {
   event: Event;

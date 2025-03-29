@@ -17,7 +17,7 @@ Meteor.methods({
     const player = Meteor.call('players.findOrJoin', message.from);
     const purpose = getPurpose({ message, player });
 
-    const inText: InText = {
+    const inTextRaw: Omit<InText, '_id'> = {
       event: Events.currentId()!,
       player: player._id,
       body: message.text,
@@ -29,10 +29,16 @@ Meteor.methods({
     };
 
     if (message.media) {
-      inText.media = Meteor.call('media.receive', { purpose, message, player });
+      inTextRaw.media = Meteor.call('media.receive', {
+        purpose,
+        message,
+        player,
+      });
     }
 
-    InTexts.insert(inText);
+    const id = InTexts.insert(inTextRaw);
+    const inText: InText = { ...inTextRaw, _id: id };
+
     Meteor.call('players.updateAfterInText', inText);
 
     inText.purpose === 'initial' && processInitialText(inText, player);

@@ -1,7 +1,7 @@
 import SimpleSchema from 'simpl-schema';
 
 import Events from '/imports/api/events';
-
+import { EventId } from './event';
 const AchievementSchema = new SimpleSchema({
   event: {
     type: String,
@@ -68,9 +68,11 @@ const AchievementSchema = new SimpleSchema({
   },
 });
 
+export type AchievementId = string;
+
 interface Achievement {
-  _id?: string;
-  event: string;
+  _id: AchievementId;
+  event: EventId;
   name: string;
   trigger: string;
   trigger_detail_string?: string;

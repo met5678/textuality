@@ -1,6 +1,7 @@
 import SimpleSchema from 'simpl-schema';
 
 import Events from '/imports/api/events';
+import { EventId } from './event';
 
 const SlotQuestSchema = new SimpleSchema({
   slot_sequence: [String],
@@ -57,9 +58,11 @@ interface TaskQuest {
 
 type QuestType = 'HACKER_TASK' | 'HACKER_SLOT';
 
+export type QuestId = string;
+
 interface Quest {
-  _id?: string;
-  event: string;
+  _id?: QuestId;
+  event: EventId;
   name: string;
   type: QuestType;
   start_text: string;

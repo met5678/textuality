@@ -1,6 +1,7 @@
 import SimpleSchema from 'simpl-schema';
 
 import Events from '/imports/api/events';
+import { EventId } from './event';
 
 const MissionSchema = new SimpleSchema({
   event: {
@@ -51,9 +52,11 @@ const MissionSchema = new SimpleSchema({
   },
 });
 
+export type MissionId = string;
+
 interface Mission {
-  _id?: string;
-  event: string;
+  _id: MissionId;
+  event: EventId;
   name: string;
   number: number;
   active: boolean;

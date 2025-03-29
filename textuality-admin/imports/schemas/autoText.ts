@@ -1,6 +1,7 @@
 import SimpleSchema from 'simpl-schema';
 
 import Events from '/imports/api/events';
+import { EventId } from './event';
 
 const AutoTextSchema = new SimpleSchema({
   event: {
@@ -143,9 +144,11 @@ const AutoTextSchema = new SimpleSchema({
   },
 });
 
+export type AutoTextId = string;
+
 interface AutoText {
-  _id?: string;
-  event: string;
+  _id: AutoTextId;
+  event: EventId;
   playerText: string;
   trigger: string;
   triggerNum: number;

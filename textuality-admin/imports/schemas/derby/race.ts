@@ -1,5 +1,9 @@
+import { EventId } from '../event';
+import { HorseId } from './horse';
 import Events from '/imports/api/events';
 import SimpleSchema from 'simpl-schema';
+import Missions from '/imports/api/missions';
+import { MissionId } from '../mission';
 
 const KEYFRAME_INTERPOLATION_VALUES = ['linear', 'step'] as const;
 type KeyframeInterpolationType = (typeof KEYFRAME_INTERPOLATION_VALUES)[number];
@@ -27,7 +31,7 @@ type JockeyStatus = (typeof JOCKEY_STATUS)[number];
 type RaceTimelineHorseKeyframe = {
   frame: number;
   position: number;
-  horse: string;
+  horse: HorseId;
   status: HorseStatus;
   jockey_status: JockeyStatus;
   interpolation: KeyframeInterpolationType;
@@ -46,10 +50,12 @@ type RaceTimeline = {
   current_frame: number;
 };
 
+export type RaceId = string;
+
 type Race = {
-  _id: string;
-  event: string;
-  horses: string[];
+  _id: RaceId;
+  event: EventId;
+  horses: HorseId[];
   scheduled: boolean;
   time_bets_start_at: Date;
   time_race_intro_starts_at: Date;
@@ -57,6 +63,7 @@ type Race = {
   status: RaceStatus;
   timeline: RaceTimeline;
   track_condition: TrackCondition;
+  linked_mission?: MissionId;
 };
 
 const RaceTimelineHorseKeyframeSchema = new SimpleSchema({

@@ -1,6 +1,8 @@
 import SimpleSchema from 'simpl-schema';
 
 import Events from '/imports/api/events';
+import { MissionId } from './mission';
+import { EventId } from './event';
 
 const RouletteSchema = new SimpleSchema({
   event: {
@@ -76,9 +78,11 @@ type RouletteStatus =
   | 'winners-board'
   | 'inactive';
 
+export type RouletteId = string;
+
 interface Roulette {
-  _id?: string;
-  event: string;
+  _id?: RouletteId;
+  event: EventId;
   spin_seconds: number;
   bets_cutoff_seconds: number;
   number_payout_multiplier: number;
@@ -92,7 +96,7 @@ interface Roulette {
   result?: number;
   bets_open: boolean;
 
-  linked_mission?: string;
+  linked_mission?: MissionId;
 }
 
 export default RouletteSchema;

@@ -1,7 +1,8 @@
 import SimpleSchema from 'simpl-schema';
 
 import Events from '/imports/api/events';
-import { Event } from './event';
+import { Event, EventId } from './event';
+import { PlayerId } from './player';
 
 const SlotMachineEmojis: SlotMachineEmoji[] = [
   '🍒',
@@ -102,7 +103,7 @@ type SlotMachineStatus =
   | 'disabled';
 
 interface PlayerShort {
-  id: string;
+  id: PlayerId;
   alias: string;
   money: number;
   avatar_id: string;
@@ -119,9 +120,11 @@ interface SlotMachineOdds {
   odds: number;
 }
 
+export type SlotMachineId = string;
+
 interface SlotMachine {
-  _id?: string;
-  event: string;
+  _id: SlotMachineId;
+  event: EventId;
   code: string;
   name: string;
   short: string;

@@ -1,6 +1,9 @@
 import SimpleSchema from 'simpl-schema';
 
 import Events from '/imports/api/events';
+import { EventId } from './event';
+import { PlayerId } from './player';
+import { MediaId } from './media';
 
 const InTextSchema = new SimpleSchema({
   event: {
@@ -58,13 +61,15 @@ type InTextPurpose =
   | 'mediaOnly'
   | 'ignore';
 
+export type InTextId = string;
+
 interface InText {
-  _id?: string;
-  event: string;
+  _id: InTextId;
+  event: EventId;
   body: string;
   time: Date;
-  player: string;
-  media?: string;
+  player: PlayerId;
+  media?: MediaId;
   purpose: InTextPurpose;
   numAchievements?: number;
   numCheckpoints?: number;

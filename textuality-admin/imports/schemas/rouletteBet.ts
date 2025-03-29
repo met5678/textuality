@@ -2,7 +2,7 @@ import SimpleSchema from 'simpl-schema';
 
 import Events from '/imports/api/events';
 import { PlayerShort, PlayerShortSchema } from './player';
-
+import { EventId } from './event';
 type RouletteBetSlot = number | 'even' | 'odd' | 'red' | 'black';
 
 const RouletteBetSchema = new SimpleSchema({
@@ -31,9 +31,11 @@ const RouletteBetSchema = new SimpleSchema({
   time: Date,
 });
 
+export type RouletteBetId = string;
+
 interface RouletteBet {
-  _id?: string;
-  event: string;
+  _id?: RouletteBetId;
+  event: EventId;
   roulette_id: string;
   bet_slot: RouletteBetSlot;
   wager: number;

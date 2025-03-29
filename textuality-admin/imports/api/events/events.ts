@@ -1,12 +1,12 @@
 import { Mongo } from 'meteor/mongo';
 
-import { EventSchema, Event } from '/imports/schemas/event';
+import { EventSchema, Event, EventId } from '/imports/schemas/event';
 import { current, currentId, allIds } from './helpers';
 
 interface EventsCollection extends Mongo.Collection<Event> {
   current: () => Event | undefined;
-  currentId: () => string | null;
-  allIds: () => string[];
+  currentId: () => EventId | null;
+  allIds: () => EventId[];
 }
 
 const Events: EventsCollection = Object.assign(

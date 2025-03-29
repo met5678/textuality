@@ -1,6 +1,8 @@
 import SimpleSchema from 'simpl-schema';
 
 import Events from '/imports/api/events';
+import { EventId } from './event';
+import { PlayerId } from './player';
 
 const OutTextSchema = new SimpleSchema({
   event: {
@@ -39,13 +41,15 @@ type OutTextStatus =
   | 'delivered'
   | 'read';
 
+export type OutTextId = string;
+
 interface OutText {
-  _id?: string;
-  event: string;
+  _id: OutTextId;
+  event: EventId;
   body: string;
   media_url?: string;
   time: Date;
-  player_id: string;
+  player_id: PlayerId;
   player_alias: string;
   player_number: string;
   status: OutTextStatus;

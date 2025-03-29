@@ -1,5 +1,6 @@
 import SimpleSchema from 'simpl-schema';
 import Events from '/imports/api/events';
+import { EventId } from '../event';
 
 const HorseStatsSchema = new SimpleSchema({
   speed: {
@@ -56,9 +57,11 @@ type HorseStats = {
   boots: number;
 };
 
+export type HorseId = string;
+
 type Horse = {
-  _id: string;
-  event: string;
+  _id: HorseId;
+  event: EventId;
   name: string;
   short_name: string;
   color: string;

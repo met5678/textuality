@@ -37,9 +37,11 @@ const EventSchema = new SimpleSchema({
   },
 });
 
+export type EventId = string;
+
 // Define TypeScript interface matching the schema
 interface Event {
-  _id: string;
+  _id: EventId;
   name: string;
   phoneNumber: string;
   active: boolean;

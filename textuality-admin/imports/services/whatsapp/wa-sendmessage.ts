@@ -66,7 +66,7 @@ interface OutgoingMessagePayloadInteractive {
   action: {
     buttons: OutgoingMessagePayloadInteractiveButton[];
     button: string;
-    sections: OutgoingMessagePayloadInteractiveSection[];
+    sections: OutgoingMessagePayloadInteractiveListSection[];
   };
 }
 
@@ -78,12 +78,12 @@ interface OutgoingMessagePayloadInteractiveButton {
   };
 }
 
-interface OutgoingMessagePayloadInteractiveSection {
+interface OutgoingMessagePayloadInteractiveListSection {
   title: 'string';
-  rows: OutgoingMessagePayloadInteractiveRow[];
+  rows: OutgoingMessagePayloadInteractiveListRow[];
 }
 
-interface OutgoingMessagePayloadInteractiveRow {
+interface OutgoingMessagePayloadInteractiveListRow {
   id: 'string';
   title: 'string';
   description?: 'string';

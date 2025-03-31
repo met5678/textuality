@@ -15,11 +15,19 @@ interface OutgoingMessagePayloadBase {
   messaging_product: 'whatsapp';
   recipient_type: 'individual';
   to: string;
-  type: 'text' | 'image' | 'audio' | 'video' | 'sticker' | 'reaction';
+  type:
+    | 'text'
+    | 'image'
+    | 'audio'
+    | 'video'
+    | 'sticker'
+    | 'reaction'
+    | 'interactive';
   text?: OutgoingMessagePayloadText;
   image?: OutgoingMessagePayloadImage;
   reaction?: OutgoingMessagePayloadReaction;
   context?: OutgoingMessagePayloadReply;
+  interactive?: OutgoingMessagePayloadInteractive;
 }
 
 interface OutgoingMessagePayloadText {
@@ -38,6 +46,47 @@ interface OutgoingMessagePayloadReaction {
 
 interface OutgoingMessagePayloadReply {
   message_id: string;
+}
+
+interface OutgoingMessagePayloadInteractive {
+  type: 'button' | 'list';
+  header?: {
+    type: 'text' | 'image';
+    text?: 'string';
+    image?: {
+      link: 'string';
+    };
+  };
+  body: {
+    text: 'string';
+  };
+  footer?: {
+    text: 'string';
+  };
+  action: {
+    buttons: OutgoingMessagePayloadInteractiveButton[];
+    button: string;
+    sections: OutgoingMessagePayloadInteractiveSection[];
+  };
+}
+
+interface OutgoingMessagePayloadInteractiveButton {
+  type: 'reply';
+  reply: {
+    id: 'string';
+    title: 'string';
+  };
+}
+
+interface OutgoingMessagePayloadInteractiveSection {
+  title: 'string';
+  rows: OutgoingMessagePayloadInteractiveRow[];
+}
+
+interface OutgoingMessagePayloadInteractiveRow {
+  id: 'string';
+  title: 'string';
+  description?: 'string';
 }
 
 interface WaContact {

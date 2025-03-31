@@ -20,11 +20,6 @@ const RaceFormDialog = ({ model, onClose }: RaceFormProps) => {
   const isLoadingHorses = useSubscribe('horses.all');
   const horses = useFind(() => Horses.find(), []);
 
-  const horseOptions = horses.map((horse) => ({
-    value: horse._id,
-    label: horse.name,
-  }));
-
   const onSubmit = (race: Partial<Race>) => {
     if (race._id) {
       Meteor.call('races.update', race);

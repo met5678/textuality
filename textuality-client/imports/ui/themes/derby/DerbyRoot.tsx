@@ -6,8 +6,11 @@ import { Event } from '/imports/schemas/event';
 import HorseRaceScreen from './HorseRace/HorseRaceScreen';
 import TellerScreen from './Teller/TellerScreen';
 import PaddockTaskScreen from './PaddockTask/PaddockTaskScreen';
+import { useTypekitFonts } from '../../hooks/use-typekit-fonts';
 
 const DerbyRoot = ({ event }: { event: Event }) => {
+  useTypekitFonts(['lqw3feh.css']);
+
   return (
     <Switch>
       <Route path="/race">

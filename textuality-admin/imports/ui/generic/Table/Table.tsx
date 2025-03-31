@@ -9,31 +9,59 @@ import {
   GridToolbarExport,
   GridValidRowModel,
   GridPaginationModel,
+  GridToolbarProps,
+  GridSlotProps,
+  useGridApiContext,
+  GridApi,
 } from '@mui/x-data-grid';
 import { Paper } from '@mui/material';
 import useTableDelete from './useTableDelete';
 import useTableEdit from './useTableEdit';
 import useTableAdd from './useTableAdd';
 
+/**
+ * A flexible table component built on top of MUI's DataGrid with built-in CRUD operations
+ * @template T - The type of data being displayed in the table
+ */
 interface TableArgs<T extends GridValidRowModel> {
+  /** The data to display in the table */
   data: GridRowsProp<T>;
+  /** Column definitions for the table */
   columns: GridColDef<T>[];
+  /** Whether delete functionality is enabled */
   canDelete?: boolean;
-  onDelete?: (obj: T | T[]) => Promise<any> | void;
+  /** Callback function for delete operations */
+  onDelete?: (obj: T | T[]) => Promise<void> | void;
+  /** Whether edit functionality is enabled */
   canEdit?: boolean;
-  onEdit?: (obj: T) => Promise<any> | void;
+  /** Callback function for edit operations */
+  onEdit?: (obj: T) => Promise<void> | void;
+  /** Callback function for cell-level edits */
   onEditCell?: (row: T, origRow: T) => Promise<T> | T;
+  /** Whether add functionality is enabled */
   canAdd?: boolean;
-  onAdd?: () => Promise<any> | void;
+  /** Callback function for add operations */
+  onAdd?: () => Promise<void> | void;
+  /** Custom form modal component */
   formModal?: ReactElement;
+  /** Whether to use dynamic row heights */
   dynamicHeight?: boolean;
+  /** Table density setting */
   density?: GridDensity;
+  /** Custom row action components */
   customRowActions?: ((params: GridRowParams<T>) => ReactElement)[];
+  /** Loading state */
   isLoading?: boolean;
+  /** Current pagination model */
   paginationModel?: GridPaginationModel;
+  /** Callback for pagination changes */
   onPaginationModelChange?: (model: GridPaginationModel) => void;
+  /** Total number of rows (for server-side pagination) */
   rowCount?: number;
+  /** Pagination mode */
   paginationMode?: 'client' | 'server';
+  /** Callback for error handling */
+  onError?: (error: Error) => void;
 }
 
 interface UseTableReturnValue<T extends GridValidRowModel> {
@@ -62,6 +90,7 @@ const applyRowActions = <T extends GridValidRowModel>(
 
 const getCustomToolbar = (toolbarActions: ReactNode[]) => {
   if (toolbarActions.length === 0) return null;
+  const apiRef = useGridApiContext() as React.MutableRefObject<GridApi>;
 
   return (
     <GridToolbarContainer>
@@ -89,6 +118,7 @@ const Table = <T extends GridValidRowModel>({
   onPaginationModelChange,
   rowCount,
   paginationMode = 'client',
+  onError,
 }: TableArgs<T>) => {
   const rowActions: ((params: GridRowParams<T>) => ReactElement)[] = [
     ...customRowActions,
@@ -124,16 +154,21 @@ const Table = <T extends GridValidRowModel>({
     dialog && dialogs.push(dialog);
   }
 
-  const useColumns = rowActions.length
-    ? applyRowActions(rowActions, columns)
-    : columns;
+  const useColumns = React.useMemo(
+    () => (rowActions.length ? applyRowActions(rowActions, columns) : columns),
+    [rowActions, columns],
+  );
 
   return (
-    <Paper>
+    <Paper
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
       <DataGrid<T>
         rows={data}
         columns={useColumns}
-        autoHeight={true}
         getRowId={(row) => row._id}
         rowSelection={false}
         checkboxSelection={false}
@@ -141,7 +176,7 @@ const Table = <T extends GridValidRowModel>({
         loading={isLoading}
         getRowHeight={dynamicHeight ? () => 'auto' : undefined}
         processRowUpdate={onEditCell}
-        onProcessRowUpdateError={(error) => console.error(error)}
+        onProcessRowUpdateError={(error) => onError?.(error)}
         slots={{
           toolbar: () => getCustomToolbar(toolbarActions),
         }}
@@ -149,6 +184,7 @@ const Table = <T extends GridValidRowModel>({
         onPaginationModelChange={onPaginationModelChange}
         rowCount={rowCount}
         paginationMode={paginationMode}
+        aria-label="Data table"
       />
       {dialogs}
     </Paper>

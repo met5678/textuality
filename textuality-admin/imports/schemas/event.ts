@@ -52,4 +52,5 @@ interface Event {
 }
 
 export default EventSchema;
-export { Event, EventSchema, EventState, EventTheme, EventSkin };
+export { EventSchema };
+export type { Event, EventState, EventTheme, EventSkin };

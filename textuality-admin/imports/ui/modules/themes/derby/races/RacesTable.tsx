@@ -68,7 +68,7 @@ const RacesTable = () => {
 
   return (
     <>
-      <Table<RaceWithHelpers>
+      <Table
         columns={columns}
         data={races}
         isLoading={isLoading()}

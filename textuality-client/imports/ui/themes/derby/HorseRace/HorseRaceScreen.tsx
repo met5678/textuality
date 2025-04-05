@@ -4,7 +4,7 @@ import './HorseRaceScreen.css';
 import { useSubscribe, useTracker } from 'meteor/react-meteor-data';
 import Races from '/imports/api/themes/derby/race';
 import { RaceUpcoming } from './subscreens/RaceUpcoming';
-import { RaceActive } from './subscreens/RaceActive';
+import { RaceActiveSubsceen } from './subscreens/RaceActive/RaceActiveSubscreen';
 import { RaceResults } from './subscreens/RaceResults';
 import { RaceBetting } from './subscreens/RaceBetting';
 import { RaceWinners } from './subscreens/RaceWinners';
@@ -12,14 +12,20 @@ import { RaceIntro } from './subscreens/RaceIntro';
 
 const HorseRaceScreen = ({ event }: { event: Event }) => {
   useSubscribe('races.currentOrNext');
-
   const race = useTracker(() => Races.findOne());
 
-  console.log({ race });
+  if (!race) {
+    return (
+      <div id="horse-race-screen">
+        <h1>No Race</h1>
+      </div>
+    );
+  }
 
   return (
     <div id="horse-race-screen">
-      <h1>Horse Race</h1>
+      <RaceActiveSubsceen race={race} />
+      {/* <h1>Horse Race</h1> */}
       {/* {race.status === 'future' && <RaceUpcoming />}
       {race.status === 'bets-open' && <RaceBetting />}
       {race.status === 'race-intro' && <RaceIntro />}

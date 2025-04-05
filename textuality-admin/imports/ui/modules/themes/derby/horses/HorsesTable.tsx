@@ -15,30 +15,110 @@ const columns: GridColDef<HorseWithHelpers>[] = [
     field: 'name',
     headerName: 'Name',
     width: 120,
+    editable: true,
+  },
+  {
+    field: 'number',
+    headerName: 'Number',
+    type: 'number',
+    width: 65,
+    editable: true,
   },
   {
     field: 'short_name',
-    headerName: 'Short Name',
+    headerName: 'Short',
     width: 90,
+    editable: true,
   },
   {
     field: 'color',
     headerName: 'Color',
     width: 90,
+    editable: true,
+    renderCell: (params) => {
+      return (
+        <div
+          style={{
+            backgroundColor: params.value,
+            width: '100%',
+            height: '100%',
+          }}
+        />
+      );
+    },
   },
   {
     field: 'speed',
     headerName: 'Spd',
     type: 'number',
-    width: 60,
+    width: 70,
+    editable: true,
     valueGetter: (_value, row) => row.stats.speed,
+    valueSetter: (value, row) => {
+      return {
+        ...row,
+        stats: {
+          ...row.stats,
+          speed: value,
+        },
+      };
+    },
   },
   {
     field: 'endurance',
     headerName: 'End',
     type: 'number',
-    width: 60,
+    width: 70,
+    editable: true,
     valueGetter: (_value, row) => row.stats.endurance,
+    valueSetter: (value, row) => {
+      return {
+        ...row,
+        stats: { ...row.stats, endurance: value },
+      };
+    },
+  },
+  {
+    field: 'aggression',
+    headerName: 'Aggro',
+    type: 'number',
+    width: 70,
+    editable: true,
+    valueGetter: (_value, row) => row.stats.aggression,
+    valueSetter: (value, row) => {
+      return {
+        ...row,
+        stats: { ...row.stats, aggression: value },
+      };
+    },
+  },
+  {
+    field: 'traction',
+    headerName: 'Wet',
+    type: 'number',
+    width: 70,
+    editable: true,
+    valueGetter: (_value, row) => row.stats.traction,
+    valueSetter: (value, row) => {
+      return {
+        ...row,
+        stats: { ...row.stats, traction: value },
+      };
+    },
+  },
+  {
+    field: 'luck',
+    headerName: 'Luck',
+    type: 'number',
+    width: 70,
+    editable: true,
+    valueGetter: (_value, row) => row.stats.luck,
+    valueSetter: (value, row) => {
+      return {
+        ...row,
+        stats: { ...row.stats, luck: value },
+      };
+    },
   },
 ];
 
@@ -64,6 +144,10 @@ const HorsesTable = () => {
         onAdd={() => setEditHorse(HorseSchema.clean({}))}
         canEdit={true}
         onEdit={setEditHorse}
+        onEditCell={(horse, ogHorse) => {
+          Meteor.call('horses.update', horse);
+          return horse;
+        }}
       />
       <HorseFormDialog model={editHorse} onClose={() => setEditHorse(null)} />
     </>

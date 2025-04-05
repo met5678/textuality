@@ -33,17 +33,17 @@ const HorseFormDialog = ({ model, onClose }: HorseFormProps) => {
     >
       <EventField />
       <TextField name="name" />
+      <NumberField name="number" label="Number" />
       <TextField name="short_name" label="Short Name" />
       <TextField name="color" />
       <NumberField name="stats.speed" label="Speed" />
       <NumberField name="stats.endurance" label="Endurance" />
-      <NumberField name="stats.luck" label="Luck" />
+      <NumberField name="stats.aggression" label="Aggression" />
       <NumberField name="stats.traction" label="Traction" />
-      <NumberField name="stats.distractibility" label="Distractibility" />
-      <NumberField name="stats.boots" label="Boots" />
+      <NumberField name="stats.luck" label="Luck" />
       <ErrorsField />
     </AutoFormDialog>
   );
 };
 
-export default HorseFormDialog; 
+export default HorseFormDialog;

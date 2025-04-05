@@ -19,13 +19,9 @@ const HorseStatsSchema = new SimpleSchema({
     type: Number,
     defaultValue: 10,
   },
-  distractibility: {
+  aggression: {
     type: Number,
     defaultValue: 10,
-  },
-  boots: {
-    type: Number,
-    defaultValue: 1,
   },
 });
 
@@ -36,6 +32,9 @@ const HorseSchema = new SimpleSchema({
   },
   name: {
     type: String,
+  },
+  number: {
+    type: SimpleSchema.Integer,
   },
   short_name: {
     type: String,
@@ -53,8 +52,7 @@ type HorseStats = {
   traction: number;
   endurance: number;
   luck: number;
-  distractibility: number;
-  boots: number;
+  aggression: number;
 };
 
 export type HorseId = string;
@@ -63,6 +61,7 @@ type Horse = {
   _id: HorseId;
   event: EventId;
   name: string;
+  number: number;
   short_name: string;
   color: string;
   stats: HorseStats;

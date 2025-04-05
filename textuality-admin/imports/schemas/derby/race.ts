@@ -21,10 +21,10 @@ const RACE_STATUS_VALUES = [
 ] as const;
 type RaceStatus = (typeof RACE_STATUS_VALUES)[number];
 
-const HORSE_STATUS = ['running', 'trotting'] as const;
+const HORSE_STATUS = ['still', 'running', 'trotting'] as const;
 type HorseStatus = (typeof HORSE_STATUS)[number];
 
-const JOCKEY_STATUS = ['riding', 'surfing', 'dancing'] as const;
+const JOCKEY_STATUS = ['still', 'riding', 'surfing', 'dancing'] as const;
 type JockeyStatus = (typeof JOCKEY_STATUS)[number];
 
 type RaceTimelineHorseKeyframe = {
@@ -153,14 +153,16 @@ const RaceSchema = new SimpleSchema({
   status: {
     type: String,
     allowedValues: [...RACE_STATUS_VALUES],
+    defaultValue: 'future',
   },
   timeline: {
     type: RaceTimelineSchema,
-    optional: true,
+    defaultValue: {},
   },
   track_condition: {
     type: String,
     allowedValues: [...TRACK_CONDITION_VALUES],
+    defaultValue: 'dry',
   },
   linked_mission: {
     type: String,
@@ -175,6 +177,11 @@ export {
   RaceTimelineSchema,
   RaceTimelineHorseKeyframeSchema,
   RaceTimelineEventKeyframeSchema,
+  RACE_STATUS_VALUES,
+  TRACK_CONDITION_VALUES,
+  HORSE_STATUS,
+  JOCKEY_STATUS,
+  KEYFRAME_INTERPOLATION_VALUES,
 };
 export type {
   Race,

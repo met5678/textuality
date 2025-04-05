@@ -5,44 +5,63 @@ import { useSubscribe, useFind } from 'meteor/react-meteor-data';
 import Table from '/imports/ui/generic/Table/Table';
 
 import { GridColDef } from '@mui/x-data-grid';
-import { Race, RaceSchema } from '/imports/schemas/derby/race';
+import {
+  Race,
+  RaceSchema,
+  TRACK_CONDITION_VALUES,
+} from '/imports/schemas/derby/race';
 import Races from '/imports/api/themes/derby/race';
 import { RaceWithHelpers } from '/imports/api/themes/derby/race/races';
 import { DateTime } from 'luxon';
 import RaceFormDialog from './RaceFormDialog';
+import { RACE_STATUS_VALUES } from '/imports/schemas/derby/race';
+import Toggle from '/imports/ui/generic/Toggle';
+import { TableToggle } from '/imports/ui/generic/TableToggle/TableToggle';
 
 const columns: GridColDef<RaceWithHelpers>[] = [
   {
     field: 'status',
     headerName: 'Status',
     width: 120,
+    editable: true,
+    type: 'singleSelect',
+    valueOptions: RACE_STATUS_VALUES.map((status) => ({
+      label: status,
+      value: status,
+    })),
   },
   {
     field: 'time_bets_start_at',
     headerName: 'Bets Start',
     width: 180,
-    valueGetter: (_value, row) =>
-      row.time_bets_start_at
-        ? DateTime.fromJSDate(row.time_bets_start_at).toFormat(
-            'yyyy-MM-dd HH:mm:ss',
-          )
-        : '',
+    editable: true,
+    type: 'dateTime',
+    valueFormatter: (value) => {
+      if (!value) return '--';
+      return DateTime.fromJSDate(value).toFormat('yyyy-MM-dd HH:mm:ss');
+    },
   },
   {
     field: 'time_race_starts_at',
     headerName: 'Race Start',
     width: 180,
-    valueGetter: (_value, row) =>
-      row.time_race_starts_at
-        ? DateTime.fromJSDate(row.time_race_starts_at).toFormat(
-            'yyyy-MM-dd HH:mm:ss',
-          )
-        : '',
+    editable: true,
+    type: 'dateTime',
+    valueFormatter: (value) => {
+      if (!value) return '--';
+      return DateTime.fromJSDate(value).toFormat('yyyy-MM-dd HH:mm:ss');
+    },
   },
   {
     field: 'track_condition',
     headerName: 'Track',
     width: 100,
+    editable: true,
+    type: 'singleSelect',
+    valueOptions: TRACK_CONDITION_VALUES.map((status) => ({
+      label: status,
+      value: status,
+    })),
   },
   {
     field: 'horses',
@@ -55,6 +74,8 @@ const columns: GridColDef<RaceWithHelpers>[] = [
     headerName: 'Scheduled',
     width: 100,
     type: 'boolean',
+    editable: true,
+    renderCell: (params) => <TableToggle {...params} />,
   },
 ];
 
@@ -83,6 +104,10 @@ const RacesTable = () => {
         onAdd={() => setEditRace(RaceSchema.clean({}))}
         canEdit={true}
         onEdit={setEditRace}
+        onEditCell={(race) => {
+          Meteor.call('races.update', race);
+          return race;
+        }}
       />
       <RaceFormDialog model={editRace} onClose={() => setEditRace(null)} />
     </>

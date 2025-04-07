@@ -89,9 +89,11 @@ const HorseSelectionDialog = ({ race, onClose }: HorseSelectionDialogProps) => {
                     <Box component="span" sx={{ display: 'flex', gap: 2 }}>
                       <span>Spd: {horse.stats.speed}</span>
                       <span>End: {horse.stats.endurance}</span>
-                      <span>Agg: {horse.stats.aggression}</span>
-                      <span>Wet: {horse.stats.traction}</span>
                       <span>Lck: {horse.stats.luck}</span>
+                      <span>Comp: {horse.stats.competitiveness}</span>
+                      <span>Water: {horse.stats.water_resistance}</span>
+                      <span>Wind: {horse.stats.wind_resistance}</span>
+                      <span>Elec: {horse.stats.electric_resistance}</span>
                     </Box>
                   }
                 />

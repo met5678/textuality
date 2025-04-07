@@ -3,9 +3,17 @@ import { HorseId } from './horse';
 import Events from '/imports/api/events';
 import SimpleSchema from 'simpl-schema';
 import { MissionId } from '../mission';
-
-const KEYFRAME_INTERPOLATION_VALUES = ['linear', 'step'] as const;
-type KeyframeInterpolationType = (typeof KEYFRAME_INTERPOLATION_VALUES)[number];
+import {
+  JockeyStatus,
+  JOCKEY_STATUS,
+  HORSE_STATUS,
+  RaceTimeline,
+  RaceTimelineHorseKeyframe,
+  HorseStatus,
+  KEYFRAME_INTERPOLATION_VALUES,
+  RaceTimelineEventKeyframe,
+} from './race-timeline/types';
+import { RaceTimelineSchema } from './race-timeline/schemas';
 
 const TRACK_CONDITION_VALUES = ['dry', 'soggy', 'muddy', 'icy'] as const;
 type TrackCondition = (typeof TRACK_CONDITION_VALUES)[number];
@@ -19,34 +27,6 @@ const RACE_STATUS_VALUES = [
   'bet-winners',
 ] as const;
 type RaceStatus = (typeof RACE_STATUS_VALUES)[number];
-
-const HORSE_STATUS = ['still', 'running', 'trotting'] as const;
-type HorseStatus = (typeof HORSE_STATUS)[number];
-
-const JOCKEY_STATUS = ['still', 'riding', 'surfing', 'dancing'] as const;
-type JockeyStatus = (typeof JOCKEY_STATUS)[number];
-
-type RaceTimelineHorseKeyframe = {
-  frame: number;
-  position: number;
-  horse: HorseId;
-  status: HorseStatus;
-  jockey_status: JockeyStatus;
-  interpolation: KeyframeInterpolationType;
-};
-
-type RaceTimelineEventKeyframe = {
-  frame: number;
-  event: string;
-  intensity: number;
-  interpolation: KeyframeInterpolationType;
-};
-
-type RaceTimeline = {
-  horses: Record<string, RaceTimelineHorseKeyframe[]>;
-  events: Record<string, RaceTimelineEventKeyframe[]>;
-  current_frame: number;
-};
 
 type RaceHorseResult = {
   horse: HorseId;
@@ -72,46 +52,6 @@ type Race = {
   results: RaceHorseResult[];
 };
 
-const RaceTimelineHorseKeyframeSchema = new SimpleSchema({
-  frame: {
-    type: Number,
-  },
-  position: {
-    type: Number,
-  },
-  horse: {
-    type: String,
-  },
-  status: {
-    type: String,
-    allowedValues: [...HORSE_STATUS],
-  },
-  jockey_status: {
-    type: String,
-    allowedValues: [...JOCKEY_STATUS],
-  },
-  interpolation: {
-    type: String,
-    allowedValues: [...KEYFRAME_INTERPOLATION_VALUES],
-  },
-});
-
-const RaceTimelineEventKeyframeSchema = new SimpleSchema({
-  frame: {
-    type: Number,
-  },
-  event: {
-    type: String,
-  },
-  intensity: {
-    type: Number,
-  },
-  interpolation: {
-    type: String,
-    allowedValues: [...KEYFRAME_INTERPOLATION_VALUES],
-  },
-});
-
 const RaceHorseResultSchema = new SimpleSchema({
   horse: {
     type: String,
@@ -121,23 +61,6 @@ const RaceHorseResultSchema = new SimpleSchema({
   },
   placement: {
     type: SimpleSchema.Integer,
-  },
-});
-
-const RaceTimelineSchema = new SimpleSchema({
-  horses: {
-    type: Object,
-    defaultValue: {},
-    blackbox: true,
-  },
-  events: {
-    type: Object,
-    defaultValue: {},
-    blackbox: true,
-  },
-  current_frame: {
-    type: Number,
-    defaultValue: 0,
   },
 });
 
@@ -184,10 +107,10 @@ const RaceSchema = new SimpleSchema({
     defaultValue: 'dry',
   },
   furlong_length: {
-    type: Number,
-    defaultValue: 1,
-    min: 0.1,
-    max: 2,
+    type: SimpleSchema.Integer,
+    defaultValue: 8,
+    min: 5,
+    max: 12,
   },
   results: {
     type: Array,
@@ -206,9 +129,6 @@ const RaceSchema = new SimpleSchema({
 export default RaceSchema;
 export {
   RaceSchema,
-  RaceTimelineSchema,
-  RaceTimelineHorseKeyframeSchema,
-  RaceTimelineEventKeyframeSchema,
   RACE_STATUS_VALUES,
   TRACK_CONDITION_VALUES,
   HORSE_STATUS,

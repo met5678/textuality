@@ -38,9 +38,14 @@ const HorseFormDialog = ({ model, onClose }: HorseFormProps) => {
       <TextField name="color" />
       <NumberField name="stats.speed" label="Speed" />
       <NumberField name="stats.endurance" label="Endurance" />
-      <NumberField name="stats.aggression" label="Aggression" />
-      <NumberField name="stats.traction" label="Traction" />
       <NumberField name="stats.luck" label="Luck" />
+      <NumberField name="stats.competitiveness" label="Competitiveness" />
+      <NumberField name="stats.water_resistance" label="Water Resistance" />
+      <NumberField name="stats.wind_resistance" label="Wind Resistance" />
+      <NumberField
+        name="stats.electric_resistance"
+        label="Electric Resistance"
+      />
       <ErrorsField />
     </AutoFormDialog>
   );

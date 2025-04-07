@@ -9,7 +9,7 @@ import seedrandom from 'seedrandom';
 
 /** How many seconds each keyframe represents */
 const KEYFRAME_INTERVAL_SECONDS = 1;
-const APPROXIMATE_SECONDS_PER_FURLONG = 40;
+const APPROXIMATE_SECONDS_PER_FURLONG = 6;
 
 export const DECELERATION_DISTANCE = 0.1; // furlongs to decelerate over
 const DECELERATION_FRAMES = 10; // number of frames to spread deceleration over
@@ -25,20 +25,40 @@ const TRACK_CONDITION_MODIFIERS: Record<TrackCondition, number> = {
   icy: 0.4,
 };
 
-// Calculate a horse's base speed based on their stats and track condition
+// Increased base speed to make races faster
+const BASE_SPEED = 1.4;
+
+// Calculate a horse's base speed based on their stats, track condition, and race length
 const calculateBaseSpeed = (
   horse: HorseWithHelpers,
   trackCondition: TrackCondition,
+  raceLength: number,
   random: () => number,
 ) => {
   const conditionModifier = TRACK_CONDITION_MODIFIERS[trackCondition];
-  const tractionEffect = horse.stats.traction / 10; // Normalize to 0-1
   const speedEffect = horse.stats.speed / 10;
+  const enduranceEffect = horse.stats.endurance / 10;
   const luckEffect = (horse.stats.luck / 10) * (random() * 0.2 - 0.1); // ±10% variation based on luck
 
+  // Calculate race length factor (0-1)
+  // 5 furlongs = 0, 12 furlongs = 1
+  const raceLengthFactor = Math.max(0, (raceLength - 5) / 5);
+
+  // Add slight speed boost for shorter races
+  const raceLengthSpeedBoost = 1 + (1 - raceLengthFactor) * 0.2; // Up to 20% faster for short races
+
+  // Blend speed and endurance based on race length
+  // Shorter races favor speed, longer races favor endurance
+  // Reduced from 0.7 to 0.3 to make the tradeoff less pronounced
+  const speedEnduranceBlend =
+    speedEffect * (1 - raceLengthFactor * 0.3) +
+    enduranceEffect * (raceLengthFactor * 0.3);
+
   return (
+    BASE_SPEED *
     conditionModifier *
-    (tractionEffect * 0.4 + speedEffect * 0.6) *
+    speedEnduranceBlend *
+    raceLengthSpeedBoost *
     (1 + luckEffect)
   );
 };
@@ -62,13 +82,18 @@ export const generateTimelineWithResults = (
     position: 0,
     finished: false,
     decelerating: false,
-    baseSpeed: calculateBaseSpeed(horse, race.track_condition, random),
+    baseSpeed: calculateBaseSpeed(
+      horse,
+      race.track_condition,
+      race.furlong_length,
+      random,
+    ),
     endurance: horse.stats.endurance,
     currentSpeed: 0,
     keyframes: [] as RaceTimelineHorseKeyframe[],
     finishTime: 0,
-    lastPosition: 0, // Track previous position for interpolation
-    lastFrame: 0, // Track previous frame for interpolation
+    lastPosition: 0,
+    lastFrame: 0,
   }));
 
   // Add initial keyframe at position 0 for all horses
@@ -92,17 +117,22 @@ export const generateTimelineWithResults = (
     horseStates.forEach((state) => {
       if (state.finished) return;
 
-      // Store last position and frame for interpolation
       state.lastPosition = state.position;
       state.lastFrame = frame - KEYFRAME_INTERVAL_SECONDS;
 
       // Update horse's speed based on endurance
-      // Maximum endurance value a horse can have, used to normalize endurance to a 0-1 scale
       const MAX_ENDURANCE = 10;
       const enduranceEffect = state.endurance / MAX_ENDURANCE;
-      const speedVariation = random() * 3 - 0.05; // ±5% random variation
+      // Increased speed variation from ±5% to ±15%
+      const speedVariation = random() * 0.3 - 0.15;
+
+      // Adjust speed based on endurance and race progress
+      const raceProgress = state.position / race.furlong_length;
+      // Reduced endurance impact from 0.5 to 0.3
+      const enduranceImpact = enduranceEffect * (1 - raceProgress * 0.3);
+
       state.currentSpeed =
-        state.baseSpeed * (enduranceEffect * 0.7 + 0.3) * (1 + speedVariation);
+        state.baseSpeed * (enduranceImpact * 0.7 + 0.3) * (1 + speedVariation);
 
       // Update position
       state.position +=

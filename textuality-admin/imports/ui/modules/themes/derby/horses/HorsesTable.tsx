@@ -79,34 +79,6 @@ const columns: GridColDef<HorseWithHelpers>[] = [
     },
   },
   {
-    field: 'aggression',
-    headerName: 'Aggro',
-    type: 'number',
-    width: 70,
-    editable: true,
-    valueGetter: (_value, row) => row.stats.aggression,
-    valueSetter: (value, row) => {
-      return {
-        ...row,
-        stats: { ...row.stats, aggression: value },
-      };
-    },
-  },
-  {
-    field: 'traction',
-    headerName: 'Wet',
-    type: 'number',
-    width: 70,
-    editable: true,
-    valueGetter: (_value, row) => row.stats.traction,
-    valueSetter: (value, row) => {
-      return {
-        ...row,
-        stats: { ...row.stats, traction: value },
-      };
-    },
-  },
-  {
     field: 'luck',
     headerName: 'Luck',
     type: 'number',
@@ -117,6 +89,62 @@ const columns: GridColDef<HorseWithHelpers>[] = [
       return {
         ...row,
         stats: { ...row.stats, luck: value },
+      };
+    },
+  },
+  {
+    field: 'competitiveness',
+    headerName: 'Comp',
+    type: 'number',
+    width: 70,
+    editable: true,
+    valueGetter: (_value, row) => row.stats.competitiveness,
+    valueSetter: (value, row) => {
+      return {
+        ...row,
+        stats: { ...row.stats, competitiveness: value },
+      };
+    },
+  },
+  {
+    field: 'water_resistance',
+    headerName: 'Water',
+    type: 'number',
+    width: 70,
+    editable: true,
+    valueGetter: (_value, row) => row.stats.water_resistance,
+    valueSetter: (value, row) => {
+      return {
+        ...row,
+        stats: { ...row.stats, water_resistance: value },
+      };
+    },
+  },
+  {
+    field: 'wind_resistance',
+    headerName: 'Wind',
+    type: 'number',
+    width: 70,
+    editable: true,
+    valueGetter: (_value, row) => row.stats.wind_resistance,
+    valueSetter: (value, row) => {
+      return {
+        ...row,
+        stats: { ...row.stats, wind_resistance: value },
+      };
+    },
+  },
+  {
+    field: 'electric_resistance',
+    headerName: 'Elec',
+    type: 'number',
+    width: 70,
+    editable: true,
+    valueGetter: (_value, row) => row.stats.electric_resistance,
+    valueSetter: (value, row) => {
+      return {
+        ...row,
+        stats: { ...row.stats, electric_resistance: value },
       };
     },
   },

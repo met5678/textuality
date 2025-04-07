@@ -211,7 +211,7 @@ const RacesTable = () => {
       )}
       {selectedRace && isTimelineDialogOpen && (
         <RaceTimelineDialog
-          race={selectedRace}
+          raceId={selectedRace._id}
           onClose={() => {
             setIsTimelineDialogOpen(false);
             setSelectedRace(null);

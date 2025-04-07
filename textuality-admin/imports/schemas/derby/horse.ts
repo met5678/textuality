@@ -15,11 +15,19 @@ const HorseStatsSchema = new SimpleSchema({
     type: Number,
     defaultValue: 10,
   },
-  traction: {
+  competitiveness: {
     type: Number,
     defaultValue: 10,
   },
-  aggression: {
+  water_resistance: {
+    type: Number,
+    defaultValue: 10,
+  },
+  wind_resistance: {
+    type: Number,
+    defaultValue: 10,
+  },
+  electric_resistance: {
     type: Number,
     defaultValue: 10,
   },
@@ -49,10 +57,12 @@ const HorseSchema = new SimpleSchema({
 
 type HorseStats = {
   speed: number;
-  traction: number;
   endurance: number;
   luck: number;
-  aggression: number;
+  competitiveness: number;
+  water_resistance: number;
+  wind_resistance: number;
+  electric_resistance: number;
 };
 
 export type HorseId = string;

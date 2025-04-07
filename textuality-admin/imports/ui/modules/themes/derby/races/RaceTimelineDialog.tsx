@@ -17,8 +17,9 @@ import {
   Typography,
 } from '@mui/material';
 import Horses from '/imports/api/themes/derby/horse';
-import {
+import RaceSchema, {
   Race,
+  RaceId,
   TRACK_CONDITION_VALUES,
   TrackCondition,
 } from '/imports/schemas/derby/race';
@@ -26,12 +27,13 @@ import Races from '/imports/api/themes/derby/race/races';
 import { RaceTimelineGraph } from './RaceTimelineGraph';
 
 interface RaceTimelineDialogProps {
-  race: Race;
+  raceId: RaceId;
   onClose: () => void;
 }
 
-const RaceTimelineDialog = ({ race, onClose }: RaceTimelineDialogProps) => {
+const RaceTimelineDialog = ({ raceId, onClose }: RaceTimelineDialogProps) => {
   const isLoadingHorses = useSubscribe('horses.all');
+  const race = useFind(() => Races.find({ _id: raceId }), [])[0];
   const horses = useFind(
     () =>
       Horses.find({ _id: { $in: race.horses || [] } }, { sort: { number: 1 } }),
@@ -115,15 +117,9 @@ const RaceTimelineDialog = ({ race, onClose }: RaceTimelineDialogProps) => {
               <Slider
                 value={furlongLength}
                 onChange={(_, value) => setFurlongLength(value as number)}
-                min={0.5}
-                max={2}
-                step={0.1}
-                marks={[
-                  { value: 0.5, label: '0.5' },
-                  { value: 1, label: '1' },
-                  { value: 1.5, label: '1.5' },
-                  { value: 2, label: '2' },
-                ]}
+                min={5}
+                max={12}
+                step={1}
                 valueLabelDisplay="auto"
               />
             </Box>

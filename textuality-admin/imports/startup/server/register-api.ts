@@ -100,4 +100,5 @@ import '/imports/api/themes/derby/horse/server/publications-admin';
 
 import '/imports/api/themes/derby/race/';
 import '/imports/api/themes/derby/race/methods-admin';
+import '/imports/api/themes/derby/race/methods-client';
 import '/imports/api/themes/derby/race/server/publications-admin';

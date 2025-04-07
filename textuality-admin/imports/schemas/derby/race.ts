@@ -13,11 +13,10 @@ type TrackCondition = (typeof TRACK_CONDITION_VALUES)[number];
 const RACE_STATUS_VALUES = [
   'future',
   'bets-open',
-  'race-intro',
-  'race-in-progress',
-  'race-photo-finish',
-  'race-results',
-  'race-bet-winners',
+  'intro',
+  'active',
+  'results',
+  'bet-winners',
 ] as const;
 type RaceStatus = (typeof RACE_STATUS_VALUES)[number];
 
@@ -49,6 +48,12 @@ type RaceTimeline = {
   current_frame: number;
 };
 
+type RaceHorseResult = {
+  horse: HorseId;
+  time: number;
+  placement: number;
+};
+
 type RaceId = string;
 
 type Race = {
@@ -61,8 +66,10 @@ type Race = {
   time_race_starts_at: Date;
   status: RaceStatus;
   timeline: RaceTimeline;
+  furlong_length: number;
   track_condition: TrackCondition;
   linked_mission?: MissionId;
+  results: RaceHorseResult[];
 };
 
 const RaceTimelineHorseKeyframeSchema = new SimpleSchema({
@@ -99,22 +106,34 @@ const RaceTimelineEventKeyframeSchema = new SimpleSchema({
   intensity: {
     type: Number,
   },
+  interpolation: {
+    type: String,
+    allowedValues: [...KEYFRAME_INTERPOLATION_VALUES],
+  },
+});
+
+const RaceHorseResultSchema = new SimpleSchema({
+  horse: {
+    type: String,
+  },
+  time: {
+    type: Number,
+  },
+  placement: {
+    type: SimpleSchema.Integer,
+  },
 });
 
 const RaceTimelineSchema = new SimpleSchema({
   horses: {
-    type: Array,
-    defaultValue: [],
-  },
-  'horses.$': {
-    type: RaceTimelineHorseKeyframeSchema,
+    type: Object,
+    defaultValue: {},
+    blackbox: true,
   },
   events: {
-    type: Array,
-    defaultValue: [],
-  },
-  'events.$': {
-    type: RaceTimelineEventKeyframeSchema,
+    type: Object,
+    defaultValue: {},
+    blackbox: true,
   },
   current_frame: {
     type: Number,
@@ -164,6 +183,19 @@ const RaceSchema = new SimpleSchema({
     allowedValues: [...TRACK_CONDITION_VALUES],
     defaultValue: 'dry',
   },
+  furlong_length: {
+    type: Number,
+    defaultValue: 1,
+    min: 0.1,
+    max: 2,
+  },
+  results: {
+    type: Array,
+    defaultValue: [],
+  },
+  'results.$': {
+    type: RaceHorseResultSchema,
+  },
   linked_mission: {
     type: String,
     optional: true,
@@ -193,4 +225,5 @@ export type {
   TrackCondition,
   HorseStatus,
   JockeyStatus,
+  RaceHorseResult,
 };

@@ -1,0 +1,122 @@
+import React from 'react';
+import { Box } from '@mui/material';
+import { LineChart, ChartsReferenceLine } from '@mui/x-charts';
+import { HorseWithHelpers } from '/imports/api/themes/derby/horse/horses';
+import {
+  Race,
+  RaceHorseResult,
+  RaceTimeline,
+} from '/imports/schemas/derby/race';
+import { DECELERATION_DISTANCE } from '/imports/api/themes/derby/race/timeline/generate-timeline';
+
+interface RaceTimelineGraphProps {
+  race: Race;
+  horses: HorseWithHelpers[];
+  timeline: RaceTimeline;
+  results: RaceHorseResult[];
+}
+
+export const RaceTimelineGraph = ({
+  race,
+  horses,
+  timeline,
+  results,
+}: RaceTimelineGraphProps) => {
+  // Prepare data for the chart
+  const chartData = React.useMemo(() => {
+    if (!timeline?.horses) return [];
+
+    // Find the maximum frame number across all horses
+    const maxFrame = Math.max(
+      ...Object.values(timeline.horses).flatMap((keyframes) =>
+        keyframes.map((kf) => kf.frame),
+      ),
+    );
+
+    // Create series data for each horse
+    const seriesData = Object.entries(timeline.horses)
+      .map(([horseId, keyframes]) => {
+        const horse = horses.find((h) => h._id === horseId);
+        if (!horse) return null;
+
+        // Create an array of positions for each frame up to maxFrame
+        const positions = Array(maxFrame + 1).fill(null);
+        keyframes.forEach((kf) => {
+          positions[kf.frame] = kf.position;
+        });
+
+        return {
+          horseId,
+          label: `${horse.number} - ${horse.name} (${results.find(
+            (r) => r.horse === horseId,
+          )?.time}s)`,
+          data: positions,
+          color: horse.color,
+        };
+      })
+      .filter(Boolean) as Array<{
+      horseId: string;
+      label: string;
+      data: (number | null)[];
+      color: string;
+    }>;
+
+    // Sort series based on race results order
+    if (results?.length) {
+      seriesData.sort((a, b) => {
+        const aResult = results.find((r) => r.horse === a.horseId);
+        const bResult = results.find((r) => r.horse === b.horseId);
+        return (
+          (aResult?.placement ?? Infinity) - (bResult?.placement ?? Infinity)
+        );
+      });
+    }
+
+    return seriesData;
+  }, [timeline, horses, results]);
+
+  if (chartData.length === 0) return null;
+
+  return (
+    <Box sx={{ height: 400 }}>
+      <LineChart
+        xAxis={[
+          {
+            data: Array.from({ length: chartData[0].data.length }, (_, i) => i),
+            label: 'Time (seconds)',
+          },
+        ]}
+        yAxis={[
+          {
+            label: 'Position',
+            min: 0,
+            max: race.furlong_length + DECELERATION_DISTANCE,
+          },
+        ]}
+        series={chartData.map((series) => ({
+          label: series.label,
+          data: series.data,
+          color: series.color,
+          showMark: false,
+          curve: 'linear',
+        }))}
+        margin={{ top: 20, right: 200, bottom: 20, left: 20 }}
+        slotProps={{
+          legend: {
+            direction: 'column',
+            position: { vertical: 'middle', horizontal: 'right' },
+            itemMarkHeight: 10,
+            itemMarkWidth: 10,
+          },
+        }}
+      >
+        <ChartsReferenceLine
+          y={race.furlong_length}
+          label="Finish Line"
+          lineStyle={{ stroke: 'red', strokeWidth: 2 }}
+          labelStyle={{ fill: 'red' }}
+        />
+      </LineChart>
+    </Box>
+  );
+};

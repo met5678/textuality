@@ -22,9 +22,9 @@ const RaceFormDialog = ({ model, onClose }: RaceFormProps) => {
 
   const onSubmit = (race: Partial<Race>) => {
     if (race._id) {
-      Meteor.call('races.update', race);
+      Meteor.call('derby.races.update', race);
     } else {
-      Meteor.call('races.new', race);
+      Meteor.call('derby.races.new', race);
     }
     onClose();
   };

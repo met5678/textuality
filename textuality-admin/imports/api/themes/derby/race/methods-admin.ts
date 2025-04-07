@@ -11,16 +11,16 @@ import { OptionalId, UpdateRequiredId } from '/imports/utils/optional-id';
 import { EventId } from '/imports/schemas/event';
 
 Meteor.methods({
-  'races.new': (race: OptionalId<Race>) => {
+  'derby.races.new': (race: OptionalId<Race>) => {
     const id = Races.insert(race);
     return id;
   },
 
-  'races.update': (race: UpdateRequiredId<Race>) => {
+  'derby.races.update': (race: UpdateRequiredId<Race>) => {
     Races.update(race._id, { $set: race });
   },
 
-  'races.duplicate': (raceId: RaceId) => {
+  'derby.races.duplicate': (raceId: RaceId) => {
     const raceToDuplicate = Races.findOne(raceId);
     if (!raceToDuplicate) return;
     const newRace: OptionalId<Race> = {
@@ -30,7 +30,7 @@ Meteor.methods({
     Races.insert(newRace);
   },
 
-  'races.delete': (raceId: RaceId) => {
+  'derby.races.delete': (raceId: RaceId) => {
     if (Array.isArray(raceId)) {
       Races.remove({ _id: { $in: raceId } });
     } else {
@@ -38,19 +38,19 @@ Meteor.methods({
     }
   },
 
-  'races.updateStatus': (raceId: RaceId, status: RaceStatus) => {
+  'derby.races.updateStatus': (raceId: RaceId, status: RaceStatus) => {
     Races.update(raceId, {
       $set: { status },
     });
   },
 
-  'races.updateTimeline': (raceId: RaceId, timeline: RaceTimeline) => {
+  'derby.races.updateTimeline': (raceId: RaceId, timeline: RaceTimeline) => {
     Races.update(raceId, {
       $set: { timeline },
     });
   },
 
-  'races.resetEvent': (eventId: EventId) => {
+  'derby.races.resetEvent': (eventId: EventId) => {
     Races.update(
       { event: eventId },
       {
@@ -67,7 +67,10 @@ Meteor.methods({
     );
   },
 
-  'races.copyFrom': (destinationEventId: EventId, sourceEventId: EventId) => {
+  'derby.races.copyFrom': (
+    destinationEventId: EventId,
+    sourceEventId: EventId,
+  ) => {
     Races.remove({ event: destinationEventId });
     const sourceRaces = Races.find({ event: sourceEventId }).fetch();
     sourceRaces.forEach((sourceRace) => {

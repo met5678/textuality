@@ -19,18 +19,18 @@ export type RaceTimelineHorseKeyframe = {
   interpolation: KeyframeInterpolationType;
 };
 
-export const EVENT_TYPES = ['lightning', 'headwind', 'tailwind'] as const;
-export type EventType = (typeof EVENT_TYPES)[number];
+export const EFFECT_TYPES = ['lightning', 'headwind', 'tailwind'] as const;
+export type EffectType = (typeof EFFECT_TYPES)[number];
 
-export type RaceTimelineEventKeyframe = {
+export type RaceTimelineEffectKeyframe = {
   frame: number;
-  event: EventType;
+  effect: EffectType;
   intensity: number;
   interpolation: KeyframeInterpolationType;
 };
 
 export type RaceTimeline = {
   horses: Record<string, RaceTimelineHorseKeyframe[]>;
-  events: Record<string, RaceTimelineEventKeyframe[]>;
+  effects: Record<string, RaceTimelineEffectKeyframe[]>;
   current_frame: number;
 };

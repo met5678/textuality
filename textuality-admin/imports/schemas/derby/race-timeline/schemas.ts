@@ -1,6 +1,6 @@
 import SimpleSchema from 'simpl-schema';
 import {
-  EVENT_TYPES,
+  EFFECT_TYPES,
   HORSE_STATUS,
   JOCKEY_STATUS,
   KEYFRAME_INTERPOLATION_VALUES,
@@ -30,13 +30,13 @@ export const RaceTimelineHorseKeyframeSchema = new SimpleSchema({
   },
 });
 
-export const RaceTimelineEventKeyframeSchema = new SimpleSchema({
+export const RaceTimelineEffectKeyframeSchema = new SimpleSchema({
   frame: {
     type: Number,
   },
-  event: {
+  effect: {
     type: String,
-    allowedValues: [...EVENT_TYPES],
+    allowedValues: [...EFFECT_TYPES],
   },
   intensity: {
     type: SimpleSchema.Integer,
@@ -55,7 +55,7 @@ export const RaceTimelineSchema = new SimpleSchema({
     defaultValue: {},
     blackbox: true,
   },
-  events: {
+  effects: {
     type: Object,
     defaultValue: {},
     blackbox: true,

@@ -7,7 +7,7 @@ import {
   RaceHorseResult,
   RaceTimeline,
 } from '/imports/schemas/derby/race';
-import { DECELERATION_DISTANCE } from '/imports/api/themes/derby/race/timeline/generate-timeline';
+import { OVERRUN_DISTANCE } from '/imports/api/themes/derby/race/timeline/generate-timeline';
 
 interface RaceTimelineGraphProps {
   race: Race;
@@ -35,15 +35,16 @@ export const RaceTimelineGraph = ({
 
     // Create series data for each horse
     const seriesData = Object.entries(timeline.horses)
+      .filter(([horseId]) => results.some((r) => r.horse === horseId))
       .map(([horseId, keyframes]) => {
-        const horse = horses.find((h) => h._id === horseId);
-        if (!horse) return null;
+        const horse = horses.find((h) => h._id === horseId)!;
 
         // Create an array of positions for each frame up to maxFrame
-        const positions = Array(maxFrame + 1).fill(null);
-        keyframes.forEach((kf) => {
-          positions[kf.frame] = kf.position;
-        });
+        const positions = keyframes.map((kf) => kf.position);
+        // Fill in remaining positions with last known position
+        for (let i = keyframes.length; i <= maxFrame; i++) {
+          positions.push(positions[positions.length - 1]);
+        }
 
         return {
           horseId,
@@ -53,13 +54,7 @@ export const RaceTimelineGraph = ({
           data: positions,
           color: horse.color,
         };
-      })
-      .filter(Boolean) as Array<{
-      horseId: string;
-      label: string;
-      data: (number | null)[];
-      color: string;
-    }>;
+      });
 
     // Sort series based on race results order
     if (results?.length) {
@@ -90,7 +85,7 @@ export const RaceTimelineGraph = ({
           {
             label: 'Position',
             min: 0,
-            max: race.furlong_length + DECELERATION_DISTANCE,
+            max: race.furlong_length + OVERRUN_DISTANCE,
           },
         ]}
         series={chartData.map((series) => ({
@@ -113,6 +108,7 @@ export const RaceTimelineGraph = ({
         <ChartsReferenceLine
           y={race.furlong_length}
           label="Finish Line"
+          labelAlign="start"
           lineStyle={{ stroke: 'red', strokeWidth: 2 }}
           labelStyle={{ fill: 'red' }}
         />

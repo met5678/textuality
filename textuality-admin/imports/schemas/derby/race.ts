@@ -11,12 +11,15 @@ import {
   RaceTimelineHorseKeyframe,
   HorseStatus,
   KEYFRAME_INTERPOLATION_VALUES,
-  RaceTimelineEventKeyframe,
+  RaceTimelineEffectKeyframe,
 } from './race-timeline/types';
 import { RaceTimelineSchema } from './race-timeline/schemas';
 
-const TRACK_CONDITION_VALUES = ['dry', 'soggy', 'muddy', 'icy'] as const;
+const TRACK_CONDITION_VALUES = ['dry', 'soggy', 'muddy'] as const;
 type TrackCondition = (typeof TRACK_CONDITION_VALUES)[number];
+
+const WEATHER_VALUES = ['clear', 'rain', 'windy', 'storm'] as const;
+type Weather = (typeof WEATHER_VALUES)[number];
 
 const RACE_STATUS_VALUES = [
   'future',
@@ -48,6 +51,7 @@ type Race = {
   timeline: RaceTimeline;
   furlong_length: number;
   track_condition: TrackCondition;
+  weather: Weather;
   linked_mission?: MissionId;
   results: RaceHorseResult[];
 };
@@ -106,6 +110,11 @@ const RaceSchema = new SimpleSchema({
     allowedValues: [...TRACK_CONDITION_VALUES],
     defaultValue: 'dry',
   },
+  weather: {
+    type: String,
+    allowedValues: [...WEATHER_VALUES],
+    defaultValue: 'clear',
+  },
   furlong_length: {
     type: SimpleSchema.Integer,
     defaultValue: 8,
@@ -131,6 +140,7 @@ export {
   RaceSchema,
   RACE_STATUS_VALUES,
   TRACK_CONDITION_VALUES,
+  WEATHER_VALUES,
   HORSE_STATUS,
   JOCKEY_STATUS,
   KEYFRAME_INTERPOLATION_VALUES,
@@ -141,9 +151,10 @@ export type {
   RaceStatus,
   RaceTimeline,
   RaceTimelineHorseKeyframe,
-  RaceTimelineEventKeyframe,
+  RaceTimelineEffectKeyframe as RaceTimelineEventKeyframe,
   TrackCondition,
   HorseStatus,
   JockeyStatus,
   RaceHorseResult,
+  Weather,
 };

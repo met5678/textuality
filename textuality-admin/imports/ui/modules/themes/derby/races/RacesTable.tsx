@@ -9,6 +9,7 @@ import {
   Race,
   RaceSchema,
   TRACK_CONDITION_VALUES,
+  WEATHER_VALUES,
 } from '/imports/schemas/derby/race';
 import Races from '/imports/api/themes/derby/race';
 import { RaceWithHelpers } from '/imports/api/themes/derby/race/races';
@@ -81,6 +82,17 @@ const getColumns = ({
       })),
     },
     {
+      field: 'weather',
+      headerName: 'Weather',
+      width: 100,
+      editable: true,
+      type: 'singleSelect',
+      valueOptions: WEATHER_VALUES.map((status) => ({
+        label: status,
+        value: status,
+      })),
+    },
+    {
       field: 'furlong_length',
       headerName: 'Furlong Length',
       width: 100,
@@ -90,7 +102,7 @@ const getColumns = ({
     {
       field: 'horses',
       headerName: 'Horses',
-      width: 100,
+      width: 90,
       renderCell: (params) => {
         return (
           <Button
@@ -106,7 +118,7 @@ const getColumns = ({
     {
       field: 'timeline',
       headerName: 'Timeline',
-      width: 150,
+      width: 110,
       renderCell: (params) => (
         <Button
           variant="outlined"

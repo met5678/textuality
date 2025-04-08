@@ -22,6 +22,8 @@ import RaceSchema, {
   RaceId,
   TRACK_CONDITION_VALUES,
   TrackCondition,
+  Weather,
+  WEATHER_VALUES,
 } from '/imports/schemas/derby/race';
 import Races from '/imports/api/themes/derby/race/races';
 import { RaceTimelineGraph } from './RaceTimelineGraph';
@@ -48,6 +50,7 @@ const RaceTimelineDialog = ({ raceId, onClose }: RaceTimelineDialogProps) => {
   const [furlongLength, setFurlongLength] = useState<number>(
     race.furlong_length,
   );
+  const [weather, setWeather] = useState<Weather>(race.weather || 'clear');
 
   const handleGenerateTimeline = async () => {
     try {
@@ -56,6 +59,7 @@ const RaceTimelineDialog = ({ raceId, onClose }: RaceTimelineDialogProps) => {
         _id: race._id,
         track_condition: trackCondition,
         furlong_length: furlongLength,
+        weather: weather,
       });
 
       // Then generate the timeline
@@ -104,6 +108,20 @@ const RaceTimelineDialog = ({ raceId, onClose }: RaceTimelineDialogProps) => {
                 }
               >
                 {TRACK_CONDITION_VALUES.map((condition) => (
+                  <MenuItem key={condition} value={condition}>
+                    {condition.charAt(0).toUpperCase() + condition.slice(1)}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <FormControl size="small" sx={{ minWidth: 200 }}>
+              <InputLabel>Weather</InputLabel>
+              <Select
+                value={weather}
+                label="Weather"
+                onChange={(e) => setWeather(e.target.value as Weather)}
+              >
+                {WEATHER_VALUES.map((condition) => (
                   <MenuItem key={condition} value={condition}>
                     {condition.charAt(0).toUpperCase() + condition.slice(1)}
                   </MenuItem>

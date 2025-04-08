@@ -58,7 +58,7 @@ Meteor.methods({
           status: 'future',
           timeline: {
             horses: {},
-            events: {},
+            effects: {},
             current_frame: 0,
           },
         },

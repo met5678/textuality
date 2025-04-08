@@ -11,8 +11,7 @@ import seedrandom from 'seedrandom';
 const KEYFRAME_INTERVAL_SECONDS = 1;
 const APPROXIMATE_SECONDS_PER_FURLONG = 6;
 
-export const DECELERATION_DISTANCE = 0.1; // furlongs to decelerate over
-const DECELERATION_FRAMES = 10; // number of frames to spread deceleration over
+export const OVERRUN_DISTANCE = 0.5; // furlongs to run past finish line
 
 /** Mostly to prevent infinite loops */
 const MAX_FRAMES = 200;
@@ -22,11 +21,25 @@ const TRACK_CONDITION_MODIFIERS: Record<TrackCondition, number> = {
   dry: 1.0,
   soggy: 0.8,
   muddy: 0.6,
-  icy: 0.4,
 };
 
 // Increased base speed to make races faster
 const BASE_SPEED = 1.4;
+
+export type HorseState = {
+  horse: HorseWithHelpers;
+  position: number;
+  finished: boolean;
+  decelerating: boolean;
+  baseSpeed: number;
+  endurance: number;
+  currentSpeed: number;
+  keyframes: RaceTimelineHorseKeyframe[];
+  finishTime: number;
+  lastPosition: number;
+  lastFrame: number;
+  deceleration_start_frame: number;
+};
 
 // Calculate a horse's base speed based on their stats, track condition, and race length
 const calculateBaseSpeed = (
@@ -37,8 +50,6 @@ const calculateBaseSpeed = (
 ) => {
   const conditionModifier = TRACK_CONDITION_MODIFIERS[trackCondition];
   const speedEffect = horse.stats.speed / 10;
-  const enduranceEffect = horse.stats.endurance / 10;
-  const luckEffect = (horse.stats.luck / 10) * (random() * 0.2 - 0.1); // ±10% variation based on luck
 
   // Calculate race length factor (0-1)
   // 5 furlongs = 0, 12 furlongs = 1
@@ -47,20 +58,9 @@ const calculateBaseSpeed = (
   // Add slight speed boost for shorter races
   const raceLengthSpeedBoost = 1 + (1 - raceLengthFactor) * 0.2; // Up to 20% faster for short races
 
-  // Blend speed and endurance based on race length
-  // Shorter races favor speed, longer races favor endurance
-  // Reduced from 0.7 to 0.3 to make the tradeoff less pronounced
-  const speedEnduranceBlend =
-    speedEffect * (1 - raceLengthFactor * 0.3) +
-    enduranceEffect * (raceLengthFactor * 0.3);
-
-  return (
-    BASE_SPEED *
-    conditionModifier *
-    speedEnduranceBlend *
-    raceLengthSpeedBoost *
-    (1 + luckEffect)
-  );
+  // Target completing each furlong in APPROXIMATE_SECONDS_PER_FURLONG seconds
+  // Adjust by speed stat and track condition
+  return BASE_SPEED * conditionModifier * speedEffect * raceLengthSpeedBoost;
 };
 
 export const generateTimelineWithResults = (
@@ -72,7 +72,7 @@ export const generateTimelineWithResults = (
 
   const timeline: RaceTimeline = {
     horses: {},
-    events: {},
+    effects: {},
     current_frame: 0,
   };
 
@@ -94,6 +94,7 @@ export const generateTimelineWithResults = (
     finishTime: 0,
     lastPosition: 0,
     lastFrame: 0,
+    deceleration_start_frame: 0,
   }));
 
   // Add initial keyframe at position 0 for all horses
@@ -120,19 +121,40 @@ export const generateTimelineWithResults = (
       state.lastPosition = state.position;
       state.lastFrame = frame - KEYFRAME_INTERVAL_SECONDS;
 
-      // Update horse's speed based on endurance
-      const MAX_ENDURANCE = 10;
-      const enduranceEffect = state.endurance / MAX_ENDURANCE;
-      // Increased speed variation from ±5% to ±15%
-      const speedVariation = random() * 0.3 - 0.15;
-
-      // Adjust speed based on endurance and race progress
+      // Calculate race progress (0 to 1)
       const raceProgress = state.position / race.furlong_length;
-      // Reduced endurance impact from 0.5 to 0.3
-      const enduranceImpact = enduranceEffect * (1 - raceProgress * 0.3);
 
+      // Calculate endurance effect
+      // For a 5 furlong race, start ramping at 0.4 (2 furlongs)
+      // For a 12 furlong race, start ramping at 0.25 (3 furlongs)
+      const enduranceRampStart = 0.4 - (race.furlong_length - 5) * 0.025;
+
+      let enduranceMultiplier = 1.0;
+      if (raceProgress > enduranceRampStart) {
+        // How far into the endurance phase we are (0 to 1)
+        const endurancePhaseProgress =
+          (raceProgress - enduranceRampStart) / (1 - enduranceRampStart);
+
+        // Convert endurance stat to 0 to 1 range
+        const enduranceEffect = state.horse.stats.endurance / 20;
+
+        // Base fatigue makes all horses slow down as race progresses
+        // At endurance 20: drops to 60% speed
+        // At endurance 10: drops to 40% speed
+        // At endurance 0: drops to 20% speed
+        const baseFatigue = 0.8 * endurancePhaseProgress;
+        const enduranceMitigation =
+          0.6 * enduranceEffect * endurancePhaseProgress;
+
+        enduranceMultiplier = 1 - baseFatigue + enduranceMitigation;
+      }
+
+      // Add random variation each frame (±10% variation)
+      const speedVariation = 1 + (random() * 1 - 0.5);
+
+      // Update horse's speed based on endurance and variation
       state.currentSpeed =
-        state.baseSpeed * (enduranceImpact * 0.7 + 0.3) * (1 + speedVariation);
+        state.baseSpeed * enduranceMultiplier * speedVariation;
 
       // Update position
       state.position +=
@@ -150,26 +172,14 @@ export const generateTimelineWithResults = (
         state.finishTime = interpolatedTime;
       }
 
-      if (state.position >= race.furlong_length) {
-        if (!state.decelerating) {
-          state.decelerating = true;
-          state.position = race.furlong_length;
-        } else {
-          // During deceleration, gradually reduce speed
-          const decelerationProgress = Math.min(
-            1,
-            (state.position - race.furlong_length) / DECELERATION_DISTANCE,
-          );
-          state.currentSpeed *= 1 - decelerationProgress;
-          state.position =
-            race.furlong_length + decelerationProgress * DECELERATION_DISTANCE;
+      if (state.position >= race.furlong_length + OVERRUN_DISTANCE) {
+        state.finished = true;
+        state.currentSpeed = 0;
+        state.position = race.furlong_length + OVERRUN_DISTANCE;
+      }
 
-          if (decelerationProgress >= 1) {
-            state.finished = true;
-            state.currentSpeed = 0;
-          }
-        }
-      } else {
+      // Only set allFinished to false if the horse hasn't finished
+      if (!state.finished) {
         allFinished = false;
       }
 
@@ -206,8 +216,6 @@ export const generateTimelineWithResults = (
     time: Number(state.finishTime.toFixed(3)), // Round to 3 decimal places
     placement: index + 1,
   }));
-
-  console.log({ results });
 
   return {
     timeline,

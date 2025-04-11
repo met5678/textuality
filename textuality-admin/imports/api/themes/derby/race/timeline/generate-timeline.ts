@@ -1,11 +1,14 @@
 import { HorseWithHelpers } from '../../horse/horses';
-import {
-  Race,
-  RaceTimeline,
-  RaceTimelineHorseKeyframe,
-  TrackCondition,
-} from '/imports/schemas/derby/race';
+import { BaseEffect } from './effects/base-effect';
+import { LightningEffect } from './effects/lightning';
+import { RaceTimeline, TrackCondition } from '/imports/schemas/derby/race';
 import seedrandom from 'seedrandom';
+import {
+  HorseEffect,
+  RaceTimelineHorseKeyframe,
+} from '/imports/schemas/derby/race-timeline/types';
+import { RaceWithHelpers } from '../races';
+import { FatigueEffect } from './effects/fatigue';
 
 /** How many seconds each keyframe represents */
 const KEYFRAME_INTERVAL_SECONDS = 1;
@@ -29,16 +32,23 @@ const BASE_SPEED = 1.4;
 export type HorseState = {
   horse: HorseWithHelpers;
   position: number;
-  finished: boolean;
-  decelerating: boolean;
   baseSpeed: number;
-  endurance: number;
   currentSpeed: number;
   keyframes: RaceTimelineHorseKeyframe[];
+  effects: HorseEffect[];
+
+  /** How tired the horse is. 0 is not tired at all. 10 is exhausted. */
+  fatigue: number;
+
+  /** Multiplier to apply to the horse's speed. Meant to be
+   * used by effects to modify the horse's speed.
+   */
+  speedMultiplier: number;
+
+  finished: boolean;
   finishTime: number;
   lastPosition: number;
   lastFrame: number;
-  deceleration_start_frame: number;
 };
 
 // Calculate a horse's base speed based on their stats, track condition, and race length
@@ -46,7 +56,6 @@ const calculateBaseSpeed = (
   horse: HorseWithHelpers,
   trackCondition: TrackCondition,
   raceLength: number,
-  random: () => number,
 ) => {
   const conditionModifier = TRACK_CONDITION_MODIFIERS[trackCondition];
   const speedEffect = horse.stats.speed / 10;
@@ -63,8 +72,36 @@ const calculateBaseSpeed = (
   return BASE_SPEED * conditionModifier * speedEffect * raceLengthSpeedBoost;
 };
 
+const EFFECTS: BaseEffect<any>[] = [LightningEffect, FatigueEffect];
+
+const initializeHorseStates = (
+  race: RaceWithHelpers,
+  horses: HorseWithHelpers[],
+) => {
+  // Initialize each horse's state
+  return horses.map((horse) => ({
+    horse,
+    position: 0,
+    baseSpeed: calculateBaseSpeed(
+      horse,
+      race.track_condition,
+      race.furlong_length,
+    ),
+    fatigue: 0,
+    currentSpeed: 0,
+    keyframes: [] as RaceTimelineHorseKeyframe[],
+    effects: [],
+    speedMultiplier: 1,
+
+    finished: false,
+    finishTime: 0,
+    lastPosition: 0,
+    lastFrame: 0,
+  }));
+};
+
 export const generateTimelineWithResults = (
-  race: Race,
+  race: RaceWithHelpers,
   horses: HorseWithHelpers[],
   seed?: number,
 ) => {
@@ -76,40 +113,29 @@ export const generateTimelineWithResults = (
     current_frame: 0,
   };
 
-  // Initialize each horse's state
-  const horseStates = horses.map((horse) => ({
-    horse,
-    position: 0,
-    finished: false,
-    decelerating: false,
-    baseSpeed: calculateBaseSpeed(
-      horse,
-      race.track_condition,
-      race.furlong_length,
-      random,
-    ),
-    endurance: horse.stats.endurance,
-    currentSpeed: 0,
-    keyframes: [] as RaceTimelineHorseKeyframe[],
-    finishTime: 0,
-    lastPosition: 0,
-    lastFrame: 0,
-    deceleration_start_frame: 0,
-  }));
+  const horseStates = initializeHorseStates(race, horses);
+
+  const effectStates: Map<BaseEffect<any>, any> = new Map();
+
+  EFFECTS.forEach((effect) => {
+    effectStates.set(effect, effect.init(race));
+    if (effect.effectType) {
+      timeline.effects[effect.effectType] = [];
+    }
+  });
 
   // Add initial keyframe at position 0 for all horses
   horseStates.forEach((state) => {
     state.keyframes.push({
       frame: 0,
-      position: 0,
       horse: state.horse._id,
+      position: 0,
       status: 'still',
-      jockey_status: 'still',
-      interpolation: 'linear',
+      effects: [],
     });
   });
 
-  let frame = KEYFRAME_INTERVAL_SECONDS;
+  let frame = 1;
   let allFinished = false;
 
   while (!allFinished && frame < MAX_FRAMES) {
@@ -120,46 +146,41 @@ export const generateTimelineWithResults = (
 
       state.lastPosition = state.position;
       state.lastFrame = frame - KEYFRAME_INTERVAL_SECONDS;
-
-      // Calculate race progress (0 to 1)
-      const raceProgress = state.position / race.furlong_length;
-
-      // Calculate endurance effect
-      // For a 5 furlong race, start ramping at 0.4 (2 furlongs)
-      // For a 12 furlong race, start ramping at 0.25 (3 furlongs)
-      const enduranceRampStart = 0.4 - (race.furlong_length - 5) * 0.025;
-
-      let enduranceMultiplier = 1.0;
-      if (raceProgress > enduranceRampStart) {
-        // How far into the endurance phase we are (0 to 1)
-        const endurancePhaseProgress =
-          (raceProgress - enduranceRampStart) / (1 - enduranceRampStart);
-
-        // Convert endurance stat to 0 to 1 range
-        const enduranceEffect = state.horse.stats.endurance / 20;
-
-        // Base fatigue makes all horses slow down as race progresses
-        // At endurance 20: drops to 60% speed
-        // At endurance 10: drops to 40% speed
-        // At endurance 0: drops to 20% speed
-        const baseFatigue = 0.8 * endurancePhaseProgress;
-        const enduranceMitigation =
-          0.6 * enduranceEffect * endurancePhaseProgress;
-
-        enduranceMultiplier = 1 - baseFatigue + enduranceMitigation;
-      }
-
-      // Add random variation each frame (±10% variation)
-      const speedVariation = 1 + (random() * 1 - 0.5);
-
-      // Update horse's speed based on endurance and variation
-      state.currentSpeed =
-        state.baseSpeed * enduranceMultiplier * speedVariation;
-
-      // Update position
       state.position +=
         (state.currentSpeed * KEYFRAME_INTERVAL_SECONDS) /
         APPROXIMATE_SECONDS_PER_FURLONG;
+
+      state.speedMultiplier = 1;
+    });
+
+    // Run through effects
+    EFFECTS.forEach((effect) => {
+      if (effect.effectType) {
+        const effectKeyframe = effect.generateEffectKeyframe(
+          frame,
+          race,
+          horseStates,
+          effectStates.get(effect),
+          random,
+        );
+        if (effectKeyframe) {
+          timeline.effects[effect.effectType].push(effectKeyframe);
+        }
+      }
+
+      effect.updateHorseStates(
+        frame,
+        race,
+        horseStates,
+        effectStates.get(effect),
+        random,
+      );
+    });
+
+    horseStates.forEach((state) => {
+      // Update horse's speed based on endurance and variation
+      state.currentSpeed =
+        state.baseSpeed * state.speedMultiplier * (0.6 + random() * 0.8);
 
       // Check if horse finished
       if (state.position >= race.furlong_length && !state.finishTime) {
@@ -183,17 +204,13 @@ export const generateTimelineWithResults = (
         allFinished = false;
       }
 
-      // Reduce endurance over time
-      state.endurance = Math.max(0, state.endurance - 0.1);
-
       // Create keyframe
       const keyframe: RaceTimelineHorseKeyframe = {
         frame,
         position: state.position,
         horse: state.horse._id,
-        status: state.endurance < 5 ? 'trotting' : 'running',
-        jockey_status: state.decelerating ? 'still' : 'riding',
-        interpolation: 'linear',
+        status: state.currentSpeed < 5 ? 'trotting' : 'running',
+        effects: [],
       };
 
       state.keyframes.push(keyframe);

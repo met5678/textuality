@@ -3,16 +3,7 @@ import { HorseId } from './horse';
 import Events from '/imports/api/events';
 import SimpleSchema from 'simpl-schema';
 import { MissionId } from '../mission';
-import {
-  JockeyStatus,
-  JOCKEY_STATUS,
-  HORSE_STATUS,
-  RaceTimeline,
-  RaceTimelineHorseKeyframe,
-  HorseStatus,
-  KEYFRAME_INTERPOLATION_VALUES,
-  RaceTimelineEffectKeyframe,
-} from './race-timeline/types';
+import { RaceTimeline } from './race-timeline/types';
 import { RaceTimelineSchema } from './race-timeline/schemas';
 
 const TRACK_CONDITION_VALUES = ['dry', 'soggy', 'muddy'] as const;
@@ -141,20 +132,13 @@ export {
   RACE_STATUS_VALUES,
   TRACK_CONDITION_VALUES,
   WEATHER_VALUES,
-  HORSE_STATUS,
-  JOCKEY_STATUS,
-  KEYFRAME_INTERPOLATION_VALUES,
 };
 export type {
   Race,
   RaceId,
   RaceStatus,
   RaceTimeline,
-  RaceTimelineHorseKeyframe,
-  RaceTimelineEffectKeyframe as RaceTimelineEventKeyframe,
   TrackCondition,
-  HorseStatus,
-  JockeyStatus,
   RaceHorseResult,
   Weather,
 };

@@ -1,9 +1,6 @@
 import { Meteor } from 'meteor/meteor';
-import { DateTime } from 'luxon';
 
 import Races from './races';
-import Events from '/imports/api/events';
-import Players from '/imports/api/players';
 import { RaceId } from '/imports/schemas/derby/race';
 import { generateTimelineWithResults } from './timeline/generate-timeline';
 import Horses from '../horse/horses';

@@ -8,7 +8,7 @@ import {
   RaceTimeline,
 } from '/imports/schemas/derby/race';
 import { OVERRUN_DISTANCE } from '/imports/api/themes/derby/race/timeline/generate-timeline';
-
+import { RaceTimelineEffectKeyframe } from '/imports/schemas/derby/race-timeline/types';
 interface RaceTimelineGraphProps {
   race: Race;
   horses: HorseWithHelpers[];
@@ -22,6 +22,8 @@ export const RaceTimelineGraph = ({
   timeline,
   results,
 }: RaceTimelineGraphProps) => {
+  console.log(timeline);
+
   // Prepare data for the chart
   const chartData = React.useMemo(() => {
     if (!timeline?.horses) return [];
@@ -109,9 +111,22 @@ export const RaceTimelineGraph = ({
           y={race.furlong_length}
           label="Finish Line"
           labelAlign="start"
-          lineStyle={{ stroke: 'red', strokeWidth: 2 }}
+          lineStyle={{ stroke: 'red', strokeWidth: 2, strokeDasharray: '2 2' }}
           labelStyle={{ fill: 'red' }}
         />
+        {timeline.effects.lightning?.map((strike) => (
+          <ChartsReferenceLine
+            key={strike.frame}
+            x={strike.frame}
+            label="⚡️"
+            labelAlign="middle"
+            lineStyle={{
+              stroke: '#ffeb3b',
+              strokeWidth: 1.5,
+              strokeDasharray: '4 2',
+            }}
+          />
+        ))}
       </LineChart>
     </Box>
   );

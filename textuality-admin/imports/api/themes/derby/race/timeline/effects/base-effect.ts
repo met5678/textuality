@@ -1,15 +1,26 @@
 import { RaceWithHelpers } from '../../races';
 import { HorseState } from '../generate-timeline';
-import { RaceTimelineEventKeyframe } from '/imports/schemas/derby/race';
-import { EffectType } from '/imports/schemas/derby/race-timeline/types';
+import {
+  EffectType,
+  RaceTimelineEffectKeyframe,
+} from '/imports/schemas/derby/race-timeline/types';
 
 export interface BaseEffect<T> {
-  effectType: EffectType;
+  effectType: EffectType | null;
   init: (race: RaceWithHelpers) => T;
-  update: (
+  generateEffectKeyframe: (
+    frame: number,
     race: RaceWithHelpers,
     horseStates: HorseState[],
     effectState: T,
-    addEffectKeyframe: (effectKeyframe: RaceTimelineEventKeyframe) => void,
+    random: () => number,
+  ) => RaceTimelineEffectKeyframe | null;
+
+  updateHorseStates: (
+    frame: number,
+    race: RaceWithHelpers,
+    horseStates: HorseState[],
+    effectState: T,
+    random: () => number,
   ) => void;
 }

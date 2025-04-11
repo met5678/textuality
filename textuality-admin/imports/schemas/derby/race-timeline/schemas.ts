@@ -1,10 +1,5 @@
 import SimpleSchema from 'simpl-schema';
-import {
-  EFFECT_TYPES,
-  HORSE_STATUS,
-  JOCKEY_STATUS,
-  KEYFRAME_INTERPOLATION_VALUES,
-} from './types';
+import { EFFECT_TYPES, HORSE_STATUS, HORSE_EFFECTS } from './types';
 
 export const RaceTimelineHorseKeyframeSchema = new SimpleSchema({
   frame: {
@@ -20,13 +15,13 @@ export const RaceTimelineHorseKeyframeSchema = new SimpleSchema({
     type: String,
     allowedValues: [...HORSE_STATUS],
   },
-  jockey_status: {
-    type: String,
-    allowedValues: [...JOCKEY_STATUS],
+  effects: {
+    type: Array,
+    defaultValue: [],
   },
-  interpolation: {
+  'effects.$': {
     type: String,
-    allowedValues: [...KEYFRAME_INTERPOLATION_VALUES],
+    allowedValues: [...HORSE_EFFECTS],
   },
 });
 
@@ -42,10 +37,6 @@ export const RaceTimelineEffectKeyframeSchema = new SimpleSchema({
     type: SimpleSchema.Integer,
     min: 1,
     max: 5,
-  },
-  interpolation: {
-    type: String,
-    allowedValues: [...KEYFRAME_INTERPOLATION_VALUES],
   },
 });
 

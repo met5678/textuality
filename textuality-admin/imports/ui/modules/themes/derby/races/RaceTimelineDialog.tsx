@@ -132,14 +132,20 @@ const RaceTimelineDialog = ({ raceId, onClose }: RaceTimelineDialogProps) => {
               <Typography variant="body2" gutterBottom>
                 Race Length (furlongs)
               </Typography>
-              <Slider
-                value={furlongLength}
-                onChange={(_, value) => setFurlongLength(value as number)}
-                min={5}
-                max={12}
-                step={1}
-                valueLabelDisplay="auto"
-              />
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <Slider
+                  value={furlongLength}
+                  onChange={(_, value) => setFurlongLength(value as number)}
+                  min={5}
+                  max={12}
+                  step={1}
+                  valueLabelDisplay="off"
+                  sx={{ flex: 1 }}
+                />
+                <Typography variant="body2" sx={{ minWidth: 20 }}>
+                  {furlongLength}
+                </Typography>
+              </Box>
             </Box>
           </Box>
 

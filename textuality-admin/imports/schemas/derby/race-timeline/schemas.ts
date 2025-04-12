@@ -55,4 +55,8 @@ export const RaceTimelineSchema = new SimpleSchema({
     type: Number,
     defaultValue: 0,
   },
+  is_playing: {
+    type: Boolean,
+    defaultValue: false,
+  },
 });

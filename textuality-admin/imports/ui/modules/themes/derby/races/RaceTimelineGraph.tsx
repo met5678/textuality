@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import { LineChart, ChartsReferenceLine } from '@mui/x-charts';
+import { LineChart, ChartsReferenceLine, ChartsAxisData } from '@mui/x-charts';
 import { HorseWithHelpers } from '/imports/api/themes/derby/horse/horses';
 import {
   Race,
@@ -9,6 +9,8 @@ import {
 } from '/imports/schemas/derby/race';
 import { OVERRUN_DISTANCE } from '/imports/api/themes/derby/race/timeline/generate-timeline';
 import { RaceTimelineEffectKeyframe } from '/imports/schemas/derby/race-timeline/types';
+import { Meteor } from 'meteor/meteor';
+
 interface RaceTimelineGraphProps {
   race: Race;
   horses: HorseWithHelpers[];
@@ -22,7 +24,15 @@ export const RaceTimelineGraph = ({
   timeline,
   results,
 }: RaceTimelineGraphProps) => {
-  console.log(timeline);
+  const handleChartClick = (event: MouseEvent, data: null | ChartsAxisData) => {
+    if (event.type === 'click' && data?.axisValue) {
+      const xValue = Math.round(Number(data.axisValue));
+      console.log('xValue', xValue);
+      if (xValue >= 0) {
+        Meteor.call('derby.races.seekToFrame', race._id, xValue);
+      }
+    }
+  };
 
   // Prepare data for the chart
   const chartData = React.useMemo(() => {
@@ -106,6 +116,7 @@ export const RaceTimelineGraph = ({
             itemMarkWidth: 10,
           },
         }}
+        onAxisClick={handleChartClick}
       >
         <ChartsReferenceLine
           y={race.furlong_length}
@@ -127,6 +138,26 @@ export const RaceTimelineGraph = ({
             }}
           />
         ))}
+        {timeline.effects.headwind?.map((gust) => (
+          <ChartsReferenceLine
+            key={gust.frame}
+            x={gust.frame}
+            label="💨"
+            labelAlign="middle"
+            lineStyle={{
+              stroke: '#90caf9',
+              strokeWidth: 1.5,
+              strokeDasharray: '2 4',
+            }}
+          />
+        ))}
+        <ChartsReferenceLine
+          x={timeline.current_frame}
+          label="Current Frame"
+          labelAlign="middle"
+          lineStyle={{ stroke: '#000000', strokeWidth: 3 }}
+          labelStyle={{ fill: '#000000', fontWeight: 'bold' }}
+        />
       </LineChart>
     </Box>
   );

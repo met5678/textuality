@@ -6,9 +6,6 @@ import { MissionId } from '../mission';
 import { RaceTimeline } from './race-timeline/types';
 import { RaceTimelineSchema } from './race-timeline/schemas';
 
-const TRACK_CONDITION_VALUES = ['dry', 'soggy', 'muddy'] as const;
-type TrackCondition = (typeof TRACK_CONDITION_VALUES)[number];
-
 const WEATHER_VALUES = ['clear', 'rain', 'windy', 'storm'] as const;
 type Weather = (typeof WEATHER_VALUES)[number];
 
@@ -41,7 +38,6 @@ type Race = {
   status: RaceStatus;
   timeline: RaceTimeline;
   furlong_length: number;
-  track_condition: TrackCondition;
   weather: Weather;
   linked_mission?: MissionId;
   results: RaceHorseResult[];
@@ -96,11 +92,6 @@ const RaceSchema = new SimpleSchema({
     type: RaceTimelineSchema,
     defaultValue: {},
   },
-  track_condition: {
-    type: String,
-    allowedValues: [...TRACK_CONDITION_VALUES],
-    defaultValue: 'dry',
-  },
   weather: {
     type: String,
     allowedValues: [...WEATHER_VALUES],
@@ -127,18 +118,12 @@ const RaceSchema = new SimpleSchema({
 });
 
 export default RaceSchema;
-export {
-  RaceSchema,
-  RACE_STATUS_VALUES,
-  TRACK_CONDITION_VALUES,
-  WEATHER_VALUES,
-};
+export { RaceSchema, RACE_STATUS_VALUES, WEATHER_VALUES };
 export type {
   Race,
   RaceId,
   RaceStatus,
   RaceTimeline,
-  TrackCondition,
   RaceHorseResult,
   Weather,
 };

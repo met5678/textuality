@@ -1,7 +1,7 @@
 import { HorseWithHelpers } from '../../horse/horses';
 import { BaseEffect } from './effects/base-effect';
 import { LightningEffect } from './effects/lightning';
-import { RaceTimeline, TrackCondition } from '/imports/schemas/derby/race';
+import { RaceTimeline, Weather } from '/imports/schemas/derby/race';
 import seedrandom from 'seedrandom';
 import {
   HorseEffect,
@@ -9,22 +9,16 @@ import {
 } from '/imports/schemas/derby/race-timeline/types';
 import { RaceWithHelpers } from '../races';
 import { FatigueEffect } from './effects/fatigue';
+import { WindEffect } from './effects/wind';
 
 /** How many seconds each keyframe represents */
-const KEYFRAME_INTERVAL_SECONDS = 1;
+export const KEYFRAME_INTERVAL_SECONDS = 1;
 const APPROXIMATE_SECONDS_PER_FURLONG = 6;
 
 export const OVERRUN_DISTANCE = 0.5; // furlongs to run past finish line
 
 /** Mostly to prevent infinite loops */
 const MAX_FRAMES = 200;
-
-// Track condition modifiers
-const TRACK_CONDITION_MODIFIERS: Record<TrackCondition, number> = {
-  dry: 1.0,
-  soggy: 0.8,
-  muddy: 0.6,
-};
 
 // Increased base speed to make races faster
 const BASE_SPEED = 1.4;
@@ -51,13 +45,20 @@ export type HorseState = {
   lastFrame: number;
 };
 
+const WEATHER_MODIFIERS: Record<Weather, number> = {
+  clear: 1.0,
+  windy: 1.0,
+  rain: 0.8,
+  storm: 0.7,
+};
+
 // Calculate a horse's base speed based on their stats, track condition, and race length
 const calculateBaseSpeed = (
   horse: HorseWithHelpers,
-  trackCondition: TrackCondition,
+  weather: Weather,
   raceLength: number,
 ) => {
-  const conditionModifier = TRACK_CONDITION_MODIFIERS[trackCondition];
+  const conditionModifier = WEATHER_MODIFIERS[weather];
   const speedEffect = horse.stats.speed / 10;
 
   // Calculate race length factor (0-1)
@@ -72,7 +73,7 @@ const calculateBaseSpeed = (
   return BASE_SPEED * conditionModifier * speedEffect * raceLengthSpeedBoost;
 };
 
-const EFFECTS: BaseEffect<any>[] = [LightningEffect, FatigueEffect];
+const EFFECTS: BaseEffect<any>[] = [WindEffect, LightningEffect, FatigueEffect];
 
 const initializeHorseStates = (
   race: RaceWithHelpers,
@@ -82,11 +83,7 @@ const initializeHorseStates = (
   return horses.map((horse) => ({
     horse,
     position: 0,
-    baseSpeed: calculateBaseSpeed(
-      horse,
-      race.track_condition,
-      race.furlong_length,
-    ),
+    baseSpeed: calculateBaseSpeed(horse, race.weather, race.furlong_length),
     fatigue: 0,
     currentSpeed: 0,
     keyframes: [] as RaceTimelineHorseKeyframe[],
@@ -111,6 +108,7 @@ export const generateTimelineWithResults = (
     horses: {},
     effects: {},
     current_frame: 0,
+    is_playing: false,
   };
 
   const horseStates = initializeHorseStates(race, horses);

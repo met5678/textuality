@@ -15,18 +15,18 @@ import {
   MenuItem,
   Slider,
   Typography,
+  ButtonGroup,
 } from '@mui/material';
 import Horses from '/imports/api/themes/derby/horse';
 import RaceSchema, {
   Race,
   RaceId,
-  TRACK_CONDITION_VALUES,
-  TrackCondition,
   Weather,
   WEATHER_VALUES,
 } from '/imports/schemas/derby/race';
 import Races from '/imports/api/themes/derby/race/races';
 import { RaceTimelineGraph } from './RaceTimelineGraph';
+import { KEYFRAME_INTERVAL_SECONDS } from '/imports/api/themes/derby/race/timeline/generate-timeline';
 
 interface RaceTimelineDialogProps {
   raceId: RaceId;
@@ -44,20 +44,19 @@ const RaceTimelineDialog = ({ raceId, onClose }: RaceTimelineDialogProps) => {
   const raceTimeline = useTracker(() => Races.findOne(race._id)?.timeline);
   const raceResults = useTracker(() => Races.findOne(race._id)?.results);
   const [seed, setSeed] = useState<string>('');
-  const [trackCondition, setTrackCondition] = useState<TrackCondition>(
-    race.track_condition,
-  );
   const [furlongLength, setFurlongLength] = useState<number>(
     race.furlong_length,
   );
   const [weather, setWeather] = useState<Weather>(race.weather || 'clear');
+  const currentFrame = useTracker(
+    () => Races.findOne(race._id)?.timeline?.current_frame || 0,
+  );
 
   const handleGenerateTimeline = async () => {
     try {
       // First update the race with current values
       await Meteor.callAsync('derby.races.update', {
         _id: race._id,
-        track_condition: trackCondition,
         furlong_length: furlongLength,
         weather: weather,
       });
@@ -73,6 +72,38 @@ const RaceTimelineDialog = ({ raceId, onClose }: RaceTimelineDialogProps) => {
     }
   };
 
+  const handleStartRace = async () => {
+    try {
+      await Meteor.callAsync('derby.races.startRace', raceId);
+    } catch (error) {
+      console.error('Error starting race:', error);
+    }
+  };
+
+  const handlePauseRace = async () => {
+    try {
+      await Meteor.callAsync('derby.races.pauseRace', raceId);
+    } catch (error) {
+      console.error('Error pausing race:', error);
+    }
+  };
+
+  const handleResumeRace = async () => {
+    try {
+      await Meteor.callAsync('derby.races.startRace', raceId, true);
+    } catch (error) {
+      console.error('Error resuming race:', error);
+    }
+  };
+
+  const handleStopRace = async () => {
+    try {
+      await Meteor.callAsync('derby.races.stopRace', raceId);
+    } catch (error) {
+      console.error('Error stopping race:', error);
+    }
+  };
+
   if (isLoadingHorses()) {
     return null;
   }
@@ -82,68 +113,99 @@ const RaceTimelineDialog = ({ raceId, onClose }: RaceTimelineDialogProps) => {
       <DialogTitle>Race Timeline</DialogTitle>
       <DialogContent>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-          <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-            <Button
-              variant="contained"
-              onClick={handleGenerateTimeline}
-              disabled={!race.horses?.length}
-            >
-              Generate Race Timeline
-            </Button>
-            <TextField
-              label="Seed"
-              value={seed}
-              onChange={(e) => setSeed(e.target.value)}
-              type="number"
-              size="small"
-              sx={{ width: 100 }}
-            />
-            <FormControl size="small" sx={{ minWidth: 200 }}>
-              <InputLabel>Track Condition</InputLabel>
-              <Select
-                value={trackCondition}
-                label="Track Condition"
-                onChange={(e) =>
-                  setTrackCondition(e.target.value as TrackCondition)
-                }
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+              <Button
+                variant="contained"
+                onClick={handleGenerateTimeline}
+                disabled={!race.horses?.length}
               >
-                {TRACK_CONDITION_VALUES.map((condition) => (
-                  <MenuItem key={condition} value={condition}>
-                    {condition.charAt(0).toUpperCase() + condition.slice(1)}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <FormControl size="small" sx={{ minWidth: 200 }}>
-              <InputLabel>Weather</InputLabel>
-              <Select
-                value={weather}
-                label="Weather"
-                onChange={(e) => setWeather(e.target.value as Weather)}
+                Generate Race Timeline
+              </Button>
+              <TextField
+                label="Seed"
+                value={seed}
+                onChange={(e) => setSeed(e.target.value)}
+                type="number"
+                size="small"
+                sx={{ width: 100 }}
+              />
+              <FormControl size="small" sx={{ minWidth: 200 }}>
+                <InputLabel>Weather</InputLabel>
+                <Select
+                  value={weather}
+                  label="Weather"
+                  onChange={(e) => setWeather(e.target.value as Weather)}
+                >
+                  {WEATHER_VALUES.map((condition) => (
+                    <MenuItem key={condition} value={condition}>
+                      {condition.charAt(0).toUpperCase() + condition.slice(1)}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <Box sx={{ width: 200 }}>
+                <Typography variant="body2" gutterBottom>
+                  Race Length (furlongs)
+                </Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                  <Slider
+                    value={furlongLength}
+                    onChange={(_, value) => setFurlongLength(value as number)}
+                    min={5}
+                    max={12}
+                    step={1}
+                    valueLabelDisplay="off"
+                    sx={{ flex: 1 }}
+                  />
+                  <Typography variant="body2" sx={{ minWidth: 20 }}>
+                    {furlongLength}
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+
+            <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+              <ButtonGroup variant="contained">
+                <Button
+                  onClick={handleStartRace}
+                  disabled={!raceTimeline || raceTimeline.is_playing}
+                >
+                  Start
+                </Button>
+                <Button
+                  onClick={handlePauseRace}
+                  disabled={!raceTimeline || !raceTimeline.is_playing}
+                >
+                  Pause
+                </Button>
+                <Button
+                  onClick={handleResumeRace}
+                  disabled={!raceTimeline || raceTimeline.is_playing}
+                >
+                  Resume
+                </Button>
+                <Button
+                  onClick={handleStopRace}
+                  disabled={!raceTimeline || !raceTimeline.is_playing}
+                >
+                  Stop
+                </Button>
+              </ButtonGroup>
+              <Box
+                sx={{ display: 'flex', alignItems: 'center', gap: 1, ml: 2 }}
               >
-                {WEATHER_VALUES.map((condition) => (
-                  <MenuItem key={condition} value={condition}>
-                    {condition.charAt(0).toUpperCase() + condition.slice(1)}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <Box sx={{ width: 200 }}>
-              <Typography variant="body2" gutterBottom>
-                Race Length (furlongs)
-              </Typography>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                <Slider
-                  value={furlongLength}
-                  onChange={(_, value) => setFurlongLength(value as number)}
-                  min={5}
-                  max={12}
-                  step={1}
-                  valueLabelDisplay="off"
-                  sx={{ flex: 1 }}
-                />
-                <Typography variant="body2" sx={{ minWidth: 20 }}>
-                  {furlongLength}
+                <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+                  Current Frame:
+                </Typography>
+                <Typography
+                  variant="body1"
+                  sx={{ minWidth: 40, textAlign: 'center' }}
+                >
+                  {currentFrame}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  ({Math.round(currentFrame * KEYFRAME_INTERVAL_SECONDS)}s)
                 </Typography>
               </Box>
             </Box>

@@ -5,8 +5,8 @@ export type HorseStatus = (typeof HORSE_STATUS)[number];
 
 export const HORSE_EFFECTS = [
   'electrocuted',
-  'being-blown-back',
-  'confused',
+  'blownback',
+  'luckyboost',
   'chasing',
 ] as const;
 export type HorseEffect = (typeof HORSE_EFFECTS)[number];
@@ -32,4 +32,5 @@ export type RaceTimeline = {
   horses: Record<string, RaceTimelineHorseKeyframe[]>;
   effects: Record<string, RaceTimelineEffectKeyframe[]>;
   current_frame: number;
+  is_playing: boolean;
 };

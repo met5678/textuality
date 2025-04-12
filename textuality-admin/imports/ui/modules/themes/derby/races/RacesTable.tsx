@@ -5,12 +5,7 @@ import { useSubscribe, useFind } from 'meteor/react-meteor-data';
 import Table from '/imports/ui/generic/Table/Table';
 
 import { GridColDef } from '@mui/x-data-grid';
-import {
-  Race,
-  RaceSchema,
-  TRACK_CONDITION_VALUES,
-  WEATHER_VALUES,
-} from '/imports/schemas/derby/race';
+import { Race, RaceSchema, WEATHER_VALUES } from '/imports/schemas/derby/race';
 import Races from '/imports/api/themes/derby/race';
 import { RaceWithHelpers } from '/imports/api/themes/derby/race/races';
 import { DateTime } from 'luxon';
@@ -71,17 +66,6 @@ const getColumns = ({
       },
     },
     {
-      field: 'track_condition',
-      headerName: 'Track',
-      width: 100,
-      editable: true,
-      type: 'singleSelect',
-      valueOptions: TRACK_CONDITION_VALUES.map((status) => ({
-        label: status,
-        value: status,
-      })),
-    },
-    {
       field: 'weather',
       headerName: 'Weather',
       width: 100,
@@ -94,7 +78,7 @@ const getColumns = ({
     },
     {
       field: 'furlong_length',
-      headerName: 'Furlong Length',
+      headerName: 'Furlongs',
       width: 100,
       editable: true,
       type: 'number',

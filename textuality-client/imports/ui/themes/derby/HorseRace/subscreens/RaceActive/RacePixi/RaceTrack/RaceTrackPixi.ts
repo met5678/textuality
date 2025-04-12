@@ -1,50 +1,70 @@
-import { Container, Sprite, Texture } from 'pixi.js';
-import { Race } from '/imports/schemas/derby/race';
-import RaceHorsePixi from '../RaceHorse/RaceHorsePixi';
+import { Assets, Container, Sprite, Texture, TilingSprite } from 'pixi.js';
+import { RaceTrack } from './RaceTrack';
+import { Weather } from '/imports/schemas/derby/race';
+
+const TRACK_EDGE_HEIGHT = 4;
+const TRACK_EDGE_TINT = 0x111122;
+const TRACK_TEXTURES: Record<Weather, string> = {
+  clear: '/derby/textures/dirt.png',
+  windy: '/derby/textures/dirt.png',
+  rain: '/derby/textures/mud.png',
+  storm: '/derby/textures/mud.png',
+};
 
 class RaceTrackPixi extends Container {
-  horse: RaceHorsePixi;
-  groundSprite: Sprite;
+  raceTrack: RaceTrack;
+  groundSprite: TilingSprite;
   topEdgeSprite: Sprite;
   bottomEdgeSprite: Sprite;
 
-  constructor(horse: RaceHorsePixi) {
+  constructor(raceTrack: RaceTrack) {
     super();
-    this.horse = horse;
-    this.groundSprite = new Sprite();
+    this.raceTrack = raceTrack;
+    this.groundSprite = new TilingSprite();
     this.topEdgeSprite = new Sprite();
     this.bottomEdgeSprite = new Sprite();
+
+    this.init();
+    this.update();
+  }
+
+  init() {
+    Assets.load(TRACK_TEXTURES[this.raceTrack.getWeather()]).then((texture) => {
+      this.groundSprite.texture = texture;
+    });
+    this.addChild(this.groundSprite);
+
+    this.topEdgeSprite.texture = Texture.WHITE;
+    this.topEdgeSprite.tint = TRACK_EDGE_TINT;
+    this.topEdgeSprite.anchor.y = 0.5;
+    this.addChild(this.topEdgeSprite);
+
+    this.bottomEdgeSprite.texture = Texture.WHITE;
+    this.bottomEdgeSprite.tint = TRACK_EDGE_TINT;
+    this.bottomEdgeSprite.anchor.y = 0.5;
+    this.addChild(this.bottomEdgeSprite);
   }
 
   setSize(width: number, height: number) {
     this.width = width;
     this.height = height;
+
+    this.groundSprite.width = width;
+    this.groundSprite.height = height;
+
+    this.topEdgeSprite.width = width;
+    this.topEdgeSprite.height = TRACK_EDGE_HEIGHT;
+
+    this.bottomEdgeSprite.width = width;
+    this.bottomEdgeSprite.height = TRACK_EDGE_HEIGHT;
+    this.bottomEdgeSprite.y = height;
   }
 
-  init() {
-    this.groundSprite.width = this.width;
-    this.groundSprite.height = this.height;
-    this.groundSprite.texture = Texture.WHITE;
-    this.groundSprite.tint = 0x227722;
-    this.addChild(this.groundSprite);
-
-    this.topEdgeSprite.width = this.width;
-    this.topEdgeSprite.height = 2;
-    this.topEdgeSprite.texture = Texture.WHITE;
-    this.topEdgeSprite.tint = 0x227722;
-    this.addChild(this.topEdgeSprite);
-
-    this.bottomEdgeSprite.width = this.width;
-    this.bottomEdgeSprite.height = 2;
-    this.bottomEdgeSprite.texture = Texture.WHITE;
-    this.bottomEdgeSprite.tint = 0x227722;
-    this.bottomEdgeSprite.y = this.height - this.bottomEdgeSprite.height;
-    this.addChild(this.bottomEdgeSprite);
-
-    this.addChild(this.horse);
+  update() {
+    const dimensions = this.raceTrack.getDimensions();
+    this.setSize(dimensions.width, dimensions.height);
+    this.position = this.raceTrack.getPosition();
   }
-
-  update() {}
 }
 
 export default RaceTrackPixi;

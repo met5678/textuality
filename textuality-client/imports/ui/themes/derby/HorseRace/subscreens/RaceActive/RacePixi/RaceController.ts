@@ -6,56 +6,109 @@ import {
   RaceId,
   RaceStatus,
   RaceTimeline,
-  TrackCondition,
+  Weather,
 } from '/imports/schemas/derby/race';
 import { Tracker } from 'meteor/tracker';
 import Horses from '/imports/api/themes/derby/horse';
 import Races from '/imports/api/themes/derby/race';
 import { HorseWithHelpers } from '/imports/api/themes/derby/horse/horses';
 import { RaceWithHelpers } from '/imports/api/themes/derby/race/races';
+import { RaceTimelineHorseKeyframe } from '/imports/schemas/derby/race-timeline/types';
+import { Dimensions } from './RacePixi.types';
 
 export class RaceController {
-  private raceId: RaceId;
+  private raceId: RaceId = '';
   private horses: RaceHorse[] = [];
   private tracks: RaceTrack[] = [];
   private camera: RaceCamera;
-  private condition: TrackCondition;
-  private timeline: RaceTimeline;
-  private status: RaceStatus;
+  private dimensions: Dimensions = { width: 0, height: 0 };
+
+  private furlong_length: number = 5;
+  private weather: Weather = 'clear';
+  private timeline: RaceTimeline = {
+    horses: {},
+    effects: {},
+    current_frame: 0,
+    is_playing: false,
+  };
 
   private subscriptions: {
     horses: Meteor.SubscriptionHandle | null;
-    race: Meteor.SubscriptionHandle | null;
   } = {
     horses: null,
-    race: null,
   };
 
-  constructor(raceWithHelpers: RaceWithHelpers) {
-    this.raceId = raceWithHelpers._id;
+  constructor() {
     this.camera = new RaceCamera();
-    this.mergeRace(raceWithHelpers);
   }
 
-  setupSubscriptions() {
-    this.subscriptions.horses = Meteor.subscribe('horses', this.raceId);
+  initRace(race: RaceWithHelpers) {
+    if (this.raceId !== race._id) {
+      this.raceId = race._id;
+      this.setupSubscriptions();
+    }
+    this.mergeRace(race);
+    console.log('initRace', { raceId: this.raceId });
+  }
+
+  async setupSubscriptions() {
+    this.subscriptions.horses?.stop();
+    this.subscriptions.horses = Meteor.subscribe('horses.all', this.raceId);
+
     Tracker.autorun(async (computation) => {
-      const race = await Races.findOneAsync({ _id: this.raceId });
+      const race = await Races.findOneAsync(this.raceId, {
+        fields: {
+          horses: 1,
+        },
+      });
       if (!race) {
-        throw new Error('Race not found');
+        console.error('Race not found');
+        return;
       }
       const horses = await Tracker.withComputation(computation, () =>
         Horses.find({ _id: { $in: race.horses } }).fetchAsync(),
       );
-      this.mergeRace(race);
       this.mergeHorses(horses);
+    });
+
+    // Timeline keyframes subscription
+    Tracker.autorun(async (computation) => {
+      const race = await Races.findOneAsync(this.raceId, {
+        fields: {
+          'timeline.horses': 1,
+          'timeline.effects': 1,
+        },
+      });
+      if (!race) {
+        return;
+      }
+      this.mergeKeyframes({
+        effects: race.timeline.effects,
+        horses: race.timeline.horses,
+      });
+    });
+
+    // Timeline playback subscription
+    Tracker.autorun(async (computation) => {
+      const race = await Races.findOneAsync(this.raceId, {
+        fields: {
+          'timeline.current_frame': 1,
+          'timeline.is_playing': 1,
+        },
+      });
+      if (!race) {
+        return;
+      }
+      this.updatePlayback({
+        current_frame: race.timeline.current_frame,
+        is_playing: race.timeline.is_playing,
+      });
     });
   }
 
   mergeRace(race: RaceWithHelpers) {
-    this.status = race.status;
-    this.condition = race.track_condition;
-    this.timeline = race.timeline;
+    this.weather = race.weather;
+    this.furlong_length = race.furlong_length;
   }
 
   mergeHorses(horses: HorseWithHelpers[]) {
@@ -64,6 +117,43 @@ export class RaceController {
     );
 
     this.horses = horses.map((horse) => new RaceHorse(horse));
+    this.tracks = this.horses.map(
+      (horse, index) => new RaceTrack(index, horse, this.furlong_length, this),
+    );
+  }
+
+  mergeKeyframes(timeline: Pick<RaceTimeline, 'horses' | 'effects'>) {
+    this.timeline.effects = timeline.effects;
+    this.timeline.horses = timeline.horses;
+  }
+
+  updatePlayback(playback: Pick<RaceTimeline, 'current_frame' | 'is_playing'>) {
+    this.timeline.current_frame = playback.current_frame;
+    this.timeline.is_playing = playback.is_playing;
+  }
+
+  setSize(width: number, height: number) {
+    this.dimensions.width = width;
+    this.dimensions.height = height;
+  }
+
+  getDimensions(): Dimensions {
+    return this.dimensions;
+  }
+
+  getTrackData(): Pick<RaceWithHelpers, 'weather' | 'furlong_length'> {
+    return {
+      weather: this.weather,
+      furlong_length: this.furlong_length,
+    };
+  }
+
+  getTracks(): RaceTrack[] {
+    return this.tracks;
+  }
+
+  getNumHorses(): number {
+    return this.horses.length;
   }
 
   destroy() {

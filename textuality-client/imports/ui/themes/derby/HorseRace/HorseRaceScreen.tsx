@@ -12,7 +12,7 @@ import { RaceIntro } from './subscreens/RaceIntro';
 
 const HorseRaceScreen = ({ event }: { event: Event }) => {
   useSubscribe('races.currentOrNext');
-  const race = useTracker(() => Races.findOne());
+  const race = useTracker(() => Races.findOne({}, { fields: { timeline: 0 } }));
 
   if (!race) {
     return (

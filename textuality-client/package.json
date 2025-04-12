@@ -23,6 +23,7 @@
     "js-confetti": "^0.11.0",
     "luxon": "^3.4.3",
     "meteor-node-stubs": "~1.2.5",
+    "pixi-viewport": "^6.0.3",
     "pixi.js": "^8.9.1",
     "pokemon": "^2.0.0",
     "react": "^19.1.0",
@@ -33,6 +34,7 @@
     "shuffle-array": "^1.0.1",
     "simpl-schema": "~3.2.0",
     "superb": "^4.0.0",
+    "use-resize-observer": "^9.1.0",
     "wouter": "~2.12.1"
   },
   "meteor": {

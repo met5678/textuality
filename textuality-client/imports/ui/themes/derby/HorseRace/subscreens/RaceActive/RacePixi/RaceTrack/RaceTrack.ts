@@ -1,69 +1,46 @@
-import { HorseWithHelpers } from '/imports/api/themes/derby/horse/horses';
-import { HorseId, HorseStats } from '/imports/schemas/derby/horse';
-import {
-  HorseStatus,
-  JockeyStatus,
-  RaceTimeline,
-  RaceTimelineHorseKeyframe,
-} from '/imports/schemas/derby/race';
+import { RaceController } from '../RaceController';
+import { RaceHorse } from '../RaceHorse/RaceHorse';
+import { Dimensions } from '../RacePixi.types';
+import { Weather } from '/imports/schemas/derby/race';
+
+export const UNITS_PER_FURLONG = 1000;
+export const TRACK_HEIGHT_UNITS = 150;
 
 export class RaceTrack {
-  id!: HorseId;
-  name!: string;
-  shortName!: string;
-  color!: string;
-  stats!: HorseStats;
-  keyframes: RaceTimelineHorseKeyframe[];
+  index: number;
+  horse: RaceHorse;
+  controller: RaceController;
+  height: number;
+  furlong_length: number;
 
-  currentPosition: number;
-  currentStatus: HorseStatus;
-  currentJockeyStatus: JockeyStatus;
-
-  constructor(horse: HorseWithHelpers) {
-    this.setHorse(horse);
-    this.keyframes = [];
-
-    this.currentStatus = 'still';
-    this.currentJockeyStatus = 'still';
-    this.currentPosition = 0;
+  constructor(
+    index: number,
+    horse: RaceHorse,
+    height: number,
+    controller: RaceController,
+  ) {
+    this.index = index;
+    this.horse = horse;
+    this.controller = controller;
+    this.height = height;
+    this.furlong_length = 5;
   }
 
-  setHorse(horse: HorseWithHelpers) {
-    this.id = horse._id;
-    this.name = horse.name;
-    this.shortName = horse.short_name;
-    this.color = horse.color;
-    this.stats = horse.stats;
+  getDimensions(): Dimensions {
+    return {
+      width: this.furlong_length * UNITS_PER_FURLONG,
+      height: TRACK_HEIGHT_UNITS,
+    };
   }
 
-  setKeyframes(timeline: RaceTimeline) {
-    this.keyframes = timeline.horses[this.id];
+  getPosition(): { x: number; y: number } {
+    return {
+      x: 0,
+      y: this.index * TRACK_HEIGHT_UNITS,
+    };
   }
 
-  /**
-   * Updates the timeline position of the horse. Finds the keyframe before and after
-   * the given position and interpolates the horse's position, status, and jockey status between them.
-   * @param timelineFrame - The frame in the timeline to update to.
-   */
-  updateForTimelineFrame(timelineFrame: number) {
-    const keyframeBefore = this.keyframes.find((k) => k.frame <= timelineFrame);
-    const keyframeAfter = this.keyframes.find((k) => k.frame > timelineFrame);
-
-    if (!keyframeBefore || !keyframeAfter) {
-      return;
-    }
-
-    this.currentPosition =
-      keyframeBefore.position +
-      ((keyframeAfter.position - keyframeBefore.position) *
-        (timelineFrame - keyframeBefore.frame)) /
-        (keyframeAfter.frame - keyframeBefore.frame);
-
-    if (this.currentStatus !== keyframeBefore.status) {
-      this.currentStatus = keyframeBefore.status;
-    }
-    if (this.currentJockeyStatus !== keyframeBefore.jockey_status) {
-      this.currentJockeyStatus = keyframeBefore.jockey_status;
-    }
+  getWeather(): Weather {
+    return this.controller.getTrackData().weather || 'clear';
   }
 }

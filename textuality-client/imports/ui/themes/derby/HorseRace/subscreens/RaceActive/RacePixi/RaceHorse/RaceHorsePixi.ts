@@ -1,19 +1,41 @@
-import { Application, Container, Sprite, Texture } from 'pixi.js';
+import {
+  AnimatedSprite,
+  Application,
+  Container,
+  Sprite,
+  Texture,
+} from 'pixi.js';
 import { HorseWithHelpers } from '/imports/api/themes/derby/horse/horses';
-class RaceHorsePixi extends Container {
-  private horseSprite: Sprite;
+import RaceTrackPixi from '../RaceTrack/RaceTrackPixi';
+import { RaceHorse } from '../RaceHorse/RaceHorse';
+import { HORSE_SPRITES } from './RaceHorseSprites';
 
-  constructor(horse: HorseWithHelpers) {
+class RaceHorsePixi extends Container {
+  private horseSprite: AnimatedSprite;
+  private raceHorse: RaceHorse;
+
+  constructor(horse: RaceHorse) {
     super();
-    this.horseSprite = new Sprite();
-    this.horseSprite.width = 50;
-    this.horseSprite.height = 50;
-    this.horseSprite.texture = Texture.WHITE;
-    this.horseSprite.tint = 0x227722;
+    this.raceHorse = horse;
+    console.log('horseSprite', HORSE_SPRITES.running);
+    this.horseSprite = new AnimatedSprite(HORSE_SPRITES.running, true);
+    this.horseSprite.anchor.set(1, 1);
+    this.horseSprite.label = 'horseSprite';
+    this.horseSprite.animationSpeed = 0.5;
+
+    this.horseSprite.scale.set(1);
+    this.horseSprite.play();
+    this.horseSprite.tint = this.raceHorse.horse.color;
     this.addChild(this.horseSprite);
+
+    // this.addChild(new Sprite(Texture.WHITE));
+    this.label = 'horseContainer';
   }
 
-  update() {}
+  update() {
+    this.x = this.raceHorse.x;
+    this.y = this.raceHorse.y;
+  }
 
   destroy() {
     this.horseSprite.destroy();

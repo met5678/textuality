@@ -176,9 +176,10 @@ export const generateTimelineWithResults = (
     });
 
     horseStates.forEach((state) => {
-      // Update horse's speed based on endurance and variation
+      // Update horse's speed based on endurance and variation.
+      // Add a bit of randomness to the speed to make it more interesting.
       state.currentSpeed =
-        state.baseSpeed * state.speedMultiplier * (0.6 + random() * 0.8);
+        state.baseSpeed * state.speedMultiplier * (0.9 + random() * 0.2);
 
       // Check if horse finished
       if (state.position >= race.furlong_length && !state.finishTime) {

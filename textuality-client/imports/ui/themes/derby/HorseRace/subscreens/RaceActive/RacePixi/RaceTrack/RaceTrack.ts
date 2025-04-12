@@ -1,34 +1,30 @@
 import { RaceController } from '../RaceController';
-import { RaceHorse } from '../RaceHorse/RaceHorse';
 import { Dimensions } from '../RacePixi.types';
+import { OVERRUN_DISTANCE } from '/imports/api/themes/derby/race/timeline/generate-timeline';
 import { Weather } from '/imports/schemas/derby/race';
 
-export const UNITS_PER_FURLONG = 1000;
-export const TRACK_HEIGHT_UNITS = 150;
+export const UNITS_PER_FURLONG = 3000;
+export const TRACK_HEIGHT_UNITS = 120;
 
 export class RaceTrack {
   index: number;
-  horse: RaceHorse;
   controller: RaceController;
-  height: number;
   furlong_length: number;
 
   constructor(
     index: number,
-    horse: RaceHorse,
-    height: number,
+    furlong_length: number,
     controller: RaceController,
   ) {
     this.index = index;
-    this.horse = horse;
     this.controller = controller;
-    this.height = height;
-    this.furlong_length = 5;
+    this.furlong_length = furlong_length;
+    console.log('furlong_length', this.furlong_length);
   }
 
   getDimensions(): Dimensions {
     return {
-      width: this.furlong_length * UNITS_PER_FURLONG,
+      width: (this.furlong_length + OVERRUN_DISTANCE) * UNITS_PER_FURLONG,
       height: TRACK_HEIGHT_UNITS,
     };
   }
@@ -42,5 +38,9 @@ export class RaceTrack {
 
   getWeather(): Weather {
     return this.controller.getTrackData().weather || 'clear';
+  }
+
+  getBottomY(): number {
+    return this.index * TRACK_HEIGHT_UNITS + TRACK_HEIGHT_UNITS;
   }
 }

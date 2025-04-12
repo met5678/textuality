@@ -24,7 +24,7 @@ const HorseRaceScreen = ({ event }: { event: Event }) => {
 
   return (
     <div id="horse-race-screen">
-      <RaceActiveSubsceen race={race} />
+      {race.status === 'active' && <RaceActiveSubsceen race={race} />}
       {/* <h1>Horse Race</h1> */}
       {/* {race.status === 'future' && <RaceUpcoming />}
       {race.status === 'bets-open' && <RaceBetting />}

@@ -49,12 +49,10 @@ const RaceFormDialog = ({ model, onClose }: RaceFormProps) => {
       />
       <UniformsAutoField name="time_race_starts_at" label="Race Start Time" />
       <SelectField
-        name="track_condition"
-        label="Track Condition"
+        name="weather"
+        label="Weather"
         creatable={false}
-        options={
-          RaceSchema.getAllowedValuesForKey('track_condition') as string[]
-        }
+        options={RaceSchema.getAllowedValuesForKey('weather') as string[]}
       />
       <ErrorsField />
     </AutoFormDialog>

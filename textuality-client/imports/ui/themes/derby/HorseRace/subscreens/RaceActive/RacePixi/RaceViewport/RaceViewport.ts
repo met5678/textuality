@@ -1,36 +1,64 @@
 import { Viewport } from 'pixi-viewport';
-import { RacePixi } from '../RacePixi';
 import { Application, Point } from 'pixi.js';
 import { RaceHorse } from '../RaceHorse/RaceHorse';
-export class RaceViewport extends Viewport {
-  constructor(app: Application) {
-    super({
-      screenWidth: app.screen.width,
-      screenHeight: app.screen.height,
-      worldWidth: 1000,
-      worldHeight: 1000,
-      events: app.renderer.events,
-    });
+import { Dimensions } from '../RacePixi.types';
+import { UNITS_PER_FURLONG } from '../RaceTrack/RaceTrack';
+const DEADZONE_START = 600;
+const DEADZONE_END = 500;
+const HORSE_LEAD_PADDING = 250;
+
+export class RaceViewport {
+  private scale: number = 0.5;
+  private viewportX: number = 0;
+  private screenSize: Dimensions = { width: 0, height: 0 };
+
+  constructor() {}
+
+  public setScreenSize(size: Dimensions) {
+    this.screenSize = size;
   }
 
-  setScreenSize(width: number, height: number) {
-    this.screenWidth = width;
-    this.screenHeight = height;
+  public getScale(): number {
+    return this.scale;
   }
 
-  setWorldSize(width: number, height: number) {
-    this.worldWidth = width;
-    this.worldHeight = height;
+  public getOffsetX(): number {
+    return -this.getViewportX();
   }
 
-  updateViewport(horses: RaceHorse[]) {
-    const horsePositions = horses.map((horse) => horse.x);
-    const minX = Math.min(...horsePositions);
-    const maxX = Math.max(...horsePositions);
-    const minY = Math.min(...horsePositions);
-    const maxY = Math.max(...horsePositions);
-    this.center = new Point((minX + maxX) / 2, (minY + maxY) / 2);
-    this.fit(true, maxX - minX, maxY - minY);
-    this.clamp();
+  public getOffsetY(): number {
+    return -this.getViewportY();
+  }
+
+  public getViewportX(): number {
+    return this.viewportX;
+  }
+
+  public getViewportY(): number {
+    return -100;
+  }
+
+  public update(horses: RaceHorse[], furlong_length: number) {
+    const furthestHorseX = horses.reduce((furthest, horse) => {
+      return Math.max(furthest, horse.x);
+    }, 0);
+
+    const finishLineX = furlong_length * UNITS_PER_FURLONG;
+
+    // Scale the horse's position to match viewport scale
+    const scaledFurthestHorse = furthestHorseX * this.scale;
+    const scaledFinishLineX = finishLineX * this.scale;
+    this.viewportX = Math.max(
+      -DEADZONE_START,
+      scaledFurthestHorse - this.screenSize.width + HORSE_LEAD_PADDING,
+    );
+    this.viewportX = Math.min(
+      this.viewportX,
+      scaledFinishLineX - this.screenSize.width + DEADZONE_END,
+    );
+  }
+
+  public destroy() {
+    // Cleanup if needed
   }
 }

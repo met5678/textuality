@@ -1,6 +1,6 @@
 import { Container, TilingSprite, Assets } from 'pixi.js';
 import { Dimensions } from '../RacePixi.types';
-
+import { PRE_START_FURLONGS, UNITS_PER_FURLONG } from '../RaceTrack/RaceTrack';
 export const BACKDROP_PADDING = 200;
 
 export class RaceBackdrop {
@@ -19,7 +19,8 @@ export class RaceBackdrop {
     );
     this.backdropFill.tileScale.set(1);
     this.updateWorldSize({ width: 8000, height: 8000 });
-    this.container.x = -BACKDROP_PADDING;
+    this.container.x =
+      -BACKDROP_PADDING - PRE_START_FURLONGS * UNITS_PER_FURLONG;
     this.container.y = -BACKDROP_PADDING;
     this.container.addChild(this.backdropFill);
     this.container.label = 'backdrop-container';

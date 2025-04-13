@@ -23,7 +23,6 @@ class RaceTrackPixi extends Container {
     this.groundSprite = new TilingSprite();
     this.topEdgeSprite = new Sprite();
     this.bottomEdgeSprite = new Sprite();
-
     this.init();
     this.update();
   }
@@ -33,25 +32,24 @@ class RaceTrackPixi extends Container {
       this.groundSprite.texture = texture;
     });
     this.addChild(this.groundSprite);
-    this.groundSprite.tileScale;
+    this.groundSprite.label = 'track-ground';
 
     this.topEdgeSprite.texture = Texture.WHITE;
     this.topEdgeSprite.tint = TRACK_EDGE_TINT;
     this.topEdgeSprite.anchor.y = 0.5;
     this.topEdgeSprite.alpha = 0.5;
     this.addChild(this.topEdgeSprite);
+    this.topEdgeSprite.label = 'track-top-edge';
 
     this.bottomEdgeSprite.texture = Texture.WHITE;
     this.bottomEdgeSprite.tint = TRACK_EDGE_TINT;
     this.bottomEdgeSprite.anchor.y = 0.5;
     this.bottomEdgeSprite.alpha = 0.5;
     this.addChild(this.bottomEdgeSprite);
+    this.bottomEdgeSprite.label = 'track-bottom-edge';
   }
 
   setSize(width: number, height: number) {
-    this.width = width;
-    this.height = height;
-
     this.groundSprite.width = width;
     this.groundSprite.height = height;
 
@@ -69,5 +67,4 @@ class RaceTrackPixi extends Container {
     this.position = this.raceTrack.getPosition();
   }
 }
-
 export default RaceTrackPixi;

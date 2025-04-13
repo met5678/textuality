@@ -66,6 +66,9 @@ Meteor.methods({
       }
       if (race.timeline.current_frame >= maxFrame) {
         Meteor.clearInterval(keyframeIntervalHandles[raceId]);
+        await Races.updateAsync(raceId, {
+          $set: { 'timeline.is_playing': false },
+        });
       }
     }, KEYFRAME_INTERVAL_SECONDS * 1000);
   },

@@ -1,20 +1,15 @@
-import {
-  Application,
-  Assets,
-  Container,
-  Texture,
-  Ticker,
-  TilingSprite,
-} from 'pixi.js';
+import { Application, Container, Ticker } from 'pixi.js';
 import { RaceWithHelpers } from '/imports/api/themes/derby/race/races';
 import { HorseWithHelpers } from '/imports/api/themes/derby/horse/horses';
 import RaceTrackPixi from './RaceTrack/RaceTrackPixi';
 import RaceHorsePixi from './RaceHorse/RaceHorsePixi';
 import { RaceController } from './RaceController';
 import { loadHorseSprites } from './RaceHorse/RaceHorseSprites';
-import { RaceViewport } from './RaceViewport/RaceViewport';
 import { Dimensions } from './RacePixi.types';
 import { RaceBackdrop } from './RaceBackdrop/RaceBackdrop';
+import { RaceViewportPixi } from './RaceViewport/RaceViewportPixi';
+import { RaceFinishLine } from './RaceFinishLine/RaceFinishLine';
+import { RaceStartLine } from './RaceStartLine/RaceStartLine';
 
 export class RacePixi {
   private app!: Application;
@@ -22,10 +17,12 @@ export class RacePixi {
   private ticker: Ticker;
 
   private backdrop: RaceBackdrop;
-  private viewport: Container = new Container();
+  private viewport!: RaceViewportPixi;
   private tracksContainer: Container = new Container();
   private horsesContainer: Container = new Container();
   private effectsOverlay: Container = new Container();
+  private finishLine: RaceFinishLine | null = null;
+  private startLine: RaceStartLine | null = null;
 
   private worldSize: Dimensions = { width: 0, height: 0 };
 
@@ -55,17 +52,18 @@ export class RacePixi {
     await loadHorseSprites();
     await this.backdrop.init();
 
-    this.app.stage.addChild(this.viewport);
+    this.viewport = new RaceViewportPixi(this.app, this.controller);
+    this.app.stage.addChild(this.viewport.getContainer());
+
+    // Add containers in correct order: backdrop -> tracks -> finish line -> horses -> effects
     this.viewport.addChild(this.backdrop.getContainer());
     this.viewport.addChild(this.tracksContainer);
     this.viewport.addChild(this.horsesContainer);
-    this.viewport.label = 'viewport';
     this.app.stage.addChild(this.effectsOverlay);
+
     this.tracksContainer.label = 'tracksContainer';
     this.horsesContainer.label = 'horsesContainer';
     this.effectsOverlay.label = 'effectsOverlay';
-    this.viewport.scale.set(0.6);
-    this.viewport.position.set(100, 100);
 
     this.ticker.add(() => this.update());
 
@@ -82,10 +80,7 @@ export class RacePixi {
       const trackPixi = new RaceTrackPixi(track);
       this.tracks.push(trackPixi);
       this.tracksContainer.addChild(trackPixi);
-      this.worldSize.width = Math.max(
-        this.worldSize.width,
-        track.getDimensions().width,
-      );
+      this.worldSize.width = Math.max(this.worldSize.width, trackPixi.width);
       this.worldSize.height += track.getDimensions().height;
     });
     this.controller.getHorses().forEach((horse, index) => {
@@ -95,6 +90,39 @@ export class RacePixi {
     });
 
     this.backdrop.updateWorldSize(this.worldSize);
+
+    // Create finish line between tracks and horses
+    if (this.finishLine) {
+      this.finishLine.destroy();
+      this.finishLine
+        .getContainer()
+        .parent?.removeChild(this.finishLine.getContainer());
+    }
+    const { furlong_length } = this.controller.getTrackData();
+    this.finishLine = new RaceFinishLine(
+      this.controller.getTracks(),
+      furlong_length,
+    );
+
+    // Create start line between tracks and horses
+    if (this.startLine) {
+      this.startLine.destroy();
+      this.startLine
+        .getContainer()
+        .parent?.removeChild(this.startLine.getContainer());
+    }
+    this.startLine = new RaceStartLine(this.controller.getTracks());
+
+    // Insert finish line and start line between tracks and horses
+    const horsesIndex = this.viewport
+      .getContainer()
+      .getChildIndex(this.horsesContainer);
+    this.viewport
+      .getContainer()
+      .addChildAt(this.finishLine.getContainer(), horsesIndex);
+    this.viewport
+      .getContainer()
+      .addChildAt(this.startLine.getContainer(), horsesIndex);
   }
 
   update() {
@@ -103,20 +131,15 @@ export class RacePixi {
     }
     this.tracks.forEach((track) => track.update());
     this.horses.forEach((horse) => horse.update());
-
-    const furthestHorse = this.horses.reduce((furthest, horse) => {
-      return Math.max(furthest, horse.x);
-    }, 0);
-
-    // Scale the horse's position to match viewport scale (0.5)
-    const scaledFurthestHorse = furthestHorse * this.viewport.scale.x;
-    this.viewport.x =
-      100 - Math.max(0, scaledFurthestHorse - this.app.screen.width + 200);
+    this.viewport.update();
   }
 
   destroy() {
     this.ticker.remove(this.update);
     this.backdrop.destroy();
+    this.viewport.destroy();
+    this.finishLine?.destroy();
+    this.startLine?.destroy();
     this.app.destroy();
   }
 }

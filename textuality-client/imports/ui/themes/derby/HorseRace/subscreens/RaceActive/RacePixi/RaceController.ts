@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { RaceHorse } from './RaceHorse/RaceHorse';
 import { RaceTrack } from './RaceTrack/RaceTrack';
+import { RaceViewport } from './RaceViewport/RaceViewport';
 import {
   RaceId,
   RaceStatus,
@@ -20,12 +21,13 @@ export class RaceController {
   private raceId: RaceId = '';
   private horses: RaceHorse[] = [];
   private tracks: RaceTrack[] = [];
-  private dimensions: Dimensions = { width: 0, height: 0 };
+  private screenSize: Dimensions = { width: 0, height: 0 };
   private ticker: Ticker;
   private _tickerUpdate: () => void;
   private _timeAtLastFrameUpdate: number = 0;
   private furlong_length: number = 5;
   private weather: Weather = 'clear';
+  private viewport: RaceViewport;
   private timeline: RaceTimeline = {
     horses: {},
     effects: {},
@@ -43,6 +45,7 @@ export class RaceController {
     this.ticker = ticker;
     this._tickerUpdate = this.update.bind(this);
     this.ticker.add(this._tickerUpdate);
+    this.viewport = new RaceViewport();
   }
 
   initRace(race: RaceWithHelpers) {
@@ -153,12 +156,13 @@ export class RaceController {
   }
 
   setSize(width: number, height: number) {
-    this.dimensions.width = width;
-    this.dimensions.height = height;
+    this.screenSize.width = width;
+    this.screenSize.height = height;
+    this.viewport.setScreenSize({ width, height });
   }
 
   getDimensions(): Dimensions {
-    return this.dimensions;
+    return this.screenSize;
   }
 
   getTrackData(): Pick<RaceWithHelpers, 'weather' | 'furlong_length'> {
@@ -180,6 +184,10 @@ export class RaceController {
     return this.horses.length;
   }
 
+  getViewport(): RaceViewport {
+    return this.viewport;
+  }
+
   update() {
     let time = 0;
     if (this.timeline.is_playing) {
@@ -193,11 +201,14 @@ export class RaceController {
     this.horses.forEach((horse) => {
       horse.update(time);
     });
+
+    this.viewport.update(this.horses, this.furlong_length);
   }
 
   destroy() {
     this.subscriptions.horses?.stop();
     this.subscriptions.horses = null;
+    this.viewport.destroy();
     this.ticker.remove(this._tickerUpdate);
   }
 }

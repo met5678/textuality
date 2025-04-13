@@ -122,18 +122,7 @@ export const generateTimelineWithResults = (
     }
   });
 
-  // Add initial keyframe at position 0 for all horses
-  horseStates.forEach((state) => {
-    state.keyframes.push({
-      frame: 0,
-      horse: state.horse._id,
-      position: 0,
-      status: 'still',
-      effects: [],
-    });
-  });
-
-  let frame = 1;
+  let frame = 0;
   let allFinished = false;
 
   while (!allFinished && frame < MAX_FRAMES) {

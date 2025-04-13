@@ -4,6 +4,7 @@ import { OVERRUN_DISTANCE } from '/imports/api/themes/derby/race/timeline/genera
 import { Weather } from '/imports/schemas/derby/race';
 
 export const UNITS_PER_FURLONG = 3000;
+export const PRE_START_FURLONGS = 0.5;
 export const TRACK_HEIGHT_UNITS = 120;
 
 export class RaceTrack {
@@ -19,25 +20,33 @@ export class RaceTrack {
     this.index = index;
     this.controller = controller;
     this.furlong_length = furlong_length;
-    console.log('furlong_length', this.furlong_length);
   }
 
   getDimensions(): Dimensions {
     return {
-      width: (this.furlong_length + OVERRUN_DISTANCE) * UNITS_PER_FURLONG,
+      width:
+        (this.furlong_length + OVERRUN_DISTANCE + PRE_START_FURLONGS) *
+        UNITS_PER_FURLONG,
       height: TRACK_HEIGHT_UNITS,
     };
   }
 
   getPosition(): { x: number; y: number } {
     return {
-      x: 0,
+      x: -PRE_START_FURLONGS * UNITS_PER_FURLONG,
       y: this.index * TRACK_HEIGHT_UNITS,
     };
   }
 
   getWeather(): Weather {
     return this.controller.getTrackData().weather || 'clear';
+  }
+
+  getStartingGatePosition(): { x: number; y: number } {
+    return {
+      x: PRE_START_FURLONGS * UNITS_PER_FURLONG,
+      y: this.getBottomY(),
+    };
   }
 
   getBottomY(): number {

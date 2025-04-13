@@ -17,7 +17,6 @@ Meteor.publish('races.currentOrNext', function () {
       },
       {
         sort: { time_bets_start_at: 1 },
-        limit: 1,
         fields: {
           event: 1,
           horses: 1,

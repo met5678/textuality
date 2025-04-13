@@ -15,7 +15,6 @@ import {
   MenuItem,
   Slider,
   Typography,
-  ButtonGroup,
 } from '@mui/material';
 import Horses from '/imports/api/themes/derby/horse';
 import RaceSchema, {
@@ -27,6 +26,7 @@ import RaceSchema, {
 import Races from '/imports/api/themes/derby/race/races';
 import { RaceTimelineGraph } from './RaceTimelineGraph';
 import { KEYFRAME_INTERVAL_SECONDS } from '/imports/api/themes/derby/race/timeline/generate-timeline';
+import { RacePlaybackControls } from './components/RacePlaybackControls';
 
 interface RaceTimelineDialogProps {
   raceId: RaceId;
@@ -166,32 +166,14 @@ const RaceTimelineDialog = ({ raceId, onClose }: RaceTimelineDialogProps) => {
             </Box>
 
             <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-              <ButtonGroup variant="contained">
-                <Button
-                  onClick={handleStartRace}
-                  disabled={!raceTimeline || raceTimeline.is_playing}
-                >
-                  Start
-                </Button>
-                <Button
-                  onClick={handlePauseRace}
-                  disabled={!raceTimeline || !raceTimeline.is_playing}
-                >
-                  Pause
-                </Button>
-                <Button
-                  onClick={handleResumeRace}
-                  disabled={!raceTimeline || raceTimeline.is_playing}
-                >
-                  Resume
-                </Button>
-                <Button
-                  onClick={handleStopRace}
-                  disabled={!raceTimeline || !raceTimeline.is_playing}
-                >
-                  Stop
-                </Button>
-              </ButtonGroup>
+              <RacePlaybackControls
+                raceId={raceId}
+                timeline={raceTimeline}
+                onStart={handleStartRace}
+                onPause={handlePauseRace}
+                onResume={handleResumeRace}
+                onStop={handleStopRace}
+              />
               <Box
                 sx={{ display: 'flex', alignItems: 'center', gap: 1, ml: 2 }}
               >

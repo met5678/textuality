@@ -17,7 +17,6 @@ class RaceHorsePixi extends Container {
   constructor(horse: RaceHorse) {
     super();
     this.raceHorse = horse;
-    console.log('horseSprite', HORSE_SPRITES.running);
     this.horseSprite = new AnimatedSprite(HORSE_SPRITES.running, true);
     this.horseSprite.anchor.set(1, 1);
     this.horseSprite.label = 'horseSprite';

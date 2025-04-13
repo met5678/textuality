@@ -12,13 +12,14 @@ import { DateTime } from 'luxon';
 import RaceFormDialog from './RaceFormDialog';
 import { RACE_STATUS_VALUES } from '/imports/schemas/derby/race';
 import { TableToggle } from '/imports/ui/generic/TableToggle/TableToggle';
-import { Button } from '@mui/material';
+import { Button, Typography, Box } from '@mui/material';
 import HorseSelectionDialog from './HorseSelectionDialog';
 import Missions from '/imports/api/missions';
 import { Mission } from '/imports/schemas/mission';
 import RaceTimelineDialog from './RaceTimelineDialog';
 import { Horse } from '/imports/schemas/derby/horse';
 import Horses from '/imports/api/themes/derby/horse';
+import { RacePlaybackControls } from './components/RacePlaybackControls';
 
 const getColumns = ({
   onEditTimeline,
@@ -31,6 +32,38 @@ const getColumns = ({
   missions: Pick<Mission, 'name' | '_id'>[];
   onOpenTimeline: (race: RaceWithHelpers) => void;
 }): GridColDef<RaceWithHelpers>[] => {
+  const handleStartRace = async (raceId: string) => {
+    try {
+      await Meteor.callAsync('derby.races.startRace', raceId);
+    } catch (error) {
+      console.error('Error starting race:', error);
+    }
+  };
+
+  const handlePauseRace = async (raceId: string) => {
+    try {
+      await Meteor.callAsync('derby.races.pauseRace', raceId);
+    } catch (error) {
+      console.error('Error pausing race:', error);
+    }
+  };
+
+  const handleResumeRace = async (raceId: string) => {
+    try {
+      await Meteor.callAsync('derby.races.startRace', raceId, true);
+    } catch (error) {
+      console.error('Error resuming race:', error);
+    }
+  };
+
+  const handleStopRace = async (raceId: string) => {
+    try {
+      await Meteor.callAsync('derby.races.stopRace', raceId);
+    } catch (error) {
+      console.error('Error stopping race:', error);
+    }
+  };
+
   return [
     {
       field: 'status',
@@ -111,6 +144,30 @@ const getColumns = ({
         >
           Timeline
         </Button>
+      ),
+    },
+    {
+      field: 'playback',
+      headerName: 'Playback',
+      width: 140,
+      sortable: false,
+      renderCell: (params) => (
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <RacePlaybackControls
+            raceId={params.row._id}
+            timeline={params.row.timeline}
+            size="small"
+            onStart={() => handleStartRace(params.row._id)}
+            onPause={() => handlePauseRace(params.row._id)}
+            onResume={() => handleResumeRace(params.row._id)}
+            onStop={() => handleStopRace(params.row._id)}
+          />
+          {params.row.timeline?.current_frame !== undefined && (
+            <Typography variant="body2" ml={1}>
+              {params.row.timeline.current_frame}
+            </Typography>
+          )}
+        </Box>
       ),
     },
     {

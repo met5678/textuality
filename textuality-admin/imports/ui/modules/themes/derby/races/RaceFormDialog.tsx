@@ -43,11 +43,8 @@ const RaceFormDialog = ({ model, onClose }: RaceFormProps) => {
       <EventField />
       <UniformsAutoField name="scheduled" label="Scheduled" />
       <UniformsAutoField name="time_bets_start_at" label="Bets Start Time" />
-      <UniformsAutoField
-        name="time_race_intro_starts_at"
-        label="Race Intro Start Time"
-      />
       <UniformsAutoField name="time_race_starts_at" label="Race Start Time" />
+      <UniformsAutoField name="furlong_length" label="Furlong Length" />
       <SelectField
         name="weather"
         label="Weather"

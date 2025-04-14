@@ -16,6 +16,7 @@ const RACE_STATUS_VALUES = [
   'active',
   'results',
   'bet-winners',
+  'inactive',
 ] as const;
 type RaceStatus = (typeof RACE_STATUS_VALUES)[number];
 
@@ -25,15 +26,21 @@ type RaceHorseResult = {
   placement: number;
 };
 
+type RaceHorseOdds = {
+  horse: HorseId;
+  odds: number;
+};
+
 type RaceId = string;
 
 type Race = {
   _id: RaceId;
   event: EventId;
+  number: number;
+  name?: string;
   horses: HorseId[];
   scheduled: boolean;
   time_bets_start_at: Date;
-  time_race_intro_starts_at: Date;
   time_race_starts_at: Date;
   status: RaceStatus;
   timeline: RaceTimeline;
@@ -41,6 +48,7 @@ type Race = {
   weather: Weather;
   linked_mission?: MissionId;
   results: RaceHorseResult[];
+  odds: RaceHorseOdds[];
 };
 
 const RaceHorseResultSchema = new SimpleSchema({
@@ -55,10 +63,28 @@ const RaceHorseResultSchema = new SimpleSchema({
   },
 });
 
+const RaceHorseOddsSchema = new SimpleSchema({
+  horse: {
+    type: String,
+  },
+  odds: {
+    type: SimpleSchema.Integer,
+    min: 1,
+  },
+});
+
 const RaceSchema = new SimpleSchema({
   event: {
     type: String,
     allowedValues: Events.allIds,
+  },
+  number: {
+    type: SimpleSchema.Integer,
+    min: 0,
+  },
+  name: {
+    type: String,
+    optional: true,
   },
   horses: {
     type: Array,
@@ -75,10 +101,6 @@ const RaceSchema = new SimpleSchema({
     type: Date,
     optional: true,
   },
-  time_race_intro_starts_at: {
-    type: Date,
-    optional: true,
-  },
   time_race_starts_at: {
     type: Date,
     optional: true,
@@ -86,7 +108,7 @@ const RaceSchema = new SimpleSchema({
   status: {
     type: String,
     allowedValues: [...RACE_STATUS_VALUES],
-    defaultValue: 'future',
+    defaultValue: 'inactive',
   },
   timeline: {
     type: RaceTimelineSchema,
@@ -102,6 +124,13 @@ const RaceSchema = new SimpleSchema({
     defaultValue: 8,
     min: 5,
     max: 12,
+  },
+  odds: {
+    type: Array,
+    defaultValue: [],
+  },
+  'odds.$': {
+    type: RaceHorseOddsSchema,
   },
   results: {
     type: Array,
@@ -125,5 +154,6 @@ export type {
   RaceStatus,
   RaceTimeline,
   RaceHorseResult,
+  RaceHorseOdds,
   Weather,
 };

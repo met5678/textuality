@@ -11,75 +11,76 @@ import { OptionalId, UpdateRequiredId } from '/imports/utils/optional-id';
 import { EventId } from '/imports/schemas/event';
 
 Meteor.methods({
-  'derby.races.new': (race: OptionalId<Race>) => {
-    const id = Races.insert(race);
+  'derby.races.new': async (race: OptionalId<Race>) => {
+    const id = await Races.insertAsync(race);
     return id;
   },
 
-  'derby.races.update': (race: UpdateRequiredId<Race>) => {
-    Races.update(race._id, { $set: race });
+  'derby.races.update': async (race: UpdateRequiredId<Race>) => {
+    await Races.updateAsync(race._id, { $set: race });
   },
 
-  'derby.races.duplicate': (raceId: RaceId) => {
-    const raceToDuplicate = Races.findOne(raceId);
+  'derby.races.duplicate': async (raceId: RaceId) => {
+    const raceToDuplicate = await Races.findOneAsync(raceId);
     if (!raceToDuplicate) return;
     const newRace: OptionalId<Race> = {
       ...raceToDuplicate,
     };
     delete newRace._id;
-    Races.insert(newRace);
+    await Races.insertAsync(newRace);
   },
 
-  'derby.races.delete': (raceId: RaceId) => {
+  'derby.races.delete': async (raceId: RaceId) => {
     if (Array.isArray(raceId)) {
-      Races.remove({ _id: { $in: raceId } });
+      await Races.removeAsync({ _id: { $in: raceId } });
     } else {
-      Races.remove(raceId);
+      await Races.removeAsync(raceId);
     }
   },
 
-  'derby.races.updateStatus': (raceId: RaceId, status: RaceStatus) => {
-    Races.update(raceId, {
+  'derby.races.updateStatus': async (raceId: RaceId, status: RaceStatus) => {
+    await Races.updateAsync(raceId, {
       $set: { status },
     });
   },
 
-  'derby.races.updateTimeline': (raceId: RaceId, timeline: RaceTimeline) => {
-    Races.update(raceId, {
+  'derby.races.updateTimeline': async (
+    raceId: RaceId,
+    timeline: RaceTimeline,
+  ) => {
+    await Races.updateAsync(raceId, {
       $set: { timeline },
     });
   },
 
-  'derby.races.resetEvent': (eventId: EventId) => {
-    Races.update(
+  'derby.races.resetEvent': async (eventId: EventId) => {
+    await Races.updateAsync(
       { event: eventId },
       {
         $set: {
           status: 'future',
-          timeline: {
-            horses: {},
-            effects: {},
-            current_frame: 0,
-          },
+          odds: [],
+          timeline: {},
         },
       },
       { multi: true },
     );
   },
 
-  'derby.races.copyFrom': (
+  'derby.races.copyFrom': async (
     destinationEventId: EventId,
     sourceEventId: EventId,
   ) => {
-    Races.remove({ event: destinationEventId });
-    const sourceRaces = Races.find({ event: sourceEventId }).fetch();
-    sourceRaces.forEach((sourceRace) => {
+    await Races.removeAsync({ event: destinationEventId });
+    const sourceRaces = await Races.find({ event: sourceEventId }).fetchAsync();
+
+    for (const sourceRace of sourceRaces) {
       const newRace: OptionalId<Race> = {
         ...sourceRace,
         event: destinationEventId,
       };
       delete newRace._id;
-      Races.insert(newRace);
-    });
+      await Races.insertAsync(newRace);
+    }
   },
 });

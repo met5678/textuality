@@ -12,7 +12,7 @@ import { DateTime } from 'luxon';
 import RaceFormDialog from './RaceFormDialog';
 import { RACE_STATUS_VALUES } from '/imports/schemas/derby/race';
 import { TableToggle } from '/imports/ui/generic/TableToggle/TableToggle';
-import { Button, Typography, Box } from '@mui/material';
+import { Button, Typography, Box, TextField, Input } from '@mui/material';
 import HorseSelectionDialog from './HorseSelectionDialog';
 import Missions from '/imports/api/missions';
 import { Mission } from '/imports/schemas/mission';
@@ -66,9 +66,22 @@ const getColumns = ({
 
   return [
     {
+      field: 'number',
+      headerName: '#',
+      width: 60,
+      editable: true,
+      type: 'number',
+    },
+    {
+      field: 'name',
+      headerName: 'Name',
+      width: 120,
+      editable: true,
+    },
+    {
       field: 'status',
       headerName: 'Status',
-      width: 120,
+      width: 100,
       editable: true,
       type: 'singleSelect',
       valueOptions: RACE_STATUS_VALUES.map((status) => ({
@@ -77,31 +90,39 @@ const getColumns = ({
       })),
     },
     {
+      field: 'scheduled',
+      headerName: 'Scheduled',
+      width: 100,
+      type: 'boolean',
+      editable: true,
+      renderCell: (params) => <TableToggle {...params} />,
+    },
+    {
       field: 'time_bets_start_at',
-      headerName: 'Bets Start',
-      width: 120,
+      headerName: 'Bets Open',
+      width: 100,
       editable: true,
       type: 'dateTime',
       valueFormatter: (value) => {
         if (!value) return '--';
-        return DateTime.fromJSDate(value).toFormat('h:mm:ss a');
+        return DateTime.fromJSDate(value).toFormat('h:mm a');
       },
     },
     {
       field: 'time_race_starts_at',
       headerName: 'Race Start',
-      width: 120,
+      width: 100,
       editable: true,
       type: 'dateTime',
       valueFormatter: (value) => {
         if (!value) return '--';
-        return DateTime.fromJSDate(value).toFormat('h:mm:ss a');
+        return DateTime.fromJSDate(value).toFormat('h:mm a');
       },
     },
     {
       field: 'weather',
       headerName: 'Weather',
-      width: 100,
+      width: 80,
       editable: true,
       type: 'singleSelect',
       valueOptions: WEATHER_VALUES.map((status) => ({
@@ -112,7 +133,7 @@ const getColumns = ({
     {
       field: 'furlong_length',
       headerName: 'Furlongs',
-      width: 100,
+      width: 80,
       editable: true,
       type: 'number',
     },
@@ -169,14 +190,6 @@ const getColumns = ({
           )}
         </Box>
       ),
-    },
-    {
-      field: 'scheduled',
-      headerName: 'Scheduled',
-      width: 100,
-      type: 'boolean',
-      editable: true,
-      renderCell: (params) => <TableToggle {...params} />,
     },
     {
       field: 'linked_mission',
@@ -245,8 +258,6 @@ const RacesTable = () => {
         }}
         canAdd={true}
         onAdd={() => setEditRace(RaceSchema.clean({}))}
-        canEdit={true}
-        onEdit={setEditRace}
         onEditCell={(race) => {
           Meteor.call('derby.races.update', race);
           return race;

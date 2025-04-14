@@ -60,7 +60,12 @@ Meteor.methods({
         $set: {
           status: 'future',
           odds: [],
-          timeline: {},
+          timeline: {
+            horses: {},
+            effects: {},
+            current_frame: 0,
+            is_playing: false,
+          },
         },
       },
       { multi: true },

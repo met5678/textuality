@@ -8,8 +8,7 @@ import { loadHorseSprites } from './RaceHorse/RaceHorseSprites';
 import { Dimensions } from './RacePixi.types';
 import { RaceBackdrop } from './RaceBackdrop/RaceBackdrop';
 import { RaceViewportPixi } from './RaceViewport/RaceViewportPixi';
-import { RaceFinishLine } from './RaceFinishLine/RaceFinishLine';
-import { RaceStartLine } from './RaceStartLine/RaceStartLine';
+import { RaceLines } from './RaceLines/RaceLines';
 
 export class RacePixi {
   private app!: Application;
@@ -21,8 +20,7 @@ export class RacePixi {
   private tracksContainer: Container = new Container();
   private horsesContainer: Container = new Container();
   private effectsOverlay: Container = new Container();
-  private finishLine: RaceFinishLine | null = null;
-  private startLine: RaceStartLine | null = null;
+  private raceLines: RaceLines | null = null;
 
   private worldSize: Dimensions = { width: 0, height: 0 };
 
@@ -80,7 +78,10 @@ export class RacePixi {
       const trackPixi = new RaceTrackPixi(track);
       this.tracks.push(trackPixi);
       this.tracksContainer.addChild(trackPixi);
-      this.worldSize.width = Math.max(this.worldSize.width, trackPixi.width);
+      this.worldSize.width = Math.max(
+        this.worldSize.width,
+        track.getDimensions().width,
+      );
       this.worldSize.height += track.getDimensions().height;
     });
     this.controller.getHorses().forEach((horse, index) => {
@@ -91,38 +92,23 @@ export class RacePixi {
 
     this.backdrop.updateWorldSize(this.worldSize);
 
-    // Create finish line between tracks and horses
-    if (this.finishLine) {
-      this.finishLine.destroy();
-      this.finishLine
+    // Create race lines between tracks and horses
+    if (this.raceLines) {
+      this.raceLines.destroy();
+      this.raceLines
         .getContainer()
-        .parent?.removeChild(this.finishLine.getContainer());
+        .parent?.removeChild(this.raceLines.getContainer());
     }
     const { furlong_length } = this.controller.getTrackData();
-    this.finishLine = new RaceFinishLine(
-      this.controller.getTracks(),
-      furlong_length,
-    );
+    this.raceLines = new RaceLines(this.controller.getTracks(), furlong_length);
 
-    // Create start line between tracks and horses
-    if (this.startLine) {
-      this.startLine.destroy();
-      this.startLine
-        .getContainer()
-        .parent?.removeChild(this.startLine.getContainer());
-    }
-    this.startLine = new RaceStartLine(this.controller.getTracks());
-
-    // Insert finish line and start line between tracks and horses
+    // Insert race lines between tracks and horses
     const horsesIndex = this.viewport
       .getContainer()
       .getChildIndex(this.horsesContainer);
     this.viewport
       .getContainer()
-      .addChildAt(this.finishLine.getContainer(), horsesIndex);
-    this.viewport
-      .getContainer()
-      .addChildAt(this.startLine.getContainer(), horsesIndex);
+      .addChildAt(this.raceLines.getContainer(), horsesIndex);
   }
 
   update() {
@@ -138,8 +124,7 @@ export class RacePixi {
     this.ticker.remove(this.update);
     this.backdrop.destroy();
     this.viewport.destroy();
-    this.finishLine?.destroy();
-    this.startLine?.destroy();
+    this.raceLines?.destroy();
     this.app.destroy();
   }
 }

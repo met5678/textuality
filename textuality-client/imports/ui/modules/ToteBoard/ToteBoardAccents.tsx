@@ -8,7 +8,7 @@ const WEATHER_OVERLAY: Record<Weather, string> = {
   windy: 'rgba(0, 0, 0, 0.2)',
 };
 
-export const ToteBoardAtmosphere: React.FC<{
+export const ToteBoardAccents: React.FC<{
   src: string;
   style?: React.CSSProperties;
   className?: string;

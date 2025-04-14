@@ -1,0 +1,26 @@
+.tote-board {
+  background-color: #2e2e2e;
+  border-radius: 6px;
+  box-shadow: 0 30px 50px rgba(0, 0, 0, 0.4);
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 980px;
+  height: 440px;
+  padding: 24px;
+  display: flex;
+  font-family: 'house-of-cards', serif;
+  font-weight: 200;
+  font-style: normal;
+  font-size: 2rem;
+  gap: 2.5rem;
+}
+
+.tote-board > .tote-board-activity {
+  flex: 1;
+}
+
+.tote-board .tote-board-horses-grid {
+  display: flex;
+  gap: 2rem;
+}

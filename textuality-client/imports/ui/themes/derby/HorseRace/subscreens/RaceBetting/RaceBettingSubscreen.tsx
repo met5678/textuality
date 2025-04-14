@@ -2,7 +2,7 @@ import React from 'react';
 import { RaceWithHelpers } from '/imports/api/themes/derby/race/races';
 import { useSubscribe, useTracker } from 'meteor/react-meteor-data';
 import Horses from '/imports/api/themes/derby/horse/horses';
-import { ToteBoardAtmosphere } from '/imports/ui/modules/ToteBoard/ToteBoardAtmosphere';
+import { ToteBoardAccents } from '../../../../../modules/ToteBoard/ToteBoardAccents';
 import { ToteBoard } from '/imports/ui/modules/ToteBoard/ToteBoard';
 import { Weather } from '/imports/schemas/derby/race';
 
@@ -35,7 +35,7 @@ export const RaceBettingSubscreen: React.FC<{ race: RaceWithHelpers }> = ({
         height: '100%',
       }}
     >
-      <ToteBoardAtmosphere
+      <ToteBoardAccents
         src="/derby/images/grass.webp"
         style={{
           position: 'absolute',
@@ -46,7 +46,7 @@ export const RaceBettingSubscreen: React.FC<{ race: RaceWithHelpers }> = ({
         weather={weather}
       />
       <ToteBoard race={race} horses={horses} />
-      <ToteBoardAtmosphere
+      <ToteBoardAccents
         src="/derby/images/roses.png"
         style={{
           position: 'absolute',

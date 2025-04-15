@@ -18,7 +18,10 @@ export const ToteBoard: React.FC<{
         top: window.innerHeight < 580 ? '0px' : '-20px',
       }}
     >
-      <div className="tote-board-race">
+      <div
+        className="tote-board-race"
+        style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}
+      >
         <ToteBoardDisplayRow
           label="Betting"
           value={race.status === 'bets-open' ? 'open' : 'closed'}
@@ -51,9 +54,21 @@ export const ToteBoard: React.FC<{
         />
       </div>
 
-      <div className="tote-board-horses">
-        <p>Odds</p>
-        <div className="tote-board-horses-grid">
+      <div className="tote-board-horses" style={{ maxWidth: '30%' }}>
+        <span
+          style={{
+            width: '100%',
+            textAlign: 'center',
+            marginBottom: '16px',
+            display: 'block',
+          }}
+        >
+          Odds
+        </span>
+        <div
+          className="tote-board-horses-grid"
+          style={{ display: 'flex', justifyContent: 'space-between' }}
+        >
           <div className="tote-board-horses-column">
             {leftHorses.map((horse) => {
               return (
@@ -81,9 +96,19 @@ export const ToteBoard: React.FC<{
             })}
           </div>
         </div>
+        <p
+          style={{
+            fontSize: '1.5rem',
+            fontStyle: 'italic',
+            marginTop: '32px',
+            textAlign: 'center',
+          }}
+        >
+          *Bigger odds means bigger payout!
+        </p>
       </div>
 
-      <div className="tote-board-activity">
+      <div className="tote-board-activity" style={{ flex: 1 }}>
         <div
           className="placholder"
           style={{

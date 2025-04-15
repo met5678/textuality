@@ -18,7 +18,7 @@ export const ToteBoardDisplayRow: React.FC<{
       className="tote-board-display-row"
       style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}
     >
-      <div>{label}</div>
+      <span>{label}</span>
       <div style={{ display: 'flex' }}>
         {cells.map((char, i) => (
           <ToteBoardCell key={i} char={char} />

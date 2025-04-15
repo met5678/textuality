@@ -52,6 +52,7 @@ const HorseSchema = new SimpleSchema({
   },
   stats: {
     type: HorseStatsSchema,
+    defaultValue: HorseStatsSchema.clean({}),
   },
 });
 

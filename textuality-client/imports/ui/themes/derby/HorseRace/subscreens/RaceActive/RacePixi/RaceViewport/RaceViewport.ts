@@ -3,6 +3,7 @@ import { Application, Point } from 'pixi.js';
 import { RaceHorse } from '../RaceHorse/RaceHorse';
 import { Dimensions } from '../RacePixi.types';
 import { UNITS_PER_FURLONG } from '../RaceTrack/RaceTrack';
+import { RaceController } from '../RaceController';
 const DEADZONE_START = 600;
 const DEADZONE_END = 500;
 const HORSE_LEAD_PADDING = 250;
@@ -10,12 +11,9 @@ const HORSE_LEAD_PADDING = 250;
 export class RaceViewport {
   private scale: number = 0.5;
   private viewportX: number = 0;
-  private screenSize: Dimensions = { width: 0, height: 0 };
-
-  constructor() {}
-
-  public setScreenSize(size: Dimensions) {
-    this.screenSize = size;
+  private controller: RaceController;
+  constructor(controller: RaceController) {
+    this.controller = controller;
   }
 
   public getScale(): number {
@@ -39,6 +37,8 @@ export class RaceViewport {
   }
 
   public update(horses: RaceHorse[], furlong_length: number) {
+    const screenSize = this.controller.getDimensions();
+
     const furthestHorseX = horses.reduce((furthest, horse) => {
       return Math.max(furthest, horse.x);
     }, 0);
@@ -50,11 +50,11 @@ export class RaceViewport {
     const scaledFinishLineX = finishLineX * this.scale;
     this.viewportX = Math.max(
       -DEADZONE_START,
-      scaledFurthestHorse - this.screenSize.width + HORSE_LEAD_PADDING,
+      scaledFurthestHorse - screenSize.width + HORSE_LEAD_PADDING,
     );
     this.viewportX = Math.min(
       this.viewportX,
-      scaledFinishLineX - this.screenSize.width + DEADZONE_END,
+      scaledFinishLineX - screenSize.width + DEADZONE_END,
     );
   }
 

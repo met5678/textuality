@@ -70,8 +70,9 @@ export class RacePixi {
 
   initTracks() {
     this.tracks.forEach((track) => {
-      // this.tracks.destroy();
+      track.destroy();
     });
+    this.tracks.length = 0;
     this.tracksContainer.removeChildren();
     this.worldSize = { width: 0, height: 0 };
     this.controller.getTracks().forEach((track) => {

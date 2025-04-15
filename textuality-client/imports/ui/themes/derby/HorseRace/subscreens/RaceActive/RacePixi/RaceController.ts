@@ -45,7 +45,7 @@ export class RaceController {
     this.ticker = ticker;
     this._tickerUpdate = this.update.bind(this);
     this.ticker.add(this._tickerUpdate);
-    this.viewport = new RaceViewport();
+    this.viewport = new RaceViewport(this);
   }
 
   initRace(race: RaceWithHelpers) {
@@ -158,7 +158,6 @@ export class RaceController {
   setSize(width: number, height: number) {
     this.screenSize.width = width;
     this.screenSize.height = height;
-    this.viewport.setScreenSize({ width, height });
   }
 
   getDimensions(): Dimensions {

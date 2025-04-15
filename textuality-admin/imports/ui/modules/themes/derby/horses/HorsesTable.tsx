@@ -9,6 +9,7 @@ import { HorseSchema, Horse } from '/imports/schemas/derby/horse';
 import Horses from '/imports/api/themes/derby/horse';
 import { HorseWithHelpers } from '/imports/api/themes/derby/horse/horses';
 import HorseFormDialog from './HorseFormDialog';
+import Events from '/imports/api/events';
 
 const columns: GridColDef<HorseWithHelpers>[] = [
   {
@@ -53,7 +54,7 @@ const columns: GridColDef<HorseWithHelpers>[] = [
     type: 'number',
     width: 70,
     editable: true,
-    valueGetter: (_value, row) => row.stats.speed,
+    valueGetter: (_value, row) => row.stats?.speed ?? 0,
     valueSetter: (value, row) => {
       return {
         ...row,
@@ -70,7 +71,7 @@ const columns: GridColDef<HorseWithHelpers>[] = [
     type: 'number',
     width: 70,
     editable: true,
-    valueGetter: (_value, row) => row.stats.endurance,
+    valueGetter: (_value, row) => row.stats?.endurance ?? 0,
     valueSetter: (value, row) => {
       return {
         ...row,
@@ -84,7 +85,7 @@ const columns: GridColDef<HorseWithHelpers>[] = [
     type: 'number',
     width: 70,
     editable: true,
-    valueGetter: (_value, row) => row.stats.luck,
+    valueGetter: (_value, row) => row.stats?.luck ?? 0,
     valueSetter: (value, row) => {
       return {
         ...row,
@@ -98,7 +99,7 @@ const columns: GridColDef<HorseWithHelpers>[] = [
     type: 'number',
     width: 70,
     editable: true,
-    valueGetter: (_value, row) => row.stats.competitiveness,
+    valueGetter: (_value, row) => row.stats?.competitiveness ?? 0,
     valueSetter: (value, row) => {
       return {
         ...row,
@@ -112,7 +113,7 @@ const columns: GridColDef<HorseWithHelpers>[] = [
     type: 'number',
     width: 70,
     editable: true,
-    valueGetter: (_value, row) => row.stats.water_resistance,
+    valueGetter: (_value, row) => row.stats?.water_resistance ?? 0,
     valueSetter: (value, row) => {
       return {
         ...row,
@@ -126,7 +127,7 @@ const columns: GridColDef<HorseWithHelpers>[] = [
     type: 'number',
     width: 70,
     editable: true,
-    valueGetter: (_value, row) => row.stats.wind_resistance,
+    valueGetter: (_value, row) => row.stats?.wind_resistance ?? 0,
     valueSetter: (value, row) => {
       return {
         ...row,
@@ -140,7 +141,7 @@ const columns: GridColDef<HorseWithHelpers>[] = [
     type: 'number',
     width: 70,
     editable: true,
-    valueGetter: (_value, row) => row.stats.electric_resistance,
+    valueGetter: (_value, row) => row.stats?.electric_resistance ?? 0,
     valueSetter: (value, row) => {
       return {
         ...row,
@@ -153,7 +154,6 @@ const columns: GridColDef<HorseWithHelpers>[] = [
 const HorsesTable = () => {
   const isLoading = useSubscribe('horses.all');
   const horses = useFind(() => Horses.find({}, { sort: { name: 1 } }), []);
-  const [editHorse, setEditHorse] = useState<Partial<Horse> | null>(null);
 
   return (
     <>
@@ -166,18 +166,18 @@ const HorsesTable = () => {
           const ids = Array.isArray(selectedHorses)
             ? selectedHorses.map((horse) => horse._id)
             : [selectedHorses._id];
-          Meteor.call('horses.delete', ids);
+          Meteor.call('derby.horses.delete', ids);
         }}
-        canAdd={true}
-        onAdd={() => setEditHorse(HorseSchema.clean({}))}
-        canEdit={true}
-        onEdit={setEditHorse}
-        onEditCell={(horse, ogHorse) => {
-          Meteor.call('horses.update', horse);
-          return horse;
+        canAddInline={true}
+        onGetStub={() => HorseSchema.clean({}) as unknown as HorseWithHelpers}
+        onEditCell={async (horse) => {
+          horse.event = Events.currentId()!;
+          const newHorse = await Meteor.callAsync('derby.horses.upsert', horse);
+          return newHorse;
         }}
+        initialSortField="number"
+        initialSortOrder="asc"
       />
-      <HorseFormDialog model={editHorse} onClose={() => setEditHorse(null)} />
     </>
   );
 };

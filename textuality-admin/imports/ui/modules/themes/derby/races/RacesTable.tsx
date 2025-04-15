@@ -20,6 +20,7 @@ import RaceTimelineDialog from './RaceTimelineDialog';
 import { Horse } from '/imports/schemas/derby/horse';
 import Horses from '/imports/api/themes/derby/horse';
 import { RacePlaybackControls } from './components/RacePlaybackControls';
+import Events from '/imports/api/events';
 
 const getColumns = ({
   onEditTimeline,
@@ -256,12 +257,15 @@ const RacesTable = () => {
             : [selectedRaces._id];
           Meteor.call('derby.races.delete', ids);
         }}
-        canAdd={true}
-        onAdd={() => setEditRace(RaceSchema.clean({}))}
-        onEditCell={(race) => {
-          Meteor.call('derby.races.update', race);
-          return race;
+        canAddInline={true}
+        onGetStub={() => RaceSchema.clean({}) as unknown as RaceWithHelpers}
+        onEditCell={async (race) => {
+          race.event = Events.currentId()!;
+          const newRace = await Meteor.callAsync('derby.races.upsert', race);
+          return newRace;
         }}
+        initialSortField="number"
+        initialSortOrder="asc"
       />
       <RaceFormDialog model={editRace} onClose={() => setEditRace(null)} />
       {selectedRace && isHorseDialogOpen && (

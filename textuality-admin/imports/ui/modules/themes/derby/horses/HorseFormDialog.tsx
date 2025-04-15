@@ -15,12 +15,8 @@ interface HorseFormProps {
 }
 
 const HorseFormDialog = ({ model, onClose }: HorseFormProps) => {
-  const onSubmit = (horse: Partial<Horse>) => {
-    if (horse._id) {
-      Meteor.call('horses.update', horse);
-    } else {
-      Meteor.call('horses.new', horse);
-    }
+  const onSubmit = async (horse: Partial<Horse>) => {
+    await Meteor.callAsync('derby.horses.upsert', horse);
     onClose();
   };
 

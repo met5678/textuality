@@ -1,7 +1,7 @@
 import { Container, TilingSprite, Assets } from 'pixi.js';
 import { Dimensions } from '../RacePixi.types';
 import { PRE_START_FURLONGS, UNITS_PER_FURLONG } from '../RaceTrack/RaceTrack';
-export const BACKDROP_PADDING = 200;
+export const BACKDROP_PADDING = 500;
 
 export class RaceBackdrop {
   private container: Container;

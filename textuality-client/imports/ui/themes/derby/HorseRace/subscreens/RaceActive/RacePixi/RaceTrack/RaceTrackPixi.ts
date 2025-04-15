@@ -61,9 +61,15 @@ class RaceTrackPixi extends Container {
     this.bottomEdgeSprite.y = height;
   }
 
+  async updateGroundTexture(weather: Weather) {
+    const texture = await Assets.load(TRACK_TEXTURES[weather]);
+    this.groundSprite.texture = texture;
+  }
+
   update() {
     const dimensions = this.raceTrack.getDimensions();
     this.setSize(dimensions.width, dimensions.height);
+    this.updateGroundTexture(this.raceTrack.getWeather());
     this.position = this.raceTrack.getPosition();
   }
 }

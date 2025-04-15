@@ -20,6 +20,20 @@ Meteor.methods({
     await Races.updateAsync(race._id, { $set: race });
   },
 
+  'derby.races.upsert': async (race: OptionalId<Race>) => {
+    if (!race._id) {
+      const id = await Races.insertAsync(race);
+      const insertedRace = await Races.findOneAsync(id);
+      return insertedRace;
+    } else {
+      const id = race._id;
+      delete race._id;
+      await Races.updateAsync(id, { $set: race });
+      const updatedRace = await Races.findOneAsync(id);
+      return updatedRace;
+    }
+  },
+
   'derby.races.duplicate': async (raceId: RaceId) => {
     const raceToDuplicate = await Races.findOneAsync(raceId);
     if (!raceToDuplicate) return;
@@ -60,7 +74,12 @@ Meteor.methods({
         $set: {
           status: 'future',
           odds: [],
-          timeline: {},
+          timeline: {
+            horses: {},
+            effects: {},
+            current_frame: 0,
+            is_playing: false,
+          },
         },
       },
       { multi: true },

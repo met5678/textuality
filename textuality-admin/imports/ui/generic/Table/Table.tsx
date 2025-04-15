@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode } from 'react';
+import React, { ReactElement, ReactNode, useState, useEffect } from 'react';
 import {
   DataGrid,
   GridColDef,
@@ -13,11 +13,15 @@ import {
   GridSlotProps,
   useGridApiContext,
   GridApi,
+  GridRowModesModel,
+  DataGridProps,
+  GridEditMode,
 } from '@mui/x-data-grid';
 import { Paper } from '@mui/material';
 import useTableDelete from './useTableDelete';
 import useTableEdit from './useTableEdit';
 import useTableAdd from './useTableAdd';
+import useTableAddInline from './useTableAddInline';
 
 /**
  * A flexible table component built on top of MUI's DataGrid with built-in CRUD operations
@@ -42,6 +46,10 @@ interface TableArgs<T extends GridValidRowModel> {
   canAdd?: boolean;
   /** Callback function for add operations */
   onAdd?: () => Promise<void> | void;
+  /** Whether inline add functionality is enabled */
+  canAddInline?: boolean;
+  /** Callback function for getting a stub for the add operation */
+  onGetStub?: () => T;
   /** Custom form modal component */
   formModal?: ReactElement;
   /** Whether to use dynamic row heights */
@@ -62,12 +70,20 @@ interface TableArgs<T extends GridValidRowModel> {
   paginationMode?: 'client' | 'server';
   /** Callback for error handling */
   onError?: (error: Error) => void;
+  /** The property name of the ID field */
+  idProp?: string;
+  /** Initial sort field */
+  initialSortField?: string;
+  /** Initial sort order */
+  initialSortOrder?: 'asc' | 'desc';
 }
 
 interface UseTableReturnValue<T extends GridValidRowModel> {
   toolbarAction?: ReactNode;
   rowAction?: TableRowAction<T>;
   dialog?: ReactNode;
+  editMode?: DataGridProps['editMode'];
+  handleRowEditStop?: (row: T) => void;
 }
 
 type TableRowAction<T extends GridValidRowModel> =
@@ -90,7 +106,6 @@ const applyRowActions = <T extends GridValidRowModel>(
 
 const getCustomToolbar = (toolbarActions: ReactNode[]) => {
   if (toolbarActions.length === 0) return null;
-  const apiRef = useGridApiContext() as React.MutableRefObject<GridApi>;
 
   return (
     <GridToolbarContainer>
@@ -103,6 +118,7 @@ const getCustomToolbar = (toolbarActions: ReactNode[]) => {
 const Table = <T extends GridValidRowModel>({
   data,
   columns,
+  idProp = '_id',
   canDelete = false,
   onDelete,
   canEdit = false,
@@ -110,6 +126,8 @@ const Table = <T extends GridValidRowModel>({
   onEditCell,
   canAdd = false,
   onAdd,
+  canAddInline = false,
+  onGetStub,
   dynamicHeight = false,
   density = 'compact',
   customRowActions = [],
@@ -119,21 +137,47 @@ const Table = <T extends GridValidRowModel>({
   rowCount,
   paginationMode = 'client',
   onError,
+  initialSortField,
+  initialSortOrder = 'asc',
 }: TableArgs<T>) => {
+  const [rows, setRows] = useState<GridRowsProp<T>>(data);
+  useEffect(() => {
+    setRows(data);
+  }, [data]);
+  const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
+  const [editMode, setEditMode] = useState<GridEditMode>('cell');
   const rowActions: ((params: GridRowParams<T>) => ReactElement)[] = [
     ...customRowActions,
   ];
   const toolbarActions: ReactNode[] = [];
   const dialogs: ReactNode[] = [];
+  const handleRowEditStopCallbacks: ((row: T) => void)[] = [];
 
   {
-    const { toolbarAction, dialog, rowAction } = useTableAdd<T>({
+    const { dialog, toolbarAction } = useTableAdd<T>({
       canAdd,
       onAdd: onAdd!,
     });
     toolbarAction && toolbarActions.push(toolbarAction);
+    dialog && dialogs.push(dialog);
+  }
+
+  {
+    const { toolbarAction, dialog, rowAction, handleRowEditStop } =
+      useTableAddInline<T>({
+        canAddInline,
+        onGetStub,
+        setRowModesModel,
+        setEditMode,
+        rows,
+        setRows,
+        idProp,
+        columns,
+      });
+    toolbarAction && toolbarActions.push(toolbarAction);
     rowAction && rowActions.push(rowAction);
     dialog && dialogs.push(dialog);
+    handleRowEditStop && handleRowEditStopCallbacks.push(handleRowEditStop);
   }
 
   {
@@ -167,15 +211,27 @@ const Table = <T extends GridValidRowModel>({
       }}
     >
       <DataGrid<T>
-        rows={data}
+        rows={rows}
         columns={useColumns}
-        getRowId={(row) => row._id}
+        getRowId={(row) => row[idProp]}
         rowSelection={false}
         checkboxSelection={false}
         density={density}
         loading={isLoading}
         getRowHeight={dynamicHeight ? () => 'auto' : undefined}
-        processRowUpdate={onEditCell}
+        onRowEditStop={(params) => {
+          handleRowEditStopCallbacks.forEach((callback) =>
+            callback(params.row),
+          );
+        }}
+        processRowUpdate={(newRow, oldRow) => {
+          if (!onEditCell) return newRow;
+          const id = newRow[idProp];
+          if (id && typeof id === 'string' && id.startsWith('temp-')) {
+            delete newRow[idProp];
+          }
+          return onEditCell?.(newRow, oldRow);
+        }}
         onProcessRowUpdateError={(error) => onError?.(error)}
         slots={{
           toolbar: () => getCustomToolbar(toolbarActions),
@@ -184,6 +240,20 @@ const Table = <T extends GridValidRowModel>({
         onPaginationModelChange={onPaginationModelChange}
         rowCount={rowCount}
         paginationMode={paginationMode}
+        rowModesModel={rowModesModel}
+        onRowModesModelChange={setRowModesModel}
+        editMode={editMode}
+        initialState={
+          initialSortField
+            ? {
+                sorting: {
+                  sortModel: [
+                    { field: initialSortField, sort: initialSortOrder },
+                  ],
+                },
+              }
+            : undefined
+        }
         aria-label="Data table"
       />
       {dialogs}

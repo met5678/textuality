@@ -1,11 +1,14 @@
 import { Meteor } from 'meteor/meteor';
 
 import Checkpoints from './checkpoints';
+import { Checkpoint, CheckpointId } from '/imports/schemas/checkpoint';
+import { OptionalId, UpdateRequiredId } from '/imports/utils/optional-id';
+import { EventId } from '/imports/schemas/event';
 
 Meteor.methods({
-  'checkpoints.new': (checkpoint) => {
+  'checkpoints.new': async (checkpoint: OptionalId<Checkpoint>) => {
     if (
-      Checkpoints.findOne({
+      await Checkpoints.findOneAsync({
         event: checkpoint.event,
         hashtag: checkpoint.hashtag,
       })
@@ -15,12 +18,13 @@ Meteor.methods({
         'Hashtag in use by another checkpoint',
       );
     }
-    return Checkpoints.insert(checkpoint);
+    const id = await Checkpoints.insertAsync(checkpoint);
+    return await Checkpoints.findOneAsync(id);
   },
 
-  'checkpoints.update': (checkpoint) => {
+  'checkpoints.update': async (checkpoint: UpdateRequiredId<Checkpoint>) => {
     if (
-      Checkpoints.findOne({
+      await Checkpoints.findOneAsync({
         _id: { $ne: checkpoint._id },
         event: checkpoint.event,
         hashtag: checkpoint.hashtag,
@@ -31,19 +35,29 @@ Meteor.methods({
         'Hashtag in use by another checkpoint',
       );
     }
-    Checkpoints.update(checkpoint._id, { $set: checkpoint });
+    const id = checkpoint._id;
+    await Checkpoints.updateAsync(id, { $set: checkpoint });
+    return await Checkpoints.findOneAsync(id);
   },
 
-  'checkpoints.delete': (checkpointId) => {
-    if (Array.isArray(checkpointId)) {
-      Checkpoints.remove({ _id: { $in: checkpointId } });
+  'checkpoints.upsert': async (checkpoint: OptionalId<Checkpoint>) => {
+    if (!checkpoint._id) {
+      return await Meteor.callAsync('checkpoints.new', checkpoint);
     } else {
-      Checkpoints.remove(checkpointId);
+      return await Meteor.callAsync('checkpoints.update', checkpoint);
     }
   },
 
-  'checkpoints.resetEvent': (eventId) => {
-    Checkpoints.update(
+  'checkpoints.delete': async (checkpointId: CheckpointId | CheckpointId[]) => {
+    if (Array.isArray(checkpointId)) {
+      return await Checkpoints.removeAsync({ _id: { $in: checkpointId } });
+    } else {
+      return await Checkpoints.removeAsync(checkpointId);
+    }
+  },
+
+  'checkpoints.resetEvent': async (eventId: EventId) => {
+    await Checkpoints.updateAsync(
       { event: eventId },
       { $set: { num_checkins: 0 } },
       { multi: true },

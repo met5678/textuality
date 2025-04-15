@@ -8,7 +8,11 @@ const CheckpointSchema = new SimpleSchema({
     allowedValues: Events.allIds,
   },
   hashtag: String,
-  groups: [String],
+  groups: {
+    type: Array,
+    defaultValue: [],
+  },
+  'groups.$': String,
   location: String,
   money_award: {
     type: SimpleSchema.Integer,

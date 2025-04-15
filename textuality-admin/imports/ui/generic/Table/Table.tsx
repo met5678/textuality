@@ -15,6 +15,7 @@ import {
   MuiEvent,
   MuiBaseEvent,
   GridRowEditStopParams,
+  gridClasses,
 } from '@mui/x-data-grid';
 import { Paper } from '@mui/material';
 import useTableDelete from './useTableDelete';
@@ -225,25 +226,36 @@ const Table = <T extends GridValidRowModel>({
         density={density}
         loading={isLoading}
         getRowHeight={dynamicHeight ? () => 'auto' : undefined}
+        sx={
+          dynamicHeight
+            ? {
+                [`& .${gridClasses.cell}`]: {
+                  py: 1,
+                },
+              }
+            : undefined
+        }
         onRowEditStop={(params, event) => {
           handleRowEditStopCallbacks.forEach((callback) =>
             callback(params, event),
           );
         }}
-        processRowUpdate={(newRow, oldRow) => {
+        processRowUpdate={async (newRow, oldRow) => {
           if (!onEditCell) return newRow;
           const id = newRow[idProp];
           const rowWithoutId = { ...newRow };
           delete rowWithoutId[idProp];
           onValidate?.(rowWithoutId);
+          // If this is a new row, we should pass the row without the
+          // generated id so that Meteor can generate it
           if (
             id &&
             typeof id === 'string' &&
             id.startsWith(NEW_ROW_ID_PREFIX)
           ) {
-            return onEditCell?.(rowWithoutId, oldRow);
+            return await onEditCell(rowWithoutId, oldRow);
           }
-          return onEditCell?.(newRow, oldRow);
+          return await onEditCell(newRow, oldRow);
         }}
         onProcessRowUpdateError={(error) => {
           openSnackbar(error.message);

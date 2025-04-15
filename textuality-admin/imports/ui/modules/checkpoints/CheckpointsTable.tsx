@@ -9,6 +9,7 @@ import Table from '../../generic/Table/Table';
 import CheckpointForm from './CheckpointForm';
 import { Box, Chip, Stack } from '@mui/material';
 import InputSelect from '../../generic/InputSelect';
+import Events from '/imports/api/events';
 
 const getColumns = (existingLocations: string[], existingGroups: string[]) => {
   const columns: GridColDef<Checkpoint>[] = [
@@ -25,7 +26,7 @@ const getColumns = (existingLocations: string[], existingGroups: string[]) => {
       editable: true,
       renderCell: (params) => (
         <Box display="flex" flexDirection="row" flexWrap="wrap" gap={1}>
-          {params.value.map((value: string) => (
+          {params.value?.map((value: string) => (
             <Chip key={value} size="small" label={value} />
           ))}
         </Box>
@@ -54,8 +55,23 @@ const getColumns = (existingLocations: string[], existingGroups: string[]) => {
       headerName: 'Location',
       width: 200,
       editable: true,
-      type: 'singleSelect',
-      valueOptions: existingLocations,
+      renderEditCell: (params) => {
+        return (
+          <InputSelect
+            value={params.value}
+            onChange={(val) =>
+              params.api.setEditCellValue({
+                id: params.id,
+                field: params.field,
+                value: val,
+              })
+            }
+            multi={false}
+            options={existingLocations}
+            creatable={true}
+          />
+        );
+      },
     },
     {
       field: 'money_award',
@@ -109,20 +125,33 @@ const CheckpointsTable = () => {
         isLoading={isLoading()}
         canDelete={true}
         onDelete={(checkpoint) => {
-          Meteor.call(
-            'checkpoints.delete',
-            checkpoint.map((r) => r._id),
-          );
+          if (Array.isArray(checkpoint)) {
+            Meteor.call(
+              'checkpoints.delete',
+              checkpoint.map((c) => c._id),
+            );
+          } else {
+            Meteor.call('checkpoints.delete', checkpoint._id);
+          }
         }}
-        canAdd={true}
-        onAdd={() => setEditCheckpoint(CheckpointSchema.clean({}))}
+        canAddInline={true}
+        onGetStub={() => {
+          const stub = CheckpointSchema.clean({}) as unknown as Checkpoint;
+          stub.event = Events.currentId()!;
+          return stub;
+        }}
+        onValidate={(checkpoint) => CheckpointSchema.validate(checkpoint)}
         canEdit={true}
         onEdit={setEditCheckpoint}
-        onEditCell={(checkpoint) => {
-          Meteor.call('checkpoints.update', checkpoint);
-          return checkpoint;
+        onEditCell={async (checkpoint) => {
+          checkpoint.event = Events.currentId()!;
+          const newCheckpoint = await Meteor.callAsync(
+            'checkpoints.upsert',
+            checkpoint,
+          );
+          console.log('new checkpoint', newCheckpoint);
+          return newCheckpoint;
         }}
-        dynamicHeight={true}
       />
       <CheckpointForm
         model={editCheckpoint}

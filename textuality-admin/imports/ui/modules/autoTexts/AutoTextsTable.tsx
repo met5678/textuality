@@ -9,19 +9,29 @@ import AutoTexts from '/imports/api/autoTexts';
 import { GridColDef } from '@mui/x-data-grid';
 import AutoTextSchema, { AutoText } from '/imports/schemas/autoText';
 import { AutoTextWithHelpers } from '/imports/api/autoTexts/autoTexts';
+import Events from '/imports/api/events';
 
 const columns: GridColDef<AutoTextWithHelpers>[] = [
   {
     field: 'trigger',
     headerName: 'Trigger',
     valueFormatter: (value, row) => {
-      return value + (row.isNumeric() ? `(${row.triggerNum})` : '');
+      return value + (row.isNumeric?.() ? `(${row.triggerNum})` : '');
     },
     width: 200,
+    type: 'singleSelect',
+    editable: true,
+    valueOptions: AutoTextSchema.getAllowedValuesForKey('trigger')?.map(
+      (trigger) => ({
+        label: trigger,
+        value: trigger,
+      }),
+    ),
   },
   {
     field: 'playerText',
     headerName: 'Player text',
+    editable: true,
     flex: 1,
   },
   {
@@ -64,19 +74,24 @@ const AutoTextsTable = ({ onEdit }: { onEdit: (obj: any) => any }) => {
             Meteor.call('autoTexts.delete', autoText._id);
           }
         }}
+        canAddInline={true}
+        onGetStub={() => {
+          const stub = AutoTextSchema.clean(
+            {},
+          ) as unknown as AutoTextWithHelpers;
+          stub.event = Events.currentId()!;
+          return stub;
+        }}
+        onValidate={(autoText) => AutoTextSchema.validate(autoText)}
         canEdit={true}
         onEdit={onEdit}
-        onEditCell={(row) => {
-          const autoText = row;
-          Meteor.call('autoTexts.update', autoText);
-          return autoText;
+        onEditCell={async (row) => {
+          row.event = Events.currentId()!;
+          const newAutoText = await Meteor.callAsync('autoTexts.upsert', row);
+          console.log('newAutoText', newAutoText);
+          return newAutoText;
         }}
         dynamicHeight={true}
-        // canInsert={true}
-        // onInsert={(autoText) => Meteor.call('autoTexts.new', autoText)}
-        // canEdit={true}
-        // onEdit={(autoText) => Meteor.call('autoTexts.update', autoText)}
-        // form={AutoTextForm}
       />
     </>
   );

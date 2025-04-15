@@ -21,6 +21,7 @@ import { Horse } from '/imports/schemas/derby/horse';
 import Horses from '/imports/api/themes/derby/horse';
 import { RacePlaybackControls } from './components/RacePlaybackControls';
 import Events from '/imports/api/events';
+import { getStubWithEvent } from '/imports/utils/get-stub-with-event';
 
 const getColumns = ({
   onEditTimeline,
@@ -258,7 +259,7 @@ const RacesTable = () => {
           Meteor.call('derby.races.delete', ids);
         }}
         canAddInline={true}
-        onGetStub={() => RaceSchema.clean({}) as unknown as RaceWithHelpers}
+        onGetStub={() => getStubWithEvent<RaceWithHelpers>(RaceSchema)}
         onEditCell={async (race) => {
           race.event = Events.currentId()!;
           const newRace = await Meteor.callAsync('derby.races.upsert', race);

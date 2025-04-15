@@ -10,6 +10,7 @@ import CheckpointForm from './CheckpointForm';
 import { Box, Chip, Stack } from '@mui/material';
 import InputSelect from '../../generic/InputSelect';
 import Events from '/imports/api/events';
+import { getStubWithEvent } from '/imports/utils/get-stub-with-event';
 
 const getColumns = (existingLocations: string[], existingGroups: string[]) => {
   const columns: GridColDef<Checkpoint>[] = [
@@ -135,11 +136,7 @@ const CheckpointsTable = () => {
           }
         }}
         canAddInline={true}
-        onGetStub={() => {
-          const stub = CheckpointSchema.clean({}) as unknown as Checkpoint;
-          stub.event = Events.currentId()!;
-          return stub;
-        }}
+        onGetStub={() => getStubWithEvent<Checkpoint>(CheckpointSchema)}
         onValidate={(checkpoint) => CheckpointSchema.validate(checkpoint)}
         canEdit={true}
         onEdit={setEditCheckpoint}

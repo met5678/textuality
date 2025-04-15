@@ -10,6 +10,7 @@ import Horses from '/imports/api/themes/derby/horse';
 import { HorseWithHelpers } from '/imports/api/themes/derby/horse/horses';
 import HorseFormDialog from './HorseFormDialog';
 import Events from '/imports/api/events';
+import { getStubWithEvent } from '/imports/utils/get-stub-with-event';
 
 const columns: GridColDef<HorseWithHelpers>[] = [
   {
@@ -169,11 +170,7 @@ const HorsesTable = () => {
           Meteor.call('derby.horses.delete', ids);
         }}
         canAddInline={true}
-        onGetStub={() => {
-          const stub = HorseSchema.clean({}) as unknown as HorseWithHelpers;
-          stub.event = Events.currentId()!;
-          return stub;
-        }}
+        onGetStub={() => getStubWithEvent<HorseWithHelpers>(HorseSchema)}
         onValidate={(horse) => HorseSchema.validate(horse)}
         onEditCell={async (horse) => {
           horse.event = Events.currentId()!;

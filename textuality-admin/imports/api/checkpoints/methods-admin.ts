@@ -48,6 +48,15 @@ Meteor.methods({
     }
   },
 
+  'checkpoints.duplicate': async (checkpointId: CheckpointId) => {
+    const checkpoint = await Checkpoints.findOneAsync(checkpointId);
+    if (!checkpoint) {
+      throw new Meteor.Error('checkpoint-not-found', 'Checkpoint not found');
+    }
+    checkpoint.hashtag = `${checkpoint.hashtag}-copy`;
+    return await Meteor.callAsync('checkpoints.new', checkpoint);
+  },
+
   'checkpoints.delete': async (checkpointId: CheckpointId | CheckpointId[]) => {
     if (Array.isArray(checkpointId)) {
       return await Checkpoints.removeAsync({ _id: { $in: checkpointId } });

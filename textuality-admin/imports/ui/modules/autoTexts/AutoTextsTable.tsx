@@ -10,6 +10,7 @@ import { GridColDef } from '@mui/x-data-grid';
 import AutoTextSchema, { AutoText } from '/imports/schemas/autoText';
 import { AutoTextWithHelpers } from '/imports/api/autoTexts/autoTexts';
 import Events from '/imports/api/events';
+import { getStubWithEvent } from '../../../utils/get-stub-with-event';
 
 const columns: GridColDef<AutoTextWithHelpers>[] = [
   {
@@ -75,13 +76,7 @@ const AutoTextsTable = ({ onEdit }: { onEdit: (obj: any) => any }) => {
           }
         }}
         canAddInline={true}
-        onGetStub={() => {
-          const stub = AutoTextSchema.clean(
-            {},
-          ) as unknown as AutoTextWithHelpers;
-          stub.event = Events.currentId()!;
-          return stub;
-        }}
+        onGetStub={() => getStubWithEvent<AutoTextWithHelpers>(AutoTextSchema)}
         onValidate={(autoText) => AutoTextSchema.validate(autoText)}
         canEdit={true}
         onEdit={onEdit}

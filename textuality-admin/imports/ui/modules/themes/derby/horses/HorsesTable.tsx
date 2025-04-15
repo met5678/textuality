@@ -169,7 +169,12 @@ const HorsesTable = () => {
           Meteor.call('derby.horses.delete', ids);
         }}
         canAddInline={true}
-        onGetStub={() => HorseSchema.clean({}) as unknown as HorseWithHelpers}
+        onGetStub={() => {
+          const stub = HorseSchema.clean({}) as unknown as HorseWithHelpers;
+          stub.event = Events.currentId()!;
+          return stub;
+        }}
+        onValidate={(horse) => HorseSchema.validate(horse)}
         onEditCell={async (horse) => {
           horse.event = Events.currentId()!;
           const newHorse = await Meteor.callAsync('derby.horses.upsert', horse);

@@ -9,19 +9,19 @@ import {
   GridToolbarExport,
   GridValidRowModel,
   GridPaginationModel,
-  GridToolbarProps,
-  GridSlotProps,
-  useGridApiContext,
-  GridApi,
   GridRowModesModel,
   DataGridProps,
   GridEditMode,
+  MuiEvent,
+  MuiBaseEvent,
+  GridRowEditStopParams,
 } from '@mui/x-data-grid';
 import { Paper } from '@mui/material';
 import useTableDelete from './useTableDelete';
 import useTableEdit from './useTableEdit';
 import useTableAdd from './useTableAdd';
-import useTableAddInline from './useTableAddInline';
+import useTableAddInline, { NEW_ROW_ID_PREFIX } from './useTableAddInline';
+import { useTableErrorSnackbar } from './TableErrorSnackbar';
 
 /**
  * A flexible table component built on top of MUI's DataGrid with built-in CRUD operations
@@ -50,10 +50,6 @@ interface TableArgs<T extends GridValidRowModel> {
   canAddInline?: boolean;
   /** Callback function for getting a stub for the add operation */
   onGetStub?: () => T;
-  /** Custom form modal component */
-  formModal?: ReactElement;
-  /** Whether to use dynamic row heights */
-  dynamicHeight?: boolean;
   /** Table density setting */
   density?: GridDensity;
   /** Custom row action components */
@@ -68,14 +64,16 @@ interface TableArgs<T extends GridValidRowModel> {
   rowCount?: number;
   /** Pagination mode */
   paginationMode?: 'client' | 'server';
-  /** Callback for error handling */
-  onError?: (error: Error) => void;
   /** The property name of the ID field */
   idProp?: string;
   /** Initial sort field */
   initialSortField?: string;
   /** Initial sort order */
   initialSortOrder?: 'asc' | 'desc';
+  /** Callback for validating rows */
+  onValidate?: (row: T) => void;
+  /** Whether to use dynamic row heights */
+  dynamicHeight?: boolean;
 }
 
 interface UseTableReturnValue<T extends GridValidRowModel> {
@@ -83,7 +81,10 @@ interface UseTableReturnValue<T extends GridValidRowModel> {
   rowAction?: TableRowAction<T>;
   dialog?: ReactNode;
   editMode?: DataGridProps['editMode'];
-  handleRowEditStop?: (row: T) => void;
+  handleRowEditStop?: (
+    params: GridRowEditStopParams<T>,
+    event: MuiEvent<MuiBaseEvent>,
+  ) => void;
 }
 
 type TableRowAction<T extends GridValidRowModel> =
@@ -128,7 +129,6 @@ const Table = <T extends GridValidRowModel>({
   onAdd,
   canAddInline = false,
   onGetStub,
-  dynamicHeight = false,
   density = 'compact',
   customRowActions = [],
   isLoading = false,
@@ -136,9 +136,10 @@ const Table = <T extends GridValidRowModel>({
   onPaginationModelChange,
   rowCount,
   paginationMode = 'client',
-  onError,
   initialSortField,
   initialSortOrder = 'asc',
+  onValidate,
+  dynamicHeight = false,
 }: TableArgs<T>) => {
   const [rows, setRows] = useState<GridRowsProp<T>>(data);
   useEffect(() => {
@@ -151,8 +152,11 @@ const Table = <T extends GridValidRowModel>({
   ];
   const toolbarActions: ReactNode[] = [];
   const dialogs: ReactNode[] = [];
-  const handleRowEditStopCallbacks: ((row: T) => void)[] = [];
-
+  const handleRowEditStopCallbacks: ((
+    params: GridRowEditStopParams<T>,
+    event: MuiEvent<MuiBaseEvent>,
+  ) => void)[] = [];
+  const { openSnackbar, renderSnackbar } = useTableErrorSnackbar();
   {
     const { dialog, toolbarAction } = useTableAdd<T>({
       canAdd,
@@ -193,6 +197,8 @@ const Table = <T extends GridValidRowModel>({
     const { dialog, rowAction } = useTableDelete<T>({
       canDelete,
       onDelete: onDelete!,
+      setRows,
+      idProp,
     });
     rowAction && rowActions.push(rowAction);
     dialog && dialogs.push(dialog);
@@ -219,20 +225,29 @@ const Table = <T extends GridValidRowModel>({
         density={density}
         loading={isLoading}
         getRowHeight={dynamicHeight ? () => 'auto' : undefined}
-        onRowEditStop={(params) => {
+        onRowEditStop={(params, event) => {
           handleRowEditStopCallbacks.forEach((callback) =>
-            callback(params.row),
+            callback(params, event),
           );
         }}
         processRowUpdate={(newRow, oldRow) => {
           if (!onEditCell) return newRow;
           const id = newRow[idProp];
-          if (id && typeof id === 'string' && id.startsWith('temp-')) {
-            delete newRow[idProp];
+          const rowWithoutId = { ...newRow };
+          delete rowWithoutId[idProp];
+          onValidate?.(rowWithoutId);
+          if (
+            id &&
+            typeof id === 'string' &&
+            id.startsWith(NEW_ROW_ID_PREFIX)
+          ) {
+            return onEditCell?.(rowWithoutId, oldRow);
           }
           return onEditCell?.(newRow, oldRow);
         }}
-        onProcessRowUpdateError={(error) => onError?.(error)}
+        onProcessRowUpdateError={(error) => {
+          openSnackbar(error.message);
+        }}
         slots={{
           toolbar: () => getCustomToolbar(toolbarActions),
         }}
@@ -257,6 +272,7 @@ const Table = <T extends GridValidRowModel>({
         aria-label="Data table"
       />
       {dialogs}
+      {renderSnackbar()}
     </Paper>
   );
 };

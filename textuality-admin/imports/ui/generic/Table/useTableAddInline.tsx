@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import { UseTableReturnValue } from './Table';
 import { Button } from '@mui/material';
@@ -9,7 +9,10 @@ import {
   GridRowsProp,
   GridRowModes,
   GridColDef,
+  GridRowEditStopParams,
+  GridRowEditStopReasons,
 } from '@mui/x-data-grid';
+import { v4 } from 'uuid';
 
 interface UseTableAddInlineArgs<T extends GridValidRowModel> {
   canAddInline: boolean;
@@ -22,6 +25,8 @@ interface UseTableAddInlineArgs<T extends GridValidRowModel> {
   columns: GridColDef<T>[];
 }
 
+export const NEW_ROW_ID_PREFIX = 'temp-';
+
 const useTableAddInline = <T extends GridValidRowModel>({
   canAddInline,
   onGetStub,
@@ -32,13 +37,10 @@ const useTableAddInline = <T extends GridValidRowModel>({
   columns,
   idProp,
 }: UseTableAddInlineArgs<T>): UseTableReturnValue<T> => {
-  const [isAdding, setIsAdding] = useState(false);
-
   if (!canAddInline) return {};
 
   const handleAdd = () => {
-    const newId = `temp-${rows.length + 1}`;
-    setIsAdding(true);
+    const newId = `${NEW_ROW_ID_PREFIX}-${v4()}`;
     setEditMode('row');
     const newRow = { ...(onGetStub?.() ?? {}), [idProp]: newId } as T;
     setRows((oldRows) => [...oldRows, newRow]);
@@ -48,13 +50,22 @@ const useTableAddInline = <T extends GridValidRowModel>({
     }));
   };
 
-  const handleRowEditStop = (row: T) => {
-    if (isAdding) {
-      setIsAdding(false);
+  const handleRowEditStop = (params: GridRowEditStopParams<T>) => {
+    if (
+      params.reason === GridRowEditStopReasons.escapeKeyDown ||
+      params.reason === GridRowEditStopReasons.rowFocusOut
+    ) {
+      setRows((oldRows) =>
+        oldRows.filter((r) => r[idProp] !== params.row[idProp]),
+      );
       setEditMode('cell');
-      setRows((oldRows) => oldRows.filter((r) => r[idProp] !== row[idProp]));
     }
   };
+
+  const hasNewRow = rows.some(
+    (r) =>
+      typeof r[idProp] === 'string' && r[idProp].startsWith(NEW_ROW_ID_PREFIX),
+  );
 
   return {
     toolbarAction: (
@@ -62,7 +73,7 @@ const useTableAddInline = <T extends GridValidRowModel>({
         key="add"
         startIcon={<AddTwoToneIcon />}
         onClick={handleAdd}
-        disabled={isAdding}
+        disabled={hasNewRow}
       >
         Add
       </Button>

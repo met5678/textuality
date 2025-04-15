@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'digital-7';
+  src: url('/derby/digital-7_mono.ttf') format('truetype');
+}
+
 .tote-board {
   background-color: #2e2e2e;
   border-radius: 6px;
@@ -5,22 +10,22 @@
   position: relative;
   z-index: 10;
   width: 100%;
-  max-width: 980px;
+  max-width: 1100px;
   height: 440px;
-  padding: 24px;
+  padding: 40px;
+  padding-top: 32px;
   display: flex;
   font-family: 'house-of-cards', serif;
+  letter-spacing: 0.25rem;
+  text-transform: uppercase;
   font-weight: 200;
   font-style: normal;
   font-size: 2rem;
-  gap: 2.5rem;
+  gap: 64px;
 }
 
-.tote-board > .tote-board-activity {
-  flex: 1;
-}
-
-.tote-board .tote-board-horses-grid {
+.tote-board-horses-column {
   display: flex;
-  gap: 2rem;
+  flex-direction: column;
+  gap: 16px;
 }

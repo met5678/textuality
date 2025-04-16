@@ -2,7 +2,7 @@ import React from 'react';
 import { ToteBoardCell } from './ToteBoardCell';
 
 export const ToteBoardDisplayRow: React.FC<{
-  label: string;
+  label: React.ReactNode;
   value: number | string;
   cellCount: number;
 }> = ({ label, value, cellCount }) => {

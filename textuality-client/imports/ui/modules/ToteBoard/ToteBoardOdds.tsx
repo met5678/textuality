@@ -1,18 +1,17 @@
 import React from 'react';
 import './ToteBoard.css';
 
+import { getContrastColor } from '/imports/utils/get-contrast-color';
 import { RaceWithHelpers } from '/imports/api/themes/derby/race/races';
 import { HorseWithHelpers } from '/imports/api/themes/derby/horse/horses';
 import { ToteBoardDisplayRow } from './ToteBoardDisplayRow';
 
-export const ToteBoardOdds: React.FC<{
-  race: RaceWithHelpers;
+const HorseColumn: React.FC<{
   horses: HorseWithHelpers[];
-}> = ({ race, horses }) => {
-  console.log('horsesinrace', race.horses);
-  console.log('horses', horses);
-
-  const horseByNumber = horses.reduce(
+  race: RaceWithHelpers;
+}> = ({ horses, race }) => {
+  // JTG - Should I use useMemo here & odds below?
+  const horsesByNumber = horses.reduce(
     (acc, horse) => {
       acc[horse.number] = horse;
       return acc;
@@ -20,12 +19,79 @@ export const ToteBoardOdds: React.FC<{
     {} as Record<number, HorseWithHelpers>,
   );
 
-  // JTG - need to sort horses by number
-  const leftHorses = horses.slice(0, 4);
-  const rightHorses = horses.slice(4, 8);
+  const horseOdds = race.odds.reduce(
+    (acc, odds) => {
+      acc[odds.horse] = odds.odds;
+      return acc;
+    },
+    {} as Record<string, number>,
+  );
 
   return (
-    <div className="tote-board-dds" style={{ maxWidth: '30%' }}>
+    <div
+      className="tote-board-horses-column"
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '16px',
+      }}
+    >
+      {horses.map((horse) => {
+        return (
+          <div
+            key={horse._id}
+            className="tote-board-horse-odds"
+            style={{ display: 'flex', gap: '4px', alignItems: 'flex-end' }}
+          >
+            <ToteBoardDisplayRow
+              label={
+                <div
+                  style={{
+                    backgroundColor: horsesByNumber[horse.number].color,
+                    width: '50px',
+                    height: '40px',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    paddingLeft: '3px',
+                  }}
+                >
+                  <span
+                    style={{
+                      color: getContrastColor(
+                        horsesByNumber[horse.number].color,
+                      ),
+                    }}
+                  >
+                    {horse.number.toString()}
+                  </span>
+                </div>
+              }
+              value={horseOdds[horse._id] ?? '--'}
+              cellCount={2}
+            />
+            <p
+              className="tote-board-note"
+              style={{ marginLeft: '4px', fontSize: '1.2rem' }}
+            >
+              to 1
+            </p>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+export const ToteBoardOdds: React.FC<{
+  race: RaceWithHelpers;
+  horses: HorseWithHelpers[];
+}> = ({ race, horses }) => {
+  const orderedHorses = [...horses].sort((a, b) => a.number - b.number);
+
+  return (
+    <div className="tote-board-odds" style={{ maxWidth: '40%' }}>
       <span
         style={{
           width: '100%',
@@ -40,49 +106,10 @@ export const ToteBoardOdds: React.FC<{
         className="tote-board-horses-grid"
         style={{ display: 'flex', justifyContent: 'space-between' }}
       >
-        <div className="tote-board-horses-column">
-          {leftHorses.map((horse) => {
-            return (
-              <div
-                key={horse._id}
-                className="tote-board-horse-odds"
-                style={{ color: horseByNumber[horse.number].color }}
-              >
-                <ToteBoardDisplayRow
-                  label={horse.number.toString()}
-                  value={1}
-                  cellCount={2}
-                />
-              </div>
-            );
-          })}
-        </div>
-        <div className="tote-board-horses-column">
-          {rightHorses.map((horse) => {
-            return (
-              <div
-                key={horse._id}
-                className="tote-board-horse-odds"
-                style={{ color: horseByNumber[horse.number].color }}
-              >
-                <ToteBoardDisplayRow
-                  label={horse.number.toString()}
-                  value={1}
-                  cellCount={2}
-                />
-              </div>
-            );
-          })}
-        </div>
+        <HorseColumn horses={orderedHorses.slice(0, 4)} race={race} />
+        <HorseColumn horses={orderedHorses.slice(4, 8)} race={race} />
       </div>
-      <p
-        style={{
-          fontSize: '1.3rem',
-          fontStyle: 'italic',
-          marginTop: '24px',
-          textAlign: 'center',
-        }}
-      >
+      <p className="tote-board-note" style={{ marginTop: '24px' }}>
         *Bigger odds means bigger payout!
       </p>
     </div>

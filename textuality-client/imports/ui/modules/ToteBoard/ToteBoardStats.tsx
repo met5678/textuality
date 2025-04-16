@@ -10,7 +10,12 @@ export const ToteBoardStats: React.FC<{
   return (
     <div
       className="tote-board-stats"
-      style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '24px',
+        marginTop: '16px',
+      }}
     >
       <ToteBoardDisplayRow
         label="Betting"

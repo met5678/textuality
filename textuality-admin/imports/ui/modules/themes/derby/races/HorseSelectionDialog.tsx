@@ -53,6 +53,12 @@ const HorseSelectionDialog = ({ race, onClose }: HorseSelectionDialogProps) => {
     Meteor.call('derby.races.update', {
       ...race,
       horses: selectedHorses,
+      odds: selectedHorses.map((horseId) => {
+        return {
+          horse: horseId,
+          odds: 1 + Math.floor(Math.random() * 20),
+        };
+      }),
     });
     onClose();
   };

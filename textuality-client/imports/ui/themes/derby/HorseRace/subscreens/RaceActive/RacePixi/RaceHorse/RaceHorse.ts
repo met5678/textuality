@@ -1,7 +1,6 @@
 import { RaceController } from '../RaceController';
-import { HorseWithHelpers } from '/imports/api/themes/derby/horse/horses';
+import { HorseWithHelpers } from '/imports/api/themes/derby/horses/horses';
 import { HorseId, HorseStats } from '/imports/schemas/derby/horse';
-import { RaceTimeline } from '/imports/schemas/derby/race';
 import {
   HorseStatus,
   RaceTimelineHorseKeyframe,

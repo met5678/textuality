@@ -2,18 +2,12 @@ import { Meteor } from 'meteor/meteor';
 import { RaceHorse } from './RaceHorse/RaceHorse';
 import { RaceTrack } from './RaceTrack/RaceTrack';
 import { RaceViewport } from './RaceViewport/RaceViewport';
-import {
-  RaceId,
-  RaceStatus,
-  RaceTimeline,
-  Weather,
-} from '/imports/schemas/derby/race';
+import { RaceId, RaceTimeline, Weather } from '/imports/schemas/derby/race';
 import { Tracker } from 'meteor/tracker';
 import Horses from '/imports/api/themes/derby/horses';
 import Races from '/imports/api/themes/derby/race';
-import { HorseWithHelpers } from '/imports/api/themes/derby/horse/horses';
+import { HorseWithHelpers } from '/imports/api/themes/derby/horses/horses';
 import { RaceWithHelpers } from '/imports/api/themes/derby/race/races';
-import { RaceTimelineHorseKeyframe } from '/imports/schemas/derby/race-timeline/types';
 import { Dimensions } from './RacePixi.types';
 import { Ticker } from 'pixi.js';
 

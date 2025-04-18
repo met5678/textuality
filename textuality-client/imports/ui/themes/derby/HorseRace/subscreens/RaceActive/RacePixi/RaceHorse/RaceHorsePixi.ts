@@ -1,12 +1,4 @@
-import {
-  AnimatedSprite,
-  Application,
-  Container,
-  Sprite,
-  Texture,
-} from 'pixi.js';
-import { HorseWithHelpers } from '/imports/api/themes/derby/horse/horses';
-import RaceTrackPixi from '../RaceTrack/RaceTrackPixi';
+import { AnimatedSprite, Container } from 'pixi.js';
 import { RaceHorse } from '../RaceHorse/RaceHorse';
 import { HORSE_SPRITES } from './RaceHorseSprites';
 

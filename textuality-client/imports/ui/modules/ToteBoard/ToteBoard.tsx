@@ -1,7 +1,7 @@
 import React from 'react';
 import './ToteBoard.css';
 import { RaceWithHelpers } from '/imports/api/themes/derby/race/races';
-import { HorseWithHelpers } from '/imports/api/themes/derby/horse/horses';
+import { HorseWithHelpers } from '/imports/api/themes/derby/horses/horses';
 
 import { ToteBoardOdds } from './ToteBoardOdds';
 import { ToteBoardStats } from './ToteBoardStats';

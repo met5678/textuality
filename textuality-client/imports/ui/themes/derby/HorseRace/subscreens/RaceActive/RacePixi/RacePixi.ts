@@ -1,6 +1,4 @@
 import { Application, Container, Ticker } from 'pixi.js';
-import { RaceWithHelpers } from '/imports/api/themes/derby/race/races';
-import { HorseWithHelpers } from '/imports/api/themes/derby/horse/horses';
 import RaceTrackPixi from './RaceTrack/RaceTrackPixi';
 import RaceHorsePixi from './RaceHorse/RaceHorsePixi';
 import { RaceController } from './RaceController';

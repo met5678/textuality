@@ -1,7 +1,7 @@
 import React from 'react';
 import { RaceWithHelpers } from '/imports/api/themes/derby/race/races';
 import { useSubscribe, useTracker } from 'meteor/react-meteor-data';
-import Horses from '/imports/api/themes/derby/horse/horses';
+import Horses from '/imports/api/themes/derby/horses/horses';
 import { ToteBoardAccents } from '../../../../../modules/ToteBoard/ToteBoardAccents';
 import { ToteBoard } from '/imports/ui/modules/ToteBoard/ToteBoard';
 import { Weather } from '/imports/schemas/derby/race';

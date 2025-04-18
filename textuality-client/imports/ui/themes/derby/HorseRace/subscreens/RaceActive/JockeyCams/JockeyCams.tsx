@@ -1,6 +1,5 @@
 import React from 'react';
 import { RaceWithHelpers } from '/imports/api/themes/derby/race/races';
-import { HorseWithHelpers } from '/imports/api/themes/derby/horse/horses';
 
 export const JOCKEYCAM_AREA_HEIGHT = 200;
 export const JOCKEYCAM_AREA_WIDTH = (JOCKEYCAM_AREA_HEIGHT * 16) / 9;

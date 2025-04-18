@@ -6,12 +6,11 @@ export const ToteBoardDisplayRow: React.FC<{
   value: number | string;
   cellCount: number;
 }> = ({ label, value, cellCount }) => {
-  const chars = String(value).split('');
-  const emptyCount = cellCount - chars.length;
-  const cells =
-    typeof value === 'number'
-      ? [...Array(emptyCount).fill(''), ...chars]
-      : [...Array(cellCount)].map((_, i) => chars[i] || '');
+  const numValueClamped = Math.min(99, Number(value));
+  const chars =
+    typeof value === 'number' ? String(numValueClamped).split('') : value;
+  const emptyCount = Math.max(0, cellCount - chars.length);
+  const cells = [...Array(emptyCount).fill(''), ...chars];
 
   return (
     <div

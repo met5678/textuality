@@ -63,7 +63,7 @@ export class RaceController {
         },
       });
       if (!race) {
-        console.error('Race not found');
+        console.warn('Race not found');
         return;
       }
       const horses = await Tracker.withComputation(computation, () =>

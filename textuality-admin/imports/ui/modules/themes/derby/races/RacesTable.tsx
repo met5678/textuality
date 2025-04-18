@@ -18,7 +18,7 @@ import Missions from '/imports/api/missions';
 import { Mission } from '/imports/schemas/mission';
 import RaceTimelineDialog from './RaceTimelineDialog';
 import { Horse } from '/imports/schemas/derby/horse';
-import Horses from '/imports/api/themes/derby/horse';
+import Horses from '../../../../../api/themes/derby/horses';
 import { RacePlaybackControls } from './components/RacePlaybackControls';
 import Events from '/imports/api/events';
 import { getStubWithEvent } from '/imports/utils/get-stub-with-event';

@@ -94,9 +94,9 @@ import 'api/guesses/server/publications-admin';
 
 // Derby specific
 
-import '/imports/api/themes/derby/horse/';
-import '/imports/api/themes/derby/horse/methods-admin';
-import '/imports/api/themes/derby/horse/server/publications-admin';
+import '../../api/themes/derby/horses';
+import '../../api/themes/derby/horses/methods-admin';
+import '../../api/themes/derby/horses/server/publications-admin';
 
 import '/imports/api/themes/derby/race/';
 import '/imports/api/themes/derby/race/methods-admin';

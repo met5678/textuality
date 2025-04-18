@@ -1,4 +1,4 @@
-import { HorseId } from '../horse';
+import { HorseId } from '../horses';
 
 export const HORSE_STATUS = ['still', 'running', 'trotting'] as const;
 export type HorseStatus = (typeof HORSE_STATUS)[number];

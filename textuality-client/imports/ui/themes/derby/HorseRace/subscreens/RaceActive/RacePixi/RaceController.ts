@@ -9,7 +9,7 @@ import {
   Weather,
 } from '/imports/schemas/derby/race';
 import { Tracker } from 'meteor/tracker';
-import Horses from '/imports/api/themes/derby/horse';
+import Horses from '/imports/api/themes/derby/horses';
 import Races from '/imports/api/themes/derby/race';
 import { HorseWithHelpers } from '/imports/api/themes/derby/horse/horses';
 import { RaceWithHelpers } from '/imports/api/themes/derby/race/races';

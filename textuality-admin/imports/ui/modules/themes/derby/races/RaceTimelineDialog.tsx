@@ -16,7 +16,7 @@ import {
   Slider,
   Typography,
 } from '@mui/material';
-import Horses from '/imports/api/themes/derby/horse';
+import Horses from '../../../../../api/themes/derby/horses';
 import RaceSchema, {
   Race,
   RaceId,

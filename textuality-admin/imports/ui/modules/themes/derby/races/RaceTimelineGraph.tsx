@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box } from '@mui/material';
 import { LineChart, ChartsReferenceLine, ChartsAxisData } from '@mui/x-charts';
-import { HorseWithHelpers } from '/imports/api/themes/derby/horse/horses';
+import { HorseWithHelpers } from '../../../../../api/themes/derby/horses/horses';
 import {
   Race,
   RaceHorseResult,

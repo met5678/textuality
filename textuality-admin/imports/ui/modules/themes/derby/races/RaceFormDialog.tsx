@@ -8,7 +8,7 @@ import EventField from '../../../events/EventField';
 import AutoFormDialog from '/imports/ui/generic/AutoForm/AutoFormDialog';
 import SelectField from '/imports/ui/generic/AutoForm/SelectField';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data';
-import Horses from '/imports/api/themes/derby/horse';
+import Horses from '../../../../../api/themes/derby/horses';
 import UniformsAutoField from '/imports/ui/generic/AutoForm/AutoField';
 
 interface RaceFormProps {

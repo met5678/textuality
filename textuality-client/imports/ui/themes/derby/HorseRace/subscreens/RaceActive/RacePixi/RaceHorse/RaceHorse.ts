@@ -19,7 +19,6 @@ export class RaceHorse {
   stats!: HorseStats;
 
   index: number;
-  horse: HorseWithHelpers;
   controller: RaceController;
   track: RaceTrack;
 
@@ -35,11 +34,9 @@ export class RaceHorse {
     controller: RaceController,
   ) {
     this.index = index;
-    this.id = horse._id;
-    this.horse = horse;
+    this.setHorse(horse);
     this.controller = controller;
     this.track = track;
-    this.setHorse(horse);
     this.update(0);
     this._gsapTimeline = gsap.timeline({
       paused: true,
@@ -55,8 +52,6 @@ export class RaceHorse {
 
   setKeyframes(horseKeyframes: RaceTimelineHorseKeyframe[]) {
     this._gsapTimeline.clear();
-
-    console.log('setKeyframes', { horseKeyframes });
 
     horseKeyframes.forEach((keyframe) => {
       if (keyframe.frame < 1) return;

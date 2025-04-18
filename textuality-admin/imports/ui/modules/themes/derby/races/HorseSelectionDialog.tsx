@@ -16,7 +16,7 @@ import {
   Box,
   ButtonGroup,
 } from '@mui/material';
-import Horses from '/imports/api/themes/derby/horse';
+import Horses from '../../../../../api/themes/derby/horses';
 import { Race } from '/imports/schemas/derby/race';
 
 interface HorseSelectionDialogProps {

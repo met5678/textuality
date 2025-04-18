@@ -1,4 +1,4 @@
-import { HorseWithHelpers } from '../../horse/horses';
+import { HorseWithHelpers } from '../../horses/horses';
 import { BaseEffect } from './effects/base-effect';
 import { LightningEffect } from './effects/lightning';
 import { RaceTimeline, Weather } from '/imports/schemas/derby/race';

@@ -6,8 +6,8 @@ import Table from '/imports/ui/generic/Table/Table';
 
 import { GridColDef } from '@mui/x-data-grid';
 import { HorseSchema, Horse } from '/imports/schemas/derby/horse';
-import Horses from '/imports/api/themes/derby/horse';
-import { HorseWithHelpers } from '/imports/api/themes/derby/horse/horses';
+import Horses from '../../../../../api/themes/derby/horses';
+import { HorseWithHelpers } from '../../../../../api/themes/derby/horses/horses';
 import HorseFormDialog from './HorseFormDialog';
 import Events from '/imports/api/events';
 import { getStubWithEvent } from '/imports/utils/get-stub-with-event';

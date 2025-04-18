@@ -24,7 +24,7 @@ class RaceHorsePixi extends Container {
 
     this.horseSprite.scale.set(1);
     this.horseSprite.play();
-    this.horseSprite.tint = this.raceHorse.horse.color;
+    this.horseSprite.tint = this.raceHorse.color;
     this.addChild(this.horseSprite);
 
     // this.addChild(new Sprite(Texture.WHITE));
@@ -34,6 +34,7 @@ class RaceHorsePixi extends Container {
   update() {
     this.x = this.raceHorse.x;
     this.y = this.raceHorse.y;
+    this.horseSprite.tint = this.raceHorse.color;
   }
 
   destroy() {

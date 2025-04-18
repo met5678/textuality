@@ -6,7 +6,7 @@ import {
   generateTimelineWithResults,
   KEYFRAME_INTERVAL_SECONDS,
 } from './timeline/generate-timeline';
-import Horses from '../horse/horses';
+import Horses from '../horses/horses';
 
 const keyframeIntervalHandles: Record<RaceId, number> = {};
 

@@ -19,6 +19,7 @@ export class RaceTrackResultBanner {
   private horse: RaceHorse;
   private _gsapTimeline: gsap.core.Timeline;
 
+  alpha: number = 0;
   isVisible: boolean = false;
 
   public get ready(): boolean {
@@ -75,11 +76,33 @@ export class RaceTrackResultBanner {
     }s)`;
   }
 
+  initGsapTimeline() {
+    this._gsapTimeline = gsap.timeline({
+      paused: true,
+    });
+
+    this._gsapTimeline.to(this, {
+      x: this.raceTrack.getFinishLinePosition().x - RESULT_BANNER_MARGIN_X,
+      duration: 1,
+      ease: 'none',
+    });
+  }
+
   update(time: number) {
-    if (this.horse.result?.time && time >= this.horse.result.time) {
+    // if (!this._gsapTimeline && this.horse.result) {
+    //   this.initGsapTimeline();
+    // }
+
+    if (
+      this.horse.result?.time &&
+      time >= this.horse.result.time &&
+      !this.isVisible
+    ) {
       this.isVisible = true;
-    } else {
+      gsap.to(this, { alpha: 2, duration: 1 });
+    } else if (this.isVisible) {
       this.isVisible = false;
+      gsap.to(this, { alpha: 0, duration: 1 });
     }
   }
 }

@@ -61,7 +61,7 @@ export class RaceTrackResultBannerPixi extends Container {
   }
 
   update() {
-    this.visible = this.resultBanner.isVisible;
+    this.alpha = this.resultBanner.alpha;
   }
 
   destroy() {

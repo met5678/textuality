@@ -7,6 +7,7 @@ import { Dimensions } from './RacePixi.types';
 import { RaceBackdrop } from './RaceBackdrop/RaceBackdrop';
 import { RaceViewportPixi } from './RaceViewport/RaceViewportPixi';
 import { RaceLines } from './RaceLines/RaceLines';
+import { RaceTrackResultBannerPixi } from './RaceTrack/RaceTrackResultBannerPixi';
 
 export class RacePixi {
   private app!: Application;
@@ -19,7 +20,7 @@ export class RacePixi {
   private horsesContainer: Container = new Container();
   private effectsOverlay: Container = new Container();
   private raceLines: RaceLines | null = null;
-
+  private resultBanners: RaceTrackResultBannerPixi[] = [];
   private worldSize: Dimensions = { width: 0, height: 0 };
 
   private tracks: RaceTrackPixi[] = [];
@@ -61,17 +62,19 @@ export class RacePixi {
     this.horsesContainer.label = 'horsesContainer';
     this.effectsOverlay.label = 'effectsOverlay';
 
-    this.ticker.add(() => this.update());
+    this.ticker.add(this.update, this);
 
     console.log('started');
   }
 
   initTracks() {
+    console.log('initTracks');
     this.tracks.forEach((track) => {
       track.destroy();
     });
     this.tracks.length = 0;
     this.tracksContainer.removeChildren();
+
     this.worldSize = { width: 0, height: 0 };
     this.controller.getTracks().forEach((track) => {
       const trackPixi = new RaceTrackPixi(track);
@@ -83,10 +86,17 @@ export class RacePixi {
       );
       this.worldSize.height += track.getDimensions().height;
     });
+
     this.controller.getHorses().forEach((horse, index) => {
       const horsePixi = new RaceHorsePixi(horse);
       this.horses.push(horsePixi);
       this.horsesContainer.addChild(horsePixi);
+    });
+
+    this.controller.getResultBanners().forEach((resultBanner) => {
+      const resultBannerPixi = new RaceTrackResultBannerPixi(resultBanner);
+      this.resultBanners.push(resultBannerPixi);
+      this.tracksContainer.addChild(resultBannerPixi);
     });
 
     this.backdrop.updateWorldSize(this.worldSize);
@@ -116,11 +126,12 @@ export class RacePixi {
     }
     this.tracks.forEach((track) => track.update());
     this.horses.forEach((horse) => horse.update());
+    this.resultBanners.forEach((resultBanner) => resultBanner.update());
     this.viewport.update();
   }
 
   destroy() {
-    this.ticker.remove(this.update);
+    this.ticker.remove(this.update, this);
     this.backdrop.destroy();
     this.viewport.destroy();
     this.raceLines?.destroy();

@@ -31,6 +31,7 @@ Meteor.publish('races.currentOrNext', function () {
           weather: 1,
           linked_mission: 1,
           odds: 1,
+          results: 1,
         },
       },
     );

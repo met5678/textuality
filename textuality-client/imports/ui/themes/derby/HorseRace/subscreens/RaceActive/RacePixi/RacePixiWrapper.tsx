@@ -1,49 +1,39 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { RacePixi } from './RacePixi';
 import { RaceController } from './RaceController';
-import { RaceWithHelpers } from '/imports/api/themes/derby/race/races';
 import useResizeObserver from 'use-resize-observer';
 import { Ticker } from 'pixi.js';
 
-const RacePixiWrapper = ({ race }: { race: RaceWithHelpers }) => {
-  const tickerRef = useRef<Ticker>(new Ticker());
+const RacePixiWrapper = ({
+  raceController,
+  ticker,
+}: {
+  raceController: RaceController;
+  ticker: Ticker;
+}) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const raceController = useRef<RaceController>(
-    new RaceController(tickerRef.current),
-  );
-  const pixiApp = useRef<RacePixi>(
-    new RacePixi(raceController.current, tickerRef.current),
-  );
+  const pixiApp = useRef<RacePixi>();
 
   const { width = 1, height = 1 } = useResizeObserver<HTMLDivElement>({
     ref: containerRef,
   });
 
-  console.log('RacePixiWrapper', { race });
-
   useEffect(() => {
-    if (containerRef.current) {
-      pixiApp.current.init(containerRef.current);
-    }
-  }, [containerRef]);
-
-  useEffect(() => {
-    if (raceController.current) {
-      raceController.current.initRace(race);
-    }
-  }, [raceController, race]);
-
-  useEffect(() => {
-    if (raceController.current) {
-      raceController.current.setSize(width, height);
-    }
+    raceController.setSize(width, height);
   }, [raceController, width, height]);
 
   useEffect(() => {
-    if (tickerRef.current) {
-      tickerRef.current.start();
+    if (!pixiApp.current) {
+      pixiApp.current = new RacePixi(raceController, ticker);
     }
-  }, [tickerRef]);
+    if (containerRef.current) {
+      pixiApp.current.init(containerRef.current);
+    }
+    return () => {
+      pixiApp.current?.destroy();
+      pixiApp.current = undefined;
+    };
+  }, [pixiApp, containerRef, raceController, ticker]);
 
   return (
     <div

@@ -8,6 +8,7 @@ import {
 import { RaceTrack, UNITS_PER_FURLONG } from '../RaceTrack/RaceTrack';
 import gsap from 'gsap';
 import { KEYFRAME_INTERVAL_SECONDS } from '/imports/api/themes/derby/race/timeline/generate-timeline';
+import { RaceHorseResult } from '/imports/schemas/derby/race';
 
 export const BOTTOM_PADDING = 30;
 
@@ -24,6 +25,7 @@ export class RaceHorse {
   x: number = 0;
   y: number = 0;
   currentStatus: HorseStatus = 'still';
+  result: RaceHorseResult | null = null;
   _gsapTimeline: gsap.core.Timeline;
 
   constructor(
@@ -47,6 +49,10 @@ export class RaceHorse {
     this.name = horse.name;
     this.color = horse.color;
     this.stats = horse.stats;
+  }
+
+  setResult(result: RaceHorseResult) {
+    this.result = result;
   }
 
   setKeyframes(horseKeyframes: RaceTimelineHorseKeyframe[]) {

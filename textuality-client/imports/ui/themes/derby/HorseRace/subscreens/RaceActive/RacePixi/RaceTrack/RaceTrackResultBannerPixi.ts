@@ -1,38 +1,63 @@
-import { Container, Sprite, Texture } from 'pixi.js';
+import { Container, Graphics, Sprite, Text, TextStyle, Texture } from 'pixi.js';
 import { RaceTrack } from './RaceTrack';
+import gsap from 'gsap';
+import { RaceHorse } from '../RaceHorse/RaceHorse';
+import ordinal from 'ordinal';
+import { RaceTrackResultBanner } from './RaceTrackResultBanner';
 
-class RaceTrackResultBannerPixi extends Container {
-  private raceTrack: RaceTrack;
+const BANNER_TEXT_STYLE = new TextStyle({
+  fontFamily: 'house-of-cards, serif',
+  fontSize: 24,
+  fill: 0xffffff,
+});
+
+export class RaceTrackResultBannerPixi extends Container {
+  private resultBanner: RaceTrackResultBanner;
   private bannerSprite: Sprite;
+  private bannerText: Text;
+  private bannerMask: Graphics;
 
-  constructor(raceTrack: RaceTrack) {
+  constructor(resultBanner: RaceTrackResultBanner) {
     super();
-    this.raceTrack = raceTrack;
+    this.resultBanner = resultBanner;
     this.bannerSprite = new Sprite();
+    this.bannerText = new Text({
+      style: BANNER_TEXT_STYLE,
+    });
+    this.bannerMask = new Graphics();
+    this.addChild(this.bannerSprite);
+    this.addChild(this.bannerText);
     this.init();
     this.update();
   }
 
   init() {
+    // console.log('init', this.resultBanner);
+
+    if (!this.resultBanner.ready) {
+      return;
+    }
+
     this.bannerSprite.texture = Texture.WHITE;
-    this.bannerSprite.tint = 0x000000;
-    this.bannerSprite.alpha = 0.8;
-    this.addChild(this.bannerSprite);
-    this.bannerSprite.label = 'result-banner';
+    this.bannerSprite.tint = this.resultBanner.getColor();
+    this.bannerSprite.label = 'result-banner-background';
+
+    this.bannerText.text = this.resultBanner.getBannerText();
+
+    this.bannerSprite.width = this.bannerText.width + 20;
+    this.bannerSprite.height = this.resultBanner.getTrackHeight();
+    this.bannerText.y = 10;
+
+    const position = this.resultBanner.getPosition();
+    this.position.set(position.x, position.y);
+    console.log({ position });
   }
 
-  update() {
-    const dimensions = this.raceTrack.getDimensions();
-    const position = this.raceTrack.getPosition();
+  update() {}
 
-    // Position the banner above the track
-    this.position.x = position.x;
-    this.position.y = position.y - dimensions.height;
-
-    // Set banner size
-    this.bannerSprite.width = 400;
-    this.bannerSprite.height = dimensions.height;
+  destroy() {
+    this.bannerSprite.destroy();
+    this.bannerText.destroy();
+    this.bannerMask.destroy();
   }
 }
-
-export { RaceTrackPixi, RaceTrackResultBannerPixi };

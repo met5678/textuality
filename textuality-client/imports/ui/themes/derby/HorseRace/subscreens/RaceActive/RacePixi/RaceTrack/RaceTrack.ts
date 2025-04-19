@@ -49,6 +49,13 @@ export class RaceTrack {
     };
   }
 
+  getFinishLinePosition(): { x: number; y: number } {
+    return {
+      x: this.getDimensions().width - OVERRUN_DISTANCE * UNITS_PER_FURLONG,
+      y: this.getBottomY(),
+    };
+  }
+
   getBottomY(): number {
     return this.index * TRACK_HEIGHT_UNITS + TRACK_HEIGHT_UNITS;
   }

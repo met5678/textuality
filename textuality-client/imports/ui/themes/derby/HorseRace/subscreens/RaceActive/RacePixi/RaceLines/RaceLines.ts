@@ -62,12 +62,7 @@ export class RaceLines {
       const y = i * this.checkerSize;
       const isBlack = i % 2 === 0;
 
-      this.finishGraphics.rect(
-        finishX - this.checkerSize,
-        y,
-        this.checkerSize,
-        this.checkerSize,
-      );
+      this.finishGraphics.rect(finishX, y, this.checkerSize, this.checkerSize);
       this.finishGraphics.fill(isBlack ? 0x000000 : 0xffffff);
     }
   }

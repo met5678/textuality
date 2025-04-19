@@ -5,17 +5,21 @@ import { RaceHorse } from '../RaceHorse/RaceHorse';
 import ordinal from 'ordinal';
 import { RaceController } from '../RaceController';
 
-const BANNER_TEXT_STYLE = new TextStyle({
-  fontFamily: 'house-of-cards, serif',
-  fontSize: 24,
-  fill: 0xffffff,
-});
+export const RESULT_BANNER_FONT_FAMILY = 'house-of-cards, serif';
+export const RESULT_BANNER_FILL = '#FFFFFF';
+
+export const RESULT_BANNER_MARGIN_X = 40;
+export const RESULT_BANNER_PADDING_X = 40;
+export const RESULT_BANNER_MARGIN_Y = 10;
+export const RESULT_BANNER_PADDING_Y = 5;
 
 export class RaceTrackResultBanner {
   private controller: RaceController;
   private raceTrack: RaceTrack;
   private horse: RaceHorse;
   private _gsapTimeline: gsap.core.Timeline;
+
+  isVisible: boolean = false;
 
   public get ready(): boolean {
     return !!(this.horse && this.horse.result && this.raceTrack);
@@ -33,6 +37,9 @@ export class RaceTrackResultBanner {
     this._gsapTimeline = gsap.timeline({
       paused: true,
     });
+    this.isVisible = false;
+
+    console.log('RaceTrackResultBanner', this.horse.name);
   }
 
   getColor(): string {
@@ -41,13 +48,21 @@ export class RaceTrackResultBanner {
 
   getPosition(): { x: number; y: number } {
     return {
-      x: this.raceTrack.getFinishLinePosition().x,
-      y: this.raceTrack.getBottomY(),
+      x: this.raceTrack.getFinishLinePosition().x - RESULT_BANNER_MARGIN_X,
+      y: this.raceTrack.getPosition().y + RESULT_BANNER_MARGIN_Y,
     };
   }
 
   getTrackHeight(): number {
     return this.raceTrack.getDimensions().height;
+  }
+
+  getBannerHeight(): number {
+    return this.getTrackHeight() - RESULT_BANNER_MARGIN_Y * 2;
+  }
+
+  getFontHeight(): number {
+    return this.getBannerHeight() - RESULT_BANNER_PADDING_Y * 2;
   }
 
   getBannerText(): string {
@@ -57,11 +72,14 @@ export class RaceTrackResultBanner {
 
     return `${ordinal(this.horse.result.placement)}: ${this.horse.name} (${
       this.horse.result.time
-    })`;
+    }s)`;
   }
 
   update(time: number) {
-    // this._gsapTimeline?.seek(time);
-    // this.y = this.track.getBottomY() - BOTTOM_PADDING;
+    if (this.horse.result?.time && time >= this.horse.result.time) {
+      this.isVisible = true;
+    } else {
+      this.isVisible = false;
+    }
   }
 }

@@ -1,9 +1,9 @@
 import { RaceController } from '../RaceController';
 import { Dimensions } from '../RacePixi.types';
-import { OVERRUN_DISTANCE } from '/imports/api/themes/derby/race/timeline/generate-timeline';
+import { OVERRUN_DISTANCE_FURLONGS } from '/imports/api/themes/derby/race/timeline/generate-timeline';
 import { Weather } from '/imports/schemas/derby/race';
 
-export const UNITS_PER_FURLONG = 3000;
+export const UNITS_PER_FURLONG = 5000;
 export const PRE_START_FURLONGS = 0.5;
 export const TRACK_HEIGHT_UNITS = 120;
 
@@ -25,7 +25,7 @@ export class RaceTrack {
   getDimensions(): Dimensions {
     return {
       width:
-        (this.furlong_length + OVERRUN_DISTANCE + PRE_START_FURLONGS) *
+        (this.furlong_length + OVERRUN_DISTANCE_FURLONGS + PRE_START_FURLONGS) *
         UNITS_PER_FURLONG,
       height: TRACK_HEIGHT_UNITS,
     };
@@ -51,7 +51,7 @@ export class RaceTrack {
 
   getFinishLinePosition(): { x: number; y: number } {
     return {
-      x: this.getDimensions().width - OVERRUN_DISTANCE * UNITS_PER_FURLONG,
+      x: this.furlong_length * UNITS_PER_FURLONG,
       y: this.getBottomY(),
     };
   }

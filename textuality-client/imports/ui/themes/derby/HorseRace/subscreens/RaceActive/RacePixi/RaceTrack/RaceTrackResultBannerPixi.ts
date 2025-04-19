@@ -1,15 +1,12 @@
 import { Container, Graphics, Sprite, Text, TextStyle, Texture } from 'pixi.js';
-import { RaceTrack } from './RaceTrack';
-import gsap from 'gsap';
-import { RaceHorse } from '../RaceHorse/RaceHorse';
-import ordinal from 'ordinal';
-import { RaceTrackResultBanner } from './RaceTrackResultBanner';
-
-const BANNER_TEXT_STYLE = new TextStyle({
-  fontFamily: 'house-of-cards, serif',
-  fontSize: 24,
-  fill: 0xffffff,
-});
+import {
+  RaceTrackResultBanner,
+  RESULT_BANNER_FILL,
+  RESULT_BANNER_FONT_FAMILY,
+  RESULT_BANNER_MARGIN_Y,
+  RESULT_BANNER_PADDING_X,
+  RESULT_BANNER_PADDING_Y,
+} from './RaceTrackResultBanner';
 
 export class RaceTrackResultBannerPixi extends Container {
   private resultBanner: RaceTrackResultBanner;
@@ -21,9 +18,13 @@ export class RaceTrackResultBannerPixi extends Container {
     super();
     this.resultBanner = resultBanner;
     this.bannerSprite = new Sprite();
+    this.bannerSprite.anchor.set(1, 0);
+    this.bannerSprite.label = 'result-banner-background';
     this.bannerText = new Text({
-      style: BANNER_TEXT_STYLE,
+      style: this.getTextStyle(),
     });
+    this.bannerText.anchor.set(1, 0);
+    this.bannerText.label = 'result-banner-text';
     this.bannerMask = new Graphics();
     this.addChild(this.bannerSprite);
     this.addChild(this.bannerText);
@@ -31,29 +32,37 @@ export class RaceTrackResultBannerPixi extends Container {
     this.update();
   }
 
-  init() {
-    // console.log('init', this.resultBanner);
+  getTextStyle(): TextStyle {
+    return new TextStyle({
+      fontFamily: RESULT_BANNER_FONT_FAMILY,
+      fontSize: this.resultBanner.getFontHeight(),
+      fill: RESULT_BANNER_FILL,
+    });
+  }
 
-    if (!this.resultBanner.ready) {
-      return;
-    }
+  init() {
+    // if (!this.resultBanner.ready) {
+    //   return;
+    // }
+
+    this.bannerText.text = this.resultBanner.getBannerText();
+    this.bannerText.x = -RESULT_BANNER_PADDING_X;
+    this.bannerText.y = RESULT_BANNER_PADDING_Y;
 
     this.bannerSprite.texture = Texture.WHITE;
     this.bannerSprite.tint = this.resultBanner.getColor();
-    this.bannerSprite.label = 'result-banner-background';
-
-    this.bannerText.text = this.resultBanner.getBannerText();
-
-    this.bannerSprite.width = this.bannerText.width + 20;
-    this.bannerSprite.height = this.resultBanner.getTrackHeight();
-    this.bannerText.y = 10;
+    this.bannerSprite.width =
+      this.bannerText.width + RESULT_BANNER_PADDING_X * 2;
+    this.bannerSprite.height = this.resultBanner.getBannerHeight();
 
     const position = this.resultBanner.getPosition();
     this.position.set(position.x, position.y);
-    console.log({ position });
+    console.log({ position, bannerDims: this.bannerSprite.getSize() });
   }
 
-  update() {}
+  update() {
+    this.visible = this.resultBanner.isVisible;
+  }
 
   destroy() {
     this.bannerSprite.destroy();

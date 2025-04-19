@@ -7,8 +7,7 @@ import {
   RaceHorseResult,
   RaceTimeline,
 } from '/imports/schemas/derby/race';
-import { OVERRUN_DISTANCE } from '/imports/api/themes/derby/race/timeline/generate-timeline';
-import { RaceTimelineEffectKeyframe } from '/imports/schemas/derby/race-timeline/types';
+import { OVERRUN_DISTANCE_FURLONGS } from '/imports/api/themes/derby/race/timeline/generate-timeline';
 import { Meteor } from 'meteor/meteor';
 
 interface RaceTimelineGraphProps {
@@ -97,7 +96,7 @@ export const RaceTimelineGraph = ({
           {
             label: 'Position',
             min: 0,
-            max: race.furlong_length + OVERRUN_DISTANCE,
+            max: race.furlong_length + OVERRUN_DISTANCE_FURLONGS,
           },
         ]}
         series={chartData.map((series) => ({

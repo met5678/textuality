@@ -15,7 +15,7 @@ import { WindEffect } from './effects/wind';
 export const KEYFRAME_INTERVAL_SECONDS = 1;
 const APPROXIMATE_SECONDS_PER_FURLONG = 6;
 
-export const OVERRUN_DISTANCE = 0.5; // furlongs to run past finish line
+export const OVERRUN_DISTANCE_FURLONGS = 0.5; // furlongs to run past finish line
 
 /** Mostly to prevent infinite loops */
 const MAX_FRAMES = 200;
@@ -181,10 +181,10 @@ export const generateTimelineWithResults = (
         state.finishTime = interpolatedTime;
       }
 
-      if (state.position >= race.furlong_length + OVERRUN_DISTANCE) {
+      if (state.position >= race.furlong_length + OVERRUN_DISTANCE_FURLONGS) {
         state.finished = true;
         state.currentSpeed = 0;
-        state.position = race.furlong_length + OVERRUN_DISTANCE;
+        state.position = race.furlong_length + OVERRUN_DISTANCE_FURLONGS;
       }
 
       // Only set allFinished to false if the horse hasn't finished

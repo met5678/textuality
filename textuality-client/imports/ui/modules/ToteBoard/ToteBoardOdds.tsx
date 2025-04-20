@@ -71,18 +71,6 @@ const HorseColumn: React.FC<{
               value={horseOdds[horse._id] ?? '--'}
               cellCount={2}
             />
-            {/* <p
-              className="tote-board-note"
-              style={{
-                marginLeft: '2px',
-                fontSize: '1.4rem',
-                fontFamily: 'gin',
-                fontStyle: 'normal',
-                lineHeight: '1.2',
-              }}
-            >
-              :1
-            </p> */}
           </div>
         );
       })}

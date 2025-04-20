@@ -1,19 +1,27 @@
 import { Container, Sprite, Text, TextStyle, Texture } from 'pixi.js';
-import { RaceTrack } from './RaceTrack';
+import { RaceTrack } from '../RaceTrack/RaceTrack';
 import gsap from 'gsap';
 import { RaceHorse } from '../RaceHorse/RaceHorse';
 import ordinal from 'ordinal';
 import { RaceController } from '../RaceController';
+import fontColorContrast from 'font-color-contrast';
 
-export const RESULT_BANNER_FONT_FAMILY = 'house-of-cards, serif';
+export const RESULT_BANNER_FONT_FAMILY = 'eurostile, sans-serif';
+export const RESULT_BANNER_FONT_WEIGHT = '700' as const;
 export const RESULT_BANNER_FILL = '#FFFFFF';
 
 export const RESULT_BANNER_MARGIN_X = 40;
-export const RESULT_BANNER_PADDING_X = 40;
+export const RESULT_BANNER_PADDING_X = 20;
 export const RESULT_BANNER_MARGIN_Y = 10;
-export const RESULT_BANNER_PADDING_Y = 5;
+export const RESULT_BANNER_PADDING_Y = 10;
 
-export class RaceTrackResultBanner {
+export const MEDAL_COLORS = {
+  1: '#FFD700',
+  2: '#C0C0C0',
+  3: '#CD7F32',
+};
+
+export class RaceTrackBanner {
   private controller: RaceController;
   private raceTrack: RaceTrack;
   private horse: RaceHorse;
@@ -21,6 +29,8 @@ export class RaceTrackResultBanner {
 
   alpha: number = 0;
   isVisible: boolean = false;
+  private _gsapMedalTween: any;
+  private _medalRotation: number = 0;
 
   public get ready(): boolean {
     return !!(this.horse && this.horse.result && this.raceTrack);
@@ -43,8 +53,12 @@ export class RaceTrackResultBanner {
     console.log('RaceTrackResultBanner', this.horse.name);
   }
 
-  getColor(): string {
+  getBannerColor(): string {
     return this.horse.color;
+  }
+
+  getBannerTextColor(): string {
+    return fontColorContrast(this.getBannerColor(), 0.6);
   }
 
   getPosition(): { x: number; y: number } {
@@ -52,6 +66,43 @@ export class RaceTrackResultBanner {
       x: this.raceTrack.getFinishLinePosition().x - RESULT_BANNER_MARGIN_X,
       y: this.raceTrack.getPosition().y + RESULT_BANNER_MARGIN_Y,
     };
+  }
+
+  hasMedal(): boolean {
+    return !!(this.horse.result?.placement && this.horse.result.placement <= 3);
+  }
+
+  getMedalColor(): string {
+    if (!this.horse.result) {
+      return MEDAL_COLORS[1];
+    }
+    if (this.horse.result.placement >= 1 && this.horse.result.placement <= 3) {
+      return MEDAL_COLORS[
+        this.horse.result.placement as keyof typeof MEDAL_COLORS
+      ];
+    }
+    return MEDAL_COLORS[1];
+  }
+
+  getMedalY() {
+    return {
+      y: this.raceTrack.getDimensions().height / 2,
+    };
+  }
+
+  getMedalRotation() {
+    if (!this._gsapMedalTween) {
+      this._medalRotation = 0;
+      this._gsapMedalTween = gsap.to(this, {
+        _medalRotation: 0.1,
+        duration: 1,
+        repeat: -1,
+        yoyo: true,
+        ease: 'none',
+      });
+      return 0;
+    }
+    return this._medalRotation;
   }
 
   getTrackHeight(): number {
@@ -71,9 +122,9 @@ export class RaceTrackResultBanner {
       return '';
     }
 
-    return `${ordinal(this.horse.result.placement)}: ${this.horse.name} (${
+    return `${ordinal(this.horse.result.placement)}: ${this.horse.name} -- ${
       this.horse.result.time
-    }s)`;
+    }s`;
   }
 
   initGsapTimeline() {

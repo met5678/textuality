@@ -59,6 +59,12 @@ const HorseSelectionDialog = ({ race, onClose }: HorseSelectionDialogProps) => {
           odds: 1 + Math.floor(Math.random() * 20),
         };
       }),
+      timeline: {
+        horses: {},
+        effects: {},
+        current_frame: 0,
+        is_playing: false,
+      },
     });
     onClose();
   };

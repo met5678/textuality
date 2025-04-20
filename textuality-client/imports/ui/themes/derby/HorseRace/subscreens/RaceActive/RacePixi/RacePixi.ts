@@ -7,7 +7,7 @@ import { Dimensions } from './RacePixi.types';
 import { RaceBackdrop } from './RaceBackdrop/RaceBackdrop';
 import { RaceViewportPixi } from './RaceViewport/RaceViewportPixi';
 import { RaceLines } from './RaceLines/RaceLines';
-import { RaceTrackResultBannerPixi } from './RaceTrack/RaceTrackResultBannerPixi';
+import { RaceResultBannerPixi } from './RaceResultBanner/RaceResultBannerPixi';
 
 export class RacePixi {
   private app!: Application;
@@ -20,7 +20,7 @@ export class RacePixi {
   private horsesContainer: Container = new Container();
   private effectsOverlay: Container = new Container();
   private raceLines: RaceLines | null = null;
-  private resultBanners: RaceTrackResultBannerPixi[] = [];
+  private resultBanners: RaceResultBannerPixi[] = [];
   private worldSize: Dimensions = { width: 0, height: 0 };
 
   private tracks: RaceTrackPixi[] = [];
@@ -94,7 +94,7 @@ export class RacePixi {
     });
 
     this.controller.getResultBanners().forEach((resultBanner) => {
-      const resultBannerPixi = new RaceTrackResultBannerPixi(resultBanner);
+      const resultBannerPixi = new RaceResultBannerPixi(resultBanner);
       this.resultBanners.push(resultBannerPixi);
       this.tracksContainer.addChild(resultBannerPixi);
     });

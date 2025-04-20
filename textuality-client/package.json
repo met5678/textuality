@@ -25,6 +25,7 @@
     "luxon": "^3.4.3",
     "meteor-node-stubs": "~1.2.5",
     "ordinal": "^1.0.3",
+    "pixi-filters": "^6.1.2",
     "pixi-viewport": "^6.0.3",
     "pixi.js": "^8.9.1",
     "pokemon": "^2.0.0",

@@ -15,14 +15,14 @@ import { HorseWithHelpers } from '/imports/api/themes/derby/horses/horses';
 import { RaceWithHelpers } from '/imports/api/themes/derby/race/races';
 import { Dimensions } from './RacePixi.types';
 import { Ticker } from 'pixi.js';
-import { RaceTrackResultBanner } from './RaceTrack/RaceTrackResultBanner';
+import { RaceTrackBanner } from './RaceResultBanner/RaceResultBanner';
 
 export class RaceController {
   private raceId: RaceId = '';
 
   private horses: RaceHorse[] = [];
   private tracks: RaceTrack[] = [];
-  private resultBanners: RaceTrackResultBanner[] = [];
+  private resultBanners: RaceTrackBanner[] = [];
 
   private screenSize: Dimensions = { width: 0, height: 0 };
 
@@ -187,7 +187,7 @@ export class RaceController {
 
       let resultBanner = this.resultBanners[index];
       if (!resultBanner) {
-        resultBanner = new RaceTrackResultBanner(this, raceTrack, raceHorse);
+        resultBanner = new RaceTrackBanner(this, raceTrack, raceHorse);
         this.resultBanners.push(resultBanner);
       }
     });
@@ -245,7 +245,7 @@ export class RaceController {
     return this.horses;
   }
 
-  getResultBanners(): RaceTrackResultBanner[] {
+  getResultBanners(): RaceTrackBanner[] {
     return this.resultBanners;
   }
 

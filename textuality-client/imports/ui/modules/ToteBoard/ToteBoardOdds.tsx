@@ -1,7 +1,7 @@
 import React from 'react';
 import './ToteBoard.css';
+import fontColorContrast from 'font-color-contrast';
 
-import { getContrastColor } from '/imports/utils/get-contrast-color';
 import { RaceWithHelpers } from '/imports/api/themes/derby/race/races';
 import { HorseWithHelpers } from '/imports/api/themes/derby/horses/horses';
 import { ToteBoardDisplayRow } from './ToteBoardDisplayRow';
@@ -53,14 +53,13 @@ const HorseColumn: React.FC<{
                     borderRadius: '50%',
                     display: 'flex',
                     justifyContent: 'center',
-                    alignItems: 'center',
-                    paddingLeft: '3px',
                     textShadow: '0px 1px 1px rgba(0, 0, 0, 0.25)',
+                    paddingLeft: '2px',
                   }}
                 >
                   <span
                     style={{
-                      color: getContrastColor(
+                      color: fontColorContrast(
                         horsesByNumber[horse.number].color,
                       ),
                     }}
@@ -98,7 +97,7 @@ export const ToteBoardOdds: React.FC<{
   const orderedHorses = [...horses].sort((a, b) => a.number - b.number);
 
   return (
-    <div className="tote-board-odds" style={{ maxWidth: '35%' }}>
+    <div className="tote-board-odds" style={{ maxWidth: '33%' }}>
       <span
         style={{
           width: '100%',

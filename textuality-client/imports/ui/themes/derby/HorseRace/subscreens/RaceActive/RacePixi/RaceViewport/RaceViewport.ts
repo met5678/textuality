@@ -28,12 +28,12 @@ export const VIEWPORT_HORSE_TRAIL_PADDING = 300;
 /**
  * How much padding to add to the top to keep the top horse sprite from being cut off
  */
-export const TOP_HORSE_PADDING = 100;
+export const TOP_HORSE_PADDING = 120;
 
 /**
  * How much additional padding of grass to add to the top/bottom of the viewport
  */
-export const LAWN_PADDING_MIN = 50;
+export const LAWN_PADDING_MIN = 60;
 export const LAWN_PADDING_MAX = BACKDROP_PADDING - TOP_HORSE_PADDING;
 
 /**

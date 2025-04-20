@@ -1,23 +1,13 @@
-import {
-  Assets,
-  Container,
-  Graphics,
-  Sprite,
-  Text,
-  TextStyle,
-  Texture,
-} from 'pixi.js';
+import { Assets, Container, Sprite, Text, TextStyle, Texture } from 'pixi.js';
 import {
   RaceTrackBanner,
   RESULT_BANNER_FILL,
   RESULT_BANNER_FONT_FAMILY,
   RESULT_BANNER_FONT_WEIGHT,
-  RESULT_BANNER_MARGIN_Y,
   RESULT_BANNER_PADDING_X,
   RESULT_BANNER_PADDING_Y,
 } from './RaceResultBanner';
-import fontColorContrast from 'font-color-contrast';
-import { DropShadowFilter, GlowFilter } from 'pixi-filters';
+import { GlowFilter } from 'pixi-filters';
 import { RaceTextures } from '../RaceTextures/RaceTextures';
 
 export class RaceResultBannerPixi extends Container {
@@ -27,8 +17,6 @@ export class RaceResultBannerPixi extends Container {
   private bannerSprite2: Sprite = new Sprite();
   private medalSprite: Sprite = new Sprite();
   private bannerText: Text;
-  private bannerMask: Graphics;
-  private glowFilter: GlowFilter = new GlowFilter();
 
   constructor(resultBanner: RaceTrackBanner) {
     super();
@@ -42,7 +30,6 @@ export class RaceResultBannerPixi extends Container {
     });
     this.bannerText.anchor.set(1, 0);
     this.bannerText.label = 'result-banner-text';
-    this.bannerMask = new Graphics();
 
     this.addChild(this.bannerContainer);
     this.addChild(this.bannerText);
@@ -106,6 +93,7 @@ export class RaceResultBannerPixi extends Container {
       fontWeight: RESULT_BANNER_FONT_WEIGHT,
       fontSize: this.resultBanner.getFontHeight(),
       fill: RESULT_BANNER_FILL,
+      lineHeight: this.resultBanner.getFontHeight(),
     });
   }
 
@@ -148,9 +136,5 @@ export class RaceResultBannerPixi extends Container {
     this.medalSprite.rotation = this.resultBanner.getMedalRotation();
   }
 
-  destroy() {
-    this.bannerSprite1.destroy();
-    this.bannerText.destroy();
-    this.bannerMask.destroy();
-  }
+  destroy() {}
 }

@@ -1,5 +1,5 @@
 import { EventId } from '../event';
-import { HorseId } from './horses';
+import { HorseId } from './horse';
 import Events from '/imports/api/events';
 import SimpleSchema from 'simpl-schema';
 import { MissionId } from '../mission';

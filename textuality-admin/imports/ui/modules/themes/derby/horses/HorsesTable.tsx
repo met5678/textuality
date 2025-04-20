@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data';
 
 import Table from '/imports/ui/generic/Table/Table';
 
 import { GridColDef } from '@mui/x-data-grid';
-import { HorseSchema, Horse } from '/imports/schemas/derby/horse';
+import { HorseSchema } from '/imports/schemas/derby/horse';
 import Horses from '../../../../../api/themes/derby/horses';
 import { HorseWithHelpers } from '../../../../../api/themes/derby/horses/horses';
-import HorseFormDialog from './HorseFormDialog';
 import Events from '/imports/api/events';
 import { getStubWithEvent } from '/imports/utils/get-stub-with-event';
 

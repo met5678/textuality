@@ -10,14 +10,21 @@ const JockeyCam = () => {
       id="horse-race-jockey-camera"
       style={{
         backgroundColor: 'var(--derby-orange)',
+        borderLeft: '3px solid #222',
+        borderRight: '3px solid #222',
       }}
     >
       <video
         style={{
           width: JOCKEYCAM_AREA_WIDTH,
           height: JOCKEYCAM_AREA_HEIGHT,
+          objectFit: 'cover',
+          filter: 'sepia(0.5)',
         }}
-        src=""
+        src="/derby/videos/gray-derby-jockey-jockey1-horseside-goofy-tea.mp4"
+        autoPlay
+        muted
+        loop
       />
     </div>
   );
@@ -34,6 +41,9 @@ export const JockeyCams = ({ race }: { race: RaceWithHelpers }) => {
         justifyContent: 'space-evenly',
         alignItems: 'stretch',
         backgroundColor: 'var(--derby-burgundy)',
+        backgroundImage: 'url(/derby/textures/wood.png)',
+        backgroundRepeat: 'repeat',
+        borderTop: '3px solid #222',
       }}
     >
       <JockeyCam />

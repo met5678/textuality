@@ -10,7 +10,7 @@
     "visualize": "meteor --production --extra-packages bundle-visualizer"
   },
   "dependencies": {
-    "@babel/runtime": "~7.5.5",
+    "@babel/runtime": "^7.27.0",
     "@cloudinary/url-gen": "^1.12.0",
     "@pixi/react": "^8.0.0-beta.25",
     "array-sort": "~1.0.0",

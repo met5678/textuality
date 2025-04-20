@@ -5,6 +5,7 @@ import Horses from '/imports/api/themes/derby/horses/horses';
 import { ToteBoardAccents } from '../../../../../modules/ToteBoard/ToteBoardAccents';
 import { ToteBoard } from '/imports/ui/modules/ToteBoard/ToteBoard';
 import { Weather } from '/imports/schemas/derby/race';
+import { WeatherOverlay } from '../../WeatherOverlay/WeatherOverlay';
 
 const WEATHER_BGS: Record<Weather, string> = {
   clear: 'url(/derby/images/clear.webp)',
@@ -41,7 +42,6 @@ export const RaceBettingSubscreen: React.FC<{ race: RaceWithHelpers }> = ({
           position: 'absolute',
           // bottom: window.innerHeight < 580 ? '-100px' : 0,
           height: 'auto',
-          zIndex: '1',
         }}
         weather={weather}
       />
@@ -55,10 +55,10 @@ export const RaceBettingSubscreen: React.FC<{ race: RaceWithHelpers }> = ({
             'drop-shadow(0 4px 4px rgba(0, 0, 0, 0.25)) drop-shadow(0 10px 16px rgba(0, 0, 0, 0.15))',
           width: 'auto',
           height: '210px',
-          zIndex: '20',
         }}
         weather={weather}
       />
+      <WeatherOverlay race={race} />
     </div>
   );
 };

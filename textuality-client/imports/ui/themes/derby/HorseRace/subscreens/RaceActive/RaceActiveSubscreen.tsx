@@ -4,6 +4,7 @@ import { RaceWithHelpers } from '/imports/api/themes/derby/race/races';
 import { JockeyCams, JOCKEYCAM_AREA_HEIGHT } from './JockeyCams/JockeyCams';
 import { Ticker } from 'pixi.js';
 import { RaceController } from './RacePixi/RaceController';
+import { WeatherOverlay } from '../../WeatherOverlay/WeatherOverlay';
 
 export const RaceActiveSubsceen: React.FC<{ race: RaceWithHelpers }> = ({
   race,
@@ -70,6 +71,7 @@ export const RaceActiveSubsceen: React.FC<{ race: RaceWithHelpers }> = ({
           ticker={tickerRef.current}
           raceController={raceControllerRef.current}
         />
+        <WeatherOverlay race={race} />
       </div>
       <JockeyCams race={race} />
     </div>

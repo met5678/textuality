@@ -55,6 +55,7 @@ const HorseColumn: React.FC<{
                     justifyContent: 'center',
                     alignItems: 'center',
                     paddingLeft: '3px',
+                    textShadow: '0px 1px 1px rgba(0, 0, 0, 0.25)',
                   }}
                 >
                   <span
@@ -71,12 +72,18 @@ const HorseColumn: React.FC<{
               value={horseOdds[horse._id] ?? '--'}
               cellCount={2}
             />
-            <p
+            {/* <p
               className="tote-board-note"
-              style={{ marginLeft: '4px', fontSize: '1.2rem' }}
+              style={{
+                marginLeft: '2px',
+                fontSize: '1.4rem',
+                fontFamily: 'gin',
+                fontStyle: 'normal',
+                lineHeight: '1.2',
+              }}
             >
-              to 1
-            </p>
+              :1
+            </p> */}
           </div>
         );
       })}
@@ -91,7 +98,7 @@ export const ToteBoardOdds: React.FC<{
   const orderedHorses = [...horses].sort((a, b) => a.number - b.number);
 
   return (
-    <div className="tote-board-odds" style={{ maxWidth: '40%' }}>
+    <div className="tote-board-odds" style={{ maxWidth: '35%' }}>
       <span
         style={{
           width: '100%',
@@ -110,7 +117,7 @@ export const ToteBoardOdds: React.FC<{
         <HorseColumn horses={orderedHorses.slice(4, 8)} race={race} />
       </div>
       <p className="tote-board-note" style={{ marginTop: '24px' }}>
-        *Bigger odds means bigger payout!
+        Bigger odds = bigger payout! (Odds shown as "X to 1")
       </p>
     </div>
   );

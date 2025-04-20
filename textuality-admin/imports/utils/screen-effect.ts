@@ -34,7 +34,7 @@ export class ScreenEffect {
   private effects: Record<string, any> = {};
   private nodes: any = {};
   private snowFrame: number | null = null;
-  private vcrInterval: number | null = null;
+  private vcrInterval: ReturnType<typeof setInterval> | null = null;
 
   constructor(parent: string | HTMLElement, options = {}) {
     this.parent =
@@ -178,10 +178,28 @@ export class ScreenEffect {
     if (!effect || !effect.enabled) return this;
 
     effect.enabled = false;
-    if (type === 'vcr') clearInterval(this.vcrInterval!);
+    if (type === 'vcr' && this.vcrInterval) {
+      if (typeof this.vcrInterval === 'number') {
+        clearInterval(this.vcrInterval);
+      } else {
+        clearInterval(this.vcrInterval as NodeJS.Timeout);
+      }
+    }
     if (type === 'snow') cancelAnimationFrame(this.snowFrame!);
-    if (effect.node) effect.wrapper.removeChild(effect.node);
-    else effect.wrapper.classList.remove(type);
+
+    try {
+      if (
+        effect.node &&
+        effect.wrapper &&
+        effect.wrapper.contains(effect.node)
+      ) {
+        effect.wrapper.removeChild(effect.node);
+      } else if (effect.wrapper) {
+        effect.wrapper.classList.remove(type);
+      }
+    } catch (error) {
+      console.warn(`Failed to remove effect ${type}:`, error);
+    }
 
     return this;
   }
@@ -200,14 +218,20 @@ export class ScreenEffect {
   private generateVCRNoise(): void {
     const config = this.effects.vcr.config;
     if (config.fps >= 60) {
-      cancelAnimationFrame(this.vcrInterval!);
+      if (this.vcrInterval) {
+        clearInterval(this.vcrInterval);
+      }
       const animate = () => {
         this.renderTrackingNoise();
-        this.vcrInterval = requestAnimationFrame(animate);
+        this.vcrInterval = requestAnimationFrame(
+          animate,
+        ) as unknown as ReturnType<typeof setInterval>;
       };
       animate();
     } else {
-      clearInterval(this.vcrInterval!);
+      if (this.vcrInterval) {
+        clearInterval(this.vcrInterval);
+      }
       this.vcrInterval = setInterval(
         () => this.renderTrackingNoise(),
         1000 / config.fps,

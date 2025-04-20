@@ -1,6 +1,7 @@
 import { Container, TilingSprite, Assets } from 'pixi.js';
 import { Dimensions } from '../RacePixi.types';
 import { PRE_START_FURLONGS, UNITS_PER_FURLONG } from '../RaceTrack/RaceTrack';
+import { RaceTextures } from '../RaceTextures/RaceTextures';
 export const BACKDROP_PADDING = 500;
 
 export class RaceBackdrop {
@@ -14,9 +15,7 @@ export class RaceBackdrop {
   }
 
   public async init() {
-    this.backdropFill = new TilingSprite(
-      await Assets.load('/derby/textures/grass.png'),
-    );
+    this.backdropFill = new TilingSprite(await Assets.load(RaceTextures.grass));
     this.backdropFill.tileScale.set(1);
     this.updateWorldSize({ width: 8000, height: 8000 });
     this.container.x =
@@ -38,8 +37,5 @@ export class RaceBackdrop {
     return this.container;
   }
 
-  public destroy() {
-    this.backdropFill?.destroy();
-    this.container.destroy();
-  }
+  public destroy() {}
 }

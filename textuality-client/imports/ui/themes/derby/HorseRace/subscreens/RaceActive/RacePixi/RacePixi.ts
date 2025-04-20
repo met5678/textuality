@@ -14,7 +14,7 @@ export class RacePixi {
   private controller: RaceController;
   private ticker: Ticker;
 
-  private backdrop: RaceBackdrop;
+  private backdrop: RaceBackdrop = new RaceBackdrop();
   private viewport!: RaceViewportPixi;
   private tracksContainer: Container = new Container();
   private horsesContainer: Container = new Container();
@@ -29,13 +29,12 @@ export class RacePixi {
   constructor(controller: RaceController, ticker: Ticker) {
     this.controller = controller;
     this.ticker = ticker;
-    this.backdrop = new RaceBackdrop();
+    this.app = new Application();
+    this.app.ticker = this.ticker;
+    this.viewport = new RaceViewportPixi(this.app, this.controller);
   }
 
   public async init(wrapper: HTMLDivElement) {
-    this.app = new Application();
-    this.app.ticker = this.ticker;
-
     (globalThis as any).__PIXI_APP__ = this.app;
     await this.app.init({
       height: 620,

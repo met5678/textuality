@@ -92,7 +92,7 @@ export class RaceTrackBanner {
 
   getMedalRotation() {
     if (!this._gsapMedalTween) {
-      this._medalRotation = 0;
+      this._medalRotation = -0.1;
       this._gsapMedalTween = gsap.to(this, {
         _medalRotation: 0.1,
         duration: 1,

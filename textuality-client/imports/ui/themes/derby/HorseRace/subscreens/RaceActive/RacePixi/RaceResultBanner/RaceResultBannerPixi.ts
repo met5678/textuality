@@ -141,6 +141,9 @@ export class RaceResultBannerPixi extends Container {
   }
 
   update() {
+    if (this.resultBanner.getBannerText() !== this.bannerText.text) {
+      this.init();
+    }
     this.alpha = this.resultBanner.alpha;
     this.medalSprite.rotation = this.resultBanner.getMedalRotation();
   }

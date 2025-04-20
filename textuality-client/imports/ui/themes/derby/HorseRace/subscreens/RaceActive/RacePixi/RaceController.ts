@@ -28,6 +28,7 @@ export class RaceController {
 
   private ticker: Ticker;
   private _timeAtLastFrameUpdate: number = 0;
+  private _timeInterpolated: number = 0;
 
   private furlong_length: number = 5;
   private weather: Weather = 'clear';
@@ -257,6 +258,23 @@ export class RaceController {
     return this.viewport;
   }
 
+  getTime(): number {
+    if (this.timeline.is_playing) {
+      return this._timeInterpolated;
+    } else {
+      return this.timeline.current_frame;
+    }
+  }
+
+  getRaceProgress(): number {
+    const time = this.getTime();
+    let fastestFinish = 200;
+    for (const horseResult of this.results) {
+      fastestFinish = Math.min(fastestFinish, horseResult.time);
+    }
+    return time / fastestFinish;
+  }
+
   update() {
     let time = 0;
     if (this.timeline.is_playing) {
@@ -266,6 +284,8 @@ export class RaceController {
     } else {
       time = this.timeline.current_frame;
     }
+
+    this._timeInterpolated = time;
 
     this.horses.forEach((horse) => {
       horse.update(time);

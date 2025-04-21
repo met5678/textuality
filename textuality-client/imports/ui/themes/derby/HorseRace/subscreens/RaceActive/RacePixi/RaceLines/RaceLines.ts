@@ -1,5 +1,15 @@
-import { Container, Graphics, Text, TextStyle, Sprite, Texture } from 'pixi.js';
+import {
+  Container,
+  Graphics,
+  Text,
+  TextStyle,
+  Sprite,
+  Texture,
+  Assets,
+} from 'pixi.js';
 import { RaceTrack, UNITS_PER_FURLONG } from '../RaceTrack/RaceTrack';
+import { RaceTextures } from '../RaceTextures/RaceTextures';
+import { DropShadowFilter, OutlineFilter } from 'pixi-filters';
 
 interface FurlongMarker {
   container: Container;
@@ -8,7 +18,11 @@ interface FurlongMarker {
   text: Text;
 }
 
-const FURLONG_MARKER_DIMENSION = 100;
+const FURLONG_MARKER_DIMENSION = 150;
+const FURLONG_MARKER_TEXT_COLOR = 0xffffff;
+const FURLONG_MARKER_FONT_SIZE = 120;
+const FURLONG_MARKER_FONT_FAMILY = 'house-of-cards, serif';
+const FURLONG_MARKER_FONT_WEIGHT = '500' as const;
 
 export class RaceLines {
   private container: Container;
@@ -67,11 +81,11 @@ export class RaceLines {
     }
   }
 
-  private createFurlongMarker(
+  private async createFurlongMarker(
     furlong: number,
     x: number,
     height: number,
-  ): FurlongMarker {
+  ) {
     const container = new Container();
 
     // Create the line using a white sprite
@@ -84,22 +98,28 @@ export class RaceLines {
     line.position.y = 0;
 
     // Create the box
-    const box = new Sprite(Texture.WHITE);
+    const box = new Sprite(await Assets.load(RaceTextures.wood));
     box.width = FURLONG_MARKER_DIMENSION;
     box.height = FURLONG_MARKER_DIMENSION;
-    box.tint = 0x404040;
     box.anchor.set(0.5, 1);
     box.position.x = 0;
     box.position.y = -10;
+    // box.filters = new OutlineFilter({
+    //   color: 0x999999,
+    //   thickness: 2,
+    // });
 
     // Create the text
-    const textStyle = new TextStyle({
-      fontFamily: 'house-of-cards, serif',
-      fontSize: 60,
-      fill: 0xffffff,
-      align: 'center',
+    const text = new Text({
+      text: furlong.toString(),
+      style: {
+        fontFamily: FURLONG_MARKER_FONT_FAMILY,
+        fontSize: FURLONG_MARKER_FONT_SIZE,
+        fill: FURLONG_MARKER_TEXT_COLOR,
+        fontWeight: FURLONG_MARKER_FONT_WEIGHT,
+        align: 'center',
+      },
     });
-    const text = new Text(furlong.toString(), textStyle);
     text.anchor.set(0.5);
     text.position.y = -FURLONG_MARKER_DIMENSION / 2 - 10;
 
@@ -110,7 +130,7 @@ export class RaceLines {
     return { container, line, box, text };
   }
 
-  private drawFurlongMarkers() {
+  private async drawFurlongMarkers() {
     // Clean up existing markers
     this.furlongMarkers.forEach((marker) => {
       marker.container.parent?.removeChild(marker.container);
@@ -123,7 +143,7 @@ export class RaceLines {
     // Create a marker for each furlong (except start and finish)
     for (let furlong = 1; furlong < this.furlongLength; furlong++) {
       const x = furlong * UNITS_PER_FURLONG;
-      const marker = this.createFurlongMarker(furlong, x, totalHeight);
+      const marker = await this.createFurlongMarker(furlong, x, totalHeight);
       this.furlongMarkers.push(marker);
       this.container.addChild(marker.container);
     }

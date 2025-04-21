@@ -1,5 +1,6 @@
 import { Application, Particle, ParticleContainer, Texture } from 'pixi.js';
 import { Weather } from '/imports/schemas/derby/race';
+import { DropShadowFilter, GlowFilter, OutlineFilter } from 'pixi-filters';
 
 interface RainConfig {
   intensity: number; // 0-1
@@ -14,7 +15,7 @@ const makeRaindrop = (config: RainConfig) => {
   const drop = new Particle(Texture.WHITE);
   drop.anchorX = 0.5;
   drop.anchorY = 1;
-  drop.tint = 0x995555;
+  drop.tint = 0xaaaaaa;
   drop.alpha = config.dropAlpha;
   drop.scaleX = config.dropWidth;
   drop.scaleY = config.dropLength;
@@ -33,10 +34,10 @@ const WEATHER_RAIN_CONFIG: Record<Weather, RainConfig> = {
   rain: {
     intensity: 1,
     direction: (2.2 * Math.PI) / 4, // 45 degrees
-    speed: 2,
-    dropLength: 20,
-    dropWidth: 3,
-    dropAlpha: 0.5,
+    speed: 5,
+    dropLength: 15,
+    dropWidth: 1.5,
+    dropAlpha: 0.6,
   },
   windy: {
     intensity: 0,
@@ -69,7 +70,7 @@ export class WeatherOverlayPixi {
   constructor() {
     this.app = new Application();
     this.rainContainer = new ParticleContainer();
-
+    this.rainContainer.label = 'rain-container';
     // Create a simple raindrop texture
     this.config = WEATHER_RAIN_CONFIG['clear'];
   }
@@ -82,6 +83,12 @@ export class WeatherOverlayPixi {
     });
     wrapper.appendChild(this.app.canvas);
     this.app.stage.addChild(this.rainContainer);
+    // this.rainContainer.filters = new OutlineFilter({
+    //   color: 0x333399,
+    //   thickness: 2,
+    //   alpha: 0.5,
+    // });
+    // this.rainContainer.filterArea = this.app.screen;
     this.updateRaindrops();
     this.app.ticker.add(this.update, this);
     this._initialized = true;

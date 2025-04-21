@@ -17,7 +17,6 @@ export class RaceBackdrop {
   public async init() {
     this.backdropFill = new TilingSprite(await Assets.load(RaceTextures.grass));
     this.backdropFill.tileScale.set(1);
-    this.backdropFill.tint = 0x9999cc;
     this.container.x =
       -BACKDROP_PADDING - PRE_START_FURLONGS * UNITS_PER_FURLONG;
     this.container.y = -BACKDROP_PADDING;

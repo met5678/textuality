@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Meteor } from 'meteor/meteor';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data';
 
 import Checkpoints from '/imports/api/checkpoints';
@@ -7,10 +6,9 @@ import CheckpointSchema, { Checkpoint } from '/imports/schemas/checkpoint';
 import { GridColDef } from '@mui/x-data-grid';
 import Table from '../../generic/Table/Table';
 import CheckpointForm from './CheckpointForm';
-import { Box, Chip, Stack } from '@mui/material';
+import { Box, Chip } from '@mui/material';
 import InputSelect from '../../generic/InputSelect';
-import Events from '/imports/api/events';
-import { getStubWithEvent } from '/imports/utils/get-stub-with-event';
+import { useTableCollectionProps } from '/imports/utils/get-table-collection-props';
 
 const getColumns = (existingLocations: string[], existingGroups: string[]) => {
   const columns: GridColDef<Checkpoint>[] = [
@@ -118,37 +116,22 @@ const CheckpointsTable = () => {
   ];
 
   const columns = getColumns(existingLocations, existingGroups);
+
+  const tableEditProps = useTableCollectionProps<Checkpoint>(
+    CheckpointSchema,
+    Checkpoints,
+    'checkpoints',
+    setEditCheckpoint,
+  );
+
   return (
     <>
       <Table
         columns={columns}
         data={checkpoints}
         isLoading={isLoading()}
-        canDelete={true}
-        onDelete={(checkpoint) => {
-          if (Array.isArray(checkpoint)) {
-            Meteor.call(
-              'checkpoints.delete',
-              checkpoint.map((c) => c._id),
-            );
-          } else {
-            Meteor.call('checkpoints.delete', checkpoint._id);
-          }
-        }}
-        canAddInline={true}
-        onGetStub={() => getStubWithEvent<Checkpoint>(CheckpointSchema)}
-        onValidate={(checkpoint) => CheckpointSchema.validate(checkpoint)}
-        canEdit={true}
-        onEdit={setEditCheckpoint}
-        onEditCell={async (checkpoint) => {
-          checkpoint.event = Events.currentId()!;
-          const newCheckpoint = await Meteor.callAsync(
-            'checkpoints.upsert',
-            checkpoint,
-          );
-          console.log('new checkpoint', newCheckpoint);
-          return newCheckpoint;
-        }}
+        {...tableEditProps}
+        canAdd={false}
       />
       <CheckpointForm
         model={editCheckpoint}

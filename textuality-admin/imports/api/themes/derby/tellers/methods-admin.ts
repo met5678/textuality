@@ -34,6 +34,20 @@ Meteor.methods({
     if (!teller) return;
     const newTeller: OptionalId<Teller> = { ...teller };
     delete newTeller._id;
+
+    const urls = await Tellers.find(
+      { event: teller.event },
+      { fields: { url: 1 } },
+    ).fetchAsync();
+
+    let newUrl = teller.url + '-copy';
+    let newUrlNumber = 1;
+    while (urls.find((url) => url.url === newUrl)) {
+      newUrl = teller.url + '-copy' + newUrlNumber;
+      newUrlNumber++;
+    }
+    newTeller.url = newUrl;
+
     const id = await Tellers.insertAsync(newTeller);
     return id;
   },

@@ -49,9 +49,11 @@ const App = () => (
           <Route path="/autoTexts" component={AutoTextsPage} />
           <Route path="/checkpoints" component={CheckpointsPage} />
           <Route path="/missions" component={MissionsPage} />
+
           <Route path="/casino/slot-machines" component={SlotMachinesPage} />
           <Route path="/casino/roulettes" component={RoulettesPage} />
           <Route path="/casino/quests" component={QuestsPage} />
+
           <Route path="/derby/horses" component={HorsesPage} />
           <Route path="/derby/races" component={RacesPage} />
           <Route path="/derby/tellers" component={TellersPage} />

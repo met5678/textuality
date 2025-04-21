@@ -27,6 +27,12 @@ interface UseTableAddInlineArgs<T extends GridValidRowModel> {
 
 export const NEW_ROW_ID_PREFIX = 'temp-';
 
+export const isTempRow = <T extends GridValidRowModel>(
+  row: T,
+  idProp: string,
+) =>
+  typeof row[idProp] === 'string' && row[idProp].startsWith(NEW_ROW_ID_PREFIX);
+
 const useTableAddInline = <T extends GridValidRowModel>({
   canAddInline,
   onGetStub,

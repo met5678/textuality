@@ -49,7 +49,8 @@ Meteor.methods({
       newNumber++;
     }
     duplicatedHorse.number = newNumber;
-    await Horses.insertAsync(duplicatedHorse);
+    const id = await Horses.insertAsync(duplicatedHorse);
+    return await Horses.findOneAsync(id);
   },
 
   'derby.horses.delete': async (horseId: HorseId | HorseId[]) => {

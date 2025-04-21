@@ -53,8 +53,28 @@ Meteor.methods({
     if (!checkpoint) {
       throw new Meteor.Error('checkpoint-not-found', 'Checkpoint not found');
     }
-    checkpoint.hashtag = `${checkpoint.hashtag}-copy`;
-    return await Meteor.callAsync('checkpoints.new', checkpoint);
+
+    const existingHashtags = await Checkpoints.find(
+      {
+        event: checkpoint.event,
+      },
+      { fields: { hashtag: 1 } },
+    ).mapAsync((c) => c.hashtag);
+
+    const { _id, ...newCheckpoint } = checkpoint;
+
+    let copyNumber = 1;
+    while (
+      existingHashtags.some(
+        (hashtag) => hashtag === `${newCheckpoint.hashtag}-copy-${copyNumber}`,
+      )
+    ) {
+      copyNumber++;
+    }
+
+    newCheckpoint.hashtag = `${checkpoint.hashtag}-copy-${copyNumber}`;
+    const id = await Checkpoints.insertAsync(newCheckpoint);
+    return await Checkpoints.findOneAsync(id);
   },
 
   'checkpoints.delete': async (checkpointId: CheckpointId | CheckpointId[]) => {

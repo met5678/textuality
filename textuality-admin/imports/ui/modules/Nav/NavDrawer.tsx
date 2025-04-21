@@ -132,12 +132,6 @@ const navItems: Array<NavItem> = [
     theme: 'derby',
   },
   {
-    title: 'Tasks',
-    href: '/derby/stable-tasks',
-    icon: <Typography>🚜</Typography>,
-    theme: 'derby',
-  },
-  {
     startWithDivider: true,
     title: 'Events',
     href: '/events',

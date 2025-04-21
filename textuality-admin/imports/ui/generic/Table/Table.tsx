@@ -23,12 +23,13 @@ import useTableEdit from './useTableEdit';
 import useTableAdd from './useTableAdd';
 import useTableAddInline, { NEW_ROW_ID_PREFIX } from './useTableAddInline';
 import { useTableErrorSnackbar } from './TableErrorSnackbar';
+import useTableDuplicate from './useTableDuplicate';
 
 /**
  * A flexible table component built on top of MUI's DataGrid with built-in CRUD operations
  * @template T - The type of data being displayed in the table
  */
-interface TableArgs<T extends GridValidRowModel> {
+export interface TableArgs<T extends GridValidRowModel> {
   /** The data to display in the table */
   data: GridRowsProp<T>;
   /** Column definitions for the table */
@@ -51,6 +52,10 @@ interface TableArgs<T extends GridValidRowModel> {
   canAddInline?: boolean;
   /** Callback function for getting a stub for the add operation */
   onGetStub?: () => T;
+  /** Whether duplicate functionality is enabled */
+  canDuplicate?: boolean;
+  /** Callback function for duplicate operations */
+  onDuplicate?: (obj: T) => Promise<void> | void;
   /** Table density setting */
   density?: GridDensity;
   /** Custom row action components */
@@ -123,6 +128,8 @@ const Table = <T extends GridValidRowModel>({
   idProp = '_id',
   canDelete = false,
   onDelete,
+  canDuplicate = false,
+  onDuplicate,
   canEdit = false,
   onEdit,
   onEditCell,
@@ -183,6 +190,15 @@ const Table = <T extends GridValidRowModel>({
     rowAction && rowActions.push(rowAction);
     dialog && dialogs.push(dialog);
     handleRowEditStop && handleRowEditStopCallbacks.push(handleRowEditStop);
+  }
+
+  {
+    const { rowAction } = useTableDuplicate<T>({
+      canDuplicate,
+      onDuplicate: onDuplicate!,
+      idProp,
+    });
+    rowAction && rowActions.push(rowAction);
   }
 
   {

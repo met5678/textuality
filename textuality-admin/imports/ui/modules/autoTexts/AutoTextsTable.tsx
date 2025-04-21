@@ -11,6 +11,7 @@ import AutoTextSchema, { AutoText } from '/imports/schemas/autoText';
 import { AutoTextWithHelpers } from '/imports/api/autoTexts/autoTexts';
 import Events from '/imports/api/events';
 import { getStubWithEvent } from '../../../utils/get-stub-with-event';
+import { TextField } from '@mui/material';
 
 const columns: GridColDef<AutoTextWithHelpers>[] = [
   {
@@ -33,6 +34,33 @@ const columns: GridColDef<AutoTextWithHelpers>[] = [
     field: 'playerText',
     headerName: 'Player text',
     editable: true,
+    renderEditCell: (params) => {
+      return (
+        <TextField
+          multiline={true}
+          fullWidth
+          autoFocus
+          value={params.value}
+          onChange={(e) =>
+            params.api.setEditCellValue({
+              id: params.id,
+              field: params.field,
+              value: e.target.value,
+            })
+          }
+          slotProps={{
+            htmlInput: {
+              onFocus: (e: React.FocusEvent<HTMLInputElement>) => {
+                e.target.setSelectionRange(
+                  e.target.value.length,
+                  e.target.value.length,
+                );
+              },
+            },
+          }}
+        />
+      );
+    },
     flex: 1,
   },
   {

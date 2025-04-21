@@ -36,7 +36,7 @@ const useTableDelete = <T extends GridValidRowModel>({
   const rowAction = (rowParams: GridRowParams<T>) => (
     <GridActionsCellItem
       icon={<DeleteForeverTwoToneIcon />}
-      onClick={() => {
+      onClick={(event) => {
         if (
           typeof rowParams.id === 'string' &&
           rowParams.id.startsWith(NEW_ROW_ID_PREFIX)
@@ -45,7 +45,11 @@ const useTableDelete = <T extends GridValidRowModel>({
             oldRows.filter((r) => r[idProp] !== rowParams.id),
           );
         } else {
-          setItemsToDelete([rowParams.row]);
+          if (event.metaKey) {
+            onDelete(rowParams.row);
+          } else {
+            setItemsToDelete([rowParams.row]);
+          }
         }
       }}
       label="Delete"

@@ -95,6 +95,14 @@ const TellersTable = () => {
             : [selectedTellers._id];
           Meteor.call('derby.tellers.delete', ids);
         }}
+        canDuplicate={true}
+        onDuplicate={async (teller) => {
+          const newTeller = await Meteor.callAsync(
+            'derby.tellers.duplicate',
+            teller._id,
+          );
+          return newTeller;
+        }}
         canAddInline={true}
         onGetStub={() => getStubWithEvent<TellerWithHelpers>(TellerSchema)}
         onValidate={(teller) => TellerSchema.validate(teller)}

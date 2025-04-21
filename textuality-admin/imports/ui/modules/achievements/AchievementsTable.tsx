@@ -7,6 +7,7 @@ import Table from '/imports/ui/generic/Table/Table';
 import Achievements from '/imports/api/achievements';
 import { GridColDef } from '@mui/x-data-grid';
 import AchievementSchema, { Achievement } from '/imports/schemas/achievement';
+import { useEventId } from '../../hooks/use-event-id';
 
 const columns: GridColDef<Achievement>[] = [
   {
@@ -63,8 +64,9 @@ const columns: GridColDef<Achievement>[] = [
 
 const AchievementsTable = () => {
   const isLoading = useSubscribe('achievements.all');
+  const eventId = useEventId();
   const achievements = useTracker(() =>
-    Achievements.find({}, { sort: { number: 1 } }).fetch(),
+    Achievements.find({ event: eventId }, { sort: { number: 1 } }).fetch(),
   );
   const [editAchievement, setEditAchievement] =
     useState<Partial<Achievement> | null>(null);

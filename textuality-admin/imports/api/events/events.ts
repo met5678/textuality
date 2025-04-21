@@ -5,7 +5,7 @@ import { current, currentId, allIds } from './helpers';
 
 interface EventsCollection extends Mongo.Collection<Event> {
   current: () => Event | undefined;
-  currentId: () => EventId | null;
+  currentId: () => EventId | undefined;
   allIds: () => EventId[];
 }
 

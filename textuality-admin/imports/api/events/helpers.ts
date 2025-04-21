@@ -2,12 +2,13 @@ import Events from './events';
 import { EventId } from '/imports/schemas/event';
 
 const current = () => {
-  return Events.findOne({ active: true });
+  const events = Events.find({ active: true }).fetch();
+  return events[0];
 };
 
-const currentId = (): EventId | null => {
+const currentId = (): EventId | undefined => {
   const current = Events.current!();
-  return current ? current._id : null;
+  return current ? current._id : undefined;
 };
 
 const allIds = (): EventId[] => {

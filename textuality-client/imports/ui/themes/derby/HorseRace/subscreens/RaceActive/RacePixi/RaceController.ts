@@ -69,7 +69,10 @@ export class RaceController {
 
   async setupReactions() {
     this._subscriptions.horses?.stop();
-    this._subscriptions.horses = Meteor.subscribe('horses.all', this.raceId);
+    this._subscriptions.horses = Meteor.subscribe(
+      'derby.horses.all',
+      this.raceId,
+    );
 
     this._autorunHandles.forEach((handle) => handle.stop());
     this._autorunHandles = [];

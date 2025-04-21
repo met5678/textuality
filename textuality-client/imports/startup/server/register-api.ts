@@ -87,3 +87,11 @@ import '/imports/api/themes/derby/horses/server/publications-client';
 import '/imports/api/themes/derby/race/';
 import '/imports/api/themes/derby/race/methods-client';
 import '/imports/api/themes/derby/race/server/publications-client';
+
+import '/imports/api/themes/derby/raceBets/';
+import '/imports/api/themes/derby/raceBets/methods-client';
+import '/imports/api/themes/derby/raceBets/server/publications-client';
+
+import '/imports/api/themes/derby/tellers/';
+import '/imports/api/themes/derby/tellers/methods-client';
+import '/imports/api/themes/derby/tellers/server/publications-client';

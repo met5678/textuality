@@ -22,11 +22,15 @@ import BadgeTwoToneIcon from '@mui/icons-material/BadgeTwoTone';
 import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
 import TagTwoToneIcon from '@mui/icons-material/TagTwoTone';
 import EventTwoToneIcon from '@mui/icons-material/EventTwoTone';
+import Events from '/imports/api/events';
+import { useTracker } from 'meteor/react-meteor-data';
+import { EventTheme } from '/imports/schemas/event';
 
 type NavItem = {
   title: string;
   href: string;
   icon: ReactElement;
+  theme?: EventTheme;
   startWithDivider?: boolean;
 };
 
@@ -81,48 +85,57 @@ const navItems: Array<NavItem> = [
     title: 'Slot Machines',
     href: '/casino/slot-machines',
     icon: <Typography>🎰</Typography>,
+    theme: 'casino',
     startWithDivider: true,
   },
   {
     title: 'Roulettes',
     href: '/casino/roulettes',
     icon: <Typography>🎡</Typography>,
+    theme: 'casino',
   },
   {
     title: 'Quests',
     href: '/casino/quests',
     icon: <Typography>🦹‍♀️</Typography>,
+    theme: 'casino',
   },
   {
     title: 'Horses',
     href: '/derby/horses',
     icon: <Typography>🐎</Typography>,
+    theme: 'derby',
     startWithDivider: true,
   },
   {
     title: 'Races',
     href: '/derby/races',
     icon: <Typography>🏁</Typography>,
+    theme: 'derby',
   },
   {
     title: 'Powerups',
     href: '/derby/powerups',
     icon: <Typography>🍄</Typography>,
+    theme: 'derby',
   },
   {
     title: 'Tellers',
     href: '/derby/tellers',
     icon: <Typography>👩‍🏫</Typography>,
+    theme: 'derby',
   },
   {
     title: 'Fortune Teller',
     href: '/derby/tasks',
     icon: <Typography>🔮</Typography>,
+    theme: 'derby',
   },
   {
     title: 'Tasks',
     href: '/derby/stable-tasks',
     icon: <Typography>🚜</Typography>,
+    theme: 'derby',
   },
   {
     startWithDivider: true,
@@ -157,6 +170,15 @@ const NavDrawerItem = ({ href, icon, title, startWithDivider }: NavItem) => {
 };
 
 const NavDrawer = () => {
+  const currentEvent = useTracker(() => Events.current());
+  const theme = currentEvent?.theme;
+
+  const filteredNavItems = navItems.filter((item) => {
+    if (!item.theme) return true;
+    if (!theme) return true;
+    return item.theme === theme;
+  });
+
   return (
     <Drawer
       sx={{
@@ -175,7 +197,7 @@ const NavDrawer = () => {
       </Toolbar>
       <Divider />
       <List dense={true}>
-        {navItems.map((item: NavItem) => (
+        {filteredNavItems.map((item: NavItem) => (
           <NavDrawerItem {...item} key={item.href} />
         ))}
       </List>

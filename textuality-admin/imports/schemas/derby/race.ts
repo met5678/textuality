@@ -5,6 +5,7 @@ import SimpleSchema from 'simpl-schema';
 import { MissionId } from '../mission';
 import { RaceTimeline } from './race-timeline/types';
 import { RaceTimelineSchema } from './race-timeline/schemas';
+import { RACE_BET_TYPES, RaceBetType } from './raceBet';
 
 const WEATHER_VALUES = ['clear', 'rain', 'windy', 'storm'] as const;
 type Weather = (typeof WEATHER_VALUES)[number];
@@ -49,6 +50,7 @@ type Race = {
   linked_mission?: MissionId;
   results: RaceHorseResult[];
   odds: RaceHorseOdds[];
+  available_bet_types: RaceBetType[];
 };
 
 const RaceHorseResultSchema = new SimpleSchema({
@@ -142,7 +144,14 @@ const RaceSchema = new SimpleSchema({
   linked_mission: {
     type: String,
     optional: true,
-    // allowedValues: Missions.allIds
+  },
+  available_bet_types: {
+    type: Array,
+    defaultValue: ['win'],
+  },
+  'available_bet_types.$': {
+    type: String,
+    allowedValues: [...RACE_BET_TYPES],
   },
 });
 

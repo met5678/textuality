@@ -25,7 +25,7 @@ interface HorseSelectionDialogProps {
 }
 
 const HorseSelectionDialog = ({ race, onClose }: HorseSelectionDialogProps) => {
-  const isLoadingHorses = useSubscribe('horses.all');
+  const isLoadingHorses = useSubscribe('derby.horses.all');
   const horses = useFind(() => Horses.find({}, { sort: { number: 1 } }), []);
   const [selectedHorses, setSelectedHorses] = useState<string[]>([]);
 

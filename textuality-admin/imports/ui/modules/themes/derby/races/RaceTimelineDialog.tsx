@@ -34,7 +34,7 @@ interface RaceTimelineDialogProps {
 }
 
 const RaceTimelineDialog = ({ raceId, onClose }: RaceTimelineDialogProps) => {
-  const isLoadingHorses = useSubscribe('horses.all');
+  const isLoadingHorses = useSubscribe('derby.horses.all');
   const race = useFind(() => Races.find({ _id: raceId }), [])[0];
   const horses = useFind(
     () =>

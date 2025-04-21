@@ -6,7 +6,7 @@ import Events from 'api/events';
 Meteor.publish('achievementUnlocks.latest', function(n) {
   this.autorun(() =>
     AchievementUnlocks.find(
-      { event: Events.current()._id },
+      { event: Events.currentId()},
       {
         sort: { time: -1 },
         limit: n

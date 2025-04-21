@@ -43,7 +43,7 @@ Meteor.methods({
       { event: Events.currentId()! },
       { fields: { number: 1 } },
     ).mapAsync((h) => h.number);
-    const { _id, getTotalStats, ...duplicatedHorse } = horseToDuplicate;
+    const { _id, ...duplicatedHorse } = horseToDuplicate;
     let newNumber = horseToDuplicate.number;
     while (allNumbers.includes(newNumber)) {
       newNumber++;

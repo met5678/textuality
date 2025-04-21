@@ -19,7 +19,7 @@ export const RaceBettingSubscreen: React.FC<{ race: RaceWithHelpers }> = ({
 }) => {
   const { weather } = race;
 
-  useSubscribe('horses.all');
+  useSubscribe('derby.horses.all');
   const horses = useTracker(() => Horses.find({}).fetch());
 
   return (

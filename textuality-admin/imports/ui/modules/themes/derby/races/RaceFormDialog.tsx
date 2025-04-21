@@ -17,7 +17,7 @@ interface RaceFormProps {
 }
 
 const RaceFormDialog = ({ model, onClose }: RaceFormProps) => {
-  const isLoadingHorses = useSubscribe('horses.all');
+  const isLoadingHorses = useSubscribe('derby.horses.all');
   const horses = useFind(() => Horses.find(), []);
 
   const onSubmit = (race: Partial<Race>) => {

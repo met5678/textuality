@@ -152,7 +152,7 @@ const columns: GridColDef<HorseWithHelpers>[] = [
 ];
 
 const HorsesTable = () => {
-  const isLoading = useSubscribe('horses.all');
+  const isLoading = useSubscribe('derby.horses.all');
   const horses = useFind(() => Horses.find({}, { sort: { name: 1 } }), []);
 
   return (

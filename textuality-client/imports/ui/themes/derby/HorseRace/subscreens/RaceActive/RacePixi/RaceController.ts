@@ -298,7 +298,7 @@ export class RaceController {
       resultBanner.update(time);
     });
 
-    this.viewport.update(this.horses, this.furlong_length);
+    this.viewport.update();
   }
 
   destroy() {

@@ -39,11 +39,13 @@ export const LAWN_PADDING_MAX = BACKDROP_PADDING - TOP_HORSE_PADDING;
 /**
  * How much progress through the race starts to start interpolating the scale
  */
-const INTERPOLATE_AFTER = 0.8;
+const INTERPOLATE_AFTER = 0.75;
 
 export class RaceViewport {
   private controller: RaceController;
-  private _offsetX: number = 0;
+
+  private _scale: number | undefined;
+  private _clampedHorseOffset: number | undefined;
 
   constructor(controller: RaceController) {
     this.controller = controller;
@@ -103,6 +105,18 @@ export class RaceViewport {
     );
   }
 
+  public getLeadingHorseX() {
+    let leadingHorseX = -Infinity;
+
+    for (const horse of this.controller.getHorses()) {
+      if (horse.x > leadingHorseX) {
+        leadingHorseX = horse.x;
+      }
+    }
+
+    return leadingHorseX;
+  }
+
   private getLeadingAndTrailingHorseX() {
     let leadingHorseX = -Infinity;
     let trailingHorseX = Infinity;
@@ -117,6 +131,46 @@ export class RaceViewport {
     }
 
     return { leadingHorseX, trailingHorseX };
+  }
+
+  /**
+   * Compute the *pixel* offset of the leading horse, clamped to the dead‑zone limits.
+   * Positive = how far the world is shifted left; so getOffsetX() will negate this.
+   */
+  private computeClampedHorseOffset(): number {
+    if (this._clampedHorseOffset !== undefined) {
+      return this._clampedHorseOffset;
+    }
+
+    const leadingHorseX = this.getLeadingHorseX();
+    const scale = this.getScale();
+
+    const finishUnits =
+      this.controller.getTrackData().furlong_length * UNITS_PER_FURLONG;
+
+    const scaledHorse = leadingHorseX * scale;
+    const scaledFinish = finishUnits * scale;
+
+    const raw =
+      scaledHorse - this.getViewportWidth() + VIEWPORT_HORSE_LEAD_PADDING;
+
+    const min = -VIEWPORT_DEADZONE_START;
+    const max = scaledFinish - this.getViewportWidth() + VIEWPORT_DEADZONE_END;
+
+    const result = clamp(raw, min, max);
+    this._clampedHorseOffset = result;
+    return result;
+  }
+
+  /** How far (in world‐units) we need to shift so the leading horse sits at the right spot */
+  public getLeadingX(): number {
+    const clampedPx = this.computeClampedHorseOffset();
+    return clampedPx / this.getScale();
+  }
+
+  /** The actual `x` transform for your container (negated pixel offset) */
+  public getOffsetX(): number {
+    return -this.computeClampedHorseOffset();
   }
 
   private getScaleToFitHorses() {
@@ -135,48 +189,32 @@ export class RaceViewport {
   }
 
   public getScale() {
-    return clamp(
+    if (this._scale !== undefined) {
+      return this._scale;
+    }
+
+    const result = clamp(
       this.getScaleToFitHorses(),
       this.getMinScaleWithInterpolation(),
       this.getMaxScale(),
     );
-  }
-
-  public getOffsetX(): number {
-    const { leadingHorseX } = this.getLeadingAndTrailingHorseX();
-
-    const finishLineX =
-      this.controller.getTrackData().furlong_length * UNITS_PER_FURLONG;
-
-    // Scale the horse's position to match viewport scale
-    const scaledFurthestHorse = leadingHorseX * this.getScale();
-    const scaledFinishLineX = finishLineX * this.getScale();
-
-    const horseOffsetX =
-      scaledFurthestHorse -
-      this.getViewportWidth() +
-      VIEWPORT_HORSE_LEAD_PADDING;
-
-    const minX = -VIEWPORT_DEADZONE_START;
-    const maxX =
-      scaledFinishLineX - this.getViewportWidth() + VIEWPORT_DEADZONE_END;
-
-    const result = clamp(horseOffsetX, minX, maxX);
-
-    return -result;
+    this._scale = result;
+    return result;
   }
 
   public getOffsetY(): number {
-    const scaledTracksHeight = this.getTracksHeight() * this.getScale();
+    const scale = this.getScale();
+    const scaledTracksHeight = this.getTracksHeight() * scale;
     const scaledTracksMidpoint = scaledTracksHeight / 2;
     const viewportHeight = this.getViewportHeight();
     const viewportMidpoint = viewportHeight / 2;
     const offsetY =
-      viewportMidpoint -
-      scaledTracksMidpoint +
-      TOP_HORSE_PADDING * this.getScale() * 0.5;
+      viewportMidpoint - scaledTracksMidpoint + TOP_HORSE_PADDING * scale * 0.5;
     return offsetY;
   }
 
-  public update(horses: RaceHorse[], furlong_length: number) {}
+  public update() {
+    this._scale = undefined;
+    this._clampedHorseOffset = undefined;
+  }
 }

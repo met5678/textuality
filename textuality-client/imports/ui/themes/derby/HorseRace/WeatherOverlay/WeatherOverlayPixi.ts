@@ -51,7 +51,7 @@ const makeRaindrop = (config: Partial<RainConfig>) => {
   const drop = new Particle(Texture.WHITE);
   drop.color = 0xffffff;
   drop.anchorX = 0.5;
-  drop.anchorY = 1;
+  drop.anchorY = 0.5;
   drop.rotation = config.direction ?? 0;
   drop.tint = config.color ?? 0xaaaaaa;
   drop.alpha = config.dropAlpha ?? 0.5;
@@ -69,8 +69,8 @@ const updateRaindrop = (drop: Particle, config: Partial<RainConfig>) => {
   drop.rotation = config.direction ?? 0;
   drop.tint = config.color ?? 0xaaaaaa;
   drop.alpha = config.dropAlpha ?? 0.5;
-  drop.scaleX = config.dropWidth ?? 15;
-  drop.scaleY = config.dropLength ?? 1;
+  drop.scaleX = config.dropLength ?? 15;
+  drop.scaleY = config.dropWidth ?? 1;
 
   const scaleMultiplier = Math.random() + 0.5;
   drop.scaleX *= scaleMultiplier;
@@ -105,10 +105,10 @@ const WEATHER_RAIN_CONFIG: Record<Weather, Partial<RainConfig>> = {
     color: '#9999ff',
   },
   windy: {
-    intensity: 0.5,
-    direction: 87,
-    speed: 20,
-    dropLength: 100,
+    intensity: 0.3,
+    direction: 88,
+    speed: 5,
+    dropLength: 200,
     dropWidth: 10,
     dropAlpha: 0.05,
     color: '#ffffff',
@@ -130,7 +130,7 @@ export class WeatherOverlayPixi {
   private raindrops: Particle[] = [];
   private rainConfig: RainConfig = getRainConfig('rain');
   private raceController: RaceController | undefined;
-  private _lastXOffset: number = 0;
+  private _lastLeadingX: number = 0;
   private _initialized: boolean = false;
 
   constructor(raceController?: RaceController) {
@@ -187,7 +187,7 @@ export class WeatherOverlayPixi {
       // Random starting position
       drop.x = Math.random() * (this.app.screen.width + 40) - 20;
       drop.y = Math.random() * this.app.screen.height;
-      drop.rotation = this.rainConfig.direction + Math.PI / 2;
+      drop.rotation = this.rainConfig.direction;
 
       this.rainContainer.addParticle(drop);
     }
@@ -195,54 +195,57 @@ export class WeatherOverlayPixi {
     this.rainContainer.removeParticles(numDrops);
   }
 
+  private computeOffsetX(): number {
+    if (this.raceController) {
+      const leadingX = this.raceController.getViewport().getLeadingX();
+      const offsetX = this._lastLeadingX - leadingX;
+      this._lastLeadingX = leadingX;
+      return offsetX * this.raceController.getViewport().getScale();
+    }
+    return 0;
+  }
+
   public update(): void {
     const cos = Math.cos(this.rainConfig.direction);
     const sin = Math.sin(this.rainConfig.direction);
 
-    const boundsPadding = 20;
+    const offsetX = this.computeOffsetX();
 
-    let offsetX = this._lastXOffset;
-    if (this.raceController) {
-      offsetX = this.raceController.getViewport().getOffsetX();
-    }
-
-    const numDrops = Math.floor(this.rainConfig.intensity * 1000);
-
-    for (let i = 0; i < numDrops; i++) {
+    for (let i = 0; i < this.rainContainer.particleChildren.length; i++) {
       const drop = this.raindrops[i];
       if (!drop) {
         continue;
       }
 
       const speed =
-        (drop.scaleY / this.rainConfig.dropLength) * this.rainConfig.speed;
+        Math.max(
+          drop.scaleX / this.rainConfig.dropLength,
+          drop.scaleY / this.rainConfig.dropWidth,
+        ) * this.rainConfig.speed;
+
+      const boundsPaddingX = drop.scaleX / 2;
+      const boundsPaddingY = drop.scaleY / 2;
 
       // Move the raindrop
-      drop.x += speed * cos;
+      drop.x += speed * cos + offsetX;
       drop.y += speed * sin;
 
-      if (offsetX !== this._lastXOffset) {
-        drop.x += offsetX - this._lastXOffset;
+      if (drop.x < -boundsPaddingX) {
+        const overshoot = drop.x + boundsPaddingX;
+        drop.x = this.app.screen.width + boundsPaddingX - overshoot;
+      } else if (drop.x > this.app.screen.width + boundsPaddingX) {
+        const overshoot = drop.x - (this.app.screen.width + boundsPaddingX);
+        drop.x = -boundsPaddingX + overshoot;
       }
 
-      if (drop.x < -boundsPadding) {
-        const overshoot = drop.x + boundsPadding;
-        drop.x = this.app.screen.width + boundsPadding - overshoot;
-      } else if (drop.x > this.app.screen.width + boundsPadding) {
-        const overshoot = drop.x - (this.app.screen.width + boundsPadding);
-        drop.x = -boundsPadding + overshoot;
-      }
-
-      if (drop.y > this.app.screen.height + boundsPadding) {
-        const overshoot = drop.y - (this.app.screen.height + boundsPadding);
-        drop.y = -boundsPadding + overshoot;
-      } else if (drop.y < -boundsPadding) {
-        const overshoot = drop.y + boundsPadding;
-        drop.y = this.app.screen.height + boundsPadding - overshoot;
+      if (drop.y > this.app.screen.height + boundsPaddingY) {
+        const overshoot = drop.y - (this.app.screen.height + boundsPaddingY);
+        drop.y = -boundsPaddingY + overshoot;
+      } else if (drop.y < -boundsPaddingY) {
+        const overshoot = drop.y + boundsPaddingY;
+        drop.y = this.app.screen.height + boundsPaddingY - overshoot;
       }
     }
-
-    this._lastXOffset = offsetX;
   }
 
   public destroy(): void {

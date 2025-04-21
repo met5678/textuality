@@ -12,8 +12,6 @@ export const ToteBoardActivity = () => {
     };
   }, []);
 
-  console.log('here');
-
   return (
     <div className="tote-board-activity" id="tote-board-screen">
       <video

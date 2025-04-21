@@ -1,14 +1,21 @@
 import React, { useEffect, useRef } from 'react';
 import { WeatherOverlayPixi } from './WeatherOverlayPixi';
-import { RaceWithHelpers } from '/imports/api/themes/derby/race/races';
+import { Weather } from '/imports/schemas/derby/race';
+import { RaceController } from '../subscreens/RaceActive/RacePixi/RaceController';
 
-export const WeatherOverlay = ({ race }: { race: RaceWithHelpers }) => {
+export const WeatherOverlay = ({
+  weather,
+  raceController,
+}: {
+  weather: Weather;
+  raceController?: RaceController;
+}) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const pixiRef = useRef<WeatherOverlayPixi>();
 
   useEffect(() => {
     if (!pixiRef.current) {
-      pixiRef.current = new WeatherOverlayPixi();
+      pixiRef.current = new WeatherOverlayPixi(raceController);
     }
     if (containerRef.current) {
       pixiRef.current.init(containerRef.current);
@@ -21,10 +28,10 @@ export const WeatherOverlay = ({ race }: { race: RaceWithHelpers }) => {
   }, [pixiRef, containerRef]);
 
   useEffect(() => {
-    if (pixiRef.current && race?.weather) {
-      pixiRef.current.setWeather(race.weather);
+    if (pixiRef.current && weather) {
+      pixiRef.current.setWeather(weather);
     }
-  }, [race?.weather]);
+  }, [weather]);
 
   return (
     <div

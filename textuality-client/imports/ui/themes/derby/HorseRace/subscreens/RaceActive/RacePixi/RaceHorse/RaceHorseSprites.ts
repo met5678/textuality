@@ -13,7 +13,5 @@ export async function loadHorseSprites() {
   );
   await sheet.parse();
 
-  for (const texture of Object.values(sheet.textures)) {
-    HORSE_SPRITES.running.push(texture);
-  }
+  HORSE_SPRITES.running = Object.values(sheet.textures);
 }

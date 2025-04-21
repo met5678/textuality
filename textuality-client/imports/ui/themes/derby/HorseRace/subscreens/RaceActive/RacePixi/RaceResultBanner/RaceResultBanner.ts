@@ -49,8 +49,6 @@ export class RaceTrackBanner {
       paused: true,
     });
     this.isVisible = false;
-
-    console.log('RaceTrackResultBanner', this.horse.name);
   }
 
   getBannerColor(): string {

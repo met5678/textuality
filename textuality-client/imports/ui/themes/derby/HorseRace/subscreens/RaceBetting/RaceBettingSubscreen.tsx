@@ -58,7 +58,7 @@ export const RaceBettingSubscreen: React.FC<{ race: RaceWithHelpers }> = ({
         }}
         weather={weather}
       />
-      <WeatherOverlay race={race} />
+      <WeatherOverlay weather={weather} />
     </div>
   );
 };

@@ -13,7 +13,7 @@ export const VIEWPORT_DEADZONE_START = 600;
 /**
  * How far from the right edge of the screen the finish line can be before the viewport stops scrolling
  */
-export const VIEWPORT_DEADZONE_END = 500;
+export const VIEWPORT_DEADZONE_END = 400;
 
 /**
  * How much padding to leave between the leading horse and the right edge of the screen

@@ -1,15 +1,12 @@
-import React, { useState } from 'react';
-import AlertDialog from '../AlertDialog/AlertDialog';
+import React from 'react';
 import {
   GridActionsCellItem,
-  GridRowModesModel,
   GridRowParams,
-  GridRowsProp,
   GridValidRowModel,
 } from '@mui/x-data-grid';
 import ControlPointDuplicateIcon from '@mui/icons-material/ControlPointDuplicate';
 import { UseTableReturnValue } from './Table';
-import { isTempRow, NEW_ROW_ID_PREFIX } from './useTableAddInline';
+import { isTempRow } from './useTableAddInline';
 
 interface UseTableDuplicateArgs<T extends GridValidRowModel> {
   canDuplicate: boolean;
@@ -23,10 +20,7 @@ const useTableDuplicate = <T extends GridValidRowModel>({
   idProp,
 }: UseTableDuplicateArgs<T>): UseTableReturnValue<T> => {
   if (!canDuplicate) {
-    return {
-      rowAction: null,
-      dialog: null,
-    };
+    return {};
   }
 
   const handleDuplicate = async (row: T) => {
@@ -38,8 +32,9 @@ const useTableDuplicate = <T extends GridValidRowModel>({
     <GridActionsCellItem
       disabled={isTempRow(rowParams.row, idProp)}
       icon={<ControlPointDuplicateIcon />}
-      onClick={() => handleDuplicate(rowParams.row)}
+      title="Duplicate"
       label="Duplicate"
+      onClick={() => handleDuplicate(rowParams.row)}
     />
   );
 

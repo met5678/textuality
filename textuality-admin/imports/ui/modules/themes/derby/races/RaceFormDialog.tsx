@@ -10,6 +10,7 @@ import SelectField from '/imports/ui/generic/AutoForm/SelectField';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data';
 import Horses from '../../../../../api/themes/derby/horses';
 import UniformsAutoField from '/imports/ui/generic/AutoForm/AutoField';
+import { DateField } from '/imports/ui/generic/AutoForm';
 
 interface RaceFormProps {
   model: Partial<Race> | null;
@@ -42,8 +43,8 @@ const RaceFormDialog = ({ model, onClose }: RaceFormProps) => {
     >
       <EventField />
       <UniformsAutoField name="scheduled" label="Scheduled" />
-      <UniformsAutoField name="time_bets_start_at" label="Bets Start Time" />
-      <UniformsAutoField name="time_race_starts_at" label="Race Start Time" />
+      <DateField name="time_bets_start_at" label="Bets Start Time" />
+      <DateField name="time_race_starts_at" label="Race Start Time" />
       <UniformsAutoField name="furlong_length" label="Furlong Length" />
       <SelectField
         name="weather"

@@ -2,6 +2,28 @@ import SimpleSchema from 'simpl-schema';
 
 import Events from '/imports/api/events';
 import { EventId } from './event';
+
+const ACHIEVEMENT_TRIGGERS = [
+  'CHECKPOINT_FOUND',
+  'CHECKPOINT_GROUP_COMPLETE',
+  'CHECKPOINT_GROUP_FOUND_N',
+  'CHECKPOINT_LOCATION_COMPLETE',
+  'CHECKPOINT_LOCATION_FOUND_N',
+
+  'HACKER_TASK_COMPLETE',
+  'N_MISSION',
+
+  'SLOT_WIN_NORMAL',
+  'SLOT_WIN_HACKER',
+  'SLOT_SPIN_ALL',
+
+  'JOINED',
+  'REJOINED',
+
+  'BANKRUPT',
+] as const;
+type AchievementTrigger = (typeof ACHIEVEMENT_TRIGGERS)[number];
+
 const AchievementSchema = new SimpleSchema({
   event: {
     type: String,
@@ -10,25 +32,7 @@ const AchievementSchema = new SimpleSchema({
   name: String,
   trigger: {
     type: String,
-    allowedValues: [
-      'CHECKPOINT_FOUND',
-      'CHECKPOINT_GROUP_COMPLETE',
-      'CHECKPOINT_GROUP_FOUND_N',
-      'CHECKPOINT_LOCATION_COMPLETE',
-      'CHECKPOINT_LOCATION_FOUND_N',
-
-      'HACKER_TASK_COMPLETE',
-      'N_MISSION',
-
-      'SLOT_WIN_NORMAL',
-      'SLOT_WIN_HACKER',
-      'SLOT_SPIN_ALL',
-
-      'JOINED',
-      'REJOINED',
-
-      'BANKRUPT',
-    ],
+    allowedValues: [...ACHIEVEMENT_TRIGGERS],
   },
   trigger_detail_string: {
     type: String,
@@ -87,4 +91,5 @@ interface Achievement {
 }
 
 export default AchievementSchema;
-export { Achievement, AchievementSchema };
+export { AchievementSchema, ACHIEVEMENT_TRIGGERS };
+export type { Achievement, AchievementTrigger };

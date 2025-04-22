@@ -12,16 +12,13 @@ import { DateTime } from 'luxon';
 import RaceFormDialog from './RaceFormDialog';
 import { RACE_STATUS_VALUES } from '/imports/schemas/derby/race';
 import { TableToggle } from '/imports/ui/generic/TableToggle/TableToggle';
-import { Button, Typography, Box, TextField, Input } from '@mui/material';
+import { Button, Typography, Box } from '@mui/material';
 import HorseSelectionDialog from './HorseSelectionDialog';
 import Missions from '/imports/api/missions';
 import { Mission } from '/imports/schemas/mission';
 import RaceTimelineDialog from './RaceTimelineDialog';
-import { Horse } from '/imports/schemas/derby/horse';
-import Horses from '../../../../../api/themes/derby/horses';
 import { RacePlaybackControls } from './components/RacePlaybackControls';
-import Events from '/imports/api/events';
-import { getStubWithEvent } from '/imports/utils/get-stub-with-event';
+import { useTableCollectionProps } from '/imports/utils/get-table-collection-props';
 
 const getColumns = ({
   onEditTimeline,
@@ -245,26 +242,20 @@ const RacesTable = () => {
     },
   });
 
+  const tableEditProps = useTableCollectionProps<Race, RaceWithHelpers>(
+    RaceSchema,
+    Races,
+    'derby.races',
+    setEditRace,
+  );
+
   return (
     <>
       <Table
         columns={columns}
         data={races}
         isLoading={isLoading() || isLoadingMissions()}
-        canDelete={true}
-        onDelete={(selectedRaces: RaceWithHelpers | RaceWithHelpers[]) => {
-          const ids = Array.isArray(selectedRaces)
-            ? selectedRaces.map((race) => race._id)
-            : [selectedRaces._id];
-          Meteor.call('derby.races.delete', ids);
-        }}
-        canAddInline={true}
-        onGetStub={() => getStubWithEvent<RaceWithHelpers>(RaceSchema)}
-        onEditCell={async (race) => {
-          race.event = Events.currentId()!;
-          const newRace = await Meteor.callAsync('derby.races.upsert', race);
-          return newRace;
-        }}
+        {...tableEditProps}
         initialSortField="number"
         initialSortOrder="asc"
       />

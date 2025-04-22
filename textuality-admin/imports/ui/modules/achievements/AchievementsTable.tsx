@@ -6,19 +6,26 @@ import AchievementForm from './AchievementForm';
 import Table from '/imports/ui/generic/Table/Table';
 import Achievements from '/imports/api/achievements';
 import { GridColDef } from '@mui/x-data-grid';
-import AchievementSchema, { Achievement } from '/imports/schemas/achievement';
+import AchievementSchema, {
+  Achievement,
+  ACHIEVEMENT_TRIGGERS,
+} from '/imports/schemas/achievement';
 import { useEventId } from '../../hooks/use-event-id';
+import { useTableCollectionProps } from '/imports/utils/get-table-collection-props';
 
 const columns: GridColDef<Achievement>[] = [
   {
     field: 'name',
     headerName: 'Name',
     width: 200,
+    editable: true,
   },
   {
     field: 'trigger',
     headerName: 'Trigger',
     width: 300,
+    type: 'singleSelect',
+    valueOptions: [...ACHIEVEMENT_TRIGGERS],
     valueGetter: (_value, row) => {
       const { trigger, trigger_detail_string, trigger_detail_number } = row;
       let triggerString = trigger;
@@ -35,6 +42,7 @@ const columns: GridColDef<Achievement>[] = [
     field: 'player_text',
     headerName: 'Player Text',
     flex: 1,
+    editable: true,
   },
   {
     field: 'player_text_image',
@@ -50,15 +58,24 @@ const columns: GridColDef<Achievement>[] = [
     },
   },
   {
+    field: 'money_award',
+    headerName: 'Award',
+    width: 70,
+    editable: true,
+    type: 'number',
+  },
+  {
     field: 'hide_from_screen',
     type: 'boolean',
     headerName: 'Hide',
     width: 50,
+    editable: true,
   },
   {
     field: 'earned',
     headerName: 'Earned',
     width: 60,
+    type: 'number',
   },
 ];
 
@@ -71,25 +88,23 @@ const AchievementsTable = () => {
   const [editAchievement, setEditAchievement] =
     useState<Partial<Achievement> | null>(null);
 
+  const tableEditProps = useTableCollectionProps(
+    AchievementSchema,
+    Achievements,
+    'achievements',
+    setEditAchievement,
+  );
+
   return (
     <>
       <Table
         columns={columns}
         data={achievements}
         isLoading={isLoading()}
-        canDelete={true}
-        onDelete={(achievement) => {
-          Meteor.call(
-            'achievements.delete',
-            achievement.map((r) => r._id),
-          );
-        }}
-        canAdd={true}
-        onAdd={() => setEditAchievement(AchievementSchema.clean({}))}
-        canEdit={true}
-        onEdit={setEditAchievement}
+        {...tableEditProps}
+        canAddInline={false}
+        canDuplicate={false}
         dynamicHeight={true}
-        density="standard"
       />
       <AchievementForm
         model={editAchievement}

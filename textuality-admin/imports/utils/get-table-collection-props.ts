@@ -20,22 +20,28 @@ const getMethodNames = (
   return `${methodPrefix}.${methodNames[action]}`;
 };
 
+export type getTableCollectionPropsArgs<
+  T extends { _id: string; event: string },
+  U extends { _id: string; event: string } = T,
+> = {
+  schema: SimpleSchema;
+  collection: Mongo.Collection<T, U>;
+  methodPrefix: string;
+  setEditItem?: (item: U) => void;
+};
+
 export const getTableCollectionProps = <
   T extends { _id: string; event: string },
+  U extends { _id: string; event: string } = T,
 >({
   schema,
   collection,
   methodPrefix,
   setEditItem,
-}: {
-  schema: SimpleSchema;
-  collection: Mongo.Collection<T>;
-  methodPrefix: string;
-  setEditItem?: (item: T) => void;
-}): Partial<TableArgs<T>> => {
-  let props: Partial<TableArgs<T>> = {
+}: getTableCollectionPropsArgs<T, U>): Partial<TableArgs<U>> => {
+  let props: Partial<TableArgs<U>> = {
     canDelete: true,
-    onDelete: async (item: T | T[]) => {
+    onDelete: async (item: U | U[]) => {
       const ids = Array.isArray(item) ? item.map((i) => i._id) : [item._id];
       return await Meteor.callAsync(
         getMethodNames(methodPrefix, 'delete'),
@@ -43,7 +49,7 @@ export const getTableCollectionProps = <
       );
     },
     canAddInline: true,
-    onEditCell: async (item: T) => {
+    onEditCell: async (item: U) => {
       item.event = Events.currentId()!;
       return await Meteor.callAsync(
         getMethodNames(methodPrefix, 'editInline'),
@@ -51,19 +57,19 @@ export const getTableCollectionProps = <
       );
     },
     canDuplicate: true,
-    onDuplicate: async (item: T) => {
+    onDuplicate: async (item: U) => {
       return await Meteor.callAsync(
         getMethodNames(methodPrefix, 'duplicate'),
         item,
       );
     },
-    onGetStub: () => getStubWithEvent<T>(schema),
-    onValidate: (item: T) => {
-      return schema.validate(item);
+    onGetStub: () => getStubWithEvent<U>(schema),
+    onValidate: (item: U) => {
+      return schema.validate(schema.clean(item));
     },
   };
   if (setEditItem) {
-    props.onAdd = () => setEditItem(getStubWithEvent<T>(schema));
+    props.onAdd = () => setEditItem(getStubWithEvent<U>(schema));
     props.canAdd = true;
     props.onEdit = setEditItem;
     props.canEdit = true;
@@ -73,11 +79,12 @@ export const getTableCollectionProps = <
 
 export const useTableCollectionProps = <
   T extends { _id: string; event: string },
+  U extends { _id: string; event: string } = T,
 >(
   schema: SimpleSchema,
-  collection: Mongo.Collection<T>,
+  collection: Mongo.Collection<T, U>,
   methodPrefix: string,
-  setEditItem?: (item: T) => void,
+  setEditItem?: (item: U) => void,
 ) => {
   return useMemo(
     () =>

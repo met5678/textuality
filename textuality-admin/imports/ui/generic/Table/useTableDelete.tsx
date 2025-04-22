@@ -27,10 +27,7 @@ const useTableDelete = <T extends GridValidRowModel>({
   const dialogOpen = itemsToDelete.length > 0;
 
   if (!canDelete) {
-    return {
-      rowAction: null,
-      dialog: null,
-    };
+    return {};
   }
 
   const rowAction = (rowParams: GridRowParams<T>) => (
@@ -53,6 +50,7 @@ const useTableDelete = <T extends GridValidRowModel>({
         }
       }}
       label="Delete"
+      title="Delete"
     />
   );
 

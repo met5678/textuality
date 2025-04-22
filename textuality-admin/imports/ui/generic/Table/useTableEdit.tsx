@@ -25,6 +25,7 @@ const useTableEdit = <T extends GridValidRowModel>({
       icon={<EditTwoToneIcon />}
       onClick={() => onEdit(rowParams.row)}
       label="Edit"
+      title="Edit"
     />
   );
 

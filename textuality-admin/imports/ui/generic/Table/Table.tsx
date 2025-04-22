@@ -93,20 +93,29 @@ interface UseTableReturnValue<T extends GridValidRowModel> {
   ) => void;
 }
 
-type TableRowAction<T extends GridValidRowModel> =
-  | ((rowParams: GridRowParams<T>) => ReactElement)
-  | null;
+type TableRowAction<T extends GridValidRowModel> = (
+  rowParams: GridRowParams<T>,
+) => ReactElement;
 
 const applyRowActions = <T extends GridValidRowModel>(
-  rowActions: TableRowAction<T>[],
   columns: GridColDef[],
+  rowActions: TableRowAction<T>[],
+  customRowActions?: ((params: GridRowParams<T>) => ReactElement)[],
 ): GridColDef[] => {
+  const allRowActions = [...rowActions, ...(customRowActions || [])];
+  let width = 45 * rowActions.length;
+  if (customRowActions && customRowActions.length > 0) {
+    width += 45;
+  }
+
   return [
     ...columns,
     {
       field: 'actions',
       type: 'actions',
-      getActions: (params) => rowActions.map((rowAction) => rowAction!(params)),
+      width,
+      getActions: (params) =>
+        allRowActions.map((rowAction) => rowAction!(params)),
     },
   ];
 };
@@ -155,9 +164,7 @@ const Table = <T extends GridValidRowModel>({
   }, [data]);
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
   const [editMode, setEditMode] = useState<GridEditMode>('cell');
-  const rowActions: ((params: GridRowParams<T>) => ReactElement)[] = [
-    ...customRowActions,
-  ];
+  const rowActions: ((params: GridRowParams<T>) => ReactElement)[] = [];
   const toolbarActions: ReactNode[] = [];
   const dialogs: ReactNode[] = [];
   const handleRowEditStopCallbacks: ((
@@ -222,7 +229,10 @@ const Table = <T extends GridValidRowModel>({
   }
 
   const useColumns = React.useMemo(
-    () => (rowActions.length ? applyRowActions(rowActions, columns) : columns),
+    () =>
+      rowActions.length
+        ? applyRowActions(columns, rowActions, customRowActions)
+        : columns,
     [rowActions, columns],
   );
 

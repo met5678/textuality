@@ -8,22 +8,28 @@ import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid';
 import { DateTime } from 'luxon';
 import Table from '../../generic/Table/Table';
 import MissionFormDialog from './MissionFormDialog';
+import { useTableCollectionProps } from '/imports/utils/get-table-collection-props';
 
 const columns: GridColDef<Mission>[] = [
+  {
+    field: 'number',
+    headerName: 'Num',
+    width: 70,
+    type: 'number',
+    editable: true,
+  },
   {
     field: 'name',
     headerName: 'Name',
     width: 200,
-  },
-  {
-    field: 'number',
-    headerName: 'Num',
-    width: 50,
+    editable: true,
   },
   {
     field: 'minutes',
     headerName: 'Mins',
-    width: 50,
+    width: 70,
+    type: 'number',
+    editable: true,
   },
   {
     field: 'active',
@@ -39,6 +45,7 @@ const columns: GridColDef<Mission>[] = [
         ? DateTime.fromJSDate(value).toLocaleString(DateTime.TIME_SIMPLE)
         : '--',
     width: 150,
+    editable: true,
   },
   {
     field: 'timeEnd',
@@ -48,6 +55,7 @@ const columns: GridColDef<Mission>[] = [
         ? DateTime.fromJSDate(value).toLocaleString(DateTime.TIME_SIMPLE)
         : '--',
     width: 150,
+    editable: true,
   },
 ];
 
@@ -56,23 +64,20 @@ const MissionsTable = () => {
   const missions = useFind(() => Missions.find({}), []);
   const [editMission, setEditMission] = useState<Partial<Mission> | null>(null);
 
+  const tableEditProps = useTableCollectionProps(
+    MissionSchema,
+    Missions,
+    'missions',
+    setEditMission,
+  );
+
   return (
     <>
       <Table<Mission>
         columns={columns}
         data={missions}
         isLoading={isLoading()}
-        canDelete={true}
-        onDelete={(mission) => {
-          Meteor.call(
-            'missions.delete',
-            mission.map((r) => r._id),
-          );
-        }}
-        canAdd={true}
-        onAdd={() => setEditMission(MissionSchema.clean({}))}
-        canEdit={true}
-        onEdit={setEditMission}
+        {...tableEditProps}
         customRowActions={[
           (params) => (
             <GridActionsCellItem

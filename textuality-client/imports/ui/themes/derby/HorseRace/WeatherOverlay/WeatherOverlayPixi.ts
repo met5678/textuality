@@ -116,11 +116,11 @@ const WEATHER_RAIN_CONFIG: Record<Weather, Partial<RainConfig>> = {
   storm: {
     intensity: 1,
     direction: 30,
-    speed: 8,
-    dropLength: 25,
-    dropWidth: 2.5,
-    dropAlpha: 0.4,
-    color: '#9999ff',
+    speed: 16,
+    dropLength: 30,
+    dropWidth: 3,
+    dropAlpha: 0.25,
+    color: '#7777dd',
   },
 };
 
@@ -148,13 +148,7 @@ export class WeatherOverlayPixi {
     });
     wrapper.appendChild(this.app.canvas);
     this.app.stage.addChild(this.rainContainer);
-    // this.rainContainer.filters = new OutlineFilter({
-    //   color: 0x333399,
-    //   thickness: 2,
-    //   alpha: 0.5,
-    // });
-    // this.rainContainer.filterArea = this.app.screen;
-    this.updateRaindrops();
+    this.populateRaindrops();
     this.app.ticker.add(this.update, this);
     this._initialized = true;
   }
@@ -165,10 +159,10 @@ export class WeatherOverlayPixi {
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
     this.rainConfig = getRainConfig(weather);
-    this.updateRaindrops();
+    this.populateRaindrops();
   }
 
-  private updateRaindrops(): void {
+  private populateRaindrops(): void {
     // Clear existing raindrops
     this.rainContainer.removeParticles(0, this.raindrops.length - 1);
 
@@ -212,7 +206,7 @@ export class WeatherOverlayPixi {
     const offsetX = this.computeOffsetX();
 
     for (let i = 0; i < this.rainContainer.particleChildren.length; i++) {
-      const drop = this.raindrops[i];
+      const drop = this.rainContainer.particleChildren[i];
       if (!drop) {
         continue;
       }

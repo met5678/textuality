@@ -6,6 +6,7 @@ import { ToteBoardAccents } from '../../../../../modules/ToteBoard/ToteBoardAcce
 import { ToteBoard } from '/imports/ui/modules/ToteBoard/ToteBoard';
 import { Weather } from '/imports/schemas/derby/race';
 import { WeatherOverlay } from '../../WeatherOverlay/WeatherOverlay';
+import { WeatherBackground } from '../../WeatherBackground/WeatherBackground';
 
 const WEATHER_BGS: Record<Weather, string> = {
   clear: 'url(/derby/images/clear.webp)',
@@ -29,13 +30,14 @@ export const RaceBettingSubscreen: React.FC<{ race: RaceWithHelpers }> = ({
         position: 'relative',
         display: 'grid',
         placeItems: 'center',
-        backgroundImage: WEATHER_BGS[weather],
-        backgroundSize: 'cover',
+        // backgroundImage: WEATHER_BGS[weather],
+        // backgroundSize: 'cover',
         // backgroundPosition: 'center -200px',
         width: '100%',
         height: '100%',
       }}
     >
+      <WeatherBackground weather={weather} />
       <ToteBoardAccents
         src="/derby/images/grass.webp"
         style={{

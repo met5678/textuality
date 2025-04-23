@@ -8,6 +8,7 @@ import { RaceBackdrop } from './RaceBackdrop/RaceBackdrop';
 import { RaceViewportPixi } from './RaceViewport/RaceViewportPixi';
 import { RaceLines } from './RaceLines/RaceLines';
 import { RaceResultBannerPixi } from './RaceResultBanner/RaceResultBannerPixi';
+import { RaceFencePixi } from './RaceFence/RaceFencePixi';
 
 export class RacePixi {
   private app!: Application;
@@ -19,6 +20,7 @@ export class RacePixi {
   private tracksContainer: Container = new Container();
   private horsesContainer: Container = new Container();
   private effectsOverlay: Container = new Container();
+  private backFence: RaceFencePixi = new RaceFencePixi();
   private raceLines: RaceLines | null = null;
   private resultBanners: RaceResultBannerPixi[] = [];
   private worldSize: Dimensions = { width: 0, height: 0 };
@@ -53,6 +55,7 @@ export class RacePixi {
 
     // Add containers in correct order: backdrop -> tracks -> finish line -> horses -> effects
     this.viewport.addChild(this.backdrop.getContainer());
+    this.viewport.addChild(this.backFence);
     this.viewport.addChild(this.tracksContainer);
     this.viewport.addChild(this.horsesContainer);
     this.app.stage.addChild(this.effectsOverlay);
@@ -109,6 +112,8 @@ export class RacePixi {
     }
     const { furlong_length } = this.controller.getTrackData();
     this.raceLines = new RaceLines(this.controller.getTracks(), furlong_length);
+
+    this.backFence.updateSize(this.worldSize.width);
 
     // Insert race lines between tracks and horses
     const horsesIndex = this.viewport

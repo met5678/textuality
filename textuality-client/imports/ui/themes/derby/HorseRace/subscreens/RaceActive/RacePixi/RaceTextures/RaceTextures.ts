@@ -4,4 +4,5 @@ export const RaceTextures = {
   mud: '/derby/textures/mud.png',
   medal: '/derby/textures/medal.png',
   wood: '/derby/textures/wood.png',
+  fence: '/derby/textures/fence.png',
 };

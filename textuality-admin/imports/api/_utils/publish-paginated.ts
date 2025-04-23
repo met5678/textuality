@@ -16,8 +16,8 @@ export type GetPaginatedCursorOptions<T extends { _id: string }> = {
 };
 
 type PaginatedCursorFunction<T extends { _id: string }> = (
-  options: PaginatedCursorOptions<T>,
-) => Mongo.Cursor<T>;
+  opts: PaginatedCursorOptions<T>,
+) => Mongo.Cursor<T> | void;
 
 function getPaginatedCursor<T extends { _id: string }>(
   collection: Mongo.Collection<T>,

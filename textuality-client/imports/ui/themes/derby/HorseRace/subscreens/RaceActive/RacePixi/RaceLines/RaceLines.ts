@@ -21,8 +21,8 @@ interface FurlongMarker {
 const FURLONG_MARKER_DIMENSION = 150;
 const FURLONG_MARKER_TEXT_COLOR = 0xffffff;
 const FURLONG_MARKER_FONT_SIZE = 120;
-const FURLONG_MARKER_FONT_FAMILY = 'house-of-cards, serif';
-const FURLONG_MARKER_FONT_WEIGHT = '500' as const;
+const FURLONG_MARKER_FONT_FAMILY = 'brioso-pro-display, serif';
+const FURLONG_MARKER_FONT_WEIGHT = '700' as const;
 
 export class RaceLines {
   private container: Container;

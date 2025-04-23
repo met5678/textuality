@@ -138,6 +138,8 @@ export class WeatherOverlayPixi {
     this.rainContainer = new ParticleContainer();
     this.rainContainer.label = 'rain-container';
     this.raceController = raceController;
+
+    console.log('new WeatherOverlayPixi', this.app, this.rainContainer);
   }
 
   public async init(wrapper: HTMLDivElement) {

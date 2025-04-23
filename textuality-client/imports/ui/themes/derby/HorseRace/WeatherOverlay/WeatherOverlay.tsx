@@ -22,16 +22,17 @@ export const WeatherOverlay = ({
     }
 
     return () => {
-      pixiRef.current?.destroy();
-      pixiRef.current = undefined;
+      console.log('destroying pixi');
+      // pixiRef.current?.destroy();
+      // pixiRef.current = undefined;
     };
-  }, [pixiRef, containerRef]);
+  }, []);
 
   useEffect(() => {
     if (pixiRef.current && weather) {
       pixiRef.current.setWeather(weather);
     }
-  }, [weather]);
+  }, [pixiRef, weather]);
 
   return (
     <div

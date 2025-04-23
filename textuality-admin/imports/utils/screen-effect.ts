@@ -207,6 +207,7 @@ export class ScreenEffect {
   private generateSnow(ctx: CanvasRenderingContext2D): void {
     const w = ctx.canvas.width;
     const h = ctx.canvas.height;
+    if (!w || !h) return;
     const d = ctx.createImageData(w, h);
     const b = new Uint32Array(d.data.buffer);
 

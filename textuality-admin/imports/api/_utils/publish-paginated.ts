@@ -1,50 +1,64 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 
-type PaginatedCursorOptions = {
+export type PaginatedCursorOptions<T extends { _id: string }> = {
   offset?: number;
   count?: number;
   search?: string;
   sort?: Mongo.SortSpecifier;
+  query?: Mongo.Selector<T>;
 };
 
-type GetPaginatedCursorOptions = {
+export type GetPaginatedCursorOptions<T extends { _id: string }> = {
   fields?: Mongo.FieldSpecifier;
   searchField?: string;
+  getServerQuery?: () => Mongo.Selector<T>;
 };
 
-type PaginatedCursorFunction = (
-  options: PaginatedCursorOptions,
-) => Mongo.Cursor<any>;
+type PaginatedCursorFunction<T extends { _id: string }> = (
+  options: PaginatedCursorOptions<T>,
+) => Mongo.Cursor<T>;
 
-function getPaginatedCursor(
-  collection: Mongo.Collection<any>,
-  { fields, searchField = 'name' }: GetPaginatedCursorOptions = {},
-): PaginatedCursorFunction {
+function getPaginatedCursor<T extends { _id: string }>(
+  collection: Mongo.Collection<T>,
+  {
+    getServerQuery,
+    fields,
+    searchField = 'name',
+  }: GetPaginatedCursorOptions<T> = {},
+): PaginatedCursorFunction<T> {
   return function paginatedCursor(
     this: Meteor.Subscription,
     {
+      query = {},
       offset = 0,
       count = 25,
       search,
       sort = { name: 1 },
-    }: PaginatedCursorOptions,
+    }: PaginatedCursorOptions<T>,
   ) {
-    const regex = new RegExp(`${search}`, 'gi');
-    const query = search
-      ? {
-          [searchField]: { $regex: regex },
-        }
-      : {};
+    this.autorun(() => {
+      const regex = new RegExp(`${search}`, 'gi');
+      const searchQuery = search
+        ? {
+            [searchField]: { $regex: regex },
+          }
+        : {};
+      const finalQuery: Mongo.Selector<T> = {
+        ...searchQuery,
+        ...query,
+        ...getServerQuery?.(),
+      };
 
-    const total = collection.find(query).count();
-    this.setData('total', total);
+      // const total = collection.find(finalQuery).count();
+      // this.setData('total', total);
 
-    return collection.find(query, {
-      skip: offset,
-      limit: count,
-      fields,
-      sort,
+      return collection.find(finalQuery, {
+        fields,
+        sort,
+        skip: offset,
+        limit: count,
+      });
     });
   };
 }

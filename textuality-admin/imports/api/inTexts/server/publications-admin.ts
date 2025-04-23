@@ -7,10 +7,17 @@ import getPaginatedCursor from '../../_utils/publish-paginated';
 Meteor.publish('inTexts.all', function () {
   this.autorun(() =>
     InTexts.find(
-      { event: Events.currentId()! },
+      { event: Events.currentId() },
       { sort: { time: -1 }, limit: 100 },
     ),
   );
 });
 
-Meteor.publish('inTexts.paged', getPaginatedCursor(InTexts));
+Meteor.publish(
+  'inTexts.paged',
+  getPaginatedCursor(InTexts, {
+    getServerQuery: () => ({
+      event: Events.currentId(),
+    }),
+  }),
+);

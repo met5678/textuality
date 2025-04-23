@@ -16,6 +16,8 @@ import {
   MuiBaseEvent,
   GridRowEditStopParams,
   gridClasses,
+  GridSortModel,
+  GridFilterModel,
 } from '@mui/x-data-grid';
 import { Paper } from '@mui/material';
 import useTableDelete from './useTableDelete';
@@ -24,6 +26,19 @@ import useTableAdd from './useTableAdd';
 import useTableAddInline, { NEW_ROW_ID_PREFIX } from './useTableAddInline';
 import { useTableErrorSnackbar } from './TableErrorSnackbar';
 import useTableDuplicate from './useTableDuplicate';
+
+export interface TablePaginationProps {
+  rowCount: number;
+  paginationModel: GridPaginationModel;
+  onPaginationModelChange: (model: GridPaginationModel) => void;
+  sortModel: GridSortModel;
+  onSortModelChange: (model: GridSortModel) => void;
+  filterModel: GridFilterModel;
+  onFilterModelChange: (model: GridFilterModel) => void;
+  paginationMode: 'server';
+  sortMode: 'server';
+  filterMode: 'server';
+}
 
 /**
  * A flexible table component built on top of MUI's DataGrid with built-in CRUD operations
@@ -62,14 +77,8 @@ export interface TableArgs<T extends GridValidRowModel> {
   customRowActions?: ((params: GridRowParams<T>) => ReactElement)[];
   /** Loading state */
   isLoading?: boolean;
-  /** Current pagination model */
-  paginationModel?: GridPaginationModel;
-  /** Callback for pagination changes */
-  onPaginationModelChange?: (model: GridPaginationModel) => void;
-  /** Total number of rows (for server-side pagination) */
-  rowCount?: number;
-  /** Pagination mode */
-  paginationMode?: 'client' | 'server';
+  /** Pagination props */
+  paginationProps?: TablePaginationProps;
   /** The property name of the ID field */
   idProp?: string;
   /** Initial sort field */
@@ -149,10 +158,7 @@ const Table = <T extends GridValidRowModel>({
   density = 'compact',
   customRowActions = [],
   isLoading = false,
-  paginationModel,
-  onPaginationModelChange,
-  rowCount,
-  paginationMode = 'client',
+  paginationProps,
   initialSortField,
   initialSortOrder = 'asc',
   onValidate,
@@ -289,10 +295,6 @@ const Table = <T extends GridValidRowModel>({
         slots={{
           toolbar: () => getCustomToolbar(toolbarActions),
         }}
-        paginationModel={paginationModel}
-        onPaginationModelChange={onPaginationModelChange}
-        rowCount={rowCount}
-        paginationMode={paginationMode}
         rowModesModel={rowModesModel}
         onRowModesModelChange={setRowModesModel}
         editMode={editMode}
@@ -307,6 +309,7 @@ const Table = <T extends GridValidRowModel>({
               }
             : undefined
         }
+        {...paginationProps}
         aria-label="Data table"
       />
       {dialogs}

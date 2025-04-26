@@ -44,12 +44,18 @@ type RaceBet = {
   player: PlayerId;
   teller: TellerId;
   race: RaceId;
-  wager: number;
-  type: RaceBetType;
-  placed_at?: Date;
-  horses: HorseId[];
   status: RaceBetStatus;
   step: RaceBetStep;
+  started_at: Date;
+
+  // Optional until bet is placed
+  type?: RaceBetType;
+  horses?: HorseId[];
+  wager?: number;
+};
+
+type RaceBetComplete = Required<RaceBet> & {
+  placed_at: Date;
 };
 
 const RaceBetSchema = new SimpleSchema({
@@ -66,21 +72,27 @@ const RaceBetSchema = new SimpleSchema({
   race: {
     type: String,
   },
-  wager: {
-    type: SimpleSchema.Integer,
-    defaultValue: 0,
-  },
-  type: {
-    type: String,
-    allowedValues: [...RACE_BET_TYPES],
+  started_at: {
+    type: Date,
   },
   placed_at: {
     type: Date,
     optional: true,
   },
+  wager: {
+    type: SimpleSchema.Integer,
+    defaultValue: 0,
+    optional: true,
+  },
+  type: {
+    type: String,
+    allowedValues: [...RACE_BET_TYPES],
+    optional: true,
+  },
   horses: {
     type: Array,
     defaultValue: [],
+    optional: true,
   },
   'horses.$': {
     type: String,
@@ -96,5 +108,12 @@ const RaceBetSchema = new SimpleSchema({
 });
 
 export { RaceBetSchema };
-export type { RaceBetId, RaceBet, RaceBetType, RaceBetStep, RaceBetStatus };
+export type {
+  RaceBetId,
+  RaceBet,
+  RaceBetComplete,
+  RaceBetType,
+  RaceBetStep,
+  RaceBetStatus,
+};
 export { RACE_BET_TYPES, RACE_BET_STEPS, RACE_BET_STATUS };

@@ -20,6 +20,8 @@ declare module 'meteor/meteor' {
           computation: Tracker.Computation,
         ) => Mongo.Cursor<T> | Mongo.Cursor<T>[] | void,
       ): Tracker.Computation;
+
+      ready(): void;
     }
   }
 }

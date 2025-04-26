@@ -44,11 +44,6 @@ const columns: GridColDef<TellerWithHelpers>[] = [
     field: 'text_code',
     headerName: 'Text Code',
     width: 90,
-  },
-  {
-    field: 'available_bet_types',
-    headerName: 'Available Bet Types',
-    width: 90,
     editable: true,
   },
   {
@@ -64,12 +59,14 @@ const columns: GridColDef<TellerWithHelpers>[] = [
     headerName: 'Time Left',
     width: 90,
     type: 'number',
+    editable: true,
   },
   {
     field: 'current_bet',
     headerName: 'Current Bet',
     width: 90,
     renderCell: (params) => {
+      if (!params.row.current_bet) return '--';
       const bet = RaceBets.findOne(params.row.current_bet);
       return bet?.step;
     },

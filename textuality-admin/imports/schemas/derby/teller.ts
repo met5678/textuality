@@ -69,7 +69,9 @@ const TellerSchema = new SimpleSchema({
   },
   available_bet_types: {
     type: Array,
-    defaultValue: ['win'],
+    defaultValue: ['win', 'exacta', 'trifecta'],
+    minCount: 1,
+    maxCount: 3,
   },
   'available_bet_types.$': {
     type: String,

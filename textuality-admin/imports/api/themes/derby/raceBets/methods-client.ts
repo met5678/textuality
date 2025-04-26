@@ -8,8 +8,11 @@ import Races from '../race/races';
 import {
   RaceBet,
   RaceBetId,
+  RaceBetComplete,
   RaceBetType,
 } from '/imports/schemas/derby/raceBet';
+import Events from '/imports/api/events';
+import { OptionalId } from '/imports/utils/optional-id';
 
 Meteor.methods({
   'derby.raceBets.startBet': async ({
@@ -24,6 +27,21 @@ Meteor.methods({
     const player = Players.findOneAsync(player_id, {
       fields: { money: 1, alias: 1, avatar: 1 },
     });
+
+    if (!player) return;
+
+    const raceBet: OptionalId<RaceBet> = {
+      event: Events.currentIdOrThrow(),
+      player: player_id,
+      teller: teller_id,
+      race: race_id,
+      status: 'pending',
+      step: 'bet-type',
+      started_at: new Date(),
+    };
+
+    const id = await RaceBets.insertAsync(raceBet);
+    return id;
   },
 
   'derby.raceBets.selectBetType': async ({
@@ -87,3 +105,12 @@ const validateRaceBet = async (raceBet: RaceBet) => {
 
   return true;
 };
+function OptionalId<T>(arg0: {
+  player: string;
+  teller: string;
+  race: any;
+  type: string;
+  horses: never[];
+}) {
+  throw new Error('Function not implemented.');
+}

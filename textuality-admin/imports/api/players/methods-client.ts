@@ -2,21 +2,21 @@ import { Meteor } from 'meteor/meteor';
 
 import Players from './players';
 import Events from '/imports/api/events';
-import InTexts from '/imports/api/inTexts';
-import Media from '/imports/api/media';
-import PlayerSchema, { Player } from '/imports/schemas/player';
+import { Player } from '/imports/schemas/player';
 
 Meteor.methods({
-  'players.findOrJoin': (phoneNumber) => {
-    let player = Players.findOne({
-      event: Events.currentId()!,
+  'players.findOrJoin': async (phoneNumber: string) => {
+    const eventId = Events.currentIdOrThrow();
+
+    let player = await Players.findOneAsync({
+      event: eventId,
       phoneNumber,
     });
 
     if (!player) {
       const alias = Meteor.call('aliases.checkout');
-      const id = Players.insert({
-        event: Events.currentId()!,
+      const id = await Players.insertAsync({
+        event: eventId,
         phoneNumber,
         joined: new Date(),
         recent: new Date(),
@@ -30,7 +30,7 @@ Meteor.methods({
         slot_spins: [],
         quests: [],
       });
-      player = Players.findOne(id);
+      player = await Players.findOneAsync(id);
     }
 
     return player;

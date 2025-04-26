@@ -24,6 +24,69 @@ const OUT_TEXT_SOURCE = [
 ] as const;
 type OutTextSource = (typeof OUT_TEXT_SOURCE)[number];
 
+type OutTextInteractivePayloadOption = {
+  value: string;
+  label: string;
+  description?: string;
+};
+
+type OutTextInteractivePayload = {
+  type: 'reply-buttons' | 'list';
+  options: OutTextInteractivePayloadOption[];
+};
+
+export type OutTextId = string;
+
+interface OutText {
+  _id: OutTextId;
+  event: EventId;
+  body: string;
+  media_url?: string;
+  interactive?: OutTextInteractivePayload;
+  time: Date;
+  player_id: PlayerId;
+  player_alias: string;
+  player_number: string;
+  status: OutTextStatus;
+  external_id?: string;
+  source?: OutTextSource;
+}
+
+const OutTextInteractivePayloadOptionSchema = new SimpleSchema({
+  value: {
+    type: String,
+    defaultValue: 'backend-value',
+  },
+  label: {
+    type: String,
+    defaultValue: 'User Facing Label',
+  },
+  description: {
+    type: String,
+    optional: true,
+  },
+});
+
+const OutTextInteractivePayloadSchema = new SimpleSchema({
+  type: {
+    type: String,
+    allowedValues: ['reply-buttons', 'list'],
+  },
+  options: {
+    type: Array,
+    minCount: 1,
+    defaultValue: [
+      {
+        value: 'backend-value',
+        label: 'User Facing Label',
+      },
+    ],
+  },
+  'options.$': {
+    type: OutTextInteractivePayloadOptionSchema,
+  },
+});
+
 const OutTextSchema = new SimpleSchema({
   event: {
     type: String,
@@ -38,12 +101,12 @@ const OutTextSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
-  media_id: {
+  media_url: {
     type: String,
     optional: true,
   },
-  media_url: {
-    type: String,
+  interactive: {
+    type: OutTextInteractivePayloadSchema,
     optional: true,
   },
   status: {
@@ -59,22 +122,18 @@ const OutTextSchema = new SimpleSchema({
   },
 });
 
-export type OutTextId = string;
-
-interface OutText {
-  _id: OutTextId;
-  event: EventId;
-  body: string;
-  media_url?: string;
-  time: Date;
-  player_id: PlayerId;
-  player_alias: string;
-  player_number: string;
-  status: OutTextStatus;
-  external_id?: string;
-  source?: OutTextSource;
-}
-
 export default OutTextSchema;
-export { OutTextSchema, OUT_TEXT_STATUS, OUT_TEXT_SOURCE };
-export type { OutText, OutTextStatus, OutTextSource };
+export {
+  OutTextSchema,
+  OutTextInteractivePayloadSchema,
+  OutTextInteractivePayloadOptionSchema,
+  OUT_TEXT_STATUS,
+  OUT_TEXT_SOURCE,
+};
+export type {
+  OutText,
+  OutTextStatus,
+  OutTextSource,
+  OutTextInteractivePayload,
+  OutTextInteractivePayloadOption,
+};

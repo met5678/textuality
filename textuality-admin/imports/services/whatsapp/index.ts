@@ -1,4 +1,4 @@
-import { sendMessage, OutgoingMessageData } from './wa-sendmessage';
+import { sendMessage } from './wa-sendmessage';
 import { markAsRead } from './wa-markread';
 import { getMediaUrl } from './wa-getmediaurl';
 import { onReceive, IncomingMessageData } from './wa-handlemessage';
@@ -12,5 +12,4 @@ export {
   getMediaUrl,
   sendMessage,
   IncomingMessageData,
-  OutgoingMessageData,
 };

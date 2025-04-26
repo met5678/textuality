@@ -6,9 +6,28 @@ import Players from '/imports/api/players';
 import Checkpoints from '../checkpoints';
 
 import commaNumber from 'comma-number';
+import { AutoTextTrigger } from '/imports/schemas/autoText';
+import { PlayerId } from '/imports/schemas/player';
+import { OutTextSource } from '/imports/schemas/outText';
 
 const capitalizeFirstLetter = (str: string) =>
   `${str[0].toUpperCase()}${str.substring(1)}`;
+
+type AutoTextSendArgs = {
+  trigger: AutoTextTrigger;
+  triggerNum?: number;
+  playerId: PlayerId;
+  mediaUrl?: string;
+  templateVars: Record<string, any>;
+};
+
+type AutoTextSendCustomArgs = {
+  playerText: string;
+  playerId: PlayerId;
+  mediaUrl?: string;
+  templateVars: Record<string, any>;
+  source?: OutTextSource;
+};
 
 Meteor.methods({
   'autoTexts.send': ({
@@ -17,7 +36,7 @@ Meteor.methods({
     playerId,
     mediaUrl,
     templateVars,
-  }) => {
+  }: AutoTextSendArgs) => {
     const autoTextQuery: Record<string, any> = {
       event: Events.currentId(),
       trigger,
@@ -114,7 +133,7 @@ Meteor.methods({
     mediaUrl,
     templateVars = {},
     source = 'auto',
-  }) => {
+  }: AutoTextSendCustomArgs) => {
     const player = Players.findOne(playerId);
     if (!player) return;
 
@@ -126,18 +145,21 @@ Meteor.methods({
         let value = templateVars[key];
 
         // If value is either a number or a string that can be converted to a number, format it with commas
-        if (!isNaN(value) || !isNaN(parseFloat(value))) {
+        if (
+          (typeof value === 'number' && !isNaN(value)) ||
+          !isNaN(parseFloat(value))
+        ) {
           value = commaNumber(value);
         }
 
         body = body.replace(new RegExp(`\\[${key}\\]`, 'g'), value);
       });
 
-      Meteor.call('outTexts.send', {
-        players: [player],
+      Meteor.callAsync('outTexts.send', {
+        player,
         body,
-        source,
         mediaUrl,
+        source,
       });
     }
   },

@@ -11,14 +11,17 @@ import { InText } from '/imports/schemas/inText';
 import { IncomingMessageData } from '/imports/services/whatsapp';
 import processBetText from './process-purpose/process-bet-text';
 import processFeedText from './process-purpose/process-feed-text';
+import OutTexts from '../outTexts';
 
 Meteor.methods({
-  'inTexts.receive': (message: IncomingMessageData) => {
-    const player = Meteor.call('players.findOrJoin', message.from);
+  'inTexts.receive': async (message: IncomingMessageData) => {
+    const eventId = Events.currentIdOrThrow();
+
+    const player = await Meteor.callAsync('players.findOrJoin', message.from);
     const purpose = getPurpose({ message, player });
 
     const inTextRaw: Omit<InText, '_id'> = {
-      event: Events.currentId()!,
+      event: eventId,
       player: player._id,
       body: message.text,
       time: new Date(),
@@ -36,7 +39,7 @@ Meteor.methods({
       });
     }
 
-    const id = InTexts.insert(inTextRaw);
+    const id = await InTexts.insertAsync(inTextRaw);
     const inText: InText = { ...inTextRaw, _id: id };
 
     Meteor.call('players.updateAfterInText', inText);

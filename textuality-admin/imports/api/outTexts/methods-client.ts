@@ -16,15 +16,15 @@ import { OptionalId } from '/imports/utils/optional-id';
 interface OutTextSendArgs {
   body: string;
   mediaUrl?: string;
-  players: Player[];
+  player: Player;
   source?: OutTextSource;
 }
 
 Meteor.methods({
   'outTexts.send': async ({
+    player,
     body,
     mediaUrl,
-    players,
     source,
   }: OutTextSendArgs) => {
     const event = Events.current();
@@ -34,23 +34,19 @@ Meteor.methods({
       source = 'unknown';
     }
 
-    await Promise.all(
-      players.map(async (player) => {
-        const outText: OptionalId<OutText> = {
-          event: event._id,
-          body,
-          player_id: player._id!,
-          player_number: player.phoneNumber,
-          player_alias: player.alias,
-          media_url: mediaUrl,
-          time: new Date(),
-          status: 'unsent',
-          source: source,
-        };
+    const outText: OptionalId<OutText> = {
+      event: event._id,
+      body,
+      player_id: player._id!,
+      player_number: player.phoneNumber,
+      player_alias: player.alias,
+      media_url: mediaUrl,
+      time: new Date(),
+      status: 'unsent',
+      source: source,
+    };
 
-        await OutTexts.insertAsync(outText);
-      }),
-    );
+    await OutTexts.insertAsync(outText);
   },
 
   'outTexts.updateStatus': async (
@@ -75,15 +71,15 @@ Meteor.methods({
     external_id: string,
     status: OutTextStatus,
   ) => {
-    const outText = await OutTexts.findOneAsync({ external_id });
-    if (outText)
-      await Meteor.callAsync('outTexts.updateStatus', outText._id, status);
-    else {
+    const changedTexts = await OutTexts.updateAsync(
+      { external_id },
+      { $set: { status } },
+    );
+    if (changedTexts === 0)
       console.warn('Trying to update status for nonexistent id', {
         external_id,
         status,
       });
-    }
   },
 
   'outTexts.setExternalId': async (message_id: string, external_id: string) => {

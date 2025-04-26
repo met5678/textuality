@@ -1,13 +1,10 @@
 import { Meteor } from 'meteor/meteor';
-import {
-  OutgoingMessageData,
-  onMessageStatus,
-  onReceive,
-} from '/imports/services/whatsapp/index';
+import { onMessageStatus, onReceive } from '/imports/services/whatsapp/index';
 import { IncomingMessageData } from '/imports/services/whatsapp/wa-handlemessage';
 import { sendMessage } from '/imports/services/whatsapp/index';
 import OutTexts from '/imports/api/outTexts';
 import { DB_ENV } from './env-vars';
+import { OutgoingMessageData } from '/imports/services/whatsapp/wa-types';
 
 let observeHandle: Meteor.LiveQueryHandle | null = null;
 let hasStartedUp = false;

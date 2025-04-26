@@ -1,14 +1,28 @@
+import { Meteor } from 'meteor/meteor';
 import Events from './events';
-import { EventId } from '/imports/schemas/event';
+import { Event, EventId } from '/imports/schemas/event';
 
-const current = () => {
+const current = (): Event | undefined => {
   const events = Events.find({ active: true }).fetch();
   return events[0];
 };
 
+const currentOrThrow = (): Event => {
+  const current = Events.current();
+  if (!current) {
+    throw new Meteor.Error('event-not-found', 'Event not active');
+  }
+  return current;
+};
+
 const currentId = (): EventId | undefined => {
-  const current = Events.current!();
-  return current ? current._id : undefined;
+  const currentEvent = current();
+  return currentEvent ? currentEvent._id : undefined;
+};
+
+const currentIdOrThrow = (): EventId => {
+  const current = currentOrThrow();
+  return current._id;
 };
 
 const allIds = (): EventId[] => {
@@ -17,4 +31,4 @@ const allIds = (): EventId[] => {
     .map((event) => event._id);
 };
 
-export { current, currentId, allIds };
+export { current, currentOrThrow, currentId, currentIdOrThrow, allIds };

@@ -7,18 +7,25 @@ import {
 import { IncomingMessageData } from '/imports/services/whatsapp/wa-handlemessage';
 import { sendMessage } from '/imports/services/whatsapp/index';
 import OutTexts from '/imports/api/outTexts';
+import { DB_ENV } from './env-vars';
 
 let observeHandle: Meteor.LiveQueryHandle | null = null;
 let hasStartedUp = false;
 
-const initializeWhatsappHandler = () => {
+const initializeWhatsappHandler = async () => {
   console.log('Initializing WhatsApp handler');
+  if (observeHandle) {
+    console.log('Deregistering old observer');
+    observeHandle.stop();
+  }
+
   onReceive((message: IncomingMessageData) => {
     Meteor.call('inTexts.receive', message);
   });
 
+  // This is mostly to give us read receipts for messages we send.
   onMessageStatus((statusData) => {
-    Meteor.call(
+    Meteor.callAsync(
       'outTexts.updateStatusByExternalId',
       statusData.message_id,
       statusData.status,
@@ -27,34 +34,36 @@ const initializeWhatsappHandler = () => {
 
   // This is to prevent messages from being sent a second time if there
   // was an error when sending them.
-  OutTexts.update(
+  await OutTexts.updateAsync(
     { status: 'unsent' },
     { $set: { status: 'nosend' } },
     { multi: true },
   );
 
-  if (observeHandle) {
-    observeHandle.stop();
-  }
-
   observeHandle = OutTexts.find({ status: 'unsent' }).observe({
     added(outText) {
-      console.log('Should send message');
-
       const outMessage: OutgoingMessageData = {
         to: outText.player_number,
         text: outText.body,
         mediaUrl: outText.media_url,
       };
 
-      if (Meteor.isProduction) {
-        console.log('Is production, will send message');
-        sendMessage(outMessage).then((external_id) => {
-          Meteor.call('outTexts.setExternalId', outText._id, external_id);
-          Meteor.call('outTexts.updateStatus', outText._id, 'sent');
+      if (DB_ENV === 'local' || Meteor.isProduction) {
+        console.log(`DB:${DB_ENV}, will send message`, outText);
+        sendMessage(outMessage).then(async (external_id) => {
+          await Meteor.callAsync(
+            'outTexts.setExternalId',
+            outText._id,
+            external_id,
+          );
+          await Meteor.callAsync(
+            'outTexts.updateStatus',
+            outText._id,
+            'api-sent',
+          );
         });
       } else {
-        console.log('Is dev, not sending message');
+        console.log(`DB:${DB_ENV} and on dev, not sending message`, outText);
       }
     },
   });
@@ -65,5 +74,3 @@ Meteor.startup(() => {
   hasStartedUp = true;
   initializeWhatsappHandler();
 });
-
-initializeWhatsappHandler();

@@ -4,6 +4,26 @@ import Events from '/imports/api/events';
 import { EventId } from './event';
 import { PlayerId } from './player';
 
+const OUT_TEXT_STATUS = [
+  'nosend',
+  'unsent',
+  'sending',
+  'api-sent',
+  'sent',
+  'delivered',
+  'read',
+] as const;
+type OutTextStatus = (typeof OUT_TEXT_STATUS)[number];
+
+const OUT_TEXT_SOURCE = [
+  'auto',
+  'manual',
+  'achievement',
+  'mission',
+  'unknown',
+] as const;
+type OutTextSource = (typeof OUT_TEXT_SOURCE)[number];
+
 const OutTextSchema = new SimpleSchema({
   event: {
     type: String,
@@ -28,18 +48,16 @@ const OutTextSchema = new SimpleSchema({
   },
   status: {
     type: String,
-    allowedValues: ['nosend', 'unsent', 'sending', 'sent', 'delivered', 'read'],
+    allowedValues: [...OUT_TEXT_STATUS],
     defaultValue: 'unsent',
   },
+  source: {
+    type: String,
+    allowedValues: [...OUT_TEXT_SOURCE],
+    defaultValue: 'unknown',
+    optional: true,
+  },
 });
-
-type OutTextStatus =
-  | 'nosend'
-  | 'unsent'
-  | 'sending'
-  | 'sent'
-  | 'delivered'
-  | 'read';
 
 export type OutTextId = string;
 
@@ -54,7 +72,9 @@ interface OutText {
   player_number: string;
   status: OutTextStatus;
   external_id?: string;
+  source?: OutTextSource;
 }
 
 export default OutTextSchema;
-export { OutText, OutTextSchema, OutTextStatus };
+export { OutTextSchema, OUT_TEXT_STATUS, OUT_TEXT_SOURCE };
+export type { OutText, OutTextStatus, OutTextSource };

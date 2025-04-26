@@ -129,8 +129,6 @@ async function sendMessage(message: OutgoingMessageData): Promise<string> {
     };
   }
 
-  console.log('Sending message', payload);
-
   const result = await fetch(whatsappSendEndpoint, {
     method: 'POST',
     headers: {

@@ -55,6 +55,7 @@ const HorseColumn: React.FC<{
                     justifyContent: 'center',
                     textShadow: '0px 1px 1px rgba(0, 0, 0, 0.25)',
                     paddingLeft: '2px',
+                    filter: 'drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5))',
                   }}
                 >
                   <span

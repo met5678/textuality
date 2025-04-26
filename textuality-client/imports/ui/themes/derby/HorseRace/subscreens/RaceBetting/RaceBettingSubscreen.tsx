@@ -41,11 +41,12 @@ export const RaceBettingSubscreen: React.FC<{ race: RaceWithHelpers }> = ({
         src="/derby/images/roses.png"
         style={{
           position: 'absolute',
-          bottom: window.innerHeight < 580 ? '-108px' : '16px',
           filter:
             'drop-shadow(0 4px 4px rgba(0, 0, 0, 0.25)) drop-shadow(0 10px 16px rgba(0, 0, 0, 0.15))',
-          width: 'auto',
-          height: '210px',
+          width: window.innerWidth > 1280 ? '98vw' : '100vw',
+          height: 'auto',
+          aspectRatio: 1250 / 210,
+          bottom: window.innerHeight < 580 ? '-110px' : '4px',
         }}
         weather={weather}
       />

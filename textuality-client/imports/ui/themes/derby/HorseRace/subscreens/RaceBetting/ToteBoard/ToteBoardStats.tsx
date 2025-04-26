@@ -8,15 +8,7 @@ export const ToteBoardStats: React.FC<{
   race: RaceWithHelpers;
 }> = ({ race }) => {
   return (
-    <div
-      className="tote-board-stats"
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '24px',
-        marginTop: '16px',
-      }}
-    >
+    <div className="tote-board-stats">
       <ToteBoardDisplayRow
         label="Betting"
         value={race.status === 'bets-open' ? 'open' : 'closed'}

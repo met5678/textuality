@@ -4,6 +4,17 @@
 }
 
 .tote-board {
+  width: 88vw;
+  aspect-ratio: 1100/440;
+}
+
+.tote-board-container {
+  display: flex;
+  justify-content: center;
+
+  /* max-width: 88vw;
+  aspect-ratio: 1100/440; */
+  /* height: 440px; */
   background: #2e2e2e url('/derby/textures/wood-gray.png');
   border-radius: 6px;
   box-shadow:
@@ -11,9 +22,6 @@
     inset 0 -2px 2px rgba(255, 255, 255, 0.05),
     0 4px 8px rgba(0, 0, 0, 0.2);
   position: relative;
-  width: 100%;
-  max-width: 1100px;
-  height: 440px;
   padding: 32px;
   padding-top: 40px;
   display: flex;
@@ -69,8 +77,20 @@
   }
 }
 
+.tote-board-stats {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 16px;
+}
+
+.tote-board-odds {
+  flex: 0 0 33%;
+}
+
 .tote-board-activity {
-  flex: 1;
+  flex: 1 1 auto;
   width: 100%;
   height: 100%;
   background-color: #444;

@@ -85,7 +85,7 @@ export const ToteBoardOdds: React.FC<{
   const orderedHorses = [...horses].sort((a, b) => a.number - b.number);
 
   return (
-    <div className="tote-board-odds" style={{ maxWidth: '33%' }}>
+    <div className="tote-board-odds">
       <span
         style={{
           width: '100%',

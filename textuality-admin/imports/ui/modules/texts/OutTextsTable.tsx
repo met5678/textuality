@@ -45,6 +45,8 @@ const OutTextsTable = () => {
   const tableProps = usePaginatedTableProps({
     subscription: 'outTexts.paged',
     collection: OutTexts,
+    initialSortField: 'time',
+    initialSortOrder: 'desc',
   });
 
   return <Table columns={columns} {...tableProps} />;

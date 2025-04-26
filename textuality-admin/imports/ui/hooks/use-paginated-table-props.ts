@@ -16,9 +16,8 @@ interface SortOptions {
 interface PaginatedSubscriptionProps<T extends Document, U extends Document> {
   subscription: string;
   collection: Mongo.Collection<T, U>;
-  initial?: {
-    sort?: SortOptions;
-  };
+  initialSortField?: string;
+  initialSortOrder?: 'asc' | 'desc';
 }
 
 interface PaginatedTableProps<T> {
@@ -30,12 +29,23 @@ interface PaginatedTableProps<T> {
 function usePaginatedTableProps<T extends Document, U extends Document>({
   subscription,
   collection,
+  initialSortField,
+  initialSortOrder = 'asc',
 }: PaginatedSubscriptionProps<T, U>): PaginatedTableProps<U> {
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
     pageSize: 25,
   });
-  const [sortModel, setSortModel] = useState<GridSortModel>([]);
+  const [sortModel, setSortModel] = useState<GridSortModel>(
+    initialSortField
+      ? [
+          {
+            field: initialSortField,
+            sort: initialSortOrder,
+          },
+        ]
+      : [],
+  );
   const [filterModel, setFilterModel] = useState<GridFilterModel>({
     items: [],
   });
@@ -68,6 +78,8 @@ function usePaginatedTableProps<T extends Document, U extends Document>({
     }),
     [offset, query, paginationModel.pageSize, sort],
   );
+
+  console.log('sort', sort);
 
   const isLoading = useSubscribe(subscription, subscriptionOptions, [
     subscriptionOptions,

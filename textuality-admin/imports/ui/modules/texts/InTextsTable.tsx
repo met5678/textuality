@@ -45,6 +45,8 @@ const InTextsTable = () => {
   const tableProps = usePaginatedTableProps({
     subscription: 'inTexts.paged',
     collection: InTexts,
+    initialSortField: 'time',
+    initialSortOrder: 'desc',
   });
 
   return <Table columns={columns} {...tableProps} />;

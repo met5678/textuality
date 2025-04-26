@@ -16,9 +16,9 @@ export const WeatherBackground = ({ weather }: { weather: Weather }) => {
         position: 'absolute',
         height: '100%',
         width: '100%',
-        backgroundImage: `url(/derby/images/weather/${weather}.png)`,
+        backgroundImage: `url(/derby/images/weather/${weather}.webp)`,
         backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        backgroundPosition: 'center -200px',
       }}
     >
       {WEATHER_VIDEOS[weather] && (

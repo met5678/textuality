@@ -4,16 +4,8 @@ import { useSubscribe, useTracker } from 'meteor/react-meteor-data';
 import Horses from '/imports/api/themes/derby/horses/horses';
 import { ToteBoardAccents } from '../../../../../modules/ToteBoard/ToteBoardAccents';
 import { ToteBoard } from '/imports/ui/modules/ToteBoard/ToteBoard';
-import { Weather } from '/imports/schemas/derby/race';
 import { WeatherOverlay } from '../../WeatherOverlay/WeatherOverlay';
 import { WeatherBackground } from '../../WeatherBackground/WeatherBackground';
-
-const WEATHER_BGS: Record<Weather, string> = {
-  clear: 'url(/derby/images/clear.webp)',
-  rain: 'url(/derby/images/rain.webp)',
-  storm: 'url(/derby/images/storm.webp)',
-  windy: 'url(/derby/images/windy.webp)',
-};
 
 export const RaceBettingSubscreen: React.FC<{ race: RaceWithHelpers }> = ({
   race,
@@ -30,9 +22,6 @@ export const RaceBettingSubscreen: React.FC<{ race: RaceWithHelpers }> = ({
         position: 'relative',
         display: 'grid',
         placeItems: 'center',
-        // backgroundImage: WEATHER_BGS[weather],
-        // backgroundSize: 'cover',
-        // backgroundPosition: 'center -200px',
         width: '100%',
         height: '100%',
       }}

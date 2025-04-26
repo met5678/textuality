@@ -6,9 +6,10 @@ import {
   Texture,
 } from 'pixi.js';
 import { Weather } from '/imports/schemas/derby/race';
-import { DropShadowFilter, GlowFilter, OutlineFilter } from 'pixi-filters';
 import { deg2rad } from '/imports/utils/deg-2-rad';
 import { RaceController } from '../subscreens/RaceActive/RacePixi/RaceController';
+import { LightningOverlayPixi } from './LightningOverlayPixi';
+import { SunOverlayPixi } from './SunOverlayPixi';
 
 interface RainConfig {
   /**
@@ -132,14 +133,20 @@ export class WeatherOverlayPixi {
   private raceController: RaceController | undefined;
   private _lastLeadingX: number = 0;
   private _initialized: boolean = false;
+  private lightningOverlay: LightningOverlayPixi;
 
   constructor(raceController?: RaceController) {
     this.app = new Application();
     this.rainContainer = new ParticleContainer();
     this.rainContainer.label = 'rain-container';
-    this.raceController = raceController;
+    this.lightningOverlay = new LightningOverlayPixi();
+    if (raceController) {
+      this.hookupRaceController(raceController);
+    }
+  }
 
-    console.log('new WeatherOverlayPixi', this.app, this.rainContainer);
+  hookupRaceController(raceController: RaceController) {
+    this.raceController = raceController;
   }
 
   public async init(wrapper: HTMLDivElement) {
@@ -150,7 +157,13 @@ export class WeatherOverlayPixi {
     });
     wrapper.appendChild(this.app.canvas);
     this.app.stage.addChild(this.rainContainer);
+    this.app.stage.addChild(this.lightningOverlay);
     this.populateRaindrops();
+    this.lightningOverlay.updateSize(
+      this.app.screen.width,
+      this.app.screen.height,
+    );
+
     this.app.ticker.add(this.update, this);
     this._initialized = true;
   }
@@ -161,6 +174,10 @@ export class WeatherOverlayPixi {
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
     this.rainConfig = getRainConfig(weather);
+    this.lightningOverlay.updateSize(
+      this.app.screen.width,
+      this.app.screen.height,
+    );
     this.populateRaindrops();
   }
 
@@ -242,9 +259,13 @@ export class WeatherOverlayPixi {
         drop.y = this.app.screen.height + boundsPaddingY - overshoot;
       }
     }
+
+    if (Math.random() < 0.01) {
+      this.lightningOverlay.triggerFlash(Math.random() * 3 + 0.5);
+    }
   }
 
   public destroy(): void {
-    this.app.destroy(true);
+    // this.app.destroy(true);
   }
 }

@@ -19,7 +19,7 @@ export const ToteBoard: React.FC<{
   useEffect(() => {
     if (boardRef.current) {
       const { width } = boardRef.current.getBoundingClientRect();
-      const baseWidth = 1100; // aspect ratio 1100/440
+      const baseWidth = 1200; // aspect ratio 1100/440
       setScale(width / baseWidth);
     }
   }, []);
@@ -27,17 +27,21 @@ export const ToteBoard: React.FC<{
   return (
     <div className="tote-board" ref={boardRef}>
       <div
-        className="tote-board-container"
+        className="tote-board-wrapper"
         style={{
           transform: `scale(${scale})`,
           transformOrigin: 'top left',
-          width: '1100px',
+          width: '1200px',
           height: '440px',
+          boxSizing: 'border-box',
         }}
       >
-        <ToteBoardStats race={race} />
-        <ToteBoardOdds race={race} horses={horses} />
-        <ToteBoardActivity />
+        <div className="tote-board-top-frame" />
+        <div className="tote-board-body">
+          <ToteBoardStats race={race} />
+          <ToteBoardOdds race={race} horses={horses} />
+          <ToteBoardActivity />
+        </div>
       </div>
     </div>
   );

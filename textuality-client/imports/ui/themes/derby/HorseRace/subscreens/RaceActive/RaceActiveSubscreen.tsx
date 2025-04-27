@@ -71,10 +71,10 @@ export const RaceActiveSubsceen: React.FC<{ race: RaceWithHelpers }> = ({
           ticker={tickerRef.current}
           raceController={raceControllerRef.current}
         />
-        {/* <WeatherOverlay
+        <WeatherOverlay
           weather={race.weather}
           raceController={raceControllerRef.current}
-        /> */}
+        />
       </div>
       <JockeyCams race={race} />
     </div>

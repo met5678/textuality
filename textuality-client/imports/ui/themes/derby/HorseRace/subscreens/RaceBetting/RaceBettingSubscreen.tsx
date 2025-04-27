@@ -46,7 +46,7 @@ export const RaceBettingSubscreen: React.FC<{ race: RaceWithHelpers }> = ({
           width: window.innerWidth > 1280 ? '98vw' : '100vw',
           height: 'auto',
           aspectRatio: 1250 / 210,
-          bottom: window.innerHeight < 580 ? '-110px' : '4px',
+          bottom: window.innerHeight < 580 ? '-80px' : '28px',
         }}
         weather={weather}
       />

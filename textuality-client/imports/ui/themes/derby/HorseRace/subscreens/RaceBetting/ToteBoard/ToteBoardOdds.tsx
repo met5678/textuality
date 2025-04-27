@@ -104,7 +104,7 @@ export const ToteBoardOdds: React.FC<{
         <HorseColumn horses={orderedHorses.slice(0, 4)} race={race} />
         <HorseColumn horses={orderedHorses.slice(4, 8)} race={race} />
       </div>
-      <p className="tote-board-note" style={{ marginTop: '24px' }}>
+      <p className="tote-board-note" style={{ marginTop: '16px' }}>
         Bigger odds = bigger payout! (Odds shown as "X to 1")
       </p>
     </div>

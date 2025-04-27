@@ -8,11 +8,13 @@ import { HorseWithHelpers } from '/imports/api/themes/derby/horses/horses';
 import { ToteBoardOdds } from './ToteBoardOdds';
 import { ToteBoardStats } from './ToteBoardStats';
 import { ToteBoardActivity } from './ToteBoardActivity';
+import { ToteBoardAccents } from './ToteBoardAccents';
 
 export const ToteBoard: React.FC<{
   race: RaceWithHelpers;
   horses: HorseWithHelpers[];
-}> = ({ race, horses }) => {
+  weather: Weather;
+}> = ({ race, horses, weather }) => {
   const [scale, setScale] = useState(1);
   const boardRef = useRef<HTMLDivElement>(null);
 
@@ -25,22 +27,43 @@ export const ToteBoard: React.FC<{
   }, []);
 
   return (
-    <div className="tote-board" ref={boardRef}>
+    <div className="tote-board-wrapper">
+      <div className="tote-board" ref={boardRef}>
+        <div
+          className="tote-board-container"
+          style={{
+            transform: `scale(${scale})`,
+            transformOrigin: 'top left',
+            width: '1200px',
+            height: '440px',
+            boxSizing: 'border-box',
+          }}
+        >
+          <div className="tote-board-top-frame" />
+          <div className="tote-board-body">
+            <ToteBoardStats race={race} />
+            <ToteBoardOdds race={race} horses={horses} />
+            <ToteBoardActivity />
+          </div>
+        </div>
+      </div>
       <div
-        className="tote-board-wrapper"
+        className="tote-board-roses-wrapper"
         style={{
-          transform: `scale(${scale})`,
-          transformOrigin: 'top left',
-          width: '1200px',
-          height: '440px',
-          boxSizing: 'border-box',
+          height: window.innerHeight > 900 ? '270px' : '180px',
+          transform:
+            window.innerHeight > 900 ? 'translateY(65%)' : 'translateY(50%)',
         }}
       >
-        <div className="tote-board-top-frame" />
-        <div className="tote-board-body">
-          <ToteBoardStats race={race} />
-          <ToteBoardOdds race={race} horses={horses} />
-          <ToteBoardActivity />
+        {/* <div className="tote-board-roses-container"> */}
+        <div className="tote-board-roses">
+          <ToteBoardAccents src="/derby/images/roses.webp" weather={weather} />
+        </div>
+        <div className="tote-board-roses">
+          <ToteBoardAccents src="/derby/images/roses.webp" weather={weather} />
+        </div>
+        <div className="tote-board-roses">
+          <ToteBoardAccents src="/derby/images/roses.webp" weather={weather} />
         </div>
       </div>
     </div>

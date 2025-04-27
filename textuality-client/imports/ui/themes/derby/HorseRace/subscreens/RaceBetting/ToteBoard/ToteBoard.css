@@ -3,12 +3,16 @@
   src: url('/derby/digital-7_mono.ttf') format('truetype');
 }
 
+.tote-board-wrapper {
+  position: relative;
+}
+
 .tote-board {
   width: 88vw;
   aspect-ratio: 1200/440;
 }
 
-.tote-board-wrapper {
+.tote-board-container {
   background: url('/derby/textures/toteboard.jpg'), #1c4028;
   background-size: cover;
   background-position: center;
@@ -109,4 +113,33 @@
   background-color: #444;
   border-radius: 4px;
   position: relative;
+}
+
+.tote-board-roses-wrapper {
+  position: absolute;
+  bottom: 0;
+  left: -7%;
+  width: 130%;
+  filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.25))
+    drop-shadow(0 10px 16px rgba(0, 0, 0, 0.15));
+}
+
+.tote-board-roses-container {
+  position: relative;
+}
+
+.tote-board-roses {
+  position: absolute;
+  height: 100%;
+  bottom: 0;
+  left: 10px;
+}
+
+.tote-board-roses:nth-child(2) {
+  left: 22%;
+}
+
+.tote-board-roses:nth-child(3) {
+  left: 49%;
+  transform: scaleX(-1);
 }

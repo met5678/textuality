@@ -24,6 +24,7 @@ export const RaceBettingSubscreen: React.FC<{ race: RaceWithHelpers }> = ({
         placeItems: 'center',
         width: '100%',
         height: '100%',
+        overflow: 'hidden',
       }}
     >
       <WeatherBackground weather={weather} />
@@ -32,25 +33,11 @@ export const RaceBettingSubscreen: React.FC<{ race: RaceWithHelpers }> = ({
         style={{
           position: 'absolute',
           bottom: 0,
-          // bottom: window.innerHeight < 580 ? '-100px' : 0,
           height: 'auto',
         }}
         weather={weather}
       />
-      <ToteBoard race={race} horses={horses} />
-      <ToteBoardAccents
-        src="/derby/images/roses.png"
-        style={{
-          position: 'absolute',
-          filter:
-            'drop-shadow(0 4px 4px rgba(0, 0, 0, 0.25)) drop-shadow(0 10px 16px rgba(0, 0, 0, 0.15))',
-          width: window.innerWidth > 1280 ? '98vw' : '100vw',
-          height: 'auto',
-          aspectRatio: 1250 / 210,
-          bottom: window.innerHeight < 580 ? '-80px' : '28px',
-        }}
-        weather={weather}
-      />
+      <ToteBoard race={race} horses={horses} weather={weather} />
       <WeatherOverlay weather={weather} />
     </div>
   );

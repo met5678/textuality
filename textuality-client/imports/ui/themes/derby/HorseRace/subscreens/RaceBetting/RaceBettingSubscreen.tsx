@@ -31,6 +31,7 @@ export const RaceBettingSubscreen: React.FC<{ race: RaceWithHelpers }> = ({
         src="/derby/images/grass.webp"
         style={{
           position: 'absolute',
+          bottom: 0,
           // bottom: window.innerHeight < 580 ? '-100px' : 0,
           height: 'auto',
         }}

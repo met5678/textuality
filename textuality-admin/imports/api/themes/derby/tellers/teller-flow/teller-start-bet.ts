@@ -22,9 +22,9 @@ export const startBet = async (
     throw new Meteor.Error('teller-not-found', 'Teller not found');
   }
 
-  if (!TELLER_AVAILABLE_STATUSES.includes(teller.status)) {
-    throw new Meteor.Error('teller-not-available', 'Teller is not available');
-  }
+  // if (!TELLER_AVAILABLE_STATUSES.includes(teller.status)) {
+  //   throw new Meteor.Error('teller-not-available', 'Teller is not available');
+  // }
 
   let time_left = BET_STEP_TIMEOUT_SECONDS;
   Tellers.updateAsync(teller_id, {

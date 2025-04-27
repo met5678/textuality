@@ -14,16 +14,12 @@ export const cancelBet = async (teller_id: TellerId, bet_id: RaceBetId) => {
     return;
   }
 
-  if (teller.status !== 'betting') {
-    console.warn(
-      `Can't cancel bet for teller ${teller_id} because they're not betting`,
-    );
-    return;
-  }
-
   Tellers.updateAsync(teller_id, {
     $set: {
       status: 'timeout',
+    },
+    $unset: {
+      time_left: 1,
     },
   });
 

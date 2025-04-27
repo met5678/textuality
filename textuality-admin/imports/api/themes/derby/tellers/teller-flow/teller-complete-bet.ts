@@ -15,17 +15,20 @@ export const completeBet = async (teller_id: TellerId, bet_id: RaceBetId) => {
     );
     return;
   }
-  if (!bet) {
-    console.warn(
-      `Can't complete bet for teller ${teller_id} because the bet doesn't exist`,
-    );
-    return;
-  }
+  // if (!bet) {
+  //   console.warn(
+  //     `Can't complete bet for teller ${teller_id} because the bet doesn't exist`,
+  //   );
+  //   return;
+  // }
 
   // TODO: Distinguish between single and multi-stub bets
   Tellers.updateAsync(teller_id, {
     $set: {
       status: 'giving-stub-single',
+    },
+    $unset: {
+      time_left: 1,
     },
   });
 

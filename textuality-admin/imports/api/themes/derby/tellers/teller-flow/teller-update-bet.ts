@@ -13,12 +13,12 @@ export const updateBet = async (teller_id: TellerId, bet_id: RaceBetId) => {
     );
     return;
   }
-  if (!bet) {
-    console.warn(
-      `Can't update bet for teller ${teller_id} because the bet doesn't exist`,
-    );
-    return;
-  }
+  // if (!bet) {
+  //   console.warn(
+  //     `Can't update bet for teller ${teller_id} because the bet doesn't exist`,
+  //   );
+  //   return;
+  // }
 
-  startBet(teller_id, bet_id, bet.player);
+  startBet(teller_id, bet_id, bet?.player ?? '');
 };

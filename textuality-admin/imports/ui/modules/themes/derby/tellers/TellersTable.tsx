@@ -110,6 +110,33 @@ const TellersTable = () => {
             <GridActionsCellItem
               showInMenu={true}
               onClick={() =>
+                Meteor.callAsync('derby.tellers.updateBet', params.row._id)
+              }
+              label="Update Bet"
+            />
+          ),
+          (params) => (
+            <GridActionsCellItem
+              showInMenu={true}
+              onClick={() =>
+                Meteor.callAsync('derby.tellers.completeBet', params.row._id)
+              }
+              label="Complete Bet"
+            />
+          ),
+          (params) => (
+            <GridActionsCellItem
+              showInMenu={true}
+              onClick={() =>
+                Meteor.callAsync('derby.tellers.cancelBet', params.row._id)
+              }
+              label="Cancel Bet"
+            />
+          ),
+          (params) => (
+            <GridActionsCellItem
+              showInMenu={true}
+              onClick={() =>
                 Meteor.callAsync('derby.tellers.close', params.row._id)
               }
               label="Close Teller"

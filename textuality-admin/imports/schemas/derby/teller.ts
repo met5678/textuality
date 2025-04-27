@@ -4,17 +4,23 @@ import { EventId } from '../event';
 import { PlayerId } from '../player';
 import { RACE_BET_TYPES } from './raceBet';
 import { RaceBetId } from './raceBet';
-const TELLER_VIDEOS = ['jon', 'andrew'] as const;
-type TellerVideo = (typeof TELLER_VIDEOS)[number];
+
+const TELLER_ACTORS = ['jon', 'breiner'] as const;
+type TellerActor = (typeof TELLER_ACTORS)[number];
 
 const TELLER_STATUS = [
-  'closed',
   'opening',
   'open',
   'betting',
   'betting-impatient',
-  'giving-stub',
+  'timeout',
+  'giving-stub-single',
+  'giving-stub-multi',
   'closing',
+  'break',
+  'standup',
+  'empty',
+  'sitdown',
 ] as const;
 type TellerStatus = (typeof TELLER_STATUS)[number];
 
@@ -33,7 +39,7 @@ type Teller = {
   _id: TellerId;
   url: string;
   event: EventId;
-  video: TellerVideo;
+  actor: TellerActor;
   min_wager: number;
 
   text_code: string;
@@ -52,9 +58,9 @@ const TellerSchema = new SimpleSchema({
   url: {
     type: String,
   },
-  video: {
+  actor: {
     type: String,
-    allowedValues: [...TELLER_VIDEOS],
+    allowedValues: [...TELLER_ACTORS],
     defaultValue: 'jon',
   },
   min_wager: {
@@ -96,5 +102,5 @@ const TellerSchema = new SimpleSchema({
   },
 });
 
-export { TellerSchema, TELLER_VIDEOS, TELLER_STATUS, TELLER_BET_TYPES };
-export type { TellerId, TellerVideo, TellerStatus, Teller };
+export { TellerSchema, TELLER_ACTORS, TELLER_STATUS, TELLER_BET_TYPES };
+export type { TellerId, TellerActor, TellerStatus, Teller };

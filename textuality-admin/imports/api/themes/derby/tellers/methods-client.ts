@@ -6,10 +6,35 @@ import { TellerStatus } from '/imports/schemas/derby/teller';
 const BUSY_STATUSES: TellerStatus[] = [
   'betting',
   'betting-impatient',
-  'giving-stub',
+  'giving-stub-single',
+  'giving-stub-multi',
+  'timeout',
 ];
-const CLOSED_STATUSES: TellerStatus[] = ['closing', 'closed'];
-const OPEN_STATUSES: TellerStatus[] = ['open', 'opening'];
+const CLOSED_STATUSES: TellerStatus[] = [
+  'closing',
+  'break',
+  'standup',
+  'sitdown',
+  'empty',
+  'opening',
+];
+const OPEN_STATUSES: TellerStatus[] = ['open'];
+
+const VIDEO_LENGTHS: Record<TellerStatus, number> = {
+  opening: 5,
+  open: -1,
+  betting: -1,
+  'betting-impatient': -1,
+  timeout: 3,
+  'giving-stub-single': 4,
+  'giving-stub-multi': 4,
+  closing: 5,
+
+  break: -1,
+  standup: 5,
+  empty: -1,
+  sitdown: 10,
+};
 
 Meteor.methods({
   'derby.tellers.getForCode': async (code: string) => {

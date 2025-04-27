@@ -11,12 +11,13 @@ import Tellers, {
   TellerWithHelpers,
 } from '/imports/api/themes/derby/tellers/tellers';
 import {
-  TELLER_VIDEOS,
+  TELLER_ACTORS,
   TELLER_STATUS,
   TellerSchema,
 } from '/imports/schemas/derby/teller';
 import Races from '/imports/api/themes/derby/race';
 import RaceBets from '/imports/api/themes/derby/raceBets';
+import { useTableCollectionProps } from '/imports/utils/get-table-collection-props';
 
 const columns: GridColDef<TellerWithHelpers>[] = [
   {
@@ -26,11 +27,11 @@ const columns: GridColDef<TellerWithHelpers>[] = [
     editable: true,
   },
   {
-    field: 'video',
-    headerName: 'Video',
+    field: 'actor',
+    headerName: 'Actor',
     width: 70,
     type: 'singleSelect',
-    valueOptions: [...TELLER_VIDEOS],
+    valueOptions: [...TELLER_ACTORS],
     editable: true,
   },
   {
@@ -77,41 +78,20 @@ const TellersTable = () => {
   const isLoading = useSubscribe('derby.tellers.all');
   const tellers = useFind(() => Tellers.find({}, { sort: { url: 1 } }), []);
 
+  const tableEditProps = useTableCollectionProps(
+    TellerSchema,
+    Tellers,
+    'derby.tellers',
+  );
+
   return (
     <>
       <Table<TellerWithHelpers>
         columns={columns}
         data={tellers}
         isLoading={isLoading()}
-        canDelete={true}
-        onDelete={(
-          selectedTellers: TellerWithHelpers | TellerWithHelpers[],
-        ) => {
-          const ids = Array.isArray(selectedTellers)
-            ? selectedTellers.map((teller) => teller._id)
-            : [selectedTellers._id];
-          Meteor.call('derby.tellers.delete', ids);
-        }}
-        canDuplicate={true}
-        onDuplicate={async (teller) => {
-          const newTeller = await Meteor.callAsync(
-            'derby.tellers.duplicate',
-            teller._id,
-          );
-          return newTeller;
-        }}
-        canAddInline={true}
-        onGetStub={() => getStubWithEvent<TellerWithHelpers>(TellerSchema)}
-        onValidate={(teller) => TellerSchema.validate(teller)}
-        onEditCell={async (teller) => {
-          teller.event = Events.currentId()!;
-          const newTeller = await Meteor.callAsync(
-            'derby.tellers.upsert',
-            teller,
-          );
-          return newTeller;
-        }}
-        initialSortField="number"
+        {...tableEditProps}
+        initialSortField="url"
         initialSortOrder="asc"
       />
     </>

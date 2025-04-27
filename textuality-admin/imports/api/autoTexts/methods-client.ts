@@ -8,7 +8,10 @@ import Checkpoints from '../checkpoints';
 import commaNumber from 'comma-number';
 import { AutoTextTrigger } from '/imports/schemas/autoText';
 import { PlayerId } from '/imports/schemas/player';
-import { OutTextSource } from '/imports/schemas/outText';
+import {
+  OutTextInteractivePayload,
+  OutTextSource,
+} from '/imports/schemas/outText';
 
 const capitalizeFirstLetter = (str: string) =>
   `${str[0].toUpperCase()}${str.substring(1)}`;
@@ -18,6 +21,7 @@ type AutoTextSendArgs = {
   triggerNum?: number;
   playerId: PlayerId;
   mediaUrl?: string;
+  interactivePayload?: OutTextInteractivePayload;
   templateVars: Record<string, any>;
 };
 
@@ -26,6 +30,7 @@ type AutoTextSendCustomArgs = {
   playerId: PlayerId;
   mediaUrl?: string;
   templateVars: Record<string, any>;
+  interactivePayload?: OutTextInteractivePayload;
   source?: OutTextSource;
 };
 
@@ -35,6 +40,7 @@ Meteor.methods({
     triggerNum,
     playerId,
     mediaUrl,
+    interactivePayload,
     templateVars,
   }: AutoTextSendArgs) => {
     const autoTextQuery: Record<string, any> = {
@@ -132,6 +138,7 @@ Meteor.methods({
     playerId,
     mediaUrl,
     templateVars = {},
+    interactivePayload,
     source = 'auto',
   }: AutoTextSendCustomArgs) => {
     const player = Players.findOne(playerId);
@@ -160,6 +167,7 @@ Meteor.methods({
         body,
         mediaUrl,
         source,
+        interactivePayload,
       });
     }
   },

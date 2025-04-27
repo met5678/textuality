@@ -8,6 +8,7 @@ import {
   OUT_TEXT_STATUS,
   OutText,
   OutTextId,
+  OutTextInteractivePayload,
   OutTextSource,
   OutTextStatus,
 } from '/imports/schemas/outText';
@@ -16,6 +17,7 @@ import { OptionalId } from '/imports/utils/optional-id';
 interface OutTextSendArgs {
   body: string;
   mediaUrl?: string;
+  interactivePayload?: OutTextInteractivePayload;
   player: Player;
   source?: OutTextSource;
 }
@@ -26,6 +28,7 @@ Meteor.methods({
     body,
     mediaUrl,
     source,
+    interactivePayload,
   }: OutTextSendArgs) => {
     const event = Events.current();
     if (!event) return;
@@ -44,6 +47,7 @@ Meteor.methods({
       time: new Date(),
       status: 'unsent',
       source: source,
+      interactive: interactivePayload,
     };
 
     await OutTexts.insertAsync(outText);

@@ -2,6 +2,13 @@ export type OutgoingMessageData = {
   to: string;
   text: string;
   mediaUrl?: string;
+  interactive?: {
+    type: 'buttons' | 'list';
+    options: {
+      value: string;
+      label: string;
+    }[];
+  };
 };
 
 export type OutgoingMessagePayloadBase = {
@@ -41,8 +48,7 @@ export type OutgoingMessagePayloadReply = {
   message_id: string;
 };
 
-export type OutgoingMessagePayloadInteractive = {
-  type: 'button' | 'list';
+export type OutgoingInteractiveMessageBase = {
   header?: {
     type: 'text' | 'image';
     text?: string;
@@ -56,12 +62,27 @@ export type OutgoingMessagePayloadInteractive = {
   footer?: {
     text: string;
   };
+};
+
+export type OutgoingButtonInteractiveMessage =
+  OutgoingInteractiveMessageBase & {
+    type: 'button';
+    action: {
+      buttons: OutgoingMessagePayloadInteractiveButton[];
+    };
+  };
+
+export type OutgoingListInteractiveMessage = OutgoingInteractiveMessageBase & {
+  type: 'list';
   action: {
-    buttons: OutgoingMessagePayloadInteractiveButton[];
     button: string;
     sections: OutgoingMessagePayloadInteractiveListSection[];
   };
 };
+
+export type OutgoingMessagePayloadInteractive =
+  | OutgoingButtonInteractiveMessage
+  | OutgoingListInteractiveMessage;
 
 export type OutgoingMessagePayloadInteractiveButton = {
   type: 'reply';

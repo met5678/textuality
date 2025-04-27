@@ -31,7 +31,7 @@ type OutTextInteractivePayloadOption = {
 };
 
 type OutTextInteractivePayload = {
-  type: 'reply-buttons' | 'list';
+  type: 'buttons' | 'list';
   options: OutTextInteractivePayloadOption[];
 };
 
@@ -70,7 +70,7 @@ const OutTextInteractivePayloadOptionSchema = new SimpleSchema({
 const OutTextInteractivePayloadSchema = new SimpleSchema({
   type: {
     type: String,
-    allowedValues: ['reply-buttons', 'list'],
+    allowedValues: ['buttons', 'list'],
   },
   options: {
     type: Array,

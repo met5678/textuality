@@ -43,6 +43,7 @@ const initializeWhatsappHandler = async () => {
         to: outText.player_number,
         text: outText.body,
         mediaUrl: outText.media_url,
+        interactive: outText.interactive,
       };
 
       if (DB_ENV === 'local' || Meteor.isProduction) {

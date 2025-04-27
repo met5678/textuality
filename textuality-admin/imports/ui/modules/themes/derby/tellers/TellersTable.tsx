@@ -1,23 +1,17 @@
 import React from 'react';
-import { Meteor } from 'meteor/meteor';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data';
 
 import Table from '/imports/ui/generic/Table/Table';
 
-import { GridColDef } from '@mui/x-data-grid';
-import Events from '/imports/api/events';
-import { getStubWithEvent } from '/imports/utils/get-stub-with-event';
+import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid';
 import Tellers, {
   TellerWithHelpers,
 } from '/imports/api/themes/derby/tellers/tellers';
-import {
-  TELLER_ACTORS,
-  TELLER_STATUS,
-  TellerSchema,
-} from '/imports/schemas/derby/teller';
-import Races from '/imports/api/themes/derby/race';
+import { TELLER_ACTORS, TellerSchema } from '/imports/schemas/derby/teller';
 import RaceBets from '/imports/api/themes/derby/raceBets';
 import { useTableCollectionProps } from '/imports/utils/get-table-collection-props';
+import { TELLER_STATUS } from '/imports/schemas/derby/teller-status/teller-status';
+import { Meteor } from 'meteor/meteor';
 
 const columns: GridColDef<TellerWithHelpers>[] = [
   {
@@ -53,7 +47,7 @@ const columns: GridColDef<TellerWithHelpers>[] = [
     width: 130,
     editable: true,
     type: 'singleSelect',
-    valueOptions: [...TELLER_STATUS],
+    valueOptions: Array.from(TELLER_STATUS),
   },
   {
     field: 'time_left',
@@ -93,6 +87,22 @@ const TellersTable = () => {
         {...tableEditProps}
         initialSortField="url"
         initialSortOrder="asc"
+        customRowActions={[
+          (params) => (
+            <GridActionsCellItem
+              showInMenu={true}
+              onClick={() => Meteor.call('derby.tellers.open', params.row._id)}
+              label="Open Teller"
+            />
+          ),
+          (params) => (
+            <GridActionsCellItem
+              showInMenu={true}
+              onClick={() => Meteor.call('derby.tellers.close', params.row._id)}
+              label="Close Teller"
+            />
+          ),
+        ]}
       />
     </>
   );

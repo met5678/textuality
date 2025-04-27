@@ -105,8 +105,10 @@ import '/imports/api/themes/derby/race/server/publications-admin';
 
 import '/imports/api/themes/derby/raceBets';
 import '/imports/api/themes/derby/raceBets/methods-admin';
+import '/imports/api/themes/derby/raceBets/methods-client';
 import '/imports/api/themes/derby/raceBets/server/publications-admin';
 
 import '/imports/api/themes/derby/tellers';
 import '/imports/api/themes/derby/tellers/methods-admin';
+import '/imports/api/themes/derby/tellers/methods-client';
 import '/imports/api/themes/derby/tellers/server/publications-admin';

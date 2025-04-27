@@ -91,15 +91,46 @@ const TellersTable = () => {
           (params) => (
             <GridActionsCellItem
               showInMenu={true}
-              onClick={() => Meteor.call('derby.tellers.open', params.row._id)}
+              onClick={() =>
+                Meteor.callAsync('derby.tellers.open', params.row._id)
+              }
               label="Open Teller"
             />
           ),
           (params) => (
             <GridActionsCellItem
               showInMenu={true}
-              onClick={() => Meteor.call('derby.tellers.close', params.row._id)}
+              onClick={() =>
+                Meteor.callAsync('derby.tellers.startBet', params.row._id)
+              }
+              label="Start Bet"
+            />
+          ),
+          (params) => (
+            <GridActionsCellItem
+              showInMenu={true}
+              onClick={() =>
+                Meteor.callAsync('derby.tellers.close', params.row._id)
+              }
               label="Close Teller"
+            />
+          ),
+          (params) => (
+            <GridActionsCellItem
+              showInMenu={true}
+              onClick={() =>
+                Meteor.callAsync('derby.tellers.sitdown', params.row._id)
+              }
+              label="Sit Down Teller"
+            />
+          ),
+          (params) => (
+            <GridActionsCellItem
+              showInMenu={true}
+              onClick={() =>
+                Meteor.callAsync('derby.tellers.standup', params.row._id)
+              }
+              label="Stand Up Teller"
             />
           ),
         ]}

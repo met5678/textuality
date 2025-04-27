@@ -9,6 +9,7 @@ import { ToteBoardOdds } from './ToteBoardOdds';
 import { ToteBoardStats } from './ToteBoardStats';
 import { ToteBoardActivity } from './ToteBoardActivity';
 import { ToteBoardAccents } from './ToteBoardAccents';
+import { Weather } from '/imports/schemas/derby/race';
 
 export const ToteBoard: React.FC<{
   race: RaceWithHelpers;

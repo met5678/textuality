@@ -1,0 +1,55 @@
+import { Meteor } from 'meteor/meteor';
+import Tellers from '../tellers';
+import { throwIfCancelledTimeout, TimeoutError } from './_teller-timeouts';
+import { TellerId } from '/imports/schemas/derby/teller';
+import {
+  TELLER_OPEN_STATUSES,
+  TELLER_VIDEO_LENGTHS,
+} from '/imports/schemas/derby/teller-status/teller-status';
+
+export const closeTeller = async (teller_id: TellerId) => {
+  const teller = await Tellers.findOneAsync(teller_id);
+
+  if (!teller) {
+    throw new Meteor.Error('teller-not-found', 'Teller not found');
+  }
+
+  if (!TELLER_OPEN_STATUSES.includes(teller.status)) {
+    throw new Meteor.Error('teller-not-open', 'Teller is not open');
+  }
+
+  if (teller.current_bet) {
+    Meteor.callAsync('derby.raceBets.cancelBet', {
+      bet_id: teller.current_bet,
+      reason: 'close',
+    });
+  }
+
+  Tellers.updateAsync(teller_id, {
+    $set: {
+      status: 'closing',
+    },
+    $unset: {
+      current_bet: 1,
+      current_player: 1,
+      text_code: 1,
+      time_left: 1,
+    },
+  });
+
+  try {
+    await throwIfCancelledTimeout(
+      teller_id,
+      TELLER_VIDEO_LENGTHS?.closing ?? 5,
+    );
+  } catch (error) {
+    if (error === TimeoutError) return;
+    throw error;
+  }
+
+  Tellers.updateAsync(teller_id, {
+    $set: {
+      status: 'break',
+    },
+  });
+};

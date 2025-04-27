@@ -6,13 +6,7 @@ import { HorseId } from './horse';
 import { TellerId } from './teller';
 import { RaceId } from './race';
 
-const RACE_BET_TYPES = [
-  'win',
-  'exacta',
-  'trifecta',
-  'exacta-box',
-  'trifecta-box',
-] as const;
+const RACE_BET_TYPES = ['win', 'trifecta'] as const;
 type RaceBetType = (typeof RACE_BET_TYPES)[number];
 
 const RACE_BET_STEPS = [
@@ -21,7 +15,6 @@ const RACE_BET_STEPS = [
   'horse2',
   'horse3',
   'wager',
-  'confirm',
   'complete',
 ] as const;
 type RaceBetStep = (typeof RACE_BET_STEPS)[number];

@@ -1,39 +1,25 @@
 import { Meteor } from 'meteor/meteor';
 import Tellers from './tellers';
 import Events from '/imports/api/events';
-import { TellerStatus } from '/imports/schemas/derby/teller';
+import {
+  TELLER_CLOSED_STATUSES,
+  TELLER_BUSY_STATUSES,
+} from '/imports/schemas/derby/teller-status/teller-status';
+import { TellerId } from '/imports/schemas/derby/teller';
+import { maleDogNames } from '/imports/utils/male-dog-names';
+import { RaceBetId } from '/imports/schemas/derby/raceBet';
+import { PlayerId } from '/imports/schemas/player';
+import { openTeller } from './teller-flow/teller-open';
+import { startBet } from './teller-flow/teller-start-bet';
+import { closeTeller } from './teller-flow/teller-close';
+import { standupTeller } from './teller-flow/teller-standup';
+import { sitdownTeller } from './teller-flow/teller-sitdown';
+import { updateBet } from './teller-flow/teller-update-bet';
+import { cancelBet } from './teller-flow/teller-cancel-bet';
+import { completeBet } from './teller-flow/teller-complete-bet';
 
-const BUSY_STATUSES: TellerStatus[] = [
-  'betting',
-  'betting-impatient',
-  'giving-stub-single',
-  'giving-stub-multi',
-  'timeout',
-];
-const CLOSED_STATUSES: TellerStatus[] = [
-  'closing',
-  'break',
-  'standup',
-  'sitdown',
-  'empty',
-  'opening',
-];
-const OPEN_STATUSES: TellerStatus[] = ['open'];
-
-const VIDEO_LENGTHS: Record<TellerStatus, number> = {
-  opening: 5,
-  open: -1,
-  betting: -1,
-  'betting-impatient': -1,
-  timeout: 3,
-  'giving-stub-single': 4,
-  'giving-stub-multi': 4,
-  closing: 5,
-
-  break: -1,
-  standup: 5,
-  empty: -1,
-  sitdown: 10,
+const getRandomTextCode = () => {
+  return maleDogNames[Math.floor(Math.random() * maleDogNames.length)];
 };
 
 Meteor.methods({
@@ -46,16 +32,61 @@ Meteor.methods({
   },
 
   'derby.tellers.open': async (teller_id: string) => {
-    const teller = await Tellers.findOneAsync(teller_id);
-    if (!teller) {
-      throw new Meteor.Error('teller-not-found', 'Teller not found');
+    console.log('derby.tellers.open', teller_id);
+    try {
+      openTeller(teller_id);
+    } catch (error) {
+      throw error;
     }
+  },
 
-    if (teller.status !== 'closed') {
-      throw new Meteor.Error('teller-not-closed', 'Teller is not closed');
-    }
+  'derby.tellers.startBet': async (
+    teller_id: TellerId,
+    bet_id: RaceBetId,
+    player_id: PlayerId,
+  ) => {
+    startBet(teller_id, bet_id, player_id);
+  },
 
-    await Tellers.updateAsync(teller_id, { $set: { status: 'open' } });
+  'derby.tellers.updateBet': async (teller_id: TellerId, bet_id: RaceBetId) => {
+    updateBet(teller_id, bet_id);
+  },
+
+  'derby.tellers.completeBet': async (
+    teller_id: TellerId,
+    bet_id: RaceBetId,
+  ) => {
+    completeBet(teller_id, bet_id);
+  },
+
+  'derby.tellers.cancelBet': async (teller_id: TellerId, bet_id: RaceBetId) => {
+    cancelBet(teller_id, bet_id);
+  },
+
+  'derby.tellers.close': async (teller_id: TellerId) => {
+    closeTeller(teller_id);
+  },
+
+  'derby.tellers.standup': async (teller_id: string) => {
+    standupTeller(teller_id);
+  },
+
+  'derby.tellers.sitdown': async (teller_id: string) => {
+    sitdownTeller(teller_id);
+  },
+
+  'derby.tellers.getAvailableTextCode': async () => {
+    const tellerCodes = await Tellers.find(
+      { event: Events.currentIdOrThrow() },
+      { fields: { text_code: 1 } },
+    ).mapAsync((teller) => teller.text_code);
+
+    let newCode = '';
+    do {
+      newCode = getRandomTextCode();
+    } while (tellerCodes.includes(newCode));
+
+    return newCode;
   },
 
   'derby.tellers.tryStartBet': async ({
@@ -69,7 +100,7 @@ Meteor.methods({
     if (!teller) {
       return;
     }
-    if (BUSY_STATUSES.includes(teller.status)) {
+    if (TELLER_BUSY_STATUSES.includes(teller.status)) {
       Meteor.callAsync('autoTexts.send', {
         trigger: 'TELLER_BUSY',
         playerId: player_id,
@@ -78,7 +109,7 @@ Meteor.methods({
       return;
     }
 
-    if (CLOSED_STATUSES.includes(teller.status)) {
+    if (TELLER_CLOSED_STATUSES.includes(teller.status)) {
       Meteor.callAsync('autoTexts.send', {
         trigger: 'TELLER_CLOSED_RACE_ACTIVE',
         playerId: player_id,

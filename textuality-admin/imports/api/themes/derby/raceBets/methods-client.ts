@@ -94,11 +94,11 @@ const validateRaceBet = async (raceBet: RaceBet) => {
   if (race.status !== 'bets-open') return false;
 
   if (raceBet.type === 'win') {
-    if (raceBet.horses.length !== 1) return false;
+    if (raceBet.horses?.length !== 1) return false;
   } else if (['exacta', 'exacta-box'].includes(raceBet.type)) {
-    if (raceBet.horses.length !== 2) return false;
+    if (raceBet.horses?.length !== 2) return false;
   } else if (['trifecta', 'trifecta-box'].includes(raceBet.type)) {
-    if (raceBet.horses.length !== 3) return false;
+    if (raceBet.horses?.length !== 3) return false;
   }
 
   if (raceBet.wager <= 0) return false;

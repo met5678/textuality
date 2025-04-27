@@ -4,33 +4,12 @@ import { EventId } from '../event';
 import { PlayerId } from '../player';
 import { RACE_BET_TYPES } from './raceBet';
 import { RaceBetId } from './raceBet';
+import { TELLER_STATUS, TellerStatus } from './teller-status/teller-status';
 
 const TELLER_ACTORS = ['jon', 'breiner'] as const;
 type TellerActor = (typeof TELLER_ACTORS)[number];
 
-const TELLER_STATUS = [
-  'opening',
-  'open',
-  'betting',
-  'betting-impatient',
-  'timeout',
-  'giving-stub-single',
-  'giving-stub-multi',
-  'closing',
-  'break',
-  'standup',
-  'empty',
-  'sitdown',
-] as const;
-type TellerStatus = (typeof TELLER_STATUS)[number];
-
-const TELLER_BET_TYPES = [
-  'win',
-  'exacta',
-  'trifecta',
-  'exacta-box',
-  'trifecta-box',
-] as const;
+const TELLER_BET_TYPES = ['win', 'trifecta', 'trifecta-box'] as const;
 type TellerBetType = (typeof TELLER_BET_TYPES)[number];
 
 type TellerId = string;
@@ -49,6 +28,8 @@ type Teller = {
   current_player?: PlayerId;
   current_bet?: RaceBetId;
 };
+
+console.log([...TELLER_STATUS]);
 
 const TellerSchema = new SimpleSchema({
   event: {
@@ -75,7 +56,7 @@ const TellerSchema = new SimpleSchema({
   },
   available_bet_types: {
     type: Array,
-    defaultValue: ['win', 'exacta', 'trifecta'],
+    defaultValue: ['win', 'trifecta'],
     minCount: 1,
     maxCount: 3,
   },
@@ -85,8 +66,8 @@ const TellerSchema = new SimpleSchema({
   },
   status: {
     type: String,
-    allowedValues: [...TELLER_STATUS],
-    defaultValue: 'closed',
+    allowedValues: Array.from(TELLER_STATUS),
+    defaultValue: 'break',
   },
   time_left: {
     type: SimpleSchema.Integer,
@@ -102,5 +83,5 @@ const TellerSchema = new SimpleSchema({
   },
 });
 
-export { TellerSchema, TELLER_ACTORS, TELLER_STATUS, TELLER_BET_TYPES };
-export type { TellerId, TellerActor, TellerStatus, Teller };
+export { TellerSchema, TELLER_ACTORS, TELLER_BET_TYPES };
+export type { TellerId, TellerActor, Teller };

@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 
 import { TellerWithHelpers } from '/imports/api/themes/derby/tellers/tellers';
-import { TellerStatus, TellerActor } from '/imports/schemas/derby/teller';
-import { video } from '@cloudinary/url-gen/qualifiers/source';
+import { TellerActor } from '/imports/schemas/derby/teller';
 import gsap from 'gsap';
+import { TellerStatus } from '/imports/schemas/derby/teller-status/teller-status';
 
 type TellerVideoProps = {
   teller: TellerWithHelpers;
@@ -34,6 +34,8 @@ const VIDEOS_LOOPABLE: TellerStatus[] = [
   'break',
 ];
 
+const VIDEOS_PLAYBACKRATE_CHANGEABLE: TellerStatus[] = ['open', 'break'];
+
 const VIDEOS_WITH_SOUND: TellerStatus[] = ['opening', 'closing'];
 const VIDEO_FREEZE: TellerStatus[] = ['empty'];
 
@@ -62,6 +64,12 @@ export const TellerVideo = ({ teller }: TellerVideoProps) => {
     } else {
       videoRef.current.currentTime = 0;
       videoRef.current.loop = false;
+    }
+
+    if (VIDEOS_PLAYBACKRATE_CHANGEABLE.includes(status)) {
+      videoRef.current.playbackRate = Math.random() * 0.4 + 0.8;
+    } else {
+      videoRef.current.playbackRate = 1;
     }
 
     if (VIDEOS_WITH_SOUND.includes(status)) {

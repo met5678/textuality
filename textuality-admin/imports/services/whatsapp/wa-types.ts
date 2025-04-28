@@ -8,6 +8,7 @@ export type OutgoingMessageData = {
       value: string;
       label: string;
     }[];
+    list_button_label?: string;
   };
 };
 

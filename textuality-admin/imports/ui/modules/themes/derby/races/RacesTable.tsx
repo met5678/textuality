@@ -213,7 +213,7 @@ const getColumns = ({
 };
 
 const RacesTable = () => {
-  const isLoading = useSubscribe('races.all');
+  const isLoading = useSubscribe('derby.races.all');
   const races = useFind(
     () => Races.find({}, { sort: { time_bets_start_at: 1 } }),
     [],

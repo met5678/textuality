@@ -45,9 +45,7 @@ Meteor.methods({
     await AutoTexts.removeAsync({ event: destinationEventId });
 
     const sourceAutoTexts = AutoTexts.find({ event: sourceEventId }).fetch();
-    console.log('here', sourceAutoTexts);
     for (const sourceAutoText of sourceAutoTexts) {
-      console.log('sourceAutoText', sourceAutoText);
       const destinationAutoText: OptionalId<AutoText> = {
         ...sourceAutoText,
         event: destinationEventId,

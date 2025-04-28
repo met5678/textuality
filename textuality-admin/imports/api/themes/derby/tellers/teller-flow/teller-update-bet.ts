@@ -1,6 +1,6 @@
 import RaceBets from '../../raceBets';
 import Tellers from '../tellers';
-import { startBet } from './teller-start-bet';
+import { tellerStartRaceBet } from './teller-start-bet';
 import { RaceBetId } from '/imports/schemas/derby/raceBet';
 import { TellerId } from '/imports/schemas/derby/teller';
 
@@ -20,5 +20,5 @@ export const updateBet = async (teller_id: TellerId, bet_id: RaceBetId) => {
   //   return;
   // }
 
-  startBet(teller_id, bet_id, bet?.player ?? '');
+  tellerStartRaceBet(teller_id, bet_id, bet?.player ?? '');
 };

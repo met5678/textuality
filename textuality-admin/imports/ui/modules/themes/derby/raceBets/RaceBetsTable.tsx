@@ -15,11 +15,15 @@ import Tellers, {
   TellerWithHelpers,
 } from '/imports/api/themes/derby/tellers/tellers';
 import Events from '/imports/api/events';
+import Horses, {
+  HorseWithHelpers,
+} from '/imports/api/themes/derby/horses/horses';
 
 const getColumns = (
   races: RaceWithHelpers[],
   tellers: TellerWithHelpers[],
   players: PlayerWithHelpers[],
+  horses: HorseWithHelpers[],
 ): GridColDef<RaceBetWithHelpers>[] => {
   return [
     {
@@ -40,8 +44,9 @@ const getColumns = (
       field: 'race',
       headerName: 'Race',
       width: 70,
-      valueGetter: (value: RaceBetWithHelpers['race']) =>
-        races.find((race) => race._id === value)?.number,
+      valueGetter: (value: RaceBetWithHelpers['race']) => {
+        return races.find((race) => race._id === value)?.number;
+      },
     },
     {
       field: 'status',
@@ -64,6 +69,16 @@ const getColumns = (
       width: 100,
     },
     {
+      field: 'horses',
+      headerName: 'Horse(s)',
+      width: 100,
+      valueGetter: (value: RaceBetWithHelpers['horses']) => {
+        return value
+          ?.map((horse) => horses.find((h) => h._id === horse)?.short_name)
+          .join(', ');
+      },
+    },
+    {
       field: 'started_at',
       headerName: 'Started At',
       width: 120,
@@ -83,14 +98,18 @@ const RaceBetsTable = () => {
 
   useSubscribe('derby.races.basic');
   useSubscribe('derby.tellers.basic');
+  useSubscribe('derby.horses.basic');
   useSubscribe('players.basic');
-
   const races = useFind(() => Races.find({ event: Events.currentId() }));
   const tellers = useFind(() => Tellers.find({ event: Events.currentId() }));
   const players = useFind(() => Players.find({ event: Events.currentId() }));
+  const horses = useFind(() => Horses.find({ event: Events.currentId() }));
 
   return (
-    <Table columns={getColumns(races, tellers, players)} {...tableProps} />
+    <Table
+      columns={getColumns(races, tellers, players, horses)}
+      {...tableProps}
+    />
   );
 };
 

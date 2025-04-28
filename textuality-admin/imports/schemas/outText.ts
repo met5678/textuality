@@ -33,6 +33,7 @@ type OutTextInteractivePayloadOption = {
 type OutTextInteractivePayload = {
   type: 'buttons' | 'list';
   options: OutTextInteractivePayloadOption[];
+  list_button_label?: string;
 };
 
 export type OutTextId = string;
@@ -84,6 +85,10 @@ const OutTextInteractivePayloadSchema = new SimpleSchema({
   },
   'options.$': {
     type: OutTextInteractivePayloadOptionSchema,
+  },
+  list_button_label: {
+    type: String,
+    optional: true,
   },
 });
 

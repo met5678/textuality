@@ -1,11 +1,13 @@
 import { Meteor } from 'meteor/meteor';
 
-import Players from './players';
+import Players, { PlayerWithHelpers } from './players';
 import Events from '/imports/api/events';
 import { Player } from '/imports/schemas/player';
 
 Meteor.methods({
-  'players.findOrJoin': async (phoneNumber: string) => {
+  'players.findOrJoin': async (
+    phoneNumber: string,
+  ): Promise<PlayerWithHelpers> => {
     const eventId = Events.currentIdOrThrow();
 
     let player = await Players.findOneAsync({
@@ -30,10 +32,11 @@ Meteor.methods({
         slot_spins: [],
         quests: [],
       });
+
       player = await Players.findOneAsync(id);
     }
 
-    return player;
+    return player!;
   },
 
   'players.updateAfterInText': (inText) => {

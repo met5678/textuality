@@ -9,19 +9,33 @@ import processSystemText from './process-purpose/process-system-text';
 import processHashtagText from './process-purpose/process-hashtag-text';
 import { InText } from '/imports/schemas/inText';
 import { IncomingMessageData } from '/imports/services/whatsapp';
-import processBetText from './process-purpose/process-bet-text';
-import processFeedText from './process-purpose/process-feed-text';
-import OutTexts from '../outTexts';
+import { EventTheme } from '/imports/schemas/event';
+import { processDerbyText } from './process-purpose/derby/process-derby-text';
+import { PlayerWithHelpers } from '../players/players';
+import { processCasinoText } from './process-purpose/casino/process-casino';
+import { processInteractive } from './process-interactive/process-interactive';
+
+const processByTheme: Record<
+  EventTheme,
+  (inText: InText, player: PlayerWithHelpers) => Promise<void> | undefined
+> = {
+  derby: processDerbyText,
+  casino: processCasinoText,
+  clue: async () => {},
+};
 
 Meteor.methods({
   'inTexts.receive': async (message: IncomingMessageData) => {
-    const eventId = Events.currentIdOrThrow();
+    const event = Events.currentOrThrow();
 
-    const player = await Meteor.callAsync('players.findOrJoin', message.from);
-    const purpose = getPurpose({ message, player });
+    const player: PlayerWithHelpers = await Meteor.callAsync(
+      'players.findOrJoin',
+      message.from,
+    );
+    const purpose = getPurpose({ message, player, theme: event.theme });
 
     const inTextRaw: Omit<InText, '_id'> = {
-      event: eventId,
+      event: event._id,
       player: player._id,
       body: message.text,
       time: new Date(),
@@ -39,6 +53,10 @@ Meteor.methods({
       });
     }
 
+    if (message.interactive) {
+      inTextRaw.interactive = await processInteractive(message);
+    }
+
     const id = await InTexts.insertAsync(inTextRaw);
     const inText: InText = { ...inTextRaw, _id: id };
 
@@ -47,9 +65,13 @@ Meteor.methods({
     inText.purpose === 'initial' && processInitialText(inText, player);
     inText.purpose === 'system' && processSystemText(inText, player);
     inText.purpose === 'hashtag' && processHashtagText(inText, player);
-    inText.purpose === 'bet' && processBetText(inText, player);
-    inText.purpose === 'feed' && processFeedText(inText, player);
-    inText.purpose === 'mediaOnly' && processFeedText(inText, player);
+
+    if (processByTheme[event.theme]) {
+      processByTheme[event.theme](inText, player);
+    }
+
+    // inText.purpose === 'bet' && processBetText(inText, player);
+    // inText.purpose === 'feed' && processFeedText(inText, player);
 
     Meteor.call('achievements.checkAfterInText', inText);
   },

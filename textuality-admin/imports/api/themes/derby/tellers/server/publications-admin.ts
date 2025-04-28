@@ -9,6 +9,9 @@ Meteor.publish('derby.tellers.all', function () {
 
 Meteor.publish('derby.tellers.basic', function () {
   this.autorun(() =>
-    Tellers.find({ event: Events.currentId() }, { fields: { _id: 1, url: 1 } }),
+    Tellers.find(
+      { event: Events.currentId() },
+      { fields: { event: 1, url: 1 } },
+    ),
   );
 });

@@ -3,16 +3,14 @@ import Tellers from '../tellers';
 import { throwIfCancelledTimeout, TimeoutError } from './_teller-timeouts';
 import { RaceBetId } from '/imports/schemas/derby/raceBet';
 import { TellerId } from '/imports/schemas/derby/teller';
-import {
-  TELLER_AVAILABLE_STATUSES,
-  TELLER_VIDEO_LENGTHS,
-} from '/imports/schemas/derby/teller-status/teller-status';
+import { TELLER_VIDEO_LENGTHS } from '/imports/schemas/derby/teller-status/teller-status';
 import { PlayerId } from '/imports/schemas/player';
+import { sendAutoText } from '/imports/api/autoTexts/methods/autoTexts.send';
 
 const BET_STEP_TIMEOUT_SECONDS = 20;
 const BET_STEP_BUSY_THRESHOLD_SECONDS = 10;
 
-export const startBet = async (
+export const tellerStartRaceBet = async (
   teller_id: TellerId,
   bet_id: RaceBetId,
   player_id: PlayerId,
@@ -62,9 +60,14 @@ export const startBet = async (
     time_left -= 1;
   } while (time_left > 0);
 
-  Meteor.callAsync('raceBets.cancelBet', {
+  Meteor.callAsync('derby.raceBets.cancelBet', {
     bet_id: teller.current_bet,
     reason: 'timeout',
+  });
+
+  sendAutoText({
+    trigger: 'TELLER_CANCEL_TIMEOUT',
+    playerId: player_id,
   });
 
   Tellers.updateAsync(teller_id, {

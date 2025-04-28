@@ -80,7 +80,6 @@ Meteor.methods({
     );
 
     groupStats.forEach((groupStat) => {
-      console.log(groupStat);
       gotAchievement ||= Meteor.call('achievements.tryUnlock', {
         trigger: 'CHECKPOINT_GROUP_FOUND_N',
         trigger_detail_string: groupStat.group,

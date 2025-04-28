@@ -54,7 +54,7 @@ const getInteractivePayload = (
       ...basePayload,
       type: 'list',
       action: {
-        button: 'Select an option',
+        button: interactive.list_button_label ?? 'Select an option',
         sections: [
           {
             title: 'Options',

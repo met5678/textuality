@@ -10,9 +10,20 @@ import {
   RaceBetId,
   RaceBetComplete,
   RaceBetType,
+  RaceBetStatus,
 } from '/imports/schemas/derby/raceBet';
 import Events from '/imports/api/events';
 import { OptionalId } from '/imports/utils/optional-id';
+
+export const RACE_BET_CANCEL_REASONS = ['user', 'timeout', 'race'] as const;
+export type RaceBetCancelReason = (typeof RACE_BET_CANCEL_REASONS)[number];
+
+const RACE_BET_CANCEL_REASONS_MAP: Record<RaceBetCancelReason, RaceBetStatus> =
+  {
+    user: 'cancelled-user',
+    timeout: 'cancelled-timeout',
+    race: 'cancelled-race',
+  };
 
 Meteor.methods({
   'derby.raceBets.startBet': async ({
@@ -24,8 +35,8 @@ Meteor.methods({
     teller_id: TellerId;
     race_id: RaceId;
   }) => {
-    const player = Players.findOneAsync(player_id, {
-      fields: { money: 1, alias: 1, avatar: 1 },
+    const player = await Players.findOneAsync(player_id, {
+      fields: { money: 1 },
     });
 
     if (!player) return;
@@ -42,18 +53,6 @@ Meteor.methods({
 
     const id = await RaceBets.insertAsync(raceBet);
     return id;
-  },
-
-  'derby.raceBets.selectBetType': async ({
-    race_bet_id,
-    bet_type,
-  }: {
-    race_bet_id: RaceBetId;
-    bet_type: RaceBetType;
-  }) => {
-    const raceBet = await RaceBets.findOneAsync(race_bet_id);
-    if (!raceBet) return;
-    await RaceBets.updateAsync(race_bet_id, { $set: { bet_type } });
   },
 
   'derby.raceBets.updateBet': async (
@@ -78,6 +77,18 @@ Meteor.methods({
     await Meteor.callAsync('derby.races.updateOdds', raceBet.race);
   },
 
+  'derby.raceBets.cancelBet': async (
+    race_bet_id: RaceBetId,
+    reason: RaceBetCancelReason,
+  ) => {
+    const status = RACE_BET_CANCEL_REASONS_MAP[reason];
+    if (!status) return;
+
+    await RaceBets.updateAsync(race_bet_id, {
+      $set: { status },
+    });
+  },
+
   'derby.raceBets.doPayouts': async (race_id: string) => {
     const race = await Races.findOneAsync(race_id);
     if (!race) return;
@@ -85,6 +96,21 @@ Meteor.methods({
 
   'derby.raceBets.clearBets': async (race_id: string) => {
     await RaceBets.removeAsync({ race: race_id });
+  },
+
+  'derby.raceBets.getIncompleteBetForPlayer': async ({
+    race_id,
+    player_id,
+  }: {
+    race_id: RaceId;
+    player_id: PlayerId;
+  }) => {
+    const raceBet = await RaceBets.findOneAsync({
+      race: race_id,
+      player: player_id,
+      status: 'pending',
+    });
+    return raceBet;
   },
 });
 
@@ -95,22 +121,11 @@ const validateRaceBet = async (raceBet: RaceBet) => {
 
   if (raceBet.type === 'win') {
     if (raceBet.horses?.length !== 1) return false;
-  } else if (['exacta', 'exacta-box'].includes(raceBet.type)) {
-    if (raceBet.horses?.length !== 2) return false;
-  } else if (['trifecta', 'trifecta-box'].includes(raceBet.type)) {
+  } else if (raceBet.type === 'trifecta') {
     if (raceBet.horses?.length !== 3) return false;
   }
 
-  if (raceBet.wager <= 0) return false;
+  if (raceBet.wager === undefined || raceBet.wager <= 0) return false;
 
   return true;
 };
-function OptionalId<T>(arg0: {
-  player: string;
-  teller: string;
-  race: any;
-  type: string;
-  horses: never[];
-}) {
-  throw new Error('Function not implemented.');
-}

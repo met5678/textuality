@@ -12,11 +12,11 @@ type Weather = (typeof WEATHER_VALUES)[number];
 
 const RACE_STATUS_VALUES = [
   'future',
+  'pre-bets',
   'bets-open',
   'intro',
   'active',
   'results',
-  'bet-winners',
   'inactive',
 ] as const;
 type RaceStatus = (typeof RACE_STATUS_VALUES)[number];

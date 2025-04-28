@@ -5,6 +5,7 @@ import { PlayerId } from '../player';
 import { HorseId } from './horse';
 import { TellerId } from './teller';
 import { RaceId } from './race';
+import { OutTextId } from '../outText';
 
 const RACE_BET_TYPES = ['win', 'trifecta'] as const;
 type RaceBetType = (typeof RACE_BET_TYPES)[number];
@@ -15,17 +16,18 @@ const RACE_BET_STEPS = [
   'horse2',
   'horse3',
   'wager',
-  'complete',
+  'done',
 ] as const;
 type RaceBetStep = (typeof RACE_BET_STEPS)[number];
 
 const RACE_BET_STATUS = [
   'pending',
+  'cancelled-user',
+  'cancelled-timeout',
+  'cancelled-race',
   'placed',
-  'cancelled',
-  'completed',
-  'lost',
   'won',
+  'lost',
 ] as const;
 type RaceBetStatus = (typeof RACE_BET_STATUS)[number];
 

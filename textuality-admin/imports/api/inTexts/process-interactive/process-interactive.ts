@@ -1,11 +1,10 @@
 import OutTexts from '../../outTexts';
-import { PlayerWithHelpers } from '../../players/players';
-import inText, { InText } from '/imports/schemas/inText';
 import { IncomingMessageData } from '/imports/services/whatsapp';
+import { InTextInteractive } from '/imports/schemas/inText';
 
-const processInteractive = async function (
+export const processInteractive = async function (
   incomingMessage: IncomingMessageData,
-) {
+): Promise<InTextInteractive | undefined> {
   const interactiveData = incomingMessage.interactive;
   if (!interactiveData) {
     return;
@@ -15,7 +14,8 @@ const processInteractive = async function (
     external_id: interactiveData.original_external_id,
   });
 
-  if (!originalOutText) {
-    return;
-  }
+  return {
+    response_to: originalOutText?._id,
+    value: interactiveData.value,
+  };
 };

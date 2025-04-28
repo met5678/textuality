@@ -1,18 +1,34 @@
 import { Meteor } from 'meteor/meteor';
 
-import Races from './races';
+import Races, { RaceWithHelpers } from './races';
 import { RaceId } from '/imports/schemas/derby/race';
 import {
   generateTimelineWithResults,
   KEYFRAME_INTERVAL_SECONDS,
 } from './timeline/generate-timeline';
 import Horses from '../horses/horses';
+import Events from '/imports/api/events';
 
 const keyframeIntervalHandles: Record<RaceId, number> = {};
 
 Meteor.methods({
-  'derby.races.generateTimeline': (raceId: RaceId, seed?: number) => {
-    const race = Races.findOne(raceId);
+  'derby.races.findCurrent': async (): Promise<RaceWithHelpers | undefined> => {
+    const race = await Races.findOneAsync(
+      {
+        event: Events.currentIdOrThrow(),
+        status: { $nin: ['inactive', 'future'] },
+      },
+      {
+        sort: { time_race_starts_at: 1 },
+        limit: 1,
+      },
+    );
+
+    return race;
+  },
+
+  'derby.races.generateTimeline': async (raceId: RaceId, seed?: number) => {
+    const race = await Races.findOneAsync(raceId);
     if (!race) {
       throw new Meteor.Error('race-not-found', 'Race not found');
     }
@@ -24,9 +40,7 @@ Meteor.methods({
       seed,
     );
 
-    console.log({ results, timeline });
-
-    Races.update(raceId, { $set: { timeline, results } });
+    Races.updateAsync(raceId, { $set: { timeline, results } });
   },
 
   'derby.races.startRace': async (raceId: RaceId, resume: boolean = false) => {
@@ -75,7 +89,7 @@ Meteor.methods({
 
   'derby.races.pauseRace': async (raceId: RaceId) => {
     Meteor.clearInterval(keyframeIntervalHandles[raceId]);
-    Races.update(raceId, { $set: { 'timeline.is_playing': false } });
+    Races.updateAsync(raceId, { $set: { 'timeline.is_playing': false } });
   },
 
   'derby.races.seekToFrame': async (raceId: RaceId, frame: number) => {
@@ -83,7 +97,7 @@ Meteor.methods({
     if (!race) {
       throw new Meteor.Error('race-not-found', 'Race not found');
     }
-    Races.update(raceId, { $set: { 'timeline.current_frame': frame } });
+    Races.updateAsync(raceId, { $set: { 'timeline.current_frame': frame } });
   },
 
   'derby.races.stopRace': async (raceId: RaceId) => {
@@ -92,7 +106,7 @@ Meteor.methods({
       throw new Meteor.Error('race-not-found', 'Race not found');
     }
     Meteor.clearInterval(keyframeIntervalHandles[raceId]);
-    Races.update(raceId, {
+    Races.updateAsync(raceId, {
       $set: {
         status: 'active',
         'timeline.current_frame': 0,

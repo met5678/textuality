@@ -1,9 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 
-import Players from '../../players';
+import Players from '../../../players';
 import { InText } from '/imports/schemas/inText';
 import RouletteBetSchema from '/imports/schemas/rouletteBet';
-import { PlayerWithHelpers } from '../../players/players';
+import { PlayerWithHelpers } from '../../../players/players';
 import { DateTime } from 'luxon';
 
 const isRouletteFormat = function (betCode: string): boolean {

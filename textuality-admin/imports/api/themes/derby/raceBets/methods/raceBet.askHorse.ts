@@ -4,6 +4,7 @@ import Horses, { HorseWithHelpers } from '../../horses/horses';
 import { RaceWithHelpers } from '../../race/races';
 import { sendAutoText } from '/imports/api/autoTexts/methods/autoTexts.send';
 import { PlayerWithHelpers } from '/imports/api/players/players';
+import { HorseId } from '/imports/schemas/derby/horse';
 
 type RaceBetAskHorseArgs = {
   player: PlayerWithHelpers;
@@ -16,11 +17,22 @@ const getHorseOptions = (
   raceBet: RaceBetWithHelpers,
   horses: HorseWithHelpers[],
   horseNum: number,
+  excludeHorseIds?: HorseId[],
 ) => {
-  return horses.map((horse) => ({
-    label: `#${horse.number} - ${horse.name}`,
-    value: `raceBet/${raceBet._id}/horse${horseNum}/${horse._id}`,
-  }));
+  const horseOptions = horses
+    .filter((horse) => !excludeHorseIds?.includes(horse._id))
+    .map((horse) => ({
+      label: `#${horse.number} - ${horse.name}`,
+      value: `raceBet/${raceBet._id}/horse${horseNum}/${horse._id}`,
+    }));
+
+  return [
+    ...horseOptions,
+    {
+      label: 'Cancel',
+      value: `raceBet/${raceBet._id}/cancel`,
+    },
+  ];
 };
 
 export const raceBetAskHorse = async ({
@@ -77,7 +89,7 @@ export const raceBetAskHorse = async ({
         playerId: player._id,
         interactivePayload: {
           type: 'list',
-          options: getHorseOptions(raceBet, horses, 2),
+          options: getHorseOptions(raceBet, horses, 2, raceBet.horses),
           list_button_label: 'Pick 2nd Place horse',
         },
       });
@@ -90,7 +102,7 @@ export const raceBetAskHorse = async ({
         playerId: player._id,
         interactivePayload: {
           type: 'list',
-          options: getHorseOptions(raceBet, horses, 3),
+          options: getHorseOptions(raceBet, horses, 3, raceBet.horses),
           list_button_label: 'Pick 3rd Place horse',
         },
       });

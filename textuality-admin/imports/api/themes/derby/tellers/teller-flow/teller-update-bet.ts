@@ -4,7 +4,10 @@ import { tellerStartRaceBet } from './teller-start-bet';
 import { RaceBetId } from '/imports/schemas/derby/raceBet';
 import { TellerId } from '/imports/schemas/derby/teller';
 
-export const updateBet = async (teller_id: TellerId, bet_id: RaceBetId) => {
+export const tellerUpdateBet = async (
+  teller_id: TellerId,
+  bet_id: RaceBetId,
+) => {
   const teller = await Tellers.findOneAsync(teller_id);
   const bet = await RaceBets.findOneAsync(bet_id);
   if (!teller) {

@@ -9,6 +9,10 @@ import { PlayerId } from '/imports/schemas/player';
 import { tellerStartRaceBet } from '/imports/api/themes/derby/tellers/teller-flow/teller-start-bet';
 import { raceBetAskType } from '/imports/api/themes/derby/raceBets/methods/raceBet.askType';
 import RaceBets from '/imports/api/themes/derby/raceBets/raceBets';
+import {
+  capitalizeFirstLetter,
+  capitalizeFirstLetterOnly,
+} from '/imports/utils/capitalize-first-letter';
 const doTellerPreChecks = async (
   race: RaceWithHelpers | undefined,
   teller: TellerWithHelpers | undefined,
@@ -46,10 +50,23 @@ const doTellerPreChecks = async (
   }
 
   if (!teller) {
-    sendAutoText({
-      trigger: 'TELLER_REJECT_NOT_FOUND',
-      playerId: player._id,
-    });
+    if (await Meteor.callAsync('derby.tellers.isNameInPool', tellerTextCode)) {
+      sendAutoText({
+        trigger: 'TELLER_REJECT_NOT_HERE_NOW',
+        playerId: player._id,
+        templateVars: {
+          teller_name: capitalizeFirstLetterOnly(tellerTextCode),
+        },
+      });
+    } else {
+      sendAutoText({
+        trigger: 'TELLER_REJECT_NOT_EXIST',
+        playerId: player._id,
+        templateVars: {
+          teller_name: capitalizeFirstLetter(tellerTextCode),
+        },
+      });
+    }
     return false;
   }
 
@@ -58,6 +75,9 @@ const doTellerPreChecks = async (
     {
       raceId: race._id,
       playerId: player._id,
+      templateVars: {
+        teller_name: capitalizeFirstLetterOnly(teller.text_code),
+      },
     },
   );
 
@@ -65,6 +85,9 @@ const doTellerPreChecks = async (
     sendAutoText({
       trigger: 'TELLER_REJECT_OTHER_BET_IN_PROGRESS',
       playerId: player._id,
+      templateVars: {
+        teller_name: capitalizeFirstLetterOnly(teller.text_code),
+      },
     });
     return false;
   }
@@ -74,7 +97,7 @@ const doTellerPreChecks = async (
       trigger: 'TELLER_REJECT_NOT_ENOUGH_MONEY',
       playerId: player._id,
       templateVars: {
-        teller_name: teller.text_code,
+        teller_name: capitalizeFirstLetterOnly(teller.text_code),
         min_wager: teller.min_wager,
       },
     });

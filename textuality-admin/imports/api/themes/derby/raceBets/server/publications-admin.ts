@@ -5,9 +5,20 @@ import Events from '/imports/api/events';
 import { RaceId } from '/imports/schemas/derby/race';
 import { PlayerId } from '/imports/schemas/player';
 import { TellerId } from '/imports/schemas/derby/teller';
+import getPaginatedCursor from '/imports/api/_utils/publish-paginated';
+
 Meteor.publish('derby.raceBets.all', function () {
   this.autorun(() => RaceBets.find({ event: Events.currentId() }));
 });
+
+Meteor.publish(
+  'derby.raceBets.paged',
+  getPaginatedCursor(RaceBets, {
+    getServerQuery: () => ({
+      event: Events.currentId(),
+    }),
+  }),
+);
 
 Meteor.publish('derby.raceBets.forRace', function (raceId: RaceId) {
   this.autorun(() =>

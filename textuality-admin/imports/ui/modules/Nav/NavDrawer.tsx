@@ -126,6 +126,12 @@ const navItems: Array<NavItem> = [
     theme: 'derby',
   },
   {
+    title: 'Race Bets',
+    href: '/derby/race-bets',
+    icon: <Typography>🎫</Typography>,
+    theme: 'derby',
+  },
+  {
     title: 'Fortune Teller',
     href: '/derby/tasks',
     icon: <Typography>🔮</Typography>,

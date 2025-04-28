@@ -26,6 +26,7 @@ import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
 import TellersPage from './modules/themes/derby/tellers/TellersPage';
+import RaceBetsPage from './modules/themes/derby/raceBets/RaceBetsPage';
 
 const darkTheme = createTheme({
   palette: {
@@ -57,6 +58,7 @@ const App = () => (
           <Route path="/derby/horses" component={HorsesPage} />
           <Route path="/derby/races" component={RacesPage} />
           <Route path="/derby/tellers" component={TellersPage} />
+          <Route path="/derby/race-bets" component={RaceBetsPage} />
 
           {/*<Route path="/clue-rewards" component={ClueRewardsPage} />*/}
           {/*<Route path="/clues" component={CluesPage} />*/}

@@ -92,7 +92,7 @@ export const ToteBoardOdds: React.FC<{
         style={{
           width: '100%',
           textAlign: 'center',
-          marginBottom: '32px',
+          marginBottom: '24px',
           display: 'block',
         }}
       >

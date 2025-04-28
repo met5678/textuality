@@ -13,26 +13,36 @@ export const TellerStatus = ({ teller }: { teller: TellerWithHelpers }) => {
   const status = teller.status as TellerStatusType;
   const isAvailable = TELLER_AVAILABLE_STATUSES.includes(status);
   const isClosed = TELLER_CLOSED_STATUSES.includes(status);
-  console.log('status:', status, 'isAvailable:', isAvailable);
-
   const timesUp = status === 'timeout';
 
+  let infoLabel = '';
+  let infoValue = 0;
+
+  if (isAvailable) {
+    infoLabel = 'Min Wager';
+    infoValue = teller.min_wager;
+  } else if (isClosed || status === 'opening') {
+    infoLabel = 'Bets Open';
+    infoValue = 60; /* JTG TO DO : time until bets open*/
+  } else {
+    infoLabel = 'Time Left';
+    infoValue = timesUp ? 0 : teller.time_left ?? 0;
+  }
+
   return (
-    <div className="teller-state">
+    <div className="teller-status">
       <div style={{ display: 'flex', gap: '1rem' }}>
-        <span>Open: {isAvailable ? 'Yes' : 'No'}</span>
+        <span>{isAvailable ? 'Green' : 'Red'}</span>
 
         <div style={{ display: 'flex' }}>
-          <LedCell char={'@'} lit={isAvailable} />
+          <LedCell className="at-sign" char={'@'} lit={isAvailable} />
           <LedCellRow value={teller.text_code ?? ''} cellCount={7} />
         </div>
       </div>
-      <br />
-      {isAvailable
-        ? `Min Wager: ${teller.min_wager}`
-        : isClosed
-        ? `Bets Open: 60`
-        : `Time Left: ${timesUp ? 0 : teller.time_left}`}
+      <div className="teller-status-info">
+        <div className="teller-status-info-label">{infoLabel}</div>
+        <LedCellRow value={infoValue} cellCount={3} />
+      </div>
     </div>
   );
 };

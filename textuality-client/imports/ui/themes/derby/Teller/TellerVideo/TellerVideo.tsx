@@ -124,10 +124,7 @@ export const TellerVideo = ({ teller }: TellerVideoProps) => {
 
   return (
     <div className="teller-video">
-      <video
-        ref={videoRef}
-        style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-      />
+      <video ref={videoRef} />
       <div
         ref={transitionDiv}
         style={{

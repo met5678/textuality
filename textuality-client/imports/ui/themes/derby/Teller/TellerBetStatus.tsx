@@ -15,5 +15,17 @@ export const TellerBetStatus = ({
   const STEP_3 = ['wager'];
   const STEP_4 = ['complete'];
 
-  return <div className="teller-bet-status">Bet Type | Horse | Wager</div>;
+  return (
+    <div className="teller-bet-status">
+      <div>
+        <img src="/derby/images/icons/stub.svg" />
+      </div>
+      <div>
+        <img src="/derby/images/icons/horse.svg" />
+      </div>
+      <div>
+        <img src="/derby/images/icons/money.svg" />
+      </div>
+    </div>
+  );
 };

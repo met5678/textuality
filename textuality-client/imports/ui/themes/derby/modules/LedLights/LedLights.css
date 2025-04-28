@@ -8,7 +8,7 @@
   width: 2rem;
   height: 2.5rem;
   background-color: #000;
-  color: #fe9742;
+  color: #3b3b3b;
   font-weight: bold;
   font-size: 2rem;
   display: flex;
@@ -20,7 +20,11 @@
   filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5));
 }
 
-.led-cell span {
+.led-cell.lit {
+  color: #fe9742;
+}
+
+.led-cell.lit span {
   background: radial-gradient(circle, #ffe8a0 0%, #ffa736 50%, #ff8a00 100%);
   -webkit-background-clip: text;
   color: transparent;

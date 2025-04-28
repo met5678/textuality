@@ -1,8 +1,10 @@
 import React from 'react';
+import './Teller.css';
 import { Event } from '/imports/schemas/event';
 import { useTellerScreenData } from './useTellerScreenData';
 import { TellerVideo } from './TellerVideo/TellerVideo';
-
+import { TellerStatus } from './TellerStatus';
+import { TellerBetStatus } from './TellerBetStatus';
 const TellerScreen = ({ event, url }: { event: Event; url: string }) => {
   const { isLoading, teller, raceBet, player } = useTellerScreenData({
     eventId: event._id,
@@ -14,9 +16,12 @@ const TellerScreen = ({ event, url }: { event: Event; url: string }) => {
   console.log({ teller, raceBet, player });
 
   return (
-    <div style={{ position: 'absolute', width: '100%', height: '100%' }}>
-      <TellerVideo teller={teller} />
-      Teller {teller.text_code}, Status: {teller.status}, Time Left:{' '}
+    <div className="teller-screen">
+      <div className="teller-state-container">
+        <TellerStatus teller={teller} />
+        <TellerVideo teller={teller} />
+        <TellerBetStatus teller={teller} raceBet={raceBet} />
+      </div>
     </div>
   );
 };

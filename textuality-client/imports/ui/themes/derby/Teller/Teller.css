@@ -1,0 +1,25 @@
+.teller-screen {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: url('/derby/textures/wood-white.png'), #f0f0f0;
+  background-repeat: repeat;
+  display: grid;
+  place-items: center;
+}
+
+.teller-state-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  max-width: 90vw;
+  max-height: 90vh;
+  height: 100%;
+  gap: clamp(16px, 2vh, 32px);
+}
+
+.teller-video {
+  flex: 1;
+}

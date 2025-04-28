@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef } from 'react';
+import '../Teller.css';
 
 import { TellerWithHelpers } from '/imports/api/themes/derby/tellers/tellers';
 import { TellerActor } from '/imports/schemas/derby/teller';
@@ -122,7 +123,7 @@ export const TellerVideo = ({ teller }: TellerVideoProps) => {
   }, [actor, status]);
 
   return (
-    <div style={{ position: 'absolute', width: '80%', height: '80%' }}>
+    <div className="teller-video">
       <video
         ref={videoRef}
         style={{ objectFit: 'cover', width: '100%', height: '100%' }}

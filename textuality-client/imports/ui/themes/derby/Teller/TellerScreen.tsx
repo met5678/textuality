@@ -16,7 +16,10 @@ const TellerScreen = ({ event, url }: { event: Event; url: string }) => {
   console.log({ teller, raceBet, player });
 
   return (
-    <div className="teller-screen">
+    <div
+      className="teller-screen"
+      style={{ background: `url(/derby/textures/wood-white.png) #f0f0f0` }}
+    >
       <div className="teller-state-container">
         <TellerStatus teller={teller} />
         <TellerVideo teller={teller} />

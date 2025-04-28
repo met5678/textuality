@@ -2,7 +2,6 @@
   position: absolute;
   width: 100%;
   height: 100%;
-  background: url('/derby/textures/wood-white.png'), #f0f0f0;
   background-repeat: repeat;
   display: flex;
   justify-content: center;

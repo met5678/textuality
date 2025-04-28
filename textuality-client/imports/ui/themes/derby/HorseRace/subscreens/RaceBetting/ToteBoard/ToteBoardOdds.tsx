@@ -33,7 +33,7 @@ const HorseColumn: React.FC<{
       style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: '16px',
+        gap: '24px',
       }}
     >
       {horses.map((horse) => {
@@ -41,21 +41,22 @@ const HorseColumn: React.FC<{
           <div
             key={horse._id}
             className="tote-board-horse-odds"
-            style={{ display: 'flex', gap: '4px', alignItems: 'flex-end' }}
+            style={{ display: 'flex', gap: '8px', alignItems: 'flex-end' }}
           >
             <LedCellRow
               label={
                 <div
                   style={{
                     backgroundColor: horsesByNumber[horse.number].color,
-                    width: '50px',
-                    height: '40px',
+                    width: '76px',
+                    height: '58px',
                     borderRadius: '50%',
                     display: 'flex',
                     justifyContent: 'center',
-                    textShadow: '0px 1px 1px rgba(0, 0, 0, 0.25)',
+                    textShadow: '0px 2px 2px rgba(0, 0, 0, 0.25)',
                     paddingLeft: '2px',
-                    filter: 'drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5))',
+                    paddingTop: '1px',
+                    filter: 'drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5))',
                   }}
                 >
                   <span
@@ -91,7 +92,7 @@ export const ToteBoardOdds: React.FC<{
         style={{
           width: '100%',
           textAlign: 'center',
-          marginBottom: '16px',
+          marginBottom: '32px',
           display: 'block',
         }}
       >

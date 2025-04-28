@@ -1,15 +1,10 @@
-@font-face {
-  font-family: 'digital-7';
-  src: url('/derby/digital-7_mono.ttf') format('truetype');
-}
-
 .tote-board-wrapper {
   position: relative;
 }
 
 .tote-board {
   width: 88vw;
-  aspect-ratio: 1200/440;
+  aspect-ratio: 1700/640;
 }
 
 .tote-board-container {
@@ -19,87 +14,50 @@
   box-shadow:
     inset 0 -1px 8px rgba(0, 0, 0, 0.5),
     inset 0 -2px 50px rgba(0, 0, 0, 0.25);
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
 .tote-board-top-frame {
   width: 100%;
-  height: 16px;
-  border-bottom: 2px solid rgba(0, 0, 0, 0.5);
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+  height: 24px;
+  border-bottom: 3px solid rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.25);
 }
 
 .tote-board-body {
   height: 90%; /* workaround so frame stays inside scaled body */
   display: flex;
   justify-content: center;
-  gap: 48px;
+  gap: 72px;
   position: relative;
-  padding: 20px 24px 16px 24px;
+  padding: 32px 40px;
   font-family: 'eurostile', serif;
   letter-spacing: 0.17rem;
   text-transform: uppercase;
   font-weight: 800;
   font-style: normal;
-  font-size: 1.8rem;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  font-size: 2.6rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 
   /* Frame */
-  margin: 16px;
-  border: 2px solid rgba(0, 0, 0, 0.5);
-  box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.25);
-  border-radius: 2px;
-}
-
-.tote-board-cell {
-  font-family: 'digital-7', monospace;
-  width: 2rem;
-  height: 2.5rem;
-  background-color: #000;
-  color: #fe9742;
-  font-weight: bold;
-  font-size: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0.25rem;
-  text-transform: uppercase;
-  padding-left: 0.3rem;
-  filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5));
-}
-
-.tote-board-cell span {
-  background: radial-gradient(circle, #ffe8a0 0%, #ffa736 50%, #ff8a00 100%);
-  -webkit-background-clip: text;
-  color: transparent;
-  text-shadow:
-    0 0 1px #ffb347,
-    0 0 2px #ff5e00;
-  animation: flickerGlow 2.5s ease-in-out infinite;
+  margin: 24px;
+  border: 3px solid rgba(0, 0, 0, 0.5);
+  box-shadow: inset 0 3px 3px rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
 }
 
 .tote-board-note {
-  font-size: 1.1rem;
+  font-size: 1.6rem;
   text-align: center;
   font-weight: 700;
-}
-
-@keyframes flickerGlow {
-  0%,
-  100% {
-    filter: drop-shadow(0 0 1px #ffb347);
-  }
-  50% {
-    filter: drop-shadow(0 0 2px #ff8a00);
-  }
 }
 
 .tote-board-stats {
   flex: 0 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  margin-top: 16px;
+  gap: 36px;
+  margin-top: 32px;
 }
 
 .tote-board-odds {

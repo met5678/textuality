@@ -1,0 +1,89 @@
+.teller-screen {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: url('/derby/textures/wood-white.png'), #f0f0f0;
+  background-repeat: repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.teller-state-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: black;
+  min-height: 0;
+  max-width: 95vw;
+  max-height: 95vh;
+  height: 100%;
+  gap: clamp(16px, 2vh, 32px);
+}
+
+.at-sign {
+  font-family: 'eurostile', serif;
+}
+
+.at-sign span {
+  transform: translateY(-10%);
+}
+
+.teller-status {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.teller-status-info {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.teller-status-info-label {
+  text-align: right;
+  font-family: 'eurostile', serif;
+  color: #333;
+  font-size: 1.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.teller-status-info > * {
+  flex: 1;
+}
+
+.teller-video {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.teller-video video {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+}
+
+.teller-bet-status {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+
+.teller-bet-status > * {
+  flex: 1;
+}
+
+.teller-bet-status img {
+  width: 48px;
+  height: 48px;
+}

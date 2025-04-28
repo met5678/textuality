@@ -9,6 +9,7 @@ import { ToteBoardOdds } from './ToteBoardOdds';
 import { ToteBoardStats } from './ToteBoardStats';
 import { ToteBoardActivity } from './ToteBoardActivity';
 import { ToteBoardAccents } from './ToteBoardAccents';
+import { Weather } from '/imports/schemas/derby/race';
 
 export const ToteBoard: React.FC<{
   race: RaceWithHelpers;
@@ -21,10 +22,12 @@ export const ToteBoard: React.FC<{
   useEffect(() => {
     if (boardRef.current) {
       const { width } = boardRef.current.getBoundingClientRect();
-      const baseWidth = 1200; // aspect ratio 1100/440
+      const baseWidth = 1700; // aspect ratio 1700/640
       setScale(width / baseWidth);
     }
   }, []);
+
+  const marginOffset = window.innerHeight < 700 ? 100 : 200;
 
   return (
     <div className="tote-board-wrapper">
@@ -33,9 +36,10 @@ export const ToteBoard: React.FC<{
           className="tote-board-container"
           style={{
             transform: `scale(${scale})`,
+            marginTop: `${(1 - scale) * marginOffset}px`,
             transformOrigin: 'top left',
-            width: '1200px',
-            height: '440px',
+            width: '1700px',
+            height: '640px',
             boxSizing: 'border-box',
           }}
         >
@@ -51,8 +55,9 @@ export const ToteBoard: React.FC<{
         className="tote-board-roses-wrapper"
         style={{
           height: window.innerHeight > 900 ? '270px' : '180px',
-          transform:
-            window.innerHeight > 900 ? 'translateY(65%)' : 'translateY(50%)',
+          transform: `translateY(${
+            window.innerHeight > 900 ? '60%' : '50%'
+          }) translateY(${(1 - scale) * -560}px)`, // I'm scaling the board, so this needs to be moved up
         }}
       >
         {/* <div className="tote-board-roses-container"> */}

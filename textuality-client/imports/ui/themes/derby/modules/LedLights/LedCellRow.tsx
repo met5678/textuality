@@ -1,8 +1,8 @@
 import React from 'react';
-import { ToteBoardCell } from './ToteBoardCell';
+import { LedCell } from './LedCell';
 
-export const ToteBoardDisplayRow: React.FC<{
-  label: React.ReactNode;
+export const LedCellRow: React.FC<{
+  label?: React.ReactNode;
   value: number | string;
   cellCount: number;
 }> = ({ label, value, cellCount }) => {
@@ -20,13 +20,13 @@ export const ToteBoardDisplayRow: React.FC<{
 
   return (
     <div
-      className="tote-board-display-row"
+      className="led-cell-row"
       style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}
     >
-      <span>{label}</span>
+      {label && <span>{label}</span>}
       <div style={{ display: 'flex' }}>
         {cells.map((char, i) => (
-          <ToteBoardCell key={i} char={char} />
+          <LedCell key={i} char={char} />
         ))}
       </div>
     </div>

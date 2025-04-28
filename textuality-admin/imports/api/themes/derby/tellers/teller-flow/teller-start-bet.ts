@@ -60,10 +60,7 @@ export const tellerStartRaceBet = async (
     time_left -= 1;
   } while (time_left > 0);
 
-  Meteor.callAsync('derby.raceBets.cancelBet', {
-    bet_id: teller.current_bet,
-    reason: 'timeout',
-  });
+  Meteor.callAsync('derby.raceBets.cancelBet', teller.current_bet, 'timeout');
 
   sendAutoText({
     trigger: 'TELLER_CANCEL_TIMEOUT',

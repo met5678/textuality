@@ -90,9 +90,8 @@ export const TellerVideo = ({ teller }: TellerVideoProps) => {
     }
 
     if (transitionDiv.current) {
-      transitionDiv.current.style.opacity = '1';
+      transitionDiv.current.style.opacity = '0.33';
       gsap.to(transitionDiv.current, {
-        delay: 0.1,
         opacity: 0,
         duration: 0.3,
       });
@@ -123,7 +122,7 @@ export const TellerVideo = ({ teller }: TellerVideoProps) => {
   }, [actor, status]);
 
   return (
-    <div className="teller-video">
+    <div className="teller-video" style={{ position: 'relative' }}>
       <video ref={videoRef} />
       <div
         ref={transitionDiv}

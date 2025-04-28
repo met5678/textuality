@@ -15,9 +15,9 @@ const statsColumn: GridColTypeDef<HorseWithHelpers> = {
   editable: true,
   width: 70,
   valueGetter: (_value, row, params) =>
-    row.stats[params.field as keyof HorseStats] ?? 0,
+    row.stats?.[params.field as keyof HorseStats] ?? 0,
   renderCell: (params) => {
-    return <div>{params.row.stats[params.field]} + 0</div>;
+    return <div>{params.row.stats?.[params.field] ?? 0}</div>;
   },
 
   valueSetter: (value, row, params) => {
@@ -73,16 +73,6 @@ const columns: GridColDef<HorseWithHelpers>[] = [
   {
     field: 'endurance',
     headerName: 'End',
-    ...statsColumn,
-  },
-  {
-    field: 'luck',
-    headerName: 'Luck',
-    ...statsColumn,
-  },
-  {
-    field: 'competitiveness',
-    headerName: 'Comp',
     ...statsColumn,
   },
   {

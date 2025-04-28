@@ -18,6 +18,7 @@ import Events from '/imports/api/events';
 import Horses, {
   HorseWithHelpers,
 } from '/imports/api/themes/derby/horses/horses';
+import { Meteor } from 'meteor/meteor';
 
 const getColumns = (
   races: RaceWithHelpers[],
@@ -109,6 +110,11 @@ const RaceBetsTable = () => {
     <Table
       columns={getColumns(races, tellers, players, horses)}
       {...tableProps}
+      canDelete={true}
+      onDelete={async (item: RaceBetWithHelpers | RaceBetWithHelpers[]) => {
+        const ids = Array.isArray(item) ? item.map((i) => i._id) : [item._id];
+        return await Meteor.callAsync('derby.raceBets.delete', ids);
+      }}
     />
   );
 };

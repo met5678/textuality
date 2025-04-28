@@ -11,14 +11,6 @@ const HorseStatsSchema = new SimpleSchema({
     type: Number,
     defaultValue: 10,
   },
-  luck: {
-    type: Number,
-    defaultValue: 10,
-  },
-  competitiveness: {
-    type: Number,
-    defaultValue: 10,
-  },
   water_resistance: {
     type: Number,
     defaultValue: 10,
@@ -59,8 +51,6 @@ const HorseSchema = new SimpleSchema({
 type HorseStats = {
   speed: number;
   endurance: number;
-  luck: number;
-  competitiveness: number;
   water_resistance: number;
   wind_resistance: number;
   electric_resistance: number;

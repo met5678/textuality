@@ -67,6 +67,9 @@ export const raceBetProcessHorse = async ({
     },
   });
 
+  raceBet.step = nextStep;
+  raceBet.horses = newHorses;
+
   if (nextStep === 'wager') {
     // TODO: Ask for wager
   } else {

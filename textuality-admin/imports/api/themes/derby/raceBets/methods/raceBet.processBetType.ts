@@ -41,6 +41,9 @@ export const raceBetProcessBetType = async ({
       },
     });
 
+    raceBet.type = 'trifecta';
+    raceBet.step = 'horse1';
+
     raceBetAskHorse({
       player,
       raceBet,

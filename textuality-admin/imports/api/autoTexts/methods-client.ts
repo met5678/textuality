@@ -1,72 +1,18 @@
 import { Meteor } from 'meteor/meteor';
 
-import AutoTexts from './autoTexts';
 import Events from '/imports/api/events';
 import Players from '/imports/api/players';
 import Checkpoints from '../checkpoints';
 
-import commaNumber from 'comma-number';
-import { AutoTextTrigger } from '/imports/schemas/autoText';
-import { PlayerId } from '/imports/schemas/player';
+import { AutoTextSendArgs, sendAutoText } from './methods/autoTexts.send';
 import {
-  OutTextInteractivePayload,
-  OutTextSource,
-} from '/imports/schemas/outText';
-
-const capitalizeFirstLetter = (str: string) =>
-  `${str[0].toUpperCase()}${str.substring(1)}`;
-
-type AutoTextSendArgs = {
-  trigger: AutoTextTrigger;
-  triggerNum?: number;
-  playerId: PlayerId;
-  mediaUrl?: string;
-  interactivePayload?: OutTextInteractivePayload;
-  templateVars: Record<string, any>;
-};
-
-type AutoTextSendCustomArgs = {
-  playerText: string;
-  playerId: PlayerId;
-  mediaUrl?: string;
-  templateVars: Record<string, any>;
-  interactivePayload?: OutTextInteractivePayload;
-  source?: OutTextSource;
-};
+  AutoTextSendCustomArgs,
+  sendCustomAutoText,
+} from './methods/autoTexts.sendCustom';
 
 Meteor.methods({
-  'autoTexts.send': ({
-    trigger,
-    triggerNum,
-    playerId,
-    mediaUrl,
-    interactivePayload,
-    templateVars,
-  }: AutoTextSendArgs) => {
-    const autoTextQuery: Record<string, any> = {
-      event: Events.currentId(),
-      trigger,
-    };
-    if (triggerNum) autoTextQuery.triggerNum = triggerNum;
-
-    const matchingAutoTexts = AutoTexts.find(autoTextQuery).fetch();
-    if (matchingAutoTexts.length === 0) {
-      console.log('No matching autoTexts', { trigger, triggerNum });
-      return;
-    }
-
-    const autoText =
-      matchingAutoTexts[Math.floor(Math.random() * matchingAutoTexts.length)];
-
-    if (!mediaUrl) mediaUrl = autoText.image_url ?? undefined;
-
-    Meteor.call('autoTexts.sendCustom', {
-      ...autoText,
-      playerId,
-      mediaUrl,
-      templateVars,
-      source: 'auto',
-    });
+  'autoTexts.send': async (args: AutoTextSendArgs) => {
+    await sendAutoText(args);
   },
 
   'autoTexts.sendStatus': ({ playerId }) => {
@@ -123,52 +69,16 @@ Meteor.methods({
       }
     }
 
-    Meteor.call('autoTexts.send', {
+    sendAutoText({
       trigger: 'WALLET_STATUS',
       playerId,
       templateVars: {
         checkpoint_list: lines.join('\n'),
       },
-      source: 'auto',
     });
   },
 
-  'autoTexts.sendCustom': ({
-    playerText,
-    playerId,
-    mediaUrl,
-    templateVars = {},
-    interactivePayload,
-    source = 'auto',
-  }: AutoTextSendCustomArgs) => {
-    const player = Players.findOne(playerId);
-    if (!player) return;
-
-    if (playerText) {
-      let body = playerText;
-      templateVars.alias = player.alias;
-      templateVars.money = player.money;
-      Object.keys(templateVars).forEach((key) => {
-        let value = templateVars[key];
-
-        // If value is either a number or a string that can be converted to a number, format it with commas
-        if (
-          (typeof value === 'number' && !isNaN(value)) ||
-          !isNaN(parseFloat(value))
-        ) {
-          value = commaNumber(value);
-        }
-
-        body = body.replace(new RegExp(`\\[${key}\\]`, 'g'), value);
-      });
-
-      Meteor.callAsync('outTexts.send', {
-        player,
-        body,
-        mediaUrl,
-        source,
-        interactivePayload,
-      });
-    }
+  'autoTexts.sendCustom': async (args: AutoTextSendCustomArgs) => {
+    await sendCustomAutoText(args);
   },
 });

@@ -1,4 +1,6 @@
 import React from 'react';
+import { useState, useEffect, useRef } from 'react';
+
 import './Teller.css';
 import { TellerWithHelpers } from '/imports/api/themes/derby/tellers/tellers';
 import {
@@ -11,6 +13,18 @@ import { LedCellRow } from '../modules/LedLights/LedCellRow';
 import { LedRound } from '../modules/LedLights/LedRound';
 
 export const TellerStatus = ({ teller }: { teller: TellerWithHelpers }) => {
+  const [scale, setScale] = useState(1);
+  const statusRef = useRef<HTMLDivElement>(null);
+  const baseWidth = 440;
+  const baseHeight = 128;
+
+  useEffect(() => {
+    if (statusRef.current) {
+      const { width } = statusRef.current.getBoundingClientRect();
+      setScale(width / baseWidth);
+    }
+  }, []);
+
   const status = teller.status as TellerStatusType;
   const isAvailable = TELLER_AVAILABLE_STATUSES.includes(status);
   const isClosed = TELLER_CLOSED_STATUSES.includes(status);
@@ -31,21 +45,30 @@ export const TellerStatus = ({ teller }: { teller: TellerWithHelpers }) => {
   }
 
   return (
-    <div className="teller-status">
-      <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-        <LedRound color={isAvailable ? 'green' : 'red'} />
-        <div style={{ display: 'flex' }}>
-          <LedCell className="at-sign" char={'@'} lit={isAvailable} />
-          <LedCellRow
-            value={teller.text_code ?? ''}
-            lit={isAvailable}
-            cellCount={7}
-          />
+    <div className="teller-status-wrapper" ref={statusRef}>
+      <div
+        className="teller-status"
+        style={{
+          transform: `scale(${scale})`,
+          marginTop: `${((1 - scale) * baseHeight) / 2}px`,
+          transformOrigin: 'top center',
+        }}
+      >
+        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+          <LedRound color={isAvailable ? 'green' : 'red'} />
+          <div style={{ display: 'flex' }}>
+            <LedCell className="at-sign" char={'@'} lit={isAvailable} />
+            <LedCellRow
+              value={teller.text_code ?? ''}
+              lit={isAvailable}
+              cellCount={7}
+            />
+          </div>
         </div>
-      </div>
-      <div className="teller-status-info">
-        <div className="teller-status-info-label">{infoLabel}</div>
-        <LedCellRow value={infoValue} cellCount={3} />
+        <div className="teller-status-info">
+          <div className="teller-status-info-label">{infoLabel}</div>
+          <LedCellRow value={infoValue} cellCount={3} />
+        </div>
       </div>
     </div>
   );

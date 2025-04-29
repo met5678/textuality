@@ -50,11 +50,18 @@ export const TellerStatus = ({ teller }: { teller: TellerWithHelpers }) => {
         className="teller-status"
         style={{
           transform: `scale(${scale})`,
-          marginTop: `${((1 - scale) * baseHeight) / 2}px`,
           transformOrigin: 'top center',
+          height: `${(1 - scale) * baseHeight}px`,
         }}
       >
-        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+        <div
+          style={{
+            display: 'flex',
+            gap: '1rem',
+            alignItems: 'center',
+            marginTop: `${(1 - scale) * baseHeight}px`,
+          }}
+        >
           <LedRound color={isAvailable ? 'green' : 'red'} />
           <div style={{ display: 'flex' }}>
             <LedCell className="at-sign" char={'@'} lit={isAvailable} />

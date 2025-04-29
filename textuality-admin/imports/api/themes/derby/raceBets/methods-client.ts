@@ -55,28 +55,6 @@ Meteor.methods({
     return id;
   },
 
-  'derby.raceBets.updateBet': async (
-    race_bet_id: RaceBetId,
-    bet: Partial<Pick<RaceBet, 'wager' | 'type' | 'horses'>>,
-  ) => {
-    const raceBet = await RaceBets.findOneAsync(race_bet_id);
-    if (!raceBet) return;
-    await RaceBets.updateAsync(race_bet_id, { $set: { bet } });
-  },
-
-  'derby.raceBets.placeBet': async (race_bet_id: RaceBetId) => {
-    const raceBet = await RaceBets.findOneAsync(race_bet_id);
-    if (!raceBet) return;
-    if (!validateRaceBet(raceBet)) return;
-
-    await RaceBets.updateAsync(race_bet_id, {
-      $set: { placed_at: new Date(), status: 'placed' },
-      $unset: { step: '' },
-    });
-
-    await Meteor.callAsync('derby.races.updateOdds', raceBet.race);
-  },
-
   'derby.raceBets.cancelBet': async (
     race_bet_id: RaceBetId,
     reason: RaceBetCancelReason,
@@ -113,19 +91,3 @@ Meteor.methods({
     return raceBet;
   },
 });
-
-const validateRaceBet = async (raceBet: RaceBet) => {
-  const race = await Races.findOneAsync(raceBet.race);
-  if (!race) return;
-  if (race.status !== 'bets-open') return false;
-
-  if (raceBet.type === 'win') {
-    if (raceBet.horses?.length !== 1) return false;
-  } else if (raceBet.type === 'trifecta') {
-    if (raceBet.horses?.length !== 3) return false;
-  }
-
-  if (raceBet.wager === undefined || raceBet.wager <= 0) return false;
-
-  return true;
-};

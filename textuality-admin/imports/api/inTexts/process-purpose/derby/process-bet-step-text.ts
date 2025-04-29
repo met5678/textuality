@@ -8,6 +8,7 @@ import Horses from '/imports/api/themes/derby/horses';
 import { raceBetProcessBetType } from '/imports/api/themes/derby/raceBets/methods/raceBet.processBetType';
 import { raceBetProcessHorse } from '/imports/api/themes/derby/raceBets/methods/raceBet.processHorse';
 import { tellerUpdateBet } from '/imports/api/themes/derby/tellers/teller-flow/teller-update-bet';
+import { raceBetProcessWager } from '/imports/api/themes/derby/raceBets/methods/raceBet.processWager';
 
 export const processBetStepText = async (
   inText: InText,
@@ -80,21 +81,21 @@ export const processBetStepText = async (
       race,
       horseNum: parseInt(step.replace('horse', '')),
       value,
+      teller,
     });
     tellerUpdateBet(teller._id, raceBet._id);
     return;
   }
 
-  // if (step === 'wager') {
-  //   return processBetWagerText({
-  //     player,
-  //     raceBet,
-  //     teller,
-  //     race,
-  //     horses,
-  //     value,
-  //   });
-  // }
+  if (step === 'wager') {
+    return raceBetProcessWager({
+      player,
+      raceBet,
+      teller,
+      race,
+      value,
+    });
+  }
 
   // if (step === 'cancel') {
   //   return processBetCancelText({

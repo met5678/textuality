@@ -46,7 +46,9 @@ type RaceBet = {
   // Optional until bet is placed
   type?: RaceBetType;
   horses?: HorseId[];
-  wager?: number;
+  base_bet?: number;
+  count?: number;
+  placed_at?: Date;
 };
 
 type RaceBetComplete = Required<RaceBet> & {
@@ -74,7 +76,12 @@ const RaceBetSchema = new SimpleSchema({
     type: Date,
     optional: true,
   },
-  wager: {
+  base_bet: {
+    type: SimpleSchema.Integer,
+    defaultValue: 0,
+    optional: true,
+  },
+  count: {
     type: SimpleSchema.Integer,
     defaultValue: 0,
     optional: true,

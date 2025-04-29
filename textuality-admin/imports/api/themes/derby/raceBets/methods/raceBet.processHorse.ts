@@ -2,13 +2,15 @@ import Horses from '../../horses/horses';
 import { RaceWithHelpers } from '../../race/races';
 import RaceBets, { RaceBetWithHelpers } from '../raceBets';
 import { raceBetAskHorse } from './raceBet.askHorse';
+import { raceBetAskWager } from './raceBet.askWager';
 import { PlayerWithHelpers } from '/imports/api/players/players';
 import { RaceBetStep } from '/imports/schemas/derby/raceBet';
-
+import { TellerWithHelpers } from '../../tellers/tellers';
 type ProcessHorseArgs = {
   player: PlayerWithHelpers;
   raceBet: RaceBetWithHelpers;
   race: RaceWithHelpers;
+  teller: TellerWithHelpers;
   horseNum: number;
   value: string;
 };
@@ -37,6 +39,7 @@ export const raceBetProcessHorse = async ({
   player,
   raceBet,
   race,
+  teller,
   horseNum,
   value,
 }: ProcessHorseArgs) => {
@@ -71,7 +74,12 @@ export const raceBetProcessHorse = async ({
   raceBet.horses = newHorses;
 
   if (nextStep === 'wager') {
-    // TODO: Ask for wager
+    raceBetAskWager({
+      player,
+      raceBet,
+      race,
+      teller,
+    });
   } else {
     raceBetAskHorse({
       player,

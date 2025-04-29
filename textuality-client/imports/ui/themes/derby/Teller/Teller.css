@@ -13,7 +13,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: black;
+  color: #eee;
   min-height: 0;
   max-width: 95vw;
   max-height: 95vh;
@@ -45,15 +45,16 @@
 
 .teller-status-info-label {
   text-align: right;
-  font-family: 'eurostile', serif;
-  color: #333;
-  font-size: 1.6rem;
-  font-weight: 600;
+  font-family: 'eurostile', sans-serif;
+  letter-spacing: 0.17rem;
+  font-size: 1.3rem;
+  font-weight: 800;
   text-transform: uppercase;
+  transform: scaleY(1.4);
 }
 
 .teller-status-info > * {
-  flex: 1;
+  flex: 0 0 50%;
 }
 
 .teller-video {
@@ -62,13 +63,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  border-radius: 8px;
 }
 
 .teller-video video {
-  object-fit: contain;
+  object-fit: cover;
   width: 100%;
   height: 100%;
-  border-radius: 8px;
+  border-radius: 4px;
+}
+
+.teller-video-transition {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
 }
 
 .teller-bet-status {

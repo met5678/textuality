@@ -125,13 +125,9 @@ export const TellerVideo = ({ teller }: TellerVideoProps) => {
     <div className="teller-video" style={{ position: 'relative' }}>
       <video ref={videoRef} />
       <div
+        className="teller-video-transition"
         ref={transitionDiv}
         style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
           backgroundColor: TRANSITION_COLOR,
         }}
       ></div>

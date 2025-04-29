@@ -5,7 +5,8 @@ export const LedCellRow: React.FC<{
   label?: React.ReactNode;
   value: number | string;
   cellCount: number;
-}> = ({ label, value, cellCount }) => {
+  lit?: boolean;
+}> = ({ label, value, cellCount, lit }) => {
   const isNumber = typeof value === 'number';
   const stringValue = isNumber
     ? String(Math.min(99, value))
@@ -26,7 +27,7 @@ export const LedCellRow: React.FC<{
       {label && <span>{label}</span>}
       <div style={{ display: 'flex' }}>
         {cells.map((char, i) => (
-          <LedCell key={i} char={char} />
+          <LedCell key={i} char={char} lit={lit} />
         ))}
       </div>
     </div>

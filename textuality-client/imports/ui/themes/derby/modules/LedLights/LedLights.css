@@ -3,18 +3,48 @@
   src: url('/derby/digital-7_mono.ttf') format('truetype');
 }
 
+/* Need RGB so I can use alpha values*/
+.derby-led {
+  --led-100: 255, 232, 160;
+  --led-200: 255, 179, 71;
+  --led-300: 254, 151, 66;
+  --led-400: 255, 138, 0;
+  --led-500: 255, 94, 0;
+
+  --led-unlit: #252525;
+  --led-cell-background: #171717;
+}
+
+.derby-led-red {
+  --led-100: 255, 160, 160;
+  --led-200: 255, 71, 71;
+  --led-300: 255, 66, 66;
+  --led-400: 140, 0, 0;
+  --led-500: 94, 0, 0;
+}
+
+.derby-led-green {
+  --led-100: 160, 255, 160;
+  --led-200: 71, 255, 71;
+  --led-300: 100, 200, 100;
+  --led-400: 0, 138, 0;
+  --led-500: 0, 94, 0;
+}
+
 .led-cell {
   font-family: 'digital-7', monospace;
   width: 3rem;
   height: 3.5rem;
-  background-color: #000;
-  color: #3b3b3b;
+  background-color: var(--led-cell-background);
   font-weight: bold;
   font-size: 3rem;
   border-radius: 0.35rem;
   text-transform: uppercase;
   filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5));
   padding-left: 0.1rem; /* Offset for this font */
+  color: var(--led-unlit);
+  text-shadow: 0 0 2px var(--led-unlit); /* Need it to be the same weight when off */
+  transition: all 0.15s ease-out;
 }
 
 .led-cell span {
@@ -24,26 +54,95 @@
   height: 100%;
 }
 
+/* default: text - need to move this to text - JTG CLEAN UP*/
 .led-lit {
-  color: #fe9742;
+  color: rgb(var(--led-300));
 }
 
 .led-lit span {
-  background: radial-gradient(circle, #ffe8a0 0%, #ffa736 50%, #ff8a00 100%);
+  background: radial-gradient(
+    circle,
+    rgb(var(--led-100)) 0%,
+    rgb(var(--led-200)) 50%,
+    rgb(var(--led-400)) 100%
+  );
   -webkit-background-clip: text;
   color: transparent;
   text-shadow:
-    0 0 2px #ffb347,
-    0 0 3px #ff5e00;
-  animation: flickerGlow 2.5s ease-in-out infinite;
+    0 0 2px rgb(var(--led-200)),
+    0 0 3px rgb(var(--led-500));
+  animation: derby-text-glow 2.5s ease-in-out infinite;
 }
 
-@keyframes flickerGlow {
+/* Bulbs */
+.derby-led.led-round {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgb(var(--led-400))
+    radial-gradient(
+      circle at 50% 40%,
+      rgba(var(--led-100), 0.55) 0%,
+      rgba(var(--led-200), 0.55) 30%,
+      rgba(var(--led-400), 0.55) 70%
+    );
+  animation: derby-led-round-glow 2.5s ease-in-out infinite;
+  /* animation: derby-led-round-blink 0.8s infinite; */
+}
+
+@keyframes derby-text-glow {
   0%,
   100% {
-    filter: drop-shadow(0 0 2px #ffb347);
+    filter: drop-shadow(0 0 1px rgb(var(--led-200)));
   }
   50% {
-    filter: drop-shadow(0 0 4px #ff8a00);
+    filter: drop-shadow(0 0 3px rgb(var(--led-300)));
   }
 }
+
+@keyframes derby-led-round-glow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 4px rgba(var(--led-200), 0.5));
+  }
+  50% {
+    filter: drop-shadow(0 0 8px rgba(var(--led-300), 0.7));
+  }
+}
+
+@keyframes derby-led-round-blink {
+  0%,
+  100% {
+    background: rgb(var(--led-300))
+      radial-gradient(
+        circle at 50% 40%,
+        rgba(var(--led-100), 0.55) 0%,
+        rgba(var(--led-200), 0.55) 50%,
+        rgba(var(--led-400), 0.55) 90%
+      );
+  }
+  50% {
+    background: rgb(var(--led-500))
+      radial-gradient(
+        circle at 50% 40%,
+        rgba(var(--led-100), 0.55) 0%,
+        rgba(var(--led-200), 0.55) 50%,
+        rgba(var(--led-400), 0.55) 90%
+      );
+  }
+}
+
+/* animation: blink-green 0.5s infinite;
+ animation-delay: 0.125s;
+@keyframes blink-green {
+  from {
+    background-color: #00e01e;
+  }
+  50% {
+    background-color: #007a10;
+    
+  }
+  to {
+    background-color: #00e01e;
+  }
+} */

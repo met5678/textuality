@@ -8,6 +8,7 @@ import {
 } from '/imports/schemas/derby/teller-status/teller-status';
 import { LedCell } from '../modules/LedLights/LedCell';
 import { LedCellRow } from '../modules/LedLights/LedCellRow';
+import { LedRound } from '../modules/LedLights/LedRound';
 
 export const TellerStatus = ({ teller }: { teller: TellerWithHelpers }) => {
   const status = teller.status as TellerStatusType;
@@ -31,12 +32,15 @@ export const TellerStatus = ({ teller }: { teller: TellerWithHelpers }) => {
 
   return (
     <div className="teller-status">
-      <div style={{ display: 'flex', gap: '1rem' }}>
-        <span>{isAvailable ? 'Green' : 'Red'}</span>
-
+      <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+        <LedRound color={isAvailable ? 'green' : 'red'} />
         <div style={{ display: 'flex' }}>
           <LedCell className="at-sign" char={'@'} lit={isAvailable} />
-          <LedCellRow value={teller.text_code ?? ''} cellCount={7} />
+          <LedCellRow
+            value={teller.text_code ?? ''}
+            lit={isAvailable}
+            cellCount={7}
+          />
         </div>
       </div>
       <div className="teller-status-info">

@@ -9,7 +9,7 @@ export const LedCell: React.FC<{
 }> = ({ char = '', className = '', lit = true, style = {} }) => {
   return (
     <div
-      className={`led-cell ${lit ? 'led-lit' : ''} ${className}`}
+      className={`derby-led led-cell ${lit ? 'led-lit' : ''} ${className}`}
       style={style}
     >
       <span>{char}</span>

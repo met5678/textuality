@@ -18,6 +18,8 @@ export const TellerStatus = ({ teller }: { teller: TellerWithHelpers }) => {
   const baseWidth = 440;
   const baseHeight = 128;
 
+  console.log(`${(1 - scale) * baseHeight}px`);
+
   useEffect(() => {
     if (statusRef.current) {
       const { width } = statusRef.current.getBoundingClientRect();
@@ -51,7 +53,6 @@ export const TellerStatus = ({ teller }: { teller: TellerWithHelpers }) => {
         style={{
           transform: `scale(${scale})`,
           transformOrigin: 'top center',
-          height: `${(1 - scale) * baseHeight}px`,
         }}
       >
         <div
@@ -59,7 +60,6 @@ export const TellerStatus = ({ teller }: { teller: TellerWithHelpers }) => {
             display: 'flex',
             gap: '1rem',
             alignItems: 'center',
-            marginTop: `${(1 - scale) * baseHeight}px`,
           }}
         >
           <LedRound color={isAvailable ? 'green' : 'red'} />

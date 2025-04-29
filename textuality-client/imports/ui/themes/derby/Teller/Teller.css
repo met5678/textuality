@@ -29,6 +29,13 @@
   transform: translateY(-10%);
 }
 
+.teller-status-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .teller-status {
   flex: 0 0 auto;
   display: flex;

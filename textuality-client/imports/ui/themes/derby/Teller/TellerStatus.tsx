@@ -15,7 +15,7 @@ import { LedRound } from '../modules/LedLights/LedRound';
 export const TellerStatus = ({ teller }: { teller: TellerWithHelpers }) => {
   const [scale, setScale] = useState(1);
   const statusRef = useRef<HTMLDivElement>(null);
-  const baseWidth = 440;
+  const baseWidth = 344;
   const baseHeight = 128;
 
   console.log(`${(1 - scale) * baseHeight}px`);
@@ -68,7 +68,7 @@ export const TellerStatus = ({ teller }: { teller: TellerWithHelpers }) => {
             <LedCellRow
               value={teller.text_code ?? ''}
               lit={isAvailable}
-              cellCount={7}
+              cellCount={5}
             />
           </div>
         </div>

@@ -6,7 +6,10 @@ import { throwIfCancelledTimeout, TimeoutError } from './_teller-timeouts';
 import { TELLER_VIDEO_LENGTHS } from '/imports/schemas/derby/teller-status/teller-status';
 import { Meteor } from 'meteor/meteor';
 
-export const completeBet = async (teller_id: TellerId, bet_id: RaceBetId) => {
+export const tellerCompleteBet = async (
+  teller_id: TellerId,
+  bet_id: RaceBetId,
+) => {
   const teller = await Tellers.findOneAsync(teller_id);
   const bet = await RaceBets.findOneAsync(bet_id);
   if (!teller) {
@@ -15,17 +18,19 @@ export const completeBet = async (teller_id: TellerId, bet_id: RaceBetId) => {
     );
     return;
   }
-  // if (!bet) {
-  //   console.warn(
-  //     `Can't complete bet for teller ${teller_id} because the bet doesn't exist`,
-  //   );
-  //   return;
-  // }
+  if (!bet) {
+    console.warn(
+      `Can't complete bet for teller ${teller_id} because the bet doesn't exist`,
+    );
+    return;
+  }
 
-  // TODO: Distinguish between single and multi-stub bets
+  const statusVideo =
+    bet.count === 1 ? 'giving-stub-single' : 'giving-stub-multi';
+
   Tellers.updateAsync(teller_id, {
     $set: {
-      status: 'giving-stub-single',
+      status: statusVideo,
     },
     $unset: {
       time_left: 1,
@@ -35,7 +40,7 @@ export const completeBet = async (teller_id: TellerId, bet_id: RaceBetId) => {
   try {
     await throwIfCancelledTimeout(
       teller_id,
-      TELLER_VIDEO_LENGTHS?.['giving-stub-single'] ?? 4,
+      TELLER_VIDEO_LENGTHS?.[statusVideo] ?? 4,
     );
   } catch (error) {
     if (error === TimeoutError) return;

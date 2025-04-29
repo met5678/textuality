@@ -6,6 +6,8 @@ import { RaceBetComplete } from '/imports/schemas/derby/raceBet';
 import { sendAutoText } from '/imports/api/autoTexts/methods/autoTexts.send';
 import { DateTime } from 'luxon';
 import { TellerWithHelpers } from '../../tellers/tellers';
+import Horses from '../../horses/horses';
+import { tellerCompleteBet } from '../../tellers/teller-flow/teller-complete-bet';
 
 type ProcessBetTypeArgs = {
   player: PlayerWithHelpers;
@@ -18,7 +20,6 @@ const validateRaceBet = (
   raceBet: RaceBetWithHelpers,
 ): raceBet is RaceBetComplete => {
   return (
-    typeof raceBet.placed_at === 'number' &&
     typeof raceBet.base_bet === 'number' &&
     typeof raceBet.count === 'number' &&
     Array.isArray(raceBet.horses) &&
@@ -27,6 +28,26 @@ const validateRaceBet = (
       ? raceBet.horses.length === 1
       : raceBet.horses.length === 3)
   );
+};
+
+const getBetHorses = async (raceBet: RaceBetComplete) => {
+  const horses = await Horses.find(
+    {
+      _id: { $in: raceBet.horses },
+    },
+    { fields: { name: 1, number: 1 } },
+  ).fetchAsync();
+
+  return raceBet.horses.map((horseId) => {
+    const horse = horses.find((h) => h._id === horseId);
+    if (!horse) {
+      throw new Error('Horse not found');
+    }
+    return {
+      name: horse.name,
+      number: horse.number,
+    };
+  });
 };
 
 export const raceBetPlaceBet = async ({
@@ -51,6 +72,7 @@ export const raceBetPlaceBet = async ({
     throw new Error('Invalid race bet');
   }
 
+  const betHorses = await getBetHorses(raceBet);
   const costToPlayer = Math.min(player.money, raceBet.base_bet * raceBet.count);
 
   Meteor.call('players.takeMoney', {
@@ -63,12 +85,16 @@ export const raceBetPlaceBet = async ({
       trigger: 'TELLER_BET_PLACED_WIN',
       playerId: player._id,
       templateVars: {
+        teller_name: teller.text_code,
         race_number: race.number,
         race_starts_at: DateTime.fromJSDate(
           race.time_race_starts_at,
         ).toLocaleString(DateTime.TIME_SIMPLE),
+        bet_count: raceBet.count,
+        bet_base: raceBet.base_bet,
         bet_value: raceBet.base_bet * raceBet.count,
-        horse_name: raceBet.horses[0],
+        horse_name: betHorses[0].name,
+        horse_number: betHorses[0].number,
       },
     });
     Meteor.callAsync('achievements.tryUnlock', {
@@ -85,10 +111,15 @@ export const raceBetPlaceBet = async ({
         race_starts_at: DateTime.fromJSDate(
           race.time_race_starts_at,
         ).toLocaleString(DateTime.TIME_SIMPLE),
+        bet_count: raceBet.count,
+        bet_base: raceBet.base_bet,
         bet_value: raceBet.base_bet * raceBet.count,
-        horse1_name: raceBet.horses[0],
-        horse2_name: raceBet.horses[1],
-        horse3_name: raceBet.horses[2],
+        horse1_name: betHorses[0].name,
+        horse1_number: betHorses[0].number,
+        horse2_name: betHorses[1].name,
+        horse2_number: betHorses[1].number,
+        horse3_name: betHorses[2].name,
+        horse3_number: betHorses[2].number,
       },
     });
     Meteor.callAsync('achievements.tryUnlock', {
@@ -96,6 +127,8 @@ export const raceBetPlaceBet = async ({
       playerId: player._id,
     });
   }
+
+  tellerCompleteBet(teller._id, raceBet._id);
 
   // TODO: Update Odds
 };

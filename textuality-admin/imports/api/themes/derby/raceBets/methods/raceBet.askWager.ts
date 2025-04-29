@@ -29,14 +29,14 @@ const getBetWagerOptions = ({
   }).map((multiple) => {
     const wagerCost = minBet * multiple;
     return {
-      label: `${multiple}x $${minBet} DD tickets = ${wagerCost} DD`,
-      value: `raceBet/${raceBet._id}/wager/${multiple}x${minBet}`,
+      label: `${multiple}x ${minBet}DD tickets = ${wagerCost}DD`,
+      value: `raceBet/${raceBet._id}/ticket/${multiple}x${minBet}`,
     };
   });
 
   const letItRideOption = {
     label: `Let it Ride! $${playerMoney}`,
-    value: `raceBet/${raceBet._id}/wager/let-it-ride`,
+    value: `raceBet/${raceBet._id}/ticket/let-it-ride`,
   };
 
   const cancelOption = {
@@ -57,9 +57,12 @@ export const raceBetAskWager = async ({
     playerId: player._id,
     templateVars: {
       teller_name: teller.text_code,
+      bet_base: teller.min_wager,
+      player_money: player.money,
     },
     interactivePayload: {
       type: 'list',
+      list_button_label: 'How much?',
       options: getBetWagerOptions({
         raceBet,
         minBet: teller.min_wager,

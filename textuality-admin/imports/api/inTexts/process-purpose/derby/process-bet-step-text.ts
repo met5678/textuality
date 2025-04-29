@@ -17,7 +17,7 @@ export const processBetStepText = async (
   if (!inText.interactive) {
     return;
   }
-  const [, raceBetId, step, value] = inText.interactive.value.split('/') ?? [];
+  let [, raceBetId, step, value] = inText.interactive.value.split('/') ?? [];
 
   const raceBet = await RaceBets.findOneAsync(raceBetId);
 
@@ -34,6 +34,10 @@ export const processBetStepText = async (
       },
     });
     return;
+  }
+
+  if (step === 'ticket') {
+    step = 'wager';
   }
 
   if (step !== raceBet.step) {

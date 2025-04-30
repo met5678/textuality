@@ -29,7 +29,7 @@ const getBetWagerOptions = ({
   }).map((multiple) => {
     const wagerCost = minBet * multiple;
     return {
-      label: `${multiple}x ${minBet}DD tickets = ${wagerCost}DD`,
+      label: `${multiple}x ${minBet}DD = ${wagerCost}DD`,
       value: `raceBet/${raceBet._id}/ticket/${multiple}x${minBet}`,
     };
   });
@@ -40,7 +40,7 @@ const getBetWagerOptions = ({
   };
 
   const cancelOption = {
-    label: "Cancel this bet, I want to keep my money",
+    label: "Cancel this bet",
     value: `raceBet/${raceBet._id}/cancel`,
   };
 

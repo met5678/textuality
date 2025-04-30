@@ -11,6 +11,11 @@ export const TELLER_STATUS = [
   'standup',
   'empty',
   'sitdown',
+
+  'fortune-opening',
+  'fortune-open',
+  'fortune-engaged',
+  'fortune-closing',
 ] as const;
 export type TellerStatus = (typeof TELLER_STATUS)[number];
 
@@ -31,6 +36,13 @@ export const TELLER_CLOSED_STATUSES: TellerStatus[] = [
 ];
 export const TELLER_AVAILABLE_STATUSES: TellerStatus[] = ['open'];
 
+export const TELLER_FORTUNE_STATUSES: TellerStatus[] = [
+  'fortune-opening',
+  'fortune-open',
+  'fortune-engaged',
+  'fortune-closing',
+];
+
 export const TELLER_OPEN_STATUSES = [
   ...TELLER_AVAILABLE_STATUSES,
   ...TELLER_BUSY_STATUSES,
@@ -44,4 +56,6 @@ export const TELLER_VIDEO_LENGTHS: Partial<Record<TellerStatus, number>> = {
   closing: 5,
   standup: 5,
   sitdown: 10,
+  'fortune-opening': 10,
+  'fortune-closing': 5,
 };

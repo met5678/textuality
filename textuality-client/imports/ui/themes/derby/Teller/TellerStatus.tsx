@@ -1,5 +1,5 @@
-import React from 'react';
-import { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
+import { useScaleByBaseWidth } from '/imports/ui/hooks/use-scale-by-base-width';
 
 import './Teller.css';
 import { TellerWithHelpers } from '/imports/api/themes/derby/tellers/tellers';
@@ -13,17 +13,10 @@ import { LedCharRow } from '../modules/LedLights/LedCharRow';
 import { LedRound } from '../modules/LedLights/LedRound';
 
 export const TellerStatus = ({ teller }: { teller: TellerWithHelpers }) => {
-  const [scale, setScale] = useState(1);
   const statusRef = useRef<HTMLDivElement>(null);
   const baseWidth = 344;
   const baseHeight = 128;
-
-  useEffect(() => {
-    if (statusRef.current) {
-      const { width } = statusRef.current.getBoundingClientRect();
-      setScale(width / baseWidth);
-    }
-  }, []);
+  const scale = useScaleByBaseWidth(statusRef, baseWidth);
 
   const status = teller.status as TellerStatusType;
   const isAvailable = TELLER_AVAILABLE_STATUSES.includes(status);

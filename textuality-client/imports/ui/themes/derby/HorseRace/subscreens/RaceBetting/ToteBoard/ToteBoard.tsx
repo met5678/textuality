@@ -1,5 +1,5 @@
-import React from 'react';
-import { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
+import { useScaleByBaseWidth } from '/imports/ui/hooks/use-scale-by-base-width';
 
 import './ToteBoard.css';
 import { RaceWithHelpers } from '/imports/api/themes/derby/race/races';
@@ -16,17 +16,8 @@ export const ToteBoard: React.FC<{
   horses: HorseWithHelpers[];
   weather: Weather;
 }> = ({ race, horses, weather }) => {
-  const [scale, setScale] = useState(1);
   const boardRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (boardRef.current) {
-      const { width } = boardRef.current.getBoundingClientRect();
-      const baseWidth = 1700; // aspect ratio 1700/640
-      setScale(width / baseWidth);
-    }
-  }, []);
-
+  const scale = useScaleByBaseWidth(boardRef, 1700); //aspect ratio 1700/640
   const marginOffset = window.innerHeight < 700 ? 100 : 200;
 
   return (

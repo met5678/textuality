@@ -85,12 +85,19 @@ export const raceBetAskHorse = async ({
     }
 
     if (horseNum === 2) {
+      const betHorses =
+        raceBet.horses?.map((horseId) => {
+          return horses.find((horse) => horse._id === horseId);
+        }) ?? [];
+
       sendAutoText({
         trigger: 'TELLER_BET_HORSE2_TRIFECTA',
         playerId: player._id,
         templateVars: {
-          horse_number: horses[0].number,
-          horse_name: horses[0].name,
+          teller_name: raceBet.teller_text_code,
+          horse1_number: betHorses[0]?.number,
+          horse1_name: betHorses[0]?.name,
+          horse1_emoji: betHorses[0]?.emojiColorSquare,
         },
         interactivePayload: {
           type: 'list',
@@ -102,12 +109,22 @@ export const raceBetAskHorse = async ({
     }
 
     if (horseNum === 3) {
+      const betHorses =
+        raceBet.horses?.map((horseId) => {
+          return horses.find((horse) => horse._id === horseId);
+        }) ?? [];
+
       sendAutoText({
         trigger: 'TELLER_BET_HORSE3_TRIFECTA',
         playerId: player._id,
         templateVars: {
-          horse_number: horses[1].number,
-          horse_name: horses[1].name,
+          teller_name: raceBet.teller_text_code,
+          horse1_number: betHorses[0]?.number,
+          horse1_name: betHorses[0]?.name,
+          horse1_emoji: betHorses[0]?.emojiColorSquare,
+          horse2_number: betHorses[1]?.number,
+          horse2_name: betHorses[1]?.name,
+          horse2_emoji: betHorses[1]?.emojiColorSquare,
         },
         interactivePayload: {
           type: 'list',

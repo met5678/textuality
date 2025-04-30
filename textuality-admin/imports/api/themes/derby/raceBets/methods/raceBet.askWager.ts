@@ -71,6 +71,11 @@ export const raceBetAskWager = async ({
     },
   ).fetchAsync();
 
+  const betHorses =
+    raceBet.horses?.map((horseId) => {
+      return horses.find((horse) => horse._id === horseId);
+    }) ?? [];
+
   if (raceBet.type === 'trifecta') {
     sendAutoText({
       trigger: 'TELLER_BET_WAGER_TRIFECTA',
@@ -78,15 +83,15 @@ export const raceBetAskWager = async ({
       templateVars: {
         teller_name: raceBet.teller_text_code,
         bet_base: teller.min_wager,
-        horse1_name: horses[0].name,
-        horse1_number: horses[0].number,
-        horse1_emoji: horses[0].emojiColorSquare,
-        horse2_name: horses[1].name,
-        horse2_number: horses[1].number,
-        horse2_emoji: horses[1].emojiColorSquare,
-        horse3_name: horses[2].name,
-        horse3_number: horses[2].number,
-        horse3_emoji: horses[2].emojiColorSquare,
+        horse1_name: betHorses[0]?.name,
+        horse1_number: betHorses[0]?.number,
+        horse1_emoji: betHorses[0]?.emojiColorSquare,
+        horse2_name: betHorses[1]?.name,
+        horse2_number: betHorses[1]?.number,
+        horse2_emoji: betHorses[1]?.emojiColorSquare,
+        horse3_name: betHorses[2]?.name,
+        horse3_number: betHorses[2]?.number,
+        horse3_emoji: betHorses[2]?.emojiColorSquare,
       },
       interactivePayload: {
         type: 'list',
@@ -106,9 +111,9 @@ export const raceBetAskWager = async ({
     templateVars: {
       teller_name: raceBet.teller_text_code,
       bet_base: teller.min_wager,
-      horse_name: horses[0].name,
-      horse_number: horses[0].number,
-      horse_emoji: horses[0].emojiColorSquare,
+      horse_name: betHorses[0]?.name,
+      horse_number: betHorses[0]?.number,
+      horse_emoji: betHorses[0]?.emojiColorSquare,
     },
     interactivePayload: {
       type: 'list',

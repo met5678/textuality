@@ -135,8 +135,9 @@
   filter: drop-shadow(0 0 6px rgba(var(--led-200), 0.6));
 }
 
-.derby-led.led-round.led-off {
+.derby-led.led-round.led-off .led-icon {
   fill: var(--led-off);
+  filter: none;
 }
 
 /* ANIMATIONS */

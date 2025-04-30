@@ -43,7 +43,7 @@
   --led-600: 0, 70, 0;
 }
 
-.led-cell {
+.led-char {
   font-family: 'digital-7', monospace;
   width: 3rem;
   height: 3.5rem;
@@ -54,24 +54,16 @@
   text-transform: uppercase;
   filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5));
   padding-left: 0.1rem; /* Offset for this font */
-  color: var(--led-unlit);
-  text-shadow: 0 0 2px var(--led-unlit); /* Need it to be the same weight when off */
   transition: all 0.15s ease-out;
+  color: rgb(var(--led-300));
 }
 
-.led-cell span {
+.led-char span {
   display: grid;
   place-items: center;
   width: 100%;
   height: 100%;
-}
 
-/* default: text - need to move this to text - JTG CLEAN UP*/
-.led-lit {
-  color: rgb(var(--led-300));
-}
-
-.led-lit span {
   background: radial-gradient(
     circle,
     rgb(var(--led-100)) 0%,
@@ -83,14 +75,36 @@
   text-shadow:
     0 0 2px rgb(var(--led-200)),
     0 0 3px rgb(var(--led-500));
-  animation: derby-text-glow 2.5s ease-in-out infinite;
+  animation: derby-char-glow 2s ease-in-out infinite;
+}
+
+.led-dimmed {
+  color: var(--led-unlit);
+  text-shadow: 0 0 2px var(--led-unlit); /* Need it to be the same weight when off */
+}
+
+.derby-led-wrapper {
+  display: grid;
+  place-items: center;
+}
+
+.derby-led-frame {
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    #222 0%,
+    #1a1a1a 60%,
+    #151515 100%
+  );
+  filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5));
 }
 
 /* Bulbs */
 .derby-led.led-round {
-  width: 40px;
-  height: 40px;
   border-radius: 50%;
+  position: absolute;
+  left: 4px;
+  top: 8px; /* Why is this 8 pxs?? */
   background: var(--led-glow-gradient), rgb(var(--led-400));
   box-shadow:
     inset 0 -4px 8px rgba(0, 0, 0, 0.4),
@@ -99,10 +113,10 @@
 }
 
 .derby-led.led-round.led-blink {
-  animation: derby-led-round-blink 0.8s ease-in-out infinite;
+  animation: derby-led-round-blink 0.6s ease-in-out infinite;
 }
 
-@keyframes derby-text-glow {
+@keyframes derby-char-glow {
   0%,
   100% {
     filter: drop-shadow(0 0 1px rgb(var(--led-200)));
@@ -115,12 +129,12 @@
 @keyframes derby-led-round-glow {
   0%,
   100% {
-    background: var(--led-glow-gradient), rgb(var(--led-400));
-    filter: drop-shadow(0 0 4px rgba(var(--led-500), 0.2));
+    background: var(--led-glow-gradient), rgba(var(--led-400), 1);
+    filter: drop-shadow(0 0 8px rgba(var(--led-500), 0.8));
   }
   50% {
     background: var(--led-glow-gradient), rgba(var(--led-400), 0.6);
-    filter: drop-shadow(0 0 3px rgba(var(--led-500), 0.5));
+    filter: drop-shadow(0 0 4px rgba(var(--led-500), 0.5));
   }
 }
 
@@ -128,7 +142,7 @@
   0%,
   100% {
     background: var(--led-glow-gradient), rgb(var(--led-400));
-    filter: drop-shadow(0 0 4px rgba(var(--led-500), 0.2));
+    filter: drop-shadow(0 0 8px rgba(var(--led-500), 0.2));
   }
   50% {
     background: var(--led-glow-gradient), rgb(var(--led-600));

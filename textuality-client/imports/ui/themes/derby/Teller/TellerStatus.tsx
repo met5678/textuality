@@ -8,8 +8,8 @@ import {
   TELLER_CLOSED_STATUSES,
   TellerStatus as TellerStatusType,
 } from '/imports/schemas/derby/teller-status/teller-status';
-import { LedCell } from '../modules/LedLights/LedCell';
-import { LedCellRow } from '../modules/LedLights/LedCellRow';
+import { LedChar } from '../modules/LedLights/LedChar';
+import { LedCharRow } from '../modules/LedLights/LedCharRow';
 import { LedRound } from '../modules/LedLights/LedRound';
 
 export const TellerStatus = ({ teller }: { teller: TellerWithHelpers }) => {
@@ -17,8 +17,6 @@ export const TellerStatus = ({ teller }: { teller: TellerWithHelpers }) => {
   const statusRef = useRef<HTMLDivElement>(null);
   const baseWidth = 344;
   const baseHeight = 128;
-
-  console.log(`${(1 - scale) * baseHeight}px`);
 
   useEffect(() => {
     if (statusRef.current) {
@@ -69,17 +67,17 @@ export const TellerStatus = ({ teller }: { teller: TellerWithHelpers }) => {
             blink={status === 'betting-impatient'}
           />
           <div style={{ display: 'flex' }}>
-            <LedCell className="at-sign" char={'@'} lit={isAvailable} />
-            <LedCellRow
+            <LedChar className="at-sign" char={'@'} dimmed={!isAvailable} />
+            <LedCharRow
               value={teller.text_code ?? ''}
-              lit={isAvailable}
-              cellCount={5}
+              dimmed={!isAvailable}
+              charCount={5}
             />
           </div>
         </div>
         <div className="teller-status-info">
           <div className="teller-status-info-label">{infoLabel}</div>
-          <LedCellRow value={infoValue} cellCount={3} />
+          <LedCharRow value={infoValue} charCount={3} />
         </div>
       </div>
     </div>

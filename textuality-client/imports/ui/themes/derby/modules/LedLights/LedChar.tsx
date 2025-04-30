@@ -4,14 +4,12 @@ import './LedLights.css';
 export const LedChar: React.FC<{
   char?: string;
   className?: string;
-  dimmed?: boolean;
+  off?: boolean;
   style?: React.CSSProperties;
-}> = ({ char = '', className = '', dimmed = false, style = {} }) => {
+}> = ({ char = '', className = '', off = false, style = {} }) => {
   return (
     <div
-      className={`derby-led led-char ${
-        dimmed ? 'led-dimmed' : ''
-      } ${className}`}
+      className={`derby-led led-char ${off ? 'led-off' : ''} ${className}`}
       style={style}
     >
       <span>{char}</span>

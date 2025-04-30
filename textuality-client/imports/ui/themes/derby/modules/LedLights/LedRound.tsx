@@ -4,10 +4,10 @@ import './LedLights.css';
 export const LedRound: React.FC<{
   blink?: boolean;
   className?: string;
-  color: 'red' | 'green';
+  color?: 'red' | 'green';
+  off?: boolean;
   frame?: boolean;
   icon?: React.ReactNode;
-  lit?: boolean;
   size?: number;
   style?: React.CSSProperties;
 }> = ({
@@ -16,7 +16,7 @@ export const LedRound: React.FC<{
   color,
   frame = true,
   icon,
-  lit = true,
+  off = false,
   size = 48,
   style = {},
 }) => {
@@ -26,17 +26,20 @@ export const LedRound: React.FC<{
       {frame && (
         <div
           className={'derby-led-frame'}
-          style={{ width: size, height: size }}
+          style={{ width: `${size}px`, height: `${size}px` }}
         />
       )}
       <div
         className={`derby-led led-round
           ${color ? `derby-led-${color}` : ''} 
-          ${lit ? 'led-lit' : ''} 
+          ${!icon ? 'led-fill' : ''}
+          ${off ? 'led-off' : ''} 
           ${blink ? 'led-blink' : ''} 
           ${className}`}
-        style={{ width: lightSize, height: lightSize, ...style }}
-      />
+        style={{ width: `${lightSize}px`, height: `${lightSize}px`, ...style }}
+      >
+        {icon && <div className="led-icon">{icon}</div>}
+      </div>
     </div>
   );
 };

@@ -12,7 +12,7 @@
   --led-500: 255, 94, 0;
   --led-600: 255, 70, 0;
 
-  --led-unlit: #252525;
+  --led-off: #252525;
   --led-cell-background: #171717;
 
   --led-glow-gradient: radial-gradient(
@@ -43,6 +43,8 @@
   --led-600: 0, 70, 0;
 }
 
+/* LED CHARS */
+
 .led-char {
   font-family: 'digital-7', monospace;
   width: 3rem;
@@ -64,12 +66,6 @@
   width: 100%;
   height: 100%;
 
-  background: radial-gradient(
-    circle,
-    rgb(var(--led-100)) 0%,
-    rgb(var(--led-200)) 50%,
-    rgb(var(--led-400)) 100%
-  );
   -webkit-background-clip: text;
   color: transparent;
   text-shadow:
@@ -78,33 +74,46 @@
   animation: derby-char-glow 2s ease-in-out infinite;
 }
 
-.led-dimmed {
-  color: var(--led-unlit);
-  text-shadow: 0 0 2px var(--led-unlit); /* Need it to be the same weight when off */
+.led-char.led-off span {
+  color: var(--led-off);
+  text-shadow: 0 0 2px var(--led-off); /* Need it to be the same weight when off */
+  animation: none;
 }
 
 .derby-led-wrapper {
   display: grid;
   place-items: center;
+  position: relative;
 }
 
 .derby-led-frame {
+  position: relative;
   border-radius: 50%;
   background: radial-gradient(
     circle at 50% 50%,
-    #222 0%,
-    #1a1a1a 60%,
-    #151515 100%
+    #2d2d2d 0%,
+    #111111 60%,
+    #000 100%
   );
   filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5));
 }
 
-/* Bulbs */
+/* LED ROUNDS */
+
 .derby-led.led-round {
   border-radius: 50%;
   position: absolute;
   left: 4px;
-  top: 8px; /* Why is this 8 pxs?? */
+  top: 4px;
+  background: var(--led-cell-background);
+  box-shadow:
+    inset 0 -4px 8px rgba(0, 0, 0, 0.4),
+    0 0 8px rgba(0, 0, 0, 0.5);
+  display: grid;
+  place-items: center;
+}
+
+.derby-led.led-round.led-fill {
   background: var(--led-glow-gradient), rgb(var(--led-400));
   box-shadow:
     inset 0 -4px 8px rgba(0, 0, 0, 0.4),
@@ -115,6 +124,22 @@
 .derby-led.led-round.led-blink {
   animation: derby-led-round-blink 0.6s ease-in-out infinite;
 }
+
+/* LED ROUNDS + ICON */
+
+.derby-led.led-round .led-icon {
+  width: 80%;
+  height: 80%;
+
+  fill: rgba(var(--led-200), 0.8);
+  filter: drop-shadow(0 0 6px rgba(var(--led-200), 0.6));
+}
+
+.derby-led.led-round.led-off {
+  fill: var(--led-off);
+}
+
+/* ANIMATIONS */
 
 @keyframes derby-char-glow {
   0%,

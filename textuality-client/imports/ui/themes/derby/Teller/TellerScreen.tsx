@@ -13,8 +13,6 @@ const TellerScreen = ({ event, url }: { event: Event; url: string }) => {
 
   if (isLoading()) return 'Loading';
 
-  console.log({ teller, raceBet, player });
-
   /* Url paths aren't working in the css file for this component, so need to use paths in here 
   Note: paths work fine in ToteBoard.css so not sure why this is happening */
   return (

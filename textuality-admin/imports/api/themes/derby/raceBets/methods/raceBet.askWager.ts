@@ -40,7 +40,7 @@ const getBetWagerOptions = ({
   };
 
   const cancelOption = {
-    label: 'Cancel',
+    label: "Cancel this bet, I want to keep my money",
     value: `raceBet/${raceBet._id}/cancel`,
   };
 

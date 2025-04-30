@@ -29,7 +29,7 @@ const getHorseOptions = (
   return [
     ...horseOptions,
     {
-      label: 'Cancel',
+      label: 'Cancel this bet',
       value: `raceBet/${raceBet._id}/cancel`,
     },
   ];

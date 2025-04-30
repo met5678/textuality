@@ -12,6 +12,15 @@ export const HORSE_EMOJI_COLOR_SQUARE = [
   '🟫',
   '⬛️',
   '⬜️',
+  '🔴',
+  '🟠',
+  '🟡',
+  '🟢',
+  '🔵',
+  '🟣',
+  '🟤',
+  '⚪️',
+  '⚫️',
 ] as const;
 export type HorseEmojiColorSquare = (typeof HORSE_EMOJI_COLOR_SQUARE)[number];
 

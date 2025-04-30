@@ -49,6 +49,7 @@ export const raceBetAskHorse = async ({
       fields: {
         name: 1,
         number: 1,
+        emojiColorSquare: 1,
         color: 1,
       },
       sort: {

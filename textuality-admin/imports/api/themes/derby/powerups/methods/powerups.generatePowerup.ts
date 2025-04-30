@@ -93,7 +93,7 @@ export const powerupsGeneratePowerup = async (
     templateVars: {
       horse_name: horseToUpgrade.name,
       horse_number: horseToUpgrade.number,
-      horse_emoji_square: horseToUpgrade.emojiColorSquare,
+      horse_emoji: horseToUpgrade.emojiColorSquare,
 
       stat: STAT_FANCY_NAME[randomStat],
       total_player_powerups: playerPowerups.length + 1,

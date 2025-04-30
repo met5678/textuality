@@ -35,7 +35,7 @@ const getBetHorses = async (raceBet: RaceBetComplete) => {
     {
       _id: { $in: raceBet.horses },
     },
-    { fields: { name: 1, number: 1 } },
+    { fields: { name: 1, number: 1, emojiColorSquare: 1 } },
   ).fetchAsync();
 
   return raceBet.horses.map((horseId) => {
@@ -46,6 +46,7 @@ const getBetHorses = async (raceBet: RaceBetComplete) => {
     return {
       name: horse.name,
       number: horse.number,
+      emoji: horse.emojiColorSquare,
     };
   });
 };
@@ -95,6 +96,7 @@ export const raceBetPlaceBet = async ({
         bet_value: raceBet.base_bet * raceBet.count,
         horse_name: betHorses[0].name,
         horse_number: betHorses[0].number,
+        horse_emoji: betHorses[0].emoji,
       },
     });
     Meteor.callAsync('achievements.tryUnlock', {
@@ -116,10 +118,13 @@ export const raceBetPlaceBet = async ({
         bet_value: raceBet.base_bet * raceBet.count,
         horse1_name: betHorses[0].name,
         horse1_number: betHorses[0].number,
+        horse1_emoji: betHorses[0].emoji,
         horse2_name: betHorses[1].name,
         horse2_number: betHorses[1].number,
+        horse2_emoji: betHorses[1].emoji,
         horse3_name: betHorses[2].name,
         horse3_number: betHorses[2].number,
+        horse3_emoji: betHorses[2].emoji,
       },
     });
     Meteor.callAsync('achievements.tryUnlock', {

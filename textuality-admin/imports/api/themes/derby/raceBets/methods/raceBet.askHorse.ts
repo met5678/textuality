@@ -22,7 +22,7 @@ const getHorseOptions = (
   const horseOptions = horses
     .filter((horse) => !excludeHorseIds?.includes(horse._id))
     .map((horse) => ({
-      label: `#${horse.number} - ${horse.name}`,
+      label: `#${horse.number} - ${horse.emojiColorSquare} ${horse.name}`,
       value: `raceBet/${raceBet._id}/horse${horseNum}/${horse._id}`,
     }));
 
@@ -87,6 +87,10 @@ export const raceBetAskHorse = async ({
       sendAutoText({
         trigger: 'TELLER_BET_HORSE2_TRIFECTA',
         playerId: player._id,
+        templateVars: {
+          horse_number: horses[0].number,
+          horse_name: horses[0].name,
+        },
         interactivePayload: {
           type: 'list',
           options: getHorseOptions(raceBet, horses, 2, raceBet.horses),
@@ -100,6 +104,10 @@ export const raceBetAskHorse = async ({
       sendAutoText({
         trigger: 'TELLER_BET_HORSE3_TRIFECTA',
         playerId: player._id,
+        templateVars: {
+          horse_number: horses[1].number,
+          horse_name: horses[1].name,
+        },
         interactivePayload: {
           type: 'list',
           options: getHorseOptions(raceBet, horses, 3, raceBet.horses),

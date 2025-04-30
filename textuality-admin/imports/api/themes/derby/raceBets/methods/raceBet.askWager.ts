@@ -62,7 +62,7 @@ export const raceBetAskWager = async ({
     },
     interactivePayload: {
       type: 'list',
-      list_button_label: 'How much?',
+      list_button_label: 'Pick a bet',
       options: getBetWagerOptions({
         raceBet,
         minBet: teller.min_wager,

@@ -8,6 +8,7 @@ import Media from '/imports/api/media';
 import Events from '/imports/api/events';
 import { Achievement } from '/imports/schemas/achievement';
 import { InText } from '/imports/schemas/inText';
+import { powerupsGeneratePowerup } from '../themes/derby/powerups/methods/powerups.generatePowerup';
 
 Meteor.methods({
   'achievements.tryUnlock': ({
@@ -65,6 +66,12 @@ Meteor.methods({
               playerId: player._id,
               type: achievement.quest_award_type,
             });
+          }
+
+          if (achievement.derby_award !== 'NONE') {
+            if (achievement.derby_award === 'HORSE_POWERUP') {
+              powerupsGeneratePowerup(player._id);
+            }
           }
 
           if (achievement.player_text?.trim()) {

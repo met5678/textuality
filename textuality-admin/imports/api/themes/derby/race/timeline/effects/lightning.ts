@@ -4,8 +4,8 @@ import { BaseEffect } from './base-effect';
 import { HorseId } from '/imports/schemas/derby/horse';
 import { RaceTimelineEffectKeyframe } from '/imports/schemas/derby/race-timeline/types';
 
-const LIGHTNING_STRIKE_MIN_INTERVAL = 5;
-const LIGHTNING_STRIKE_MAX_INTERVAL = 40;
+const LIGHTNING_STRIKE_MIN_INTERVAL = 10;
+const LIGHTNING_STRIKE_MAX_INTERVAL = 30;
 const LIGHTNING_STRIKE_CHANCE =
   1 / (LIGHTNING_STRIKE_MAX_INTERVAL - LIGHTNING_STRIKE_MIN_INTERVAL);
 

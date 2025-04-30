@@ -66,7 +66,13 @@ Meteor.methods({
       { event: event_id },
       {
         $set: {
-          stats: HorseStatsSchema.clean({}) as HorseStats,
+          powerup_stats: {
+            speed: 0,
+            endurance: 0,
+            water_resistance: 0,
+            wind_resistance: 0,
+            electric_resistance: 0,
+          },
         },
       },
       { multi: true },

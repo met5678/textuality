@@ -1,8 +1,10 @@
 import { Mongo } from 'meteor/mongo';
 
-import { Horse, HorseSchema } from '/imports/schemas/derby/horse';
+import { Horse, HorseSchema, HorseStats } from '/imports/schemas/derby/horse';
 
-interface HorseWithHelpers extends Horse {}
+interface HorseWithHelpers extends Horse {
+  stats: () => HorseStats;
+}
 
 const Horses = new Mongo.Collection<Horse, HorseWithHelpers>('derby_horses');
 

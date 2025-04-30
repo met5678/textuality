@@ -99,11 +99,11 @@ const HorseSelectionDialog = ({ race, onClose }: HorseSelectionDialogProps) => {
                   primary={`${horse.number} - ${horse.name}`}
                   secondary={
                     <Box component="span" sx={{ display: 'flex', gap: 2 }}>
-                      <span>Spd: {horse.stats.speed}</span>
-                      <span>End: {horse.stats.endurance}</span>
-                      <span>Water: {horse.stats.water_resistance}</span>
-                      <span>Wind: {horse.stats.wind_resistance}</span>
-                      <span>Elec: {horse.stats.electric_resistance}</span>
+                      <span>Spd: {horse.stats().speed}</span>
+                      <span>End: {horse.stats().endurance}</span>
+                      <span>Water: {horse.stats().water_resistance}</span>
+                      <span>Wind: {horse.stats().wind_resistance}</span>
+                      <span>Elec: {horse.stats().electric_resistance}</span>
                     </Box>
                   }
                 />

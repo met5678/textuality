@@ -124,9 +124,6 @@ const AUTOTEXT_TRIGGERS_CLUE = [
 type AutoTextClueTrigger = (typeof AUTOTEXT_TRIGGERS_CLUE)[number];
 
 const AUTOTEXT_TRIGGERS_DERBY = [
-  'HORSE_RACE_WIN',
-  'HORSE_RACE_LOSE',
-
   'TELLER_REJECT_NO_RACES',
   'TELLER_REJECT_RACE_ACTIVE',
   'TELLER_REJECT_BETTING_NOT_YET_OPEN',
@@ -151,6 +148,19 @@ const AUTOTEXT_TRIGGERS_DERBY = [
   'TELLER_CANCEL_USER',
   'TELLER_CANCEL_TIMEOUT',
   'TELLER_CANCEL_RACE',
+
+  'HORSE_POWERUP_SPEED',
+  'HORSE_POWERUP_ENDURANCE',
+  'HORSE_POWERUP_WATER_RESISTANCE',
+  'HORSE_POWERUP_WIND_RESISTANCE',
+  'HORSE_POWERUP_ELECTRIC_RESISTANCE',
+
+  'FORTUNE_TELLER_HORSE_RANKING',
+  'FORTUNE_TELLER_STAT_RANKING',
+
+  'FORTUNE_TELLER_NOT_HERE_NOW',
+  'FORTUNE_TELLER_BUSY_WITH_OTHER_PLAYER',
+  'FORTUNE_TELLER_NOT_ENOUGH_MONEY',
 ] as const;
 type AutoTextDerbyTrigger = (typeof AUTOTEXT_TRIGGERS_DERBY)[number];
 
@@ -201,5 +211,12 @@ interface AutoText {
 
 export default AutoTextSchema;
 export { AutoTextSchema };
-export type { AutoText, AutoTextTrigger };
+export type {
+  AutoText,
+  AutoTextTrigger,
+  AutoTextBaseTrigger,
+  AutoTextCasinoTrigger,
+  AutoTextClueTrigger,
+  AutoTextDerbyTrigger,
+};
 export { AUTOTEXT_TRIGGERS, THEME_TRIGGERS, AUTOTEXT_TRIGGERS_BASE };

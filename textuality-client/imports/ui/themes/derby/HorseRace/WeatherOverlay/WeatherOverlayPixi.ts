@@ -150,10 +150,13 @@ export class WeatherOverlayPixi {
   }
 
   public async init(wrapper: HTMLDivElement) {
+    console.log('init', { wrapper, app: this.app });
     await this.app.init({
       resizeTo: wrapper,
       autoStart: true,
       backgroundAlpha: 0,
+      preference: 'webgl',
+      preferWebGLVersion: 2,
     });
     wrapper.appendChild(this.app.canvas);
     this.app.stage.addChild(this.rainContainer);
@@ -171,7 +174,9 @@ export class WeatherOverlayPixi {
   public async setWeather(weather: Weather) {
     if (!this._initialized) {
       // Wait until initialized
-      await new Promise((resolve) => setTimeout(resolve, 100));
+      while (!this._initialized) {
+        await new Promise((resolve) => setTimeout(resolve, 100));
+      }
     }
     this.rainConfig = getRainConfig(weather);
     this.lightningOverlay.updateSize(

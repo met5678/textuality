@@ -1,4 +1,6 @@
-import AchievementUnlocks from './achievementUnlocks';
+import AchievementUnlocks, {
+  AchievementUnlockWithHelpers,
+} from './achievementUnlocks';
 
 import { getImageUrl } from '/imports/services/cloudinary/cloudinary-geturl';
 

@@ -16,9 +16,9 @@ export const WeatherOverlay = ({
   useEffect(() => {
     if (!pixiRef.current) {
       pixiRef.current = new WeatherOverlayPixi(raceController);
-    }
-    if (containerRef.current) {
-      pixiRef.current.init(containerRef.current);
+      if (containerRef.current) {
+        pixiRef.current.init(containerRef.current);
+      }
     }
 
     return () => {

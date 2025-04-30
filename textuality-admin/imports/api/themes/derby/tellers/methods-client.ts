@@ -16,7 +16,7 @@ import { standupTeller } from './teller-flow/teller-standup';
 import { sitdownTeller } from './teller-flow/teller-sitdown';
 import { tellerUpdateBet } from './teller-flow/teller-update-bet';
 import { cancelBet } from './teller-flow/teller-cancel-bet';
-import { completeBet } from './teller-flow/teller-complete-bet';
+import { tellerCompleteBet } from './teller-flow/teller-complete-bet';
 
 const getRandomTextCode = () => {
   return maleDogNames[Math.floor(Math.random() * maleDogNames.length)];
@@ -56,7 +56,7 @@ Meteor.methods({
     teller_id: TellerId,
     bet_id: RaceBetId,
   ) => {
-    completeBet(teller_id, bet_id);
+    tellerCompleteBet(teller_id, bet_id);
   },
 
   'derby.tellers.cancelBet': async (teller_id: TellerId, bet_id: RaceBetId) => {

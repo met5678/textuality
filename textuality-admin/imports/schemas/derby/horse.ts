@@ -2,6 +2,28 @@ import SimpleSchema from 'simpl-schema';
 import Events from '/imports/api/events';
 import { EventId } from '../event';
 
+export const HORSE_EMOJI_COLOR_SQUARE = [
+  '🟥',
+  '🟧',
+  '🟨',
+  '🟩',
+  '🟦',
+  '🟪',
+  '🟫',
+  '⬛️',
+  '⬜️',
+] as const;
+export type HorseEmojiColorSquare = (typeof HORSE_EMOJI_COLOR_SQUARE)[number];
+
+export const HORSE_STATS = [
+  'speed',
+  'endurance',
+  'water_resistance',
+  'wind_resistance',
+  'electric_resistance',
+] as const;
+export type HorseStat = (typeof HORSE_STATS)[number];
+
 const HorseStatsSchema = new SimpleSchema({
   speed: {
     type: Number,
@@ -42,19 +64,28 @@ const HorseSchema = new SimpleSchema({
   color: {
     type: String,
   },
-  stats: {
+  emojiColorSquare: {
+    defaultValue: HORSE_EMOJI_COLOR_SQUARE[0],
+    type: String,
+    allowedValues: [...HORSE_EMOJI_COLOR_SQUARE],
+  },
+  base_stats: {
     type: HorseStatsSchema,
     defaultValue: HorseStatsSchema.clean({}),
   },
+  powerup_stats: {
+    type: HorseStatsSchema,
+    defaultValue: HorseStatsSchema.clean({
+      speed: 0,
+      endurance: 0,
+      water_resistance: 0,
+      wind_resistance: 0,
+      electric_resistance: 0,
+    }),
+  },
 });
 
-type HorseStats = {
-  speed: number;
-  endurance: number;
-  water_resistance: number;
-  wind_resistance: number;
-  electric_resistance: number;
-};
+type HorseStats = Record<HorseStat, number>;
 
 export type HorseId = string;
 
@@ -65,7 +96,9 @@ type Horse = {
   number: number;
   short_name: string;
   color: string;
-  stats: HorseStats;
+  emojiColorSquare: HorseEmojiColorSquare;
+  base_stats: HorseStats;
+  powerup_stats: HorseStats;
 };
 
 export { HorseSchema, HorseStatsSchema };

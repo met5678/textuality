@@ -5,6 +5,7 @@ import { useTellerScreenData } from './useTellerScreenData';
 import { TellerVideo } from './TellerVideo/TellerVideo';
 import { TellerStatus } from './TellerStatus';
 import { TellerBetStatus } from './TellerBetStatus';
+import { TellerSounds } from './TellerSounds';
 const TellerScreen = ({ event, url }: { event: Event; url: string }) => {
   const { isLoading, teller, raceBet, player } = useTellerScreenData({
     eventId: event._id,
@@ -37,6 +38,7 @@ const TellerScreen = ({ event, url }: { event: Event; url: string }) => {
           <TellerStatus teller={teller} />
           <TellerVideo teller={teller} />
           <TellerBetStatus teller={teller} raceBet={raceBet} />
+          <TellerSounds teller={teller} raceBet={raceBet} />
         </div>
       </div>
     </>

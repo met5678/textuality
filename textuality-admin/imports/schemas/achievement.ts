@@ -3,6 +3,13 @@ import SimpleSchema from 'simpl-schema';
 import Events from '/imports/api/events';
 import { EventId } from './event';
 
+export const DERBY_AWARDS = [
+  'NONE',
+  'HORSE_POWERUP',
+  'RACE_RESULT_LOGIC',
+] as const;
+export type DERBY_AWARD = (typeof DERBY_AWARDS)[number];
+
 const ACHIEVEMENT_TRIGGERS = [
   'CHECKPOINT_FOUND',
   'CHECKPOINT_GROUP_COMPLETE',
@@ -47,6 +54,12 @@ const AchievementSchema = new SimpleSchema({
     optional: true,
     defaultValue: 0,
   },
+  derby_award: {
+    type: String,
+    optional: true,
+    defaultValue: 'NONE',
+    allowedValues: ['NONE', 'HORSE_POWERUP', 'RACE_RESULT_LOGIC'],
+  },
   quest_award_type: {
     type: String,
     optional: true,
@@ -82,6 +95,7 @@ interface Achievement {
   trigger_detail_string?: string;
   trigger_detail_number?: number;
   money_award?: number;
+  derby_award?: DERBY_AWARD;
   quest_award_type?: 'NONE' | 'HACKER_TASK' | 'HACKER_SLOT' | 'HACKER_ROULETTE';
   player_text?: string;
   player_text_image?: string;

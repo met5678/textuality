@@ -4,7 +4,11 @@ import { useSubscribe, useFind } from 'meteor/react-meteor-data';
 import Table from '/imports/ui/generic/Table/Table';
 
 import { GridColDef, GridColTypeDef } from '@mui/x-data-grid';
-import { HorseSchema, HorseStats } from '/imports/schemas/derby/horse';
+import {
+  HORSE_EMOJI_COLOR_SQUARE,
+  HorseSchema,
+  HorseStats,
+} from '/imports/schemas/derby/horse';
 import Horses from '../../../../../api/themes/derby/horses';
 import { HorseWithHelpers } from '../../../../../api/themes/derby/horses/horses';
 import { useEventId } from '/imports/ui/hooks/use-event-id';
@@ -13,17 +17,24 @@ import { useTableCollectionProps } from '/imports/utils/get-table-collection-pro
 const statsColumn: GridColTypeDef<HorseWithHelpers> = {
   type: 'number',
   editable: true,
-  width: 70,
+  width: 90,
   valueGetter: (_value, row, params) =>
-    row.stats?.[params.field as keyof HorseStats] ?? 0,
+    row.stats?.()[params.field as keyof HorseStats] ?? 0,
   renderCell: (params) => {
-    return <div>{params.row.stats?.[params.field] ?? 0}</div>;
+    const baseStat = params.row.base_stats?.[params.field] ?? 0;
+    const powerupStat = params.row.powerup_stats?.[params.field] ?? 0;
+    const totalStat = baseStat + powerupStat;
+    return (
+      <div>
+        {baseStat} + <span style={{ color: 'green' }}>{powerupStat}</span> ={' '}
+        <span style={{ fontWeight: 'bold' }}>{totalStat}</span>
+      </div>
+    );
   },
-
   valueSetter: (value, row, params) => {
     return {
       ...row,
-      stats: { ...row.stats, [params.field]: value },
+      base_stats: { ...row.base_stats, [params.field]: value },
     };
   },
 };
@@ -64,6 +75,17 @@ const columns: GridColDef<HorseWithHelpers>[] = [
         />
       );
     },
+  },
+  {
+    field: 'emojiColorSquare',
+    headerName: 'Emoji',
+    width: 80,
+    editable: true,
+    type: 'singleSelect',
+    valueOptions: HORSE_EMOJI_COLOR_SQUARE.map((emoji) => ({
+      label: emoji,
+      value: emoji,
+    })),
   },
   {
     field: 'speed',

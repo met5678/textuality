@@ -27,6 +27,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
 import TellersPage from './modules/themes/derby/tellers/TellersPage';
 import RaceBetsPage from './modules/themes/derby/raceBets/RaceBetsPage';
+import PowerupsPage from './modules/themes/derby/powerups/PowerupsPage';
+import AchievementUnlocksPage from './modules/achievementUnlocks/AchievementUnlocksPage';
 
 const darkTheme = createTheme({
   palette: {
@@ -44,7 +46,7 @@ const App = () => (
           <Route path="/texts" component={AllTextsPage} />
           <Route path="/players" component={PlayersPage} />
           <Route path="/media" component={MediaPage} />
-          {/*<Route path="/unlocks" component={AchievementUnlocksPage} />*/}
+          <Route path="/unlocks" component={AchievementUnlocksPage} />
           <Route path="/achievements" component={AchievementsPage} />
           <Route path="/aliases" component={AliasesPage} />
           <Route path="/autoTexts" component={AutoTextsPage} />
@@ -59,7 +61,7 @@ const App = () => (
           <Route path="/derby/races" component={RacesPage} />
           <Route path="/derby/tellers" component={TellersPage} />
           <Route path="/derby/race-bets" component={RaceBetsPage} />
-
+          <Route path="/derby/powerups" component={PowerupsPage} />
           {/*<Route path="/clue-rewards" component={ClueRewardsPage} />*/}
           {/*<Route path="/clues" component={CluesPage} />*/}
           {/*<Route path="/guesses" component={GuessesPage} />*/}

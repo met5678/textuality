@@ -59,7 +59,7 @@ const calculateBaseSpeed = (
   raceLength: number,
 ) => {
   const conditionModifier = WEATHER_MODIFIERS[weather];
-  const speedEffect = horse.stats.speed / 10;
+  const speedEffect = horse.stats().speed / 10;
 
   // Calculate race length factor (0-1)
   // 5 furlongs = 0, 12 furlongs = 1

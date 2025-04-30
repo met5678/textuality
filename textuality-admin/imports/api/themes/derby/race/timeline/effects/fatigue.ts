@@ -34,7 +34,7 @@ export const FatigueEffect: BaseEffect<FatigueEffectState> = {
   updateHorseStates: (frame, race, horseStates, effectState, random) => {
     horseStates.forEach((horseState) => {
       const horseEffectState = effectState.horses[horseState.horse._id];
-      const endurance = horseState.horse.stats.endurance / 20;
+      const endurance = horseState.horse.stats().endurance / 20;
 
       // The most slowed down the horse can be by fatigue
       const minSpeedMultiplier = 0.3 + 0.5 * endurance;

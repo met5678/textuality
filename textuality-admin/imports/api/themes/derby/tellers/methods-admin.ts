@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import Tellers from './tellers';
 import { Teller, TellerId } from '/imports/schemas/derby/teller';
 import { OptionalId, UpdateRequiredId } from '/imports/utils/optional-id';
+import { EventId } from '/imports/schemas/event';
 
 Meteor.methods({
   'derby.tellers.new': async (teller: OptionalId<Teller>) => {
@@ -83,4 +84,6 @@ Meteor.methods({
     await Tellers.updateAsync(tellerId, { $set: { current_bet: betId } });
     return await Tellers.findOneAsync(tellerId);
   },
+
+  'derby.tellers.resetEvent': async (event_id: EventId) => {},
 });

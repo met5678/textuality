@@ -86,7 +86,10 @@ const doTellerPreChecks = async (
       trigger: 'TELLER_REJECT_OTHER_BET_IN_PROGRESS',
       playerId: player._id,
       templateVars: {
-        teller_name: capitalizeFirstLetterOnly(teller.text_code),
+        old_teller_name: capitalizeFirstLetterOnly(
+          existingRaceBet.teller_text_code,
+        ),
+        new_teller_name: capitalizeFirstLetterOnly(teller.text_code),
       },
     });
     return false;

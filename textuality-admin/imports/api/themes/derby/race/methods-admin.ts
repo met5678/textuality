@@ -80,6 +80,7 @@ Meteor.methods({
             current_frame: 0,
             is_playing: false,
           },
+          results: [],
         },
       },
       { multi: true },

@@ -28,13 +28,16 @@ export const processBetStepText = async (
     throw new Error('Race bet not found, this should not happen');
   }
 
-  if (raceBet.status !== 'pending') {
+  if (raceBet.status.startsWith('cancelled')) {
+    sendAutoText({
+      trigger: 'TELLER_ERROR_ALREADY_CANCELLED_BET',
+      playerId: player._id,
+    });
+    return;
+  } else if (raceBet.status !== 'pending') {
     sendAutoText({
       trigger: 'TELLER_ERROR_ALREADY_PLACED_BET',
       playerId: player._id,
-      templateVars: {
-        teller_name: raceBet.teller,
-      },
     });
     return;
   }

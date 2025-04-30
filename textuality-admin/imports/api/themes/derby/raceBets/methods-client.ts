@@ -14,6 +14,7 @@ import {
 } from '/imports/schemas/derby/raceBet';
 import Events from '/imports/api/events';
 import { OptionalId } from '/imports/utils/optional-id';
+import Tellers from '../tellers/tellers';
 
 export const RACE_BET_CANCEL_REASONS = ['user', 'timeout', 'race'] as const;
 export type RaceBetCancelReason = (typeof RACE_BET_CANCEL_REASONS)[number];
@@ -41,10 +42,17 @@ Meteor.methods({
 
     if (!player) return;
 
+    const teller = await Tellers.findOneAsync(teller_id, {
+      fields: { text_code: 1 },
+    });
+
+    if (!teller) return;
+
     const raceBet: OptionalId<RaceBet> = {
       event: Events.currentIdOrThrow(),
       player: player_id,
       teller: teller_id,
+      teller_text_code: teller.text_code,
       race: race_id,
       status: 'pending',
       step: 'bet-type',

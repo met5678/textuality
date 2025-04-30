@@ -65,11 +65,6 @@ const getColumns = (
       width: 100,
     },
     {
-      field: 'wager',
-      headerName: 'Wager',
-      width: 100,
-    },
-    {
       field: 'horses',
       headerName: 'Horse(s)',
       width: 100,
@@ -78,6 +73,16 @@ const getColumns = (
           ?.map((horse) => horses.find((h) => h._id === horse)?.short_name)
           .join(', ');
       },
+    },
+    {
+      field: 'base_bet',
+      headerName: 'Bet',
+      width: 50,
+    },
+    {
+      field: 'count',
+      headerName: 'Count',
+      width: 60,
     },
     {
       field: 'started_at',

@@ -38,6 +38,7 @@ type RaceBet = {
   event: EventId;
   player: PlayerId;
   teller: TellerId;
+  teller_text_code: string;
   race: RaceId;
   status: RaceBetStatus;
   step: RaceBetStep;
@@ -64,6 +65,9 @@ const RaceBetSchema = new SimpleSchema({
     type: String,
   },
   teller: {
+    type: String,
+  },
+  teller_text_code: {
     type: String,
   },
   race: {

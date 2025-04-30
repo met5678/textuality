@@ -36,6 +36,10 @@ export const tellerStartRaceBet = async (
       text_code: 1,
     },
   });
+  teller.status = 'betting';
+  teller.current_bet = bet_id;
+  teller.current_player = player_id;
+  teller.time_left = time_left;
 
   // Countdown to the timeout
   do {
@@ -49,6 +53,11 @@ export const tellerStartRaceBet = async (
         time_left: time_left,
       },
     });
+    teller.status =
+      time_left > BET_STEP_BUSY_THRESHOLD_SECONDS
+        ? 'betting'
+        : 'betting-impatient';
+    teller.time_left = time_left;
 
     try {
       await throwIfCancelledTimeout(teller_id, 1);
@@ -72,6 +81,7 @@ export const tellerStartRaceBet = async (
       status: 'timeout',
     },
   });
+  teller.status = 'timeout';
 
   try {
     await throwIfCancelledTimeout(

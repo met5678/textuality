@@ -53,6 +53,8 @@ export const TellerStatus = ({ teller }: { teller: TellerWithHelpers }) => {
         style={{
           transform: `scale(${scale})`,
           transformOrigin: 'top center',
+          position: 'relative',
+          top: `${((1 - scale) * baseHeight) / 2}px`,
         }}
       >
         <div
@@ -62,7 +64,10 @@ export const TellerStatus = ({ teller }: { teller: TellerWithHelpers }) => {
             alignItems: 'center',
           }}
         >
-          <LedRound color={isAvailable ? 'green' : 'red'} />
+          <LedRound
+            color={isAvailable ? 'green' : 'red'}
+            blink={status === 'betting-impatient'}
+          />
           <div style={{ display: 'flex' }}>
             <LedCell className="at-sign" char={'@'} lit={isAvailable} />
             <LedCellRow

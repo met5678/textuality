@@ -9,6 +9,9 @@ import { raceBetProcessBetType } from '/imports/api/themes/derby/raceBets/method
 import { raceBetProcessHorse } from '/imports/api/themes/derby/raceBets/methods/raceBet.processHorse';
 import { tellerUpdateBet } from '/imports/api/themes/derby/tellers/teller-flow/teller-update-bet';
 import { raceBetProcessWager } from '/imports/api/themes/derby/raceBets/methods/raceBet.processWager';
+import { raceBetProcessCancel } from '/imports/api/themes/derby/raceBets/methods/raceBet.processCancel';
+import { tellerCompleteBet } from '/imports/api/themes/derby/tellers/teller-flow/teller-complete-bet';
+import { tellerCancelBet } from '/imports/api/themes/derby/tellers/teller-flow/teller-cancel-bet';
 
 export const processBetStepText = async (
   inText: InText,
@@ -38,6 +41,15 @@ export const processBetStepText = async (
 
   if (step === 'ticket') {
     step = 'wager';
+  }
+
+  if (step === 'cancel') {
+    raceBetProcessCancel({
+      player,
+      raceBet,
+    });
+    tellerCancelBet(raceBet.teller);
+    return;
   }
 
   if (step !== raceBet.step) {
@@ -92,23 +104,13 @@ export const processBetStepText = async (
   }
 
   if (step === 'wager') {
-    return raceBetProcessWager({
+    raceBetProcessWager({
       player,
       raceBet,
       teller,
       race,
       value,
     });
+    return;
   }
-
-  // if (step === 'cancel') {
-  //   return processBetCancelText({
-  //     player,
-  //     raceBet,
-  //     teller,
-  //     race,
-  //     horses,
-  //     value,
-  //   });
-  // }
 };

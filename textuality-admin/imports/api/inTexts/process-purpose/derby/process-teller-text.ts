@@ -50,7 +50,7 @@ const doTellerPreChecks = async (
   }
 
   if (!teller) {
-    if (await Meteor.callAsync('derby.tellers.isNameInPool', tellerTextCode)) {
+    if (Meteor.call('derby.tellers.isNameInPool', tellerTextCode)) {
       sendAutoText({
         trigger: 'TELLER_REJECT_NOT_HERE_NOW',
         playerId: player._id,

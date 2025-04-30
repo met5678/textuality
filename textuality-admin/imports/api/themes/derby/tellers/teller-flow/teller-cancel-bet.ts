@@ -2,10 +2,9 @@ import { Meteor } from 'meteor/meteor';
 import Tellers from '../tellers';
 import { throwIfCancelledTimeout, TimeoutError } from './_teller-timeouts';
 import { TellerId } from '/imports/schemas/derby/teller';
-import { RaceBetId } from '/imports/schemas/derby/raceBet';
 import { TELLER_VIDEO_LENGTHS } from '/imports/schemas/derby/teller-status/teller-status';
 
-export const cancelBet = async (teller_id: TellerId, bet_id: RaceBetId) => {
+export const tellerCancelBet = async (teller_id: TellerId) => {
   const teller = await Tellers.findOneAsync(teller_id);
   if (!teller) {
     console.warn(

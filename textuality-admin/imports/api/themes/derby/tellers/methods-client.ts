@@ -15,7 +15,7 @@ import { closeTeller } from './teller-flow/teller-close';
 import { standupTeller } from './teller-flow/teller-standup';
 import { sitdownTeller } from './teller-flow/teller-sitdown';
 import { tellerUpdateBet } from './teller-flow/teller-update-bet';
-import { cancelBet } from './teller-flow/teller-cancel-bet';
+import { tellerCancelBet } from './teller-flow/teller-cancel-bet';
 import { tellerCompleteBet } from './teller-flow/teller-complete-bet';
 
 const getRandomTextCode = () => {
@@ -60,7 +60,7 @@ Meteor.methods({
   },
 
   'derby.tellers.cancelBet': async (teller_id: TellerId, bet_id: RaceBetId) => {
-    cancelBet(teller_id, bet_id);
+    tellerCancelBet(teller_id, bet_id);
   },
 
   'derby.tellers.close': async (teller_id: TellerId) => {
@@ -90,7 +90,7 @@ Meteor.methods({
   },
 
   'derby.tellers.isNameInPool': (name: string) => {
-    return maleDogNames.includes(name);
+    return maleDogNames.some((n) => n.toLowerCase() === name.toLowerCase());
   },
 
   'derby.tellers.tryStartBet': async ({

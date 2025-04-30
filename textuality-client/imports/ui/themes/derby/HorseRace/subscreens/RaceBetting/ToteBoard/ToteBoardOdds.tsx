@@ -4,7 +4,7 @@ import fontColorContrast from 'font-color-contrast';
 
 import { RaceWithHelpers } from '/imports/api/themes/derby/race/races';
 import { HorseWithHelpers } from '/imports/api/themes/derby/horses/horses';
-import { LedCellRow } from '/imports/ui/themes/derby/modules/LedLights/LedCellRow';
+import { LedCharRow } from '../../../../modules/LedLights/LedCharRow';
 
 const HorseColumn: React.FC<{
   horses: HorseWithHelpers[];
@@ -43,7 +43,7 @@ const HorseColumn: React.FC<{
             className="tote-board-horse-odds"
             style={{ display: 'flex', gap: '8px', alignItems: 'flex-end' }}
           >
-            <LedCellRow
+            <LedCharRow
               label={
                 <div
                   style={{
@@ -71,7 +71,7 @@ const HorseColumn: React.FC<{
                 </div>
               }
               value={horseOdds[horse._id] ?? '--'}
-              cellCount={2}
+              charCount={2}
             />
           </div>
         );

@@ -1,19 +1,19 @@
 import React from 'react';
-import { LedCell } from './LedCell';
+import { LedChar } from './LedChar';
 
-export const LedCellRow: React.FC<{
+export const LedCharRow: React.FC<{
   label?: React.ReactNode;
   value: number | string;
-  cellCount: number;
-  lit?: boolean;
-}> = ({ label, value, cellCount, lit }) => {
+  charCount: number;
+  off?: boolean;
+}> = ({ label, value, charCount, off = false }) => {
   const isNumber = typeof value === 'number';
   const stringValue = isNumber
     ? String(Math.min(99, value))
     : String(value || '');
 
   const chars = stringValue.split('');
-  const emptyCount = Math.max(0, cellCount - chars.length);
+  const emptyCount = Math.max(0, charCount - chars.length);
 
   const cells = isNumber
     ? [...Array(emptyCount).fill(''), ...chars] // pad left
@@ -21,13 +21,13 @@ export const LedCellRow: React.FC<{
 
   return (
     <div
-      className="led-cell-row"
+      className="led-char-row"
       style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}
     >
       {label && <span>{label}</span>}
       <div style={{ display: 'flex' }}>
         {cells.map((char, i) => (
-          <LedCell key={i} char={char} lit={lit} />
+          <LedChar key={i} char={char} off={off} />
         ))}
       </div>
     </div>

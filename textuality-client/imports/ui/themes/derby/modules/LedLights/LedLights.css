@@ -10,17 +10,28 @@
   --led-300: 254, 151, 66;
   --led-400: 255, 138, 0;
   --led-500: 255, 94, 0;
+  --led-600: 255, 70, 0;
 
-  --led-unlit: #252525;
+  --led-off: #252525;
   --led-cell-background: #171717;
+
+  --led-glow-gradient: radial-gradient(
+    circle at 50% 45%,
+    rgba(var(--led-100), 0.5) 0%,
+    rgba(var(--led-200), 0.4) 30%,
+    rgba(var(--led-300), 0.3) 60%,
+    rgba(var(--led-400), 0.4) 85%,
+    rgba(var(--led-500), 0.5) 100%
+  );
 }
 
 .derby-led-red {
-  --led-100: 255, 160, 160;
-  --led-200: 255, 71, 71;
+  --led-100: 255, 190, 190;
+  --led-200: 255, 100, 100;
   --led-300: 255, 66, 66;
-  --led-400: 140, 0, 0;
-  --led-500: 94, 0, 0;
+  --led-400: 220, 20, 20;
+  --led-500: 160, 0, 0;
+  --led-600: 110, 0, 0;
 }
 
 .derby-led-green {
@@ -29,9 +40,12 @@
   --led-300: 100, 200, 100;
   --led-400: 0, 138, 0;
   --led-500: 0, 94, 0;
+  --led-600: 0, 70, 0;
 }
 
-.led-cell {
+/* LED CHARS */
+
+.led-char {
   font-family: 'digital-7', monospace;
   width: 3rem;
   height: 3.5rem;
@@ -42,55 +56,93 @@
   text-transform: uppercase;
   filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5));
   padding-left: 0.1rem; /* Offset for this font */
-  color: var(--led-unlit);
-  text-shadow: 0 0 2px var(--led-unlit); /* Need it to be the same weight when off */
   transition: all 0.15s ease-out;
+  color: rgb(var(--led-300));
 }
 
-.led-cell span {
+.led-char span {
   display: grid;
   place-items: center;
   width: 100%;
   height: 100%;
-}
 
-/* default: text - need to move this to text - JTG CLEAN UP*/
-.led-lit {
-  color: rgb(var(--led-300));
-}
-
-.led-lit span {
-  background: radial-gradient(
-    circle,
-    rgb(var(--led-100)) 0%,
-    rgb(var(--led-200)) 50%,
-    rgb(var(--led-400)) 100%
-  );
   -webkit-background-clip: text;
   color: transparent;
   text-shadow:
     0 0 2px rgb(var(--led-200)),
     0 0 3px rgb(var(--led-500));
-  animation: derby-text-glow 2.5s ease-in-out infinite;
+  animation: derby-char-glow 2s ease-in-out infinite;
 }
 
-/* Bulbs */
-.derby-led.led-round {
-  width: 40px;
-  height: 40px;
+.led-char.led-off span {
+  color: var(--led-off);
+  text-shadow: 0 0 2px var(--led-off); /* Need it to be the same weight when off */
+  animation: none;
+}
+
+.derby-led-wrapper {
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
+.derby-led-frame {
+  position: relative;
   border-radius: 50%;
-  background: rgb(var(--led-400))
-    radial-gradient(
-      circle at 50% 40%,
-      rgba(var(--led-100), 0.55) 0%,
-      rgba(var(--led-200), 0.55) 30%,
-      rgba(var(--led-400), 0.55) 70%
-    );
-  animation: derby-led-round-glow 2.5s ease-in-out infinite;
-  /* animation: derby-led-round-blink 0.8s infinite; */
+  background: radial-gradient(
+    circle at 50% 50%,
+    #2d2d2d 0%,
+    #111111 60%,
+    #000 100%
+  );
+  filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5));
 }
 
-@keyframes derby-text-glow {
+/* LED ROUNDS */
+
+.derby-led.led-round {
+  border-radius: 50%;
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  background: var(--led-cell-background);
+  box-shadow:
+    inset 0 -4px 8px rgba(0, 0, 0, 0.4),
+    0 0 8px rgba(0, 0, 0, 0.5);
+  display: grid;
+  place-items: center;
+}
+
+.derby-led.led-round.led-fill {
+  background: var(--led-glow-gradient), rgb(var(--led-400));
+  box-shadow:
+    inset 0 -4px 8px rgba(0, 0, 0, 0.4),
+    0 0 8px rgba(var(--led-200), 0.3);
+  animation: derby-led-round-glow 2.5s ease-in-out infinite;
+}
+
+.derby-led.led-round.led-blink {
+  animation: derby-led-round-blink 0.6s ease-in-out infinite;
+}
+
+/* LED ROUNDS + ICON */
+
+.derby-led.led-round .led-icon {
+  width: 80%;
+  height: 80%;
+
+  fill: rgba(var(--led-200), 0.8);
+  filter: drop-shadow(0 0 6px rgba(var(--led-200), 0.6));
+}
+
+.derby-led.led-round.led-off .led-icon {
+  fill: var(--led-off);
+  filter: none;
+}
+
+/* ANIMATIONS */
+
+@keyframes derby-char-glow {
   0%,
   100% {
     filter: drop-shadow(0 0 1px rgb(var(--led-200)));
@@ -103,46 +155,23 @@
 @keyframes derby-led-round-glow {
   0%,
   100% {
-    filter: drop-shadow(0 0 4px rgba(var(--led-200), 0.5));
+    background: var(--led-glow-gradient), rgba(var(--led-400), 1);
+    filter: drop-shadow(0 0 8px rgba(var(--led-500), 0.8));
   }
   50% {
-    filter: drop-shadow(0 0 8px rgba(var(--led-300), 0.7));
+    background: var(--led-glow-gradient), rgba(var(--led-400), 0.6);
+    filter: drop-shadow(0 0 4px rgba(var(--led-500), 0.5));
   }
 }
 
 @keyframes derby-led-round-blink {
   0%,
   100% {
-    background: rgb(var(--led-300))
-      radial-gradient(
-        circle at 50% 40%,
-        rgba(var(--led-100), 0.55) 0%,
-        rgba(var(--led-200), 0.55) 50%,
-        rgba(var(--led-400), 0.55) 90%
-      );
+    background: var(--led-glow-gradient), rgb(var(--led-400));
+    filter: drop-shadow(0 0 8px rgba(var(--led-500), 0.2));
   }
   50% {
-    background: rgb(var(--led-500))
-      radial-gradient(
-        circle at 50% 40%,
-        rgba(var(--led-100), 0.55) 0%,
-        rgba(var(--led-200), 0.55) 50%,
-        rgba(var(--led-400), 0.55) 90%
-      );
+    background: var(--led-glow-gradient), rgb(var(--led-600));
+    filter: drop-shadow(0 0 2px rgba(var(--led-500), 0.05));
   }
 }
-
-/* animation: blink-green 0.5s infinite;
- animation-delay: 0.125s;
-@keyframes blink-green {
-  from {
-    background-color: #00e01e;
-  }
-  50% {
-    background-color: #007a10;
-    
-  }
-  to {
-    background-color: #00e01e;
-  }
-} */

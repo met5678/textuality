@@ -1,5 +1,5 @@
-import React from 'react';
-import { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
+import { useScaleByBaseWidth } from '/imports/ui/hooks/use-scale-by-base-width';
 
 import './Teller.css';
 import { TellerWithHelpers } from '/imports/api/themes/derby/tellers/tellers';
@@ -8,24 +8,15 @@ import {
   TELLER_CLOSED_STATUSES,
   TellerStatus as TellerStatusType,
 } from '/imports/schemas/derby/teller-status/teller-status';
-import { LedCell } from '../modules/LedLights/LedCell';
-import { LedCellRow } from '../modules/LedLights/LedCellRow';
+import { LedChar } from '../modules/LedLights/LedChar';
+import { LedCharRow } from '../modules/LedLights/LedCharRow';
 import { LedRound } from '../modules/LedLights/LedRound';
 
 export const TellerStatus = ({ teller }: { teller: TellerWithHelpers }) => {
-  const [scale, setScale] = useState(1);
   const statusRef = useRef<HTMLDivElement>(null);
   const baseWidth = 344;
   const baseHeight = 128;
-
-  console.log(`${(1 - scale) * baseHeight}px`);
-
-  useEffect(() => {
-    if (statusRef.current) {
-      const { width } = statusRef.current.getBoundingClientRect();
-      setScale(width / baseWidth);
-    }
-  }, []);
+  const scale = useScaleByBaseWidth(statusRef, baseWidth);
 
   const status = teller.status as TellerStatusType;
   const isAvailable = TELLER_AVAILABLE_STATUSES.includes(status);
@@ -53,6 +44,8 @@ export const TellerStatus = ({ teller }: { teller: TellerWithHelpers }) => {
         style={{
           transform: `scale(${scale})`,
           transformOrigin: 'top center',
+          position: 'relative',
+          top: `${((1 - scale) * baseHeight) / 2}px`,
         }}
       >
         <div
@@ -62,19 +55,22 @@ export const TellerStatus = ({ teller }: { teller: TellerWithHelpers }) => {
             alignItems: 'center',
           }}
         >
-          <LedRound color={isAvailable ? 'green' : 'red'} />
+          <LedRound
+            color={isAvailable ? 'green' : 'red'}
+            blink={status === 'betting-impatient'}
+          />
           <div style={{ display: 'flex' }}>
-            <LedCell className="at-sign" char={'@'} lit={isAvailable} />
-            <LedCellRow
+            <LedChar className="at-sign" char={'@'} off={!isAvailable} />
+            <LedCharRow
               value={teller.text_code ?? ''}
-              lit={isAvailable}
-              cellCount={5}
+              off={!isAvailable}
+              charCount={5}
             />
           </div>
         </div>
         <div className="teller-status-info">
           <div className="teller-status-info-label">{infoLabel}</div>
-          <LedCellRow value={infoValue} cellCount={3} />
+          <LedCharRow value={infoValue} charCount={3} />
         </div>
       </div>
     </div>

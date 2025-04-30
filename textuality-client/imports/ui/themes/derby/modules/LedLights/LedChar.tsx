@@ -1,15 +1,15 @@
 import React from 'react';
 import './LedLights.css';
 
-export const LedCell: React.FC<{
+export const LedChar: React.FC<{
   char?: string;
   className?: string;
-  lit?: boolean;
+  off?: boolean;
   style?: React.CSSProperties;
-}> = ({ char = '', className = '', lit = true, style = {} }) => {
+}> = ({ char = '', className = '', off = false, style = {} }) => {
   return (
     <div
-      className={`derby-led led-cell ${lit ? 'led-lit' : ''} ${className}`}
+      className={`derby-led led-char ${off ? 'led-off' : ''} ${className}`}
       style={style}
     >
       <span>{char}</span>

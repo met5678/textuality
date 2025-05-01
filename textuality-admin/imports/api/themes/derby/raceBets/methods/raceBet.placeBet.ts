@@ -75,6 +75,7 @@ export const raceBetPlaceBet = async ({
 
   const betHorses = await getBetHorses(raceBet);
   const costToPlayer = Math.min(player.money, raceBet.base_bet * raceBet.count);
+  const isLetItRide = costToPlayer === player.money;
 
   Meteor.call('players.takeMoney', {
     playerId: player._id,

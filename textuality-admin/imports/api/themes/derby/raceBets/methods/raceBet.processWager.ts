@@ -22,12 +22,7 @@ export const raceBetProcessWager = async ({
   const [multiple, baseBet] = value.split('x');
 
   const baseBetNumber = parseInt(baseBet);
-  let multipleNumber = 0;
-  if (multiple === 'let-it-ride') {
-    multipleNumber = Math.ceil(player.money / baseBetNumber);
-  } else {
-    multipleNumber = parseInt(multiple);
-  }
+  const multipleNumber = parseInt(multiple);
 
   await RaceBets.updateAsync(raceBet._id, {
     $set: {

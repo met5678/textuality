@@ -36,8 +36,10 @@ const getBetWagerOptions = ({
   });
 
   const letItRideOption = {
-    label: `Let it Ride! ${playerMoney} DD`,
-    value: `raceBet/${raceBet._id}/ticket/let-it-ride`,
+    label: `Bet it all! ${playerMoney} DD`,
+    value: `raceBet/${raceBet._id}/ticket/${Math.ceil(
+      playerMoney / minBet,
+    )}x${minBet}`,
   };
 
   const cancelOption = {

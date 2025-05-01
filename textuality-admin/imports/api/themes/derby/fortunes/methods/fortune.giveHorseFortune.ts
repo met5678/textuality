@@ -14,7 +14,7 @@ const getRankedStatsForHorse = (horse: HorseWithHelpers) => {
   const rankedStats = Object.entries(stats).sort((a, b) => b[1] - a[1]);
 
   return rankedStats.map(
-    ([stat, value], idx) => `${idx + 1}. ${STAT_FANCY_NAME[stat as HorseStat]}`,
+    ([stat], idx) => `${idx + 1}. ${STAT_FANCY_NAME[stat as HorseStat]}`,
   );
 };
 

@@ -22,7 +22,7 @@ const getHorseOptions = (
   const horseOptions = horses
     .filter((horse) => !excludeHorseIds?.includes(horse._id))
     .map((horse) => ({
-      label: `#${horse.number} - ${horse.emojiColorSquare} ${horse.name}`,
+      label: horse.formattedName(),
       value: `raceBet/${raceBet._id}/horse${horseNum}/${horse._id}`,
     }));
 

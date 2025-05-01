@@ -59,8 +59,8 @@ Meteor.methods({
     tellerCompleteBet(teller_id, bet_id);
   },
 
-  'derby.tellers.cancelBet': async (teller_id: TellerId, bet_id: RaceBetId) => {
-    tellerCancelBet(teller_id, bet_id);
+  'derby.tellers.cancelBet': async (teller_id: TellerId) => {
+    tellerCancelBet(teller_id);
   },
 
   'derby.tellers.close': async (teller_id: TellerId) => {

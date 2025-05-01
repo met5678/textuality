@@ -12,8 +12,15 @@ import RaceBets from '/imports/api/themes/derby/raceBets';
 import { useTableCollectionProps } from '/imports/utils/get-table-collection-props';
 import { TELLER_STATUS } from '/imports/schemas/derby/teller-status/teller-status';
 import { Meteor } from 'meteor/meteor';
+import Players, { PlayerWithHelpers } from '/imports/api/players/players';
+import Events from '/imports/api/events';
+import Fortunes from '/imports/api/themes/derby/fortunes';
+import { RaceBetWithHelpers } from '/imports/api/themes/derby/raceBets/raceBets';
 
-const columns: GridColDef<TellerWithHelpers>[] = [
+const getColumns = (
+  players: PlayerWithHelpers[],
+  raceBets: RaceBetWithHelpers[],
+): GridColDef<TellerWithHelpers>[] => [
   {
     field: 'url',
     headerName: 'Url',
@@ -57,12 +64,20 @@ const columns: GridColDef<TellerWithHelpers>[] = [
     editable: true,
   },
   {
-    field: 'current_bet',
-    headerName: 'Current Bet',
+    field: 'current_player',
+    headerName: 'Player',
     width: 90,
-    renderCell: (params) => {
-      if (!params.row.current_bet) return '--';
-      const bet = RaceBets.findOne(params.row.current_bet);
+    valueGetter: (value: TellerWithHelpers['current_player']) => {
+      const player = players.find((p) => p._id === value);
+      return player?.alias;
+    },
+  },
+  {
+    field: 'current_bet',
+    headerName: 'Current',
+    width: 90,
+    valueFormatter: (value: TellerWithHelpers['current_bet']) => {
+      const bet = raceBets.find((b) => b._id === value);
       return bet?.step;
     },
   },
@@ -78,10 +93,15 @@ const TellersTable = () => {
     'derby.tellers',
   );
 
+  useSubscribe('players.basic');
+  useSubscribe('derby.raceBets.pending');
+  const players = useFind(() => Players.find({ event: Events.currentId() }));
+  const raceBets = useFind(() => RaceBets.find({ event: Events.currentId() }));
+
   return (
     <>
       <Table<TellerWithHelpers>
-        columns={columns}
+        columns={getColumns(players, raceBets)}
         data={tellers}
         isLoading={isLoading()}
         {...tableEditProps}

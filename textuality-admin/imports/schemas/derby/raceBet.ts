@@ -52,9 +52,7 @@ type RaceBet = {
   placed_at?: Date;
 };
 
-type RaceBetComplete = Required<RaceBet> & {
-  placed_at: Date;
-};
+type RaceBetComplete = Required<RaceBet>;
 
 const RaceBetSchema = new SimpleSchema({
   event: {

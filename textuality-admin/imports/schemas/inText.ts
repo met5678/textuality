@@ -19,7 +19,7 @@ type InTextPurposeBase = (typeof INTEXT_PURPOSES_BASE)[number];
 const INTEXT_PURPOSES_CASINO = ['bet'] as const;
 type InTextPurposeCasino = (typeof INTEXT_PURPOSES_CASINO)[number];
 
-const INTEXT_PURPOSES_DERBY = ['teller', 'bet-step'] as const;
+const INTEXT_PURPOSES_DERBY = ['teller', 'bet-step', 'fortune-step'] as const;
 type InTextPurposeDerby = (typeof INTEXT_PURPOSES_DERBY)[number];
 
 const INTEXT_PURPOSES = [

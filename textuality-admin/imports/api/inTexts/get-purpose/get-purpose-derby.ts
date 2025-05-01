@@ -15,6 +15,10 @@ export const getPurposeDerby = ({
     return 'bet-step';
   }
 
+  if (message.interactive && message.interactive.value.startsWith('fortune/')) {
+    return 'fortune-step';
+  }
+
   if (message.text) {
     if (message.text.startsWith('@')) {
       return 'teller';

@@ -35,7 +35,8 @@ const STANDING_TELLER_SITDOWN_PROBABILITY = 0.1;
 const ANTICS_INTERVAL_SECONDS = 10;
 
 const FORTUNE_INTERVAL_SECONDS = 30;
-const FORTUNE_TELLER_APPEAR_PROBABILITY = 0.4;
+const FORTUNE_TELLER_APPEAR_PROBABILITY = 0.5;
+const FORTUNE_TELLER_VANISH_PROBABILITY = 0.1;
 
 const openTellers = async () => {
   const tellers = await Tellers.find({
@@ -223,21 +224,35 @@ const setupFortuneTeller = () => {
       status: { $in: TELLER_FORTUNE_STATUSES },
     }).fetch();
 
-    if (
-      currentFortuneTellers.length === 0 &&
-      Math.random() < FORTUNE_TELLER_APPEAR_PROBABILITY
-    ) {
-      const emptyTellers = await Tellers.find({
-        event: Events.currentIdOrThrow(),
-        status: 'empty',
-        url: { $ne: 'jen' },
-      }).fetch();
+    // If no fortune tellers and probability is met, open one
+    if (currentFortuneTellers.length === 0) {
+      if (Math.random() < FORTUNE_TELLER_APPEAR_PROBABILITY) {
+        const emptyTellers = await Tellers.find({
+          event: Events.currentIdOrThrow(),
+          status: 'empty',
+          url: { $ne: 'jen' },
+        }).fetch();
 
-      if (emptyTellers.length > 0) {
-        const teller =
-          emptyTellers[Math.floor(Math.random() * emptyTellers.length)];
-        console.log('opening fortune teller', teller.url);
-        fortuneTellerOpen(teller._id);
+        if (emptyTellers.length > 0) {
+          const teller =
+            emptyTellers[Math.floor(Math.random() * emptyTellers.length)];
+          console.log('opening fortune teller', teller.url);
+          fortuneTellerOpen(teller._id);
+        }
+      }
+    } else {
+      if (Math.random() < FORTUNE_TELLER_VANISH_PROBABILITY) {
+        const idleTellers = await Tellers.find({
+          event: Events.currentIdOrThrow(),
+          status: 'fortune-open',
+        }).fetch();
+
+        if (idleTellers.length > 0) {
+          const teller =
+            idleTellers[Math.floor(Math.random() * idleTellers.length)];
+          console.log('closing fortune teller', teller.url);
+          fortuneTellerClose(teller._id);
+        }
       }
     }
   }, ANTICS_INTERVAL_SECONDS * 1000);

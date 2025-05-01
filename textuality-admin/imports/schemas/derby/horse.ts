@@ -33,6 +33,14 @@ export const HORSE_STATS = [
 ] as const;
 export type HorseStat = (typeof HORSE_STATS)[number];
 
+export const STAT_FANCY_NAME: Record<HorseStat, string> = {
+  speed: 'Spreed',
+  endurance: 'Endurance',
+  water_resistance: 'Amphibiousness',
+  wind_resistance: 'Aerodynamics',
+  electric_resistance: 'Resistance',
+};
+
 const HorseStatsSchema = new SimpleSchema({
   speed: {
     type: Number,

@@ -4,6 +4,7 @@ import { Horse, HorseSchema, HorseStats } from '/imports/schemas/derby/horse';
 
 interface HorseWithHelpers extends Horse {
   stats: () => HorseStats;
+  formattedName: () => string;
 }
 
 const Horses = new Mongo.Collection<Horse, HorseWithHelpers>('derby_horses');

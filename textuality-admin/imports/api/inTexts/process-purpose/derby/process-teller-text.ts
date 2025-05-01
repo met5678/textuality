@@ -11,7 +11,62 @@ import {
   capitalizeFirstLetter,
   capitalizeFirstLetterOnly,
 } from '/imports/utils/capitalize-first-letter';
-import { TELLER_FORTUNE_STATUSES } from '/imports/schemas/derby/teller-status/teller-status';
+import {
+  TELLER_FORTUNE_AVAILABLE_STATUSES,
+  TELLER_FORTUNE_STATUSES,
+} from '/imports/schemas/derby/teller-status/teller-status';
+import { fortuneTellerCodeExists } from '/imports/api/themes/derby/tellers/fortune-teller-flow/teller.fortune.getCode';
+import { raceBetStartBet } from '/imports/api/themes/derby/raceBets/methods/raceBet.startBet';
+import { fortuneStartFortune } from '/imports/api/themes/derby/fortunes/methods/fortune.startFortune';
+import { fortuneTellerEngageTeller } from '/imports/api/themes/derby/tellers/fortune-teller-flow/teller.fortune.engageTeller';
+import { fortuneAskType } from '/imports/api/themes/derby/fortunes/methods/fortune.askType';
+
+const processFortuneTeller = async (
+  player: PlayerWithHelpers,
+  tellerTextCode: string,
+  teller?: TellerWithHelpers,
+) => {
+  if (teller && TELLER_FORTUNE_AVAILABLE_STATUSES.includes(teller.status)) {
+    if (player.money < teller.min_wager) {
+      sendAutoText({
+        trigger: 'TELLER_REJECT_NOT_ENOUGH_MONEY',
+        playerId: player._id,
+        templateVars: {
+          teller_name: capitalizeFirstLetterOnly(teller.text_code),
+          min_wager: teller.min_wager,
+        },
+      });
+      return true;
+    }
+
+    const fortune = await fortuneStartFortune({
+      player_id: player._id,
+      teller_id: teller._id,
+    });
+    if (!fortune) {
+      throw new Error('Failed to start fortune');
+    }
+    fortuneAskType({
+      fortune: fortune,
+      player: player,
+      teller: teller,
+    });
+
+    fortuneTellerEngageTeller(teller._id, fortune._id, player._id);
+    return true;
+  } else if (fortuneTellerCodeExists(tellerTextCode)) {
+    sendAutoText({
+      trigger: 'FORTUNE_TELLER_NOT_HERE_NOW',
+      playerId: player._id,
+      templateVars: {
+        teller_name: capitalizeFirstLetterOnly(tellerTextCode),
+      },
+    });
+    return true;
+  }
+  return false;
+};
+
 const doTellerPreChecks = async (
   race: RaceWithHelpers | undefined,
   teller: TellerWithHelpers | undefined,
@@ -39,21 +94,15 @@ const doTellerPreChecks = async (
   }
 
   if (race.status === 'pre-bets' || race.status === 'future') {
-    if (teller && TELLER_FORTUNE_STATUSES.includes(teller.status)) {
-      // TODO: Process fortune teller text here.
-      return false;
-    } else if (
-      Meteor.call('derby.tellers.isNameInFortunePool', tellerTextCode)
-    ) {
-      sendAutoText({
-        trigger: 'FORTUNE_TELLER_NOT_HERE_NOW',
-        playerId: player._id,
-        templateVars: {
-          teller_name: capitalizeFirstLetterOnly(tellerTextCode),
-        },
-      });
+    const fortuneTellerProcessed = await processFortuneTeller(
+      player,
+      tellerTextCode,
+      teller,
+    );
+    if (fortuneTellerProcessed) {
       return false;
     }
+
     sendAutoText({
       trigger: 'TELLER_REJECT_BETTING_NOT_YET_OPEN',
       playerId: player._id,
@@ -119,12 +168,14 @@ const doTellerPreChecks = async (
     return false;
   }
 
-  // TODO: Check does the player have enough for the minimum bet?
-  const raceBetId = await Meteor.callAsync('derby.raceBets.startBet', {
+  const raceBetId = await raceBetStartBet({
     player_id: player._id,
     teller_id: teller._id,
     race_id: race._id,
   });
+  if (!raceBetId) {
+    return false;
+  }
 
   const raceBet = await RaceBets.findOneAsync(raceBetId);
   if (!raceBet) {

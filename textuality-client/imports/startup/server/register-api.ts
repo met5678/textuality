@@ -101,3 +101,6 @@ import '/imports/api/themes/derby/tellers/server/teller-scheduler';
 import '/imports/api/themes/derby/powerups/';
 import '/imports/api/themes/derby/powerups/methods-client';
 import '/imports/api/themes/derby/powerups/server/publications-client';
+
+import '/imports/api/themes/derby/fortunes/';
+import '/imports/api/themes/derby/fortunes/server/publications-client';

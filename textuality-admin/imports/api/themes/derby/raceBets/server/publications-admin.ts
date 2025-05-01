@@ -20,6 +20,12 @@ Meteor.publish(
   }),
 );
 
+Meteor.publish('derby.raceBets.pending', function () {
+  this.autorun(() =>
+    RaceBets.find({ event: Events.currentId(), status: 'pending' }),
+  );
+});
+
 Meteor.publish('derby.raceBets.forRace', function (raceId: RaceId) {
   this.autorun(() =>
     RaceBets.find({ event: Events.currentId(), race: raceId }),

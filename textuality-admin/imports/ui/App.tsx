@@ -29,6 +29,7 @@ import TellersPage from './modules/themes/derby/tellers/TellersPage';
 import RaceBetsPage from './modules/themes/derby/raceBets/RaceBetsPage';
 import PowerupsPage from './modules/themes/derby/powerups/PowerupsPage';
 import AchievementUnlocksPage from './modules/achievementUnlocks/AchievementUnlocksPage';
+import FortunesPage from './modules/themes/derby/fortunes/FortunesPage';
 
 const darkTheme = createTheme({
   palette: {
@@ -62,6 +63,8 @@ const App = () => (
           <Route path="/derby/tellers" component={TellersPage} />
           <Route path="/derby/race-bets" component={RaceBetsPage} />
           <Route path="/derby/powerups" component={PowerupsPage} />
+          <Route path="/derby/fortunes" component={FortunesPage} />
+
           {/*<Route path="/clue-rewards" component={ClueRewardsPage} />*/}
           {/*<Route path="/clues" component={CluesPage} />*/}
           {/*<Route path="/guesses" component={GuessesPage} />*/}

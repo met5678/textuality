@@ -48,6 +48,10 @@ export const TELLER_FORTUNE_STATUSES: TellerStatus[] = [
   'fortune-closing',
 ];
 
+export const TELLER_FORTUNE_AVAILABLE_STATUSES: TellerStatus[] = [
+  'fortune-open',
+];
+
 export const TELLER_TRANSITION_STATUSES: TellerStatus[] = [
   'opening',
   'betting',

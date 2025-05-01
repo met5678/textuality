@@ -3,18 +3,9 @@ import { PlayerId } from '/imports/schemas/player';
 import { TellerId } from '/imports/schemas/derby/teller';
 import { RaceId } from '/imports/schemas/derby/race';
 import RaceBets from './raceBets';
-import Players from '/imports/api/players';
 import Races from '../race/races';
-import {
-  RaceBet,
-  RaceBetId,
-  RaceBetComplete,
-  RaceBetType,
-  RaceBetStatus,
-} from '/imports/schemas/derby/raceBet';
-import Events from '/imports/api/events';
-import { OptionalId } from '/imports/utils/optional-id';
-import Tellers from '../tellers/tellers';
+import { RaceBetId, RaceBetStatus } from '/imports/schemas/derby/raceBet';
+import { raceBetStartBet } from './methods/raceBet.startBet';
 
 export const RACE_BET_CANCEL_REASONS = ['user', 'timeout', 'race'] as const;
 export type RaceBetCancelReason = (typeof RACE_BET_CANCEL_REASONS)[number];
@@ -36,31 +27,12 @@ Meteor.methods({
     teller_id: TellerId;
     race_id: RaceId;
   }) => {
-    const player = await Players.findOneAsync(player_id, {
-      fields: { money: 1 },
+    const raceBetId = await raceBetStartBet({
+      player_id,
+      teller_id,
+      race_id,
     });
-
-    if (!player) return;
-
-    const teller = await Tellers.findOneAsync(teller_id, {
-      fields: { text_code: 1 },
-    });
-
-    if (!teller) return;
-
-    const raceBet: OptionalId<RaceBet> = {
-      event: Events.currentIdOrThrow(),
-      player: player_id,
-      teller: teller_id,
-      teller_text_code: teller.text_code,
-      race: race_id,
-      status: 'pending',
-      step: 'bet-type',
-      started_at: new Date(),
-    };
-
-    const id = await RaceBets.insertAsync(raceBet);
-    return id;
+    return raceBetId;
   },
 
   'derby.raceBets.cancelBet': async (

@@ -8,6 +8,8 @@ import { fortuneTellerGetCode } from './teller.fortune.getCode';
 import { throwIfCancelledTimeout } from '../teller-flow/_teller-timeouts';
 import { TimeoutError } from '../teller-flow/_teller-timeouts';
 
+const FORTUNE_TELLER_COST = 25;
+
 export const fortuneTellerOpen = async (teller_id: string) => {
   console.log('derby.tellers.fortune-open', teller_id);
   const teller = await Tellers.findOneAsync(teller_id);
@@ -41,6 +43,7 @@ export const fortuneTellerOpen = async (teller_id: string) => {
     $set: {
       status: 'fortune-open',
       text_code: newTextCode,
+      min_wager: FORTUNE_TELLER_COST,
     },
   });
 };

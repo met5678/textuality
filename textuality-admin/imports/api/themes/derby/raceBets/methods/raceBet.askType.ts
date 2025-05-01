@@ -38,7 +38,8 @@ export const raceBetAskType = async ({
     trigger: 'TELLER_BET_TYPE',
     playerId: player._id,
     templateVars: {
-      teller_name: teller.text_code,
+      fortune_teller_name: teller.text_code,
+      fortune_teller_cost: teller.min_wager,
     },
     interactivePayload: {
       type: 'buttons',

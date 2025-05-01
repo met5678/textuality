@@ -132,8 +132,8 @@ const navItems: Array<NavItem> = [
     theme: 'derby',
   },
   {
-    title: 'Fortune Teller',
-    href: '/derby/tasks',
+    title: 'Fortunes',
+    href: '/derby/fortunes',
     icon: <Typography>🔮</Typography>,
     theme: 'derby',
   },

@@ -16,4 +16,8 @@ Horses.helpers({
     });
     return combinedStats;
   },
+
+  formattedName() {
+    return `${this.emojiColorSquare} ${this.name} - #${this.number}`;
+  },
 });

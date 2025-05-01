@@ -10,6 +10,7 @@ import {
   HorseStat,
   HorseStats,
   HorseId,
+  STAT_FANCY_NAME,
 } from '/imports/schemas/derby/horse';
 import { OptionalId } from '/imports/utils/optional-id';
 import { sendAutoText } from '/imports/api/autoTexts/methods/autoTexts.send';
@@ -30,14 +31,6 @@ const STAT_TO_AUTOTEXT: Record<HorseStat, AutoTextTrigger> = {
   water_resistance: 'HORSE_POWERUP_WATER_RESISTANCE',
   wind_resistance: 'HORSE_POWERUP_WIND_RESISTANCE',
   electric_resistance: 'HORSE_POWERUP_ELECTRIC_RESISTANCE',
-};
-
-const STAT_FANCY_NAME: Record<HorseStat, string> = {
-  speed: 'Sprintyness',
-  endurance: 'Endurance',
-  water_resistance: 'Amphibiousness',
-  wind_resistance: 'Aerodynamics',
-  electric_resistance: 'Resistance',
 };
 
 export const powerupsGeneratePowerup = async (

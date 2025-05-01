@@ -10,7 +10,12 @@ const SOUND_PATH = '/derby/sounds';
 const STATUS_TO_SOUND: Partial<Record<TellerStatus, string>> = {
   open: `${SOUND_PATH}/teller-open.mp3`,
   'betting-impatient': `${SOUND_PATH}/teller-impatient.mp3`,
+  timeout: `${SOUND_PATH}/teller-buzzer.mp3`,
+  'giving-stub-single': `${SOUND_PATH}/teller-printstubs.mp3`,
+  'giving-stub-multi': `${SOUND_PATH}/teller-printstubs.mp3`,
 };
+
+const STEP_SOUND = `${SOUND_PATH}/teller-ding.mp3`;
 
 export const TellerSounds = ({
   teller,
@@ -30,6 +35,13 @@ export const TellerSounds = ({
       soundRef.current.play();
     }
   }, [sound]);
+
+  useEffect(() => {
+    if (raceBet?.status === 'pending') {
+      soundRef.current = new Howl({ src: [STEP_SOUND] });
+      soundRef.current.play();
+    }
+  }, [raceBet?.status, raceBet?.step]);
 
   return <></>;
 };

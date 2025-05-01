@@ -27,7 +27,8 @@ export const TellerStatus = ({
   const status = teller.status as TellerStatusType;
   const isImpatient = status === 'betting-impatient';
   const isAvailable = TELLER_AVAILABLE_STATUSES.includes(status);
-  const isClosed = TELLER_CLOSED_STATUSES.includes(status);
+  const isClosed =
+    TELLER_CLOSED_STATUSES.includes(status) || status === 'opening';
   const timesUp = status === 'timeout';
 
   let infoLabel = '';
@@ -36,13 +37,16 @@ export const TellerStatus = ({
   if (isImpatient) {
     infoLabel = 'Time Left';
     infoValue = timesUp ? 0 : teller.time_left ?? 0;
-  } else if (isClosed || status === 'opening') {
+  } else if (isClosed) {
     infoLabel = 'Bets Open';
     infoValue = 60; /* JTG TO DO : time until bets open*/
   } else {
     infoLabel = 'Min Wager';
     infoValue = teller.min_wager;
   }
+
+  const mainText =
+    teller.text_code ?? (isClosed ? '' : !isAvailable ? 'Busy' : '');
 
   return (
     <div className="teller-status-wrapper" ref={statusRef}>
@@ -69,11 +73,7 @@ export const TellerStatus = ({
           />
           <div style={{ display: 'flex' }}>
             <LedChar className="at-sign" char={'@'} off={!isAvailable} />
-            <LedCharRow
-              value={teller.text_code ?? (!isAvailable ? 'Busy' : '')}
-              off={isClosed}
-              charCount={5}
-            />
+            <LedCharRow value={mainText} off={isClosed} charCount={5} />
           </div>
         </div>
         <div className="teller-status-info">

@@ -7,7 +7,7 @@ import { TellerStatus } from './TellerStatus';
 import { TellerBetStatus } from './TellerBetStatus';
 import { TellerSounds } from './TellerSounds';
 const TellerScreen = ({ event, url }: { event: Event; url: string }) => {
-  const { loading, teller, raceBet, timeLeft } = useTellerScreenData({
+  const { loading, teller, raceBet, player, timeLeft } = useTellerScreenData({
     eventId: event._id,
     url,
   });
@@ -24,7 +24,7 @@ const TellerScreen = ({ event, url }: { event: Event; url: string }) => {
       >
         <div className="teller-state-container">
           <TellerStatus teller={teller} timeLeft={timeLeft} />
-          <TellerVideo teller={teller} />
+          <TellerVideo teller={teller} player={player} raceBet={raceBet} />
           <TellerBetStatus teller={teller} raceBet={raceBet} />
           <TellerSounds teller={teller} raceBet={raceBet} />
         </div>

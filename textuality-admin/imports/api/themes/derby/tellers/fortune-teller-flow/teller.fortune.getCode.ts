@@ -20,5 +20,7 @@ export const fortuneTellerGetCode = async () => {
 };
 
 export const fortuneTellerCodeExists = (code: string) => {
-  return FORTUNE_TELLER_NAMES.includes(code);
+  return FORTUNE_TELLER_NAMES.some(
+    (n) => n.toLowerCase() === code.toLowerCase(),
+  );
 };

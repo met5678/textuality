@@ -5,6 +5,7 @@ import './Teller.css';
 import { TellerWithHelpers } from '/imports/api/themes/derby/tellers/tellers';
 import {
   TELLER_AVAILABLE_STATUSES,
+  TELLER_BUSY_STATUSES,
   TELLER_CLOSED_STATUSES,
   TellerStatus as TellerStatusType,
 } from '/imports/schemas/derby/teller-status/teller-status';
@@ -26,7 +27,10 @@ export const TellerStatus = ({
 
   const status = teller.status as TellerStatusType;
   const isImpatient = status === 'betting-impatient';
-  const isAvailable = TELLER_AVAILABLE_STATUSES.includes(status);
+  const isAvailable =
+    TELLER_AVAILABLE_STATUSES.includes(status) || status === 'fortune-open';
+  const isBusy = TELLER_BUSY_STATUSES.includes(status);
+  const isFortuneOpen = status === 'fortune-open';
   const isClosed =
     TELLER_CLOSED_STATUSES.includes(status) || status === 'opening';
   const timesUp = status === 'timeout';
@@ -45,8 +49,12 @@ export const TellerStatus = ({
     infoValue = teller.min_wager;
   }
 
-  const mainText =
-    teller.text_code ?? (isClosed ? '' : !isAvailable ? 'Busy' : '');
+  let mainText = '';
+  if (isFortuneOpen || isAvailable) {
+    mainText = teller.text_code;
+  } else if (isBusy) {
+    mainText = 'Busy';
+  }
 
   return (
     <div className="teller-status-wrapper" ref={statusRef}>
@@ -73,7 +81,11 @@ export const TellerStatus = ({
           />
           <div style={{ display: 'flex' }}>
             <LedChar className="at-sign" char={'@'} off={!isAvailable} />
-            <LedCharRow value={mainText} off={isClosed} charCount={5} />
+            <LedCharRow
+              value={mainText}
+              off={isClosed && !isFortuneOpen}
+              charCount={5}
+            />
           </div>
         </div>
         <div className="teller-status-info">

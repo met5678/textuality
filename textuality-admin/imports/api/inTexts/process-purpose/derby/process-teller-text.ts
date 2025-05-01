@@ -25,8 +25,13 @@ const processFortuneTeller = async (
   player: PlayerWithHelpers,
   tellerTextCode: string,
   teller?: TellerWithHelpers,
+  race?: RaceWithHelpers,
 ) => {
-  if (teller && TELLER_FORTUNE_AVAILABLE_STATUSES.includes(teller.status)) {
+  if (
+    race?.status === 'pre-bets' &&
+    teller &&
+    TELLER_FORTUNE_AVAILABLE_STATUSES.includes(teller.status)
+  ) {
     if (player.money < teller.min_wager) {
       sendAutoText({
         trigger: 'TELLER_REJECT_NOT_ENOUGH_MONEY',
@@ -93,16 +98,17 @@ const doTellerPreChecks = async (
     return false;
   }
 
-  if (race.status === 'pre-bets' || race.status === 'future') {
-    const fortuneTellerProcessed = await processFortuneTeller(
-      player,
-      tellerTextCode,
-      teller,
-    );
-    if (fortuneTellerProcessed) {
-      return false;
-    }
+  const fortuneTellerProcessed = await processFortuneTeller(
+    player,
+    tellerTextCode,
+    teller,
+    race,
+  );
+  if (fortuneTellerProcessed) {
+    return false;
+  }
 
+  if (race.status === 'pre-bets' || race.status === 'future') {
     sendAutoText({
       trigger: 'TELLER_REJECT_BETTING_NOT_YET_OPEN',
       playerId: player._id,

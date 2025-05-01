@@ -20,12 +20,12 @@ export const TELLER_STATUS = [
 export type TellerStatus = (typeof TELLER_STATUS)[number];
 
 export const TELLER_BUSY_STATUSES: TellerStatus[] = [
-  'opening',
   'betting',
   'betting-impatient',
   'giving-stub-single',
   'giving-stub-multi',
   'timeout',
+  'fortune-engaged',
 ];
 export const TELLER_CLOSED_STATUSES: TellerStatus[] = [
   'closing',

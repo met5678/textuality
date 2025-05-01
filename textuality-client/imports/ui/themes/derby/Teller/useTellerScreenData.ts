@@ -31,11 +31,12 @@ export const useTellerScreenData = ({
     [teller?._id],
   )?.[0]?.time_left;
 
-  useSubscribe('players.basic.forId', raceBet?.player);
-  const player = useFind(
-    () => Players.find({ _id: raceBet?.player }),
-    [raceBet?.player],
+  useSubscribe('players.basic');
+  const players = useFind(
+    () => Players.find(teller?.current_player),
+    [teller?.current_player],
   );
+  const player = players[0];
 
   const loading = tellerIsLoading();
 

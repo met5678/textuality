@@ -29,8 +29,6 @@ type Teller = {
   current_bet?: RaceBetId;
 };
 
-console.log([...TELLER_STATUS]);
-
 const TellerSchema = new SimpleSchema({
   event: {
     type: String,

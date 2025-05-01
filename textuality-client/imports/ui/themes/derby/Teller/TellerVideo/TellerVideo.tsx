@@ -8,9 +8,14 @@ import {
   TELLER_FORTUNE_STATUSES,
   TellerStatus,
 } from '/imports/schemas/derby/teller-status/teller-status';
+import { RaceBetWithHelpers } from '/imports/api/themes/derby/raceBets/raceBets';
+import { PlayerWithHelpers } from '/imports/api/players/players';
+import { TellerPlayer } from '../TellerPlayer';
 
 type TellerVideoProps = {
   teller: TellerWithHelpers;
+  player?: PlayerWithHelpers;
+  raceBet?: RaceBetWithHelpers;
 };
 
 const END_BUFFER_SECS = 1;
@@ -70,20 +75,21 @@ const getVideoUrl = (actor: TellerActor, status: TellerStatus) => {
   return `${VIDEO_PATH}/${useActor}-${suffix}.mp4`;
 };
 
-export const TellerVideo = ({ teller }: TellerVideoProps) => {
+export const TellerVideo = ({ teller, player, raceBet }: TellerVideoProps) => {
   const { actor, status } = teller;
   const videoRef = useRef<HTMLVideoElement>(null);
   const transitionDiv = useRef<HTMLDivElement>(null);
+
   const videoLoaded = useCallback(() => {
     if (!videoRef.current) {
       return;
     }
     if (VIDEOS_LOOPABLE.includes(status)) {
-      const startTime = Math.max(
-        0,
-        Math.random() * (videoRef.current.duration - END_BUFFER_SECS),
-      );
-      videoRef.current.currentTime = startTime;
+      // const startTime = Math.max(
+      //   0,
+      //   Math.random() * (videoRef.current.duration - END_BUFFER_SECS),
+      // );
+      // videoRef.current.currentTime = startTime;
       videoRef.current.loop = true;
     } else {
       videoRef.current.currentTime = 0;
@@ -113,7 +119,6 @@ export const TellerVideo = ({ teller }: TellerVideoProps) => {
     }
 
     if (transitionDiv.current) {
-      transitionDiv.current.style.opacity = '0.33';
       gsap.to(transitionDiv.current, {
         opacity: 0,
         duration: 0.3,
@@ -140,8 +145,19 @@ export const TellerVideo = ({ teller }: TellerVideoProps) => {
       return;
     }
 
-    videoRef.current.src = getVideoUrl(actor, status);
-    videoRef.current.autoplay = true;
+    if (transitionDiv.current) {
+      transitionDiv.current.style.opacity = '0';
+      gsap
+        .to(transitionDiv.current, {
+          opacity: 0.5,
+          duration: 0.15,
+        })
+        .then(() => {
+          if (videoRef.current) {
+            videoRef.current.src = getVideoUrl(actor, status);
+          }
+        });
+    }
   }, [actor, status]);
 
   return (
@@ -154,6 +170,7 @@ export const TellerVideo = ({ teller }: TellerVideoProps) => {
           backgroundColor: TRANSITION_COLOR,
         }}
       ></div>
+      <TellerPlayer player={player} raceBet={raceBet} />
     </div>
   );
 };

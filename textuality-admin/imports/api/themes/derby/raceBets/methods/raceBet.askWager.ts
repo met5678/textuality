@@ -26,7 +26,7 @@ const getBetWagerOptions = ({
 }) => {
   const standardOptions = STANDARD_MULTIPLES.filter((multiple) => {
     const wagerCost = minBet * multiple;
-    return wagerCost <= playerMoney;
+    return wagerCost < playerMoney;
   }).map((multiple) => {
     const wagerCost = minBet * multiple;
     return {
@@ -36,7 +36,7 @@ const getBetWagerOptions = ({
   });
 
   const letItRideOption = {
-    label: `Bet it all! ${playerMoney} DD`,
+    label: `Go all in! ${Math.floor(playerMoney)} DD`,
     value: `raceBet/${raceBet._id}/ticket/${Math.ceil(
       playerMoney / minBet,
     )}x${minBet}`,
@@ -78,6 +78,12 @@ export const raceBetAskWager = async ({
       return horses.find((horse) => horse._id === horseId);
     }) ?? [];
 
+  const wagerOptions = getBetWagerOptions({
+    raceBet,
+    minBet: teller.min_wager,
+    playerMoney: player.money,
+  });
+
   if (raceBet.type === 'trifecta') {
     sendAutoText({
       trigger: 'TELLER_BET_WAGER_TRIFECTA',
@@ -98,11 +104,7 @@ export const raceBetAskWager = async ({
       interactivePayload: {
         type: 'list',
         list_button_label: 'Pick a bet',
-        options: getBetWagerOptions({
-          raceBet,
-          minBet: teller.min_wager,
-          playerMoney: player.money,
-        }),
+        options: wagerOptions,
       },
     });
     return;
@@ -120,11 +122,7 @@ export const raceBetAskWager = async ({
     interactivePayload: {
       type: 'list',
       list_button_label: 'Pick a bet',
-      options: getBetWagerOptions({
-        raceBet,
-        minBet: teller.min_wager,
-        playerMoney: player.money,
-      }),
+      options: wagerOptions,
     },
   });
 };

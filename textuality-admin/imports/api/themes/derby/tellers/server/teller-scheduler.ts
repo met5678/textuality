@@ -41,7 +41,7 @@ const FORTUNE_TELLER_VANISH_PROBABILITY = 0.1;
 const openTellers = async () => {
   const tellers = await Tellers.find({
     event: Events.currentIdOrThrow(),
-    url: { $ne: 'jen' },
+    unscheduled: false,
   }).fetch();
 
   for (const teller of tellers) {
@@ -57,7 +57,7 @@ const openTellers = async () => {
 const closeTellers = async () => {
   const tellers = await Tellers.find({
     event: Events.currentIdOrThrow(),
-    url: { $ne: 'jen' },
+    unscheduled: false,
   }).fetch();
 
   for (const teller of tellers) {
@@ -74,7 +74,7 @@ const sitDownTellers = async () => {
   const tellers = await Tellers.find({
     event: Events.currentIdOrThrow(),
     status: { $in: ['empty', 'standup'] },
-    url: { $ne: 'jen' },
+    unscheduled: false,
   }).fetch();
 
   for (const teller of tellers) {
@@ -155,7 +155,7 @@ const setupBreakAntics = () => {
     const seatedTellers = await Tellers.find({
       event: Events.currentIdOrThrow(),
       status: 'break',
-      url: { $ne: 'jen' },
+      unscheduled: false,
     }).fetch();
 
     for (const teller of seatedTellers) {
@@ -171,7 +171,7 @@ const setupBreakAntics = () => {
     const standingTellers = await Tellers.find({
       event: Events.currentIdOrThrow(),
       status: 'empty',
-      url: { $ne: 'jen' },
+      unscheduled: false,
     }).fetch();
 
     for (const teller of standingTellers) {
@@ -197,6 +197,7 @@ const setupFortuneTeller = () => {
       status: 1,
       scheduled: 1,
       time_bets_start_at: 1,
+      fortune_teller_available: 1,
     });
     const fortuneTellerVanishBy = DateTime.fromJSDate(race?.time_bets_start_at!)
       .minus({
@@ -210,6 +211,10 @@ const setupFortuneTeller = () => {
       .toJSDate();
 
     if (race.status !== 'pre-bets') return;
+    if (!race.fortune_teller_available) {
+      console.log('fortune teller not available for this race');
+      return;
+    }
 
     if (race.scheduled && Date.now() > fortuneTellerVanishBy.getTime()) {
       console.log('closing fortune tellers');
@@ -230,7 +235,7 @@ const setupFortuneTeller = () => {
         const emptyTellers = await Tellers.find({
           event: Events.currentIdOrThrow(),
           status: 'empty',
-          url: { $ne: 'jen' },
+          unscheduled: false,
         }).fetch();
 
         if (emptyTellers.length > 0) {
@@ -261,7 +266,7 @@ const setupFortuneTeller = () => {
 const resetStuckTellers = () => {
   const tellers = Tellers.find({
     event: Events.currentIdOrThrow(),
-    url: { $ne: 'jen' },
+    unscheduled: false,
   }).fetch();
 
   for (const teller of tellers) {

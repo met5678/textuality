@@ -46,6 +46,7 @@ type Race = {
   timeline: RaceTimeline;
   furlong_length: number;
   weather: Weather;
+  fortune_teller_available: boolean;
   linked_mission?: MissionId;
   results: RaceHorseResult[];
   odds: RaceHorseOdds[];
@@ -138,6 +139,10 @@ const RaceSchema = new SimpleSchema({
   },
   'results.$': {
     type: RaceHorseResultSchema,
+  },
+  fortune_teller_available: {
+    type: Boolean,
+    defaultValue: false,
   },
   linked_mission: {
     type: String,

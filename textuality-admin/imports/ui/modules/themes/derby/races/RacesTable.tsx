@@ -191,6 +191,14 @@ const getColumns = ({
       ),
     },
     {
+      field: 'fortune_teller_available',
+      headerName: 'Fortune Teller Available',
+      width: 80,
+      editable: true,
+      type: 'boolean',
+      renderCell: (params) => <TableToggle {...params} />,
+    },
+    {
       field: 'linked_mission',
       headerName: 'Mission',
       width: 100,

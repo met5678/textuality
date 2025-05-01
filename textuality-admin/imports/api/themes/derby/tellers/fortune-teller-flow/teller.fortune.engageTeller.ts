@@ -38,7 +38,6 @@ export const fortuneTellerEngageTeller = async (
   teller.time_left = time_left;
 
   do {
-    console.log('time_left', time_left);
     Tellers.updateAsync(tellerId, {
       $set: {
         time_left,

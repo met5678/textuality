@@ -27,6 +27,8 @@ type Teller = {
   time_left?: number;
   current_player?: PlayerId;
   current_bet?: RaceBetId;
+
+  unscheduled: boolean;
 };
 
 const TellerSchema = new SimpleSchema({
@@ -78,6 +80,10 @@ const TellerSchema = new SimpleSchema({
   current_bet: {
     type: String,
     optional: true,
+  },
+  unscheduled: {
+    type: Boolean,
+    defaultValue: false,
   },
 });
 

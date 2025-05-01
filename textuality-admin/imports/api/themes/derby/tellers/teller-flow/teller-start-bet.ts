@@ -43,7 +43,6 @@ export const tellerStartRaceBet = async (
 
   // Countdown to the timeout
   do {
-    console.log('time_left', time_left);
     Tellers.updateAsync(teller_id, {
       $set: {
         status:

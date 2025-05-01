@@ -16,6 +16,7 @@ import Players, { PlayerWithHelpers } from '/imports/api/players/players';
 import Events from '/imports/api/events';
 import Fortunes from '/imports/api/themes/derby/fortunes';
 import { RaceBetWithHelpers } from '/imports/api/themes/derby/raceBets/raceBets';
+import { TableToggle } from '/imports/ui/generic/TableToggle/TableToggle';
 
 const getColumns = (
   players: PlayerWithHelpers[],
@@ -80,6 +81,14 @@ const getColumns = (
       const bet = raceBets.find((b) => b._id === value);
       return bet?.step;
     },
+  },
+  {
+    field: 'unscheduled',
+    headerName: 'Unscheduled',
+    width: 90,
+    type: 'boolean',
+    editable: true,
+    renderCell: (params) => <TableToggle {...params} />,
   },
 ];
 

@@ -30,7 +30,7 @@ const getBetWagerOptions = ({
   }).map((multiple) => {
     const wagerCost = minBet * multiple;
     return {
-      label: `${multiple}x ${minBet}DD = ${wagerCost}DD`,
+      label: `${wagerCost} DD`,
       value: `raceBet/${raceBet._id}/ticket/${multiple}x${minBet}`,
     };
   });

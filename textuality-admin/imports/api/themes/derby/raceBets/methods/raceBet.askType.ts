@@ -23,7 +23,7 @@ const getBetTypeOptions = (raceBet: RaceBetWithHelpers) => {
       value: `raceBet/${raceBet._id}/bet-type/trifecta`,
     },
     {
-      label: 'Cancel this bet',
+      label: 'Leave',
       value: `raceBet/${raceBet._id}/cancel`,
     },
   ];

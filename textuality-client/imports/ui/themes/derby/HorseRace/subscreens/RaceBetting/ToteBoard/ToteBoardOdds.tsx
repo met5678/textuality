@@ -38,11 +38,7 @@ const HorseColumn: React.FC<{
     >
       {horses.map((horse) => {
         return (
-          <div
-            key={horse._id}
-            className="tote-board-horse-odds"
-            style={{ display: 'flex', gap: '8px', alignItems: 'flex-end' }}
-          >
+          <div key={horse._id} className="tote-board-horse-odds">
             <LedCharRow
               label={
                 <div
@@ -57,6 +53,7 @@ const HorseColumn: React.FC<{
                     paddingLeft: '2px',
                     paddingTop: '1px',
                     filter: 'drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5))',
+                    marginRight: '.5rem',
                   }}
                 >
                   <span

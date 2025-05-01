@@ -7,7 +7,7 @@ import { TellerStatus } from './TellerStatus';
 import { TellerBetStatus } from './TellerBetStatus';
 import { TellerSounds } from './TellerSounds';
 const TellerScreen = ({ event, url }: { event: Event; url: string }) => {
-  const { loading, teller, raceBet, player, timeLeft } = useTellerScreenData({
+  const { loading, teller, raceBet } = useTellerScreenData({
     eventId: event._id,
     url,
   });
@@ -18,16 +18,6 @@ const TellerScreen = ({ event, url }: { event: Event; url: string }) => {
   Note: paths work fine in ToteBoard.css so not sure why this is happening */
   return (
     <>
-      <style>
-        {`
-          @font-face {
-            font-family: 'digital-7';
-            src: url('/derby/digital-7_mono.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-          }
-        `}
-      </style>
       <div
         className="teller-screen"
         style={{ background: `url(/derby/textures/wood-dark.png) #463C36` }}

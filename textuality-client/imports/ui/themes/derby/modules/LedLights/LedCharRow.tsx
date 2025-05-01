@@ -22,7 +22,7 @@ export const LedCharRow: React.FC<{
   return (
     <div
       className="led-char-row"
-      style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}
+      style={{ display: 'flex', alignItems: 'center', gap: '1.2rem' }}
     >
       {label && <span>{label}</span>}
       <div style={{ display: 'flex' }}>

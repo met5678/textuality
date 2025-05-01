@@ -60,7 +60,7 @@ export const TellerStatus = ({ teller }: { teller: TellerWithHelpers }) => {
             blink={status === 'betting-impatient'}
           />
           <div style={{ display: 'flex' }}>
-            <LedChar char={'@'} off={!isAvailable} />
+            <LedChar className="at-sign" char={'@'} off={!isAvailable} />
             <LedCharRow
               value={teller.text_code ?? ''}
               off={!isAvailable}

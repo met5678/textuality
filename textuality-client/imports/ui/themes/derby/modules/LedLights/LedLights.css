@@ -1,8 +1,3 @@
-@font-face {
-  font-family: 'digital-7';
-  src: url('/derby/digital-7_mono.ttf') format('truetype');
-}
-
 /* Need RGB so I can use alpha values*/
 .derby-led {
   --led-100: 255, 232, 160;
@@ -49,13 +44,12 @@
   font-family: 'bitcount-mono-single-circle', monospace;
   font-weight: 500;
   width: 3rem;
-  height: 3.5rem;
+  height: 3rem;
   background-color: var(--led-cell-background);
   font-size: 3rem;
   border-radius: 0.35rem;
   text-transform: uppercase;
   filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5));
-  padding-left: 0.1rem; /* Offset for this font */
   transition: all 0.15s ease-out;
   color: rgb(var(--led-300));
 }
@@ -65,6 +59,11 @@
   place-items: center;
   width: 100%;
   height: 100%;
+
+  /* IDK why this is needed with this font*/
+  position: relative;
+  top: -0.55rem;
+  left: 0.17rem;
 
   -webkit-background-clip: text;
   color: transparent;
@@ -148,7 +147,7 @@
     filter: drop-shadow(0 0 1px rgb(var(--led-200)));
   }
   50% {
-    filter: drop-shadow(0 0 3px rgb(var(--led-300)));
+    filter: drop-shadow(0 0 2px rgb(var(--led-300)));
   }
 }
 

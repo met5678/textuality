@@ -46,11 +46,11 @@
 /* LED CHARS */
 
 .led-char {
-  font-family: 'digital-7', monospace;
+  font-family: 'bitcount-mono-single-circle', monospace;
+  font-weight: 500;
   width: 3rem;
   height: 3.5rem;
   background-color: var(--led-cell-background);
-  font-weight: bold;
   font-size: 3rem;
   border-radius: 0.35rem;
   text-transform: uppercase;

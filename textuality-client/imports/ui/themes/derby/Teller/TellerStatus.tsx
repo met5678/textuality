@@ -36,6 +36,7 @@ export const TellerStatus = ({ teller }: { teller: TellerWithHelpers }) => {
     infoLabel = 'Time Left';
     infoValue = timesUp ? 0 : teller.time_left ?? 0;
   }
+  console.log('closed', isClosed);
 
   return (
     <div className="teller-status-wrapper" ref={statusRef}>
@@ -58,6 +59,7 @@ export const TellerStatus = ({ teller }: { teller: TellerWithHelpers }) => {
           <LedRound
             color={isAvailable ? 'green' : 'red'}
             blink={status === 'betting-impatient'}
+            off={isClosed}
           />
           <div style={{ display: 'flex' }}>
             <LedChar className="at-sign" char={'@'} off={!isAvailable} />

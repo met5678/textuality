@@ -4,11 +4,12 @@ import {
   TELLER_VIDEO_LENGTHS,
 } from '/imports/schemas/derby/teller-status/teller-status';
 import Tellers from '../tellers';
-import { TimeoutError } from './_teller-timeouts';
-import { throwIfCancelledTimeout } from './_teller-timeouts';
+import { fortuneTellerGetCode } from './teller.fortune.getCode';
+import { throwIfCancelledTimeout } from '../teller-flow/_teller-timeouts';
+import { TimeoutError } from '../teller-flow/_teller-timeouts';
 
-export const tellerOpen = async (teller_id: string) => {
-  console.log('derby.tellers.open', teller_id);
+export const fortuneTellerOpen = async (teller_id: string) => {
+  console.log('derby.tellers.fortune-open', teller_id);
   const teller = await Tellers.findOneAsync(teller_id);
   if (!teller) {
     throw new Meteor.Error('teller-not-found', 'Teller not found');
@@ -20,27 +21,25 @@ export const tellerOpen = async (teller_id: string) => {
 
   Tellers.updateAsync(teller_id, {
     $set: {
-      status: 'opening',
+      status: 'fortune-opening',
     },
   });
 
   try {
     await throwIfCancelledTimeout(
       teller_id,
-      TELLER_VIDEO_LENGTHS?.opening ?? 5,
+      TELLER_VIDEO_LENGTHS?.['fortune-opening'] ?? 5,
     );
   } catch (error) {
     if (error === TimeoutError) return;
     throw error;
   }
 
-  const newTextCode = await Meteor.callAsync(
-    'derby.tellers.getAvailableTextCode',
-  );
+  const newTextCode = await fortuneTellerGetCode();
 
   Tellers.updateAsync(teller_id, {
     $set: {
-      status: 'open',
+      status: 'fortune-open',
       text_code: newTextCode,
     },
   });

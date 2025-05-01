@@ -8,23 +8,12 @@ import {
 } from './timeline/generate-timeline';
 import Horses from '../horses/horses';
 import Events from '/imports/api/events';
-
+import { racesGetCurrent } from './methods/races.getCurrent';
 const keyframeIntervalHandles: Record<RaceId, number> = {};
 
 Meteor.methods({
   'derby.races.findCurrent': async (): Promise<RaceWithHelpers | undefined> => {
-    const race = await Races.findOneAsync(
-      {
-        event: Events.currentIdOrThrow(),
-        status: { $nin: ['inactive', 'future'] },
-      },
-      {
-        sort: { time_race_starts_at: 1 },
-        limit: 1,
-      },
-    );
-
-    return race;
+    return racesGetCurrent();
   },
 
   'derby.races.generateTimeline': async (raceId: RaceId, seed?: number) => {

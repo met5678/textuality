@@ -4,7 +4,10 @@ import '../Teller.css';
 import { TellerWithHelpers } from '/imports/api/themes/derby/tellers/tellers';
 import { TellerActor } from '/imports/schemas/derby/teller';
 import gsap from 'gsap';
-import { TellerStatus } from '/imports/schemas/derby/teller-status/teller-status';
+import {
+  TELLER_FORTUNE_STATUSES,
+  TellerStatus,
+} from '/imports/schemas/derby/teller-status/teller-status';
 
 type TellerVideoProps = {
   teller: TellerWithHelpers;
@@ -26,6 +29,10 @@ const VIDEO_SUFFIXES: Record<TellerStatus, string> = {
   standup: 'standup',
   empty: 'sitdown',
   sitdown: 'sitdown',
+  'fortune-opening': 'open',
+  'fortune-open': 'idle',
+  'fortune-engaged': 'engaged',
+  'fortune-closing': 'close',
 };
 
 const VIDEOS_LOOPABLE: TellerStatus[] = [
@@ -33,18 +40,34 @@ const VIDEOS_LOOPABLE: TellerStatus[] = [
   'betting',
   'betting-impatient',
   'break',
+  'fortune-open',
+  'fortune-engaged',
 ];
 
-const VIDEOS_PLAYBACKRATE_CHANGEABLE: TellerStatus[] = ['open', 'break'];
+const VIDEOS_PLAYBACKRATE_CHANGEABLE: TellerStatus[] = [
+  'open',
+  'break',
+  'fortune-open',
+];
 
-const VIDEOS_WITH_SOUND: TellerStatus[] = ['opening', 'closing'];
+const VIDEOS_WITH_SOUND: TellerStatus[] = [
+  'opening',
+  'closing',
+  'fortune-opening',
+  'fortune-closing',
+];
 const VIDEO_FREEZE: TellerStatus[] = ['empty'];
 
 const VIDEO_PATH = '/derby/videos/teller';
 
 const getVideoUrl = (actor: TellerActor, status: TellerStatus) => {
   const suffix = VIDEO_SUFFIXES[status];
-  return `${VIDEO_PATH}/${actor}-teller-${suffix}.mp4`;
+
+  const useActor = TELLER_FORTUNE_STATUSES.includes(status)
+    ? 'liz-fortune'
+    : `${actor}-teller`;
+
+  return `${VIDEO_PATH}/${useActor}-${suffix}.mp4`;
 };
 
 export const TellerVideo = ({ teller }: TellerVideoProps) => {

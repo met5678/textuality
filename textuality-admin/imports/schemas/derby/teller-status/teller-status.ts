@@ -33,6 +33,11 @@ export const TELLER_CLOSED_STATUSES: TellerStatus[] = [
   'standup',
   'sitdown',
   'empty',
+
+  'fortune-opening',
+  'fortune-open',
+  'fortune-engaged',
+  'fortune-closing',
 ];
 export const TELLER_AVAILABLE_STATUSES: TellerStatus[] = ['open'];
 
@@ -42,6 +47,37 @@ export const TELLER_FORTUNE_STATUSES: TellerStatus[] = [
   'fortune-engaged',
   'fortune-closing',
 ];
+
+export const TELLER_TRANSITION_STATUSES: TellerStatus[] = [
+  'opening',
+  'betting',
+  'giving-stub-single',
+  'giving-stub-multi',
+  'standup',
+  'sitdown',
+] as const;
+
+export const TELLER_TRANSITION_STATUS_TO_RESTING_STATUS: Record<
+  TellerStatus,
+  TellerStatus
+> = {
+  opening: 'open',
+  open: 'open',
+  betting: 'open',
+  'betting-impatient': 'open',
+  'giving-stub-single': 'open',
+  'giving-stub-multi': 'open',
+  timeout: 'open',
+  closing: 'break',
+  break: 'break',
+  standup: 'empty',
+  empty: 'empty',
+  'fortune-opening': 'fortune-open',
+  'fortune-open': 'fortune-open',
+  'fortune-engaged': 'fortune-open',
+  'fortune-closing': 'empty',
+  sitdown: 'break',
+};
 
 export const TELLER_OPEN_STATUSES = [
   ...TELLER_AVAILABLE_STATUSES,

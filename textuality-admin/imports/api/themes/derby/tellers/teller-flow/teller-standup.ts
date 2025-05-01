@@ -2,7 +2,7 @@ import Tellers from '../tellers';
 import { throwIfCancelledTimeout, TimeoutError } from './_teller-timeouts';
 import { TELLER_VIDEO_LENGTHS } from '/imports/schemas/derby/teller-status/teller-status';
 
-export const standupTeller = async (teller_id: string) => {
+export const tellerStandup = async (teller_id: string) => {
   const teller = await Tellers.findOneAsync(teller_id);
   if (!teller) {
     console.warn(`Can't standup teller ${teller_id} because it doesn't exist`);

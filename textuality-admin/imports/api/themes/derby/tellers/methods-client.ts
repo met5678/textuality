@@ -9,11 +9,11 @@ import { TellerId } from '/imports/schemas/derby/teller';
 import { maleDogNames } from '/imports/utils/male-dog-names';
 import { RaceBetId } from '/imports/schemas/derby/raceBet';
 import { PlayerId } from '/imports/schemas/player';
-import { openTeller } from './teller-flow/teller-open';
+import { tellerOpen } from './teller-flow/teller-open';
 import { tellerStartRaceBet } from './teller-flow/teller-start-bet';
-import { closeTeller } from './teller-flow/teller-close';
-import { standupTeller } from './teller-flow/teller-standup';
-import { sitdownTeller } from './teller-flow/teller-sitdown';
+import { tellerClose } from './teller-flow/teller-close';
+import { tellerStandup } from './teller-flow/teller-standup';
+import { tellerSitDown } from './teller-flow/teller-sitdown';
 import { tellerUpdateBet } from './teller-flow/teller-update-bet';
 import { tellerCancelBet } from './teller-flow/teller-cancel-bet';
 import { tellerCompleteBet } from './teller-flow/teller-complete-bet';
@@ -34,7 +34,7 @@ Meteor.methods({
   'derby.tellers.open': async (teller_id: string) => {
     console.log('derby.tellers.open', teller_id);
     try {
-      openTeller(teller_id);
+      tellerOpen(teller_id);
     } catch (error) {
       throw error;
     }
@@ -64,15 +64,15 @@ Meteor.methods({
   },
 
   'derby.tellers.close': async (teller_id: TellerId) => {
-    closeTeller(teller_id);
+    tellerClose(teller_id);
   },
 
   'derby.tellers.standup': async (teller_id: string) => {
-    standupTeller(teller_id);
+    tellerStandup(teller_id);
   },
 
   'derby.tellers.sitdown': async (teller_id: string) => {
-    sitdownTeller(teller_id);
+    tellerSitDown(teller_id);
   },
 
   'derby.tellers.getAvailableTextCode': async () => {

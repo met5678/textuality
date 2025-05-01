@@ -18,7 +18,7 @@ const APPROXIMATE_SECONDS_PER_FURLONG = 6;
 export const OVERRUN_DISTANCE_FURLONGS = 0.5; // furlongs to run past finish line
 
 /** Mostly to prevent infinite loops */
-const MAX_FRAMES = 200;
+export const MAX_TIMELINE_SECONDS = 200;
 
 // Increased base speed to make races faster
 const BASE_SPEED = 1.4;
@@ -125,7 +125,7 @@ export const generateTimelineWithResults = (
   let frame = 0;
   let allFinished = false;
 
-  while (!allFinished && frame < MAX_FRAMES) {
+  while (!allFinished && frame < MAX_TIMELINE_SECONDS) {
     allFinished = true;
 
     horseStates.forEach((state) => {

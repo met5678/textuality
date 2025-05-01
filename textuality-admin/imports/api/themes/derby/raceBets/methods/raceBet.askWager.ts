@@ -36,7 +36,7 @@ const getBetWagerOptions = ({
   });
 
   const letItRideOption = {
-    label: `Let it Ride! $${playerMoney}`,
+    label: `Let it Ride! ${playerMoney} DD`,
     value: `raceBet/${raceBet._id}/ticket/let-it-ride`,
   };
 

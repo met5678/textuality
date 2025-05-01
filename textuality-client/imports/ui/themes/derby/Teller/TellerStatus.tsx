@@ -12,7 +12,13 @@ import { LedChar } from '../modules/LedLights/LedChar';
 import { LedCharRow } from '../modules/LedLights/LedCharRow';
 import { LedRound } from '../modules/LedLights/LedRound';
 
-export const TellerStatus = ({ teller }: { teller: TellerWithHelpers }) => {
+export const TellerStatus = ({
+  teller,
+  timeLeft,
+}: {
+  teller: TellerWithHelpers;
+  timeLeft: number | undefined;
+}) => {
   const statusRef = useRef<HTMLDivElement>(null);
   const baseWidth = 344;
   const baseHeight = 128;
@@ -27,11 +33,9 @@ export const TellerStatus = ({ teller }: { teller: TellerWithHelpers }) => {
   let infoLabel = '';
   let infoValue = 0;
 
-  console.log('teller', teller);
-
   if (isImpatient) {
     infoLabel = 'Time Left';
-    infoValue = timesUp ? 0 : teller.time_left ?? 0;
+    infoValue = timesUp ? 0 : timeLeft ?? 0;
   } else if (isClosed || status === 'opening') {
     infoLabel = 'Bets Open';
     infoValue = 60; /* JTG TO DO : time until bets open*/

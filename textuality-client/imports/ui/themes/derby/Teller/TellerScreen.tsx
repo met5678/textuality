@@ -7,7 +7,7 @@ import { TellerStatus } from './TellerStatus';
 import { TellerBetStatus } from './TellerBetStatus';
 import { TellerSounds } from './TellerSounds';
 const TellerScreen = ({ event, url }: { event: Event; url: string }) => {
-  const { loading, teller, raceBet } = useTellerScreenData({
+  const { loading, teller, raceBet, timeLeft } = useTellerScreenData({
     eventId: event._id,
     url,
   });
@@ -23,7 +23,7 @@ const TellerScreen = ({ event, url }: { event: Event; url: string }) => {
         style={{ background: `url(/derby/textures/wood-dark.png) #463C36` }}
       >
         <div className="teller-state-container">
-          <TellerStatus teller={teller} />
+          <TellerStatus teller={teller} timeLeft={timeLeft} />
           <TellerVideo teller={teller} />
           <TellerBetStatus teller={teller} raceBet={raceBet} />
           <TellerSounds teller={teller} raceBet={raceBet} />

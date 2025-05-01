@@ -2,12 +2,16 @@ import { Meteor } from 'meteor/meteor';
 import { RaceWithHelpers } from '../../race/races';
 import RaceBets, { RaceBetWithHelpers } from '../raceBets';
 import { PlayerWithHelpers } from '/imports/api/players/players';
-import { RaceBetComplete } from '/imports/schemas/derby/raceBet';
+import {
+  RaceBetComplete,
+  RaceBetCompleteWithHelpers,
+} from '/imports/schemas/derby/raceBet';
 import { sendAutoText } from '/imports/api/autoTexts/methods/autoTexts.send';
 import { DateTime } from 'luxon';
 import { TellerWithHelpers } from '../../tellers/tellers';
 import Horses from '../../horses/horses';
 import { tellerCompleteBet } from '../../tellers/teller-flow/teller-complete-bet';
+import { raceUpdateOdds } from '../../race/methods/races.updateOdds';
 
 type ProcessBetTypeArgs = {
   player: PlayerWithHelpers;
@@ -18,7 +22,7 @@ type ProcessBetTypeArgs = {
 
 const validateRaceBet = (
   raceBet: RaceBetWithHelpers,
-): raceBet is RaceBetComplete => {
+): raceBet is RaceBetCompleteWithHelpers => {
   return (
     typeof raceBet.base_bet === 'number' &&
     typeof raceBet.count === 'number' &&
@@ -135,6 +139,7 @@ export const raceBetPlaceBet = async ({
   }
 
   tellerCompleteBet(teller._id, raceBet._id);
+  raceUpdateOdds(race._id);
 
   // TODO: Update Odds
 };

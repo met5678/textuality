@@ -2,7 +2,9 @@ import { Mongo } from 'meteor/mongo';
 
 import { RaceBet, RaceBetSchema } from '../../../../schemas/derby/raceBet';
 
-interface RaceBetWithHelpers extends RaceBet {}
+interface RaceBetWithHelpers extends RaceBet {
+  totalWager(): number;
+}
 
 const RaceBets = new Mongo.Collection<RaceBet, RaceBetWithHelpers>(
   'derby_raceBets',

@@ -7,15 +7,34 @@ import { Howl } from 'howler';
 
 const SOUND_PATH = '/derby/sounds';
 
-const STATUS_TO_SOUND: Partial<Record<TellerStatus, string>> = {
-  open: `${SOUND_PATH}/teller-open-1.mp3`,
-  'betting-impatient': `${SOUND_PATH}/teller-impatient-1.mp3`,
+const STATUS_TO_SOUND: Partial<
+  Record<TellerStatus, string | (string | undefined)[]>
+> = {
+  open: [
+    `${SOUND_PATH}/teller-open-1.mp3`,
+    `${SOUND_PATH}/teller-open-2.mp3`,
+    undefined,
+    undefined,
+  ],
+  'betting-impatient': [
+    `${SOUND_PATH}/teller-impatient-1.mp3`,
+    `${SOUND_PATH}/teller-impatient-2.mp3`,
+    `${SOUND_PATH}/teller-impatient-3.mp3`,
+  ],
   timeout: `${SOUND_PATH}/teller-buzzer.mp3`,
   'giving-stub-single': `${SOUND_PATH}/teller-printstubs.mp3`,
   'giving-stub-multi': `${SOUND_PATH}/teller-printstubs.mp3`,
 };
 
 const STEP_SOUND = `${SOUND_PATH}/teller-ding.mp3`;
+
+const getSound = (status: TellerStatus) => {
+  const sound = STATUS_TO_SOUND[status];
+  if (Array.isArray(sound)) {
+    return sound[Math.floor(Math.random() * sound.length)];
+  }
+  return sound;
+};
 
 export const TellerSounds = ({
   teller,
@@ -25,7 +44,7 @@ export const TellerSounds = ({
   raceBet: RaceBetWithHelpers;
 }) => {
   const { status } = teller;
-  const sound = STATUS_TO_SOUND[status];
+  const sound = getSound(status);
 
   const soundRef = useRef<Howl>();
 

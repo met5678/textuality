@@ -43,6 +43,7 @@ type RaceBet = {
   status: RaceBetStatus;
   step: RaceBetStep;
   started_at: Date;
+  payout?: number;
 
   // Optional until bet is placed
   type?: RaceBetType;
@@ -53,6 +54,9 @@ type RaceBet = {
 };
 
 type RaceBetComplete = Required<RaceBet>;
+type RaceBetCompleteWithHelpers = RaceBetComplete & {
+  totalWager: () => number;
+};
 
 const RaceBetSchema = new SimpleSchema({
   event: {
@@ -101,6 +105,11 @@ const RaceBetSchema = new SimpleSchema({
   'horses.$': {
     type: String,
   },
+  payout: {
+    type: SimpleSchema.Integer,
+    defaultValue: 0,
+    optional: true,
+  },
   status: {
     type: String,
     allowedValues: [...RACE_BET_STATUS],
@@ -116,6 +125,7 @@ export type {
   RaceBetId,
   RaceBet,
   RaceBetComplete,
+  RaceBetCompleteWithHelpers,
   RaceBetType,
   RaceBetStep,
   RaceBetStatus,

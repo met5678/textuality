@@ -56,7 +56,7 @@ const HorseSelectionDialog = ({ race, onClose }: HorseSelectionDialogProps) => {
       odds: selectedHorses.map((horseId) => {
         return {
           horse: horseId,
-          odds: 1 + Math.floor(Math.random() * 20),
+          odds: selectedHorses.length,
         };
       }),
       timeline: {

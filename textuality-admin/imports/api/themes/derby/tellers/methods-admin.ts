@@ -4,6 +4,8 @@ import Tellers from './tellers';
 import { Teller, TellerId } from '/imports/schemas/derby/teller';
 import { OptionalId, UpdateRequiredId } from '/imports/utils/optional-id';
 import { EventId } from '/imports/schemas/event';
+import { fortuneTellerOpen } from './fortune-teller-flow/teller.fortune.openTeller';
+import { fortuneTellerClose } from './fortune-teller-flow/teller.fortune.closeTeller';
 
 Meteor.methods({
   'derby.tellers.new': async (teller: OptionalId<Teller>) => {
@@ -83,6 +85,14 @@ Meteor.methods({
   ) => {
     await Tellers.updateAsync(tellerId, { $set: { current_bet: betId } });
     return await Tellers.findOneAsync(tellerId);
+  },
+
+  'derby.tellers.openFortune': async (tellerId: TellerId) => {
+    fortuneTellerOpen(tellerId);
+  },
+
+  'derby.tellers.closeFortune': async (tellerId: TellerId) => {
+    fortuneTellerClose(tellerId);
   },
 
   'derby.tellers.resetEvent': async (event_id: EventId) => {},

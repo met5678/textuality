@@ -189,6 +189,24 @@ const TellersTable = () => {
               label="Stand Up Teller"
             />
           ),
+          (params) => (
+            <GridActionsCellItem
+              showInMenu={true}
+              onClick={() =>
+                Meteor.callAsync('derby.tellers.openFortune', params.row._id)
+              }
+              label="Open Fortune Teller"
+            />
+          ),
+          (params) => (
+            <GridActionsCellItem
+              showInMenu={true}
+              onClick={() =>
+                Meteor.callAsync('derby.tellers.closeFortune', params.row._id)
+              }
+              label="Close Fortune Teller"
+            />
+          ),
         ]}
       />
     </>

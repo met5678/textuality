@@ -7,12 +7,12 @@ import { TellerStatus } from './TellerStatus';
 import { TellerBetStatus } from './TellerBetStatus';
 import { TellerSounds } from './TellerSounds';
 const TellerScreen = ({ event, url }: { event: Event; url: string }) => {
-  const { isLoading, teller, raceBet, player } = useTellerScreenData({
+  const { loading, teller, raceBet, player, timeLeft } = useTellerScreenData({
     eventId: event._id,
     url,
   });
 
-  if (isLoading()) return 'Loading';
+  if (loading) return 'Loading';
 
   /* Url paths aren't working in the css file for this component, so need to use paths in here 
   Note: paths work fine in ToteBoard.css so not sure why this is happening */

@@ -19,6 +19,7 @@ export const TellerStatus = ({ teller }: { teller: TellerWithHelpers }) => {
   const scale = useScaleByBaseWidth(statusRef, baseWidth);
 
   const status = teller.status as TellerStatusType;
+  const isImpatient = status === 'betting-impatient';
   const isAvailable = TELLER_AVAILABLE_STATUSES.includes(status);
   const isClosed = TELLER_CLOSED_STATUSES.includes(status);
   const timesUp = status === 'timeout';
@@ -26,15 +27,17 @@ export const TellerStatus = ({ teller }: { teller: TellerWithHelpers }) => {
   let infoLabel = '';
   let infoValue = 0;
 
-  if (isAvailable) {
-    infoLabel = 'Min Wager';
-    infoValue = teller.min_wager;
+  console.log('teller', teller);
+
+  if (isImpatient) {
+    infoLabel = 'Time Left';
+    infoValue = timesUp ? 0 : teller.time_left ?? 0;
   } else if (isClosed || status === 'opening') {
     infoLabel = 'Bets Open';
     infoValue = 60; /* JTG TO DO : time until bets open*/
   } else {
-    infoLabel = 'Time Left';
-    infoValue = timesUp ? 0 : teller.time_left ?? 0;
+    infoLabel = 'Min Wager';
+    infoValue = teller.min_wager;
   }
 
   return (

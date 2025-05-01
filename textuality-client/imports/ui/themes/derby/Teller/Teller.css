@@ -21,12 +21,8 @@
   gap: clamp(16px, 2vh, 32px);
 }
 
-.at-sign {
-  font-family: 'eurostile', serif;
-}
-
 .at-sign span {
-  transform: translateY(-10%);
+  top: -0.7rem;
 }
 
 .teller-status-wrapper {

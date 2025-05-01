@@ -38,14 +38,14 @@ export const TellerBetStatus = ({
   return (
     <div
       className="teller-bet-status-wrapper"
-      style={{ width: '100%' }}
+      style={{ width: '95%' }}
       ref={statusRef}
     >
       <div
         className="teller-bet-status"
         style={{
           transform: `scale(${scale})`,
-          transformOrigin: 'top left',
+          transformOrigin: 'center top',
           position: 'relative',
           top: `${((1 - scale) * baseHeight) / 2}px`,
         }}

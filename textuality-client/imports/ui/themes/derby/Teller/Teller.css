@@ -89,8 +89,8 @@
 .teller-bet-status {
   flex: 0 0 auto;
   display: flex;
-  gap: 48px;
   align-items: center;
+  justify-content: space-between;
 }
 
 .teller-bet-status > * {

@@ -7,8 +7,14 @@ import Tellers from '/imports/api/themes/derby/tellers';
 // Intended for use with a teller screen
 Meteor.publish('derby.raceBets.forTeller', function (tellerId: string) {
   this.autorun(() => {
-    const teller = Tellers.findOne({ _id: tellerId });
-    if (!teller || !teller.current_bet) return this.ready();
+    const tellers = Tellers.find(tellerId, {
+      fields: { current_bet: 1 },
+    }).fetch();
+    if (!tellers || !tellers.length) return this.ready();
+
+    const teller = tellers[0];
+    if (!teller.current_bet) return this.ready();
+    console.log('publishing derby.raceBets.forTeller', teller);
     return RaceBets.find(teller.current_bet);
   });
 });

@@ -35,7 +35,7 @@ export const TellerStatus = ({
 
   if (isImpatient) {
     infoLabel = 'Time Left';
-    infoValue = timesUp ? 0 : timeLeft ?? 0;
+    infoValue = timesUp ? 0 : teller.time_left ?? 0;
   } else if (isClosed || status === 'opening') {
     infoLabel = 'Bets Open';
     infoValue = 60; /* JTG TO DO : time until bets open*/
@@ -70,8 +70,8 @@ export const TellerStatus = ({
           <div style={{ display: 'flex' }}>
             <LedChar className="at-sign" char={'@'} off={!isAvailable} />
             <LedCharRow
-              value={teller.text_code ?? ''}
-              off={!isAvailable}
+              value={teller.text_code ?? (!isAvailable ? 'Busy' : '')}
+              off={isClosed}
               charCount={5}
             />
           </div>

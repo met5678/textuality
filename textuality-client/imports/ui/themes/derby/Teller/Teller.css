@@ -86,18 +86,19 @@
   border-radius: 4px;
 }
 
-.teller-bet-status {
+.teller-bet-status-leds {
   flex: 0 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
 }
 
-.teller-bet-status > * {
+.teller-bet-status-leds > * {
   flex: 1;
 }
 
-.teller-bet-status img {
+.teller-bet-status-leds img {
   width: 48px;
   height: 48px;
 }

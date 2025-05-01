@@ -36,7 +36,6 @@ export const TellerStatus = ({ teller }: { teller: TellerWithHelpers }) => {
     infoLabel = 'Time Left';
     infoValue = timesUp ? 0 : teller.time_left ?? 0;
   }
-  console.log('closed', isClosed);
 
   return (
     <div className="teller-status-wrapper" ref={statusRef}>

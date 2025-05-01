@@ -7,7 +7,8 @@ export const LedRound: React.FC<{
   color?: 'red' | 'green';
   off?: boolean;
   frame?: boolean;
-  icon?: React.ReactNode;
+  icon?: string;
+  pulse?: boolean;
   size?: number;
   style?: React.CSSProperties;
 }> = ({
@@ -17,6 +18,7 @@ export const LedRound: React.FC<{
   frame = true,
   icon,
   off = false,
+  pulse = false,
   size = 48,
   style = {},
 }) => {
@@ -29,6 +31,7 @@ export const LedRound: React.FC<{
           ${!icon ? 'led-fill' : ''}
           ${off ? 'led-off' : ''} 
           ${blink ? 'led-blink' : ''} 
+          ${pulse ? 'led-pulse' : ''}
           ${className}`}
       style={{
         width: `${lightSize}px`,
@@ -36,7 +39,15 @@ export const LedRound: React.FC<{
         ...style,
       }}
     >
-      {icon && <div className="led-icon">{icon}</div>}
+      {icon && (
+        <div
+          className="led-icon"
+          style={{
+            maskImage: icon,
+            WebkitMaskImage: icon,
+          }}
+        />
+      )}
     </div>
   );
   return (

@@ -94,14 +94,14 @@ const getExpectedStatus = (race: RaceWithHelpers, now: Date): RaceStatus => {
   return 'inactive';
 };
 
-let scheduleRacesHandle: Meteor.LiveQueryHandle;
+let scheduleRacesInterval: number | undefined;
 const scheduleRaces = () => {
-  if (scheduleRacesHandle) {
-    scheduleRacesHandle.stop();
+  if (scheduleRacesInterval) {
+    Meteor.clearInterval(scheduleRacesInterval);
   }
 
-  scheduleRacesHandle = Tracker.autorun(() => {
-    const now = reactiveDate.get();
+  scheduleRacesInterval = Meteor.setInterval(() => {
+    const now = new Date();
 
     const eventRaces = Races.find(
       {
@@ -133,23 +133,23 @@ const scheduleRaces = () => {
         foundCurrentRace = true;
       }
     }
-  });
+  }, 1000);
 };
 
-let scheduleRaceMissionsHandle: Meteor.LiveQueryHandle;
+let scheduleRaceMissionsInterval: number | undefined;
 const scheduleRaceMissions = () => {
-  if (scheduleRaceMissionsHandle) {
-    scheduleRaceMissionsHandle.stop();
+  if (scheduleRaceMissionsInterval) {
+    Meteor.clearInterval(scheduleRaceMissionsInterval);
   }
 
   let startingMission = false;
-  scheduleRaceMissionsHandle = Tracker.autorun(async () => {
-    const now = reactiveDate.get();
+  scheduleRaceMissionsInterval = Meteor.setInterval(async () => {
+    const now = new Date();
 
     const currentRace = racesGetCurrentSync();
     if (!currentRace || !currentRace.linked_mission) return;
 
-    const mission = Missions.findOne({
+    const mission = await Missions.findOneAsync({
       _id: currentRace.linked_mission,
     });
 
@@ -163,7 +163,7 @@ const scheduleRaceMissions = () => {
       }
       return;
     }
-    if (mission.timeStart && now > mission.timeStart) {
+    if (mission.timeEnd && now > mission.timeEnd) {
       return;
     }
 
@@ -185,10 +185,13 @@ const scheduleRaceMissions = () => {
       await Meteor.callAsync('missions.start', { missionId: mission._id });
       startingMission = false;
     }
-  });
+  }, 5000);
 };
 
-if (Meteor.isServer && Meteor.isProduction) {
+if (
+  Meteor.isServer &&
+  (process.env.DB_ENV === 'local' || Meteor.isProduction)
+) {
   Meteor.startup(() => {
     scheduleRaces();
     scheduleRaceMissions();

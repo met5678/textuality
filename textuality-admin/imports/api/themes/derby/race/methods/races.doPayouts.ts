@@ -150,7 +150,7 @@ const getPayoutSummary = (
     for (const { bet, payout } of payouts.trifectaWonBets) {
       summary += `${commaNumber(bet.totalWager())} DD on ${bet.horses
         .map((h) => getHorseEmoji(h, horses))
-        .join(' ')} → ${commaNumber(payout)} DD\n`;
+        .join(', ')} → ${commaNumber(payout)} DD\n`;
     }
     summary += '\n';
   }
@@ -193,7 +193,7 @@ const getPayoutSummary = (
     for (const { bet, wager } of trifectaLostBets) {
       summary += `${commaNumber(wager)} DD on ${bet.horses
         .map((h) => getHorseEmoji(h, horses))
-        .join(' ')}\n`;
+        .join(', ')}\n`;
     }
 
     const winLostBets = payouts.lostBets.filter(

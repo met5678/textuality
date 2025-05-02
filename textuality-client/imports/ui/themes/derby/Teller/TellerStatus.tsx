@@ -40,7 +40,7 @@ export const TellerStatus = ({
     infoValue = isTooLate ? 0 : timeLeft ?? 0;
   } else if (!isOpeningOrClosing && isClosed) {
     infoLabel = 'Bets Open';
-    infoValue = 60; /* JTG TO DO : time until bets open*/
+    infoValue = 60; /* ROO TO DO : time until bets open*/
   } else {
     infoLabel = 'Min Wager';
     infoValue = teller.min_wager;

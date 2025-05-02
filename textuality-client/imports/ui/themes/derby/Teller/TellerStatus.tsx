@@ -17,18 +17,20 @@ export const TellerStatus = ({
   tellerStates,
   timeLeft,
   race,
+  onResize,
 }: {
   teller: TellerWithHelpers;
   tellerStates: Record<string, boolean>;
   timeLeft: number | undefined;
   race: RaceWithHelpers | undefined;
+  onResize?: (height: number) => void;
 }) => {
   const now = useTracker(() => reactiveDate.get());
 
   const statusRef = useRef<HTMLDivElement>(null);
   const baseWidth = 344;
   const baseHeight = 128;
-  const scale = useScaleByBaseWidth(statusRef, baseWidth);
+  const scale = useScaleByBaseWidth(statusRef, baseWidth, onResize);
 
   const {
     isAvailable,
@@ -77,14 +79,17 @@ export const TellerStatus = ({
   const rainbowColor = useRainbowShiftingColor(fortuneTellerFun);
 
   return (
-    <div className="teller-status-wrapper" ref={statusRef}>
+    <div
+      className="teller-status-wrapper"
+      ref={statusRef}
+      style={{ width: '100%' }}
+    >
       <div
         className="teller-status"
         style={{
           transform: `scale(${scale})`,
           transformOrigin: 'top center',
-          position: 'relative',
-          top: `${((1 - scale) * baseHeight) / 2}px`,
+          marginBottom: `${-((1 - scale) * baseHeight)}px`,
         }}
       >
         <div
@@ -117,7 +122,10 @@ export const TellerStatus = ({
             />
           </div>
         </div>
-        <div className="teller-status-info">
+        <div
+          className="teller-status-info"
+          style={{ marginBottom: 'clamp(8px, 1vh, 24px)' }}
+        >
           <div className="teller-status-info-label">{infoLabel}</div>
           <LedCharRow
             value={infoValue}

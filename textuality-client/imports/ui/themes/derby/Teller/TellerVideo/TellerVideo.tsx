@@ -16,6 +16,8 @@ type TellerVideoProps = {
   teller: TellerWithHelpers;
   player?: PlayerWithHelpers;
   raceBet?: RaceBetWithHelpers;
+  topHeight: number;
+  bottomHeight: number;
 };
 
 const END_BUFFER_SECS = 1;
@@ -75,10 +77,21 @@ const getVideoUrl = (actor: TellerActor, status: TellerStatus) => {
   return `${VIDEO_PATH}/${useActor}-${suffix}.mp4`;
 };
 
-export const TellerVideo = ({ teller, player, raceBet }: TellerVideoProps) => {
+export const TellerVideo = ({
+  teller,
+  player,
+  raceBet,
+  topHeight,
+  bottomHeight,
+}: TellerVideoProps) => {
   const { actor, status } = teller;
   const videoRef = useRef<HTMLVideoElement>(null);
   const transitionDiv = useRef<HTMLDivElement>(null);
+
+  const containerHeight = window.innerHeight;
+  const availableHeight = containerHeight - (topHeight + bottomHeight);
+
+  console.log('topHeight', topHeight);
 
   const videoLoaded = useCallback(() => {
     if (!videoRef.current) {
@@ -161,7 +174,7 @@ export const TellerVideo = ({ teller, player, raceBet }: TellerVideoProps) => {
   }, [actor, status]);
 
   return (
-    <div className="teller-video" style={{ position: 'relative' }}>
+    <div className="teller-video">
       <video ref={videoRef} />
       <div
         className="teller-video-transition"

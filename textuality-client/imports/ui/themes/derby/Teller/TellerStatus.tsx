@@ -1,9 +1,9 @@
 import React, { useRef } from 'react';
 import { useScaleByBaseWidth } from '/imports/ui/hooks/use-scale-by-base-width';
+import { useRainbowShiftingColor } from '/imports/ui/hooks/use-rainbow-shifting-color';
 
 import './Teller.css';
 import { TellerWithHelpers } from '/imports/api/themes/derby/tellers/tellers';
-import { TellerStatus as TellerStatusType } from '/imports/schemas/derby/teller-status/teller-status';
 import { LedChar } from '../modules/LedLights/LedChar';
 import { LedCharRow } from '../modules/LedLights/LedCharRow';
 import { LedRound } from '../modules/LedLights/LedRound';
@@ -32,8 +32,6 @@ export const TellerStatus = ({
     isTooLate,
   } = tellerStates;
 
-  const color = isFortuneTeller ? 'pink' : 'yellow';
-
   let infoLabel = '';
   let infoValue = 0;
 
@@ -55,6 +53,10 @@ export const TellerStatus = ({
     mainText = 'Busy';
   }
 
+  const color = isFortuneTeller ? 'pink' : 'yellow';
+  const fortuneTellerFun = isFortuneTeller && isBusy;
+  const rainbowColor = useRainbowShiftingColor(fortuneTellerFun);
+
   return (
     <div className="teller-status-wrapper" ref={statusRef}>
       <div
@@ -74,8 +76,10 @@ export const TellerStatus = ({
           }}
         >
           <LedRound
-            color={isAvailable ? 'green' : 'red'}
-            blink={isImpatient}
+            color={
+              fortuneTellerFun ? rainbowColor : isAvailable ? 'green' : 'red'
+            }
+            blink={fortuneTellerFun || isImpatient}
             off={isClosed || isOpeningOrClosing}
           />
           <div style={{ display: 'flex' }}>
@@ -90,6 +94,7 @@ export const TellerStatus = ({
               off={isClosed || isOpeningOrClosing}
               charCount={5}
               color={color}
+              rainbowModeActive={fortuneTellerFun}
             />
           </div>
         </div>

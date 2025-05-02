@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useScaleByBaseWidth } from '/imports/ui/hooks/use-scale-by-base-width';
+import { useRainbowShiftingColor } from '/imports/ui/hooks/use-rainbow-shifting-color';
 
 import './Teller.css';
 import { TellerWithHelpers } from '/imports/api/themes/derby/tellers/tellers';
@@ -62,21 +63,10 @@ export const TellerBetStatus = ({
   ];
 
   const fortuneTellerFun = isFortuneTeller && isBusy;
-  const rainbow = ['red', 'yellow', 'green', 'blue', 'pink'];
-  const [rainbowOffset, setRainbowOffset] = useState(0);
-  useEffect(() => {
-    if (fortuneTellerFun) {
-      const interval = setInterval(() => {
-        setRainbowOffset((prev) => (prev + 1) % rainbow.length);
-      }, 200); // faster loop!
-
-      return () => clearInterval(interval);
-    }
-  }, [isFortuneTeller, isBusy]);
-
+  const rainbowColors = leds.map((_, i) =>
+    useRainbowShiftingColor(fortuneTellerFun, i),
+  );
   const blink = betPlaced || isTooLate || fortuneTellerFun;
-
-  console.log('teller', teller);
 
   return (
     <div
@@ -105,7 +95,7 @@ export const TellerBetStatus = ({
                 : 0;
 
             const ledColor = fortuneTellerFun
-              ? rainbow[(i + rainbowOffset) % rainbow.length]
+              ? rainbowColors[i]
               : isFortuneTeller
               ? 'pink'
               : 'yellow';
@@ -115,7 +105,7 @@ export const TellerBetStatus = ({
                 key={i}
                 icon={icon}
                 size={ledSize}
-                color={ledColor as 'red' | 'green' | 'yellow' | 'blue' | 'pink'}
+                color={ledColor}
                 off={
                   isClosed || isOpeningOrClosing || (betInProgress && !complete)
                 }

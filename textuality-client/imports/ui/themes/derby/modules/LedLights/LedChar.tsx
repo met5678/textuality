@@ -1,10 +1,11 @@
 import React from 'react';
 import './LedLights.css';
+import { LedColor } from '/imports/ui/hooks/use-rainbow-shifting-color';
 
 export const LedChar: React.FC<{
   char?: string;
   className?: string;
-  color?: 'yellow' | 'pink';
+  color?: LedColor;
   off?: boolean;
   style?: React.CSSProperties;
 }> = ({

@@ -1,11 +1,11 @@
 import React from 'react';
 import './LedLights.css';
-
+import { LedColor } from '/imports/ui/hooks/use-rainbow-shifting-color';
 export const LedRound: React.FC<{
   animationDelay?: number;
   blink?: boolean;
   className?: string;
-  color?: 'red' | 'green' | 'yellow' | 'blue' | 'pink';
+  color?: LedColor;
   off?: boolean;
   frame?: boolean;
   icon?: string;

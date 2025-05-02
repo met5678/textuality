@@ -1,5 +1,6 @@
 /* Need RGB so I can use alpha values*/
-.derby-led {
+.derby-led,
+.derby-led-yellow {
   --led-100: 255, 232, 160;
   --led-200: 255, 179, 71;
   --led-300: 254, 151, 66;
@@ -38,6 +39,14 @@
   --led-600: 0, 70, 0;
 }
 
+.derby-led-pink {
+  --led-100: 255, 210, 245;
+  --led-200: 255, 150, 230;
+  --led-300: 255, 100, 210;
+  --led-400: 200, 40, 170;
+  --led-500: 150, 0, 120;
+  --led-600: 100, 0, 80;
+}
 /* LED CHARS */
 
 .led-char {

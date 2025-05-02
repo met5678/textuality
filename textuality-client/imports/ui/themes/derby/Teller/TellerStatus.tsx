@@ -7,6 +7,8 @@ import {
   TELLER_AVAILABLE_STATUSES,
   TELLER_BUSY_STATUSES,
   TELLER_CLOSED_STATUSES,
+  TELLER_FORTUNE_STATUSES,
+  TELLER_FORTUNE_AVAILABLE_STATUSES,
   TellerStatus as TellerStatusType,
 } from '/imports/schemas/derby/teller-status/teller-status';
 import { LedChar } from '../modules/LedLights/LedChar';
@@ -27,21 +29,34 @@ export const TellerStatus = ({
 
   const status = teller.status as TellerStatusType;
   const isImpatient = status === 'betting-impatient';
+
+  const isFortuneAvailable = TELLER_FORTUNE_AVAILABLE_STATUSES.includes(status);
   const isAvailable =
-    TELLER_AVAILABLE_STATUSES.includes(status) || status === 'fortune-open';
+    TELLER_AVAILABLE_STATUSES.includes(status) || isFortuneAvailable;
+
   const isBusy = TELLER_BUSY_STATUSES.includes(status);
-  const isFortuneOpen = status === 'fortune-open';
   const isClosed =
-    TELLER_CLOSED_STATUSES.includes(status) || status === 'opening';
+    !isFortuneAvailable &&
+    teller.status !== 'fortune-engaged' &&
+    TELLER_CLOSED_STATUSES.includes(status);
+  const isOpeningOrClosing = [
+    'opening',
+    'fortune-opening',
+    'closing',
+    'fortune-closing',
+  ].includes(status);
   const timesUp = status === 'timeout';
+  const color = TELLER_FORTUNE_STATUSES.includes(status) ? 'pink' : 'yellow';
+
+  console.log('teller', teller);
 
   let infoLabel = '';
   let infoValue = 0;
 
   if (isImpatient) {
     infoLabel = 'Time Left';
-    infoValue = timesUp ? 0 : teller.time_left ?? 0;
-  } else if (isClosed) {
+    infoValue = timesUp ? 0 : timeLeft ?? 0;
+  } else if (!isOpeningOrClosing && isClosed) {
     infoLabel = 'Bets Open';
     infoValue = 60; /* JTG TO DO : time until bets open*/
   } else {
@@ -50,7 +65,7 @@ export const TellerStatus = ({
   }
 
   let mainText = '';
-  if (isFortuneOpen || isAvailable) {
+  if (isAvailable) {
     mainText = teller.text_code;
   } else if (isBusy) {
     mainText = 'Busy';
@@ -80,17 +95,28 @@ export const TellerStatus = ({
             off={isClosed}
           />
           <div style={{ display: 'flex' }}>
-            <LedChar className="at-sign" char={'@'} off={!isAvailable} />
+            <LedChar
+              className="at-sign"
+              char={'@'}
+              off={!isAvailable}
+              color={color}
+            />
             <LedCharRow
               value={mainText}
-              off={isClosed && !isFortuneOpen}
+              off={isClosed}
               charCount={5}
+              color={color}
             />
           </div>
         </div>
         <div className="teller-status-info">
           <div className="teller-status-info-label">{infoLabel}</div>
-          <LedCharRow value={infoValue} charCount={3} />
+          <LedCharRow
+            value={infoValue}
+            charCount={3}
+            color={color}
+            off={isBusy || isOpeningOrClosing}
+          />
         </div>
       </div>
     </div>

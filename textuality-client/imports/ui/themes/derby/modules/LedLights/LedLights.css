@@ -39,6 +39,15 @@
   --led-600: 0, 70, 0;
 }
 
+.derby-led-blue {
+  --led-100: 210, 245, 255;
+  --led-200: 150, 230, 255;
+  --led-300: 100, 210, 255;
+  --led-400: 40, 170, 240;
+  --led-500: 0, 100, 200;
+  --led-600: 0, 60, 120;
+}
+
 .derby-led-pink {
   --led-100: 255, 210, 245;
   --led-200: 255, 150, 230;
@@ -47,6 +56,7 @@
   --led-500: 150, 0, 120;
   --led-600: 100, 0, 80;
 }
+
 /* LED CHARS */
 
 .led-char {
@@ -164,11 +174,11 @@
 }
 
 .derby-led.led-round.led-blink .led-icon {
-  animation: derby-led-round-blink 1s ease-in-out infinite;
+  animation: derby-led-round-blink 0.5s ease-in-out infinite;
 }
 
 .derby-led.led-round.led-pulse .led-icon {
-  animation: derby-led-round-pulse 1.2s ease-in-out infinite;
+  animation: derby-led-round-pulse 1.1s ease-in-out infinite;
 }
 
 /* ANIMATIONS */

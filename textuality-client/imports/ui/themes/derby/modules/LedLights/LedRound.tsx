@@ -2,9 +2,10 @@ import React from 'react';
 import './LedLights.css';
 
 export const LedRound: React.FC<{
+  animationDelay?: number;
   blink?: boolean;
   className?: string;
-  color?: 'red' | 'green';
+  color?: 'red' | 'green' | 'yellow' | 'blue' | 'pink';
   off?: boolean;
   frame?: boolean;
   icon?: string;
@@ -12,6 +13,7 @@ export const LedRound: React.FC<{
   size?: number;
   style?: React.CSSProperties;
 }> = ({
+  animationDelay,
   blink = false,
   className = '',
   color,
@@ -36,6 +38,7 @@ export const LedRound: React.FC<{
       style={{
         width: `${lightSize}px`,
         height: `${lightSize}px`,
+        animationDelay: animationDelay ? `${animationDelay}s` : '0s',
         ...style,
       }}
     >
@@ -45,6 +48,7 @@ export const LedRound: React.FC<{
           style={{
             maskImage: icon,
             WebkitMaskImage: icon,
+            animationDelay: animationDelay ? `${animationDelay}s` : '0s',
           }}
         />
       )}

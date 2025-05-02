@@ -3,10 +3,14 @@ import './ToteBoard.css';
 
 import { RaceWithHelpers } from '/imports/api/themes/derby/race/races';
 import { LedCharRow } from '../../../../modules/LedLights/LedCharRow';
+import reactiveDate from '/imports/utils/reactive-date';
+import { useTracker } from 'meteor/react-meteor-data';
 
 export const ToteBoardStats: React.FC<{
   race: RaceWithHelpers;
 }> = ({ race }) => {
+  const now = useTracker(() => reactiveDate.get());
+
   return (
     <div className="tote-board-stats">
       <LedCharRow
@@ -21,8 +25,8 @@ export const ToteBoardStats: React.FC<{
         label="Mins to race"
         value={Math.max(
           0,
-          Math.floor(
-            (race.time_race_starts_at.getTime() - Date.now()) / (1000 * 60),
+          Math.ceil(
+            (race.time_race_starts_at.getTime() - now.getTime()) / (1000 * 60),
           ),
         )}
         charCount={2}

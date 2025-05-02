@@ -50,16 +50,15 @@ export const TellerSounds = ({
   raceBet: RaceBetWithHelpers;
 }) => {
   const { status } = teller;
-  const sound = getSound(status);
 
   const soundRef = useRef<Howl>();
-
   useEffect(() => {
+    const sound = getSound(status);
     if (sound) {
       soundRef.current = new Howl({ src: [sound] });
       soundRef.current.play();
     }
-  }, [sound]);
+  }, [status]);
 
   useEffect(() => {
     if (raceBet?.status === 'pending') {

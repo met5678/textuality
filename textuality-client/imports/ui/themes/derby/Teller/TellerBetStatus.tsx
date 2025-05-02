@@ -14,15 +14,17 @@ export const TellerBetStatus = ({
   teller,
   raceBet,
   tellerStates,
+  onResize,
 }: {
   teller: TellerWithHelpers;
   raceBet: RaceBetWithHelpers;
   tellerStates: Record<string, boolean>;
+  onResize?: (height: number) => void;
 }) => {
   const statusRef = useRef<HTMLDivElement>(null);
   const baseWidth = 384;
   const baseHeight = 60;
-  const scale = useScaleByBaseWidth(statusRef, baseWidth);
+  const scale = useScaleByBaseWidth(statusRef, baseWidth, onResize);
 
   const {
     isAvailable,
@@ -78,10 +80,9 @@ export const TellerBetStatus = ({
         className="teller-bet-status"
         style={{
           transform: `scale(${scale})`,
-          transformOrigin: 'center top',
-          position: 'relative',
-          top: `${((1 - scale) * baseHeight) / 2}px`,
-          left: `-${((1 - scale) * baseWidth) / 2}px`,
+          transformOrigin: 'bottom center',
+          marginTop: `${-((1 - scale) * baseHeight)}px`,
+          marginLeft: `-${((1 - scale) * baseWidth) / 2}px`,
           width: `${baseWidth}px`,
         }}
       >

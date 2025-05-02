@@ -7,20 +7,30 @@ import { TellerWithHelpers } from '/imports/api/themes/derby/tellers/tellers';
 import { LedChar } from '../modules/LedLights/LedChar';
 import { LedCharRow } from '../modules/LedLights/LedCharRow';
 import { LedRound } from '../modules/LedLights/LedRound';
+import { RaceWithHelpers } from '/imports/api/themes/derby/race/races';
+import { useTracker } from 'meteor/react-meteor-data';
+import reactiveDate from '/imports/utils/reactive-date';
+import { DateTime } from 'luxon';
 
 export const TellerStatus = ({
   teller,
   tellerStates,
   timeLeft,
+  race,
+  onResize,
 }: {
   teller: TellerWithHelpers;
   tellerStates: Record<string, boolean>;
   timeLeft: number | undefined;
+  race: RaceWithHelpers | undefined;
+  onResize?: (height: number) => void;
 }) => {
+  const now = useTracker(() => reactiveDate.get());
+
   const statusRef = useRef<HTMLDivElement>(null);
   const baseWidth = 344;
   const baseHeight = 128;
-  const scale = useScaleByBaseWidth(statusRef, baseWidth);
+  const scale = useScaleByBaseWidth(statusRef, baseWidth, onResize);
 
   const {
     isAvailable,
@@ -40,7 +50,18 @@ export const TellerStatus = ({
     infoValue = isTooLate ? 0 : timeLeft ?? 0;
   } else if (!isOpeningOrClosing && isClosed) {
     infoLabel = 'Bets Open';
-    infoValue = 60; /* JTG TO DO : time until bets open*/
+    infoValue =
+      race && race.time_bets_start_at
+        ? Math.max(
+            0,
+            Math.floor(
+              DateTime.fromJSDate(race.time_bets_start_at).diff(
+                DateTime.fromJSDate(now),
+                'minutes',
+              ).minutes,
+            ),
+          )
+        : 0;
   } else {
     infoLabel = 'Min Wager';
     infoValue = teller.min_wager;
@@ -58,14 +79,17 @@ export const TellerStatus = ({
   const rainbowColor = useRainbowShiftingColor(fortuneTellerFun);
 
   return (
-    <div className="teller-status-wrapper" ref={statusRef}>
+    <div
+      className="teller-status-wrapper"
+      ref={statusRef}
+      style={{ width: '100%' }}
+    >
       <div
         className="teller-status"
         style={{
           transform: `scale(${scale})`,
           transformOrigin: 'top center',
-          position: 'relative',
-          top: `${((1 - scale) * baseHeight) / 2}px`,
+          marginBottom: `${-((1 - scale) * baseHeight)}px`,
         }}
       >
         <div
@@ -98,7 +122,10 @@ export const TellerStatus = ({
             />
           </div>
         </div>
-        <div className="teller-status-info">
+        <div
+          className="teller-status-info"
+          style={{ marginBottom: 'clamp(8px, 1vh, 24px)' }}
+        >
           <div className="teller-status-info-label">{infoLabel}</div>
           <LedCharRow
             value={infoValue}

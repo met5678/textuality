@@ -7,15 +7,18 @@ import { useEffect, useState, RefObject } from 'react';
 export function useScaleByBaseWidth(
   ref: RefObject<HTMLElement>,
   baseWidth: number,
+  onResize?: (height: number) => void,
 ) {
   const [scale, setScale] = useState(1);
 
   useEffect(() => {
     if (ref.current) {
-      const { width } = ref.current.getBoundingClientRect();
-      setScale(width / baseWidth);
+      const { width, height } = ref.current.getBoundingClientRect();
+      const newScale = width / baseWidth;
+      setScale(newScale);
+      onResize?.(height * newScale); // Return the new height
     }
-  }, [ref, baseWidth]);
+  }, [ref, baseWidth, onResize]);
 
   return scale;
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Teller.css';
 import { Event } from '/imports/schemas/event';
 import { useTellerScreenData } from './useTellerScreenData';
@@ -17,10 +17,13 @@ import {
 } from '/imports/schemas/derby/teller-status/teller-status';
 
 const TellerScreen = ({ event, url }: { event: Event; url: string }) => {
-  const { loading, teller, raceBet, player, timeLeft } = useTellerScreenData({
-    eventId: event._id,
-    url,
-  });
+  const { loading, teller, raceBet, player, race, timeLeft } =
+    useTellerScreenData({
+      eventId: event._id,
+      url,
+    });
+  const [topHeight, setTopHeight] = useState(0);
+  const [bottomHeight, setBottomHeight] = useState(0);
 
   if (loading) return 'Loading';
 
@@ -62,12 +65,21 @@ const TellerScreen = ({ event, url }: { event: Event; url: string }) => {
             teller={teller}
             timeLeft={timeLeft}
             tellerStates={tellerStates}
+            race={race}
+            onResize={setTopHeight}
           />
-          <TellerVideo teller={teller} player={player} raceBet={raceBet} />
+          <TellerVideo
+            teller={teller}
+            player={player}
+            raceBet={raceBet}
+            topHeight={topHeight}
+            bottomHeight={bottomHeight}
+          />
           <TellerBetStatus
             teller={teller}
             raceBet={raceBet}
             tellerStates={tellerStates}
+            onResize={setBottomHeight}
           />
           <TellerSounds teller={teller} raceBet={raceBet} />
         </div>

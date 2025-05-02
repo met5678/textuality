@@ -13,12 +13,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   color: #eee;
   min-height: 0;
   max-width: 95vw;
-  max-height: 95vh;
+  max-height: 90vh;
   height: 100%;
-  gap: clamp(16px, 2vh, 32px);
+  gap: clamp(8px, 2vh, 32px);
 }
 
 .at-sign span {
@@ -30,10 +31,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-shrink: 0;
 }
 
-.teller-status {
-  flex: 0 0 auto;
+.teller-status,
+.teller-bet-status {
+  /* flex: 0 0 auto; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -61,13 +64,15 @@
 }
 
 .teller-video {
-  flex: 1 1 auto;
+  width: 100%;
+  flex: 1;
   min-height: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   border-radius: 8px;
+  margin: 0 auto;
 }
 
 .teller-video video {
@@ -87,7 +92,7 @@
 }
 
 .teller-bet-status-leds {
-  flex: 0 0 auto;
+  /* flex: 0 0 auto; */
   display: flex;
   align-items: center;
   justify-content: space-between;

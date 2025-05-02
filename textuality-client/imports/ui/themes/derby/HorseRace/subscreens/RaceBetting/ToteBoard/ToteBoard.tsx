@@ -18,7 +18,9 @@ export const ToteBoard: React.FC<{
 }> = ({ race, horses, weather }) => {
   const boardRef = useRef<HTMLDivElement>(null);
   const scale = useScaleByBaseWidth(boardRef, 1700); //aspect ratio 1700/640
-  const marginOffset = window.innerHeight < 700 ? 100 : 200;
+
+  const windowHeight = window.innerHeight;
+  const marginOffset = windowHeight < 700 ? 100 : 200;
 
   return (
     <div className="tote-board-wrapper">
@@ -55,7 +57,7 @@ export const ToteBoard: React.FC<{
               width: '2200px',
               bottom: '-200px',
               // Needed to use some weird numbers to make it look good on the projections - diff then screen, idk why
-              marginLeft: window.innerHeight > 500 ? '-30px' : '-220px',
+              marginLeft: windowHeight < 750 ? '-225px' : '-30px',
             }}
           >
             <div className="tote-board-roses">

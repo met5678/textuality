@@ -24,6 +24,7 @@ const STATUS_TO_SOUND: Partial<
   timeout: `${SOUND_PATH}/teller-buzzer.mp3`,
   'giving-stub-single': `${SOUND_PATH}/teller-printstubs.mp3`,
   'giving-stub-multi': `${SOUND_PATH}/teller-printstubs.mp3`,
+  'fortune-open': `${SOUND_PATH}/fortune-open.mp3`,
 };
 
 const STEP_SOUND = `${SOUND_PATH}/teller-ding.mp3`;

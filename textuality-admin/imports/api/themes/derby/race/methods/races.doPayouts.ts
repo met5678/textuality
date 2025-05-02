@@ -14,6 +14,7 @@ import {
 import { sendAutoText } from '/imports/api/autoTexts/methods/autoTexts.send';
 import Horses, { HorseWithHelpers } from '../../horses/horses';
 import commaNumber from 'comma-number';
+import ordinal from 'ordinal';
 
 const getWinBetPayout = (
   bet: RaceBetCompleteWithHelpers,
@@ -224,6 +225,21 @@ const getPayoutSummary = (
   return summary;
 };
 
+const getResultsSummary = (
+  results: RaceHorseResult[],
+  horses: HorseWithHelpers[],
+) => {
+  return results
+    .map((result) => {
+      return `${ordinal(result.placement)}: ${getHorseEmoji(
+        result.horse,
+        horses,
+      )} ${getHorseName(result.horse, horses)}`;
+    })
+    .slice(0, 3)
+    .join('\n');
+};
+
 export const raceDoPayouts = async (raceId: RaceId) => {
   const race = await Races.findOneAsync(raceId);
   if (!race) {
@@ -279,7 +295,7 @@ export const raceDoPayouts = async (raceId: RaceId) => {
           templateVars: {
             total_wagered: playerPayouts.totalWagered,
             gross_payout: playerPayouts.grossPayout,
-            net: playerPayouts.net,
+            result_summary: getResultsSummary(race.results, horses),
             payout_summary: getPayoutSummary(playerPayouts, horses),
           },
         });
@@ -291,6 +307,8 @@ export const raceDoPayouts = async (raceId: RaceId) => {
             total_wagered: playerPayouts.totalWagered,
             gross_payout: playerPayouts.grossPayout,
             net: playerPayouts.net,
+            result_summary: getResultsSummary(race.results, horses),
+
             payout_summary: getPayoutSummary(playerPayouts, horses),
           },
         });
@@ -302,6 +320,8 @@ export const raceDoPayouts = async (raceId: RaceId) => {
             total_wagered: playerPayouts.totalWagered,
             gross_payout: playerPayouts.grossPayout,
             net: playerPayouts.net,
+            result_summary: getResultsSummary(race.results, horses),
+
             payout_summary: getPayoutSummary(playerPayouts, horses),
           },
         });
@@ -313,6 +333,8 @@ export const raceDoPayouts = async (raceId: RaceId) => {
             total_wagered: playerPayouts.totalWagered,
             gross_payout: playerPayouts.grossPayout,
             net: playerPayouts.net,
+            result_summary: getResultsSummary(race.results, horses),
+
             payout_summary: getPayoutSummary(playerPayouts, horses),
           },
         });

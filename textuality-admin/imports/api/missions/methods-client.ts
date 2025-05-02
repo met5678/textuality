@@ -7,9 +7,10 @@ import Missions from './missions';
 import MissionPairings from '/imports/api/missionPairings';
 import Events from '/imports/api/events';
 import Players from '/imports/api/players';
+import { sendAutoText } from '../autoTexts/methods/autoTexts.send';
 
 function getEligiblePlayers() {
-  return Players.find({ event: Events.currentId()!, status: 'active' }).fetch();
+  return Players.find({ event: Events.currentId(), status: 'active' }).fetch();
 }
 
 let currentTimeout: number | null = null;
@@ -48,12 +49,12 @@ Meteor.methods({
     Missions.update(missionId, { $set: { timePreText: new Date() } });
   },
 
-  'missions.start': ({ missionId }) => {
-    const mission = Missions.findOne(missionId);
+  'missions.start': async ({ missionId }) => {
+    const mission = await Missions.findOneAsync(missionId);
     if (!mission) return;
 
     let eligiblePlayers = getEligiblePlayers();
-    MissionPairings.remove({ mission: missionId });
+    await MissionPairings.removeAsync({ mission: missionId });
 
     if (eligiblePlayers.length % 2 === 1) {
       eligiblePlayers = eligiblePlayers.filter(
@@ -73,8 +74,8 @@ Meteor.methods({
       const missionPairing = {
         event: Events.currentId()!,
         mission: missionId,
-        playerA: playerA._id!,
-        playerB: playerB._id!,
+        playerA: playerA._id,
+        playerB: playerB._id,
         aliasA: playerA.alias,
         aliasB: playerB.alias,
         avatarA: playerA.avatar!,
@@ -82,7 +83,7 @@ Meteor.methods({
         hashtag,
       };
 
-      MissionPairings.insert(missionPairing);
+      MissionPairings.insertAsync(missionPairing);
     }
 
     const pairings = MissionPairings.find({ mission: missionId }).fetch();
@@ -97,12 +98,11 @@ Meteor.methods({
           source: 'mission',
         });
       } else {
-        Meteor.call('autoTexts.send', {
+        sendAutoText({
           trigger: 'MISSION_START_PLAYER_A',
           playerId: pairing.playerA,
           mediaUrl: pairing.getAvatarUrlB(),
           templateVars: { password: pairing.hashtag, mins: mission.minutes },
-          source: 'mission',
         });
       }
 
@@ -115,12 +115,11 @@ Meteor.methods({
           source: 'mission',
         });
       } else {
-        Meteor.call('autoTexts.send', {
+        sendAutoText({
           trigger: 'MISSION_START_PLAYER_B',
           playerId: pairing.playerB,
           mediaUrl: pairing.getAvatarUrlA(),
           templateVars: { password: pairing.hashtag, mins: mission.minutes },
-          source: 'mission',
         });
       }
     });
@@ -140,15 +139,15 @@ Meteor.methods({
     );
   },
 
-  'missions.processHashtag': ({ playerId, hashtag }) => {
-    const mission = Missions.findOne({
+  'missions.processHashtag': async ({ playerId, hashtag }) => {
+    const mission = await Missions.findOneAsync({
       active: true,
-      event: Events.currentId()!,
+      event: Events.currentId(),
     });
 
     if (!mission) return false;
 
-    const pairing = MissionPairings.findOne({
+    const pairing = await MissionPairings.findOneAsync({
       mission: mission._id,
       playerB: playerId,
     });
@@ -165,7 +164,7 @@ Meteor.methods({
       return true;
     }
 
-    MissionPairings.update(pairing._id!, {
+    MissionPairings.updateAsync(pairing._id!, {
       $set: { complete: true, timeComplete: new Date() },
     });
 
@@ -194,35 +193,37 @@ Meteor.methods({
     }
 
     Meteor.call('achievements.tryUnlock', {
-      trigger: 'N_MISSION',
+      trigger: 'MISSION_COMPLETE_N',
       trigger_detail_number: mission.number,
       trigger_detail_string: mission._id,
       playerId: pairing.playerA,
     });
     Meteor.call('achievements.tryUnlock', {
-      trigger: 'N_MISSION',
+      trigger: 'MISSION_COMPLETE_N',
       trigger_detail_number: mission.number,
       trigger_detail_string: mission._id,
       playerId: pairing.playerB,
     });
 
     // This shouldn't be here but it is so we're just gonna do it here
-    Meteor.call('roulettes.sendHackerClue', {
-      missionId: mission._id,
-      playerId: pairing.playerA,
-    });
-    Meteor.call('roulettes.sendHackerClue', {
-      missionId: mission._id,
-      playerId: pairing.playerB,
-    });
+    // Meteor.call('roulettes.sendHackerClue', {
+    //   missionId: mission._id,
+    //   playerId: pairing.playerA,
+    // });
+    // Meteor.call('roulettes.sendHackerClue', {
+    //   missionId: mission._id,
+    //   playerId: pairing.playerB,
+    // });
 
     return true;
   },
 
-  'missions.end': ({ missionId }) => {
-    const mission = Missions.findOne(missionId);
-    if (!mission) return;
-    if (!mission.active) return;
+  'missions.end': async ({ missionId }) => {
+    const mission = await Missions.findOneAsync(missionId);
+    if (!mission || !mission.active) return;
+    await Missions.updateAsync(missionId, {
+      $set: { active: false, timeEnd: new Date() },
+    });
 
     if (currentTimeout) Meteor.clearTimeout(currentTimeout);
 
@@ -233,32 +234,28 @@ Meteor.methods({
 
     incompletePairings.forEach((pairing) => {
       if (mission.missionFailText) {
-        Meteor.call('autoTexts.sendCustom', {
+        Meteor.callAsync('autoTexts.sendCustom', {
           playerText: mission.missionFailText,
           playerId: pairing.playerA,
           source: 'mission',
         });
-        Meteor.call('autoTexts.sendCustom', {
+        Meteor.callAsync('autoTexts.sendCustom', {
           playerText: mission.missionFailText,
           playerId: pairing.playerB,
           source: 'mission',
         });
       } else {
-        Meteor.call('autoTexts.send', {
+        Meteor.callAsync('autoTexts.send', {
           trigger: 'MISSION_FAIL',
           playerId: pairing.playerA,
           source: 'mission',
         });
-        Meteor.call('autoTexts.send', {
+        Meteor.callAsync('autoTexts.send', {
           trigger: 'MISSION_FAIL',
           playerId: pairing.playerB,
           source: 'mission',
         });
       }
-    });
-
-    Missions.update(missionId, {
-      $set: { active: false, timeEnd: new Date() },
     });
   },
 });

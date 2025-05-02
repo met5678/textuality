@@ -2,7 +2,8 @@ import { Meteor } from 'meteor/meteor';
 
 import Players, { PlayerWithHelpers } from './players';
 import Events from '/imports/api/events';
-import { Player } from '/imports/schemas/player';
+import { Player, PlayerId } from '/imports/schemas/player';
+import { raceAwardLogicClue } from '../themes/derby/race/logic-clues/races.awardLogicClue';
 
 Meteor.methods({
   'players.findOrJoin': async (
@@ -130,5 +131,9 @@ Meteor.methods({
         slot_spins: slot_id,
       },
     });
+  },
+
+  'players.awardRaceLogicClue': (playerId: PlayerId) => {
+    raceAwardLogicClue(playerId);
   },
 });

@@ -104,6 +104,15 @@ const PlayersTable = () => {
             }
           />
         ),
+        (params) => (
+          <GridActionsCellItem
+            showInMenu={true}
+            label="Award Logic Clue"
+            onClick={() =>
+              Meteor.call('players.awardRaceLogicClue', params.row._id)
+            }
+          />
+        ),
       ]}
     />
   );

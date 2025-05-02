@@ -26,6 +26,10 @@ const achievementsConfig: Record<string, AchievementConfig> = {
     useNumber: true,
     numberField: 'N',
   },
+  MISSION_COMPLETE_N: {
+    useString: true,
+    numberField: 'Mission #',
+  },
 };
 
 export default achievementsConfig;

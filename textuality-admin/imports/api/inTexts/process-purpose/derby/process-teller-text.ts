@@ -27,11 +27,7 @@ const processFortuneTeller = async (
   teller?: TellerWithHelpers,
   race?: RaceWithHelpers,
 ) => {
-  if (
-    race?.status === 'pre-bets' &&
-    teller &&
-    TELLER_FORTUNE_AVAILABLE_STATUSES.includes(teller.status)
-  ) {
+  if (teller && TELLER_FORTUNE_AVAILABLE_STATUSES.includes(teller.status)) {
     if (player.money < teller.min_wager) {
       sendAutoText({
         trigger: 'TELLER_REJECT_NOT_ENOUGH_MONEY',

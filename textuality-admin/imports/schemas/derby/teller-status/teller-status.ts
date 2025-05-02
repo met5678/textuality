@@ -96,6 +96,6 @@ export const TELLER_VIDEO_LENGTHS: Partial<Record<TellerStatus, number>> = {
   closing: 5,
   standup: 5,
   sitdown: 10,
-  'fortune-opening': 10,
+  'fortune-opening': 8,
   'fortune-closing': 5,
 };

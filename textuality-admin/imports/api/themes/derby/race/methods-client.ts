@@ -9,6 +9,7 @@ import {
 import Horses from '../horses/horses';
 import Events from '/imports/api/events';
 import { racesGetCurrent } from './methods/races.getCurrent';
+import { raceDoPayouts } from './methods/races.doPayouts';
 const keyframeIntervalHandles: Record<RaceId, number> = {};
 
 Meteor.methods({
@@ -102,5 +103,9 @@ Meteor.methods({
         'timeline.is_playing': false,
       },
     });
+  },
+
+  'derby.races.doPayouts': async (raceId: RaceId) => {
+    raceDoPayouts(raceId);
   },
 });

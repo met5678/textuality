@@ -197,11 +197,11 @@
   0%,
   100% {
     background: var(--led-glow-gradient), rgba(var(--led-400), 1);
-    filter: drop-shadow(0 0 8px rgba(var(--led-500), 0.8));
+    /* filter: drop-shadow(0 0 8px rgba(var(--led-500), 0.8)); */
   }
   50% {
     background: var(--led-glow-gradient), rgba(var(--led-400), 0.6);
-    filter: drop-shadow(0 0 4px rgba(var(--led-500), 0.5));
+    /* filter: drop-shadow(0 0 4px rgba(var(--led-500), 0.5)); */
   }
 }
 
@@ -210,12 +210,12 @@
   0%,
   100% {
     background: var(--led-glow-gradient), rgb(var(--led-400));
-    filter: drop-shadow(0 0 8px rgba(var(--led-500), 0.2));
+    /* filter: drop-shadow(0 0 8px rgba(var(--led-500), 0.2)); */
   }
   50% {
     background: var(--led-glow-gradient), rgba(var(--led-400), 0.2),
       rgb(var(--led-off));
-    filter: drop-shadow(0 0 2px rgba(var(--led-500), 0.05));
+    /* filter: drop-shadow(0 0 2px rgba(var(--led-500), 0.05)); */
   }
 }
 
@@ -224,11 +224,11 @@
   0%,
   100% {
     background: var(--led-glow-gradient), rgb(var(--led-400));
-    filter: drop-shadow(0 0 8px rgba(var(--led-500), 0.2));
+    /* filter: drop-shadow(0 0 8px rgba(var(--led-500), 0.2)); */
   }
   50% {
     background: var(--led-glow-gradient), rgba(var(--led-400), 0.1),
       rgb(var(--led-off));
-    filter: drop-shadow(0 0 2px rgba(var(--led-500), 0.05));
+    /* filter: drop-shadow(0 0 2px rgba(var(--led-500), 0.05)); */
   }
 }

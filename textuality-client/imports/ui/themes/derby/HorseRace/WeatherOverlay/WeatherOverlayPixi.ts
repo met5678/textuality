@@ -266,7 +266,7 @@ export class WeatherOverlayPixi {
     }
 
     if (Math.random() < 0.01) {
-      this.lightningOverlay.triggerFlash(Math.random() * 3 + 0.5);
+      // this.lightningOverlay.triggerFlash(Math.random() * 3 + 0.5);
     }
   }
 

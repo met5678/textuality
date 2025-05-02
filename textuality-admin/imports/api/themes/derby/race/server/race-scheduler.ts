@@ -188,7 +188,7 @@ const scheduleRaceMissions = () => {
   });
 };
 
-if (Meteor.isServer /* && Meteor.isProduction*/) {
+if (Meteor.isServer && Meteor.isProduction) {
   Meteor.startup(() => {
     scheduleRaces();
     scheduleRaceMissions();

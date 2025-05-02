@@ -3,23 +3,18 @@ import { useScaleByBaseWidth } from '/imports/ui/hooks/use-scale-by-base-width';
 
 import './Teller.css';
 import { TellerWithHelpers } from '/imports/api/themes/derby/tellers/tellers';
-import {
-  TELLER_AVAILABLE_STATUSES,
-  TELLER_BUSY_STATUSES,
-  TELLER_CLOSED_STATUSES,
-  TELLER_FORTUNE_STATUSES,
-  TELLER_FORTUNE_AVAILABLE_STATUSES,
-  TellerStatus as TellerStatusType,
-} from '/imports/schemas/derby/teller-status/teller-status';
+import { TellerStatus as TellerStatusType } from '/imports/schemas/derby/teller-status/teller-status';
 import { LedChar } from '../modules/LedLights/LedChar';
 import { LedCharRow } from '../modules/LedLights/LedCharRow';
 import { LedRound } from '../modules/LedLights/LedRound';
 
 export const TellerStatus = ({
   teller,
+  tellerStates,
   timeLeft,
 }: {
   teller: TellerWithHelpers;
+  tellerStates: Record<string, boolean>;
   timeLeft: number | undefined;
 }) => {
   const statusRef = useRef<HTMLDivElement>(null);
@@ -27,35 +22,24 @@ export const TellerStatus = ({
   const baseHeight = 128;
   const scale = useScaleByBaseWidth(statusRef, baseWidth);
 
-  const status = teller.status as TellerStatusType;
-  const isImpatient = status === 'betting-impatient';
+  const {
+    isAvailable,
+    isImpatient,
+    isBusy,
+    isClosed,
+    isOpeningOrClosing,
+    isFortuneTeller,
+    isTooLate,
+  } = tellerStates;
 
-  const isFortuneAvailable = TELLER_FORTUNE_AVAILABLE_STATUSES.includes(status);
-  const isAvailable =
-    TELLER_AVAILABLE_STATUSES.includes(status) || isFortuneAvailable;
-
-  const isBusy = TELLER_BUSY_STATUSES.includes(status);
-  const isClosed =
-    !isFortuneAvailable &&
-    teller.status !== 'fortune-engaged' &&
-    TELLER_CLOSED_STATUSES.includes(status);
-  const isOpeningOrClosing = [
-    'opening',
-    'fortune-opening',
-    'closing',
-    'fortune-closing',
-  ].includes(status);
-  const timesUp = status === 'timeout';
-  const color = TELLER_FORTUNE_STATUSES.includes(status) ? 'pink' : 'yellow';
-
-  console.log('teller', teller);
+  const color = isFortuneTeller ? 'pink' : 'yellow';
 
   let infoLabel = '';
   let infoValue = 0;
 
   if (isImpatient) {
     infoLabel = 'Time Left';
-    infoValue = timesUp ? 0 : timeLeft ?? 0;
+    infoValue = isTooLate ? 0 : timeLeft ?? 0;
   } else if (!isOpeningOrClosing && isClosed) {
     infoLabel = 'Bets Open';
     infoValue = 60; /* JTG TO DO : time until bets open*/
@@ -91,8 +75,8 @@ export const TellerStatus = ({
         >
           <LedRound
             color={isAvailable ? 'green' : 'red'}
-            blink={status === 'betting-impatient'}
-            off={isClosed}
+            blink={isImpatient}
+            off={isClosed || isOpeningOrClosing}
           />
           <div style={{ display: 'flex' }}>
             <LedChar
@@ -103,7 +87,7 @@ export const TellerStatus = ({
             />
             <LedCharRow
               value={mainText}
-              off={isClosed}
+              off={isClosed || isOpeningOrClosing}
               charCount={5}
               color={color}
             />

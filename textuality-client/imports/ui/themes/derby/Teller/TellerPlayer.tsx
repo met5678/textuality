@@ -8,12 +8,17 @@ import { useEffect, useRef } from 'react';
 type TellerPlayerProps = {
   player?: PlayerWithHelpers;
   raceBet?: RaceBetWithHelpers;
+  gettingFortune?: boolean;
 };
 
-export const TellerPlayer = ({ player, raceBet }: TellerPlayerProps) => {
-  console.log({ player, raceBet });
+export const TellerPlayer = ({
+  player,
+  raceBet,
+  gettingFortune,
+}: TellerPlayerProps) => {
+  console.log({ player, raceBet, gettingFortune });
 
-  if (!player || !raceBet) {
+  if (!player || (!gettingFortune && !raceBet)) {
     return null;
   }
 
@@ -29,10 +34,10 @@ export const TellerPlayer = ({ player, raceBet }: TellerPlayerProps) => {
         ease: 'power1.inOut',
       });
     }
-  }, [raceBet.step]);
+  }, [raceBet?.step]);
 
   useEffect(() => {
-    if (playerRef.current && raceBet.status == 'cancelled-timeout') {
+    if (playerRef.current && raceBet?.status == 'cancelled-timeout') {
       if (raceBet.status === 'cancelled-timeout') {
         gsap.to(playerRef.current, {
           rotation: 360,
@@ -49,16 +54,16 @@ export const TellerPlayer = ({ player, raceBet }: TellerPlayerProps) => {
         });
       }
     }
-  }, [raceBet.status]);
+  }, [raceBet?.status]);
 
   return (
     <div
-      style={{ position: 'absolute', bottom: '20px', width: '80%' }}
+      style={{ position: 'absolute', bottom: '20px', width: '40vw' }}
       ref={playerRef}
     >
       <img
         src={player.getAvatarUrl(100)}
-        style={{ width: '100%', borderRadius: '20px' }}
+        style={{ width: '100%', borderRadius: '200px' }}
       />
     </div>
   );

@@ -170,7 +170,11 @@ export const TellerVideo = ({ teller, player, raceBet }: TellerVideoProps) => {
           backgroundColor: TRANSITION_COLOR,
         }}
       ></div>
-      <TellerPlayer player={player} raceBet={raceBet} />
+      <TellerPlayer
+        player={player}
+        raceBet={raceBet}
+        gettingFortune={TELLER_FORTUNE_STATUSES.includes(status)}
+      />
     </div>
   );
 };

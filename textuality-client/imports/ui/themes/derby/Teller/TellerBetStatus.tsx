@@ -86,10 +86,7 @@ export const TellerBetStatus = ({
           width: `${baseWidth}px`,
         }}
       >
-        <div
-          className="teller-bet-status-leds"
-          style={{ marginTop: 'clamp(8px, 1vh, 24px)' }}
-        >
+        <div className="teller-bet-status-leds">
           {leds.map(({ icon, complete, current }, i) => {
             const animationDelay =
               betPlaced || fortuneTellerFun

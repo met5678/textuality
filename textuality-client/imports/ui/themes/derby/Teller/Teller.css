@@ -19,7 +19,7 @@
   max-width: 95vw;
   max-height: 90vh;
   height: 100%;
-  gap: clamp(16px, 2vh, 32px);
+  gap: clamp(8px, 2vh, 32px);
 }
 
 .at-sign span {

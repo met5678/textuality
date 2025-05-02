@@ -1,21 +1,16 @@
 import { Meteor } from 'meteor/meteor';
-import { Tracker } from 'meteor/tracker';
 import { DateTime } from 'luxon';
 
 import Races, { RaceWithHelpers } from '../races';
 import Events from '/imports/api/events';
-import reactiveDate from '/imports/utils/reactive-date';
-import race, { RaceStatus } from '/imports/schemas/derby/race';
+import { RaceStatus } from '/imports/schemas/derby/race';
 import { raceStartIntro } from '../methods/races.startIntro';
 import { raceOpenBets } from '../methods/races.openBets';
 import { raceStartRace } from '../methods/races.startRace';
 import { raceDeactivate } from '../methods/races.deactivate';
 import { raceStartResults } from '../methods/races.startResults';
 import { raceStartPreBets } from '../methods/races.startPreBets';
-import {
-  generateTimelineWithResults,
-  MAX_TIMELINE_SECONDS,
-} from '../timeline/generate-timeline';
+import { MAX_TIMELINE_SECONDS } from '../timeline/generate-timeline';
 import { racesGetCurrentSync } from '../methods/races.getCurrent';
 import Missions from '/imports/api/missions';
 import { raceGenerateTimeline } from '../methods/races.generateTimeline';

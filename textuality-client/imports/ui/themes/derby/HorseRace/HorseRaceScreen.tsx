@@ -11,9 +11,14 @@ import { RaceResultsSubscreen } from './subscreens/RaceResults/RaceResultsSubscr
 const HorseRaceScreen = ({ event }: { event: Event }) => {
   useSubscribe('races.currentOrNext');
   const races = useFind(() =>
-    Races.find({ event: event._id }, { fields: { timeline: 0 } }),
+    Races.find(
+      { event: event._id, status: { $nin: ['future', 'inactive'] } },
+      { fields: { timeline: 0 }, sort: { time_race_starts_at: 1 } },
+    ),
   );
   const race = races[0];
+
+  console.log('race', race);
 
   if (!race) {
     return (

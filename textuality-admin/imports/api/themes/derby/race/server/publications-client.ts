@@ -2,19 +2,14 @@ import { Meteor } from 'meteor/meteor';
 
 import Races from '../races';
 import Events from '/imports/api/events';
-import reactiveDate from '/imports/utils/reactive-date';
 import { RaceId } from '/imports/schemas/derby/race';
 
 Meteor.publish('races.currentOrNext', function () {
   this.autorun(() => {
-    const now = reactiveDate.get();
     return Races.find(
       {
         event: Events.currentId()!,
-        $or: [
-          { status: { $nin: ['future', 'inactive'] } },
-          { scheduled: true, time_bets_start_at: { $gt: now } },
-        ],
+        status: { $nin: ['future', 'inactive'] },
       },
       {
         sort: { time_bets_start_at: 1 },
@@ -42,14 +37,10 @@ Meteor.publish('races.currentOrNext', function () {
 // Just lacking the timeline
 Meteor.publish('races.currentOrNextLite', function (raceId: RaceId) {
   this.autorun(() => {
-    const now = reactiveDate.get();
     return Races.find(
       {
         event: Events.currentId()!,
-        $or: [
-          { status: { $nin: ['future', 'inactive'] } },
-          { scheduled: true, time_bets_start_at: { $gt: now } },
-        ],
+        status: { $nin: ['future', 'inactive'] },
       },
       {
         sort: { time_bets_start_at: 1 },

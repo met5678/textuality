@@ -57,6 +57,7 @@ Meteor.methods({
     Meteor.call('derby.horses.resetEvent', eventId);
     Meteor.call('derby.raceBets.resetEvent', eventId);
     Meteor.call('derby.powerups.resetEvent', eventId);
+    Meteor.call('derby.fortunes.resetEvent', eventId);
   },
 
   'events.copyFrom': (destinationEventId, sourceEventId) => {

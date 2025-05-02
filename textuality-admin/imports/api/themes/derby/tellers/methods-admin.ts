@@ -95,5 +95,7 @@ Meteor.methods({
     fortuneTellerClose(tellerId);
   },
 
-  'derby.tellers.resetEvent': async (event_id: EventId) => {},
+  'derby.tellers.resetEvent': async (event_id: EventId) => {
+    Tellers.updateAsync({ event: event_id }, { $set: { status: 'break' } });
+  },
 });

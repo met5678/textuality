@@ -4,7 +4,7 @@ import { useSubscribe, useFind } from 'meteor/react-meteor-data';
 
 import Table from '/imports/ui/generic/Table/Table';
 
-import { GridColDef } from '@mui/x-data-grid';
+import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid';
 import { Race, RaceSchema, WEATHER_VALUES } from '/imports/schemas/derby/race';
 import Races from '/imports/api/themes/derby/race';
 import { RaceWithHelpers } from '/imports/api/themes/derby/race/races';
@@ -266,6 +266,17 @@ const RacesTable = () => {
         {...tableEditProps}
         initialSortField="number"
         initialSortOrder="asc"
+        customRowActions={[
+          (params) => (
+            <GridActionsCellItem
+              showInMenu={true}
+              onClick={() =>
+                Meteor.callAsync('derby.races.doPayouts', params.row._id)
+              }
+              label="Do Payouts"
+            />
+          ),
+        ]}
       />
       <RaceFormDialog model={editRace} onClose={() => setEditRace(null)} />
       {selectedRace && isHorseDialogOpen && (

@@ -9,14 +9,15 @@ import {
   AutoTextSendCustomArgs,
   sendCustomAutoText,
 } from './methods/autoTexts.sendCustom';
+import { getPlayerPowerupSummary } from '../themes/derby/powerups/methods/powerups.getPlayerPowerupSummary';
 
 Meteor.methods({
   'autoTexts.send': async (args: AutoTextSendArgs) => {
     await sendAutoText(args);
   },
 
-  'autoTexts.sendStatus': ({ playerId }) => {
-    const player = Players.findOne(playerId);
+  'autoTexts.sendStatus': async ({ playerId }) => {
+    const player = await Players.findOneAsync(playerId);
     if (!player) return;
 
     let checkpointLocations = Checkpoints.find(
@@ -69,11 +70,14 @@ Meteor.methods({
       }
     }
 
+    const powerupSummary = await getPlayerPowerupSummary(playerId);
+
     sendAutoText({
       trigger: 'WALLET_STATUS',
       playerId,
       templateVars: {
         checkpoint_list: lines.join('\n'),
+        powerup_summary: powerupSummary,
       },
     });
   },

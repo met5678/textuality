@@ -17,10 +17,11 @@ import {
 } from '/imports/schemas/derby/teller-status/teller-status';
 
 const TellerScreen = ({ event, url }: { event: Event; url: string }) => {
-  const { loading, teller, raceBet, player, timeLeft } = useTellerScreenData({
-    eventId: event._id,
-    url,
-  });
+  const { loading, teller, raceBet, player, race, timeLeft } =
+    useTellerScreenData({
+      eventId: event._id,
+      url,
+    });
 
   if (loading) return 'Loading';
 
@@ -62,6 +63,7 @@ const TellerScreen = ({ event, url }: { event: Event; url: string }) => {
             teller={teller}
             timeLeft={timeLeft}
             tellerStates={tellerStates}
+            race={race}
           />
           <TellerVideo teller={teller} player={player} raceBet={raceBet} />
           <TellerBetStatus

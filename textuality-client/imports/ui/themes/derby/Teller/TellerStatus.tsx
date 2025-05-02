@@ -7,16 +7,24 @@ import { TellerWithHelpers } from '/imports/api/themes/derby/tellers/tellers';
 import { LedChar } from '../modules/LedLights/LedChar';
 import { LedCharRow } from '../modules/LedLights/LedCharRow';
 import { LedRound } from '../modules/LedLights/LedRound';
+import { RaceWithHelpers } from '/imports/api/themes/derby/race/races';
+import { useTracker } from 'meteor/react-meteor-data';
+import reactiveDate from '/imports/utils/reactive-date';
+import { DateTime } from 'luxon';
 
 export const TellerStatus = ({
   teller,
   tellerStates,
   timeLeft,
+  race,
 }: {
   teller: TellerWithHelpers;
   tellerStates: Record<string, boolean>;
   timeLeft: number | undefined;
+  race: RaceWithHelpers | undefined;
 }) => {
+  const now = useTracker(() => reactiveDate.get());
+
   const statusRef = useRef<HTMLDivElement>(null);
   const baseWidth = 344;
   const baseHeight = 128;
@@ -40,7 +48,18 @@ export const TellerStatus = ({
     infoValue = isTooLate ? 0 : timeLeft ?? 0;
   } else if (!isOpeningOrClosing && isClosed) {
     infoLabel = 'Bets Open';
-    infoValue = 60; /* ROO TO DO : time until bets open*/
+    infoValue =
+      race && race.time_bets_start_at
+        ? Math.max(
+            0,
+            Math.floor(
+              DateTime.fromJSDate(race.time_bets_start_at).diff(
+                DateTime.fromJSDate(now),
+                'minutes',
+              ).minutes,
+            ),
+          )
+        : 0;
   } else {
     infoLabel = 'Min Wager';
     infoValue = teller.min_wager;

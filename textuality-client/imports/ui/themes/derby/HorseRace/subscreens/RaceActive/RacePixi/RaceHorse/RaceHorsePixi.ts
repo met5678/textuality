@@ -15,9 +15,9 @@ class RaceHorsePixi extends Container {
     this.horseSprite.label = 'horseSprite';
     this.horseSprite.animationSpeed = 0.5;
     this.horseSprite.filters = [
-      new BloomFilter({
-        strength: 2,
-      }),
+      // new BloomFilter({
+      //   strength: 2,
+      // }),
       // new GlowFilter({
       //   color: 0xffffff,
       //   outerStrength: 2,

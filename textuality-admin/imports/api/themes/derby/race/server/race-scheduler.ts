@@ -1,21 +1,16 @@
 import { Meteor } from 'meteor/meteor';
-import { Tracker } from 'meteor/tracker';
 import { DateTime } from 'luxon';
 
 import Races, { RaceWithHelpers } from '../races';
 import Events from '/imports/api/events';
-import reactiveDate from '/imports/utils/reactive-date';
-import race, { RaceStatus } from '/imports/schemas/derby/race';
+import { RaceStatus } from '/imports/schemas/derby/race';
 import { raceStartIntro } from '../methods/races.startIntro';
 import { raceOpenBets } from '../methods/races.openBets';
 import { raceStartRace } from '../methods/races.startRace';
 import { raceDeactivate } from '../methods/races.deactivate';
 import { raceStartResults } from '../methods/races.startResults';
 import { raceStartPreBets } from '../methods/races.startPreBets';
-import {
-  generateTimelineWithResults,
-  MAX_TIMELINE_SECONDS,
-} from '../timeline/generate-timeline';
+import { MAX_TIMELINE_SECONDS } from '../timeline/generate-timeline';
 import { racesGetCurrentSync } from '../methods/races.getCurrent';
 import Missions from '/imports/api/missions';
 import { raceGenerateTimeline } from '../methods/races.generateTimeline';
@@ -94,14 +89,14 @@ const getExpectedStatus = (race: RaceWithHelpers, now: Date): RaceStatus => {
   return 'inactive';
 };
 
-let scheduleRacesHandle: Meteor.LiveQueryHandle;
+let scheduleRacesInterval: number | undefined;
 const scheduleRaces = () => {
-  if (scheduleRacesHandle) {
-    scheduleRacesHandle.stop();
+  if (scheduleRacesInterval) {
+    Meteor.clearInterval(scheduleRacesInterval);
   }
 
-  scheduleRacesHandle = Tracker.autorun(() => {
-    const now = reactiveDate.get();
+  scheduleRacesInterval = Meteor.setInterval(() => {
+    const now = new Date();
 
     const eventRaces = Races.find(
       {
@@ -133,23 +128,23 @@ const scheduleRaces = () => {
         foundCurrentRace = true;
       }
     }
-  });
+  }, 1000);
 };
 
-let scheduleRaceMissionsHandle: Meteor.LiveQueryHandle;
+let scheduleRaceMissionsInterval: number | undefined;
 const scheduleRaceMissions = () => {
-  if (scheduleRaceMissionsHandle) {
-    scheduleRaceMissionsHandle.stop();
+  if (scheduleRaceMissionsInterval) {
+    Meteor.clearInterval(scheduleRaceMissionsInterval);
   }
 
   let startingMission = false;
-  scheduleRaceMissionsHandle = Tracker.autorun(async () => {
-    const now = reactiveDate.get();
+  scheduleRaceMissionsInterval = Meteor.setInterval(async () => {
+    const now = new Date();
 
     const currentRace = racesGetCurrentSync();
     if (!currentRace || !currentRace.linked_mission) return;
 
-    const mission = Missions.findOne({
+    const mission = await Missions.findOneAsync({
       _id: currentRace.linked_mission,
     });
 
@@ -163,7 +158,7 @@ const scheduleRaceMissions = () => {
       }
       return;
     }
-    if (mission.timeStart && now > mission.timeStart) {
+    if (mission.timeEnd && now > mission.timeEnd) {
       return;
     }
 
@@ -185,10 +180,13 @@ const scheduleRaceMissions = () => {
       await Meteor.callAsync('missions.start', { missionId: mission._id });
       startingMission = false;
     }
-  });
+  }, 5000);
 };
 
-if (Meteor.isServer && Meteor.isProduction) {
+if (
+  Meteor.isServer &&
+  (process.env.DB_ENV === 'local' || Meteor.isProduction)
+) {
   Meteor.startup(() => {
     scheduleRaces();
     scheduleRaceMissions();

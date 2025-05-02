@@ -93,7 +93,10 @@ export class RaceController {
         }
 
         const horses = await Tracker.withComputation(computation, () =>
-          Horses.find({ _id: { $in: race.horses } }).fetchAsync(),
+          Horses.find(
+            { _id: { $in: race.horses } },
+            { sort: { number: 1 } },
+          ).fetchAsync(),
         );
 
         if (race.horses.length != horses.length) {

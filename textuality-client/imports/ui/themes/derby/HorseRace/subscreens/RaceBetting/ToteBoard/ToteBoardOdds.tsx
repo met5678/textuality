@@ -44,26 +44,28 @@ const HorseColumn: React.FC<{
                 <div
                   style={{
                     backgroundColor: horsesByNumber[horse.number].color,
-                    width: '76px',
-                    height: '58px',
+                    width: '84px',
+                    height: '60px',
                     borderRadius: '50%',
                     display: 'flex',
                     justifyContent: 'center',
                     textShadow: '0px 2px 2px rgba(0, 0, 0, 0.25)',
-                    paddingLeft: '2px',
-                    paddingTop: '1px',
                     filter: 'drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5))',
-                    marginRight: '.5rem',
+                    marginRight: '.2rem',
                   }}
                 >
                   <span
                     style={{
+                      fontSize: '30px',
+                      paddingTop: '10px',
+                      paddingLeft: '2px',
                       color: fontColorContrast(
                         horsesByNumber[horse.number].color,
+                        0.6,
                       ),
                     }}
                   >
-                    {horse.number.toString()}
+                    {horse.short_name}
                   </span>
                 </div>
               }

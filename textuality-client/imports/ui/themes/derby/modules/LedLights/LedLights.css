@@ -89,7 +89,7 @@
   text-shadow:
     0 0 2px rgb(var(--led-200)),
     0 0 3px rgb(var(--led-500));
-  animation: derby-char-glow 2s ease-in-out infinite;
+  /* animation: derby-char-glow 2s ease-in-out infinite; */
 }
 
 .led-char.led-off span {

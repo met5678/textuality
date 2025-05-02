@@ -25,6 +25,11 @@ const STATUS_TO_SOUND: Partial<
   'giving-stub-single': `${SOUND_PATH}/teller-printstubs.mp3`,
   'giving-stub-multi': `${SOUND_PATH}/teller-printstubs.mp3`,
   'fortune-open': `${SOUND_PATH}/fortune-open.mp3`,
+  'fortune-engaged': [
+    `${SOUND_PATH}/fortune-engaged-1.mp3`,
+    `${SOUND_PATH}/fortune-engaged-2.mp3`,
+    `${SOUND_PATH}/fortune-engaged-3.mp3`,
+  ],
 };
 
 const STEP_SOUND = `${SOUND_PATH}/teller-ding.mp3`;

@@ -132,6 +132,7 @@ export const TellerStatus = ({
             charCount={3}
             color={color}
             off={isBusy || isOpeningOrClosing}
+            style={{ scale: '.8', transformOrigin: 'left center' }}
           />
         </div>
       </div>

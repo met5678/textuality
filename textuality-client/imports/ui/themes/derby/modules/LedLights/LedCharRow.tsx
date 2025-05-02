@@ -1,9 +1,6 @@
 import React from 'react';
 import { LedChar } from './LedChar';
-import {
-  useRainbowShiftingColor,
-  LedColor,
-} from '/imports/ui/hooks/use-rainbow-shifting-color';
+import { useRainbowShiftingColor } from '/imports/ui/hooks/use-rainbow-shifting-color';
 
 export const LedCharRow: React.FC<{
   label?: React.ReactNode;
@@ -12,6 +9,7 @@ export const LedCharRow: React.FC<{
   color?: 'yellow' | 'pink';
   off?: boolean;
   rainbowModeActive?: boolean;
+  style?: React.CSSProperties;
 }> = ({
   label,
   value,
@@ -19,6 +17,7 @@ export const LedCharRow: React.FC<{
   color = 'yellow',
   off = false,
   rainbowModeActive = false,
+  style,
 }) => {
   const isNumber = typeof value === 'number';
   const stringValue = isNumber
@@ -39,7 +38,7 @@ export const LedCharRow: React.FC<{
   return (
     <div
       className="led-char-row"
-      style={{ display: 'flex', alignItems: 'center', gap: '1.2rem' }}
+      style={{ display: 'flex', alignItems: 'center', gap: '1.2rem', ...style }}
     >
       {label && <span>{label}</span>}
       <div style={{ display: 'flex' }}>

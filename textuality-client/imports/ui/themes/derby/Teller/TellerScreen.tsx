@@ -64,7 +64,11 @@ const TellerScreen = ({ event, url }: { event: Event; url: string }) => {
             tellerStates={tellerStates}
           />
           <TellerVideo teller={teller} player={player} raceBet={raceBet} />
-          <TellerBetStatus teller={teller} raceBet={raceBet} />
+          <TellerBetStatus
+            teller={teller}
+            raceBet={raceBet}
+            tellerStates={tellerStates}
+          />
           <TellerSounds teller={teller} raceBet={raceBet} />
         </div>
       </div>

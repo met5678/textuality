@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useScaleByBaseWidth } from '/imports/ui/hooks/use-scale-by-base-width';
 
 import './Teller.css';
@@ -6,27 +6,31 @@ import { TellerWithHelpers } from '/imports/api/themes/derby/tellers/tellers';
 import { RaceBetWithHelpers } from '/imports/api/themes/derby/raceBets/raceBets';
 
 import { LedRound } from '../modules/LedLights/LedRound';
-import {
-  TELLER_CLOSED_STATUSES,
-  TellerStatus as TellerStatusType,
-} from '/imports/schemas/derby/teller-status/teller-status';
 
 const ledSize = 68;
 
 export const TellerBetStatus = ({
   teller,
   raceBet,
+  tellerStates,
 }: {
   teller: TellerWithHelpers;
   raceBet: RaceBetWithHelpers;
+  tellerStates: Record<string, boolean>;
 }) => {
   const statusRef = useRef<HTMLDivElement>(null);
   const baseWidth = 384;
   const baseHeight = 60;
   const scale = useScaleByBaseWidth(statusRef, baseWidth);
 
-  const status = teller.status as TellerStatusType;
-  const isClosed = TELLER_CLOSED_STATUSES.includes(status);
+  const {
+    isAvailable,
+    isBusy,
+    isClosed,
+    isOpeningOrClosing,
+    isFortuneTeller,
+    isTooLate,
+  } = tellerStates;
 
   const step = raceBet?.step;
   const betInProgress = !!step;
@@ -36,25 +40,43 @@ export const TellerBetStatus = ({
   // Determine which step is currently active
   const stepIndex = stepOrder.indexOf(step || '');
   const currentStep = stepOrder[stepIndex] || '';
+  const betPlaced = currentStep === 'done';
 
   // LED step configuration
   const leds = [
     {
       icon: 'url(/derby/images/icons/stub.svg)',
-      pulse: currentStep === 'bet-type',
       complete: stepIndex >= 1, // horse1+
+      current: currentStep === 'bet-type',
     },
     {
       icon: 'url(/derby/images/icons/horse.svg)',
-      pulse: ['horse1', 'horse2', 'horse3'].includes(currentStep),
       complete: stepIndex >= 4, // wager+
+      current: ['horse1', 'horse2', 'horse3'].includes(currentStep),
     },
     {
       icon: 'url(/derby/images/icons/money.svg)',
-      pulse: currentStep === 'wager',
-      complete: currentStep === 'done',
+      complete: betPlaced,
+      current: currentStep === 'wager',
     },
   ];
+
+  const fortuneTellerFun = isFortuneTeller && isBusy;
+  const rainbow = ['red', 'yellow', 'green', 'blue', 'pink'];
+  const [rainbowOffset, setRainbowOffset] = useState(0);
+  useEffect(() => {
+    if (fortuneTellerFun) {
+      const interval = setInterval(() => {
+        setRainbowOffset((prev) => (prev + 1) % rainbow.length);
+      }, 200); // faster loop!
+
+      return () => clearInterval(interval);
+    }
+  }, [isFortuneTeller, isBusy]);
+
+  const blink = betPlaced || isTooLate || fortuneTellerFun;
+
+  console.log('teller', teller);
 
   return (
     <div
@@ -74,15 +96,35 @@ export const TellerBetStatus = ({
         }}
       >
         <div className="teller-bet-status-leds">
-          {leds.map(({ icon, pulse, complete }, i) => (
-            <LedRound
-              key={i}
-              off={isClosed || (betInProgress && !complete)}
-              pulse={pulse}
-              size={ledSize}
-              icon={icon}
-            />
-          ))}
+          {leds.map(({ icon, complete, current }, i) => {
+            const animationDelay =
+              betPlaced || fortuneTellerFun
+                ? i * 0.1
+                : isAvailable
+                ? i * 0.3
+                : 0;
+
+            const ledColor = fortuneTellerFun
+              ? rainbow[(i + rainbowOffset) % rainbow.length]
+              : isFortuneTeller
+              ? 'pink'
+              : 'yellow';
+            const pulse = isAvailable || (current && !isTooLate);
+            return (
+              <LedRound
+                key={i}
+                icon={icon}
+                size={ledSize}
+                color={ledColor as 'red' | 'green' | 'yellow' | 'blue' | 'pink'}
+                off={
+                  isClosed || isOpeningOrClosing || (betInProgress && !complete)
+                }
+                blink={blink}
+                pulse={pulse}
+                animationDelay={animationDelay}
+              />
+            );
+          })}
         </div>
       </div>
     </div>

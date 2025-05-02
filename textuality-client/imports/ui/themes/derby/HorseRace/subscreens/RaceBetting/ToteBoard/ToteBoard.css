@@ -74,17 +74,13 @@
   position: relative;
 }
 
-.tote-board-roses-wrapper {
+.tote-board-roses-container {
   position: absolute;
   bottom: 0;
   left: -7%;
   width: 130%;
   filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.25))
     drop-shadow(0 10px 16px rgba(0, 0, 0, 0.15));
-}
-
-.tote-board-roses-container {
-  position: relative;
 }
 
 .tote-board-roses {

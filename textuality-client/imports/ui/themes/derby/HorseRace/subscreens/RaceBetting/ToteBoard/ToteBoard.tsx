@@ -24,42 +24,59 @@ export const ToteBoard: React.FC<{
     <div className="tote-board-wrapper">
       <div className="tote-board" ref={boardRef}>
         <div
-          className="tote-board-container"
+          className="tote-board-scaler"
           style={{
             transform: `scale(${scale})`,
             marginTop: `${(1 - scale) * marginOffset}px`,
             transformOrigin: 'top left',
-            width: '1700px',
-            height: '640px',
-            boxSizing: 'border-box',
+            position: 'relative',
           }}
         >
-          <div className="tote-board-top-frame" />
-          <div className="tote-board-body">
-            <ToteBoardStats race={race} />
-            <ToteBoardOdds race={race} horses={horses} />
-            <ToteBoardActivity />
+          <div
+            className="tote-board-container"
+            style={{
+              width: '1700px',
+              height: '640px',
+              boxSizing: 'border-box',
+            }}
+          >
+            <div className="tote-board-top-frame" />
+            <div className="tote-board-body">
+              <ToteBoardStats race={race} />
+              <ToteBoardOdds race={race} horses={horses} />
+              <ToteBoardActivity />
+            </div>
           </div>
-        </div>
-      </div>
-      <div
-        className="tote-board-roses-wrapper"
-        style={{
-          height: window.innerHeight > 900 ? '270px' : '180px',
-          transform: `translateY(${
-            window.innerHeight > 900 ? '60%' : '50%'
-          }) translateY(${(1 - scale) * -560}px)`, // I'm scaling the board, so this needs to be moved up
-        }}
-      >
-        {/* <div className="tote-board-roses-container"> */}
-        <div className="tote-board-roses">
-          <ToteBoardAccents src="/derby/images/roses.webp" weather={weather} />
-        </div>
-        <div className="tote-board-roses">
-          <ToteBoardAccents src="/derby/images/roses.webp" weather={weather} />
-        </div>
-        <div className="tote-board-roses">
-          <ToteBoardAccents src="/derby/images/roses.webp" weather={weather} />
+
+          <div
+            className="tote-board-roses-container"
+            style={{
+              height: '300px',
+              width: '2200px',
+              bottom: '-200px',
+              // Needed to use some weird numbers to make it look good on the projections - diff then screen, idk why
+              marginLeft: window.innerHeight > 500 ? '-30px' : '-220px',
+            }}
+          >
+            <div className="tote-board-roses">
+              <ToteBoardAccents
+                src="/derby/images/roses.webp"
+                weather={weather}
+              />
+            </div>
+            <div className="tote-board-roses">
+              <ToteBoardAccents
+                src="/derby/images/roses.webp"
+                weather={weather}
+              />
+            </div>
+            <div className="tote-board-roses">
+              <ToteBoardAccents
+                src="/derby/images/roses.webp"
+                weather={weather}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

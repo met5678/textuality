@@ -61,7 +61,7 @@ const HorseColumn: React.FC<{
                       paddingLeft: '2px',
                       color: fontColorContrast(
                         horsesByNumber[horse.number].color,
-                        0.6,
+                        0.5,
                       ),
                     }}
                   >

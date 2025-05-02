@@ -10,6 +10,7 @@ import Horses from '../horses/horses';
 import Events from '/imports/api/events';
 import { racesGetCurrent } from './methods/races.getCurrent';
 import { raceDoPayouts } from './methods/races.doPayouts';
+import { raceGenerateTimeline } from './methods/races.generateTimeline';
 const keyframeIntervalHandles: Record<RaceId, number> = {};
 
 Meteor.methods({
@@ -22,15 +23,7 @@ Meteor.methods({
     if (!race) {
       throw new Meteor.Error('race-not-found', 'Race not found');
     }
-    const horses = Horses.find({ _id: { $in: race.horses } }).fetch();
-
-    const { timeline, results } = generateTimelineWithResults(
-      race,
-      horses,
-      seed,
-    );
-
-    Races.updateAsync(raceId, { $set: { timeline, results } });
+    await raceGenerateTimeline(raceId);
   },
 
   'derby.races.startRace': async (raceId: RaceId, resume: boolean = false) => {

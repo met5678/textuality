@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import Races from '/imports/api/themes/derby/race';
-import { generateTimelineWithResults } from '../timeline/generate-timeline';
 import Horses from '/imports/api/themes/derby/horses';
+import { raceGenerateTimeline } from './races.generateTimeline';
 
 export const raceStartRace = async (raceId: string) => {
   const race = await Races.findOneAsync(raceId);
@@ -12,7 +12,12 @@ export const raceStartRace = async (raceId: string) => {
     { sort: { number: 1 } },
   ).fetch();
 
-  const { timeline, results } = generateTimelineWithResults(race, horses);
+  if (!race.linked_mission) {
+    console.log('no linked mission, generating timeline');
+    await raceGenerateTimeline(raceId);
+  } else {
+    console.log('linked mission, not generating timeline');
+  }
 
-  Races.updateAsync(raceId, { $set: { status: 'active', timeline, results } });
+  Races.updateAsync(raceId, { $set: { status: 'active' } });
 };

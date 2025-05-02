@@ -6,6 +6,9 @@ import { RaceBetType } from '/imports/schemas/derby/raceBet';
 
 const BASE_SEED_MONEY = 100;
 
+const MIN_ODDS = 2;
+const MAX_ODDS = 99;
+
 export const raceUpdateOdds = async (raceId: RaceId) => {
   const race = await Races.findOneAsync(raceId);
   const raceBets = await RaceBets.find({
@@ -54,7 +57,10 @@ export const raceUpdateOdds = async (raceId: RaceId) => {
   for (const horse of race.horses) {
     odds.push({
       horse,
-      odds: Math.max(2, Math.round(totalWagered / wageredByHorse[horse])),
+      odds: Math.min(
+        MAX_ODDS,
+        Math.max(MIN_ODDS, Math.round(totalWagered / wageredByHorse[horse])),
+      ),
     });
   }
 

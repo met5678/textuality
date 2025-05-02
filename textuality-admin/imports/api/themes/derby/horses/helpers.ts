@@ -18,6 +18,6 @@ Horses.helpers({
   },
 
   formattedName() {
-    return `${this.emojiColorSquare} ${this.name} - #${this.number}`;
+    return `${this.emojiColorSquare} ${this.name}`;
   },
 });

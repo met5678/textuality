@@ -9,6 +9,7 @@ import Events from '/imports/api/events';
 import { Achievement } from '/imports/schemas/achievement';
 import { InText } from '/imports/schemas/inText';
 import { powerupsGeneratePowerup } from '../themes/derby/powerups/methods/powerups.generatePowerup';
+import { raceAwardLogicClue } from '../themes/derby/race/logic-clues/races.awardLogicClue';
 
 Meteor.methods({
   'achievements.tryUnlock': ({
@@ -41,13 +42,13 @@ Meteor.methods({
         .filter((achievement) => !playerAchievements.includes(achievement._id))
         .forEach((achievement, i) => {
           AchievementUnlocks.insert({
-            event: Events.currentId(),
+            event: Events.currentIdOrThrow(),
             achievement: achievement._id,
             name: achievement.name,
             time: new Date(),
             player: playerId,
             alias: player.alias,
-            avatar: player.avatar,
+            avatar: player.avatar!,
             numAchievements: playerAchievements.length + 1 + i,
           });
           Achievements.update(achievement._id!, { $inc: { earned: 1 } });
@@ -71,6 +72,9 @@ Meteor.methods({
           if (achievement.derby_award !== 'NONE') {
             if (achievement.derby_award === 'HORSE_POWERUP') {
               powerupsGeneratePowerup(player._id);
+            }
+            if (achievement.derby_award === 'RACE_RESULT_LOGIC') {
+              raceAwardLogicClue(player._id);
             }
           }
 

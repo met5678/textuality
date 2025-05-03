@@ -3,6 +3,7 @@ import { PlayerWithHelpers } from '/imports/api/players/players';
 import {
   COLOR_DERBY_BURGUNDY,
   COLOR_DERBY_ORANGE,
+  COLOR_DERBY_BEIGE,
 } from '../../../DerbyStyleVars';
 
 interface DerbyPlayerCircleProps {
@@ -10,6 +11,7 @@ interface DerbyPlayerCircleProps {
   zoom?: number;
   width?: number;
   height?: number;
+  style?: React.CSSProperties;
 }
 
 const DerbyPlayerCircle: React.FC<DerbyPlayerCircleProps> = ({
@@ -17,6 +19,7 @@ const DerbyPlayerCircle: React.FC<DerbyPlayerCircleProps> = ({
   zoom = 1,
   width = 250,
   height = 250,
+  style,
 }) => {
   return (
     <div
@@ -28,7 +31,9 @@ const DerbyPlayerCircle: React.FC<DerbyPlayerCircleProps> = ({
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         borderRadius: '50%',
-        border: `1vw solid ${COLOR_DERBY_ORANGE}`,
+        border: `1vw solid ${COLOR_DERBY_BEIGE}`,
+        filter: 'drop-shadow(0 min(2vw, 1vh) min(2vw, 1vh) rgba(0, 0, 0, 0.5))',
+        ...style,
       }}
     />
   );

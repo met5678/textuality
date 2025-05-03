@@ -8,7 +8,7 @@
 }
 
 .tote-board-container {
-  background: url('/derby/textures/toteboard.jpg'), #1c4028;
+  background: url('/derby/textures/toteboard.jpg'), var(--derby-green);
   background-size: cover;
   background-position: center;
   box-shadow:

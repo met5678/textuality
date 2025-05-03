@@ -9,8 +9,7 @@ import { Event } from '/imports/schemas/event';
 import {
   COLOR_DERBY_BEIGE,
   COLOR_DERBY_OFF_WHITE,
-  COLOR_DERBY_GREEN,
-  COLOR_DERBY_ORANGE,
+  COLOR_DERBY_BURGUNDY,
 } from '../DerbyStyleVars';
 import { FONT_FAMILY_BRIOSO, FONT_FAMILY_EUROSTILE } from '../DerbyStyleVars';
 const DerbyLeaderboard = ({ event }: { event: Event }) => {
@@ -22,12 +21,12 @@ const DerbyLeaderboard = ({ event }: { event: Event }) => {
 
   if (isLoading()) return null;
 
+  /* FUTURE NOTE: I used some pixels to speed up, will need to not in future */
   return (
     <div
       className={`leaderboard-derby`}
       style={{
-        background: `url(/derby/textures/toteboard.jpg) ${COLOR_DERBY_GREEN} no-repeat center center`,
-        backgroundSize: 'cover',
+        backgroundColor: COLOR_DERBY_BEIGE,
         overflow: 'hidden',
         height: '100%',
         width: '100%',
@@ -44,7 +43,7 @@ const DerbyLeaderboard = ({ event }: { event: Event }) => {
           textAlign: 'center',
           fontFamily: FONT_FAMILY_BRIOSO,
           color: COLOR_DERBY_OFF_WHITE,
-          textShadow: `0 4px 4px rgba(0, 0, 0, 0.5)`,
+          textShadow: `1px 2px 1px rgba(0, 0, 0, 0.5)`,
         }}
       >
         Big Betters
@@ -67,6 +66,7 @@ const DerbyLeaderboard = ({ event }: { event: Event }) => {
                 flexDirection: 'row',
                 alignItems: 'center',
                 gap: '10px',
+                textShadow: `none`,
               }}
             >
               <div>
@@ -76,19 +76,20 @@ const DerbyLeaderboard = ({ event }: { event: Event }) => {
                   width={50}
                   height={50}
                   style={{
-                    border: `4px solid ${COLOR_DERBY_ORANGE}`,
+                    border: `3px solid ${COLOR_DERBY_OFF_WHITE}`,
+                    filter: `drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5))`,
                   }}
                 />
               </div>
               <p
                 className="leaderboard-item"
-                style={{ color: COLOR_DERBY_OFF_WHITE }}
+                style={{ color: COLOR_DERBY_BURGUNDY, fontSize: '1.2rem' }}
               >
                 {player.alias}
               </p>
               <p
                 className="leaderboard-value"
-                style={{ color: COLOR_DERBY_OFF_WHITE }}
+                style={{ color: COLOR_DERBY_BURGUNDY }}
               >
                 {commaNumber(player.money)} DD
               </p>

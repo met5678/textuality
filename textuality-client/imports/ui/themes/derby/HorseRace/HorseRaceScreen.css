@@ -16,6 +16,7 @@
   width: 100%;
   position: absolute;
   background-color: var(--derby-beige);
+  overflow: hidden;
 }
 
 #horse-race-screen h1 {

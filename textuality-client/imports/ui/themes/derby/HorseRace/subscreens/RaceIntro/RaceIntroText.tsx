@@ -104,6 +104,7 @@ export const RaceIntroText = ({
         justifyContent: 'center',
         alignItems: 'center',
         gap: '2vh',
+        paddingBottom: '10vh',
       }}
     >
       <div
@@ -149,6 +150,25 @@ export const RaceIntroText = ({
         }}
       >
         Furlongs: {race.furlong_length}
+      </div>
+      <div
+        style={{
+          position: 'absolute',
+          bottom: '5vh',
+          left: '6vw',
+          height: '26vh',
+          width: 'auto',
+        }}
+      >
+        <img
+          style={{
+            height: '100%',
+            width: 'auto',
+            rotate: '-15deg',
+            opacity: 0.95,
+          }}
+          src="/derby/images/logo.png"
+        />
       </div>
     </div>
   );

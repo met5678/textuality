@@ -22,6 +22,25 @@ const HorseRaceScreen = ({ event }: { event: Event }) => {
     return (
       <div id="horse-race-screen">
         <h1>No Race</h1>
+        <div
+          style={{
+            position: 'absolute',
+            bottom: '5vh',
+            left: '6vw',
+            height: '26vh',
+            width: 'auto',
+          }}
+        >
+          <img
+            style={{
+              height: '100%',
+              width: 'auto',
+              rotate: '-15deg',
+              opacity: 0.95,
+            }}
+            src="/derby/images/logo.png"
+          />
+        </div>
       </div>
     );
   }

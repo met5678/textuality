@@ -122,7 +122,7 @@ const RaceResultsWinners: React.FC<RaceResultsWinnersProps> = ({ raceId }) => {
         justifyContent: 'center',
         alignItems: 'center',
         height: '100%',
-        paddingBottom: '.8vh',
+        paddingBottom: '1vh',
         background:
           'url(/derby/images/churchdowns.png) var(--derby-burgundy) no-repeat center center',
         backgroundSize: 'cover',

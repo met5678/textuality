@@ -20,8 +20,6 @@ if (Meteor.isProduction) {
   ) => {
     const url = req.url || '';
 
-    console.log('url', url);
-
     const matchingPrefix = STATIC_PREFIXES.find((prefix) =>
       url.startsWith(prefix),
     );

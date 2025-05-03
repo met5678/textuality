@@ -28,3 +28,15 @@ Meteor.publish('derby.raceBets.recent', function () {
     ),
   );
 });
+
+Meteor.publish('derby.raceBets.winnersForRace', function (raceId: string) {
+  this.autorun(() =>
+    RaceBets.find(
+      {
+        race: raceId,
+        status: 'won',
+      },
+      { sort: { payout: -1 } },
+    ),
+  );
+});

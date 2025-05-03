@@ -10,15 +10,19 @@ import { raceStartRace } from '../methods/races.startRace';
 import { raceDeactivate } from '../methods/races.deactivate';
 import { raceStartResults } from '../methods/races.startResults';
 import { raceStartPreBets } from '../methods/races.startPreBets';
-import { MAX_TIMELINE_SECONDS } from '../timeline/generate-timeline';
 import { racesGetCurrentSync } from '../methods/races.getCurrent';
 import Missions from '/imports/api/missions';
 import { raceGenerateTimeline } from '../methods/races.generateTimeline';
+import RaceBets from '../../raceBets/raceBets';
+import { condenseRaceBets } from '../../raceBets/helpers';
 
-const INTRO_DURATION_SECONDS = 30;
+const INTRO_DURATION_SECONDS = 28;
 const RACE_MAX_DURATION_SECONDS = 200;
 const POST_RACE_PAUSE_SECONDS = 15;
-const RESULTS_MAX_DURATION_SECONDS = MAX_TIMELINE_SECONDS;
+const RESULTS_MAX_DURATION_SECONDS = 60;
+
+const DERBY_WINNERS_INTERVAL_SECONDS = 6;
+const DERBY_WINNERS_NUM_TO_SHOW = 3;
 
 const getRaceDurationSeconds = (race: RaceWithHelpers) => {
   if (!race.results || Object.keys(race.results).length === 0) {
@@ -29,14 +33,20 @@ const getRaceDurationSeconds = (race: RaceWithHelpers) => {
     ...race.results.map((result) => result.time),
   );
 
-  return lastHorseFinishTime + POST_RACE_PAUSE_SECONDS;
+  return lastHorseFinishTime;
 };
 
 const getResultsDurationSeconds = (race: RaceWithHelpers) => {
-  // TODO: Iterate through bet winner, figure out how long
-  // it will take to show them all
+  const numRaceBets = condenseRaceBets(
+    RaceBets.find({ race: race._id, status: 'won' }).fetch(),
+  ).length;
 
-  return RESULTS_MAX_DURATION_SECONDS;
+  return Math.min(
+    RESULTS_MAX_DURATION_SECONDS,
+    Math.ceil(numRaceBets / DERBY_WINNERS_NUM_TO_SHOW) *
+      DERBY_WINNERS_INTERVAL_SECONDS +
+      2,
+  );
 };
 
 const changeRaceStatus = (race: RaceWithHelpers, status: RaceStatus) => {

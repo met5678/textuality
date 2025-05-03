@@ -140,6 +140,4 @@ export const raceBetPlaceBet = async ({
 
   tellerCompleteBet(teller._id, raceBet._id);
   raceUpdateOdds(race._id);
-
-  // TODO: Update Odds
 };

@@ -4,7 +4,7 @@ import { TellerId } from '/imports/schemas/derby/teller';
 
 const TELLER_TIMEOUT_CANCELS: Partial<Record<TellerId, () => void>> = {};
 
-const cancelAndDeleteTimeout = (teller_id: TellerId) => {
+export const cancelAndDeleteTimeout = (teller_id: TellerId) => {
   if (TELLER_TIMEOUT_CANCELS[teller_id]) {
     console.log('cancelling timeout', teller_id);
     TELLER_TIMEOUT_CANCELS[teller_id]();

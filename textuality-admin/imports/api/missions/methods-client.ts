@@ -8,6 +8,7 @@ import MissionPairings from '/imports/api/missionPairings';
 import Events from '/imports/api/events';
 import Players from '/imports/api/players';
 import { sendAutoText } from '../autoTexts/methods/autoTexts.send';
+import { raceAwardLogicClue } from '../themes/derby/race/logic-clues/races.awardLogicClue';
 
 function getEligiblePlayers() {
   return Players.find({ event: Events.currentId(), status: 'active' }).fetch();
@@ -192,16 +193,17 @@ Meteor.methods({
       });
     }
 
+    raceAwardLogicClue(pairing.playerA);
+    raceAwardLogicClue(pairing.playerB);
+
     Meteor.call('achievements.tryUnlock', {
       trigger: 'MISSION_COMPLETE_N',
       trigger_detail_number: mission.number,
-      trigger_detail_string: mission._id,
       playerId: pairing.playerA,
     });
     Meteor.call('achievements.tryUnlock', {
       trigger: 'MISSION_COMPLETE_N',
       trigger_detail_number: mission.number,
-      trigger_detail_string: mission._id,
       playerId: pairing.playerB,
     });
 

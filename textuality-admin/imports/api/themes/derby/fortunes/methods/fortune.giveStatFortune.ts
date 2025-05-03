@@ -8,7 +8,7 @@ import { sendAutoText } from '/imports/api/autoTexts/methods/autoTexts.send';
 import { HORSE_STATS, HorseStat } from '/imports/schemas/derby/horse';
 import { AutoTextTrigger } from '/imports/schemas/autoText';
 import { fortuneTellerClose } from '../../tellers/fortune-teller-flow/teller.fortune.closeTeller';
-
+import { cancelAndDeleteTimeout } from '../../tellers/teller-flow/_teller-timeouts';
 const getHorsesRankedByStat = (horses: HorseWithHelpers[], stat: HorseStat) => {
   return horses.sort((a, b) => b.stats()[stat] - a.stats()[stat]);
 };

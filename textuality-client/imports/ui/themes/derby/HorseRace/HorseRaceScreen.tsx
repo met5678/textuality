@@ -1,7 +1,7 @@
 import React from 'react';
 import { Event } from '/imports/schemas/event';
 import './HorseRaceScreen.css';
-import { useFind, useSubscribe } from 'meteor/react-meteor-data';
+import { useFind, useSubscribe, useTracker } from 'meteor/react-meteor-data';
 import Races from '/imports/api/themes/derby/race';
 import { RaceActiveSubsceen } from './subscreens/RaceActive/RaceActiveSubscreen';
 import { RaceBettingSubscreen } from './subscreens/RaceBetting/RaceBettingSubscreen';
@@ -10,15 +10,13 @@ import { RaceResultsSubscreen } from './subscreens/RaceResults/RaceResultsSubscr
 
 const HorseRaceScreen = ({ event }: { event: Event }) => {
   useSubscribe('races.currentOrNext');
-  const races = useFind(() =>
+  const races = useTracker(() =>
     Races.find(
       { event: event._id, status: { $nin: ['future', 'inactive'] } },
       { fields: { timeline: 0 }, sort: { time_race_starts_at: 1 } },
-    ),
+    ).fetch(),
   );
   const race = races[0];
-
-  console.log('race', race);
 
   if (!race) {
     return (

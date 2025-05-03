@@ -22,7 +22,6 @@ export const ToteBoardStats: React.FC<{
 
       <LedCharRow label="Race" value={race.number} charCount={2} />
 
-      {/* TODO: JTG - check that time works */}
       <LedCharRow
         label="Race Starts"
         value={DateTime.fromJSDate(race.time_race_starts_at)

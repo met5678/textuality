@@ -51,28 +51,22 @@ export const TellerStatus = ({
   } = tellerStates;
 
   let infoLabel = '';
-  let infoValue = 0;
+  let infoValue = '';
 
   if (isImpatient) {
     infoLabel = 'Time Left';
-    infoValue = isTooLate ? 0 : timeLeft ?? 0;
+    infoValue = isTooLate ? `0` : timeLeft ? `${timeLeft}` : `0`;
   } else if (!isOpeningOrClosing && isClosed) {
     infoLabel = 'Bets Open';
     infoValue =
       race && race.time_bets_start_at
-        ? Math.max(
-            0,
-            Math.floor(
-              DateTime.fromJSDate(race.time_bets_start_at).diff(
-                DateTime.fromJSDate(now),
-                'minutes',
-              ).minutes,
-            ),
-          )
-        : 0;
+        ? DateTime.fromJSDate(race.time_bets_start_at)
+            .diff(DateTime.fromJSDate(now), ['minutes', 'seconds'])
+            .toFormat('mm:ss')
+        : '00:00';
   } else {
     infoLabel = 'Min Bet';
-    infoValue = teller.min_wager;
+    infoValue = `${teller.min_wager}`;
   }
 
   let mainText = '';

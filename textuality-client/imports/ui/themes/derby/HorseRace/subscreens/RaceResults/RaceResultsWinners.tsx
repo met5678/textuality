@@ -131,7 +131,7 @@ const RaceResultsWinners: React.FC<RaceResultsWinnersProps> = ({ raceId }) => {
       {currentWinners.map((bet) => {
         const player = players.find((p) => p._id === bet.player);
         if (!player) return null;
-        if (!bet.type) return null;
+        if (!bet.type || !bet.payout) return null;
         return (
           <div
             key={bet._id}
@@ -169,7 +169,7 @@ const RaceResultsWinners: React.FC<RaceResultsWinnersProps> = ({ raceId }) => {
                 color: COLOR_DERBY_OFF_WHITE,
               }}
             >
-              +{commaNumber(bet.totalWager())} DD
+              +{commaNumber(bet.payout)} DD
             </div>
             <div
               className="race-winner-type"

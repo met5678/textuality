@@ -76,6 +76,10 @@ export class WeatherOverlayPixi {
   public update(): void {
     this.rainOverlay.update();
     this.windOverlay.update();
+
+    if (!this.raceController && Math.random() < 0.001) {
+      this.lightningOverlay.triggerFlash(1);
+    }
   }
 
   private onFrame(frame: number): void {

@@ -80,7 +80,7 @@ const WEATHER_RAIN_CONFIG: Record<Weather, Partial<RainConfig>> = {
   },
   rain: {
     intensity: 1,
-    direction: 90,
+    direction: 100,
     speed: 5,
     dropLength: 15,
     dropWidth: 2,
@@ -92,7 +92,7 @@ const WEATHER_RAIN_CONFIG: Record<Weather, Partial<RainConfig>> = {
   },
   storm: {
     intensity: 1,
-    direction: 90,
+    direction: 115,
     speed: 16,
     dropLength: 30,
     dropWidth: 3,

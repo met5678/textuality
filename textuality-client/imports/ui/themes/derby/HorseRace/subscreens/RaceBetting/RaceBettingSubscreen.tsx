@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { RaceWithHelpers } from '/imports/api/themes/derby/race/races';
 import { useSubscribe, useTracker } from 'meteor/react-meteor-data';
 import Horses from '/imports/api/themes/derby/horses/horses';
@@ -8,6 +8,8 @@ import { WeatherOverlay } from '../../WeatherOverlay/WeatherOverlay';
 import { WeatherBackground } from '../../WeatherBackground/WeatherBackground';
 import { WeatherSounds } from '../../WeatherSounds';
 
+const OPENING_CHIME_SOUND = '/derby/sounds/opening-chime.mp3';
+
 export const RaceBettingSubscreen: React.FC<{ race: RaceWithHelpers }> = ({
   race,
 }) => {
@@ -15,6 +17,23 @@ export const RaceBettingSubscreen: React.FC<{ race: RaceWithHelpers }> = ({
 
   useSubscribe('derby.horses.all');
   const horses = useTracker(() => Horses.find({}).fetch());
+
+  useEffect(() => {
+    let sound: Howl | undefined;
+    if (race.status === 'bets-open') {
+      sound = new Howl({
+        src: [OPENING_CHIME_SOUND],
+      });
+      sound.play();
+    }
+
+    return () => {
+      if (sound) {
+        sound.stop();
+        sound.unload();
+      }
+    };
+  }, [race.status]);
 
   return (
     <div

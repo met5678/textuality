@@ -31,10 +31,6 @@ export const LedCharRow: React.FC<{
     ? [...Array(emptyCount).fill(''), ...chars] // pad left
     : [...chars, ...Array(emptyCount).fill('')]; // pad right
 
-  const rainbowColors = cells.map((_, i) =>
-    useRainbowShiftingColor(rainbowModeActive, i, 150),
-  );
-
   return (
     <div
       className="led-char-row"
@@ -47,7 +43,9 @@ export const LedCharRow: React.FC<{
             key={i}
             char={char}
             off={off}
-            color={rainbowModeActive ? rainbowColors[i] : color}
+            color={color}
+            index={i}
+            rainbowModeActive={rainbowModeActive}
           />
         ))}
       </div>

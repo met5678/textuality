@@ -8,7 +8,10 @@ import useTimedQueueMulti from '/imports/ui/hooks/use-timed-queue-multi';
 import Players from '/imports/api/players/players';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
-import { COLOR_DERBY_BEIGE } from '../../../DerbyStyleVars';
+import {
+  COLOR_DERBY_BEIGE,
+  COLOR_DERBY_OFF_WHITE,
+} from '../../../DerbyStyleVars';
 import { FONT_FAMILY_EUROSTILE } from '../../../DerbyStyleVars';
 import { capitalizeFirstLetter } from '/imports/utils/capitalize-first-letter';
 import { condenseRaceBets } from '/imports/api/themes/derby/raceBets/helpers';
@@ -107,6 +110,9 @@ const RaceResultsWinners: React.FC<RaceResultsWinnersProps> = ({ raceId }) => {
         justifyContent: 'center',
         alignItems: 'center',
         height: '100%',
+        background:
+          'url(/derby/images/churchdowns.png) var(--derby-burgundy) no-repeat center center',
+        backgroundSize: 'cover',
       }}
     >
       {currentWinners.map((bet) => {
@@ -122,6 +128,7 @@ const RaceResultsWinners: React.FC<RaceResultsWinnersProps> = ({ raceId }) => {
               flexDirection: 'column',
               alignItems: 'center',
               gap: '1.5vw',
+              textShadow: '0 0 min(2vw, 1vh) rgba(0, 0, 0, 0.5)',
             }}
           >
             <DerbyPlayerCircle
@@ -135,7 +142,7 @@ const RaceResultsWinners: React.FC<RaceResultsWinnersProps> = ({ raceId }) => {
               style={{
                 fontFamily: FONT_FAMILY_EUROSTILE,
                 fontSize: '2.5vw',
-                color: COLOR_DERBY_BEIGE,
+                color: COLOR_DERBY_OFF_WHITE,
               }}
             >
               {player.alias}
@@ -145,7 +152,7 @@ const RaceResultsWinners: React.FC<RaceResultsWinnersProps> = ({ raceId }) => {
               style={{
                 fontFamily: FONT_FAMILY_EUROSTILE,
                 fontSize: '3.5vw',
-                color: COLOR_DERBY_BEIGE,
+                color: COLOR_DERBY_OFF_WHITE,
               }}
             >
               +{commaNumber(bet.totalWager())} DD
@@ -155,7 +162,7 @@ const RaceResultsWinners: React.FC<RaceResultsWinnersProps> = ({ raceId }) => {
               style={{
                 fontFamily: FONT_FAMILY_EUROSTILE,
                 fontSize: '3vw',
-                color: COLOR_DERBY_BEIGE,
+                color: COLOR_DERBY_OFF_WHITE,
               }}
             >
               {capitalizeFirstLetter(bet.type.toUpperCase())}

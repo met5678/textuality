@@ -70,7 +70,7 @@ export const RaceIntroJockeys = ({
           flexWrap: 'wrap',
           justifyContent: 'center',
           alignItems: 'center',
-          gap: '2vw',
+          gap: '3vw',
           maxWidth: '90%',
         }}
       >
@@ -113,7 +113,7 @@ export const RaceIntroJockeys = ({
               className="horse-intro-jockey-name"
               style={{
                 fontFamily: EUROSTILE_FONT_FAMILY,
-                fontSize: '3vh',
+                fontSize: '4vh',
                 color: COLORS.DERBY_BURGUNDY,
                 textAlign: 'center',
               }}

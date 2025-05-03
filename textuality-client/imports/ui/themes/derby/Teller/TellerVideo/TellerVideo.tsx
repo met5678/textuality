@@ -91,8 +91,6 @@ export const TellerVideo = ({
   const containerHeight = window.innerHeight;
   const availableHeight = containerHeight - (topHeight + bottomHeight);
 
-  console.log('topHeight', topHeight);
-
   const videoLoaded = useCallback(() => {
     if (!videoRef.current) {
       return;

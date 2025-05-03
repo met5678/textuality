@@ -71,7 +71,7 @@ export const TellerStatus = ({
           )
         : 0;
   } else {
-    infoLabel = 'Min Wager';
+    infoLabel = 'Min Bet';
     infoValue = teller.min_wager;
   }
 
@@ -140,7 +140,7 @@ export const TellerStatus = ({
             charCount={3}
             color={color}
             off={isBusy || isOpeningOrClosing}
-            style={{ scale: '.8', transformOrigin: 'left center' }}
+            style={{ transform: `scale(0.7)`, transformOrigin: 'left center' }}
           />
         </div>
       </div>

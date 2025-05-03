@@ -34,8 +34,6 @@ export const TellerBetStatus = ({
     matchHeights,
   );
 
-  console.log('forceScale', matchHeights);
-
   const {
     isAvailable,
     isBusy,

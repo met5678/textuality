@@ -69,7 +69,7 @@ const sendOneOfTwoPlacesClue = (
   const correctPlace = randomHorseResult.placement;
   let otherPlace: number;
   do {
-    otherPlace = Math.floor(Math.random() * results.length);
+    otherPlace = Math.floor(Math.random() * results.length + 1);
   } while (otherPlace === correctPlace);
 
   const swap = Math.random() < 0.5;

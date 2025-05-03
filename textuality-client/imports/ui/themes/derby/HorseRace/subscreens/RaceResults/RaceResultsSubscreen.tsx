@@ -20,6 +20,11 @@ export const RaceResultsSubscreen = ({ race }: { race: RaceWithHelpers }) => {
       }}
     >
       <RaceResultsWinners raceId={race._id} />
+      <audio
+        id="race-results-audio"
+        src="/derby/sounds/results-fanfare.mp3"
+        autoPlay
+      />
     </div>
   );
 };

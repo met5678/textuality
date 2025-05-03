@@ -9,6 +9,7 @@ import Events from '/imports/api/events';
 import Players from '/imports/api/players';
 import { sendAutoText } from '../autoTexts/methods/autoTexts.send';
 import { raceAwardLogicClue } from '../themes/derby/race/logic-clues/races.awardLogicClue';
+import { sendCustomAutoText } from '../autoTexts/methods/autoTexts.sendCustom';
 
 function getEligiblePlayers() {
   return Players.find({ event: Events.currentId(), status: 'active' }).fetch();
@@ -236,26 +237,26 @@ Meteor.methods({
 
     incompletePairings.forEach((pairing) => {
       if (mission.missionFailText) {
-        Meteor.callAsync('autoTexts.sendCustom', {
+        sendCustomAutoText({
           playerText: mission.missionFailText,
           playerId: pairing.playerA,
           source: 'mission',
+          templateVars: {},
         });
-        Meteor.callAsync('autoTexts.sendCustom', {
+        sendCustomAutoText({
           playerText: mission.missionFailText,
           playerId: pairing.playerB,
           source: 'mission',
+          templateVars: {},
         });
       } else {
-        Meteor.callAsync('autoTexts.send', {
+        sendAutoText({
           trigger: 'MISSION_FAIL',
           playerId: pairing.playerA,
-          source: 'mission',
         });
-        Meteor.callAsync('autoTexts.send', {
+        sendAutoText({
           trigger: 'MISSION_FAIL',
           playerId: pairing.playerB,
-          source: 'mission',
         });
       }
     });

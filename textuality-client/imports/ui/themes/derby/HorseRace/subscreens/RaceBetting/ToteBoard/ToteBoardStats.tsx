@@ -5,6 +5,7 @@ import { RaceWithHelpers } from '/imports/api/themes/derby/race/races';
 import { LedCharRow } from '../../../../modules/LedLights/LedCharRow';
 import reactiveDate from '/imports/utils/reactive-date';
 import { useTracker } from 'meteor/react-meteor-data';
+import { DateTime } from 'luxon';
 
 export const ToteBoardStats: React.FC<{
   race: RaceWithHelpers;
@@ -24,10 +25,9 @@ export const ToteBoardStats: React.FC<{
       {/* TODO: JTG - check that time works */}
       <LedCharRow
         label="Race Starts"
-        value={Math.max(
-          0,
-          Math.ceil(race.time_race_starts_at.getTime() - now.getTime()),
-        )}
+        value={DateTime.fromJSDate(race.time_race_starts_at)
+          .diff(DateTime.fromJSDate(now), ['minutes', 'seconds'])
+          .toFormat('mm:ss')}
         charCount={5}
       />
 

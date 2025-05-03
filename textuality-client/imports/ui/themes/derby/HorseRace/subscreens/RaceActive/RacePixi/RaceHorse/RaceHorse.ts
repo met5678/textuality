@@ -9,8 +9,44 @@ import { RaceTrack, UNITS_PER_FURLONG } from '../RaceTrack/RaceTrack';
 import gsap from 'gsap';
 import { KEYFRAME_INTERVAL_SECONDS } from '/imports/api/themes/derby/race/timeline/generate-timeline';
 import { RaceHorseResult } from '/imports/schemas/derby/race';
+import { ColorSource } from 'pixi.js';
 
 export const BOTTOM_PADDING = 30;
+
+const getGlowForKeyframe = (keyframe: RaceTimelineHorseKeyframe) => {
+  console.log('keyframe', keyframe);
+  if (keyframe.effects.includes('electrocuted')) {
+    console.log('electrocuted');
+    return {
+      color: 0xffffaa,
+      alpha: 1,
+      strength: 20,
+      knockout: true,
+    };
+  }
+  if (keyframe.effects.includes('electricboost')) {
+    return {
+      color: 0xaaffff,
+      alpha: 1,
+      strength: 20,
+      knockout: false,
+    };
+  }
+  // if (keyframe.effects.includes('blownback')) {
+  //   return {
+  //     color: 0xaaaaaa,
+  //     alpha: 1,
+  //     strength: 5,
+  //     knockout: false,
+  //   };
+  // }
+  return {
+    color: 0x000000,
+    alpha: 0,
+    strength: 0,
+    knockout: false,
+  };
+};
 
 export class RaceHorse {
   id!: HorseId;
@@ -26,8 +62,13 @@ export class RaceHorse {
   y: number = 0;
   currentStatus: HorseStatus = 'still';
   result: RaceHorseResult | null = null;
-  _gsapTimeline: gsap.core.Timeline;
+  _gsapPositionTimeline: gsap.core.Timeline;
+  _gsapEffectTimeline: gsap.core.Timeline;
 
+  glowColor: ColorSource = 0xffffaa;
+  glowStrength: number = 0;
+  glowKnockout: boolean = false;
+  glowAlpha: number = 0;
   constructor(
     index: number,
     horse: HorseWithHelpers,
@@ -39,7 +80,10 @@ export class RaceHorse {
     this.controller = controller;
     this.track = track;
     this.update(0);
-    this._gsapTimeline = gsap.timeline({
+    this._gsapPositionTimeline = gsap.timeline({
+      paused: true,
+    });
+    this._gsapEffectTimeline = gsap.timeline({
       paused: true,
     });
   }
@@ -48,7 +92,7 @@ export class RaceHorse {
     this.id = horse._id;
     this.name = horse.name;
     this.color = horse.color;
-    this.stats = horse.stats;
+    this.stats = horse.stats();
   }
 
   setResult(result: RaceHorseResult) {
@@ -56,11 +100,11 @@ export class RaceHorse {
   }
 
   setKeyframes(horseKeyframes: RaceTimelineHorseKeyframe[]) {
-    this._gsapTimeline.clear();
+    this._gsapPositionTimeline.clear();
 
     horseKeyframes.forEach((keyframe) => {
       if (keyframe.frame < 1) return;
-      this._gsapTimeline.to(
+      this._gsapPositionTimeline.to(
         this,
         {
           x: keyframe.position * UNITS_PER_FURLONG,
@@ -69,11 +113,23 @@ export class RaceHorse {
         },
         keyframe.frame - 1,
       );
+
+      this._gsapEffectTimeline.to(
+        this,
+        {
+          glowColor: getGlowForKeyframe(keyframe)?.color,
+          glowStrength: getGlowForKeyframe(keyframe)?.strength || 0,
+          glowKnockout: getGlowForKeyframe(keyframe)?.knockout || false,
+          glowAlpha: getGlowForKeyframe(keyframe)?.alpha || 0,
+        },
+        keyframe.frame,
+      );
     });
   }
 
   update(time: number) {
-    this._gsapTimeline?.seek(time);
+    this._gsapPositionTimeline?.seek(time);
+    this._gsapEffectTimeline?.seek(time);
     this.y = this.track.getBottomY() - BOTTOM_PADDING;
   }
 }

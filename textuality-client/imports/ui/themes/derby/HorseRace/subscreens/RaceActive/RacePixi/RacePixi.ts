@@ -2,7 +2,10 @@ import { Application, Container, Ticker } from 'pixi.js';
 import RaceTrackPixi from './RaceTrack/RaceTrackPixi';
 import RaceHorsePixi from './RaceHorse/RaceHorsePixi';
 import { RaceController } from './RaceController';
-import { loadHorseSprites } from './RaceHorse/RaceHorseSprites';
+import {
+  loadHorseSprites,
+  loadJockeySprites,
+} from './RaceHorse/RaceHorseSprites';
 import { Dimensions } from './RacePixi.types';
 import { RaceBackdrop } from './RaceBackdrop/RaceBackdrop';
 import { RaceViewportPixi } from './RaceViewport/RaceViewportPixi';
@@ -48,6 +51,7 @@ export class RacePixi {
     wrapper.appendChild(this.app.canvas);
 
     await loadHorseSprites();
+    await loadJockeySprites();
     await this.backdrop.init();
 
     this.viewport = new RaceViewportPixi(this.app, this.controller);

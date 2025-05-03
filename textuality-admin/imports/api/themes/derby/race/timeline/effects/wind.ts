@@ -4,13 +4,19 @@ import { BaseEffect } from './base-effect';
 import { HorseId } from '/imports/schemas/derby/horse';
 import { RaceTimelineEffectKeyframe } from '/imports/schemas/derby/race-timeline/types';
 
-const WIND_GUST_MIN_INTERVAL = 15;
-const WIND_GUST_MAX_INTERVAL = 30;
 const WIND_GUST_MIN_DURATION = 2;
 const WIND_GUST_MAX_DURATION = 4;
 const WIND_GUST_MIN_STRENGTH = 1;
 const WIND_GUST_MAX_STRENGTH = 5;
+
+const WIND_GUST_MIN_INTERVAL = 10;
+const WIND_GUST_MAX_INTERVAL = 15;
 const WIND_GUST_CHANCE = 1 / (WIND_GUST_MAX_INTERVAL - WIND_GUST_MIN_INTERVAL);
+
+const WIND_GUST_MIN_INTERVAL_STORM = 15;
+const WIND_GUST_MAX_INTERVAL_STORM = 40;
+const WIND_GUST_CHANCE_STORM =
+  1 / (WIND_GUST_MAX_INTERVAL_STORM - WIND_GUST_MIN_INTERVAL_STORM);
 
 type WindEffectState = {
   lastGustFrame: number;
@@ -57,6 +63,13 @@ export const WindEffect: BaseEffect<WindEffectState> = {
   ): RaceTimelineEffectKeyframe | null => {
     if (!['storm', 'windy'].includes(race.weather)) return null;
 
+    const gustInterval =
+      race.weather === 'storm'
+        ? WIND_GUST_MIN_INTERVAL_STORM
+        : WIND_GUST_MIN_INTERVAL;
+    const gustChance =
+      race.weather === 'storm' ? WIND_GUST_CHANCE_STORM : WIND_GUST_CHANCE;
+
     const lastGustEndFrame =
       effectState.lastGustFrame + effectState.lastGustDuration;
 
@@ -70,12 +83,12 @@ export const WindEffect: BaseEffect<WindEffectState> = {
     }
 
     // Check if enough time has passed since last strike
-    if (frame - lastGustEndFrame < WIND_GUST_MIN_INTERVAL) return null;
+    if (frame - lastGustEndFrame < gustInterval) return null;
 
     let shouldGust = false;
 
-    if (frame - lastGustEndFrame > WIND_GUST_MAX_INTERVAL) shouldGust = true;
-    else if (random() < WIND_GUST_CHANCE) shouldGust = true;
+    if (frame - lastGustEndFrame > gustInterval) shouldGust = true;
+    else if (random() < gustChance) shouldGust = true;
 
     if (!shouldGust) return null;
 
@@ -113,9 +126,12 @@ export const WindEffect: BaseEffect<WindEffectState> = {
     // If a gust just started, mark all horses as affected
     if (frame === effectState.lastGustFrame) {
       horseStates.forEach((horseState) => {
+        const windResistance = horseState.horse.stats().wind_resistance;
+        const windResistanceMod = windResistance / 10;
+
         effectState.horses[horseState.horse._id] = {
           isBlownBack: true,
-          blowbackStrength: effectState.lastGustIntensity,
+          blowbackStrength: effectState.lastGustIntensity / windResistanceMod,
           blowbackTime: effectState.lastGustDuration,
         };
       });
@@ -130,9 +146,11 @@ export const WindEffect: BaseEffect<WindEffectState> = {
         if (!horseState.effects.includes('blownback')) {
           horseState.effects.push('blownback');
         }
-        // Stronger wind means more slowdown (up to 50% at max strength)
+        // Stronger wind means more slowdown. Can be as strong
+        // as 2x slowdown (aka normal speed backwards) at max strength
         const windSlowdown =
           (horseEffectState.blowbackStrength / WIND_GUST_MAX_STRENGTH) * 2;
+
         horseState.speedMultiplier -= windSlowdown;
       } else {
         // Remove effects when gust is over

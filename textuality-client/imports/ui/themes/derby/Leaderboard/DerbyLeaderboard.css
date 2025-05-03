@@ -1,0 +1,197 @@
+.leaderboard-title {
+  font-family: gin, serif;
+  text-transform: none;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 72px;
+  letter-spacing: 5px;
+  font-style: italic;
+  text-shadow: 4px 4px 3px rgba(0, 0, 0, 0.4);
+  margin-bottom: 32px;
+  color: #fea70a;
+}
+
+.leaderboard-title .oddLetter {
+  color: #fea70a;
+  animation: flashRed 2s infinite linear;
+}
+
+.leaderboard-title .evenLetter {
+  color: #d01935;
+  animation: flashYellow 2s infinite linear;
+}
+
+@keyframes flashRed {
+  50% {
+    color: #d01935;
+  }
+}
+
+@keyframes flashYellow {
+  50% {
+    color: #fea70a;
+  }
+}
+
+.leaderboard-casino {
+  display: flex;
+  flex-direction: column;
+  max-height: 88vh;
+  overflow: hidden;
+}
+
+.leaderboard-window {
+  font-family: rockwell-nova, sans-serif;
+}
+
+.leaderboard-body {
+  margin-left: 60px;
+  max-width: 400px;
+}
+
+.leaderboard-row {
+  color: white;
+  margin-bottom: 18px;
+  text-shadow: 3px 3px 4px rgba(0, 0, 0, 0.4);
+}
+
+.leaderboard-row:nth-child(3n + 1),
+.leaderboard-row:nth-child(3n + 2) {
+  color: white;
+}
+
+.leaderboard-row:nth-child(4n + 2),
+.leaderboard-row:nth-child(4n + 4) {
+  position: relative;
+  left: 32px;
+  margin-right: 32px;
+}
+
+.leaderboard-row:nth-child(4n + 2) .chipRing {
+  border-color: #537c43;
+}
+
+.leaderboard-row:nth-child(4n + 3) .chipRing {
+  border-color: #fea70a;
+}
+
+.leaderboard-row:nth-child(4n + 4) .chipRing {
+  border-color: #d01935;
+}
+
+p.leaderboard-item,
+p.leaderboard-value {
+  font-size: 18px;
+  line-height: 1.2;
+  display: flex;
+  align-items: center;
+  word-break: break-word;
+  position: relative;
+}
+
+p.leaderboard-value {
+  margin-left: 16px;
+  white-space: nowrap;
+}
+
+.leaderboard-img {
+  display: flex;
+  align-items: center;
+}
+
+.leaderboard-img {
+  display: flex;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 20px;
+  transform: scale(1.2);
+}
+
+@media (max-height: 600px) {
+  .leaderboard-title {
+    margin-bottom: 20px;
+  }
+  .leaderboard-body {
+    margin-left: 0;
+    max-width: 100%;
+  }
+
+  .leaderboard-casino {
+    max-height: 90vh;
+  }
+
+  .leaderboard-row {
+    padding-left: 16px;
+  }
+}
+
+/* SPACE CSS - TODO: make a theme*/
+.space .leaderboard-title {
+  font-family: magistral, sans-serif;
+  text-transform: uppercase;
+  color: #04ffff;
+  font-size: 64px;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
+.space .leaderboard-body p {
+  font-family: univia-pro, serif;
+  font-weight: 700;
+}
+
+.space .leaderboard-title .oddLetter {
+  color: #04ffff;
+  animation: flashPink 2s infinite linear;
+}
+
+.space .leaderboard-title .evenLetter {
+  color: #ff01ff;
+  animation: flashBlue 2s infinite linear;
+}
+
+@keyframes flashPink {
+  50% {
+    color: #ff01ff;
+  }
+}
+
+@keyframes flashBlue {
+  50% {
+    color: #04ffff;
+  }
+}
+
+/* .space .chipRing {
+  border-color: #ff01ff;
+}
+
+.space .leaderboard-row:nth-child(4n + 2) .chipRing {
+  border-color: #ff9404;
+}
+
+.space .leaderboard-row:nth-child(4n + 3) .chipRing {
+  border-color: #abd301;
+}
+
+.space .leaderboard-row:nth-child(4n + 4) .chipRing {
+  border-color: #0000fe;
+} */
+
+.space .chip {
+  background: #ff01ff;
+}
+
+.space .leaderboard-row:nth-child(4n + 2) .chip {
+  background: #ff9404;
+}
+
+.space .leaderboard-row:nth-child(4n + 3) .chip {
+  background: #abd301;
+}
+
+.space .leaderboard-row:nth-child(4n + 4) .chip {
+  background: #0000fe;
+}

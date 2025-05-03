@@ -3,7 +3,7 @@ import { Dimensions } from '../RacePixi.types';
 import { OVERRUN_DISTANCE_FURLONGS } from '/imports/api/themes/derby/race/timeline/generate-timeline';
 import { Weather } from '/imports/schemas/derby/race';
 
-export const UNITS_PER_FURLONG = 5000;
+export const UNITS_PER_FURLONG = 7000;
 export const PRE_START_FURLONGS = 0.5;
 export const TRACK_HEIGHT_UNITS = 120;
 

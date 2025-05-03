@@ -6,6 +6,7 @@ import { Ticker } from 'pixi.js';
 import { RaceController } from './RacePixi/RaceController';
 import { WeatherOverlay } from '../../WeatherOverlay/WeatherOverlay';
 import { WeatherSounds } from '../../WeatherSounds';
+import { RaceSounds } from './RaceSounds';
 
 export const RaceActiveSubsceen: React.FC<{ race: RaceWithHelpers }> = ({
   race,
@@ -76,9 +77,13 @@ export const RaceActiveSubsceen: React.FC<{ race: RaceWithHelpers }> = ({
           weather={race.weather}
           raceController={raceControllerRef.current}
         />
-        <WeatherSounds weather={race.weather} />
+        <WeatherSounds
+          weather={race.weather}
+          raceController={raceControllerRef.current}
+        />
       </div>
       <JockeyCams race={race} />
+      <RaceSounds race={race} raceController={raceControllerRef.current} />
     </div>
   );
 };

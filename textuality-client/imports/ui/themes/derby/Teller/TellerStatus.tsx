@@ -55,7 +55,10 @@ export const TellerStatus = ({
 
   if (isImpatient) {
     infoLabel = 'Time Left';
-    infoValue = isTooLate ? `0` : timeLeft ? `${timeLeft}` : `0`;
+    infoValue =
+      isTooLate || !timeLeft
+        ? '00:00'
+        : `00:${String(timeLeft).padStart(2, '0')}`;
   } else if (!isOpeningOrClosing && isClosed) {
     infoLabel = 'Bets Open';
     infoValue =

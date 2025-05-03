@@ -23,7 +23,7 @@ const DerbyLeaderboard = ({ event }: { event: Event }) => {
   );
 
   useGSAP(() => {
-    const circles = gsap.utils.toArray('.leaderboard-player-circle');
+    const circles = gsap.utils.toArray('.leaderboard-player-img');
     gsap.fromTo(
       circles,
       { rotation: -15 },
@@ -70,15 +70,29 @@ const DerbyLeaderboard = ({ event }: { event: Event }) => {
     >
       <div
         style={{
-          fontSize: '20vw',
+          fontSize: '16vw',
           textAlign: 'center',
           fontFamily: FONT_FAMILY_BRIOSO,
           color: COLOR_DERBY_OFF_WHITE,
           textShadow: `1px 2px 1px rgba(0, 0, 0, 0.5)`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '8px',
         }}
       >
-        Big Betters
+        <div style={{ paddingTop: '14px' }}>Big Betters</div>
+        <img
+          src="/derby/images/logo.png"
+          style={{
+            width: '80px',
+            height: 'auto',
+            filter: 'drop-shadow(1px 2px 1px rgba(0, 0, 0, 0.5))',
+            rotate: '8deg',
+          }}
+        />
       </div>
+
       <div
         style={{
           flex: 1,
@@ -100,7 +114,7 @@ const DerbyLeaderboard = ({ event }: { event: Event }) => {
                 textShadow: `none`,
               }}
             >
-              <div className="leaderboard-player-circle">
+              <div className="leaderboard-player-img">
                 <DerbyPlayerCircle
                   player={player}
                   zoom={1}

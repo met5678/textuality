@@ -20,6 +20,24 @@ export const RaceResultsSubscreen = ({ race }: { race: RaceWithHelpers }) => {
       }}
     >
       <RaceResultsWinners raceId={race._id} />
+      <div
+        style={{
+          position: 'absolute',
+          bottom: '5vh',
+          left: '3vw',
+          width: '10vw',
+        }}
+      >
+        <img
+          style={{
+            width: '100%',
+            height: 'auto',
+            rotate: '-10deg',
+            opacity: 0.85,
+          }}
+          src="/derby/images/logo.png"
+        />
+      </div>
       <audio
         id="race-results-audio"
         src="/derby/sounds/results-fanfare.mp3"

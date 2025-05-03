@@ -12,6 +12,7 @@ export class WeatherOverlayPixi {
   private lightningOverlay: LightningOverlayPixi;
   private rainOverlay: RainOverlayPixi;
   private windOverlay: WindOverlayPixi;
+  private _weather: Weather = 'clear';
 
   private _boundOnFrame: (frame: number) => void;
 
@@ -69,6 +70,7 @@ export class WeatherOverlayPixi {
         await new Promise((resolve) => setTimeout(resolve, 100));
       }
     }
+    this._weather = weather;
     await this.rainOverlay.setWeather(weather);
     await this.windOverlay.setWeather(weather);
   }
@@ -86,7 +88,7 @@ export class WeatherOverlayPixi {
     if (this.raceController) {
       const lightningEffect =
         this.raceController.getEffectAtCurrentFrame('lightning');
-      if (lightningEffect) {
+      if (lightningEffect && this._weather === 'storm') {
         this.lightningOverlay.triggerFlash(lightningEffect.intensity);
       }
     }

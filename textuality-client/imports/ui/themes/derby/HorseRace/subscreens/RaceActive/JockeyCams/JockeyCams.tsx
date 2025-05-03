@@ -45,13 +45,15 @@ const JockeyCam = ({
         backgroundColor: 'var(--derby-orange)',
         borderLeft: '3px solid #222',
         borderRight: '3px solid #222',
+        width: '30%',
+        maxHeight: JOCKEYCAM_AREA_HEIGHT,
       }}
     >
       <video
         ref={videoRef}
         style={{
-          width: JOCKEYCAM_AREA_WIDTH,
-          height: JOCKEYCAM_AREA_HEIGHT,
+          width: '100%',
+          height: '100%',
           objectFit: 'cover',
           filter: 'sepia(0.5)',
         }}
@@ -176,7 +178,8 @@ export const JockeyCams = ({ race }: { race: RaceWithHelpers }) => {
       id="horse-race-jockey-cameras"
       style={{
         width: '100%',
-        height: JOCKEYCAM_AREA_HEIGHT,
+        maxHeight: JOCKEYCAM_AREA_HEIGHT,
+        height: '30vh',
         display: 'flex',
         justifyContent: 'space-evenly',
         alignItems: 'stretch',

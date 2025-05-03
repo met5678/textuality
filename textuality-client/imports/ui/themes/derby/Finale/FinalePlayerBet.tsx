@@ -31,16 +31,26 @@ export const FinalePlayerBet = ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        gap: '2vh',
+        textAlign: 'center',
+        gap: '1vh',
       }}
     >
       <div className="race-winner-bet-wager">{commaNumber(wager)} DD</div>
-      <div className="race-winner-bet-horses" style={{}}>
+      <div
+        className="race-winner-bet-horses"
+        style={{ display: 'flex', gap: '1vw' }}
+      >
         {betHorseIds.map((horseId) => {
           const horse = allHorses.find((horse) => horse._id === horseId);
-          return type === 'win'
-            ? horse?.formattedName()
-            : horse?.emojiColorSquare;
+          return type === 'win' ? (
+            <div style={{ display: 'inline-block' }}>
+              {horse?.formattedName()}
+            </div>
+          ) : (
+            <div style={{ display: 'inline-block' }}>
+              {horse?.emojiColorSquare}
+            </div>
+          );
         })}
       </div>
       {payout && payout > 0 && (

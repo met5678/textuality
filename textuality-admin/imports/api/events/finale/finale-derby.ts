@@ -14,6 +14,8 @@ const getEligiblePlayers = async () => {
   }).fetchAsync();
 };
 
+// JTG
+//export const DERBY_FINALE_SLIDE_DURATION_SECONDS = 1100;
 export const DERBY_FINALE_SLIDE_DURATION_SECONDS = 11;
 
 Meteor.methods({

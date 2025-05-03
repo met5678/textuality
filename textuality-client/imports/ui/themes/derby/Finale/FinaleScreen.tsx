@@ -29,6 +29,8 @@ type FinalePhase = (typeof FINALE_PHASES)[number];
 
 type FINALE_TREATMENTS = 'title' | 'players' | 'horses';
 
+// JTG
+//const DERBY_FINALE_SLIDE_DURATION_SECONDS = 1100;
 const DERBY_FINALE_SLIDE_DURATION_SECONDS = 11;
 const DERBY_FINALE_NUM_TO_SHOW = 3;
 
@@ -43,7 +45,7 @@ const FINALE_TREATMENT_TEXT: Record<FinalePhase, FINALE_TREATMENTS> = {
 };
 
 const FINALE_PHASE_TITLES: Record<FinalePhase, string> = {
-  'finale-intro': 'Finale',
+  'finale-intro': 'Grand Finale',
   'biggest-wallets': 'Biggest Wallets',
   'biggest-bet-winners': 'Biggest Bet Winners',
   'biggest-bet-losers': 'Biggest Bet Losers',
@@ -58,6 +60,23 @@ const FinaleTitleSlide = ({
   finale_data: Event['finale_data'];
 }) => {
   const { phase } = finale_data;
+  const logoRef = React.useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    if (!logoRef.current) return;
+
+    gsap.fromTo(
+      logoRef.current,
+      { rotation: -10 },
+      {
+        rotation: 10,
+        duration: 0.78,
+        ease: 'power1.inOut',
+        yoyo: true,
+        repeat: -1,
+      },
+    );
+  }, []);
 
   return (
     <div
@@ -77,9 +96,32 @@ const FinaleTitleSlide = ({
           fontFamily: FONT_FAMILY_BRIOSO,
           fontSize: '20vh',
           color: COLOR_DERBY_OFF_WHITE,
+          textShadow: `1px 2px 1px rgba(0, 0, 0, 0.5)`,
+          marginBottom: '10',
         }}
       >
         {FINALE_PHASE_TITLES[phase]}
+        {phase === 'finale-intro' && (
+          <div
+            ref={logoRef}
+            style={{
+              position: 'absolute',
+              bottom: '5vh',
+              left: '5vw',
+              width: '16vw',
+            }}
+          >
+            <img
+              style={{
+                width: '100%',
+                height: 'auto',
+                rotate: '-12deg',
+                opacity: 0.85,
+              }}
+              src="/derby/images/logo.png"
+            />
+          </div>
+        )}
       </div>
     </div>
   );
@@ -193,7 +235,7 @@ const FinalePlayersSlide = ({
         alignItems: 'center',
         justifyContent: 'center',
         height: '100%',
-        gap: '10vh',
+        gap: '4vh',
       }}
     >
       <div
@@ -202,6 +244,7 @@ const FinalePlayersSlide = ({
           fontFamily: FONT_FAMILY_BRIOSO,
           fontSize: '8vw',
           color: COLOR_DERBY_OFF_WHITE,
+          textShadow: `1px 2px 1px rgba(0, 0, 0, 0.5)`,
         }}
       >
         {FINALE_PHASE_TITLES[phase]}
@@ -214,7 +257,8 @@ const FinalePlayersSlide = ({
           gap: '10vw',
           justifyContent: 'center',
           alignItems: 'center',
-          paddingBottom: '1vh',
+          paddingBottom: '2vh',
+          textAlign: 'center',
         }}
       >
         {winners.map((winner, index) => {
@@ -228,6 +272,7 @@ const FinalePlayersSlide = ({
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
+                textAlign: 'center',
                 gap: '1.5vw',
                 textShadow: '0 0 min(2vw, 1vh) rgba(0, 0, 0, 0.5)',
               }}
@@ -245,6 +290,7 @@ const FinalePlayersSlide = ({
                   fontFamily: FONT_FAMILY_EUROSTILE,
                   fontSize: '2.6vw',
                   color: COLOR_DERBY_OFF_WHITE,
+                  paddingTop: '1vh',
                 }}
               >
                 {player.alias}

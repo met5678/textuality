@@ -134,7 +134,10 @@ const DerbyLeaderboard = ({ event }: { event: Event }) => {
               </p>
               <p
                 className="leaderboard-value"
-                style={{ color: COLOR_DERBY_BURGUNDY }}
+                style={{
+                  color: COLOR_DERBY_BURGUNDY,
+                  fontFamily: FONT_FAMILY_EUROSTILE,
+                }}
               >
                 {commaNumber(player.money)} DD
               </p>

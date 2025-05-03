@@ -12,6 +12,7 @@ import { TellerWithHelpers } from '../../tellers/tellers';
 import Horses from '../../horses/horses';
 import { tellerCompleteBet } from '../../tellers/teller-flow/teller-complete-bet';
 import { raceUpdateOdds } from '../../race/methods/races.updateOdds';
+import { raceBetGetPlayerRaceBetSummary } from './raceBet.getPlayerRaceBetSummary';
 
 type ProcessBetTypeArgs = {
   player: PlayerWithHelpers;
@@ -102,6 +103,11 @@ export const raceBetPlaceBet = async ({
         horse_name: betHorses[0].name,
         horse_number: betHorses[0].number,
         horse_emoji: betHorses[0].emoji,
+        bet_summary: await raceBetGetPlayerRaceBetSummary(
+          player._id,
+          race._id,
+          ['placed'],
+        ),
       },
     });
     Meteor.callAsync('achievements.tryUnlock', {
@@ -130,6 +136,11 @@ export const raceBetPlaceBet = async ({
         horse3_name: betHorses[2].name,
         horse3_number: betHorses[2].number,
         horse3_emoji: betHorses[2].emoji,
+        bet_summary: await raceBetGetPlayerRaceBetSummary(
+          player._id,
+          race._id,
+          ['placed'],
+        ),
       },
     });
     Meteor.callAsync('achievements.tryUnlock', {

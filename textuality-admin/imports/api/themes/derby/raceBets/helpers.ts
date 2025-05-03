@@ -18,13 +18,27 @@ RaceBets.helpers({
   },
 });
 
+const arrayEquals = (a: string[], b: string[]) => {
+  if (a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i++) {
+    if (a[i] !== b[i]) return false;
+  }
+  return true;
+};
+
 export const condenseRaceBets = (raceBets: RaceBetWithHelpers[]) => {
   return raceBets.reduce((acc, bet) => {
     const existingBet = acc.find(
-      (b) => b.player === bet.player && b.type === bet.type,
+      (b) =>
+        b.player === bet.player &&
+        b.type === bet.type &&
+        arrayEquals(b.horses ?? [], bet.horses ?? []),
     );
     if (existingBet) {
       existingBet.payout = (existingBet.payout ?? 0) + (bet.payout ?? 0);
+      const curTotalWager = existingBet.totalWager();
+      const newTotalWager = curTotalWager + bet.totalWager();
+      existingBet.totalWager = () => newTotalWager;
     } else {
       acc.push(bet);
     }

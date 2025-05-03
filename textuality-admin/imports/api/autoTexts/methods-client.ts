@@ -10,6 +10,11 @@ import {
   sendCustomAutoText,
 } from './methods/autoTexts.sendCustom';
 import { getPlayerPowerupSummary } from '../themes/derby/powerups/methods/powerups.getPlayerPowerupSummary';
+import {
+  racesGetCurrent,
+  racesGetCurrentSync,
+} from '../themes/derby/race/methods/races.getCurrent';
+import { raceBetGetPlayerRaceBetSummary } from '../themes/derby/raceBets/methods/raceBet.getPlayerRaceBetSummary';
 
 Meteor.methods({
   'autoTexts.send': async (args: AutoTextSendArgs) => {
@@ -72,12 +77,20 @@ Meteor.methods({
 
     const powerupSummary = await getPlayerPowerupSummary(playerId);
 
+    const currentRace = await racesGetCurrent();
+    const raceBetSummary = currentRace
+      ? await raceBetGetPlayerRaceBetSummary(playerId, currentRace._id, [
+          'placed',
+        ])
+      : 'None';
+
     sendAutoText({
       trigger: 'WALLET_STATUS',
       playerId,
       templateVars: {
         checkpoint_list: lines.join('\n'),
         powerup_summary: powerupSummary,
+        bet_summary: raceBetSummary,
       },
     });
   },

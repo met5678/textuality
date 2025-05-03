@@ -78,17 +78,17 @@ const DerbyLeaderboard = ({ event }: { event: Event }) => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: '8px',
+          gap: '12px',
         }}
       >
-        <div style={{ paddingTop: '14px' }}>Big Betters</div>
+        <div style={{ paddingTop: '14px' }}>Whales</div>
         <img
           src="/derby/images/logo.png"
           style={{
-            width: '80px',
+            width: '64px',
             height: 'auto',
             filter: 'drop-shadow(1px 2px 1px rgba(0, 0, 0, 0.5))',
-            rotate: '8deg',
+            rotate: '12deg',
           }}
         />
       </div>

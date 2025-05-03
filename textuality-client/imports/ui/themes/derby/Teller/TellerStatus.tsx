@@ -137,7 +137,7 @@ export const TellerStatus = ({
           <div className="teller-status-info-label">{infoLabel}</div>
           <LedCharRow
             value={infoValue}
-            charCount={3}
+            charCount={5}
             color={color}
             off={isBusy || isOpeningOrClosing}
             style={{ transform: `scale(0.7)`, transformOrigin: 'left center' }}

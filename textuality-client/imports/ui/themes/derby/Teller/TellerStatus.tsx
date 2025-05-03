@@ -136,7 +136,8 @@ export const TellerStatus = ({
             value={infoValue}
             charCount={5}
             color={color}
-            off={isBusy || isOpeningOrClosing}
+            off={isOpeningOrClosing}
+            rainbowModeActive={fortuneTellerFun}
             style={{ transform: `scale(0.7)`, transformOrigin: 'left center' }}
           />
         </div>

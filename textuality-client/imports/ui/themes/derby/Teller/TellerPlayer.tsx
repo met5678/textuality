@@ -1,5 +1,5 @@
 import React from 'react';
-import gsap, { clamp } from 'gsap';
+import gsap from 'gsap';
 
 import { RaceBetWithHelpers } from '/imports/api/themes/derby/raceBets/raceBets';
 import { PlayerWithHelpers } from '/imports/api/players/players';
@@ -16,8 +16,6 @@ export const TellerPlayer = ({
   raceBet,
   gettingFortune,
 }: TellerPlayerProps) => {
-  console.log({ player, raceBet, gettingFortune });
-
   if (!player || (!gettingFortune && !raceBet)) {
     return null;
   }
@@ -89,12 +87,6 @@ export const TellerPlayer = ({
           textShadow: '0 0 min(2vw, 1vh) rgba(0, 0, 0, 0.5)',
           marginTop: 'min(4vw, 4vh)',
           display: 'block',
-          // color: 'var(--derby-burgundy)',
-          // textAlign: 'center',
-          // backgroundColor: 'var(--derby-off-white)',
-          // padding: 'max(2vw, 1vh) max(2vw, 2vh)',
-          // borderRadius: 'max(6vw, 4vh)',
-          // filter: 'drop-shadow(0 0 min(2vw, 1vh) rgba(0, 0, 0, 0.5))',
         }}
       >
         {player.alias}

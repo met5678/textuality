@@ -9,6 +9,7 @@ export const LedCharRow: React.FC<{
   color?: 'yellow' | 'pink';
   off?: boolean;
   rainbowModeActive?: boolean;
+  rightAlign?: boolean;
   style?: React.CSSProperties;
 }> = ({
   label,
@@ -17,6 +18,7 @@ export const LedCharRow: React.FC<{
   color = 'yellow',
   off = false,
   rainbowModeActive = false,
+  rightAlign = false,
   style,
 }) => {
   const isNumber = typeof value === 'number';
@@ -24,12 +26,13 @@ export const LedCharRow: React.FC<{
     ? String(Math.min(99, value))
     : String(value || '');
 
-  const chars = stringValue.split('');
+  const chars = stringValue.slice(0, charCount).split('');
   const emptyCount = Math.max(0, charCount - chars.length);
 
-  const cells = isNumber
-    ? [...Array(emptyCount).fill(''), ...chars] // pad left
-    : [...chars, ...Array(emptyCount).fill('')]; // pad right
+  const cells =
+    isNumber || rightAlign
+      ? [...Array(emptyCount).fill(''), ...chars] // pad left
+      : [...chars, ...Array(emptyCount).fill('')]; // pad right
 
   return (
     <div

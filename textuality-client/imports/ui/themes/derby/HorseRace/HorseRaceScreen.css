@@ -1,11 +1,11 @@
 :root {
-  --derby-burgundy: #681E22;
-  --derby-beige: #C4B090;
-  --derby-black: #16171B;
-  --derby-off-white: #FEFAE7;
+  --derby-burgundy: #681e22;
+  --derby-beige: #c4b090;
+  --derby-black: #16171b;
+  --derby-off-white: #fefae7;
   --derby-orange: #945226;
+  --derby-green: #1c4028;
 }
-
 
 #horse-race-screen {
   display: flex;

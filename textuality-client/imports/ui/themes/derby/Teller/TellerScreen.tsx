@@ -27,6 +27,18 @@ const TellerScreen = ({ event, url }: { event: Event; url: string }) => {
 
   if (loading) return 'Loading';
 
+  // work around to make the screens that are different widths have the same height video
+  const matchHeights = window.innerHeight >= 400;
+  const baseHeaderHeight = 128;
+  const baseFooterHeight = 60;
+  const baseWidth = 344;
+
+  const scale = window.innerWidth / baseWidth;
+  const scaledTopHeight = matchHeights ? baseHeaderHeight * scale : topHeight;
+  const scaledBottomHeight = matchHeights
+    ? baseFooterHeight * scale
+    : bottomHeight;
+
   const status = teller.status as TellerStatusType;
 
   /* Teller status helpers */
@@ -66,20 +78,22 @@ const TellerScreen = ({ event, url }: { event: Event; url: string }) => {
             timeLeft={timeLeft}
             tellerStates={tellerStates}
             race={race}
-            onResize={setTopHeight}
+            onResize={!matchHeights ? setTopHeight : undefined}
+            forceScale={matchHeights ? scale : undefined}
           />
           <TellerVideo
             teller={teller}
             player={player}
             raceBet={raceBet}
-            topHeight={topHeight}
-            bottomHeight={bottomHeight}
+            topHeight={scaledTopHeight}
+            bottomHeight={scaledBottomHeight}
           />
           <TellerBetStatus
             teller={teller}
             raceBet={raceBet}
             tellerStates={tellerStates}
-            onResize={setBottomHeight}
+            onResize={!matchHeights ? setBottomHeight : undefined}
+            forceScale={matchHeights ? scale : undefined}
           />
           <TellerSounds teller={teller} raceBet={raceBet} />
         </div>

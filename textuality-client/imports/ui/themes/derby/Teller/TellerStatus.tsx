@@ -18,19 +18,27 @@ export const TellerStatus = ({
   timeLeft,
   race,
   onResize,
+  matchHeights,
 }: {
   teller: TellerWithHelpers;
   tellerStates: Record<string, boolean>;
   timeLeft: number | undefined;
   race: RaceWithHelpers | undefined;
   onResize?: (height: number) => void;
+  matchHeights?: boolean;
 }) => {
   const now = useTracker(() => reactiveDate.get());
 
   const statusRef = useRef<HTMLDivElement>(null);
   const baseWidth = 344;
   const baseHeight = 128;
-  const scale = useScaleByBaseWidth(statusRef, baseWidth, onResize);
+
+  const scale = useScaleByBaseWidth(
+    statusRef,
+    baseWidth,
+    onResize,
+    matchHeights,
+  );
 
   const {
     isAvailable,

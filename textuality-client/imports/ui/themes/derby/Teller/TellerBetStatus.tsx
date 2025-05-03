@@ -15,16 +15,26 @@ export const TellerBetStatus = ({
   raceBet,
   tellerStates,
   onResize,
+  matchHeights,
 }: {
   teller: TellerWithHelpers;
   raceBet: RaceBetWithHelpers;
   tellerStates: Record<string, boolean>;
   onResize?: (height: number) => void;
+  matchHeights?: boolean;
 }) => {
   const statusRef = useRef<HTMLDivElement>(null);
   const baseWidth = 384;
   const baseHeight = 60;
-  const scale = useScaleByBaseWidth(statusRef, baseWidth, onResize);
+
+  const scale = useScaleByBaseWidth(
+    statusRef,
+    baseWidth,
+    onResize,
+    matchHeights,
+  );
+
+  console.log('forceScale', matchHeights);
 
   const {
     isAvailable,

@@ -75,6 +75,14 @@
   margin: 0 auto;
 }
 
+@media (max-width: 250px) and (min-height: 700px) {
+  .teller-video {
+    width: 100%;
+    height: 504px;
+    flex: none;
+  }
+}
+
 .teller-video video {
   object-fit: cover;
   width: 100%;

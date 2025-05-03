@@ -62,7 +62,7 @@ export const TellerSounds = ({
 
   useEffect(() => {
     if (raceBet?.status === 'pending') {
-      soundRef.current = new Howl({ src: [STEP_SOUND] });
+      soundRef.current = new Howl({ src: [STEP_SOUND], volume: 0.33 });
       soundRef.current.play();
     }
   }, [raceBet?.status, raceBet?.step]);

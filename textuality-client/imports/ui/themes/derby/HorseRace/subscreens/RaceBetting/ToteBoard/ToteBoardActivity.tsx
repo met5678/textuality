@@ -15,7 +15,7 @@ export const ToteBoardActivity = () => {
   return (
     <div className="tote-board-activity" id="tote-board-screen">
       <video
-        src="/casino/videos/gray.mp4"
+        src="/derby/videos/group-derby-jockey-jockeybribe-portrait-medium.mp4"
         autoPlay
         loop
         playsInline
@@ -27,6 +27,7 @@ export const ToteBoardActivity = () => {
           objectPosition: 'center',
           top: 0,
           left: 0,
+          filter: 'sepia(0.5)',
         }}
       />
     </div>

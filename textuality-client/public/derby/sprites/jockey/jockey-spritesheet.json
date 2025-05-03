@@ -1,0 +1,267 @@
+{
+	"frames": [
+		{
+			"filename": "horse-run-jockey_00000.png",
+			"frame": {
+				"x": 20,
+				"y": 20,
+				"w": 480,
+				"h": 250
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 480,
+				"h": 250
+			},
+			"sourceSize": {
+				"w": 480,
+				"h": 250
+			}
+		},
+		{
+			"filename": "horse-run-jockey_00001.png",
+			"frame": {
+				"x": 540,
+				"y": 20,
+				"w": 480,
+				"h": 250
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 480,
+				"h": 250
+			},
+			"sourceSize": {
+				"w": 480,
+				"h": 250
+			}
+		},
+		{
+			"filename": "horse-run-jockey_00002.png",
+			"frame": {
+				"x": 20,
+				"y": 310,
+				"w": 480,
+				"h": 250
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 480,
+				"h": 250
+			},
+			"sourceSize": {
+				"w": 480,
+				"h": 250
+			}
+		},
+		{
+			"filename": "horse-run-jockey_00003.png",
+			"frame": {
+				"x": 540,
+				"y": 310,
+				"w": 480,
+				"h": 250
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 480,
+				"h": 250
+			},
+			"sourceSize": {
+				"w": 480,
+				"h": 250
+			}
+		},
+		{
+			"filename": "horse-run-jockey_00004.png",
+			"frame": {
+				"x": 20,
+				"y": 600,
+				"w": 480,
+				"h": 250
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 480,
+				"h": 250
+			},
+			"sourceSize": {
+				"w": 480,
+				"h": 250
+			}
+		},
+		{
+			"filename": "horse-run-jockey_00005.png",
+			"frame": {
+				"x": 540,
+				"y": 600,
+				"w": 480,
+				"h": 250
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 480,
+				"h": 250
+			},
+			"sourceSize": {
+				"w": 480,
+				"h": 250
+			}
+		},
+		{
+			"filename": "horse-run-jockey_00006.png",
+			"frame": {
+				"x": 20,
+				"y": 890,
+				"w": 480,
+				"h": 250
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 480,
+				"h": 250
+			},
+			"sourceSize": {
+				"w": 480,
+				"h": 250
+			}
+		},
+		{
+			"filename": "horse-run-jockey_00007.png",
+			"frame": {
+				"x": 540,
+				"y": 890,
+				"w": 480,
+				"h": 250
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 480,
+				"h": 250
+			},
+			"sourceSize": {
+				"w": 480,
+				"h": 250
+			}
+		},
+		{
+			"filename": "horse-run-jockey_00008.png",
+			"frame": {
+				"x": 1060,
+				"y": 20,
+				"w": 480,
+				"h": 250
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 480,
+				"h": 250
+			},
+			"sourceSize": {
+				"w": 480,
+				"h": 250
+			}
+		},
+		{
+			"filename": "horse-run-jockey_00009.png",
+			"frame": {
+				"x": 1060,
+				"y": 310,
+				"w": 480,
+				"h": 250
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 480,
+				"h": 250
+			},
+			"sourceSize": {
+				"w": 480,
+				"h": 250
+			}
+		},
+		{
+			"filename": "horse-run-jockey_00010.png",
+			"frame": {
+				"x": 1060,
+				"y": 600,
+				"w": 480,
+				"h": 250
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 480,
+				"h": 250
+			},
+			"sourceSize": {
+				"w": 480,
+				"h": 250
+			}
+		},
+		{
+			"filename": "horse-run-jockey_00011.png",
+			"frame": {
+				"x": 1060,
+				"y": 890,
+				"w": 480,
+				"h": 250
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 480,
+				"h": 250
+			},
+			"sourceSize": {
+				"w": 480,
+				"h": 250
+			}
+		}
+	],
+	"meta": {
+		"app": "http://www.codeandweb.com/texturepacker",
+		"version": "1.0",
+		"image": "jockey-spritesheet.png",
+		"format": "RGBA8888",
+		"size": {
+			"w": 1560,
+			"h": 1160
+		},
+		"scale": "1"
+	}
+}

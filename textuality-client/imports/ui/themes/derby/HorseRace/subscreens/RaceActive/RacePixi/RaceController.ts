@@ -16,6 +16,8 @@ import { RaceWithHelpers } from '/imports/api/themes/derby/race/races';
 import { Dimensions } from './RacePixi.types';
 import { Ticker } from 'pixi.js';
 import { RaceTrackBanner } from './RaceResultBanner/RaceResultBanner';
+import { EffectType } from '/imports/schemas/derby/race-timeline/types';
+import { RaceTimelineEffectKeyframe } from '/imports/schemas/derby/race-timeline/types';
 
 export class RaceController {
   private raceId: RaceId = '';
@@ -42,6 +44,7 @@ export class RaceController {
   private results: RaceHorseResult[] = [];
 
   private _dirtyFlag: boolean = false;
+  private _finished: boolean = false;
 
   public get isDirty(): boolean {
     return this._dirtyFlag;
@@ -53,6 +56,11 @@ export class RaceController {
     horses: null,
   };
   private _autorunHandles: Tracker.Computation[] = [];
+
+  private _onFrameCallbacks: ((frame: number) => void)[] = [];
+
+  private _onStartCallbacks: (() => void)[] = [];
+  private _onFinishCallbacks: (() => void)[] = [];
 
   constructor(ticker: Ticker) {
     this.ticker = ticker;
@@ -226,6 +234,14 @@ export class RaceController {
     this.timeline.current_frame = playback.current_frame;
     this.timeline.is_playing = playback.is_playing;
     this._timeAtLastFrameUpdate = Date.now() / 1000;
+    this._onFrameCallbacks.forEach((callback) => {
+      callback(this.timeline.current_frame);
+    });
+    if (playback.is_playing && this.timeline.current_frame === 0) {
+      this._onStartCallbacks.forEach((callback) => {
+        callback();
+      });
+    }
   }
 
   setSize(width: number, height: number) {
@@ -272,12 +288,59 @@ export class RaceController {
     }
   }
 
-  getRaceProgress(): number {
-    const time = this.getTime();
+  getEffectAtCurrentFrame(
+    effectType: EffectType,
+  ): RaceTimelineEffectKeyframe | void {
+    const effectKeyframes = this.timeline.effects[effectType];
+    if (!effectKeyframes) {
+      return;
+    }
+    return effectKeyframes.find(
+      (effect) => effect.frame === this.timeline.current_frame,
+    );
+  }
+
+  registerOnFrameCallback(callback: (frame: number) => void) {
+    this._onFrameCallbacks.push(callback);
+  }
+
+  unregisterOnFrameCallback(callback: (frame: number) => void) {
+    this._onFrameCallbacks = this._onFrameCallbacks.filter(
+      (cb) => cb !== callback,
+    );
+  }
+
+  registerOnStartCallback(callback: () => void) {
+    this._onStartCallbacks.push(callback);
+  }
+
+  unregisterOnStartCallback(callback: () => void) {
+    this._onStartCallbacks = this._onStartCallbacks.filter(
+      (cb) => cb !== callback,
+    );
+  }
+
+  registerOnFinishCallback(callback: () => void) {
+    this._onFinishCallbacks.push(callback);
+  }
+
+  unregisterOnFinishCallback(callback: () => void) {
+    this._onFinishCallbacks = this._onFinishCallbacks.filter(
+      (cb) => cb !== callback,
+    );
+  }
+
+  getFastestFinish(): number {
     let fastestFinish = 200;
     for (const horseResult of this.results) {
       fastestFinish = Math.min(fastestFinish, horseResult.time);
     }
+    return fastestFinish;
+  }
+
+  getRaceProgress(): number {
+    const time = this.getTime();
+    const fastestFinish = this.getFastestFinish();
     return time / fastestFinish;
   }
 
@@ -300,6 +363,17 @@ export class RaceController {
     this.resultBanners.forEach((resultBanner) => {
       resultBanner.update(time);
     });
+
+    if (time > this.getFastestFinish()) {
+      if (!this._finished) {
+        this._finished = true;
+        this._onFinishCallbacks.forEach((callback) => {
+          callback();
+        });
+      }
+    } else {
+      this._finished = false;
+    }
 
     this.viewport.update();
   }

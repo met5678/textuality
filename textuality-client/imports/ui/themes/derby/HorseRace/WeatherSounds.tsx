@@ -1,5 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Weather } from '/imports/schemas/derby/race';
+import { RaceController } from './subscreens/RaceActive/RacePixi/RaceController';
+import { EffectType } from '/imports/schemas/derby/race-timeline/types';
 const SOUND_PATH = '/derby/sounds';
 
 const WEATHER_TO_SOUND: Record<Weather, string> = {
@@ -9,8 +11,20 @@ const WEATHER_TO_SOUND: Record<Weather, string> = {
   clear: '',
 };
 
-export const WeatherSounds = ({ weather }: { weather: Weather }) => {
+const WEATHER_EVENT_SOUNDS: Partial<Record<EffectType, string>> = {
+  lightning: `${SOUND_PATH}/lightning-strike.mp3`,
+  headwind: `${SOUND_PATH}/weather-wind-gust.mp3`,
+};
+
+export const WeatherSounds = ({
+  weather,
+  raceController,
+}: {
+  weather: Weather;
+  raceController?: RaceController;
+}) => {
   const soundRef = useRef<Howl>();
+
   useEffect(() => {
     const sound = WEATHER_TO_SOUND[weather];
     if (sound) {
@@ -25,6 +39,43 @@ export const WeatherSounds = ({ weather }: { weather: Weather }) => {
       }
     };
   }, [weather]);
+
+  const preloadedEventSounds = useRef<Partial<Record<EffectType, Howl>>>();
+  useEffect(() => {
+    const onFrame = (frame: number) => {
+      if (raceController) {
+        Object.keys(WEATHER_EVENT_SOUNDS).forEach((key) => {
+          const effect = raceController.getEffectAtCurrentFrame(
+            key as EffectType,
+          );
+          console.log('effect', effect);
+          if (!effect) {
+            return;
+          }
+          const sound = preloadedEventSounds.current?.[key as EffectType];
+          if (sound && effect) {
+            sound.play();
+          }
+        });
+      }
+    };
+
+    if (raceController) {
+      preloadedEventSounds.current = Object.fromEntries(
+        Object.entries(WEATHER_EVENT_SOUNDS).map(([key, value]) => [
+          key,
+          new Howl({ src: [value] }),
+        ]),
+      );
+      raceController.registerOnFrameCallback(onFrame);
+    }
+
+    return () => {
+      if (raceController) {
+        raceController.unregisterOnFrameCallback(onFrame);
+      }
+    };
+  }, [raceController]);
 
   return null;
 };

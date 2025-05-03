@@ -23,8 +23,8 @@ export const WeatherOverlay = ({
 
     return () => {
       console.log('destroying pixi');
-      // pixiRef.current?.destroy();
-      // pixiRef.current = undefined;
+      pixiRef.current?.destroy();
+      pixiRef.current = undefined;
     };
   }, []);
 

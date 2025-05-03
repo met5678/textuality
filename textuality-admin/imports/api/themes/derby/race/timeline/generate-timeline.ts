@@ -14,7 +14,7 @@ import { CatchupEffect } from './effects/catchup';
 
 /** How many seconds each keyframe represents */
 export const KEYFRAME_INTERVAL_SECONDS = 1;
-const APPROXIMATE_SECONDS_PER_FURLONG = 3;
+const APPROXIMATE_SECONDS_PER_FURLONG = 4;
 
 export const OVERRUN_DISTANCE_FURLONGS = 0.5; // furlongs to run past finish line
 
@@ -46,8 +46,8 @@ export type HorseState = {
 const WEATHER_MODIFIERS: Record<Weather, number> = {
   clear: 1.0,
   windy: 1.0,
-  rain: 0.8,
-  storm: 0.7,
+  rain: 0.85,
+  storm: 0.85,
 };
 
 // Calculate a horse's base speed based on their stats, track condition, and race length
@@ -113,7 +113,7 @@ const initializeHorseStates = (
     fatigue: 0,
     currentSpeed: 0,
     keyframes: [] as RaceTimelineHorseKeyframe[],
-    effects: [],
+    effects: [] as HorseEffect[],
     speedMultiplier: 1,
 
     finished: false,
@@ -224,7 +224,7 @@ export const generateTimelineWithResults = (
         position: state.position,
         horse: state.horse._id,
         status: state.currentSpeed < 5 ? 'trotting' : 'running',
-        effects: [],
+        effects: state.effects,
       };
 
       state.keyframes.push(keyframe);

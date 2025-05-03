@@ -50,6 +50,7 @@
 }
 
 .teller-status-info-label {
+  flex: 0 0 40%;
   text-align: right;
   font-family: 'eurostile', sans-serif;
   letter-spacing: 0.17rem;
@@ -58,10 +59,10 @@
   text-transform: uppercase;
   transform: scaleY(1.4);
 }
-
+/* 
 .teller-status-info > * {
   flex: 0 0 50%;
-}
+} */
 
 .teller-video {
   width: 100%;
@@ -78,8 +79,18 @@
 @media (max-width: 250px) and (min-height: 700px) {
   .teller-video {
     width: 100%;
-    height: 504px;
+    height: 500px;
     flex: none;
+  }
+}
+
+@media (max-width: 200px) and (min-height: 700px) {
+  .teller-video {
+    width: 100%;
+    height: 530px;
+    flex: none;
+    position: relative;
+    top: 18px;
   }
 }
 

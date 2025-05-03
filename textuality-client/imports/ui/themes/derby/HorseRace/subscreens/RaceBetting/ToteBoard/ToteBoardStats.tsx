@@ -21,15 +21,14 @@ export const ToteBoardStats: React.FC<{
 
       <LedCharRow label="Race" value={race.number} charCount={2} />
 
+      {/* TODO: JTG - check that time works */}
       <LedCharRow
-        label="Mins to race"
+        label="Race Starts"
         value={Math.max(
           0,
-          Math.ceil(
-            (race.time_race_starts_at.getTime() - now.getTime()) / (1000 * 60),
-          ),
+          Math.ceil(race.time_race_starts_at.getTime() - now.getTime()),
         )}
-        charCount={2}
+        charCount={5}
       />
 
       <LedCharRow label="Furlongs" value={race.furlong_length} charCount={2} />

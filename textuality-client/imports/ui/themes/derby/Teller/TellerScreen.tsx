@@ -79,7 +79,6 @@ const TellerScreen = ({ event, url }: { event: Event; url: string }) => {
             tellerStates={tellerStates}
             race={race}
             onResize={!matchHeights ? setTopHeight : undefined}
-            forceScale={matchHeights ? scale : undefined}
           />
           <TellerVideo
             teller={teller}
@@ -93,7 +92,6 @@ const TellerScreen = ({ event, url }: { event: Event; url: string }) => {
             raceBet={raceBet}
             tellerStates={tellerStates}
             onResize={!matchHeights ? setBottomHeight : undefined}
-            forceScale={matchHeights ? scale : undefined}
           />
           <TellerSounds teller={teller} raceBet={raceBet} />
         </div>

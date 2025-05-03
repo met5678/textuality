@@ -41,6 +41,10 @@ const getResultsDurationSeconds = (race: RaceWithHelpers) => {
     RaceBets.find({ race: race._id, status: 'won' }).fetch(),
   ).length;
 
+  if (numRaceBets === 0) {
+    return 0;
+  }
+
   return Math.min(
     RESULTS_MAX_DURATION_SECONDS,
     Math.ceil(numRaceBets / DERBY_WINNERS_NUM_TO_SHOW) *

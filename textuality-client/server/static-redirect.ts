@@ -9,6 +9,8 @@ const STATIC_PREFIXES = [
   '/audio/',
   '/fonts/',
   '/derby/',
+  '/casino/',
+  '/clue-cards/',
 ]; // Adjust as needed
 const S3_BASE_URL = 'https://textuality-static.s3.us-east-1.amazonaws.com';
 

@@ -40,7 +40,7 @@ export const RaceBettingSubscreen: React.FC<{ race: RaceWithHelpers }> = ({
       />
       <ToteBoard race={race} horses={horses} weather={weather} />
       <WeatherOverlay weather={weather} />
-      <WeatherSounds weather={weather} />
+      <WeatherSounds weather={weather} volume={0.25} />
     </div>
   );
 };

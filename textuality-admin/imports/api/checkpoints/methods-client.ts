@@ -59,7 +59,7 @@ Meteor.methods({
     };
 
     let gotAchievement = Meteor.call('achievements.tryUnlock', {
-      trigger: 'CHECKPOINT_GROUP_FOUND_N',
+      trigger: 'CHECKPOINT_LOCATION_FOUND_N',
       trigger_detail_string: checkpoint.location,
       trigger_detail_number: locationStats.numFound,
       playerId: player._id,

@@ -19,9 +19,11 @@ const WEATHER_EVENT_SOUNDS: Partial<Record<EffectType, string>> = {
 export const WeatherSounds = ({
   weather,
   raceController,
+  volume = 1,
 }: {
   weather: Weather;
   raceController?: RaceController;
+  volume?: number;
 }) => {
   const soundRef = useRef<Howl>();
 
@@ -30,6 +32,7 @@ export const WeatherSounds = ({
     if (sound) {
       soundRef.current = new Howl({ src: [sound], loop: true });
       soundRef.current.play();
+      soundRef.current.volume(volume);
     }
 
     return () => {
@@ -48,13 +51,13 @@ export const WeatherSounds = ({
           const effect = raceController.getEffectAtCurrentFrame(
             key as EffectType,
           );
-          console.log('effect', effect);
           if (!effect) {
             return;
           }
           const sound = preloadedEventSounds.current?.[key as EffectType];
           if (sound && effect) {
             sound.play();
+            sound.volume(volume);
           }
         });
       }

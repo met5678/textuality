@@ -5,6 +5,8 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { RaceIntroJockeys } from './RaceIntroJockeys';
 import { RaceIntroDerbygoers } from './RaceIntroDerbygoers';
+import { WeatherSounds } from '../../WeatherSounds';
+import { WeatherOverlay } from '../../WeatherOverlay/WeatherOverlay';
 
 type ComponentType = 'text' | 'jockeys' | 'derbygoers';
 
@@ -130,6 +132,12 @@ export const RaceIntroSubscreen = ({ race }: { race: RaceWithHelpers }) => {
         />
       </div>
       <audio src="/derby/sounds/gavotte-intro-30s.mp3" autoPlay />
+      {currentComponent === 'derbygoers' && (
+        <>
+          <WeatherOverlay weather={race.weather} />
+          <WeatherSounds weather={race.weather} volume={0.5} />
+        </>
+      )}
     </>
   );
 };

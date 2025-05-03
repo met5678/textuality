@@ -6,6 +6,7 @@ import { ToteBoardAccents } from './ToteBoard/ToteBoardAccents';
 import { ToteBoard } from './ToteBoard/ToteBoard';
 import { WeatherOverlay } from '../../WeatherOverlay/WeatherOverlay';
 import { WeatherBackground } from '../../WeatherBackground/WeatherBackground';
+import { WeatherSounds } from '../../WeatherSounds';
 
 export const RaceBettingSubscreen: React.FC<{ race: RaceWithHelpers }> = ({
   race,
@@ -39,6 +40,7 @@ export const RaceBettingSubscreen: React.FC<{ race: RaceWithHelpers }> = ({
       />
       <ToteBoard race={race} horses={horses} weather={weather} />
       <WeatherOverlay weather={weather} />
+      <WeatherSounds weather={weather} />
     </div>
   );
 };

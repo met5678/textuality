@@ -2,7 +2,11 @@ import Tellers from '../tellers';
 import { TellerId } from '/imports/schemas/derby/teller';
 import { RaceBetId } from '/imports/schemas/derby/raceBet';
 import RaceBets from '../../raceBets';
-import { throwIfCancelledTimeout, TimeoutError } from './_teller-timeouts';
+import {
+  cancelAndDeleteTimeout,
+  throwIfCancelledTimeout,
+  TimeoutError,
+} from './_teller-timeouts';
 import { TELLER_VIDEO_LENGTHS } from '/imports/schemas/derby/teller-status/teller-status';
 import { Meteor } from 'meteor/meteor';
 
@@ -28,6 +32,7 @@ export const tellerCompleteBet = async (
   const statusVideo =
     bet.count === 1 ? 'giving-stub-single' : 'giving-stub-multi';
 
+  cancelAndDeleteTimeout(teller_id);
   Tellers.updateAsync(teller_id, {
     $set: {
       status: statusVideo,

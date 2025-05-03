@@ -1,3 +1,4 @@
+import { cancelAndDeleteTimeout } from '../../tellers/teller-flow/_teller-timeouts';
 import { FortuneWithHelpers } from '../fortunes';
 import { fortuneGiveHorseFortune } from './fortune.giveHorseFortune';
 import { fortuneGiveStatFortune } from './fortune.giveStatFortune';
@@ -41,4 +42,5 @@ export const fortuneProcessType = async ({
       isTop: false,
     });
   }
+  cancelAndDeleteTimeout(fortune.teller);
 };

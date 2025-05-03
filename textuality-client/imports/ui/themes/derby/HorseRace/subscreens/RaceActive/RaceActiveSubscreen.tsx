@@ -5,6 +5,7 @@ import { JockeyCams, JOCKEYCAM_AREA_HEIGHT } from './JockeyCams/JockeyCams';
 import { Ticker } from 'pixi.js';
 import { RaceController } from './RacePixi/RaceController';
 import { WeatherOverlay } from '../../WeatherOverlay/WeatherOverlay';
+import { WeatherSounds } from '../../WeatherSounds';
 
 export const RaceActiveSubsceen: React.FC<{ race: RaceWithHelpers }> = ({
   race,
@@ -75,6 +76,7 @@ export const RaceActiveSubsceen: React.FC<{ race: RaceWithHelpers }> = ({
           weather={race.weather}
           raceController={raceControllerRef.current}
         />
+        <WeatherSounds weather={race.weather} />
       </div>
       <JockeyCams race={race} />
     </div>

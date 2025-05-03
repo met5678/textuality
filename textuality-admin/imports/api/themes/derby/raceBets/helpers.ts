@@ -1,4 +1,4 @@
-import RaceBets from './raceBets';
+import RaceBets, { RaceBetWithHelpers } from './raceBets';
 import { RaceBet, RaceBetComplete } from '/imports/schemas/derby/raceBet';
 
 function isRaceBetComplete(bet: RaceBet): bet is RaceBetComplete {
@@ -17,3 +17,17 @@ RaceBets.helpers({
     return (raceBet.base_bet ?? 0) * (raceBet.count ?? 0);
   },
 });
+
+export const condenseRaceBets = (raceBets: RaceBetWithHelpers[]) => {
+  return raceBets.reduce((acc, bet) => {
+    const existingBet = acc.find(
+      (b) => b.player === bet.player && b.type === bet.type,
+    );
+    if (existingBet) {
+      existingBet.payout = (existingBet.payout ?? 0) + (bet.payout ?? 0);
+    } else {
+      acc.push(bet);
+    }
+    return acc;
+  }, [] as RaceBetWithHelpers[]);
+};

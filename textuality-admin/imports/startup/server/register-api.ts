@@ -120,3 +120,5 @@ import '/imports/api/themes/derby/powerups/server/publications-admin';
 import '/imports/api/themes/derby/fortunes';
 import '/imports/api/themes/derby/fortunes/methods-admin';
 import '/imports/api/themes/derby/fortunes/server/publications-admin';
+
+import '/imports/api/events/finale/finale-derby';

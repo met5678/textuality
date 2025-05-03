@@ -104,3 +104,5 @@ import '/imports/api/themes/derby/powerups/server/publications-client';
 
 import '/imports/api/themes/derby/fortunes/';
 import '/imports/api/themes/derby/fortunes/server/publications-client';
+
+import '/imports/api/events/finale/finale-derby';

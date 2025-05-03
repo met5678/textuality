@@ -6,6 +6,7 @@ import HorseRaceScreen from './HorseRace/HorseRaceScreen';
 import TellerScreen from './Teller/TellerScreen';
 import { useTypekitFonts } from '../../hooks/use-typekit-fonts';
 import LeaderboardScreen from './Leaderboard/LeaderboardScreen';
+import { FinaleScreen } from './Finale/FinaleScreen';
 
 const DerbyRoot = ({ event }: { event: Event }) => {
   useTypekitFonts(['lqw3feh.css']);
@@ -13,7 +14,11 @@ const DerbyRoot = ({ event }: { event: Event }) => {
   return (
     <Switch>
       <Route path="/race">
-        <HorseRaceScreen event={event} />
+        {event.state === 'finale' ? (
+          <FinaleScreen event={event} />
+        ) : (
+          <HorseRaceScreen event={event} />
+        )}
       </Route>
       <Route path="/teller/:url">
         {(params) => <TellerScreen event={event} url={params.url} />}

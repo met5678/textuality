@@ -113,15 +113,25 @@ const EventsTable = () => {
               showInMenu={true}
               onClick={() => {
                 if (params.row.skin === 'normal') {
-                  Meteor.call('finale.casino.start', params.row._id);
+                  Meteor.callAsync(
+                    `finale.${params.row.theme}.start`,
+                    params.row._id,
+                  );
                 } else {
-                  Meteor.call(
-                    `finale.casino.${params.row.skin}.start`,
+                  Meteor.callAsync(
+                    `finale.${params.row.theme}.${params.row.skin}.start`,
                     params.row._id,
                   );
                 }
               }}
               label="Start Finale"
+            />
+          ),
+          (params) => (
+            <GridActionsCellItem
+              showInMenu={true}
+              onClick={() => Meteor.call('finale.derby.cancel', params.row._id)}
+              label="Cancel Finale"
             />
           ),
           (params) => (

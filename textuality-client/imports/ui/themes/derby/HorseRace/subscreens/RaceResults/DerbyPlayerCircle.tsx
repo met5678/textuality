@@ -12,6 +12,7 @@ interface DerbyPlayerCircleProps {
   width?: number;
   height?: number;
   style?: React.CSSProperties;
+  className?: string;
 }
 
 const DerbyPlayerCircle: React.FC<DerbyPlayerCircleProps> = ({
@@ -20,10 +21,11 @@ const DerbyPlayerCircle: React.FC<DerbyPlayerCircleProps> = ({
   width = 250,
   height = 250,
   style,
+  className,
 }) => {
   return (
     <div
-      className="derby-player-circle"
+      className={`derby-player-circle ${className}`}
       style={{
         width: `${width}px`,
         height: `${height}px`,

@@ -83,6 +83,18 @@ const RaceResultsWinners: React.FC<RaceResultsWinnersProps> = ({ raceId }) => {
       ease: 'bounce.out',
     });
 
+    tl.fromTo(
+      '.race-winner-img',
+      { rotation: -5 },
+      {
+        rotation: 5,
+        duration: 0.78,
+        ease: 'power1.inOut',
+        yoyo: true,
+        repeat: -1,
+      },
+    );
+
     // Hold for remaining time (TIME_INTERVAL_SECONDS - 1.1s - 0.6s - 0.5s)
     const holdDuration = DERBY_WINNERS_INTERVAL_SECONDS - 1.1 - 0.6 - 0.5;
     tl.to({}, { duration: holdDuration });
@@ -110,6 +122,7 @@ const RaceResultsWinners: React.FC<RaceResultsWinnersProps> = ({ raceId }) => {
         justifyContent: 'center',
         alignItems: 'center',
         height: '100%',
+        paddingBottom: '.8vh',
         background:
           'url(/derby/images/churchdowns.png) var(--derby-burgundy) no-repeat center center',
         backgroundSize: 'cover',
@@ -132,6 +145,7 @@ const RaceResultsWinners: React.FC<RaceResultsWinnersProps> = ({ raceId }) => {
             }}
           >
             <DerbyPlayerCircle
+              className="race-winner-img"
               player={player}
               zoom={0.8}
               width={250}
@@ -141,7 +155,7 @@ const RaceResultsWinners: React.FC<RaceResultsWinnersProps> = ({ raceId }) => {
               className="race-winner-alias"
               style={{
                 fontFamily: FONT_FAMILY_EUROSTILE,
-                fontSize: '2.5vw',
+                fontSize: '2.6vw',
                 color: COLOR_DERBY_OFF_WHITE,
               }}
             >

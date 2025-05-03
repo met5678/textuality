@@ -1,10 +1,11 @@
-import { HorseId } from '../horses';
+import { HorseId } from '../horse';
 
 export const HORSE_STATUS = ['still', 'running', 'trotting'] as const;
 export type HorseStatus = (typeof HORSE_STATUS)[number];
 
 export const HORSE_EFFECTS = [
   'electrocuted',
+  'electricboost',
   'blownback',
   'luckyboost',
   'chasing',

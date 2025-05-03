@@ -5,7 +5,7 @@ import { HorseId } from '/imports/schemas/derby/horse';
 import { RaceTimelineEffectKeyframe } from '/imports/schemas/derby/race-timeline/types';
 
 const LIGHTNING_STRIKE_MIN_INTERVAL = 10;
-const LIGHTNING_STRIKE_MAX_INTERVAL = 30;
+const LIGHTNING_STRIKE_MAX_INTERVAL = 20;
 const LIGHTNING_STRIKE_CHANCE =
   1 / (LIGHTNING_STRIKE_MAX_INTERVAL - LIGHTNING_STRIKE_MIN_INTERVAL);
 
@@ -19,6 +19,7 @@ type LightningEffectState = {
       isStruck: boolean;
       struckStart: number;
       struckTime: number;
+      struckBoostTime: number;
     }
   >;
 };
@@ -28,14 +29,15 @@ export const LightningEffect: BaseEffect<LightningEffectState> = {
 
   init: (race: RaceWithHelpers) => {
     return {
-      lastLightningStrike: 0,
-      lastLightningIntensity: 0,
+      lastLightningStrike: -1,
+      lastLightningIntensity: -1,
       horses: race.horses.reduce(
         (acc, horse) => {
           acc[horse] = {
             isStruck: false,
             struckStart: 0,
             struckTime: 0,
+            struckBoostTime: 0,
           };
           return acc;
         },
@@ -88,10 +90,16 @@ export const LightningEffect: BaseEffect<LightningEffectState> = {
 
     if (effectState.lastLightningStrike === frame) {
       horseStates.forEach((horseState) => {
+        const resistanceTimeMod =
+          horseState.horse.stats().electric_resistance - 10;
+        const struckTime =
+          effectState.lastLightningIntensity - resistanceTimeMod;
+
         effectState.horses[horseState.horse._id] = {
           isStruck: true,
           struckStart: frame,
-          struckTime: effectState.lastLightningIntensity,
+          struckTime: Math.max(struckTime, 0),
+          struckBoostTime: struckTime < 0 ? -struckTime + 1 : 0,
         };
       });
     }
@@ -106,13 +114,33 @@ export const LightningEffect: BaseEffect<LightningEffectState> = {
         horseState.effects = horseState.effects.filter(
           (effect) => effect !== 'electrocuted',
         );
-        horseEffectState.isStruck = false;
       } else {
         // Apply lightning effects
         if (!horseState.effects.includes('electrocuted')) {
           horseState.effects.push('electrocuted');
         }
         horseState.speedMultiplier *= 0;
+      }
+
+      if (
+        frame - horseEffectState.struckStart >=
+        horseEffectState.struckBoostTime
+      ) {
+        horseState.effects = horseState.effects.filter(
+          (effect) => effect !== 'electricboost',
+        );
+      } else {
+        if (!horseState.effects.includes('electricboost')) {
+          horseState.effects.push('electricboost');
+        }
+        horseState.speedMultiplier *= 2;
+      }
+
+      if (
+        !horseState.effects.includes('electricboost') &&
+        !horseState.effects.includes('electrocuted')
+      ) {
+        horseEffectState.isStruck = false;
       }
     });
   },

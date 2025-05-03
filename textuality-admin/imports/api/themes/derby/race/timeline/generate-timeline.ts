@@ -10,18 +10,16 @@ import {
 import { RaceWithHelpers } from '../races';
 import { FatigueEffect } from './effects/fatigue';
 import { WindEffect } from './effects/wind';
+import { CatchupEffect } from './effects/catchup';
 
 /** How many seconds each keyframe represents */
 export const KEYFRAME_INTERVAL_SECONDS = 1;
-const APPROXIMATE_SECONDS_PER_FURLONG = 6;
+const APPROXIMATE_SECONDS_PER_FURLONG = 3;
 
 export const OVERRUN_DISTANCE_FURLONGS = 0.5; // furlongs to run past finish line
 
 /** Mostly to prevent infinite loops */
 export const MAX_TIMELINE_SECONDS = 200;
-
-// Increased base speed to make races faster
-const BASE_SPEED = 1.4;
 
 export type HorseState = {
   horse: HorseWithHelpers;
@@ -59,21 +57,49 @@ const calculateBaseSpeed = (
   raceLength: number,
 ) => {
   const conditionModifier = WEATHER_MODIFIERS[weather];
-  const speedEffect = horse.stats().speed / 10;
+  const speedEffect = 1 + (horse.stats().speed - 10) / 20;
 
-  // Calculate race length factor (0-1)
-  // 5 furlongs = 0, 12 furlongs = 1
-  const raceLengthFactor = Math.max(0, (raceLength - 5) / 5);
+  // Use the horse's water_resistance stat to modify the horse's speed
+  // in rain and storm conditions. Water resistance, like the other stats,
+  // has a base value of 10 (can go lower).
+  let waterResistanceModifier = 1;
 
-  // Add slight speed boost for shorter races
-  const raceLengthSpeedBoost = 1 + (1 - raceLengthFactor) * 0.2; // Up to 20% faster for short races
+  if (weather === 'rain' || weather === 'storm') {
+    // For rain/storm, water resistance acts as a speed modifier
+    // Base water resistance (10) = no effect
+    // Lower water resistance = slower speed
+    // Higher water resistance = faster speed
+    const waterResistance = horse.stats().water_resistance;
+    waterResistanceModifier = waterResistance / 10;
+  }
+
+  let windResistanceModifier = 1;
+
+  if (weather === 'windy' || weather === 'storm') {
+    // For windy/storm, wind resistance acts as a speed modifier
+    // Base wind resistance (10) = no effect
+    // Lower wind resistance = slower speed
+    // Higher wind resistance = faster speed
+    const windResistance = horse.stats().wind_resistance;
+    windResistanceModifier = 1 + (windResistance - 10) / 60;
+  }
 
   // Target completing each furlong in APPROXIMATE_SECONDS_PER_FURLONG seconds
   // Adjust by speed stat and track condition
-  return BASE_SPEED * conditionModifier * speedEffect * raceLengthSpeedBoost;
+  return (
+    conditionModifier *
+    speedEffect *
+    waterResistanceModifier *
+    windResistanceModifier
+  );
 };
 
-const EFFECTS: BaseEffect<any>[] = [WindEffect, LightningEffect, FatigueEffect];
+const EFFECTS: BaseEffect<any>[] = [
+  WindEffect,
+  LightningEffect,
+  FatigueEffect,
+  CatchupEffect,
+];
 
 const initializeHorseStates = (
   race: RaceWithHelpers,

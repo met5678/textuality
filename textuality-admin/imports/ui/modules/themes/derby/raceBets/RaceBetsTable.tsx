@@ -42,6 +42,11 @@ const getColumns = (
         tellers.find((teller) => teller._id === value)?.url,
     },
     {
+      field: 'teller_text_code',
+      headerName: 'Name',
+      width: 80,
+    },
+    {
       field: 'race',
       headerName: 'Race',
       width: 70,

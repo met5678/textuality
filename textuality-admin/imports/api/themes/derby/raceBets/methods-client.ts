@@ -56,14 +56,14 @@ Meteor.methods({
     await RaceBets.removeAsync({ race: race_id });
   },
 
-  'derby.raceBets.getIncompleteBetForPlayer': async ({
+  'derby.raceBets.getIncompleteBetForPlayer': ({
     race_id,
     player_id,
   }: {
     race_id: RaceId;
     player_id: PlayerId;
   }) => {
-    const raceBet = await RaceBets.findOneAsync({
+    const raceBet = RaceBets.findOne({
       race: race_id,
       player: player_id,
       status: 'pending',

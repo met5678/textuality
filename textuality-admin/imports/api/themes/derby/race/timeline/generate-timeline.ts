@@ -14,7 +14,7 @@ import { CatchupEffect } from './effects/catchup';
 
 /** How many seconds each keyframe represents */
 export const KEYFRAME_INTERVAL_SECONDS = 1;
-const APPROXIMATE_SECONDS_PER_FURLONG = 4;
+const APPROXIMATE_SECONDS_PER_FURLONG = 8;
 
 export const OVERRUN_DISTANCE_FURLONGS = 0.5; // furlongs to run past finish line
 
@@ -194,7 +194,7 @@ export const generateTimelineWithResults = (
       // Update horse's speed based on endurance and variation.
       // Add a bit of randomness to the speed to make it more interesting.
       state.currentSpeed =
-        state.baseSpeed * state.speedMultiplier * (0.9 + random() * 0.2);
+        state.baseSpeed * state.speedMultiplier * (0.8 + random() * 0.4);
 
       // Check if horse finished
       if (state.position >= race.furlong_length && !state.finishTime) {

@@ -113,6 +113,18 @@ const PlayersTable = () => {
             }
           />
         ),
+        (params) => (
+          <GridActionsCellItem
+            showInMenu={true}
+            label="Leave Player"
+            onClick={() =>
+              Meteor.call('players.update', {
+                _id: params.row._id,
+                status: 'quit',
+              })
+            }
+          />
+        ),
       ]}
     />
   );

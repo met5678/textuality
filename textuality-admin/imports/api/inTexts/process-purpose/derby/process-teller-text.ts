@@ -133,30 +133,31 @@ const doTellerPreChecks = async (
     return false;
   }
 
-  const existingRaceBet = await Meteor.callAsync(
-    'derby.raceBets.getIncompleteBetForPlayer',
-    {
-      raceId: race._id,
-      playerId: player._id,
-      templateVars: {
-        teller_name: capitalizeFirstLetterOnly(teller.text_code),
-      },
-    },
-  );
+  const existingRaceBet = RaceBets.findOne({
+    race: race._id,
+    player: player._id,
+    status: 'pending',
+  });
 
-  if (existingRaceBet) {
-    sendAutoText({
-      trigger: 'TELLER_REJECT_OTHER_BET_IN_PROGRESS',
-      playerId: player._id,
-      templateVars: {
-        old_teller_name: capitalizeFirstLetterOnly(
-          existingRaceBet.teller_text_code,
-        ),
-        new_teller_name: capitalizeFirstLetterOnly(teller.text_code),
-      },
-    });
-    return false;
-  }
+  // Note to future self: This was commented out because it was preventing ANY
+  // player from betting on a teller if any other player had a pending bet. Not
+  // sure why, but test and debug for next time.
+
+  // if (existingRaceBet) {
+  //   sendAutoText({
+  //     trigger: 'TELLER_REJECT_OTHER_BET_IN_PROGRESS',
+  //     playerId: player._id,
+  //     templateVars: {
+  //       old_teller_name: capitalizeFirstLetterOnly(
+  //         existingRaceBet.teller_text_code,
+  //       ),
+  //       new_teller_name: capitalizeFirstLetterOnly(teller.text_code),
+  //     },
+  //   });
+  //   return false;
+  // }
+
+  console.log('existingRaceBet', { player: player?._id, existingRaceBet });
 
   if (player.money < teller.min_wager) {
     sendAutoText({

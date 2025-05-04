@@ -14,9 +14,9 @@ type CatchupEffectState = {
 // Maximum speed boost a horse can get from catchup (as a multiplier)
 const MAX_CATCHUP_BOOST = 2;
 // Distance in furlongs where catchup effect starts to kick in
-const CATCHUP_START_DISTANCE = 0.1;
+const CATCHUP_START_DISTANCE = 0;
 // Distance in furlongs where catchup effect reaches maximum
-const MAX_CATCHUP_DISTANCE = 2.0;
+const MAX_CATCHUP_DISTANCE = 1.0;
 
 export const CatchupEffect: BaseEffect<CatchupEffectState> = {
   effectType: null,

@@ -79,7 +79,11 @@ export class WeatherOverlayPixi {
     this.rainOverlay.update();
     this.windOverlay.update();
 
-    if (!this.raceController && Math.random() < 0.001) {
+    if (
+      !this.raceController &&
+      Math.random() < 0.001 &&
+      this._weather === 'storm'
+    ) {
       this.lightningOverlay.triggerFlash(1);
     }
   }

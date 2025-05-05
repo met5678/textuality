@@ -15,6 +15,10 @@ import {
   racesGetCurrentSync,
 } from '../themes/derby/race/methods/races.getCurrent';
 import { raceBetGetPlayerRaceBetSummary } from '../themes/derby/raceBets/methods/raceBet.getPlayerRaceBetSummary';
+import {
+  AutoTextSendBroadcastArgs,
+  sendBroadcastCustomAutoText,
+} from './methods/autoTexts.sendBroadcast';
 
 Meteor.methods({
   'autoTexts.send': async (args: AutoTextSendArgs) => {
@@ -97,5 +101,9 @@ Meteor.methods({
 
   'autoTexts.sendCustom': async (args: AutoTextSendCustomArgs) => {
     await sendCustomAutoText(args);
+  },
+
+  'autoTexts.sendBroadcastCustom': async (args: AutoTextSendBroadcastArgs) => {
+    await sendBroadcastCustomAutoText(args);
   },
 });

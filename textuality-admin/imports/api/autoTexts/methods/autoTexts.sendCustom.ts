@@ -9,7 +9,7 @@ export type AutoTextSendCustomArgs = {
   playerText: string;
   playerId: PlayerId;
   mediaUrl?: string;
-  templateVars: Record<string, any>;
+  templateVars?: Record<string, any>;
   interactivePayload?: OutTextInteractivePayload;
   source?: OutTextSource;
 };
@@ -18,7 +18,7 @@ export const sendCustomAutoText = async ({
   playerText,
   playerId,
   mediaUrl,
-  templateVars,
+  templateVars = {},
   interactivePayload,
   source,
 }: AutoTextSendCustomArgs) => {

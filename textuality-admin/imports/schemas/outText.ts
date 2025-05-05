@@ -20,6 +20,7 @@ const OUT_TEXT_SOURCE = [
   'manual',
   'achievement',
   'mission',
+  'broadcast',
   'unknown',
 ] as const;
 type OutTextSource = (typeof OUT_TEXT_SOURCE)[number];

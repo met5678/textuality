@@ -133,6 +133,12 @@ const setupBreakAntics = () => {
       scheduled: 1,
       time_bets_start_at: 1,
     });
+
+    if (!race) {
+      console.log('break antics: no race found');
+      return;
+    }
+
     const returnByTime = DateTime.fromJSDate(race?.time_bets_start_at!)
       .minus({
         seconds:
@@ -199,6 +205,12 @@ const setupFortuneTeller = () => {
       time_bets_start_at: 1,
       fortune_teller_available: 1,
     });
+
+    if (!race) {
+      console.log('fortune teller: no race found');
+      return;
+    }
+
     const fortuneTellerVanishBy = DateTime.fromJSDate(race?.time_bets_start_at!)
       .minus({
         seconds:

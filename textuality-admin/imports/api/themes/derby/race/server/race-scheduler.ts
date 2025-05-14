@@ -16,7 +16,7 @@ import { raceGenerateTimeline } from '../methods/races.generateTimeline';
 import RaceBets from '../../raceBets/raceBets';
 import { condenseRaceBets } from '../../raceBets/helpers';
 
-const INTRO_DURATION_SECONDS = 28;
+const INTRO_DURATION_SECONDS = 30;
 const RACE_MAX_DURATION_SECONDS = 200;
 const POST_RACE_PAUSE_SECONDS = 15;
 const RESULTS_MAX_DURATION_SECONDS = 60;

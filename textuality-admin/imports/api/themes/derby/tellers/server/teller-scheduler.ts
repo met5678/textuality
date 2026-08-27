@@ -294,6 +294,10 @@ const resetStuckTellers = () => {
 
 if (Meteor.isServer && Meteor.isProduction) {
   Meteor.startup(() => {
+    if (!Events.current() || Events.current()?.theme !== 'derby') {
+      return;
+    }
+
     resetStuckTellers();
     setupOpenCloseTellers();
     setupBreakAntics();

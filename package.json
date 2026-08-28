@@ -9,7 +9,12 @@
     "open-tunnel-prod": "ngrok http 4102",
     "sync-prod-to-local": "./scripts/sync-prod-to-local.sh",
     "mongosh-prod": "./scripts/mongosh-prod.sh",
-    "setup-oplog": "./scripts/setup-oplog.sh"
+    "setup-oplog": "./scripts/setup-oplog.sh",
+    "local-setup": "./scripts/local-setup.sh",
+    "pull-settings-from-1pass": "./scripts/pull-settings-from-1pass.sh",
+    "deploy-prod": "./scripts/deploy/deploy-prod.sh",
+    "deploy-galaxy": "./scripts/deploy/deploy-galaxy.sh",
+    "deploy-static-assets": "./scripts/deploy/deploy-static-assets.sh"
   },
   "repository": {
     "type": "git",

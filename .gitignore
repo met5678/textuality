@@ -5,3 +5,4 @@ node_modules/
 **/dump/
 bin/ngrok
 settings.json
+settings-old.json

@@ -16,19 +16,22 @@ Textuality is set up as two Meteor applications: an admin app for setting up the
 
 ### Configuring Credentials
 
-Both `twilio`, used for the texting, and `cloudinary`, used for the image storage, require API credentials to work. For security reasons, those API credentials are not present in this repository. You must create a `settings.json` file at the root of this repo with the following format:
+Both `twilio`, used for the texting, and `cloudinary`, used for the image storage, require API credentials to work. Deploying static assets to Backblaze B2 also needs an application key. For security reasons, those API credentials are not present in this repository. You must create a `settings.json` file at the root of this repo with the following format:
 
 ```json
 {
   "public": {
-    "cloudinaryCloudName": "xxxxxxxxx"
+    "cloudinaryCloudName": "xxxxxxxxx",
+    "staticAssetsBaseUrl": "https://f000.backblazeb2.com/file/textuality-static"
   },
 
   "private": {
     "twilioSid": "xxxxxxxxxxxxxxxxxxxxxxxxxxxx",
     "twilioToken": "xxxxxxxxxxxxxxxxxxxxxxxxxxxx",
     "cloudinaryKey": "xxxxxxxxxxxxxxxxxxxx",
-    "cloudinarySecret": "xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    "cloudinarySecret": "xxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "b2ApplicationKeyId": "xxxxxxxxxxxxxxxxxxxx",
+    "b2ApplicationKey": "xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
   }
 
   "galaxy.meteor.com": {
@@ -42,7 +45,9 @@ Both `twilio`, used for the texting, and `cloudinary`, used for the image storag
 
 The `galaxy.meteor.com` section is only necessary if deploying or accessing the production admin. The urls here are in the format provided by MongoDB Atlas, but might change if using a different provider. Note: the `MONGO_OPLOG_URL` needs to specify the `local` collection, typically by including `/local` at the end of the connection url as you see here.
 
-Ask Roo for the credentials.
+`staticAssetsBaseUrl` is the public Friendly URL for the `textuality-static` bucket, shown in the Backblaze console under that bucket’s settings. It looks like `https://f000.backblazeb2.com/file/textuality-static`. Production redirects `/images`, `/videos`, `/derby`, and other static prefixes there.
+
+Ask Roo for the credentials, or run `npm run pull-settings-from-1pass` to replace local `settings.json` with the 1Password document named `Textuality settings.json`. B2 keys can also stay only in 1Password: if they are not in the environment or `settings.json`, `npm run deploy-static-assets` will offer to fetch them with the 1Password CLI (`op`).
 
 ### Run Meteor Apps
 
@@ -102,11 +107,17 @@ If this fails, it's likely that you need your IP whitelisted. Check with Roo abt
 
 ## Deploying
 
-Currently, only the `textuality-client` app is deployed to production. To reploy this, run the following:
+Currently, only the `textuality-client` app is deployed to production. A full production deploy syncs `textuality-client/public` to the `textuality-static` Backblaze B2 bucket, then deploys the Meteor app to Galaxy. From the repo root, run:
 
 ```
-cd textuality-client
-npm run deploy
+npm run deploy-prod
+```
+
+To run either step on its own:
+
+```
+npm run deploy-static-assets
+npm run deploy-galaxy
 ```
 
 Let the whole process finish. You can also monitor the deployment progress on Galaxy -- ask Roo for the link.

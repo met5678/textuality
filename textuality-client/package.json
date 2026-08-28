@@ -4,7 +4,6 @@
   "scripts": {
     "start": "./start-local.sh",
     "start-prod": "./start-prod.sh",
-    "deploy": "./deploy-galaxy.sh",
     "test": "meteor test --once --driver-package meteortesting:mocha",
     "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
     "visualize": "meteor --production --extra-packages bundle-visualizer"

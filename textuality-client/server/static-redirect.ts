@@ -12,9 +12,11 @@ const STATIC_PREFIXES = [
   '/casino/',
   '/clue-cards/',
 ]; // Adjust as needed
-const S3_BASE_URL = 'https://textuality-static.s3.us-east-1.amazonaws.com';
+const STATIC_BASE_URL = String(
+  Meteor.settings.public?.STATIC_ASSETS_BASE_URL || '',
+).replace(/\/$/, '');
 
-if (Meteor.isProduction) {
+if (Meteor.isProduction && STATIC_BASE_URL) {
   WebApp.rawConnectHandlers.use(((
     req: IncomingMessage,
     res: ServerResponse,
@@ -26,7 +28,7 @@ if (Meteor.isProduction) {
       url.startsWith(prefix),
     );
     if (matchingPrefix) {
-      const redirectUrl = S3_BASE_URL + url;
+      const redirectUrl = STATIC_BASE_URL + url;
       res.writeHead(301, { Location: redirectUrl });
       res.end();
       return;

@@ -36,14 +36,16 @@ Both `twilio`, used for the texting, and `cloudinary`, used for the image storag
 
   "galaxy.meteor.com": {
     "env": {
-      "MONGO_URL": "mongodb+srv://<username>:<password>@<db-url>/?retryWrites=true&w=majority",
-      "MONGO_OPLOG_URL": "mongodb+srv://<oplog-username>:<oplog-password>@<db-url>/local?retryWrites=true&w=majority"
+      "MONGO_URL": "mongodb+srv://<username>:<password>@<db-url>/textuality?retryWrites=true&w=majority&authSource=admin",
+      "MONGO_OPLOG_URL": "mongodb+srv://<oplog-username>:<oplog-password>@<db-url>/local?retryWrites=true&w=majority&authSource=admin"
     }
   },
 }
 ```
 
-The `galaxy.meteor.com` section is only necessary if deploying or accessing the production admin. The urls here are in the format provided by MongoDB Atlas, but might change if using a different provider. Note: the `MONGO_OPLOG_URL` needs to specify the `local` collection, typically by including `/local` at the end of the connection url as you see here.
+The `galaxy.meteor.com` section is only necessary if deploying or accessing the production admin. The URLs here are in the format provided by MongoDB Atlas, but might change if using a different provider. `MONGO_URL` must include the application database name (`/textuality`). `MONGO_OPLOG_URL` intentionally uses `/local`, where the replica-set oplog lives; `authSource=admin` keeps authentication separate from both databases.
+
+The production start scripts pass these URLs directly to Meteor, and Galaxy reads the `galaxy.meteor.com.env` values during deployment. Consequently, both local production-mode runs and the deployed app use the database named in `MONGO_URL`.
 
 `staticAssetsBaseUrl` is the public Friendly URL for the `textuality-static` bucket, shown in the Backblaze console under that bucket’s settings. It looks like `https://f000.backblazeb2.com/file/textuality-static`. Production redirects `/images`, `/videos`, `/derby`, and other static prefixes there.
 
@@ -104,6 +106,22 @@ npm run sync-prod-to-local
 This script will prompt you to ensure you're running the local admin, then execute the sync.
 
 If this fails, it's likely that you need your IP whitelisted. Check with Roo abt that.
+
+## Copying Local Data to Prod
+
+To push the local database to production, run this from the root of the repo:
+
+```
+npm run sync-local-to-prod
+```
+
+The script offers two strategies and requires explicit confirmation before writing to production:
+
+- `merge` upserts local documents by `_id` and leaves production-only documents in place.
+- `replace` drops the production database and restores the complete local database, including indexes.
+
+You can also select a strategy up front with `npm run sync-local-to-prod -- merge` or
+`npm run sync-local-to-prod -- replace`. The production confirmation prompts still apply.
 
 ## Deploying
 

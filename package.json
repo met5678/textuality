@@ -8,6 +8,7 @@
     "open-tunnel": "ngrok http 4002",
     "open-tunnel-prod": "ngrok http 4102",
     "sync-prod-to-local": "./scripts/sync-prod-to-local.sh",
+    "sync-local-to-prod": "./scripts/sync-local-to-prod.sh",
     "mongosh-prod": "./scripts/mongosh-prod.sh",
     "setup-oplog": "./scripts/setup-oplog.sh",
     "local-setup": "./scripts/local-setup.sh",

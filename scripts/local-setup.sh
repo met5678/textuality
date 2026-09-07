@@ -8,7 +8,7 @@ set -euo pipefail
 # b2-tools: Backblaze B2 CLI for object storage
 brew install jq ngrok mongosh b2-tools
 
-# mongodb-database-tools: mongodump/mongorestore for npm run sync-prod-to-local.
+# mongodb-database-tools: dump, restore, export, and import for the DB sync scripts.
 # Lives in MongoDB's third-party tap; trust only this formula, not the whole tap.
 # Does not install a local mongod — Meteor already runs one internally.
 brew tap mongodb/brew

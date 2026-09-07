@@ -4,6 +4,9 @@ set -euo pipefail
 DIR=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
 SETTINGS="$DIR/../settings.json"
 
+# shellcheck source=./mongo-url-utils.sh
+source "$DIR/mongo-url-utils.sh"
+
 if [[ ! -f "$SETTINGS" ]]; then
   echo "Missing settings.json at repo root. See README for the expected format." >&2
   exit 1
@@ -19,6 +22,11 @@ if ! command -v mongosh >/dev/null 2>&1; then
   exit 1
 fi
 
+if ! command -v node >/dev/null 2>&1; then
+  echo "node is required." >&2
+  exit 1
+fi
+
 MONGO_URL=$(jq -r '."galaxy.meteor.com".env.MONGO_URL // empty' "$SETTINGS")
 MONGO_OPLOG_URL=$(jq -r '."galaxy.meteor.com".env.MONGO_OPLOG_URL // empty' "$SETTINGS")
 
@@ -26,6 +34,11 @@ if [[ -z "$MONGO_URL" ]]; then
   echo "settings.json is missing galaxy.meteor.com.env.MONGO_URL (admin credentials)." >&2
   exit 1
 fi
+
+PROD_DB=$(mongo_database_from_url "$MONGO_URL") || {
+  echo "Refusing to configure oplog access without an explicit application database in MONGO_URL." >&2
+  exit 1
+}
 
 parse_mongo_field() {
   URI="$1" FIELD="$2" node -e '
@@ -84,6 +97,7 @@ else
   OPLOG_PWD=$(parse_mongo_field "$MONGO_OPLOG_URL" pwd)
 fi
 
+echo "Application database: $PROD_DB"
 echo "Ensuring oplog user '${OPLOG_USER}' exists (read on local)..."
 
 export OPLOG_USER OPLOG_PWD

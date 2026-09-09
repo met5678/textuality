@@ -1,16 +1,9 @@
-import { InText, InTextPurpose } from '/imports/schemas/inText';
-import { Player } from '/imports/schemas/player';
-import { IncomingMessageData } from '/imports/services/whatsapp';
-
-interface GetPurposeArgs {
-  player: Player;
-  message: IncomingMessageData;
-}
+import { GetPurposeArgs } from './get-purpose';
+import { InTextPurposeBase, InTextPurposeDerby } from '/imports/schemas/inText';
 
 export const getPurposeDerby = ({
   message,
-  player,
-}: GetPurposeArgs): InTextPurpose | undefined => {
+}: GetPurposeArgs): (InTextPurposeDerby | InTextPurposeBase) | undefined => {
   if (message.interactive && message.interactive.value.startsWith('raceBet/')) {
     return 'bet-step';
   }

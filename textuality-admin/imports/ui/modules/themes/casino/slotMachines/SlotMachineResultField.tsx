@@ -4,7 +4,7 @@ import { connectField } from 'uniforms';
 import InputSelect from '/imports/ui/generic/InputSelect';
 import {
   SlotMachineEmoji,
-  SlotMachineEmojis,
+  SLOT_MACHINE_EMOJIS,
   SlotMachineResult,
 } from '/imports/schemas/slotMachine';
 
@@ -25,7 +25,7 @@ const SlotMachineResultField = ({
     <Box>
       <InputSelect
         notFullWidth
-        options={SlotMachineEmojis}
+        options={SLOT_MACHINE_EMOJIS}
         value={value[0]}
         multi={false}
         disableClearable={true}
@@ -33,7 +33,7 @@ const SlotMachineResultField = ({
       />
       <InputSelect
         notFullWidth
-        options={SlotMachineEmojis}
+        options={SLOT_MACHINE_EMOJIS}
         value={value[1]}
         multi={false}
         disableClearable={true}
@@ -41,7 +41,7 @@ const SlotMachineResultField = ({
       />
       <InputSelect
         notFullWidth
-        options={SlotMachineEmojis}
+        options={SLOT_MACHINE_EMOJIS}
         value={value[2]}
         multi={false}
         disableClearable={true}

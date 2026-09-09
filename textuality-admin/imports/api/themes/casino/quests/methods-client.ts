@@ -5,7 +5,7 @@ import Events from '/imports/api/events';
 import Players from '/imports/api/players';
 import {
   SlotMachine,
-  SlotMachineEmojis,
+  SLOT_MACHINE_EMOJIS,
   SlotMachineOdds,
   SlotMachineResult,
 } from '/imports/schemas/slotMachine';

@@ -21,10 +21,6 @@ import {
 } from './methods/autoTexts.sendBroadcast';
 
 Meteor.methods({
-  'autoTexts.send': async (args: AutoTextSendArgs) => {
-    await sendAutoText(args);
-  },
-
   'autoTexts.sendStatus': async ({ playerId }) => {
     const player = await Players.findOneAsync(playerId);
     if (!player) return;

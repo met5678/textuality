@@ -1,4 +1,4 @@
-import processBetText from './process-bet-text';
+import { processSlotText } from './process-slot-text';
 import { PlayerWithHelpers } from '/imports/api/players/players';
 import { InText } from '/imports/schemas/inText';
 
@@ -6,8 +6,9 @@ export const processCasinoText = async (
   inText: InText,
   player: PlayerWithHelpers,
 ) => {
-  if (inText.purpose === 'bet') {
-    return processBetText(inText, player);
+  if (inText.purpose === 'slot') {
+    // return processBetText(inText, player);
+    return processSlotText(inText, player);
   }
 
   return;

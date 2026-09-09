@@ -16,7 +16,7 @@ const INTEXT_PURPOSES_BASE = [
 ] as const;
 type InTextPurposeBase = (typeof INTEXT_PURPOSES_BASE)[number];
 
-const INTEXT_PURPOSES_CASINO = ['bet'] as const;
+const INTEXT_PURPOSES_CASINO = ['slot', 'roulette', 'roulette-step'] as const;
 type InTextPurposeCasino = (typeof INTEXT_PURPOSES_CASINO)[number];
 
 const INTEXT_PURPOSES_DERBY = ['teller', 'bet-step', 'fortune-step'] as const;

@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Button, Paper, Typography } from '@mui/material';
 import { HTMLFieldProps, connectField } from 'uniforms';
 import {
-  SlotMachineEmojis,
+  SLOT_MACHINE_EMOJIS,
   SlotMachineOdds,
 } from '/imports/schemas/slotMachine';
 import InputSlider from '/imports/ui/generic/InputSlider/InputSlider';
@@ -101,9 +101,9 @@ const SlotMachineOddsField = ({
               ...value,
               {
                 result: [
-                  SlotMachineEmojis[0],
-                  SlotMachineEmojis[0],
-                  SlotMachineEmojis[0],
+                  SLOT_MACHINE_EMOJIS[0],
+                  SLOT_MACHINE_EMOJIS[0],
+                  SLOT_MACHINE_EMOJIS[0],
                 ],
                 payout_multiplier: 1,
                 odds: 0,

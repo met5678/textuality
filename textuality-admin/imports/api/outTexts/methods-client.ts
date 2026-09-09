@@ -50,8 +50,7 @@ Meteor.methods({
       interactive: interactivePayload,
     };
 
-    // TODO: TURN THIS BACK ON WHEN WE WANT TO TEXT AGAIN
-    // await OutTexts.insertAsync(outText);
+    await OutTexts.insertAsync(outText);
   },
 
   'outTexts.updateStatus': async (

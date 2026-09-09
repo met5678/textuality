@@ -5,7 +5,7 @@ import Events from '/imports/api/events';
 import Players from '/imports/api/players';
 import {
   SlotMachine,
-  SlotMachineEmojis,
+  SLOT_MACHINE_EMOJIS,
   SlotMachineOdds,
   SlotMachineResult,
 } from '/imports/schemas/slotMachine';
@@ -315,14 +315,14 @@ const getRandomInt = (min: number, max: number): number => {
 };
 
 const getRandomLosingResult = (): SlotMachineResult => {
-  const randIdx1 = getRandomInt(0, SlotMachineEmojis.length - 1);
-  const randIdx2 = getRandomInt(0, SlotMachineEmojis.length - 1);
-  const randIdx3 = (randIdx2 + 1) % SlotMachineEmojis.length;
+  const randIdx1 = getRandomInt(0, SLOT_MACHINE_EMOJIS.length - 1);
+  const randIdx2 = getRandomInt(0, SLOT_MACHINE_EMOJIS.length - 1);
+  const randIdx3 = (randIdx2 + 1) % SLOT_MACHINE_EMOJIS.length;
 
   return [
-    SlotMachineEmojis[randIdx1],
-    SlotMachineEmojis[randIdx2],
-    SlotMachineEmojis[randIdx3],
+    SLOT_MACHINE_EMOJIS[randIdx1],
+    SLOT_MACHINE_EMOJIS[randIdx2],
+    SLOT_MACHINE_EMOJIS[randIdx3],
   ];
 };
 

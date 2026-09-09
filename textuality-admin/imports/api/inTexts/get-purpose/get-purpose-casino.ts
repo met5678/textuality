@@ -1,12 +1,19 @@
-import { InTextPurpose } from '/imports/schemas/inText';
+import { InTextPurposeBase, InTextPurposeCasino } from '/imports/schemas/inText';
 import { GetPurposeArgs } from './get-purpose';
 
 export const getPurposeCasino = ({
   message,
-  player,
-}: GetPurposeArgs): InTextPurpose | undefined => {
+}: GetPurposeArgs): (InTextPurposeCasino | InTextPurposeBase) | undefined => {
+  if (message.interactive && message.interactive.value.startsWith('roulette/')) {
+    return 'roulette-step';
+  }
+
   if (message.text && message.text.startsWith('!')) {
-    return 'bet';
+    if (message.text.toLowerCase().startsWith('!bet')) {
+      return 'roulette';
+    }
+
+    return 'slot';
   }
 
   return undefined;

@@ -5,6 +5,7 @@ import { sendMessage } from '/imports/services/whatsapp/index';
 import OutTexts from '/imports/api/outTexts';
 import { DB_ENV } from './env-vars';
 import { OutgoingMessageData } from '/imports/services/whatsapp/wa-types';
+import { receiveInText } from '/imports/api/inTexts/methods/inTexts.receive';
 
 let observeHandle: Meteor.LiveQueryHandle | null = null;
 let hasStartedUp = false;
@@ -17,7 +18,7 @@ const initializeWhatsappHandler = async () => {
   }
 
   onReceive((message: IncomingMessageData) => {
-    Meteor.call('inTexts.receive', message);
+    receiveInText(message);
   });
 
   // This is mostly to give us read receipts for messages we send.

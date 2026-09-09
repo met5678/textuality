@@ -1,7 +1,7 @@
 import { getPurposeCasino } from './get-purpose-casino';
 import { getPurposeDerby } from './get-purpose-derby';
 import { EventTheme } from '/imports/schemas/event';
-import { InText, InTextPurpose } from '/imports/schemas/inText';
+import { InTextPurpose } from '/imports/schemas/inText';
 import { Player } from '/imports/schemas/player';
 import { IncomingMessageData } from '/imports/services/whatsapp';
 

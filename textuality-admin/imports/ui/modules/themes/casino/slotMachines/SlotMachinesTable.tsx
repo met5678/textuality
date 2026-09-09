@@ -65,13 +65,13 @@ const columns: GridColDef<SlotMachineWithHelpers>[] = [
   {
     field: 'stats.spin_count',
     headerName: 'Spins',
-    valueGetter: (value: SlotMachineWithHelpers['stats']) => value.spin_count,
+    valueGetter: (value: SlotMachineWithHelpers['stats']) => value,
     width: 60,
   },
   {
     field: 'stats.profit',
     headerName: 'Profit',
-    valueGetter: (value: SlotMachineWithHelpers['stats']) => value.profit,
+    valueGetter: (value: SlotMachineWithHelpers['stats']) => value,
     width: 60,
   },
 ];

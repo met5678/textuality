@@ -1,18 +1,29 @@
 import SimpleSchema from 'simpl-schema';
 
 import Events from '/imports/api/events';
-import { Event, EventId } from './event';
+import { EventId } from './event';
 import { PlayerId } from './player';
 
-const SlotMachineEmojis: SlotMachineEmoji[] = [
+export const SLOT_MACHINE_STATUSES = [
+  'available',
+  'spinning',
+  'lose',
+  'win-normal',
+  'win-hacker-partial',
+  'win-hacker-final',
+  'disabled',
+] as const;
+export type SlotMachineStatus = (typeof SLOT_MACHINE_STATUSES)[number];
+
+export const SLOT_MACHINE_EMOJIS = [
   '🍒',
   '💣',
   '💦',
   '🍆',
   '🍑',
   '🥴',
-];
-type SlotMachineEmoji = '🍒' | '💣' | '💦' | '🍆' | '🍑' | '🥴';
+] as const;
+export type SlotMachineEmoji = (typeof SLOT_MACHINE_EMOJIS)[number];
 
 const resultSchemaFields = {
   result: {
@@ -23,19 +34,30 @@ const resultSchemaFields = {
   },
   'result.$': {
     type: String,
-    allowedValues: SlotMachineEmojis,
+    allowedValues: [...SLOT_MACHINE_EMOJIS],
   },
 };
 
-const SlotMachineOddsSchema = new SimpleSchema({
+export const SlotMachineOddsSchema = new SimpleSchema({
   ...resultSchemaFields,
   payout_multiplier: SimpleSchema.Integer,
   odds: Number,
 });
 
-type SlotMachineResult = [SlotMachineEmoji, SlotMachineEmoji, SlotMachineEmoji];
+export type SlotMachineResult = [
+  SlotMachineEmoji,
+  SlotMachineEmoji,
+  SlotMachineEmoji,
+];
 
-const SlotMachineSchema = new SimpleSchema({
+export const SlotPlayerSchema = new SimpleSchema({
+  id: String,
+  alias: String,
+  money: SimpleSchema.Integer,
+  avatar_id: String,
+});
+
+export const SlotMachineSchema = new SimpleSchema({
   event: {
     type: String,
     allowedValues: Events.allIds,
@@ -46,15 +68,7 @@ const SlotMachineSchema = new SimpleSchema({
   cost: SimpleSchema.Integer,
   status: {
     type: String,
-    allowedValues: [
-      'available',
-      'spinning',
-      'lose',
-      'win-normal',
-      'win-hacker-partial',
-      'win-hacker-final',
-      'disabled',
-    ],
+    allowedValues: [...SLOT_MACHINE_STATUSES],
     defaultValue: 'available',
   },
   ...resultSchemaFields,
@@ -63,18 +77,9 @@ const SlotMachineSchema = new SimpleSchema({
     optional: true,
   },
   player: {
-    type: Object,
+    type: SlotPlayerSchema,
     optional: true,
   },
-  'player.id': String,
-  'player.alias': String,
-  'player.money': SimpleSchema.Integer,
-  'player.avatar_id': String,
-  // player_queue: {
-  //   type: Array,
-  //   defaultValue: [],
-  // },
-  // 'player_queue.$': PlayerShort,
 
   odds: {
     type: Array,
@@ -93,36 +98,27 @@ const SlotMachineSchema = new SimpleSchema({
   'stats.profit': SimpleSchema.Integer,
 });
 
-type SlotMachineStatus =
-  | 'available'
-  | 'spinning'
-  | 'lose'
-  | 'win-normal'
-  | 'win-hacker-partial'
-  | 'win-hacker-final'
-  | 'disabled';
-
-interface PlayerShort {
+export type SlotPlayer = {
   id: PlayerId;
   alias: string;
   money: number;
   avatar_id: string;
-}
+};
 
-interface SlotMachineStats {
+export type SlotMachineStats = {
   spin_count: number;
   profit: number;
-}
+};
 
-interface SlotMachineOdds {
+export type SlotMachineOdds = {
   result: SlotMachineResult;
   payout_multiplier: number;
   odds: number;
-}
+};
 
 export type SlotMachineId = string;
 
-interface SlotMachine {
+export type SlotMachine = {
   _id: SlotMachineId;
   event: EventId;
   code: string;
@@ -134,20 +130,8 @@ interface SlotMachine {
   status: SlotMachineStatus;
   result?: SlotMachineResult;
   win_amount?: number;
-  player?: PlayerShort;
+  player?: SlotPlayer;
   stats: SlotMachineStats;
-  // player_queue: PlayerShort[];
-}
+};
 
 export default SlotMachineSchema;
-export {
-  SlotMachineSchema,
-  SlotMachine,
-  SlotMachineEmoji,
-  SlotMachineResult,
-  SlotMachineOdds,
-  SlotMachineStatus,
-  SlotMachineStats,
-  SlotMachineEmojis,
-  resultSchemaFields,
-};

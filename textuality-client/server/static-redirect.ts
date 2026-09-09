@@ -13,7 +13,7 @@ const STATIC_PREFIXES = [
   '/clue-cards/',
 ]; // Adjust as needed
 const STATIC_BASE_URL = String(
-  Meteor.settings.public?.STATIC_ASSETS_BASE_URL || '',
+  Meteor.settings.public?.staticBaseUrl || '',
 ).replace(/\/$/, '');
 
 if (Meteor.isProduction && STATIC_BASE_URL) {

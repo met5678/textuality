@@ -41,11 +41,20 @@ export const rouletteBetProcessWager = async ({
     }
 
     // If somebody tries a negative wager, give them a reward
+    // the first time. Subsequent times it's just a cute error.
+    // In either case, it won't be accepted and they need to
+    // do a valid one.
     if (wager < 0) {
-      await tryUnlockAchievement({
+      const firstTime = await tryUnlockAchievement({
         playerId: player._id,
         trigger: 'ROULETTE_NEGATIVE_WAGER',
       });
+      if (!firstTime) {
+        sendAutoText({
+          playerId: player._id,
+          trigger: 'ROULETTE_BET_ASK_WAGER_NEGATIVE',
+        });
+      }
       return;
     }
   }

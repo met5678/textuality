@@ -26,7 +26,7 @@ const getSpecialOptions = (rouletteBet: RouletteBetWithHelpers) => {
       value: `rouletteBet/${rouletteBet._id}/${rouletteBet.step}/black`,
     },
     {
-      label: 'Cancel',
+      label: 'Cancel Bet',
       value: `rouletteBet/${rouletteBet._id}/cancel`,
     },
   ];

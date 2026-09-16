@@ -56,6 +56,15 @@ export const rouletteBetPlaceBet = async ({
   sendAutoText({
     trigger: 'ROULETTE_BET_PLACED',
     playerId: player._id,
+    interactivePayload: {
+      type: 'buttons',
+      options: [
+        {
+          label: 'Bet Again',
+          value: `rouletteBet/${rouletteBet._id}/again`,
+        },
+      ],
+    },
     templateVars: {
       bet_slot: rouletteBet.bet_slot,
       wager: rouletteBet.wager,

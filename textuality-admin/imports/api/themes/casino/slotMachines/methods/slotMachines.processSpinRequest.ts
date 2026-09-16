@@ -5,15 +5,31 @@ import {
   SlotMachine,
   SLOT_MACHINE_EMOJIS,
   SlotMachineResult,
+  SlotMachineStatus,
 } from '/imports/schemas/slotMachine';
 import { waitForSeconds } from '/imports/utils/async-wait-for';
 import { sendAutoText } from '/imports/api/autoTexts/methods/autoTexts.send';
+import { playerGiveMoney } from '/imports/api/players/methods/players.giveMoney';
+import { AutoTextCasinoTrigger } from '/imports/schemas/autoText';
+import { playerTakeMoney } from '/imports/api/players/methods/players.takeMoney';
+import { getSlotRespinInteractive } from '../utils/get-slot-respin-interactive';
+import {
+  cancelAndDeleteTimeout,
+  throwIfCancelledTimeout,
+  TimeoutError,
+} from '../spin-sequence/_slot-timeouts';
 
 type SlotMachineResultWithPayout = {
   result: SlotMachineResult;
   win: boolean;
   payout_multiplier: number;
 };
+
+const SLOT_STATUS_ALLOWING_SPINS: SlotMachineStatus[] = [
+  'available',
+  'lose',
+  'win-normal',
+];
 
 const generateResult = (
   slotMachine: SlotMachine,
@@ -56,7 +72,9 @@ const getRandomLosingResult = (): SlotMachineResult => {
   ];
 };
 
-const getAutotextWinTriggerForPayout = (payout_multiplier: number): string => {
+const getAutotextWinTriggerForPayout = (
+  payout_multiplier: number,
+): AutoTextCasinoTrigger => {
   if (payout_multiplier >= 10) return 'SLOT_WIN_BIG';
   if (payout_multiplier >= 4) return 'SLOT_WIN_MEDIUM';
   return 'SLOT_WIN_SMALL';
@@ -65,11 +83,9 @@ const getAutotextWinTriggerForPayout = (payout_multiplier: number): string => {
 export const processSlotSpinRequest = async ({
   slot_id,
   player_id,
-  inText_id,
 }: {
   slot_id: string;
   player_id: string;
-  inText_id: string;
 }) => {
   const slotMachine = await SlotMachines.findOneAsync(slot_id);
   const player = await Players.findOneAsync(player_id);
@@ -78,7 +94,7 @@ export const processSlotSpinRequest = async ({
     return;
   }
 
-  if (slotMachine.status !== 'available') {
+  if (!SLOT_STATUS_ALLOWING_SPINS.includes(slotMachine.status)) {
     const templateVars: Record<string, string> = {
       slot_name: slotMachine.name,
     };
@@ -120,7 +136,11 @@ export const processSlotSpinRequest = async ({
     return;
   }
 
-  Meteor.call('players.takeMoney', {
+  // This spin has been accepted, so prevent the previous result screen from
+  // clearing this spin when its timeout finishes.
+  cancelAndDeleteTimeout(slot_id);
+
+  playerTakeMoney({
     playerId: player_id,
     money: slotMachine.cost,
   });
@@ -164,7 +184,7 @@ export const processSlotSpinRequest = async ({
     },
   };
 
-  Meteor.call('autoTexts.send', {
+  sendAutoText({
     trigger: 'SLOT_SPIN',
     playerId: player_id,
     templateVars: {
@@ -172,25 +192,28 @@ export const processSlotSpinRequest = async ({
     },
   });
   Meteor.call('players.recordSlotSpin', { player_id, slot_id, win_amount });
-  SlotMachines.update(slot_id, { $set: slotMachineUpdate });
+  await SlotMachines.updateAsync(slot_id, { $set: slotMachineUpdate });
   await waitForSeconds(5);
 
+  let resultScreenDuration: number;
+
   if (win) {
-    SlotMachines.update(slot_id, {
+    await SlotMachines.updateAsync(slot_id, {
       $set: {
         status: 'win-normal',
         'player.money': player.money - slotMachine.cost + win_amount,
       },
     });
-    Meteor.call('players.giveMoney', {
+    playerGiveMoney({
       playerId: player_id,
       money: win_amount,
     });
 
     const trigger = getAutotextWinTriggerForPayout(payout_multiplier);
-    Meteor.call('autoTexts.send', {
+    sendAutoText({
       trigger,
       playerId: player_id,
+      interactivePayload: getSlotRespinInteractive(slotMachine._id),
       templateVars: {
         slot_name: slotMachine.name,
         slot_cost: slotMachine.cost.toString(),
@@ -198,19 +221,27 @@ export const processSlotSpinRequest = async ({
         slot_result: result.join('-'),
       },
     });
-    await waitForSeconds(7);
+    resultScreenDuration = 7;
   } else {
-    SlotMachines.update(slot_id, { $set: { status: 'lose' } });
-    Meteor.call('autoTexts.send', {
+    await SlotMachines.updateAsync(slot_id, { $set: { status: 'lose' } });
+    sendAutoText({
       trigger: 'SLOT_LOSE',
       playerId: player_id,
+      interactivePayload: getSlotRespinInteractive(slotMachine._id),
       templateVars: {
         slot_name: slotMachine.name,
         slot_cost: slotMachine.cost.toString(),
         slot_result: result.join('-'),
       },
     });
-    await waitForSeconds(4);
+    resultScreenDuration = 4;
+  }
+
+  try {
+    await throwIfCancelledTimeout(slot_id, resultScreenDuration);
+  } catch (error) {
+    if (error === TimeoutError) return;
+    throw error;
   }
 
   await SlotMachines.updateAsync(slot_id, {

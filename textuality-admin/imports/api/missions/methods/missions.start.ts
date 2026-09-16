@@ -1,4 +1,3 @@
-import { Meteor } from 'meteor/meteor';
 import { sendAutoText } from '../../autoTexts/methods/autoTexts.send';
 import shuffle from 'shuffle-array';
 import superb from 'superb';
@@ -10,7 +9,6 @@ import { MissionId } from '/imports/schemas/mission';
 import { sendCustomAutoText } from '../../autoTexts/methods/autoTexts.sendCustom';
 import { EventId } from '/imports/schemas/event';
 import { getWrappedServerMethod } from '/imports/utils/get-wrapped-server-method';
-import { missionEnd } from './missions.end';
 
 const getEligiblePlayers = async (eventId: EventId) => {
   return Players.find({
@@ -21,8 +19,6 @@ const getEligiblePlayers = async (eventId: EventId) => {
 
 const aToZ = /^[a-z]+$/;
 const elegibleHashtags = superb.all.filter((word) => aToZ.test(word));
-
-let currentTimeout: number | null = null;
 
 export const missionStart = async (missionId: MissionId) => {
   const eventId = await Events.currentIdOrThrowAsync();
@@ -65,9 +61,12 @@ export const missionStart = async (missionId: MissionId) => {
   }
 
   await Promise.all(pairingsToAwait);
+
   const pairings = await MissionPairings.find({
     mission: missionId,
   }).fetchAsync();
+
+  console.log({ pairings });
 
   pairings.forEach((pairing) => {
     if (mission.missionPlayerAText && mission.missionPlayerAText.length) {
@@ -112,12 +111,6 @@ export const missionStart = async (missionId: MissionId) => {
       timeEnd: new Date(Date.now() + 1000 * 60 * mission.minutes),
     },
   });
-
-  if (currentTimeout) Meteor.clearTimeout(currentTimeout);
-  currentTimeout = Meteor.setTimeout(
-    () => missionEnd(mission._id),
-    1000 * 60 * mission.minutes,
-  );
 };
 
 export const missionStartMethod = getWrappedServerMethod(

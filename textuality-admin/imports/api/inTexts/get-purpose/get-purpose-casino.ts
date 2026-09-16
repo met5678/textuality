@@ -11,11 +11,13 @@ export const getPurposeCasino = async ({
 }: GetPurposeArgs): Promise<
   (InTextPurposeCasino | InTextPurposeBase) | undefined
 > => {
-  if (
-    message.interactive &&
-    message.interactive.value.startsWith('rouletteBet/')
-  ) {
-    return 'roulette-step';
+  if (message.interactive) {
+    if (message.interactive.value.startsWith('rouletteBet/')) {
+      return 'roulette-step';
+    }
+    if (message.interactive.value.startsWith('slotMachine/')) {
+      return 'slot';
+    }
   }
 
   if (message.text && message.text.startsWith('!')) {

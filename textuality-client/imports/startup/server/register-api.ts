@@ -36,6 +36,7 @@ import '/imports/api/achievementUnlocks/server/publications-client';
 import '/imports/api/missions/';
 import '/imports/api/missions/methods-client';
 import '/imports/api/missions/server/publications-client';
+import '/imports/api/missions/server/mission-scheduler';
 
 import '/imports/api/missionPairings/';
 import '/imports/api/missionPairings/methods-client';

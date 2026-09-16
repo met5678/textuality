@@ -1,12 +1,10 @@
 import { sendAutoText } from '/imports/api/autoTexts/methods/autoTexts.send';
 import { PlayerWithHelpers } from '/imports/api/players/players';
 import { RouletteBetWithHelpers } from '../rouletteBets';
-import { RouletteWithHelpers } from '../../roulettes/roulettes';
 
 type RouletteBetAskTypeArgs = {
   player: PlayerWithHelpers;
   rouletteBet: RouletteBetWithHelpers;
-  roulette: RouletteWithHelpers;
 };
 
 const getBetTypeOptions = (rouletteBet: RouletteBetWithHelpers) => {

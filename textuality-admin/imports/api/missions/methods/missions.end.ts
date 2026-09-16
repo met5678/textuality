@@ -6,6 +6,7 @@ import { MissionId } from '/imports/schemas/mission';
 import { getWrappedServerMethod } from '/imports/utils/get-wrapped-server-method';
 
 export const missionEnd = async (missionId: MissionId) => {
+  console.log('ending mission');
   const mission = await Missions.findOneAsync(missionId);
   if (!mission || !mission.active) return;
   await Missions.updateAsync(missionId, {

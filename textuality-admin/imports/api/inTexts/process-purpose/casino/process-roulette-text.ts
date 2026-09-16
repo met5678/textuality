@@ -7,12 +7,8 @@ import { getPendingRouletteBet } from '/imports/api/themes/casino/rouletteBets/m
 import { rouletteBetStartBet } from '/imports/api/themes/casino/rouletteBets/methods/rouletteBet.startBet';
 import { roulettesFindCurrent } from '/imports/api/themes/casino/roulettes/methods/roulettes.findCurrent';
 import { roulettesFindNext } from '/imports/api/themes/casino/roulettes/methods/roulettes.findNext';
-import { InText } from '/imports/schemas/inText';
 
-export const processRouletteText = async (
-  inText: InText,
-  player: PlayerWithHelpers,
-) => {
+export const processRouletteText = async (player: PlayerWithHelpers) => {
   const curRoulette = await roulettesFindCurrent();
   if (!curRoulette) {
     const nextRoulette = await roulettesFindNext();
@@ -65,7 +61,6 @@ export const processRouletteText = async (
     const rouletteBet = await RouletteBets.findOneAsync(pendingBet._id);
     rouletteBetAskType({
       player,
-      roulette: curRoulette,
       rouletteBet: rouletteBet!,
     }); // Start a roulette betting session for the player
   } else {
@@ -78,6 +73,6 @@ export const processRouletteText = async (
       throw new Error('Failed to start roulette bet');
     }
 
-    rouletteBetAskType({ player, roulette: curRoulette, rouletteBet }); // Start a roulette betting session for the player
+    rouletteBetAskType({ player, rouletteBet }); // Start a roulette betting session for the player
   }
 };

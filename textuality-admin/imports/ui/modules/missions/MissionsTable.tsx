@@ -8,8 +8,8 @@ import { DateTime } from 'luxon';
 import Table from '../../generic/Table/Table';
 import MissionFormDialog from './MissionFormDialog';
 import { useTableCollectionProps } from '/imports/utils/get-table-collection-props';
-import { missionStart } from '/imports/api/missions/methods/missions.start';
-import { missionEnd } from '/imports/api/missions/methods/missions.end';
+import { missionStartMethod } from '/imports/api/missions/methods/missions.start';
+import { missionEndMethod } from '/imports/api/missions/methods/missions.end';
 
 const columns: GridColDef<Mission>[] = [
   {
@@ -84,7 +84,7 @@ const MissionsTable = () => {
             <GridActionsCellItem
               showInMenu={true}
               onClick={() =>
-                missionStart(params.row._id)
+                missionStartMethod(params.row._id)
               }
               label="Start Mission"
             />
@@ -93,7 +93,7 @@ const MissionsTable = () => {
             <GridActionsCellItem
               showInMenu={true}
               onClick={() =>
-                missionEnd(params.row._id)
+                missionEndMethod(params.row._id)
               }
               label="End Mission"
             />

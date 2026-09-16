@@ -44,7 +44,7 @@ export const doClassicBet = async ({
   if (betWager === 0) {
     sendAutoText({
       playerId: player._id,
-      trigger: 'ROULTTE_BET_ASK_WAGER_ZERO',
+      trigger: 'ROULETTE_BET_ASK_WAGER_ZERO',
     });
     return;
   }

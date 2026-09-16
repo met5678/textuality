@@ -1,9 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import Events from '../../events';
 import Missions from '../missions';
-import { missionStart } from '../methods/missions.start';
 import { missionEnd } from '../methods/missions.end';
-import { DateTime } from 'luxon';
 
 const scheduleMissions = async () => {
   let isRunningTick = false;
@@ -11,41 +9,16 @@ const scheduleMissions = async () => {
   const tickMissions = async () => {
     const eventMissions = await Missions.find({
       event: await Events.currentIdOrThrowAsync(),
+      active: true,
+      timeStart: { $exists: true },
     }).fetchAsync();
 
     for (const mission of eventMissions) {
-      const timeStart = mission.timeStart;
-      const timeEnd = mission.timeStart
-        ? DateTime.fromJSDate(mission.timeStart)
-            .plus({ minutes: mission.minutes })
-            .toJSDate()
-        : undefined;
-
-      if (!timeStart) {
-        return;
-      }
-      // Mission hasn't started yet
-      if (new Date() < timeStart) {
-        if (mission.active) {
-          // Probably shouldn't be here, but reset misssion and pairings
-        }
-        return;
-      }
-
-      if (!timeEnd) {
-        return;
-      }
-      // Mission is active
-      if (new Date() < timeEnd) {
-        if (!mission.active) {
-          await missionStart(mission._id);
-        }
-      }
-      // Mission is in the past
-      if (new Date() >= timeEnd) {
-        if (mission.active) {
-          await missionEnd(mission._id);
-        }
+      if (
+        mission.timeStart &&
+        Date.now() > mission.timeStart.getTime() + mission.minutes * 60 * 1000
+      ) {
+        await missionEnd(mission._id);
       }
     }
   };
@@ -53,8 +26,13 @@ const scheduleMissions = async () => {
   Meteor.setInterval(async () => {
     if (!isRunningTick) {
       isRunningTick = true;
-      await tickMissions();
-      isRunningTick = false;
+      try {
+        await tickMissions();
+      } catch (error) {
+        console.error('Mission scheduler tick failed', error);
+      } finally {
+        isRunningTick = false;
+      }
     }
   }, 1000);
 };

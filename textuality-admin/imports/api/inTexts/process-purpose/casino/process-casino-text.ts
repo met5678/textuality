@@ -19,7 +19,7 @@ export const processCasinoText = async (
     return processSlotText(inText, player);
   } else if (inText.purpose === 'roulette') {
     // return processBetText(inText, player);
-    return processRouletteText(inText, player);
+    return processRouletteText(player);
   } else if (inText.purpose === 'roulette-step') {
     return processRouletteBetStepText(inText, player);
   }

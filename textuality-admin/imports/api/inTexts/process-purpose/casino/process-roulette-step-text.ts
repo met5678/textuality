@@ -9,6 +9,7 @@ import { rouletteBetProcessNumber } from '/imports/api/themes/casino/rouletteBet
 import { rouletteBetProcessWager } from '/imports/api/themes/casino/rouletteBets/methods/rouletteBet.processWager';
 import Roulettes from '/imports/api/themes/casino/roulettes';
 import { rouletteBetProcessSpecial } from '/imports/api/themes/casino/rouletteBets/methods/rouletteBet.processSpecial';
+import { processRouletteText } from './process-roulette-text';
 
 const getNormalizedTextData = async (
   inText: InText,
@@ -52,6 +53,12 @@ export const processRouletteBetStepText = async (
 
   if (!rouletteBet) {
     throw new Error('Roulette bet not found, this should not happen');
+  }
+
+  if (step === 'again') {
+    // This is the easiest way to pretend it's a new roulette bet
+    await processRouletteText(player);
+    return;
   }
 
   if (rouletteBet.status.startsWith('cancelled')) {

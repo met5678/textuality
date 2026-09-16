@@ -1,12 +1,18 @@
 import SlotMachines from '../slotMachines';
 import Events from '/imports/api/events';
+import { getWrappedServerMethod } from '/imports/utils/get-wrapped-server-method';
 
-export const getSlotMachineForShortCode = async (short: string) => {
+export const getSlotMachineForShort = async (short: string) => {
   short = short.toLowerCase();
   const slotMachine = await SlotMachines.findOneAsync({
-    event: Events.currentId()!,
+    event: await Events.currentIdOrThrowAsync(),
     short,
   });
   if (!slotMachine) return;
   return slotMachine;
 };
+
+export const getSlotMachineForShortMethod = getWrappedServerMethod(
+  'slotMachines.getForShort',
+  getSlotMachineForShort,
+);

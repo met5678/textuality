@@ -13,14 +13,18 @@ export interface GetPurposeArgs {
 
 const getPurposeByTheme: Record<
   EventTheme,
-  (args: GetPurposeArgs) => InTextPurpose | undefined
+  (args: GetPurposeArgs) => Promise<InTextPurpose | undefined>
 > = {
   derby: getPurposeDerby,
   casino: getPurposeCasino,
-  clue: () => undefined,
+  clue: () => Promise.resolve(undefined),
 };
 
-function getPurpose({ message, player, theme }: GetPurposeArgs): InTextPurpose {
+export const getPurpose = async ({
+  message,
+  player,
+  theme,
+}: GetPurposeArgs): Promise<InTextPurpose> => {
   if (player.status === 'new' || player.status === 'tentative') {
     return 'initial';
   }
@@ -40,13 +44,13 @@ function getPurpose({ message, player, theme }: GetPurposeArgs): InTextPurpose {
   }
 
   if (getPurposeByTheme[theme]) {
-    const purpose = getPurposeByTheme[theme]({ message, player, theme });
+    const purpose = await getPurposeByTheme[theme]({ message, player, theme });
     if (purpose) {
       return purpose;
     }
   }
 
   return 'unknown';
-}
+};
 
 export default getPurpose;

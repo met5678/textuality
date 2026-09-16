@@ -1,0 +1,1 @@
+import './methods/inTexts.receive';

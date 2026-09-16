@@ -11,10 +11,7 @@ import {
   capitalizeFirstLetter,
   capitalizeFirstLetterOnly,
 } from '/imports/utils/capitalize-first-letter';
-import {
-  TELLER_FORTUNE_AVAILABLE_STATUSES,
-  TELLER_FORTUNE_STATUSES,
-} from '/imports/schemas/derby/teller-status/teller-status';
+import { TELLER_FORTUNE_AVAILABLE_STATUSES } from '/imports/schemas/derby/teller-status/teller-status';
 import { fortuneTellerCodeExists } from '/imports/api/themes/derby/tellers/fortune-teller-flow/teller.fortune.getCode';
 import { raceBetStartBet } from '/imports/api/themes/derby/raceBets/methods/raceBet.startBet';
 import { fortuneStartFortune } from '/imports/api/themes/derby/fortunes/methods/fortune.startFortune';

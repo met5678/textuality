@@ -10,7 +10,7 @@ export const DERBY_AWARDS = [
 ] as const;
 export type DERBY_AWARD = (typeof DERBY_AWARDS)[number];
 
-const ACHIEVEMENT_TRIGGERS = [
+export const ACHIEVEMENT_TRIGGERS = [
   'CHECKPOINT_FOUND',
   'CHECKPOINT_GROUP_COMPLETE',
   'CHECKPOINT_GROUP_FOUND_N',
@@ -24,14 +24,16 @@ const ACHIEVEMENT_TRIGGERS = [
   'SLOT_WIN_HACKER',
   'SLOT_SPIN_ALL',
 
+  'ROULETTE_NEGATIVE_WAGER',
+
   'JOINED',
   'REJOINED',
 
   'BANKRUPT',
 ] as const;
-type AchievementTrigger = (typeof ACHIEVEMENT_TRIGGERS)[number];
+export type AchievementTrigger = (typeof ACHIEVEMENT_TRIGGERS)[number];
 
-const AchievementSchema = new SimpleSchema({
+export const AchievementSchema = new SimpleSchema({
   event: {
     type: String,
     allowedValues: Events.allIds,
@@ -87,7 +89,7 @@ const AchievementSchema = new SimpleSchema({
 
 export type AchievementId = string;
 
-interface Achievement {
+export type Achievement = {
   _id: AchievementId;
   event: EventId;
   name: string;
@@ -102,8 +104,6 @@ interface Achievement {
 
   hide_from_screen: boolean;
   earned: number;
-}
+};
 
 export default AchievementSchema;
-export { AchievementSchema, ACHIEVEMENT_TRIGGERS };
-export type { Achievement, AchievementTrigger };

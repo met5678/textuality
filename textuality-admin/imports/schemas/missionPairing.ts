@@ -6,7 +6,7 @@ import { PlayerId } from './player';
 import { MissionId } from './mission';
 import { MediaId } from './media';
 
-const MissionPairingSchema = new SimpleSchema({
+export const MissionPairingSchema = new SimpleSchema({
   event: {
     type: String,
     allowedValues: Events.allIds,
@@ -31,7 +31,7 @@ const MissionPairingSchema = new SimpleSchema({
 
 export type MissionPairingId = string;
 
-interface MissionPairing {
+export type MissionPairing = {
   _id: MissionPairingId;
   event: EventId;
   mission: MissionId;
@@ -44,7 +44,6 @@ interface MissionPairing {
   hashtag: string;
   complete?: boolean;
   timeComplete?: Date;
-}
+};
 
 export default MissionPairingSchema;
-export { MissionPairing, MissionPairingSchema };

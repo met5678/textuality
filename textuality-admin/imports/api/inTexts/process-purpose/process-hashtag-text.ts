@@ -2,8 +2,10 @@ import { Meteor } from 'meteor/meteor';
 
 import { InText } from '/imports/schemas/inText';
 import { PlayerWithHelpers } from '../../players/players';
+import { sendAutoText } from '../../autoTexts/methods/autoTexts.send';
+import { missionProcessHashtag } from '../../missions/methods/missions.processHashtag';
 
-export default function (inText: InText, player: PlayerWithHelpers) {
+export default async function (inText: InText, player: PlayerWithHelpers) {
   const playerId = player._id;
 
   const firstSpace =
@@ -13,7 +15,7 @@ export default function (inText: InText, player: PlayerWithHelpers) {
   const hashtag = inText.body.substring(1, firstSpace).trim().toLowerCase();
   const rest = inText.body.substring(firstSpace);
 
-  if (Meteor.call('missions.processHashtag', { playerId, hashtag })) return;
+  if (await missionProcessHashtag({ hashtag, playerId })) return;
   if (Meteor.call('quests.processHashtag', { playerId, hashtag })) return;
 
   const checkpoint = Meteor.call('checkpoints.getForHashtag', hashtag);
@@ -24,12 +26,12 @@ export default function (inText: InText, player: PlayerWithHelpers) {
       )
     ) {
       if (checkpoint.suppress_autotext) {
-        Meteor.call('autoTexts.send', {
+        sendAutoText({
           playerId,
           trigger: 'CHECKPOINT_ALREADY_FOUND_HIDDEN',
         });
       } else {
-        Meteor.call('autoTexts.send', {
+        sendAutoText({
           playerId,
           trigger: 'CHECKPOINT_ALREADY_FOUND',
         });
@@ -41,6 +43,6 @@ export default function (inText: InText, player: PlayerWithHelpers) {
       });
     }
   } else {
-    Meteor.call('autoTexts.send', { playerId, trigger: 'INVALID_HASHTAG' });
+    sendAutoText({ playerId, trigger: 'INVALID_HASHTAG' });
   }
 }

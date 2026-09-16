@@ -3,12 +3,13 @@ import { useFind, useSubscribe } from 'meteor/react-meteor-data';
 
 import Missions from '/imports/api/missions';
 import MissionSchema, { Mission } from '/imports/schemas/mission';
-import { Meteor } from 'meteor/meteor';
 import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid';
 import { DateTime } from 'luxon';
 import Table from '../../generic/Table/Table';
 import MissionFormDialog from './MissionFormDialog';
 import { useTableCollectionProps } from '/imports/utils/get-table-collection-props';
+import { missionStart } from '/imports/api/missions/methods/missions.start';
+import { missionEnd } from '/imports/api/missions/methods/missions.end';
 
 const columns: GridColDef<Mission>[] = [
   {
@@ -83,7 +84,7 @@ const MissionsTable = () => {
             <GridActionsCellItem
               showInMenu={true}
               onClick={() =>
-                Meteor.call('missions.start', { missionId: params.row._id })
+                missionStart(params.row._id)
               }
               label="Start Mission"
             />
@@ -92,7 +93,7 @@ const MissionsTable = () => {
             <GridActionsCellItem
               showInMenu={true}
               onClick={() =>
-                Meteor.call('missions.end', { missionId: params.row._id })
+                missionEnd(params.row._id)
               }
               label="End Mission"
             />

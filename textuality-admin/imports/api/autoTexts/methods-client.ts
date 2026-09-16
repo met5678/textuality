@@ -4,21 +4,14 @@ import Events from '/imports/api/events';
 import Players from '/imports/api/players';
 import Checkpoints from '../checkpoints';
 
-import { AutoTextSendArgs, sendAutoText } from './methods/autoTexts.send';
-import {
-  AutoTextSendCustomArgs,
-  sendCustomAutoText,
-} from './methods/autoTexts.sendCustom';
+import { sendAutoText } from './methods/autoTexts.send';
 import { getPlayerPowerupSummary } from '../themes/derby/powerups/methods/powerups.getPlayerPowerupSummary';
-import {
-  racesGetCurrent,
-  racesGetCurrentSync,
-} from '../themes/derby/race/methods/races.getCurrent';
+import { racesGetCurrent } from '../themes/derby/race/methods/races.getCurrent';
 import { raceBetGetPlayerRaceBetSummary } from '../themes/derby/raceBets/methods/raceBet.getPlayerRaceBetSummary';
-import {
-  AutoTextSendBroadcastArgs,
-  sendBroadcastCustomAutoText,
-} from './methods/autoTexts.sendBroadcast';
+
+import './methods/autoTexts.send';
+import './methods/autoTexts.sendCustom';
+import './methods/autoTexts.sendBroadcast';
 
 Meteor.methods({
   'autoTexts.sendStatus': async ({ playerId }) => {
@@ -93,13 +86,5 @@ Meteor.methods({
         bet_summary: raceBetSummary,
       },
     });
-  },
-
-  'autoTexts.sendCustom': async (args: AutoTextSendCustomArgs) => {
-    await sendCustomAutoText(args);
-  },
-
-  'autoTexts.sendBroadcastCustom': async (args: AutoTextSendBroadcastArgs) => {
-    await sendBroadcastCustomAutoText(args);
   },
 });

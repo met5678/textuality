@@ -1,4 +1,4 @@
-import { Meteor } from 'meteor/meteor';
+import { sendAutoText } from '/imports/api/autoTexts/methods/autoTexts.send';
 
 const FIBONACCI = [0, 1, 2, 3, 5, 8, 13, 21, 34];
 const PRIME_NUMBERS = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31];
@@ -30,7 +30,7 @@ const sendSequenceClue = (result: number, player_id: string) => {
 
   console.log('Sending sequence clue text', clueText);
 
-  Meteor.call('autoTexts.send', {
+  sendAutoText({
     trigger: 'HACKER_ROULETTE_MATH',
     playerId: player_id,
     templateVars: {

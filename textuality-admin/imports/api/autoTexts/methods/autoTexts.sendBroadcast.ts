@@ -4,6 +4,7 @@ import {
   AutoTextSendCustomArgs,
   sendCustomAutoText,
 } from './autoTexts.sendCustom';
+import { getWrappedServerMethod } from '/imports/utils/get-wrapped-server-method';
 
 export type AutoTextSendBroadcastArgs = Omit<
   AutoTextSendCustomArgs,
@@ -33,3 +34,8 @@ export const sendBroadcastCustomAutoText = async ({
     });
   }
 };
+
+export const sendBroadcastCustomAutoTextMethod = getWrappedServerMethod(
+  'autoTexts.sendBroadcast',
+  sendBroadcastCustomAutoText,
+);

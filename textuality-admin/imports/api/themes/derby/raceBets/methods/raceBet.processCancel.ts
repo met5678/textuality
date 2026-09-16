@@ -1,6 +1,4 @@
-import { RaceWithHelpers } from '../../race/races';
 import RaceBets, { RaceBetWithHelpers } from '../raceBets';
-import { raceBetAskHorse } from './raceBet.askHorse';
 import { sendAutoText } from '/imports/api/autoTexts/methods/autoTexts.send';
 import { PlayerWithHelpers } from '/imports/api/players/players';
 

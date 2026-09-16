@@ -5,6 +5,9 @@ import Events from '/imports/api/events';
 import { Player, PlayerId } from '/imports/schemas/player';
 import { raceAwardLogicClue } from '../themes/derby/race/logic-clues/races.awardLogicClue';
 
+import './methods/players.giveMoney';
+import './methods/players.takeMoney';
+
 Meteor.methods({
   'players.findOrJoin': async (
     phoneNumber: string,
@@ -93,36 +96,6 @@ Meteor.methods({
 
   'players.setCheckpoints': ({ playerId, checkpoints }) => {
     Players.update(playerId, { $set: { checkpoints } });
-  },
-
-  'players.giveMoney': ({ playerId, money }) => {
-    Players.update(playerId, { $inc: { money } });
-  },
-
-  'players.takeMoney': ({ playerId, money }) => {
-    const player = Players.findOne(playerId);
-    if (!player) return;
-    if (money > player.money) {
-      Players.update(playerId, { $set: { money: 0 } });
-      player.money = 0;
-    } else {
-      Players.update(playerId, { $inc: { money: -money } });
-      player.money -= money;
-    }
-
-    if (player.money === 0) {
-      if (
-        !Meteor.call('achievements.tryUnlock', {
-          trigger: 'BANKRUPT',
-          playerId: player._id,
-        })
-      ) {
-        Meteor.call('autoTexts.send', {
-          trigger: 'WALLET_BANKRUPT',
-          playerId: player._id,
-        });
-      }
-    }
   },
 
   'players.recordSlotSpin': ({ player_id, slot_id }) => {

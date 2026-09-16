@@ -5,6 +5,12 @@ import Events from '/imports/api/events';
 import Roulettes, { RouletteWithHelpers } from '../roulettes';
 import { DateTime } from 'luxon';
 import { RouletteStatus } from '/imports/schemas/roulette';
+import { rouletteOpenBets } from '../methods/roulettes.openBets';
+import { rouletteStartSpin } from '../methods/roulettes.startSpin';
+import { rouletteFinishSpin } from '../methods/roulettes.finishSpin';
+import { rouletteRevealWinners } from '../methods/roulettes.revealWinners';
+import { rouletteDeactivate } from '../methods/roulettes.deactivateRoulette';
+import { rouletteCloseBets } from '../methods/roulettes.closeBets';
 
 const SPIN_END_DWELL_SECONDS = 5;
 const WINNERBOARD_DWELL_SECONDS = 36;
@@ -62,7 +68,12 @@ const getExpectedBetsOpen = (
   return false;
 };
 
-if (Meteor.isServer && Meteor.isProduction) {
+if (
+  Meteor.isServer &&
+  // Prevent running the scheduler when we're doing local dev on prod data
+  // since the prod server will be trying to run it simultaneously
+  (process.env.DB_ENV === 'local' || Meteor.isProduction)
+) {
   Meteor.startup(() => {
     Tracker.autorun(() => {
       const now = reactiveDate.get();
@@ -72,7 +83,7 @@ if (Meteor.isServer && Meteor.isProduction) {
         scheduled: true,
       }).fetch();
 
-      eventRoulettes.forEach((roulette) => {
+      eventRoulettes.forEach(async (roulette) => {
         const expectedStatus = getExpectedStatus(roulette, now);
         const expectedBetsOpen = getExpectedBetsOpen(
           roulette,
@@ -86,29 +97,29 @@ if (Meteor.isServer && Meteor.isProduction) {
           );
 
           if (expectedStatus === 'pre-spin') {
-            Meteor.call('roulettes.openBets', roulette._id);
+            await rouletteOpenBets(roulette._id);
           }
 
           if (expectedStatus === 'spinning') {
-            Meteor.call('roulettes.startSpin', roulette._id);
+            await rouletteStartSpin(roulette._id);
           }
 
           if (expectedStatus === 'end-spin') {
-            Meteor.call('roulettes.finishSpin', roulette._id);
+            await rouletteFinishSpin(roulette._id);
           }
 
           if (expectedStatus === 'winners-board') {
-            Meteor.call('roulettes.revealWinners', roulette._id);
+            await rouletteRevealWinners(roulette._id);
           }
 
           if (expectedStatus === 'inactive') {
-            Meteor.call('roulettes.deactivateRoulette', roulette._id);
+            await rouletteDeactivate(roulette._id);
           }
         }
 
         if (roulette.bets_open && !expectedBetsOpen) {
           console.log(`Closing bets for ${roulette._id}`);
-          Meteor.call('roulettes.closeBets', roulette._id);
+          await rouletteCloseBets(roulette._id);
         }
       });
     });

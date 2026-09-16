@@ -24,13 +24,13 @@ export const raceBetGetPlayerRaceBetSummary = async (
     player: playerId,
     race: raceId,
     status: { $in: statuses },
-  }).fetch();
+  }).fetchAsync();
 
   console.log('raceBets', raceBets);
 
   const horses = await Horses.find({
     _id: { $in: raceBets.map((b) => b.horses ?? []).flat() },
-  }).fetch();
+  }).fetchAsync();
 
   const condensedBets = condenseRaceBets(raceBets);
 

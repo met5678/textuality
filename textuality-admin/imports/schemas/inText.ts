@@ -29,6 +29,11 @@ const INTEXT_PURPOSES = [
 ] as const;
 type InTextPurpose = (typeof INTEXT_PURPOSES)[number];
 
+const isInTextPurposeCasino = (
+  purpose: InTextPurpose,
+): purpose is InTextPurposeCasino =>
+  INTEXT_PURPOSES_CASINO.some((casinoPurpose) => casinoPurpose === purpose);
+
 type InTextInteractive = {
   response_to?: OutTextId;
   value: string;
@@ -110,6 +115,7 @@ export {
   INTEXT_PURPOSES_BASE,
   INTEXT_PURPOSES_CASINO,
   INTEXT_PURPOSES_DERBY,
+  isInTextPurposeCasino,
 };
 export type {
   InText,

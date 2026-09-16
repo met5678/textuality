@@ -1,4 +1,4 @@
-import { Meteor } from 'meteor/meteor';
+import { sendAutoText } from '/imports/api/autoTexts/methods/autoTexts.send';
 
 const sendEliminationClue = (result: number, player_id: string) => {
   let eliminationNumber: number;
@@ -8,7 +8,7 @@ const sendEliminationClue = (result: number, player_id: string) => {
 
   const clueText = `The spin's not gonna land on *${eliminationNumber}*!`;
 
-  Meteor.call('autoTexts.send', {
+  sendAutoText({
     trigger: 'HACKER_ROULETTE_SIMPLE',
     playerId: player_id,
     templateVars: {

@@ -1,5 +1,4 @@
-import { Meteor } from 'meteor/meteor';
-import { PlayerWithHelpers } from '/imports/api/players/players';
+import { sendAutoText } from '/imports/api/autoTexts/methods/autoTexts.send';
 
 const DIVISORS = [3, 4, 5, 7];
 
@@ -17,7 +16,7 @@ const sendDivisibleByClue = (result: number, player_id: string) => {
 
   console.log('Sending divisible by clue text', clueText);
 
-  Meteor.call('autoTexts.send', {
+  sendAutoText({
     trigger: 'HACKER_ROULETTE_MATH',
     playerId: player_id,
     templateVars: {

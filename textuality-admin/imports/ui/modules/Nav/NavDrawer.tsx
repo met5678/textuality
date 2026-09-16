@@ -95,6 +95,12 @@ const navItems: Array<NavItem> = [
     theme: 'casino',
   },
   {
+    title: 'Roulette Bets',
+    href: '/casino/roulette-bets',
+    icon: <Typography>🎫</Typography>,
+    theme: 'casino',
+  },
+  {
     title: 'Quests',
     href: '/casino/quests',
     icon: <Typography>🦹‍♀️</Typography>,
@@ -175,7 +181,6 @@ const NavDrawer = () => {
 
   const filteredNavItems = navItems.filter((item) => {
     if (!item.theme) return true;
-    if (!theme) return true;
     return item.theme === theme;
   });
 

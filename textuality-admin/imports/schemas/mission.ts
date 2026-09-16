@@ -3,7 +3,7 @@ import SimpleSchema from 'simpl-schema';
 import Events from '/imports/api/events';
 import { EventId } from './event';
 
-const MissionSchema = new SimpleSchema({
+export const MissionSchema = new SimpleSchema({
   event: {
     type: String,
     allowedValues: Events.allIds,
@@ -54,7 +54,7 @@ const MissionSchema = new SimpleSchema({
 
 export type MissionId = string;
 
-interface Mission {
+export type Mission = {
   _id: MissionId;
   event: EventId;
   name: string;
@@ -69,7 +69,6 @@ interface Mission {
   missionPlayerBText?: string;
   missionSuccessText?: string;
   missionFailText?: string;
-}
+};
 
 export default MissionSchema;
-export { Mission, MissionSchema };

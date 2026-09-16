@@ -46,7 +46,7 @@ const columns: GridColDef<SlotMachineWithHelpers>[] = [
   {
     field: 'player',
     headerName: 'Player',
-    valueFormatter: (value: SlotMachineWithHelpers['player']) => value,
+    valueFormatter: (value: SlotMachineWithHelpers['player']) => value?.alias || '',
     width: 120,
   },
   {

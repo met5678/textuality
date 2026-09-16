@@ -15,6 +15,8 @@ import Missions from '/imports/api/missions';
 import { raceGenerateTimeline } from '../methods/races.generateTimeline';
 import RaceBets from '../../raceBets/raceBets';
 import { condenseRaceBets } from '../../raceBets/helpers';
+import { missionStart } from '/imports/api/missions/methods/missions.start';
+import { missionEnd } from '/imports/api/missions/methods/missions.end';
 
 const INTRO_DURATION_SECONDS = 30;
 const RACE_MAX_DURATION_SECONDS = 200;
@@ -164,7 +166,7 @@ const scheduleRaceMissions = () => {
         currentRace.status !== 'pre-bets' ||
         (mission.timeEnd && now > mission.timeEnd)
       ) {
-        Meteor.callAsync('missions.end', { missionId: mission._id });
+        missionEnd(mission._id);
       }
       return;
     }
@@ -187,7 +189,7 @@ const scheduleRaceMissions = () => {
       startingMission = true;
       await raceGenerateTimeline(currentRace._id);
       console.log('starting mission');
-      await Meteor.callAsync('missions.start', { missionId: mission._id });
+      await missionStart(mission._id);
       startingMission = false;
     }
   }, 5000);
@@ -195,6 +197,8 @@ const scheduleRaceMissions = () => {
 
 if (
   Meteor.isServer &&
+  // Prevent running the scheduler when we're doing local dev on prod data
+  // since the prod server will be trying to run it simultaneously
   (process.env.DB_ENV === 'local' || Meteor.isProduction)
 ) {
   Meteor.startup(() => {

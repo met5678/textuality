@@ -9,7 +9,7 @@ import {
   CircularProgress,
   Alert,
 } from '@mui/material';
-import { Meteor } from 'meteor/meteor';
+import { sendBroadcastCustomAutoText } from '/imports/api/autoTexts/methods/autoTexts.sendBroadcast';
 
 interface BroadcastTextDialogProps {
   open: boolean;
@@ -25,33 +25,25 @@ const BroadcastTextDialog: React.FC<BroadcastTextDialogProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (!message.trim()) return;
 
     setIsSending(true);
     setError(null);
     setSuccess(false);
 
-    Meteor.call(
-      'autoTexts.sendBroadcastCustom',
-      { playerText: message, source: 'broadcast' },
-      (err: Error | null, result: any) => {
-        setIsSending(false);
+    await sendBroadcastCustomAutoText({
+      playerText: message,
+      source: 'broadcast',
+    });
 
-        if (err) {
-          setError(err.message || 'Failed to send broadcast message');
-          return;
-        }
-
-        setSuccess(true);
-        setMessage('');
-        // Close dialog after 2 seconds on success
-        setTimeout(() => {
-          onClose();
-          setSuccess(false);
-        }, 2000);
-      },
-    );
+    setSuccess(true);
+    setMessage('');
+    // Close dialog after 2 seconds on success
+    setTimeout(() => {
+      onClose();
+      setSuccess(false);
+    }, 2000);
   };
 
   const handleClose = () => {

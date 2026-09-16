@@ -1,4 +1,4 @@
-import { Meteor } from 'meteor/meteor';
+import { sendAutoText } from '/imports/api/autoTexts/methods/autoTexts.send';
 
 const sendLastDigitClue = (result: number, player_id: string) => {
   const lastDigit = result % 10;
@@ -12,7 +12,7 @@ const sendLastDigitClue = (result: number, player_id: string) => {
 
   console.log('Sending last digit clue text', clueText);
 
-  Meteor.call('autoTexts.send', {
+  sendAutoText({
     trigger: 'HACKER_ROULETTE_SIMPLE',
     playerId: player_id,
     templateVars: {

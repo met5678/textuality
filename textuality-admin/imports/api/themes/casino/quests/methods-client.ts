@@ -1,21 +1,10 @@
 import { Meteor } from 'meteor/meteor';
 
-import SlotMachines from './slotMachines';
 import Events from '/imports/api/events';
 import Players from '/imports/api/players';
-import {
-  SlotMachine,
-  SLOT_MACHINE_EMOJIS,
-  SlotMachineOdds,
-  SlotMachineResult,
-} from '/imports/schemas/slotMachine';
-import waitForSeconds from '/imports/api/rounds/reveal-sequence/_wait-for-seconds';
 import { QuestType } from '/imports/schemas/quest';
 import Quests from './quests';
 import checkSlotSequence from './slot-quest/check-slot-sequence';
-
-// Once a spin starts, it'll need to go through a process:
-//
 
 Meteor.methods({
   'quests.processHashtag': ({ playerId, hashtag }) => {

@@ -1,9 +1,11 @@
 import { GetPurposeArgs } from './get-purpose';
 import { InTextPurposeBase, InTextPurposeDerby } from '/imports/schemas/inText';
 
-export const getPurposeDerby = ({
+export const getPurposeDerby = async ({
   message,
-}: GetPurposeArgs): (InTextPurposeDerby | InTextPurposeBase) | undefined => {
+}: GetPurposeArgs): Promise<
+  (InTextPurposeDerby | InTextPurposeBase) | undefined
+> => {
   if (message.interactive && message.interactive.value.startsWith('raceBet/')) {
     return 'bet-step';
   }

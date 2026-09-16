@@ -1,9 +1,10 @@
-import { Meteor } from 'meteor/meteor';
 import Players from '../../players/players';
 import { OutTextInteractivePayload } from '/imports/schemas/outText';
 import { OutTextSource } from '/imports/schemas/outText';
 import { PlayerId } from '/imports/schemas/player';
 import commaNumber from 'comma-number';
+import { sendOutText } from '../../outTexts/methods/outTexts.send';
+import { getWrappedServerMethod } from '/imports/utils/get-wrapped-server-method';
 
 export type AutoTextSendCustomArgs = {
   playerText: string;
@@ -43,7 +44,7 @@ export const sendCustomAutoText = async ({
       body = body.replace(new RegExp(`\\[${key}\\]`, 'g'), value);
     });
 
-    Meteor.callAsync('outTexts.send', {
+    sendOutText({
       player,
       body,
       mediaUrl,
@@ -53,6 +54,7 @@ export const sendCustomAutoText = async ({
   }
 };
 
-export const autoTexts_sendCustom = async (args: AutoTextSendCustomArgs) => {
-  Meteor.callAsync('autoTexts.sendCustom', args);
-};
+export const sendCustomAutoTextMethod = getWrappedServerMethod(
+  'autoTexts.sendCustom',
+  sendCustomAutoText,
+);

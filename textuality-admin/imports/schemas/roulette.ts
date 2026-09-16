@@ -4,7 +4,10 @@ import Events from '/imports/api/events';
 import { MissionId } from './mission';
 import { EventId } from './event';
 
-const RouletteSchema = new SimpleSchema({
+export const ROULETTE_NUMBER_MINIMUM = 0;
+export const ROULETTE_NUMBER_MAXIMUM = 36;
+
+export const RouletteSchema = new SimpleSchema({
   event: {
     type: String,
     allowedValues: Events.allIds,
@@ -35,6 +38,8 @@ const RouletteSchema = new SimpleSchema({
   result: {
     type: SimpleSchema.Integer,
     optional: true,
+    min: ROULETTE_NUMBER_MINIMUM,
+    max: ROULETTE_NUMBER_MAXIMUM,
   },
   status: {
     type: String,
@@ -70,7 +75,7 @@ const RouletteSchema = new SimpleSchema({
   },
 });
 
-type RouletteStatus =
+export type RouletteStatus =
   | 'pre-spin'
   | 'start-spin'
   | 'spinning'
@@ -80,8 +85,8 @@ type RouletteStatus =
 
 export type RouletteId = string;
 
-interface Roulette {
-  _id?: RouletteId;
+export type Roulette = {
+  _id: RouletteId;
   event: EventId;
   spin_seconds: number;
   bets_cutoff_seconds: number;
@@ -97,7 +102,6 @@ interface Roulette {
   bets_open: boolean;
 
   linked_mission?: MissionId;
-}
+};
 
 export default RouletteSchema;
-export { Roulette, RouletteSchema, RouletteStatus };

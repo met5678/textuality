@@ -5,7 +5,6 @@ import { PlayerId } from '../player';
 import { HorseId } from './horse';
 import { TellerId } from './teller';
 import { RaceId } from './race';
-import { OutTextId } from '../outText';
 
 const RACE_BET_TYPES = ['win', 'trifecta'] as const;
 type RaceBetType = (typeof RACE_BET_TYPES)[number];

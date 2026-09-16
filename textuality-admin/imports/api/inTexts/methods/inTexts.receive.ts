@@ -30,7 +30,7 @@ export const receiveInText = async (message: IncomingMessageData) => {
     'players.findOrJoin',
     message.from,
   );
-  const purpose = getPurpose({ message, player, theme: event.theme });
+  const purpose = await getPurpose({ message, player, theme: event.theme });
 
   const inTextRaw: Omit<InText, '_id'> = {
     event: event._id,
@@ -60,11 +60,15 @@ export const receiveInText = async (message: IncomingMessageData) => {
 
   Meteor.call('players.updateAfterInText', inText);
 
-  inText.purpose === 'initial' && processInitialText(inText, player);
-  inText.purpose === 'system' && processSystemText(inText, player);
-  inText.purpose === 'hashtag' && processHashtagText(inText, player);
-
-  if (processByTheme[event.theme]) {
+  if (inText.purpose === 'initial') {
+    await processInitialText(inText, player);
+  } else if (inText.purpose === 'system') {
+    processSystemText(inText, player);
+  } else if (inText.purpose === 'hashtag') {
+    processHashtagText(inText, player);
+  } else if (inText.purpose === 'unknown') {
+    // Do we want to do anything?
+  } else if (processByTheme[event.theme]) {
     processByTheme[event.theme](inText, player);
   }
 
@@ -72,6 +76,6 @@ export const receiveInText = async (message: IncomingMessageData) => {
 };
 
 export const receiveInTextMethod = getWrappedServerMethod(
-  'inTexts.receive2',
+  'inTexts.receive',
   receiveInText,
 );

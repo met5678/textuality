@@ -6,6 +6,8 @@ import Players from '/imports/api/players';
 import getCheckpointLocationStats from './process-checkpoint/get-location-stats';
 import getCheckpointGroupStats from './process-checkpoint/get-group-stats';
 import { group } from 'console';
+import { sendCustomAutoText } from '../autoTexts/methods/autoTexts.sendCustom';
+import { sendAutoText } from '../autoTexts/methods/autoTexts.send';
 
 Meteor.methods({
   'checkpoints.getForHashtag': (hashtag) => {
@@ -100,20 +102,20 @@ Meteor.methods({
 
     if (!gotAchievement) {
       if (checkpoint.player_text) {
-        Meteor.call('autoTexts.sendCustom', {
+        sendCustomAutoText({
           playerText: checkpoint.player_text,
           playerId,
           templateVars,
         });
       } else {
         if (checkpoint.suppress_autotext) {
-          Meteor.call('autoTexts.send', {
+          sendAutoText({
             trigger: 'CHECKPOINT_FOUND_HIDDEN',
             playerId,
             templateVars,
           });
         } else {
-          Meteor.call('autoTexts.send', {
+          sendAutoText({
             trigger: 'CHECKPOINT_FOUND',
             playerId,
             templateVars,

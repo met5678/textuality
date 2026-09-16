@@ -1,7 +1,10 @@
 import Events from '../../events';
 import AutoTexts from '../autoTexts';
 import { AutoTextTrigger } from '/imports/schemas/autoText';
-import { OutTextInteractivePayload } from '/imports/schemas/outText';
+import {
+  OutTextInteractivePayload,
+  OutTextSource,
+} from '/imports/schemas/outText';
 import { PlayerId } from '/imports/schemas/player';
 import { sendCustomAutoText } from './autoTexts.sendCustom';
 import { getWrappedServerMethod } from '/imports/utils/get-wrapped-server-method';
@@ -13,6 +16,7 @@ export type AutoTextSendArgs = {
   mediaUrl?: string;
   interactivePayload?: OutTextInteractivePayload;
   templateVars?: Record<string, any>;
+  source?: OutTextSource;
 };
 
 export const sendAutoText = async ({
@@ -22,6 +26,7 @@ export const sendAutoText = async ({
   mediaUrl,
   interactivePayload,
   templateVars = {},
+  source = 'auto',
 }: AutoTextSendArgs) => {
   const autoTextQuery: Record<string, any> = {
     event: Events.currentIdOrThrow(),
@@ -46,8 +51,11 @@ export const sendAutoText = async ({
     mediaUrl,
     templateVars,
     interactivePayload,
-    source: 'auto',
+    source,
   });
 };
 
-export const sendAutoTextMethod = getWrappedServerMethod('autoTexts.send', sendAutoText);
+export const sendAutoTextMethod = getWrappedServerMethod(
+  'autoTexts.send',
+  sendAutoText,
+);

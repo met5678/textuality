@@ -13,6 +13,7 @@ import RouletteSchema from '/imports/schemas/roulette';
 import { DateTime } from 'luxon';
 import RouletteBets from '/imports/api/themes/casino/rouletteBets';
 import { RouletteBetWithHelpers } from '/imports/api/themes/casino/rouletteBets/rouletteBets';
+import { doRoulettePayoutsMethod } from '/imports/api/themes/casino/roulettes/methods/roulettes.doPayouts';
 
 const getColumns = (
   rouletteBets: RouletteBetWithHelpers[],
@@ -168,9 +169,10 @@ const RoulettesTable = () => {
           (params) => (
             <GridActionsCellItem
               showInMenu={true}
-              onClick={() =>
-                Meteor.call('rouletteBets.doPayouts', params.row._id)
-              }
+              onClick={async () => {
+                await doRoulettePayoutsMethod(params.row._id);
+                console.log('Processed bets for roulette', params.row._id);
+              }}
               label="Process Bets"
             />
           ),

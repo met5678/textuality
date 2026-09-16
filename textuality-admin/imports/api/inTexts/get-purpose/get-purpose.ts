@@ -50,7 +50,7 @@ export const getPurpose = async ({
     }
   }
 
-  return 'unknown';
+  return 'feed';
 };
 
 export default getPurpose;

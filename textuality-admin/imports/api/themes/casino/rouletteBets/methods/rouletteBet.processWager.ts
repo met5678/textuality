@@ -32,10 +32,21 @@ export const rouletteBetProcessWager = async ({
       return;
     }
 
+    if (wager === 0) {
+      sendAutoText({
+        playerId: player._id,
+        trigger: 'ROULETTE_BET_ASK_WAGER_ZERO',
+      });
+      return;
+    }
+
     if (wager > player.money) {
       sendAutoText({
         playerId: player._id,
         trigger: 'ROULETTE_BET_ASK_WAGER_TOO_POOR',
+        templateVars: {
+          bet_wager: wager,
+        },
       });
       return;
     }

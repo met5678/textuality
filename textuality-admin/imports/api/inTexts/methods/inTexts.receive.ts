@@ -13,6 +13,7 @@ import { getWrappedServerMethod } from '/imports/utils/get-wrapped-server-method
 import { processCasinoText } from '../process-purpose/casino/process-casino-text';
 import { processDerbyText } from '../process-purpose/derby/process-derby-text';
 import { EventTheme } from '/imports/schemas/event';
+import processFeedText from '../process-purpose/process-feed-text';
 
 const processByTheme: Record<
   EventTheme,
@@ -66,8 +67,8 @@ export const receiveInText = async (message: IncomingMessageData) => {
     processSystemText(inText, player);
   } else if (inText.purpose === 'hashtag') {
     processHashtagText(inText, player);
-  } else if (inText.purpose === 'unknown') {
-    // Do we want to do anything?
+  } else if (inText.purpose === 'feed') {
+    processFeedText(inText, player);
   } else if (processByTheme[event.theme]) {
     processByTheme[event.theme](inText, player);
   }

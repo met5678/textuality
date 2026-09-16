@@ -10,6 +10,7 @@ import {
 } from '/imports/schemas/rouletteBet';
 import { sendAutoText } from '/imports/api/autoTexts/methods/autoTexts.send';
 import { getWrappedServerMethod } from '/imports/utils/get-wrapped-server-method';
+import { getRouletteBetSummary } from './rouletteBet.getBetSummary';
 
 const CURRENCY = 'BB';
 
@@ -35,7 +36,7 @@ export const doClassicBet = async ({
   if (Number.isNaN(betWager)) {
     sendAutoText({
       playerId: player._id,
-      trigger: 'INVALID_BET',
+      trigger: 'ROULETTE_BET_ASK_WAGER_INVALID',
     });
     return;
   }
@@ -43,7 +44,7 @@ export const doClassicBet = async ({
   if (betWager === 0) {
     sendAutoText({
       playerId: player._id,
-      trigger: 'ROULETTE_BET_ZERO',
+      trigger: 'ROULTTE_BET_ASK_WAGER_ZERO',
     });
     return;
   }
@@ -51,7 +52,7 @@ export const doClassicBet = async ({
   if (betWager < 0) {
     sendAutoText({
       playerId: player._id,
-      trigger: 'INVALID_BET',
+      trigger: 'ROULETTE_BET_ASK_WAGER_NEGATIVE',
       templateVars: {
         bet_wager: betWager,
       },
@@ -62,7 +63,7 @@ export const doClassicBet = async ({
   if (player.money < betWager) {
     sendAutoText({
       playerId: player._id,
-      trigger: 'ROULETTE_NOT_ENOUGH_MONEY',
+      trigger: 'ROULETTE_BET_ASK_WAGER_TOO_POOR',
       templateVars: {
         bet_wager: betWager,
       },
@@ -92,7 +93,7 @@ export const doClassicBet = async ({
       },
     });
   } else {
-    RouletteBets.insertAsync({
+    await RouletteBets.insertAsync({
       event: eventId,
       bet_slot,
       roulette_id,
@@ -110,30 +111,16 @@ export const doClassicBet = async ({
     });
   }
 
-  const allPlayerBets = RouletteBets.find(
-    {
-      event: Events.currentId()!,
-      roulette_id,
-      'player.id': player_id,
-    },
-    {
-      sort: {
-        bet_slot: 1,
-      },
-    },
-  ).fetch();
-
-  const wagerLines = allPlayerBets.map((bet) => {
-    return `${bet.bet_slot}: ${commaNumber(bet.wager!)} ${CURRENCY}`;
-  });
-
   sendAutoText({
     playerId: player_id,
-    trigger: 'ROULETTE_BET',
+    trigger: 'ROULETTE_BET_PLACED',
     templateVars: {
       bet_slot: betCode,
-      bet_wager: betWager,
-      all_bets: wagerLines.join('\n'),
+      wager: betWager,
+      bet_summary: await getRouletteBetSummary({
+        player,
+        roulette,
+      }),
     },
   });
 };

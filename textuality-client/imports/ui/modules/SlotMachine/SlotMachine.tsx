@@ -102,12 +102,12 @@ const SlotMachine = ({ slotMachine, skin }: SlotMachineProps) => {
           { id: '💦', url: `/images/emojis/${skin}/saucer.svg` },
         ]
       : [
-          { id: '🥴', url: `/images/emojis/${skin}/emoji-swoozy.svg` },
-          { id: '🍒', url: `/images/emojis/${skin}/emoji-cherry.svg` },
+          { id: '🥴', url: `/images/emojis/${skin}/emoji-clover.svg` },
+          { id: '🍒', url: `/images/emojis/${skin}/emoji-cherries.svg` },
           { id: '💣', url: `/images/emojis/${skin}/emoji-bomb.svg` },
-          { id: '🍆', url: `/images/emojis/${skin}/emoji-eggplant.svg` },
-          { id: '🍑', url: `/images/emojis/${skin}/emoji-peach.svg` },
-          { id: '💦', url: `/images/emojis/${skin}/emoji-splash.svg` },
+          { id: '🍆', url: `/images/emojis/${skin}/emoji-seven.svg` },
+          { id: '🍑', url: `/images/emojis/${skin}/emoji-diamond.svg` },
+          { id: '💦', url: `/images/emojis/${skin}/emoji-watermelon.svg` },
         ];
 
   return (

@@ -115,7 +115,7 @@ const SlotMachine = ({ slotMachine, skin }: SlotMachineProps) => {
       <div
         className={classNames('slot-machine', skin)}
         style={{
-          backgroundImage: `url(\/images/slot-machine/${skin}/${code}.jpg)`,
+          backgroundImage: `url(\/images/slot-machine/${skin}/${short}.jpg)`,
         }}
       >
         <div className="title-container">

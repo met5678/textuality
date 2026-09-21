@@ -1,17 +1,11 @@
 .slot-machine {
-  background-repeat: repeat;
-  background-size: 50%;
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  color: #ccc;
-}
-
-/* SPACE CSS - TODO: make a theme*/
-.slot-machine.space {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  color: #efefef;
 }
 
 .slot-machine.space img {

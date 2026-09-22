@@ -18,15 +18,17 @@ const SlotMachinePlayer = ({
 }) => {
   return (
     <div className={`slot-player ${status ?? ''} ${skin}`}>
-      <div
-        className="player-avatar-chip"
-        style={{
-          backgroundImage: `url(${getImageUrl(player.avatar_id, {
-            width: 100,
-            height: 100,
-          })})`,
-        }}
-      ></div>
+      <div className="player-avatar-chip-wrapper">
+        <div
+          className="player-avatar-chip"
+          style={{
+            backgroundImage: `url(${getImageUrl(player.avatar_id, {
+              width: 100,
+              height: 100,
+            })})`,
+          }}
+        />
+      </div>
       <div className="player-alias">{player.alias}</div>
       <div className="player-money">
         {win_amount

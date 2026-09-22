@@ -117,14 +117,16 @@ const RouletteGrid = ({ rouletteId, skin }: RouletteGridProps) => {
         </tbody>
       </table>
       {queueBet && (
-        <p className="betFeeds">
+        <div className="betFeeds">
           <RouletteChip
             avatar_id={queueBet?.player.avatar_id}
             color={getColorForBet(queueBet, colorOptions)}
           />{' '}
-          {queueBet?.player.alias} put {commaNumber(queueBet.wager)}{' '}
-          {skin === 'space' ? 'VC' : 'BB'} on {queueBet.bet_slot}!
-        </p>
+          <p>
+            {queueBet?.player.alias} put {commaNumber(queueBet.wager)}{' '}
+            {skin === 'space' ? 'VC' : 'BB'} on {queueBet.bet_slot}!
+          </p>
+        </div>
       )}
     </div>
   );

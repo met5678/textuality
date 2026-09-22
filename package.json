@@ -29,5 +29,8 @@
   "homepage": "https://github.com/met5678/textuality#readme",
   "devDependencies": {
     "prettier": "^3.5.3"
+  },
+  "dependencies": {
+    "@babel/runtime": "^8.0.5"
   }
 }

@@ -24,16 +24,14 @@ const COLOR_OPTIONS_SPACE = ['#ff01ff', '#ff9404', '#abd301', '#0000fe'];
 const getColorForBet = (bet: RouletteBet, colors: string[]) =>
   colors[String(bet?._id!).charCodeAt(0) % colors.length];
 
-const RouletteGrid = ({
-  rouletteId,
-  status,
-  betsOpen,
-  skin,
-}: RouletteGridProps) => {
+const RouletteGrid = ({ rouletteId, skin }: RouletteGridProps) => {
   const isLoading = useSubscribe('rouletteBets.forRoulette', rouletteId);
   const bets = useFind(
     () =>
-      RouletteBets.find({ roulette_id: rouletteId, status: 'placed' }, { sort: { placed_at: -1 } }),
+      RouletteBets.find(
+        { roulette_id: rouletteId, status: 'placed' },
+        { sort: { placed_at: -1 } },
+      ),
     [rouletteId],
   );
 
@@ -96,25 +94,27 @@ const RouletteGrid = ({
   return (
     <div className="rouletteGrid">
       <table>
-        <tr className="nums">
-          <td className="green zero" />
-          {getNumbers(3).map((number) => renderCell(number))}
-        </tr>
-        <tr className="nums">
-          {renderCell(0)}
-          {getNumbers(2).map((number) => renderCell(number))}
-        </tr>
-        <tr className="nums">
-          <td className="green zero" />
-          {getNumbers(1).map((number) => renderCell(number))}
-        </tr>
-        <tr>
-          <td className="empty"></td>
-          {renderSpecialCell('even')}
-          {renderSpecialCell('red')}
-          {renderSpecialCell('black')}
-          {renderSpecialCell('odd')}
-        </tr>
+        <tbody>
+          <tr className="nums">
+            <td className="green zero" />
+            {getNumbers(3).map((number) => renderCell(number))}
+          </tr>
+          <tr className="nums">
+            {renderCell(0)}
+            {getNumbers(2).map((number) => renderCell(number))}
+          </tr>
+          <tr className="nums">
+            <td className="green zero" />
+            {getNumbers(1).map((number) => renderCell(number))}
+          </tr>
+          <tr>
+            <td className="empty"></td>
+            {renderSpecialCell('even')}
+            {renderSpecialCell('red')}
+            {renderSpecialCell('black')}
+            {renderSpecialCell('odd')}
+          </tr>
+        </tbody>
       </table>
       {queueBet && (
         <p className="betFeeds">

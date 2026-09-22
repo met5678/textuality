@@ -1,12 +1,11 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 
 import RouletteInstr from './RouletteInstr';
 import RouletteWheel from './RouletteWheel';
 
-import { Roulette, RouletteStatus } from '/imports/schemas/roulette';
+import { Roulette } from '/imports/schemas/roulette';
 import './Roulette.css';
 import RouletteGrid from './RouletteGrid';
-import Countdown from 'react-countdown';
 import { DateTime } from 'luxon';
 import RouletteSounds from './RouletteSounds';
 import { RouletteWithHelpers } from '/imports/api/themes/casino/roulettes/roulettes';
@@ -25,7 +24,6 @@ const Roulette = ({ roulette, skin }: RouletteProps) => {
     event,
     number_payout_multiplier,
     special_payout_multiplier,
-    bets_start_at,
     spin_starts_at,
     bets_open,
     bets_cutoff_seconds,
@@ -54,29 +52,17 @@ const Roulette = ({ roulette, skin }: RouletteProps) => {
 
   return (
     <div className={`roulette ${status} ${skin}`}>
-      <h2>{displayTitle}</h2>
       <div className="rouletteTable">
         <div className="bettingArea">
+          <h2>{displayTitle}</h2>
           <div className="instructions">
-            <p>
-              Send{' '}
-              <strong>
-                <i>![bet] [wager]</i>
-              </strong>{' '}
-              to place your bet
-            </p>
-            <RouletteInstr skin={skin} />
-            <p class="note">
-              Number Payout: {number_payout_multiplier}x, Red/Black/Odd/Even
-              Payout: {special_payout_multiplier}x
+            <p>Send !bet to place your bet</p>
+            <p className="note">
+              Number Payout: {number_payout_multiplier}x <br />
+              Red/Black/Odd/Even Payout: {special_payout_multiplier}x
             </p>
           </div>
-          <RouletteGrid
-            status={status}
-            betsOpen={bets_open}
-            rouletteId={roulette._id}
-            skin={skin}
-          />
+          <RouletteGrid rouletteId={roulette._id} skin={skin} />
         </div>
 
         <div className="leaderboardArea">

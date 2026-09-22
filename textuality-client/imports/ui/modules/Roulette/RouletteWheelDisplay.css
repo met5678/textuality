@@ -7,15 +7,15 @@
 }
 
 .wheel-title {
-  font-size: 3vw;
+  font-size: 3rem;
 }
 
 .wheel-title.with-countdown {
-  font-size: 2vw;
+  font-size: 2rem;
 }
 
 .wheel-countdown {
-  font-size: 5vw;
+  font-size: 5.5rem;
 }
 
 /* SPACE CSS - TODO: theme */

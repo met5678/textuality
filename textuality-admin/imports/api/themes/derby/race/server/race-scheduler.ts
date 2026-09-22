@@ -1,0 +1,208 @@
+import { Meteor } from 'meteor/meteor';
+import { DateTime } from 'luxon';
+
+import Races, { RaceWithHelpers } from '../races';
+import Events from '/imports/api/events';
+import { RaceStatus } from '/imports/schemas/derby/race';
+import { raceStartIntro } from '../methods/races.startIntro';
+import { raceOpenBets } from '../methods/races.openBets';
+import { raceStartRace } from '../methods/races.startRace';
+import { raceDeactivate } from '../methods/races.deactivate';
+import { raceStartResults } from '../methods/races.startResults';
+import { raceStartPreBets } from '../methods/races.startPreBets';
+import { racesGetCurrentSync } from '../methods/races.getCurrent';
+import Missions from '/imports/api/missions';
+import { raceGenerateTimeline } from '../methods/races.generateTimeline';
+import RaceBets from '../../raceBets/raceBets';
+import { condenseRaceBets } from '../../raceBets/helpers';
+import { missionStart } from '/imports/api/missions/methods/missions.start';
+import { missionEnd } from '/imports/api/missions/methods/missions.end';
+
+const INTRO_DURATION_SECONDS = 30;
+const RACE_MAX_DURATION_SECONDS = 200;
+const POST_RACE_PAUSE_SECONDS = 15;
+const RESULTS_MAX_DURATION_SECONDS = 60;
+
+const DERBY_WINNERS_INTERVAL_SECONDS = 6;
+const DERBY_WINNERS_NUM_TO_SHOW = 3;
+
+const getRaceDurationSeconds = (race: RaceWithHelpers) => {
+  if (!race.results || Object.keys(race.results).length === 0) {
+    return RACE_MAX_DURATION_SECONDS;
+  }
+
+  const lastHorseFinishTime = Math.max(
+    ...race.results.map((result) => result.time),
+  );
+
+  return lastHorseFinishTime;
+};
+
+const getResultsDurationSeconds = (race: RaceWithHelpers) => {
+  const numRaceBets = condenseRaceBets(
+    RaceBets.find({ race: race._id, status: 'won' }).fetch(),
+  ).length;
+
+  return Math.min(
+    RESULTS_MAX_DURATION_SECONDS,
+    Math.ceil(numRaceBets / DERBY_WINNERS_NUM_TO_SHOW) *
+      DERBY_WINNERS_INTERVAL_SECONDS +
+      5,
+  );
+};
+
+const changeRaceStatus = (race: RaceWithHelpers, status: RaceStatus) => {
+  switch (status) {
+    case 'pre-bets':
+      raceStartPreBets(race._id);
+      break;
+    case 'bets-open':
+      raceOpenBets(race._id);
+      break;
+    case 'intro':
+      raceStartIntro(race._id);
+      break;
+    case 'active':
+      raceStartRace(race._id);
+      break;
+    case 'results':
+      raceStartResults(race._id);
+      break;
+    case 'inactive':
+      raceDeactivate(race._id, false);
+      break;
+    case 'future':
+      raceDeactivate(race._id, true);
+      break;
+  }
+};
+
+const getExpectedStatus = (race: RaceWithHelpers, now: Date): RaceStatus => {
+  if (now <= race.time_bets_start_at) return 'pre-bets';
+  if (now <= race.time_race_starts_at) return 'bets-open';
+
+  const introStartTime = DateTime.fromJSDate(race.time_race_starts_at!);
+  const raceStartTime = introStartTime.plus({
+    seconds: INTRO_DURATION_SECONDS,
+  });
+  const raceEndTime = raceStartTime.plus({
+    seconds: getRaceDurationSeconds(race) + POST_RACE_PAUSE_SECONDS,
+  });
+  const resultsEndTime = raceEndTime.plus({
+    seconds: getResultsDurationSeconds(race),
+  });
+
+  if (now <= raceStartTime.toJSDate()) return 'intro';
+
+  if (now <= raceEndTime.toJSDate()) return 'active';
+
+  if (now <= resultsEndTime.toJSDate()) return 'results';
+
+  return 'inactive';
+};
+
+let scheduleRacesInterval: number | undefined;
+const scheduleRaces = () => {
+  if (scheduleRacesInterval) {
+    Meteor.clearInterval(scheduleRacesInterval);
+  }
+
+  scheduleRacesInterval = Meteor.setInterval(() => {
+    const now = new Date();
+
+    const eventRaces = Races.find(
+      {
+        event: Events.currentId(),
+        scheduled: true,
+      },
+      {
+        sort: { time_race_starts_at: 1 },
+      },
+    ).fetch();
+
+    const unscheduledRaces = Races.find({
+      event: Events.currentId(),
+      scheduled: false,
+      status: { $nin: ['inactive'] },
+    }).fetch();
+
+    let foundCurrentRace = unscheduledRaces.length > 0;
+    for (const race of eventRaces) {
+      const expectedStatus = foundCurrentRace
+        ? 'future'
+        : getExpectedStatus(race, now);
+
+      if (race.status !== expectedStatus) {
+        changeRaceStatus(race, expectedStatus);
+      }
+
+      if (expectedStatus !== 'inactive') {
+        foundCurrentRace = true;
+      }
+    }
+  }, 1000);
+};
+
+let scheduleRaceMissionsInterval: number | undefined;
+const scheduleRaceMissions = () => {
+  if (scheduleRaceMissionsInterval) {
+    Meteor.clearInterval(scheduleRaceMissionsInterval);
+  }
+
+  let startingMission = false;
+  scheduleRaceMissionsInterval = Meteor.setInterval(async () => {
+    const now = new Date();
+
+    const currentRace = racesGetCurrentSync();
+    if (!currentRace || !currentRace.linked_mission) return;
+
+    const mission = await Missions.findOneAsync({
+      _id: currentRace.linked_mission,
+    });
+
+    if (!mission) return;
+    if (mission.active) {
+      if (
+        currentRace.status !== 'pre-bets' ||
+        (mission.timeEnd && now > mission.timeEnd)
+      ) {
+        missionEnd(mission._id);
+      }
+      return;
+    }
+    if (mission.timeEnd && now > mission.timeEnd) {
+      return;
+    }
+
+    if (startingMission) {
+      console.log('mission already starting, not starting again');
+      return;
+    }
+
+    // If we are past the bets start tine minus the mission minutes duration, start the mission
+    const betsStartTime = DateTime.fromJSDate(currentRace.time_bets_start_at!);
+    const missionStartTime = betsStartTime.minus({
+      minutes: mission.minutes,
+    });
+
+    if (now > missionStartTime.toJSDate()) {
+      startingMission = true;
+      await raceGenerateTimeline(currentRace._id);
+      console.log('starting mission');
+      await missionStart(mission._id);
+      startingMission = false;
+    }
+  }, 5000);
+};
+
+if (
+  Meteor.isServer &&
+  // Prevent running the scheduler when we're doing local dev on prod data
+  // since the prod server will be trying to run it simultaneously
+  (process.env.DB_ENV === 'local' || Meteor.isProduction)
+) {
+  Meteor.startup(() => {
+    scheduleRaces();
+    scheduleRaceMissions();
+  });
+}

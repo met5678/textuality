@@ -1,6 +1,8 @@
 import SimpleSchema from 'simpl-schema';
 
 import Events from '/imports/api/events';
+import { EventId } from './event';
+import { PlayerId } from './player';
 
 const MediaSchema = new SimpleSchema({
   event: {
@@ -25,13 +27,15 @@ const MediaSchema = new SimpleSchema({
   },
 });
 
-type MediaPurpose = 'none' | 'avatar-fail' | 'avatar' | 'feed';
+export type MediaPurpose = 'none' | 'avatar-fail' | 'avatar' | 'feed';
 type FaceCoords = [number, number, number, number];
 
+export type MediaId = string;
+
 interface Media {
-  _id: string;
-  event: string;
-  player: string;
+  _id: MediaId;
+  event: EventId;
+  player: PlayerId;
   faces: FaceCoords[];
   width: number;
   height: number;
@@ -43,4 +47,4 @@ interface Media {
 }
 
 export default MediaSchema;
-export { Media, MediaSchema, MediaPurpose };
+export { Media, MediaSchema };

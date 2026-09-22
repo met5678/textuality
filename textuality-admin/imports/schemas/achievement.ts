@@ -1,8 +1,39 @@
 import SimpleSchema from 'simpl-schema';
 
 import Events from '/imports/api/events';
+import { EventId } from './event';
 
-const AchievementSchema = new SimpleSchema({
+export const DERBY_AWARDS = [
+  'NONE',
+  'HORSE_POWERUP',
+  'RACE_RESULT_LOGIC',
+] as const;
+export type DERBY_AWARD = (typeof DERBY_AWARDS)[number];
+
+export const ACHIEVEMENT_TRIGGERS = [
+  'CHECKPOINT_FOUND',
+  'CHECKPOINT_GROUP_COMPLETE',
+  'CHECKPOINT_GROUP_FOUND_N',
+  'CHECKPOINT_LOCATION_COMPLETE',
+  'CHECKPOINT_LOCATION_FOUND_N',
+
+  'HACKER_TASK_COMPLETE',
+  'MISSION_COMPLETE_N',
+
+  'SLOT_WIN_NORMAL',
+  'SLOT_WIN_HACKER',
+  'SLOT_SPIN_ALL',
+
+  'ROULETTE_NEGATIVE_WAGER',
+
+  'JOINED',
+  'REJOINED',
+
+  'BANKRUPT',
+] as const;
+export type AchievementTrigger = (typeof ACHIEVEMENT_TRIGGERS)[number];
+
+export const AchievementSchema = new SimpleSchema({
   event: {
     type: String,
     allowedValues: Events.allIds,
@@ -10,25 +41,7 @@ const AchievementSchema = new SimpleSchema({
   name: String,
   trigger: {
     type: String,
-    allowedValues: [
-      'CHECKPOINT_FOUND',
-      'CHECKPOINT_GROUP_COMPLETE',
-      'CHECKPOINT_GROUP_FOUND_N',
-      'CHECKPOINT_LOCATION_COMPLETE',
-      'CHECKPOINT_LOCATION_FOUND_N',
-
-      'HACKER_TASK_COMPLETE',
-      'N_MISSION',
-
-      'SLOT_WIN_NORMAL',
-      'SLOT_WIN_HACKER',
-      'SLOT_SPIN_ALL',
-
-      'JOINED',
-      'REJOINED',
-
-      'BANKRUPT',
-    ],
+    allowedValues: [...ACHIEVEMENT_TRIGGERS],
   },
   trigger_detail_string: {
     type: String,
@@ -42,6 +55,12 @@ const AchievementSchema = new SimpleSchema({
     type: SimpleSchema.Integer,
     optional: true,
     defaultValue: 0,
+  },
+  derby_award: {
+    type: String,
+    optional: true,
+    defaultValue: 'NONE',
+    allowedValues: ['NONE', 'HORSE_POWERUP', 'RACE_RESULT_LOGIC'],
   },
   quest_award_type: {
     type: String,
@@ -68,21 +87,23 @@ const AchievementSchema = new SimpleSchema({
   },
 });
 
-interface Achievement {
-  _id?: string;
-  event: string;
+export type AchievementId = string;
+
+export type Achievement = {
+  _id: AchievementId;
+  event: EventId;
   name: string;
   trigger: string;
   trigger_detail_string?: string;
   trigger_detail_number?: number;
   money_award?: number;
+  derby_award?: DERBY_AWARD;
   quest_award_type?: 'NONE' | 'HACKER_TASK' | 'HACKER_SLOT' | 'HACKER_ROULETTE';
   player_text?: string;
   player_text_image?: string;
 
   hide_from_screen: boolean;
   earned: number;
-}
+};
 
 export default AchievementSchema;
-export { Achievement, AchievementSchema };

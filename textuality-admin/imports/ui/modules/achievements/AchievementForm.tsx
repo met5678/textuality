@@ -10,6 +10,8 @@ import NumberField from '../../generic/AutoForm/NumberField';
 import EventField from '../events/EventField';
 import { RadioField } from 'uniforms-mui';
 import achievementsConfig from '/imports/api/achievements/config/achievements-config';
+import { useTracker } from 'meteor/react-meteor-data';
+import Events from '/imports/api/events';
 
 const AutoTextForm = ({
   model,
@@ -18,6 +20,7 @@ const AutoTextForm = ({
   model: Partial<Achievement> | null;
   onClose: () => void;
 }) => {
+  const event = useTracker(() => Events.current());
   const onSubmit = (result: Achievement) => {
     if (!result._id) {
       Meteor.call('achievements.new', result);
@@ -57,7 +60,8 @@ const AutoTextForm = ({
         />
       )}
       <NumberField name="money_award" />
-      <RadioField name="quest_award_type" />
+      {event?.theme === 'derby' && <RadioField name="derby_award" />}
+      {event?.theme === 'casino' && <RadioField name="quest_award_type" />}
       <TextMessageField name="player_text" />
       <TextField name="player_text_image" />
       <AutoField name="hide_from_screen" />

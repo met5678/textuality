@@ -7,23 +7,60 @@ import LoadingBar from '../../generic/LoadingBar';
 
 import AutoTexts from '/imports/api/autoTexts';
 import { GridColDef } from '@mui/x-data-grid';
-import { AutoText } from '/imports/schemas/autoText';
+import AutoTextSchema, { AutoText } from '/imports/schemas/autoText';
+import { AutoTextWithHelpers } from '/imports/api/autoTexts/autoTexts';
+import Events from '/imports/api/events';
+import { getStubWithEvent } from '../../../utils/get-stub-with-event';
+import { TextField } from '@mui/material';
 
-const columns: GridColDef<AutoText>[] = [
+const columns: GridColDef<AutoTextWithHelpers>[] = [
   {
     field: 'trigger',
     headerName: 'Trigger',
-    valueGetter: (cell) => {
-      return (
-        // @ts-ignore
-        cell.value + (cell.row?.isNumeric() ? `(${cell.row.triggerNum})` : '')
-      );
+    valueFormatter: (value, row) => {
+      return value + (row.isNumeric?.() ? `(${row.triggerNum})` : '');
     },
     width: 200,
+    type: 'singleSelect',
+    editable: true,
+    valueOptions: AutoTextSchema.getAllowedValuesForKey('trigger')?.map(
+      (trigger) => ({
+        label: trigger,
+        value: trigger,
+      }),
+    ),
   },
   {
     field: 'playerText',
     headerName: 'Player text',
+    editable: true,
+    renderEditCell: (params) => {
+      return (
+        <TextField
+          multiline={true}
+          fullWidth
+          autoFocus
+          value={params.value}
+          onChange={(e) =>
+            params.api.setEditCellValue({
+              id: params.id,
+              field: params.field,
+              value: e.target.value,
+            })
+          }
+          slotProps={{
+            htmlInput: {
+              onFocus: (e: React.FocusEvent<HTMLInputElement>) => {
+                e.target.setSelectionRange(
+                  e.target.value.length,
+                  e.target.value.length,
+                );
+              },
+            },
+          }}
+        />
+      );
+    },
     flex: 1,
   },
   {
@@ -52,7 +89,7 @@ const AutoTextsTable = ({ onEdit }: { onEdit: (obj: any) => any }) => {
 
   return (
     <>
-      <Table<AutoText>
+      <Table
         columns={columns}
         data={autoTexts}
         canDelete={true}
@@ -66,18 +103,18 @@ const AutoTextsTable = ({ onEdit }: { onEdit: (obj: any) => any }) => {
             Meteor.call('autoTexts.delete', autoText._id);
           }
         }}
+        canAddInline={true}
+        onGetStub={() => getStubWithEvent<AutoTextWithHelpers>(AutoTextSchema)}
+        onValidate={(autoText) => AutoTextSchema.validate(autoText)}
         canEdit={true}
         onEdit={onEdit}
-        onEditCell={(autoText) => {
-          Meteor.call('autoTexts.update', autoText);
-          return autoText;
+        onEditCell={async (row) => {
+          row.event = Events.currentId()!;
+          const newAutoText = await Meteor.callAsync('autoTexts.upsert', row);
+          console.log('newAutoText', newAutoText);
+          return newAutoText;
         }}
         dynamicHeight={true}
-        // canInsert={true}
-        // onInsert={(autoText) => Meteor.call('autoTexts.new', autoText)}
-        // canEdit={true}
-        // onEdit={(autoText) => Meteor.call('autoTexts.update', autoText)}
-        // form={AutoTextForm}
       />
     </>
   );

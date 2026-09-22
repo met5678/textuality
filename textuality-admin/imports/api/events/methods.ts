@@ -52,5 +52,18 @@ Meteor.methods({
     Meteor.call('roulettes.resetEvent', eventId);
     Meteor.call('rouletteBets.resetEvent', eventId);
     Meteor.call('quests.resetEvent', eventId);
+    Meteor.call('derby.races.resetEvent', eventId);
+    Meteor.call('derby.tellers.resetEvent', eventId);
+    Meteor.call('derby.horses.resetEvent', eventId);
+    Meteor.call('derby.raceBets.resetEvent', eventId);
+    Meteor.call('derby.powerups.resetEvent', eventId);
+    Meteor.call('derby.fortunes.resetEvent', eventId);
+  },
+
+  'events.copyFrom': (destinationEventId, sourceEventId) => {
+    Meteor.call('achievements.copyFrom', destinationEventId, sourceEventId);
+    Meteor.call('autoTexts.copyFrom', destinationEventId, sourceEventId);
+    Meteor.call('missions.copyFrom', destinationEventId, sourceEventId);
+    Meteor.call('quests.copyFrom', destinationEventId, sourceEventId);
   },
 });

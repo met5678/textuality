@@ -4,12 +4,8 @@ import { Meteor } from 'meteor/meteor';
 import { SlotMachineSchema, SlotMachine } from '/imports/schemas/slotMachine';
 
 import {
-  AutoField,
-  AutoFields,
   ErrorsField,
-  LongTextField,
 } from 'uniforms-mui';
-import { Box, Typography } from '@mui/material';
 import EventField from '../../../events/EventField';
 import AutoFormDialog from '/imports/ui/generic/AutoForm/AutoFormDialog';
 import TextField from '/imports/ui/generic/AutoForm/TextField';
@@ -31,9 +27,16 @@ const SlotMachineFormDialog = ({ model, onClose }: SlotMachineFormProps) => {
     onClose();
   };
 
+  console.log({ model });
+
   return (
     <AutoFormDialog
       schema={SlotMachineSchema}
+      modelTransform={(mode, model) => {
+        delete model.player;
+        delete model.result;
+        return model;
+      }}
       onSubmit={onSubmit}
       model={model}
       handleClose={onClose}

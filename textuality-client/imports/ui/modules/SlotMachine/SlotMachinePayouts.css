@@ -28,3 +28,9 @@
   text-shadow: 0 0 10px black;
   text-align: center;
 }
+
+/* SPACE CSS - TODO: make a theme*/
+.slot-payout.space .slot-payout-value {
+  font-family: magistral, sans-serif;
+  transform: translateY(min(6vw, -2vh));
+}

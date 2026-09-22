@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const RouletteInstr = ({}) => {
+const RouletteInstr = ({ skin }: { skin: string }) => {
   const [instrIndex, setInstrIndex] = useState(0);
   const [active, setActive] = useState(true);
 
@@ -16,6 +16,26 @@ const RouletteInstr = ({}) => {
     return () => clearInterval(interval);
   }, [instrIndex]);
 
+  const Instructions = [
+    () => (
+      <>
+        e.g.{' '}
+        <strong>
+          <i>!odd 50</i>
+        </strong>{' '}
+        places 50{skin === 'space' ? 'VC' : 'BB'} on ODD
+      </>
+    ),
+    () => (
+      <>
+        e.g.{' '}
+        <strong>
+          <i>!21 100</i>
+        </strong>{' '}
+        places 100{skin === 'space' ? 'VC' : 'BB'} on 21
+      </>
+    ),
+  ];
   const Instruction = Instructions[instrIndex];
 
   return (
@@ -24,26 +44,5 @@ const RouletteInstr = ({}) => {
     </p>
   );
 };
-
-const Instructions = [
-  () => (
-    <>
-      e.g.{' '}
-      <strong>
-        <i>!odd 50</i>
-      </strong>{' '}
-      places 50BB on ODD
-    </>
-  ),
-  () => (
-    <>
-      e.g.{' '}
-      <strong>
-        <i>!21 100</i>
-      </strong>{' '}
-      places 100BB on 21
-    </>
-  ),
-];
 
 export default RouletteInstr;

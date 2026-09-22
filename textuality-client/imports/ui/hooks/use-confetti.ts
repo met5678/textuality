@@ -7,6 +7,7 @@ const doConfetti = (emojis: string[]) => {
   confetti.addConfetti({
     confettiRadius: 10,
     confettiNumber: 100,
+    emojis,
   });
 };
 

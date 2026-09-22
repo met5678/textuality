@@ -2,7 +2,10 @@ import SimpleSchema from 'simpl-schema';
 
 import Events from '/imports/api/events';
 import Media from '/imports/api/media';
-
+import { EventId } from './event';
+import { MediaId } from './media';
+import { CheckpointId } from './checkpoint';
+import { QuestId } from './quest';
 const PlayerSchema = new SimpleSchema({
   event: {
     type: String,
@@ -84,14 +87,16 @@ const PlayerSchema = new SimpleSchema({
 });
 
 interface PlayerQuest {
-  id: string;
+  id: QuestId;
   complete: boolean;
   cheated: boolean;
 }
 
+export type PlayerId = string;
+
 interface Player {
-  _id?: string;
-  event: string;
+  _id: PlayerId;
+  event: EventId;
   phoneNumber: string;
   joined: Date;
   recent: Date;
@@ -104,24 +109,24 @@ interface Player {
   // numClues: number;
   // feedTextsSent: number;
   // feedMediaSent: number;
-  avatar?: string;
+  avatar?: MediaId;
   money: number;
   slot_spins: string[];
   quests: PlayerQuest[];
 }
 
 interface PlayerCheckpoint {
-  id: string;
+  id: CheckpointId;
   location: string;
   hashtag: string;
   time: Date;
 }
 
 interface PlayerBasic {
-  _id?: string;
+  _id: PlayerId;
   phoneNumber: string;
   alias: string;
-  avatar?: string;
+  avatar?: MediaId;
   money: number;
 }
 
@@ -133,9 +138,9 @@ const PlayerShortSchema = new SimpleSchema({
 });
 
 interface PlayerShort {
-  id: string;
+  id: PlayerId;
   alias: string;
-  avatar_id: string;
+  avatar_id: MediaId;
   money: number;
 }
 

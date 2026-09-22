@@ -1,15 +1,21 @@
 import React from 'react';
 import { useSubscribe, useTracker } from 'meteor/react-meteor-data';
-import { Route, Redirect, Switch } from 'wouter';
-
-import Shell from './Shell';
 
 import Events from '/imports/api/events';
-import SlotMachineScreen from './screens/SlotMachineScreen';
-import RouletteScreen from './screens/RouletteScreen';
-import LeaderboardScreen from './screens/LeaderboardScreen';
-import FinaleOverlay from './modules/CasinoFinale/FinaleOverlay';
-import GlitchOverlay from './modules/CasinoFinale/GlitchOverlay';
+import CasinoRoot from './themes/casino/CasinoRoot';
+import DerbyRoot from './themes/derby/DerbyRoot';
+import ClueRoot from './themes/clue/ClueRoot';
+import { EventTheme } from '../schemas/event';
+import { Event } from '../schemas/event';
+
+const ROOT_SCREEN_BY_THEME: Record<
+  EventTheme,
+  React.ComponentType<{ event: Event }>
+> = {
+  casino: CasinoRoot,
+  derby: DerbyRoot,
+  clue: ClueRoot,
+};
 
 const App = () => {
   const isLoadingEvent = useSubscribe('events.current');
@@ -23,32 +29,14 @@ const App = () => {
     return <p>No Event</p>;
   }
 
-  console.log({ state: event.state, finale_data: event.finale_data });
+  const theme = event.theme;
+  const ThemeScreenComponent = ROOT_SCREEN_BY_THEME[theme];
 
-  return (
-    <Shell>
-      <Switch>
-        <Route path="/slot-machine/:code">
-          {(params) => (
-            <>
-              <SlotMachineScreen event={event} slotMachineCode={params.code} />
-              {event.state === 'finale' && <GlitchOverlay event={event} />}
-            </>
-          )}
-        </Route>
-        <Route path="/roulette">
-          <RouletteScreen event={event} />
-          {event.state === 'finale' && <FinaleOverlay event={event} />}
-        </Route>
-        <Route path="/leaderboard">
-          <LeaderboardScreen event={event} />
-          {event.state === 'finale' && <GlitchOverlay event={event} />}
-        </Route>
+  if (!ThemeScreenComponent) {
+    return <p>No Theme Screen Component for theme: "{theme}"</p>;
+  }
 
-        <Redirect to="/roulette" />
-      </Switch>
-    </Shell>
-  );
+  return <ThemeScreenComponent event={event} />;
 };
 
 export default App;

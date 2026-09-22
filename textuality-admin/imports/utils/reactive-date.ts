@@ -10,4 +10,22 @@ Meteor.startup(() => {
   }, 1000);
 });
 
+export const reactiveDateWithInterval = (interval: number) => {
+  const reactiveDate = new ReactiveVar(new Date());
+  let dateInterval = null;
+
+  dateInterval = Meteor.setInterval(() => {
+    reactiveDate.set(new Date());
+  }, interval);
+
+  return {
+    reactiveDate,
+    cancel: () => {
+      Meteor.clearInterval(dateInterval);
+    },
+  };
+};
+
+export { reactiveDate };
+
 export default reactiveDate;

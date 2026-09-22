@@ -36,6 +36,7 @@ import '/imports/api/achievementUnlocks/server/publications-client';
 import '/imports/api/missions/';
 import '/imports/api/missions/methods-client';
 import '/imports/api/missions/server/publications-client';
+import '/imports/api/missions/server/mission-scheduler';
 
 import '/imports/api/missionPairings/';
 import '/imports/api/missionPairings/methods-client';
@@ -78,3 +79,31 @@ import '/imports/api/rounds/server/publications-client';
 import '/imports/api/guesses/';
 import '/imports/api/guesses/methods-client';
 import '/imports/api/guesses/server/publications-client';
+
+// Derby specific
+
+import '/imports/api/themes/derby/horses/';
+import '/imports/api/themes/derby/horses/server/publications-client';
+
+import '/imports/api/themes/derby/race/';
+import '/imports/api/themes/derby/race/methods-client';
+import '/imports/api/themes/derby/race/server/publications-client';
+import '/imports/api/themes/derby/race/server/race-scheduler';
+
+import '/imports/api/themes/derby/raceBets/';
+import '/imports/api/themes/derby/raceBets/methods-client';
+import '/imports/api/themes/derby/raceBets/server/publications-client';
+
+import '/imports/api/themes/derby/tellers/';
+import '/imports/api/themes/derby/tellers/methods-client';
+import '/imports/api/themes/derby/tellers/server/publications-client';
+import '/imports/api/themes/derby/tellers/server/teller-scheduler';
+
+import '/imports/api/themes/derby/powerups/';
+import '/imports/api/themes/derby/powerups/methods-client';
+import '/imports/api/themes/derby/powerups/server/publications-client';
+
+import '/imports/api/themes/derby/fortunes/';
+import '/imports/api/themes/derby/fortunes/server/publications-client';
+
+import '/imports/api/events/finale/finale-derby';

@@ -7,52 +7,11 @@ import Events from '/imports/api/events';
 
 import { Button, Switch } from '@mui/material';
 import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid';
-import AutoFormDialog from '../../generic/AutoForm/AutoFormDialog';
-import EventSchema, { Event } from '/imports/schemas/event';
+import { Event } from '/imports/schemas/event';
 import LoadingBar from '/imports/ui/generic/LoadingBar';
 import Table from '/imports/ui/generic/Table/Table';
 import EventForm from './EventForm';
-
-// const columns = [
-//   {
-//     dataField: 'name',
-//     sort: true,
-//     text: 'Name'
-//   },
-//   {
-//     dataField: 'phoneNumber',
-//     text: 'Phone Number'
-//   },
-//   {
-//     dataField: 'active',
-//     text: 'Active',
-//     formatter: (cell, row) => (
-//       <Toggle
-//         value={cell}
-//         onClick={() => {
-//           Meteor.call('events.activate', row._id, cell);
-//         }}
-//       />
-//     )
-//   },
-//   {
-//     dataField: 'reset',
-//     isDummyField: true,
-
-//     formatter: (cell, row) => (
-//       <Button
-//         color="danger"
-//         onClick={() =>
-//           confirm(
-//             'This will erase all current players/texts. Scripted items will remain. Are you sure?'
-//           ) && Meteor.call('events.reset', row._id)
-//         }
-//       >
-//         Reset
-//       </Button>
-//     )
-//   }
-// ];
+import { EventCopyFromModal } from './EventCopyFromModal';
 
 const tableColumns: GridColDef<Event>[] = [
   {
@@ -68,6 +27,11 @@ const tableColumns: GridColDef<Event>[] = [
   {
     field: 'theme',
     headerName: 'Theme',
+    flex: 1,
+  },
+  {
+    field: 'skin',
+    headerName: 'Skin',
     flex: 1,
   },
   {
@@ -119,6 +83,7 @@ const EventsTable = () => {
   const isLoading = useSubscribe('events.all');
   const events: Event[] = useTracker(() => Events.find().fetch());
   const [editEvent, setEditEvent] = useState<Event | null>(null);
+  const [copyToEvent, setCopyToEvent] = useState<Event | null>(null);
 
   if (isLoading()) return <LoadingBar />;
 
@@ -139,15 +104,34 @@ const EventsTable = () => {
           }
         }}
         canAdd={true}
-        onAdd={() => setEditEvent(EventSchema.clean({}))}
+        onAdd={() => setEditEvent({} as Event)}
         canEdit={true}
         onEdit={setEditEvent}
         customRowActions={[
           (params) => (
             <GridActionsCellItem
               showInMenu={true}
-              onClick={() => Meteor.call('finale.casino.start', params.row._id)}
+              onClick={() => {
+                if (params.row.skin === 'normal') {
+                  Meteor.callAsync(
+                    `finale.${params.row.theme}.start`,
+                    params.row._id,
+                  );
+                } else {
+                  Meteor.callAsync(
+                    `finale.${params.row.theme}.${params.row.skin}.start`,
+                    params.row._id,
+                  );
+                }
+              }}
               label="Start Finale"
+            />
+          ),
+          (params) => (
+            <GridActionsCellItem
+              showInMenu={true}
+              onClick={() => Meteor.call('finale.derby.cancel', params.row._id)}
+              label="Cancel Finale"
             />
           ),
           (params) => (
@@ -157,9 +141,22 @@ const EventsTable = () => {
               label="Send End"
             />
           ),
+          (params) => (
+            <GridActionsCellItem
+              showInMenu={true}
+              onClick={() => setCopyToEvent(params.row)}
+              label="Copy From Event..."
+            />
+          ),
         ]}
       />
       <EventForm model={editEvent} onClose={() => setEditEvent(null)} />
+      {copyToEvent && (
+        <EventCopyFromModal
+          destinationEvent={copyToEvent}
+          onClose={() => setCopyToEvent(null)}
+        />
+      )}
     </>
   );
 };

@@ -1,49 +1,21 @@
 import { Meteor } from 'meteor/meteor';
 
-import AutoTexts from './autoTexts';
 import Events from '/imports/api/events';
 import Players from '/imports/api/players';
 import Checkpoints from '../checkpoints';
 
-const capitalizeFirstLetter = (str: string) =>
-  `${str[0].toUpperCase()}${str.substring(1)}`;
+import { sendAutoText } from './methods/autoTexts.send';
+import { getPlayerPowerupSummary } from '../themes/derby/powerups/methods/powerups.getPlayerPowerupSummary';
+import { racesGetCurrent } from '../themes/derby/race/methods/races.getCurrent';
+import { raceBetGetPlayerRaceBetSummary } from '../themes/derby/raceBets/methods/raceBet.getPlayerRaceBetSummary';
+
+import './methods/autoTexts.send';
+import './methods/autoTexts.sendCustom';
+import './methods/autoTexts.sendBroadcast';
 
 Meteor.methods({
-  'autoTexts.send': ({
-    trigger,
-    triggerNum,
-    playerId,
-    mediaUrl,
-    templateVars,
-  }) => {
-    const autoTextQuery: Record<string, any> = {
-      event: Events.currentId(),
-      trigger,
-    };
-    if (triggerNum) autoTextQuery.triggerNum = triggerNum;
-
-    const matchingAutoTexts = AutoTexts.find(autoTextQuery).fetch();
-    if (matchingAutoTexts.length === 0) {
-      console.log('No matching autoTexts', { trigger, triggerNum });
-      return;
-    }
-
-    const autoText =
-      matchingAutoTexts[Math.floor(Math.random() * matchingAutoTexts.length)];
-
-    if (!mediaUrl) mediaUrl = autoText.image_url ?? undefined;
-
-    Meteor.call('autoTexts.sendCustom', {
-      ...autoText,
-      playerId,
-      mediaUrl,
-      templateVars,
-      source: 'auto',
-    });
-  },
-
-  'autoTexts.sendStatus': ({ playerId }) => {
-    const player = Players.findOne(playerId);
+  'autoTexts.sendStatus': async ({ playerId }) => {
+    const player = await Players.findOneAsync(playerId);
     if (!player) return;
 
     let checkpointLocations = Checkpoints.find(
@@ -96,41 +68,23 @@ Meteor.methods({
       }
     }
 
-    Meteor.call('autoTexts.send', {
+    const powerupSummary = await getPlayerPowerupSummary(playerId);
+
+    const currentRace = await racesGetCurrent();
+    const raceBetSummary = currentRace
+      ? await raceBetGetPlayerRaceBetSummary(playerId, currentRace._id, [
+          'placed',
+        ])
+      : 'None';
+
+    sendAutoText({
       trigger: 'WALLET_STATUS',
       playerId,
       templateVars: {
         checkpoint_list: lines.join('\n'),
+        powerup_summary: powerupSummary,
+        bet_summary: raceBetSummary,
       },
-      source: 'auto',
     });
-  },
-
-  'autoTexts.sendCustom': ({
-    playerText,
-    playerId,
-    mediaUrl,
-    templateVars = {},
-    source = 'auto',
-  }) => {
-    const player = Players.findOne(playerId);
-    if (!player) return;
-
-    if (playerText) {
-      // let body = playerText.replace(/\[alias\]/g, player.alias);
-      let body = playerText;
-      templateVars.alias = player.alias;
-      templateVars.money = player.money;
-      Object.keys(templateVars).forEach((key) => {
-        body = body.replace(new RegExp(`\\[${key}\\]`, 'g'), templateVars[key]);
-      });
-
-      Meteor.call('outTexts.send', {
-        players: [player],
-        body,
-        source,
-        mediaUrl,
-      });
-    }
   },
 });

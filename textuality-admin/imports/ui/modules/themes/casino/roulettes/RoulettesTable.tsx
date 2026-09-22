@@ -13,6 +13,7 @@ import RouletteSchema from '/imports/schemas/roulette';
 import { DateTime } from 'luxon';
 import RouletteBets from '/imports/api/themes/casino/rouletteBets';
 import { RouletteBetWithHelpers } from '/imports/api/themes/casino/rouletteBets/rouletteBets';
+import { doRoulettePayoutsMethod } from '/imports/api/themes/casino/roulettes/methods/roulettes.doPayouts';
 
 const getColumns = (
   rouletteBets: RouletteBetWithHelpers[],
@@ -28,11 +29,9 @@ const getColumns = (
       field: 'bets_start_at',
       headerName: 'Bets Start',
       type: 'dateTime',
-      valueFormatter: (params) =>
-        params.value
-          ? DateTime.fromJSDate(params.value).toLocaleString(
-              DateTime.TIME_SIMPLE,
-            )
+      valueFormatter: (value: RouletteWithHelpers['bets_start_at']) =>
+        value
+          ? DateTime.fromJSDate(value).toLocaleString(DateTime.TIME_SIMPLE)
           : '--',
       width: 100,
     },
@@ -40,24 +39,24 @@ const getColumns = (
       field: 'spin_starts_at',
       headerName: 'Spin Starts',
       type: 'dateTime',
-      valueFormatter: (params) =>
-        params.value
-          ? DateTime.fromJSDate(params.value).toLocaleString(
-              DateTime.TIME_SIMPLE,
-            )
+      valueFormatter: (value: RouletteWithHelpers['spin_starts_at']) =>
+        value
+          ? DateTime.fromJSDate(value).toLocaleString(DateTime.TIME_SIMPLE)
           : '--',
       width: 100,
     },
     {
       field: 'spin_seconds',
       headerName: 'Spin Time',
-      valueFormatter: (params) => params.value + 's',
+      valueFormatter: (value: RouletteWithHelpers['spin_seconds']) =>
+        value + 's',
       width: 90,
     },
     {
       field: 'bets_cutoff_seconds',
       headerName: 'Bets Cutoff',
-      valueFormatter: (params) => params.value + 's',
+      valueFormatter: (value: RouletteWithHelpers['bets_cutoff_seconds']) =>
+        value + 's',
       width: 90,
     },
     {
@@ -70,8 +69,8 @@ const getColumns = (
     {
       field: 'linked_mission',
       headerName: 'Mission',
-      valueGetter: (params) =>
-        params.row.linked_mission && params.row.linked_mission !== 'none',
+      valueGetter: (_value, row) =>
+        row.linked_mission && row.linked_mission !== 'none',
       type: 'boolean',
     },
     {
@@ -94,8 +93,8 @@ const getColumns = (
       field: 'num_bets',
       headerName: 'Num Bets',
       type: 'number',
-      valueGetter: (params) =>
-        rouletteBets.filter((bet) => bet.roulette_id === params.row._id).length,
+      valueGetter: (_value, row) =>
+        rouletteBets.filter((bet) => bet.roulette_id === row._id).length,
     },
   ];
   return columns;
@@ -120,6 +119,7 @@ const RoulettesTable = () => {
         isLoading={isLoading() || isLoadingBets()}
         canDelete={true}
         onDelete={(roulette) => {
+          if (!Array.isArray(roulette)) roulette = [roulette];
           Meteor.call(
             'roulettes.delete',
             roulette.map((r) => r._id),
@@ -169,9 +169,10 @@ const RoulettesTable = () => {
           (params) => (
             <GridActionsCellItem
               showInMenu={true}
-              onClick={() =>
-                Meteor.call('rouletteBets.doPayouts', params.row._id)
-              }
+              onClick={async () => {
+                await doRoulettePayoutsMethod(params.row._id);
+                console.log('Processed bets for roulette', params.row._id);
+              }}
               label="Process Bets"
             />
           ),

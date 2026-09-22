@@ -6,14 +6,17 @@ import { RouletteBet } from '/imports/schemas/rouletteBet';
 import RouletteChip from './RouletteChip';
 import './RouletteWinnerBoard.css';
 import classNames from 'classnames';
+import commaNumber from 'comma-number';
 
 const TIME_INTERVAL = 4000;
 const NUM_TO_SHOW = 3;
 
 const RouletteWinnerBoard = ({
   roulette,
+  skin,
 }: {
   roulette: Partial<RouletteWithHelpers>;
+  skin: string;
 }) => {
   const isLoading = useSubscribe(
     'rouletteBets.winnersForRoulette',
@@ -46,7 +49,7 @@ const RouletteWinnerBoard = ({
 
   const winnersToShow = winningBets.slice(startIdx, startIdx + NUM_TO_SHOW);
 
-  const rouletteWinnerBoardClass = classNames({
+  const rouletteWinnerBoardClass = classNames(skin, {
     'roulette-winner-board': true,
     'even-idx': startIdx % 2 === 0,
     'odd-idx': startIdx % 2 === 1,
@@ -64,7 +67,9 @@ const RouletteWinnerBoard = ({
               height={250}
             />
             <div className="roulette-winner-alias">{bet.player.alias}</div>
-            <div className="roulette-winner-amount">+{bet.win_payout} BB</div>
+            <div className="roulette-winner-amount">
+              +{commaNumber(bet.win_payout)} {skin === 'space' ? 'VC' : 'BB'}
+            </div>
             <div className={`roulette-winner-bet ${bet.bet_slot}`}>
               {bet.bet_slot}
             </div>

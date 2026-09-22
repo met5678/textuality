@@ -91,3 +91,34 @@ import 'api/guesses/';
 import 'api/guesses/methods-admin';
 import 'api/guesses/methods-client';
 import 'api/guesses/server/publications-admin';
+
+// Derby specific
+
+import '/imports/api/themes/derby/horses';
+import '/imports/api/themes/derby/horses/methods-admin';
+import '/imports/api/themes/derby/horses/server/publications-admin';
+
+import '/imports/api/themes/derby/race/';
+import '/imports/api/themes/derby/race/methods-admin';
+import '/imports/api/themes/derby/race/methods-client';
+import '/imports/api/themes/derby/race/server/publications-admin';
+
+import '/imports/api/themes/derby/raceBets';
+import '/imports/api/themes/derby/raceBets/methods-admin';
+import '/imports/api/themes/derby/raceBets/methods-client';
+import '/imports/api/themes/derby/raceBets/server/publications-admin';
+
+import '/imports/api/themes/derby/tellers';
+import '/imports/api/themes/derby/tellers/methods-admin';
+import '/imports/api/themes/derby/tellers/methods-client';
+import '/imports/api/themes/derby/tellers/server/publications-admin';
+
+import '/imports/api/themes/derby/powerups';
+import '/imports/api/themes/derby/powerups/methods-admin';
+import '/imports/api/themes/derby/powerups/server/publications-admin';
+
+import '/imports/api/themes/derby/fortunes';
+import '/imports/api/themes/derby/fortunes/methods-admin';
+import '/imports/api/themes/derby/fortunes/server/publications-admin';
+
+import '/imports/api/events/finale/finale-derby';

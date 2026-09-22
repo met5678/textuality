@@ -8,6 +8,7 @@ interface RouletteWheelProps {
   spin_seconds: number;
   status: RouletteStatus;
   innerWheelText?: ReactNode;
+  skin: string;
 }
 
 const RouletteWheel = ({
@@ -15,6 +16,7 @@ const RouletteWheel = ({
   spin_seconds,
   status,
   innerWheelText,
+  skin,
 }: RouletteWheelProps) => {
   const nums: number[] = [
     32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24,
@@ -42,7 +44,7 @@ const RouletteWheel = ({
   });
 
   return (
-    <div className="rouletteWheel">
+    <div className={`rouletteWheel ${skin}`}>
       <div className="plate" id="plate">
         <ul
           className={innerClassNames}

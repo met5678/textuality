@@ -21,8 +21,8 @@ let currentTimeout = null;
 
 Meteor.methods({
   'rounds.start': ({ roundId }) => {
-    Rounds.find({ _id: { $ne: roundId } }).forEach((round) =>
-      Meteor.call('rounds.abort', { roundId: round._id })
+    Rounds.find({ _id: { $ne: roundId }, event: Events.currentId() }).forEach(
+      (round) => Meteor.call('rounds.abort', { roundId: round._id }),
     );
     Rounds.update(roundId, {
       $set: { active: true, status: 'active', timeStart: new Date() },
@@ -63,7 +63,7 @@ Meteor.methods({
     if (currentTimeout) Meteor.clearTimeout(currentTimeout);
     currentTimeout = Meteor.setTimeout(
       () => Meteor.call('rounds.startRevealSequence', { roundId }),
-      duration * 1000
+      duration * 1000,
     );
   },
 

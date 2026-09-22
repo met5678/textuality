@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode } from 'react';
+import React, { ReactElement, ReactNode, useState, useEffect } from 'react';
 import {
   DataGrid,
   GridColDef,
@@ -8,49 +8,123 @@ import {
   GridToolbarContainer,
   GridToolbarExport,
   GridValidRowModel,
+  GridPaginationModel,
+  GridRowModesModel,
+  DataGridProps,
+  GridEditMode,
+  MuiEvent,
+  MuiBaseEvent,
+  GridRowEditStopParams,
+  gridClasses,
+  GridSortModel,
+  GridFilterModel,
 } from '@mui/x-data-grid';
 import { Paper } from '@mui/material';
 import useTableDelete from './useTableDelete';
 import useTableEdit from './useTableEdit';
 import useTableAdd from './useTableAdd';
+import useTableAddInline, { NEW_ROW_ID_PREFIX } from './useTableAddInline';
+import { useTableErrorSnackbar } from './TableErrorSnackbar';
+import useTableDuplicate from './useTableDuplicate';
 
-interface TableArgs<T extends GridValidRowModel> {
+export interface TablePaginationProps {
+  rowCount: number;
+  paginationModel: GridPaginationModel;
+  onPaginationModelChange: (model: GridPaginationModel) => void;
+  sortModel: GridSortModel;
+  onSortModelChange: (model: GridSortModel) => void;
+  filterModel: GridFilterModel;
+  onFilterModelChange: (model: GridFilterModel) => void;
+  paginationMode: 'server';
+  sortMode: 'server';
+  filterMode: 'server';
+}
+
+/**
+ * A flexible table component built on top of MUI's DataGrid with built-in CRUD operations
+ * @template T - The type of data being displayed in the table
+ */
+export interface TableArgs<T extends GridValidRowModel> {
+  /** The data to display in the table */
   data: GridRowsProp<T>;
+  /** Column definitions for the table */
   columns: GridColDef<T>[];
+  /** Whether delete functionality is enabled */
   canDelete?: boolean;
-  onDelete?: (obj: T | T[]) => Promise<any> | void;
+  /** Callback function for delete operations */
+  onDelete?: (obj: T | T[]) => Promise<void> | void;
+  /** Whether edit functionality is enabled */
   canEdit?: boolean;
-  onEdit?: (obj: T) => Promise<any> | void;
+  /** Callback function for edit operations */
+  onEdit?: (obj: T) => Promise<void> | void;
+  /** Callback function for cell-level edits */
   onEditCell?: (row: T, origRow: T) => Promise<T> | T;
+  /** Whether add functionality is enabled */
   canAdd?: boolean;
-  onAdd?: () => Promise<any> | void;
-  formModal?: ReactElement;
-  dynamicHeight?: boolean;
+  /** Callback function for add operations */
+  onAdd?: () => Promise<void> | void;
+  /** Whether inline add functionality is enabled */
+  canAddInline?: boolean;
+  /** Callback function for getting a stub for the add operation */
+  onGetStub?: () => T;
+  /** Whether duplicate functionality is enabled */
+  canDuplicate?: boolean;
+  /** Callback function for duplicate operations */
+  onDuplicate?: (obj: T) => Promise<void> | void;
+  /** Table density setting */
   density?: GridDensity;
+  /** Custom row action components */
   customRowActions?: ((params: GridRowParams<T>) => ReactElement)[];
+  /** Loading state */
   isLoading?: boolean;
+  /** Pagination props */
+  paginationProps?: TablePaginationProps;
+  /** The property name of the ID field */
+  idProp?: string;
+  /** Initial sort field */
+  initialSortField?: string;
+  /** Initial sort order */
+  initialSortOrder?: 'asc' | 'desc';
+  /** Callback for validating rows */
+  onValidate?: (row: T) => void;
+  /** Whether to use dynamic row heights */
+  dynamicHeight?: boolean;
 }
 
 interface UseTableReturnValue<T extends GridValidRowModel> {
   toolbarAction?: ReactNode;
   rowAction?: TableRowAction<T>;
   dialog?: ReactNode;
+  editMode?: DataGridProps['editMode'];
+  handleRowEditStop?: (
+    params: GridRowEditStopParams<T>,
+    event: MuiEvent<MuiBaseEvent>,
+  ) => void;
 }
 
-type TableRowAction<T extends GridValidRowModel> =
-  | ((rowParams: GridRowParams<T>) => ReactElement)
-  | null;
+type TableRowAction<T extends GridValidRowModel> = (
+  rowParams: GridRowParams<T>,
+) => ReactElement;
 
 const applyRowActions = <T extends GridValidRowModel>(
-  rowActions: TableRowAction<T>[],
   columns: GridColDef[],
+  rowActions: TableRowAction<T>[],
+  customRowActions?: ((params: GridRowParams<T>) => ReactElement)[],
 ): GridColDef[] => {
+  const allRowActions = [...rowActions, ...(customRowActions || [])];
+  let width = 45 * rowActions.length;
+  if (customRowActions && customRowActions.length > 0) {
+    width += 45;
+  }
+
   return [
     ...columns,
     {
       field: 'actions',
       type: 'actions',
-      getActions: (params) => rowActions.map((rowAction) => rowAction!(params)),
+      width,
+      getActions: (params) =>
+        allRowActions.map((rowAction) => rowAction!(params)),
     },
   ];
 };
@@ -69,32 +143,75 @@ const getCustomToolbar = (toolbarActions: ReactNode[]) => {
 const Table = <T extends GridValidRowModel>({
   data,
   columns,
+  idProp = '_id',
   canDelete = false,
   onDelete,
+  canDuplicate = false,
+  onDuplicate,
   canEdit = false,
   onEdit,
   onEditCell,
   canAdd = false,
   onAdd,
-  dynamicHeight = false,
+  canAddInline = false,
+  onGetStub,
   density = 'compact',
   customRowActions = [],
   isLoading = false,
+  paginationProps,
+  initialSortField,
+  initialSortOrder = 'asc',
+  onValidate,
+  dynamicHeight = false,
 }: TableArgs<T>) => {
-  const rowActions: ((params: GridRowParams<T>) => ReactElement)[] = [
-    ...customRowActions,
-  ];
+  const [rows, setRows] = useState<GridRowsProp<T>>(data);
+  useEffect(() => {
+    setRows(data);
+  }, [data]);
+  const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
+  const [editMode, setEditMode] = useState<GridEditMode>('cell');
+  const rowActions: ((params: GridRowParams<T>) => ReactElement)[] = [];
   const toolbarActions: ReactNode[] = [];
   const dialogs: ReactNode[] = [];
-
+  const handleRowEditStopCallbacks: ((
+    params: GridRowEditStopParams<T>,
+    event: MuiEvent<MuiBaseEvent>,
+  ) => void)[] = [];
+  const { openSnackbar, renderSnackbar } = useTableErrorSnackbar();
   {
-    const { toolbarAction, dialog, rowAction } = useTableAdd<T>({
+    const { dialog, toolbarAction } = useTableAdd<T>({
       canAdd,
       onAdd: onAdd!,
     });
     toolbarAction && toolbarActions.push(toolbarAction);
+    dialog && dialogs.push(dialog);
+  }
+
+  {
+    const { toolbarAction, dialog, rowAction, handleRowEditStop } =
+      useTableAddInline<T>({
+        canAddInline,
+        onGetStub,
+        setRowModesModel,
+        setEditMode,
+        rows,
+        setRows,
+        idProp,
+        columns,
+      });
+    toolbarAction && toolbarActions.push(toolbarAction);
     rowAction && rowActions.push(rowAction);
     dialog && dialogs.push(dialog);
+    handleRowEditStop && handleRowEditStopCallbacks.push(handleRowEditStop);
+  }
+
+  {
+    const { rowAction } = useTableDuplicate<T>({
+      canDuplicate,
+      onDuplicate: onDuplicate!,
+      idProp,
+    });
+    rowAction && rowActions.push(rowAction);
   }
 
   {
@@ -110,43 +227,93 @@ const Table = <T extends GridValidRowModel>({
     const { dialog, rowAction } = useTableDelete<T>({
       canDelete,
       onDelete: onDelete!,
+      setRows,
+      idProp,
     });
     rowAction && rowActions.push(rowAction);
     dialog && dialogs.push(dialog);
   }
 
-  const useColumns = rowActions.length
-    ? applyRowActions(rowActions, columns)
-    : columns;
+  const useColumns = React.useMemo(
+    () =>
+      rowActions.length
+        ? applyRowActions(columns, rowActions, customRowActions)
+        : columns,
+    [rowActions, columns],
+  );
 
   return (
-    <Paper>
+    <Paper
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
       <DataGrid<T>
-        rows={data}
+        rows={rows}
         columns={useColumns}
-        autoHeight={true}
-        getRowId={(row) => row._id}
+        getRowId={(row) => row[idProp]}
         rowSelection={false}
         checkboxSelection={false}
         density={density}
         loading={isLoading}
         getRowHeight={dynamicHeight ? () => 'auto' : undefined}
-        processRowUpdate={onEditCell}
-        onProcessRowUpdateError={(error) => console.error(error)}
+        sx={
+          dynamicHeight
+            ? {
+                [`& .${gridClasses.cell}`]: {
+                  py: 1,
+                },
+              }
+            : undefined
+        }
+        onRowEditStop={(params, event) => {
+          handleRowEditStopCallbacks.forEach((callback) =>
+            callback(params, event),
+          );
+        }}
+        processRowUpdate={async (newRow, oldRow) => {
+          if (!onEditCell) return newRow;
+          const id = newRow[idProp];
+          const rowWithoutId = { ...newRow };
+          delete rowWithoutId[idProp];
+          onValidate?.(rowWithoutId);
+          // If this is a new row, we should pass the row without the
+          // generated id so that Meteor can generate it
+          if (
+            id &&
+            typeof id === 'string' &&
+            id.startsWith(NEW_ROW_ID_PREFIX)
+          ) {
+            return await onEditCell(rowWithoutId, oldRow);
+          }
+          return await onEditCell(newRow, oldRow);
+        }}
+        onProcessRowUpdateError={(error) => {
+          openSnackbar(error.message);
+        }}
         slots={{
           toolbar: () => getCustomToolbar(toolbarActions),
         }}
-        sx={{
-          '&.MuiDataGrid-root--densityCompact .MuiDataGrid-cell': { py: '8px' },
-          '&.MuiDataGrid-root--densityStandard .MuiDataGrid-cell': {
-            py: '15px',
-          },
-          '&.MuiDataGrid-root--densityComfortable .MuiDataGrid-cell': {
-            py: '22px',
-          },
-        }}
+        rowModesModel={rowModesModel}
+        onRowModesModelChange={setRowModesModel}
+        editMode={editMode}
+        initialState={
+          initialSortField
+            ? {
+                sorting: {
+                  sortModel: [
+                    { field: initialSortField, sort: initialSortOrder },
+                  ],
+                },
+              }
+            : undefined
+        }
+        {...paginationProps}
+        aria-label="Data table"
       />
       {dialogs}
+      {renderSnackbar()}
     </Paper>
   );
 };

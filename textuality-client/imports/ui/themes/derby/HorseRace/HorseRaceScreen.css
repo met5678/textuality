@@ -1,0 +1,28 @@
+:root {
+  --derby-burgundy: #681e22;
+  --derby-beige: #c4b090;
+  --derby-black: #16171b;
+  --derby-off-white: #fefae7;
+  --derby-orange: #945226;
+  --derby-green: #1c4028;
+}
+
+#horse-race-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background-color: var(--derby-beige);
+  overflow: hidden;
+}
+
+#horse-race-screen h1 {
+  color: var(--derby-burgundy);
+  font-family: brioso-pro-display, serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 100px;
+}

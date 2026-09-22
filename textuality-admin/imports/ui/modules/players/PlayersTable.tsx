@@ -7,7 +7,6 @@ import Table from '/imports/ui/generic/Table/Table';
 import Players from '/imports/api/players';
 import LoadingBar from '../../generic/LoadingBar';
 import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid';
-import { Player } from '/imports/schemas/player';
 import { PlayerWithHelpers } from '/imports/api/players/players';
 
 const tableColumns: GridColDef<PlayerWithHelpers>[] = [
@@ -45,14 +44,14 @@ const tableColumns: GridColDef<PlayerWithHelpers>[] = [
     field: 'checkpoints',
     headerName: 'Hashtags',
     type: 'number',
-    valueGetter: (cell) => cell.value.length,
+    valueGetter: (value: PlayerWithHelpers['checkpoints']) => value.length,
     width: 80,
   },
   {
     field: 'slot_spins',
     headerName: 'Slot Spins',
     type: 'number',
-    valueGetter: (cell) => cell.value.length,
+    valueGetter: (value: PlayerWithHelpers['slot_spins']) => value.length,
     width: 80,
   },
   {
@@ -82,7 +81,16 @@ const PlayersTable = () => {
       data={players}
       canDelete={true}
       density="standard"
-      onDelete={(player) => Meteor.call('players.delete', player)}
+      onDelete={(player) => {
+        if (Array.isArray(player)) {
+          Meteor.call(
+            'players.delete',
+            player.map((player) => player._id),
+          );
+        } else {
+          Meteor.call('players.delete', player._id);
+        }
+      }}
       customRowActions={[
         (params) => (
           <GridActionsCellItem
@@ -92,6 +100,27 @@ const PlayersTable = () => {
               Meteor.call('players.giveMoney', {
                 playerId: params.row._id,
                 money: 100,
+              })
+            }
+          />
+        ),
+        (params) => (
+          <GridActionsCellItem
+            showInMenu={true}
+            label="Award Logic Clue"
+            onClick={() =>
+              Meteor.call('players.awardRaceLogicClue', params.row._id)
+            }
+          />
+        ),
+        (params) => (
+          <GridActionsCellItem
+            showInMenu={true}
+            label="Leave Player"
+            onClick={() =>
+              Meteor.call('players.update', {
+                _id: params.row._id,
+                status: 'quit',
               })
             }
           />

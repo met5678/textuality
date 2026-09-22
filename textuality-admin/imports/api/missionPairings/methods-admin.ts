@@ -4,21 +4,21 @@ import MissionPairings from './missionPairings';
 import Events from '/imports/api/events';
 
 Meteor.methods({
-  'missionPairings.update': (missionPairing) => {
-    MissionPairings.update(missionPairing._id, {
+  'missionPairings.update': async (missionPairing) => {
+    await MissionPairings.updateAsync(missionPairing._id, {
       $set: missionPairing,
     });
   },
 
-  'missionPairings.delete': (missionPairingId) => {
+  'missionPairings.delete': async (missionPairingId) => {
     if (Array.isArray(missionPairingId)) {
-      MissionPairings.remove({ _id: { $in: missionPairingId } });
+      await MissionPairings.removeAsync({ _id: { $in: missionPairingId } });
     } else {
-      MissionPairings.remove(missionPairingId);
+      await MissionPairings.removeAsync(missionPairingId);
     }
   },
 
-  'missionPairings.resetEvent': () => {
-    MissionPairings.remove({ event: Events.currentId()! });
+  'missionPairings.resetEvent': async () => {
+    await MissionPairings.removeAsync({ event: Events.currentId()! });
   },
 });

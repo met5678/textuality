@@ -1,6 +1,9 @@
 import SimpleSchema from 'simpl-schema';
 
 import Events from '/imports/api/events';
+import { EventId } from './event';
+import { AchievementId } from './achievement';
+import { PlayerId } from './player';
 
 const AchievementUnlockSchema = new SimpleSchema({
   event: {
@@ -20,13 +23,15 @@ const AchievementUnlockSchema = new SimpleSchema({
   },
 });
 
+export type AchievementUnlockId = string;
+
 interface AchievementUnlock {
-  _id?: string;
-  event: string;
-  achievement: string;
+  _id: AchievementUnlockId;
+  event: EventId;
+  achievement: AchievementId;
   name: string;
   time: Date;
-  player: string;
+  player: PlayerId;
   alias: string;
   avatar: string;
   numAchievements: number;

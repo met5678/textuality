@@ -7,7 +7,7 @@ const MissionsPage = () => {
   return (
     <>
       <Box mb={2}>
-        <Typography variant="h5">All Roulettes</Typography>
+        <Typography variant="h5">All Missions</Typography>
       </Box>
       <MissionsTable />
     </>

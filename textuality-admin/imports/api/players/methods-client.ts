@@ -1,22 +1,28 @@
 import { Meteor } from 'meteor/meteor';
 
-import Players from './players';
+import Players, { PlayerWithHelpers } from './players';
 import Events from '/imports/api/events';
-import InTexts from '/imports/api/inTexts';
-import Media from '/imports/api/media';
-import PlayerSchema, { Player } from '/imports/schemas/player';
+import { Player, PlayerId } from '/imports/schemas/player';
+import { raceAwardLogicClue } from '../themes/derby/race/logic-clues/races.awardLogicClue';
+
+import './methods/players.giveMoney';
+import './methods/players.takeMoney';
 
 Meteor.methods({
-  'players.findOrJoin': (phoneNumber) => {
-    let player = Players.findOne({
-      event: Events.currentId()!,
+  'players.findOrJoin': async (
+    phoneNumber: string,
+  ): Promise<PlayerWithHelpers> => {
+    const eventId = Events.currentIdOrThrow();
+
+    let player = await Players.findOneAsync({
+      event: eventId,
       phoneNumber,
     });
 
     if (!player) {
       const alias = Meteor.call('aliases.checkout');
-      const id = Players.insert({
-        event: Events.currentId()!,
+      const id = await Players.insertAsync({
+        event: eventId,
         phoneNumber,
         joined: new Date(),
         recent: new Date(),
@@ -30,10 +36,11 @@ Meteor.methods({
         slot_spins: [],
         quests: [],
       });
-      player = Players.findOne(id);
+
+      player = await Players.findOneAsync(id);
     }
 
-    return player;
+    return player!;
   },
 
   'players.updateAfterInText': (inText) => {
@@ -91,41 +98,15 @@ Meteor.methods({
     Players.update(playerId, { $set: { checkpoints } });
   },
 
-  'players.giveMoney': ({ playerId, money }) => {
-    Players.update(playerId, { $inc: { money } });
-  },
-
-  'players.takeMoney': ({ playerId, money }) => {
-    const player = Players.findOne(playerId);
-    if (!player) return;
-    if (money > player.money) {
-      Players.update(playerId, { $set: { money: 0 } });
-      player.money = 0;
-    } else {
-      Players.update(playerId, { $inc: { money: -money } });
-      player.money -= money;
-    }
-
-    if (player.money === 0) {
-      if (
-        !Meteor.call('achievements.tryUnlock', {
-          trigger: 'BANKRUPT',
-          playerId: player._id,
-        })
-      ) {
-        Meteor.call('autoTexts.send', {
-          trigger: 'WALLET_BANKRUPT',
-          playerId: player._id,
-        });
-      }
-    }
-  },
-
   'players.recordSlotSpin': ({ player_id, slot_id }) => {
     Players.update(player_id, {
       $push: {
         slot_spins: slot_id,
       },
     });
+  },
+
+  'players.awardRaceLogicClue': (playerId: PlayerId) => {
+    raceAwardLogicClue(playerId);
   },
 });

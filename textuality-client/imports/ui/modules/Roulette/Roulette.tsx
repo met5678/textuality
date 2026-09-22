@@ -17,9 +17,10 @@ import RouletteWinnerBoard from './RouletteWinnerBoard';
 
 interface RouletteProps {
   roulette: Partial<RouletteWithHelpers>;
+  skin: string;
 }
 
-const Roulette = ({ roulette }: RouletteProps) => {
+const Roulette = ({ roulette, skin }: RouletteProps) => {
   const {
     event,
     number_payout_multiplier,
@@ -52,7 +53,7 @@ const Roulette = ({ roulette }: RouletteProps) => {
   useConfetti(status === 'end-spin');
 
   return (
-    <div className={`roulette ${status}`}>
+    <div className={`roulette ${status} ${skin}`}>
       <h2>{displayTitle}</h2>
       <div className="rouletteTable">
         <div className="bettingArea">
@@ -64,7 +65,7 @@ const Roulette = ({ roulette }: RouletteProps) => {
               </strong>{' '}
               to place your bet
             </p>
-            <RouletteInstr />
+            <RouletteInstr skin={skin} />
             <p class="note">
               Number Payout: {number_payout_multiplier}x, Red/Black/Odd/Even
               Payout: {special_payout_multiplier}x
@@ -74,16 +75,17 @@ const Roulette = ({ roulette }: RouletteProps) => {
             status={status}
             betsOpen={bets_open}
             rouletteId={roulette._id}
+            skin={skin}
           />
         </div>
 
         <div className="leaderboardArea">
-          <CasinoLeaderboard />
+          <CasinoLeaderboard skin={skin} />
         </div>
 
         {status === 'winners-board' && (
           <div className="winnerBoard">
-            <RouletteWinnerBoard roulette={roulette} />
+            <RouletteWinnerBoard roulette={roulette} skin={skin} />
           </div>
         )}
 
@@ -91,7 +93,10 @@ const Roulette = ({ roulette }: RouletteProps) => {
           result={result}
           status={status!}
           spin_seconds={spin_seconds!}
-          innerWheelText={<RouletteWheelDisplay roulette={roulette} />}
+          skin={skin}
+          innerWheelText={
+            <RouletteWheelDisplay roulette={roulette} skin={skin} />
+          }
         />
       </div>
       <RouletteSounds roulette={roulette} />

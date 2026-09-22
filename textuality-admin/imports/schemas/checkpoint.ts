@@ -1,14 +1,18 @@
 import SimpleSchema from 'simpl-schema';
 
 import Events from '/imports/api/events';
-
+import { EventId } from './event';
 const CheckpointSchema = new SimpleSchema({
   event: {
     type: String,
     allowedValues: Events.allIds,
   },
   hashtag: String,
-  groups: [String],
+  groups: {
+    type: Array,
+    defaultValue: [],
+  },
+  'groups.$': String,
   location: String,
   money_award: {
     type: SimpleSchema.Integer,
@@ -29,9 +33,11 @@ const CheckpointSchema = new SimpleSchema({
   },
 });
 
+export type CheckpointId = string;
+
 interface Checkpoint {
-  _id?: string;
-  event: string;
+  _id: CheckpointId;
+  event: EventId;
   hashtag: string;
   groups: string[];
   location: string;

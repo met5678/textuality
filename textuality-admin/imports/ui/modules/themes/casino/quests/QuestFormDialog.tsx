@@ -17,6 +17,18 @@ interface QuestFormProps {
   onClose: () => void;
 }
 
+const normalizeQuestModel = (quest: Partial<Quest>) => {
+  const normalizedQuest = { ...quest };
+
+  if (normalizedQuest.type === 'HACKER_TASK') {
+    delete normalizedQuest.slot_quest;
+  } else if (normalizedQuest.type === 'HACKER_SLOT') {
+    delete normalizedQuest.task_quest;
+  }
+
+  return normalizedQuest;
+};
+
 const QuestFormDialog = ({ model, onClose }: QuestFormProps) => {
   const isLoading = useSubscribe('slotMachines.all');
   const slotMachines = useFind(
@@ -45,6 +57,7 @@ const QuestFormDialog = ({ model, onClose }: QuestFormProps) => {
       schema={QuestSchema}
       onSubmit={onSubmit}
       model={model}
+      modelTransform={(_mode, quest) => normalizeQuestModel(quest)}
       handleClose={onClose}
       onChangeModel={setLiveModel}
     >
@@ -71,3 +84,4 @@ const QuestFormDialog = ({ model, onClose }: QuestFormProps) => {
 };
 
 export default QuestFormDialog;
+export { normalizeQuestModel };

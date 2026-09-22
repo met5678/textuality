@@ -1,23 +1,36 @@
-import { InText, InTextPurpose } from '/imports/schemas/inText';
+import { getPurposeCasino } from './get-purpose-casino';
+import { getPurposeDerby } from './get-purpose-derby';
+import { EventTheme } from '/imports/schemas/event';
+import { InTextPurpose } from '/imports/schemas/inText';
 import { Player } from '/imports/schemas/player';
 import { IncomingMessageData } from '/imports/services/whatsapp';
 
-interface GetPurposeArgs {
+export interface GetPurposeArgs {
   player: Player;
   message: IncomingMessageData;
+  theme: EventTheme;
 }
 
-function getPurpose({ message, player }: GetPurposeArgs): InTextPurpose {
+const getPurposeByTheme: Record<
+  EventTheme,
+  (args: GetPurposeArgs) => Promise<InTextPurpose | undefined>
+> = {
+  derby: getPurposeDerby,
+  casino: getPurposeCasino,
+  clue: () => Promise.resolve(undefined),
+};
+
+export const getPurpose = async ({
+  message,
+  player,
+  theme,
+}: GetPurposeArgs): Promise<InTextPurpose> => {
   if (player.status === 'new' || player.status === 'tentative') {
     return 'initial';
   }
 
   if (player.status === 'banned') {
     return 'ignore';
-  }
-
-  if (!message.text && message.media) {
-    return 'mediaOnly';
   }
 
   if (message.text) {
@@ -28,19 +41,16 @@ function getPurpose({ message, player }: GetPurposeArgs): InTextPurpose {
     if (message.text.startsWith('#')) {
       return 'hashtag';
     }
-
-    if (message.text.startsWith('%')) {
-      return 'percent';
-    }
-
-    if (message.text.startsWith('!')) {
-      return 'bet';
-    }
-
-    return 'feed';
   }
 
-  return 'ignore';
-}
+  if (getPurposeByTheme[theme]) {
+    const purpose = await getPurposeByTheme[theme]({ message, player, theme });
+    if (purpose) {
+      return purpose;
+    }
+  }
+
+  return 'feed';
+};
 
 export default getPurpose;

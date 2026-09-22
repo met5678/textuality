@@ -44,15 +44,17 @@ const getWheelDisplay = (
 
 const RouletteWheelDisplay = ({
   roulette,
+  skin,
 }: {
   roulette: Partial<RouletteWithHelpers>;
+  skin: string;
 }) => {
   const wheelDisplay = getWheelDisplay(roulette);
 
   if (wheelDisplay == null) return null;
 
   return (
-    <div className="wheel-display">
+    <div className={`wheel-display ${skin}`}>
       {wheelDisplay.title && (
         <div
           className={`wheel-title ${

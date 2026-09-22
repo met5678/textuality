@@ -1,14 +1,14 @@
 import React from 'react';
-import { useSubscribe, useFind } from 'meteor/react-meteor-data';
 import { DateTime } from 'luxon';
 
 import Table from '/imports/ui/generic/Table/Table';
 
 import OutTexts from '/imports/api/outTexts';
 import { GridColDef } from '@mui/x-data-grid';
-import LoadingBar from '../../generic/LoadingBar';
+import { OutText } from '/imports/schemas/outText';
+import usePaginatedTableProps from '../../hooks/use-paginated-table-props';
 
-const columns: GridColDef[] = [
+const columns: GridColDef<OutText>[] = [
   {
     field: 'player_alias',
     headerName: 'Player',
@@ -22,7 +22,7 @@ const columns: GridColDef[] = [
   {
     field: 'media_url',
     headerName: 'Media',
-    valueGetter: (cell) => !!cell.value,
+    valueGetter: (value: OutText['media_url']) => !!value,
     type: 'boolean',
     width: 65,
   },
@@ -35,20 +35,21 @@ const columns: GridColDef[] = [
     field: 'time',
     headerName: 'Time',
     type: 'dateTime',
-    valueFormatter: (cell) =>
-      DateTime.fromJSDate(cell.value).toLocaleString(
-        DateTime.TIME_24_WITH_SECONDS,
-      ),
+    valueFormatter: (value: OutText['time']) =>
+      DateTime.fromJSDate(value).toLocaleString(DateTime.TIME_24_WITH_SECONDS),
     width: 95,
   },
 ];
 
-const InTextsTable = () => {
-  const isLoading = useSubscribe('outTexts.all');
-  const inTexts = useFind(() => OutTexts.find({}, { sort: { time: -1 } }), []);
-  if (isLoading()) return <LoadingBar />;
+const OutTextsTable = () => {
+  const tableProps = usePaginatedTableProps({
+    subscription: 'outTexts.paged',
+    collection: OutTexts,
+    initialSortField: 'time',
+    initialSortOrder: 'desc',
+  });
 
-  return <Table columns={columns} data={inTexts} />;
+  return <Table columns={columns} {...tableProps} />;
 };
 
-export default InTextsTable;
+export default OutTextsTable;

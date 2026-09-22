@@ -3,27 +3,34 @@ import { useFind, useSubscribe } from 'meteor/react-meteor-data';
 
 import Missions from '/imports/api/missions';
 import MissionSchema, { Mission } from '/imports/schemas/mission';
-import { Meteor } from 'meteor/meteor';
 import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid';
 import { DateTime } from 'luxon';
 import Table from '../../generic/Table/Table';
 import MissionFormDialog from './MissionFormDialog';
+import { useTableCollectionProps } from '/imports/utils/get-table-collection-props';
+import { missionStartMethod } from '/imports/api/missions/methods/missions.start';
+import { missionEndMethod } from '/imports/api/missions/methods/missions.end';
 
 const columns: GridColDef<Mission>[] = [
+  {
+    field: 'number',
+    headerName: 'Num',
+    width: 70,
+    type: 'number',
+    editable: true,
+  },
   {
     field: 'name',
     headerName: 'Name',
     width: 200,
-  },
-  {
-    field: 'number',
-    headerName: 'Num',
-    width: 50,
+    editable: true,
   },
   {
     field: 'minutes',
     headerName: 'Mins',
-    width: 50,
+    width: 70,
+    type: 'number',
+    editable: true,
   },
   {
     field: 'active',
@@ -34,20 +41,22 @@ const columns: GridColDef<Mission>[] = [
   {
     field: 'timeStart',
     headerName: 'Starts',
-    valueFormatter: (params) =>
-      params.value
-        ? DateTime.fromJSDate(params.value).toLocaleString(DateTime.TIME_SIMPLE)
+    valueFormatter: (value: Mission['timeStart']) =>
+      value
+        ? DateTime.fromJSDate(value).toLocaleString(DateTime.TIME_SIMPLE)
         : '--',
     width: 150,
+    editable: true,
   },
   {
     field: 'timeEnd',
     headerName: 'Ends',
-    valueFormatter: (params) =>
-      params.value
-        ? DateTime.fromJSDate(params.value).toLocaleString(DateTime.TIME_SIMPLE)
+    valueFormatter: (value: Mission['timeEnd']) =>
+      value
+        ? DateTime.fromJSDate(value).toLocaleString(DateTime.TIME_SIMPLE)
         : '--',
     width: 150,
+    editable: true,
   },
 ];
 
@@ -56,29 +65,26 @@ const MissionsTable = () => {
   const missions = useFind(() => Missions.find({}), []);
   const [editMission, setEditMission] = useState<Partial<Mission> | null>(null);
 
+  const tableEditProps = useTableCollectionProps(
+    MissionSchema,
+    Missions,
+    'missions',
+    setEditMission,
+  );
+
   return (
     <>
       <Table<Mission>
         columns={columns}
         data={missions}
         isLoading={isLoading()}
-        canDelete={true}
-        onDelete={(mission) => {
-          Meteor.call(
-            'missions.delete',
-            mission.map((r) => r._id),
-          );
-        }}
-        canAdd={true}
-        onAdd={() => setEditMission(MissionSchema.clean({}))}
-        canEdit={true}
-        onEdit={setEditMission}
+        {...tableEditProps}
         customRowActions={[
           (params) => (
             <GridActionsCellItem
               showInMenu={true}
               onClick={() =>
-                Meteor.call('missions.start', { missionId: params.row._id })
+                missionStartMethod(params.row._id)
               }
               label="Start Mission"
             />
@@ -87,7 +93,7 @@ const MissionsTable = () => {
             <GridActionsCellItem
               showInMenu={true}
               onClick={() =>
-                Meteor.call('missions.end', { missionId: params.row._id })
+                missionEndMethod(params.row._id)
               }
               label="End Mission"
             />

@@ -1,6 +1,7 @@
 import SimpleSchema from 'simpl-schema';
 
 import Events from '/imports/api/events';
+import { EventId } from './event';
 
 const AliasSchema = new SimpleSchema({
   event: {
@@ -11,9 +12,11 @@ const AliasSchema = new SimpleSchema({
   used: Boolean,
 });
 
+export type AliasId = string;
+
 interface Alias {
-  _id?: string;
-  event: string;
+  _id: AliasId;
+  event: EventId;
   name: string;
   used: boolean;
 }

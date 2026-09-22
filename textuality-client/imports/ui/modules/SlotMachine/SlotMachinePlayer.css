@@ -125,3 +125,11 @@
     transform: translateX(0vw);
   }
 }
+
+.space .player-avatar-chip {
+  border: min(2vw, 0.4vh) solid #abd301;
+}
+
+.space .player-money {
+  color: #abd301;
+}

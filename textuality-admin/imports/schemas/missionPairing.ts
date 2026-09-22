@@ -1,8 +1,12 @@
 import SimpleSchema from 'simpl-schema';
 
 import Events from '/imports/api/events';
+import { EventId } from './event';
+import { PlayerId } from './player';
+import { MissionId } from './mission';
+import { MediaId } from './media';
 
-const MissionPairingSchema = new SimpleSchema({
+export const MissionPairingSchema = new SimpleSchema({
   event: {
     type: String,
     allowedValues: Events.allIds,
@@ -25,20 +29,21 @@ const MissionPairingSchema = new SimpleSchema({
   },
 });
 
-interface MissionPairing {
-  _id?: string;
-  event: string;
-  mission: string;
-  playerA: string;
-  playerB: string;
+export type MissionPairingId = string;
+
+export type MissionPairing = {
+  _id: MissionPairingId;
+  event: EventId;
+  mission: MissionId;
+  playerA: PlayerId;
+  playerB: PlayerId;
   aliasA: string;
   aliasB: string;
-  avatarA: string;
-  avatarB: string;
+  avatarA: MediaId;
+  avatarB: MediaId;
   hashtag: string;
   complete?: boolean;
   timeComplete?: Date;
-}
+};
 
 export default MissionPairingSchema;
-export { MissionPairing, MissionPairingSchema };

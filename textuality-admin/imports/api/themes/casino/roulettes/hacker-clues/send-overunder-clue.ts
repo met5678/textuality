@@ -1,4 +1,4 @@
-import { Meteor } from 'meteor/meteor';
+import { sendAutoText } from '/imports/api/autoTexts/methods/autoTexts.send';
 
 const sendOverUnderClue = (result: number, player_id: string) => {
   let pivotNumber: number;
@@ -11,7 +11,7 @@ const sendOverUnderClue = (result: number, player_id: string) => {
     pivotNumber > result ? 'LESS THAN' : 'GREATER THAN'
   } ${pivotNumber}!`;
 
-  Meteor.call('autoTexts.send', {
+  sendAutoText({
     trigger: 'HACKER_ROULETTE_SIMPLE',
     playerId: player_id,
     templateVars: {

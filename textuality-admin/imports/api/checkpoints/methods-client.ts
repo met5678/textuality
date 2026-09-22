@@ -6,6 +6,8 @@ import Players from '/imports/api/players';
 import getCheckpointLocationStats from './process-checkpoint/get-location-stats';
 import getCheckpointGroupStats from './process-checkpoint/get-group-stats';
 import { group } from 'console';
+import { sendCustomAutoText } from '../autoTexts/methods/autoTexts.sendCustom';
+import { sendAutoText } from '../autoTexts/methods/autoTexts.send';
 
 Meteor.methods({
   'checkpoints.getForHashtag': (hashtag) => {
@@ -59,7 +61,7 @@ Meteor.methods({
     };
 
     let gotAchievement = Meteor.call('achievements.tryUnlock', {
-      trigger: 'CHECKPOINT_GROUP_FOUND_N',
+      trigger: 'CHECKPOINT_LOCATION_FOUND_N',
       trigger_detail_string: checkpoint.location,
       trigger_detail_number: locationStats.numFound,
       playerId: player._id,
@@ -80,7 +82,6 @@ Meteor.methods({
     );
 
     groupStats.forEach((groupStat) => {
-      console.log(groupStat);
       gotAchievement ||= Meteor.call('achievements.tryUnlock', {
         trigger: 'CHECKPOINT_GROUP_FOUND_N',
         trigger_detail_string: groupStat.group,
@@ -101,20 +102,20 @@ Meteor.methods({
 
     if (!gotAchievement) {
       if (checkpoint.player_text) {
-        Meteor.call('autoTexts.sendCustom', {
+        sendCustomAutoText({
           playerText: checkpoint.player_text,
           playerId,
           templateVars,
         });
       } else {
         if (checkpoint.suppress_autotext) {
-          Meteor.call('autoTexts.send', {
+          sendAutoText({
             trigger: 'CHECKPOINT_FOUND_HIDDEN',
             playerId,
             templateVars,
           });
         } else {
-          Meteor.call('autoTexts.send', {
+          sendAutoText({
             trigger: 'CHECKPOINT_FOUND',
             playerId,
             templateVars,

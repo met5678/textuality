@@ -7,8 +7,9 @@ import QuestFormDialog from './QuestFormDialog';
 import QuestSchema, { Quest } from '/imports/schemas/quest';
 import Quests from '/imports/api/themes/casino/quests';
 import Table from '/imports/ui/generic/Table/Table';
+import { QuestWithHelpers } from '/imports/api/themes/casino/quests/quests';
 
-const columns: GridColDef<Quest>[] = [
+const columns: GridColDef<QuestWithHelpers>[] = [
   {
     field: 'name',
     headerName: 'Name',
@@ -42,7 +43,8 @@ const columns: GridColDef<Quest>[] = [
     field: 'slot_quest',
     headerName: 'Award',
     width: 80,
-    valueGetter: (params) => params.row.slot_quest?.win_amount || '--',
+    valueGetter: (value: QuestWithHelpers['slot_quest']) =>
+      value?.win_amount || '--',
   },
   {
     field: 'num_assigned',

@@ -18,11 +18,19 @@ import MissionsPage from '/imports/ui/modules/missions/MissionsPage';
 // import RoundsPage from 'modules/rounds/RoundsPage';
 import SlotMachinesPage from './modules/themes/casino/slotMachines/SlotMachinesPage';
 import RoulettesPage from './modules/themes/casino/roulettes/RoulettesPage';
+import RouletteBetsPage from './modules/themes/casino/rouletteBets/RouletteBetsPage';
+import QuestsPage from './modules/themes/casino/quests/QuestsPage';
+import HorsesPage from './modules/themes/derby/horses/HorsesPage';
+import RacesPage from './modules/themes/derby/races/RacesPage';
 
 import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
-import QuestsPage from './modules/themes/casino/quests/QuestsPage';
+import TellersPage from './modules/themes/derby/tellers/TellersPage';
+import RaceBetsPage from './modules/themes/derby/raceBets/RaceBetsPage';
+import PowerupsPage from './modules/themes/derby/powerups/PowerupsPage';
+import AchievementUnlocksPage from './modules/achievementUnlocks/AchievementUnlocksPage';
+import FortunesPage from './modules/themes/derby/fortunes/FortunesPage';
 
 const darkTheme = createTheme({
   palette: {
@@ -40,15 +48,24 @@ const App = () => (
           <Route path="/texts" component={AllTextsPage} />
           <Route path="/players" component={PlayersPage} />
           <Route path="/media" component={MediaPage} />
-          {/*<Route path="/unlocks" component={AchievementUnlocksPage} />*/}
+          <Route path="/unlocks" component={AchievementUnlocksPage} />
           <Route path="/achievements" component={AchievementsPage} />
           <Route path="/aliases" component={AliasesPage} />
           <Route path="/autoTexts" component={AutoTextsPage} />
           <Route path="/checkpoints" component={CheckpointsPage} />
           <Route path="/missions" component={MissionsPage} />
+
           <Route path="/casino/slot-machines" component={SlotMachinesPage} />
           <Route path="/casino/roulettes" component={RoulettesPage} />
+          <Route path="/casino/roulette-bets" component={RouletteBetsPage} />
           <Route path="/casino/quests" component={QuestsPage} />
+
+          <Route path="/derby/horses" component={HorsesPage} />
+          <Route path="/derby/races" component={RacesPage} />
+          <Route path="/derby/tellers" component={TellersPage} />
+          <Route path="/derby/race-bets" component={RaceBetsPage} />
+          <Route path="/derby/powerups" component={PowerupsPage} />
+          <Route path="/derby/fortunes" component={FortunesPage} />
 
           {/*<Route path="/clue-rewards" component={ClueRewardsPage} />*/}
           {/*<Route path="/clues" component={CluesPage} />*/}

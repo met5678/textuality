@@ -17,3 +17,8 @@
 .wheel-countdown {
   font-size: 5vw;
 }
+
+/* SPACE CSS - TODO: theme */
+.wheel-display.space .wheel-title.with-countdown {
+  font-size: 2.5vw;
+}

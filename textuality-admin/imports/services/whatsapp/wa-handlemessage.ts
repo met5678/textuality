@@ -20,6 +20,23 @@ type MessageVideo = {
   id: string;
 };
 
+type MessageInteractive =
+  | {
+      type: 'button_reply';
+      button_reply: {
+        id: string;
+        title: string;
+      };
+    }
+  | {
+      type: 'list_reply';
+      list_reply: {
+        id: string;
+        title: string;
+        description?: string;
+      };
+    };
+
 interface MessageBase {
   id: string;
   timestamp: string;
@@ -41,13 +58,35 @@ interface MessageWithVideo extends MessageBase {
   video: MessageVideo;
 }
 
-type MessageRaw = MessageWithText | MessageWithImage | MessageWithVideo;
+interface MessageWithInteractive extends MessageBase {
+  type: 'interactive';
+  context: {
+    /* Should be Textuality's phone number */
+    from: string;
+    /* Should be the external id of the message that was replied to */
+    id: string;
+  };
+  interactive: MessageInteractive;
+}
+
+type MessageRaw =
+  | MessageWithText
+  | MessageWithImage
+  | MessageWithVideo
+  | MessageWithInteractive;
 
 interface IncomingMessageMedia {
   content_type: string;
   mime_type: string;
   url: string;
   external_id: string;
+}
+
+interface IncomingMessageInteractive {
+  original_external_id: string;
+  type: 'button_reply' | 'list_reply';
+  value: string;
+  label: string;
 }
 
 interface IncomingMessageData {
@@ -58,6 +97,7 @@ interface IncomingMessageData {
   timestamp: Date;
   text: string;
   media?: IncomingMessageMedia;
+  interactive?: IncomingMessageInteractive;
 }
 
 let onReceiveText: (message: IncomingMessageData) => void = () => {};
@@ -109,6 +149,21 @@ async function processWaMessage(messageRaw: MessageRaw, sentTo: string) {
       content_type: messageRaw.type,
       external_id: messageRaw.video.id,
       url: await getMediaUrl(messageRaw.video.id),
+    };
+  }
+
+  if (messageRaw.type === 'interactive') {
+    message.interactive = {
+      original_external_id: messageRaw.context.id,
+      type: messageRaw.interactive.type,
+      value:
+        messageRaw.interactive.type === 'button_reply'
+          ? messageRaw.interactive.button_reply.id
+          : messageRaw.interactive.list_reply.id,
+      label:
+        messageRaw.interactive.type === 'button_reply'
+          ? messageRaw.interactive.button_reply.title
+          : messageRaw.interactive.list_reply.title,
     };
   }
 

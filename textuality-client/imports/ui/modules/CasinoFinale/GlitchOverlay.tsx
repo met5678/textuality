@@ -2,7 +2,7 @@ import React from 'react';
 
 import './GlitchOverlay.css';
 
-const GlitchOverlay = ({ event }: { event: Partial<Event> }) => {
+const GlitchOverlay = () => {
   return (
     <div
       className="glitchOverlay"

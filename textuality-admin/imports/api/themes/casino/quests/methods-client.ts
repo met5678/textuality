@@ -1,21 +1,10 @@
 import { Meteor } from 'meteor/meteor';
 
-import SlotMachines from './slotMachines';
 import Events from '/imports/api/events';
 import Players from '/imports/api/players';
-import {
-  SlotMachine,
-  SlotMachineEmojis,
-  SlotMachineOdds,
-  SlotMachineResult,
-} from '/imports/schemas/slotMachine';
-import waitForSeconds from '/imports/api/rounds/reveal-sequence/_wait-for-seconds';
 import { QuestType } from '/imports/schemas/quest';
 import Quests from './quests';
 import checkSlotSequence from './slot-quest/check-slot-sequence';
-
-// Once a spin starts, it'll need to go through a process:
-//
 
 Meteor.methods({
   'quests.processHashtag': ({ playerId, hashtag }) => {
@@ -49,10 +38,13 @@ Meteor.methods({
     playerId: string;
     type: QuestType;
   }) => {
+    const eventId = Events.currentId();
+    if (!eventId) return;
+
     const player = Players.findOne(playerId, { fields: { quests: 1 } });
     if (!player) return;
     const assignedQuests = player.quests.map((quests) => quests.id);
-    const questsOfType = Quests.find({ type }).fetch();
+    const questsOfType = Quests.find({ type, event: eventId }).fetch();
     let availableQuests = questsOfType.filter(
       (quest) => !assignedQuests.includes(quest._id!),
     );
@@ -153,6 +145,7 @@ Meteor.methods({
     const activeSlotQuests = Quests.find({
       _id: { $in: questIds },
       type: 'HACKER_SLOT',
+      event: Events.currentId()!,
     }).fetch();
     if (activeSlotQuests.length === 0)
       return { hackerSpin: false, hackerWin: false };

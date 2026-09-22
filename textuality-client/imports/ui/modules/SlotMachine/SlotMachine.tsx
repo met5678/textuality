@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { getImageUrl } from '/imports/services/cloudinary/cloudinary-geturl';
+import React from 'react';
 import SlotMachineSounds from './SlotMachineSounds';
 import { SlotMachineWithHelpers } from '/imports/api/themes/casino/slotMachines/slotMachines';
 import './slot-machine.css';
@@ -75,6 +74,8 @@ const SlotMachine = ({ slotMachine, skin }: SlotMachineProps) => {
     status === 'win-hacker-partial' ||
     status === 'win-hacker-final';
 
+  const compressText = name.length > 12;
+
   useConfetti(showWin);
 
   const slotClasses = classNames('slot-machine', {
@@ -85,11 +86,6 @@ const SlotMachine = ({ slotMachine, skin }: SlotMachineProps) => {
     'win-hacker-final': status === 'win-hacker-final',
     win: showWin,
   });
-
-  const titleClasses = classNames(
-    'title-name',
-    name.length > 8 ? 'compressed' : name.length > 6 ? 'condensed' : '',
-  );
 
   const items =
     skin === 'space'
@@ -119,11 +115,25 @@ const SlotMachine = ({ slotMachine, skin }: SlotMachineProps) => {
         }}
       >
         <div className="title-container">
-          <div className={titleClasses}>{name}</div>
+          <div
+            className={classNames(
+              'title-name',
+              compressText ? 'compressed' : '',
+            )}
+          >
+            {name}
+          </div>
 
           <div className="instrux-area">
             <div className="title-tospin">TO SPIN:</div>
-            <div className="title-short">!{short}</div>
+            <div
+              className={classNames(
+                'title-short',
+                compressText ? 'compressed' : '',
+              )}
+            >
+              !{short}
+            </div>
           </div>
 
           <div className="title-price">

@@ -67,6 +67,11 @@
   text-transform: uppercase;
   text-align: center;
   line-height: 1;
+  padding: 0 12px;
+}
+
+.title-name.compressed {
+  font-size: min(16vw, 6vh);
 }
 
 .title-tospin {
@@ -82,8 +87,12 @@
   font-family: rockwell-nova, sans-serif;
   font-weight: 700;
   font-style: normal;
-  font-size: min(28vw, 8vh);
+  font-size: min(24vw, 8vh);
   text-transform: uppercase;
+}
+
+.title-short.compressed {
+  font-size: min(16vw, 6vh);
 }
 
 .title-price {

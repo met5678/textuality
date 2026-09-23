@@ -40,14 +40,6 @@
   transform: translate(-50%, -50%);
 }
 
-/* .chip.rotate {
-  animation: rotateOuter 6s infinite linear;
-}
-
-.chip.rotate img {
-  animation: rotateInner 6s infinite linear;
-} */
-
 @keyframes rotateOuter {
   0% {
     transform: rotate(0deg);

@@ -64,6 +64,7 @@ const RouletteGrid = ({ rouletteId, skin }: RouletteGridProps) => {
           <RouletteChip
             avatar_id={betObj?.player.avatar_id}
             color={getColorForBet(betObj, colorOptions)}
+            animateIn
           />
         )}
         {number}
@@ -84,6 +85,7 @@ const RouletteGrid = ({ rouletteId, skin }: RouletteGridProps) => {
           <RouletteChip
             avatar_id={betObj?.player.avatar_id}
             color={getColorForBet(betObj, colorOptions)}
+            animateIn
           />
         )}
         {bet}
@@ -123,7 +125,7 @@ const RouletteGrid = ({ rouletteId, skin }: RouletteGridProps) => {
             color={getColorForBet(queueBet, colorOptions)}
           />{' '}
           <p>
-            {queueBet?.player.alias} put {commaNumber(queueBet.wager)}{' '}
+            {queueBet?.player.alias} put {commaNumber(queueBet?.wager || '0')}{' '}
             {skin === 'space' ? 'VC' : 'BB'} on {queueBet.bet_slot}!
           </p>
         </div>

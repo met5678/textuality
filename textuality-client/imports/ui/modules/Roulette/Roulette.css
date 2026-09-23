@@ -192,7 +192,7 @@ p {
 
 .rouletteWheel {
   position: relative;
-  top: 0;
+  top: 30px;
   left: 30px;
   transform: scale(0.9);
   filter: drop-shadow(10px 10px 16px black);

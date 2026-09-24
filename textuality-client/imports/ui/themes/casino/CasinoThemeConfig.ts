@@ -36,7 +36,7 @@ export const themes: Record<'normal' | 'space', ThemeStyles> = {
     colorPrimary: '#ff01ff', // magenta
     colorSecondary: '#04ffff', // teal
 
-    colorAccentLight: ' #ff9404', // gold
+    colorAccentLight: '#ff9404', // gold
     colorAccentMid: '#abd301', // lime green
     colorAccentDark: '#0000fe', //blue
 

@@ -34,7 +34,7 @@
   border-radius: 50%;
   height: min(60vw, 12vh);
   width: min(60vw, 12vh);
-  border: min(2vw, 0.4vh) solid var(--color-highlight);
+  border: min(2vw, 0.4vh) solid var(--color-secondary);
   background-size: cover;
 }
 
@@ -50,7 +50,7 @@
   font-family: var(--font-body);
   font-style: normal;
   font-size: min(8vw, 2.5vh);
-  color: var(--color-highlight);
+  color: var(--color-secondary);
   font-weight: 700;
   padding: min(2vw, 0.4vh);
 }

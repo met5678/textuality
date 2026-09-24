@@ -3,11 +3,12 @@ import SlotMachineSounds from './SlotMachineSounds';
 import { SlotMachineWithHelpers } from '/imports/api/themes/casino/slotMachines/slotMachines';
 import './slot-machine.css';
 import './leds.css';
-import classNames from 'classnames';
+import classnames from 'classnames';
 import Reel from './Reel';
 import SlotMachinePlayer from './SlotMachinePlayer';
 import { useConfetti } from '../../hooks/use-confetti';
 import SlotMachinePayouts from './SlotMachinePayouts';
+import { themes, Theme } from '../../themes/casino/CasinoThemeConfig';
 
 interface SlotMachineProps {
   slotMachine: SlotMachineWithHelpers;
@@ -59,7 +60,7 @@ const Leds = () => {
       {[...Array(8).keys()]
         .map((i) => i + 1)
         .map((v) => (
-          <div key={v} className={classNames('led', getLedClass(v))}></div>
+          <div key={v} className={classnames('led', getLedClass(v))}></div>
         ))}
     </div>
   );
@@ -68,6 +69,9 @@ const Leds = () => {
 const SlotMachine = ({ slotMachine, skin }: SlotMachineProps) => {
   const { name, short, cost, status, code, result, win_amount, player, stats } =
     slotMachine;
+
+  const theme = themes[skin as Theme];
+  const currency = theme.currency;
 
   const showWin =
     status === 'win-normal' ||
@@ -78,7 +82,7 @@ const SlotMachine = ({ slotMachine, skin }: SlotMachineProps) => {
 
   useConfetti(showWin);
 
-  const slotClasses = classNames('slot-machine', {
+  const slotClasses = classnames('slot-machine', {
     spinning: status === 'spinning',
     lose: status === 'lose',
     'win-normal': status === 'win-normal',
@@ -109,14 +113,14 @@ const SlotMachine = ({ slotMachine, skin }: SlotMachineProps) => {
   return (
     <>
       <div
-        className={classNames('slot-machine', skin)}
+        className={classnames('slot-machine', skin)}
         style={{
           backgroundImage: `url(\/images/slot-machine/${skin}/${short}.jpg)`,
         }}
       >
         <div className="title-container">
           <div
-            className={classNames(
+            className={classnames(
               'title-name',
               compressText ? 'compressed' : '',
             )}
@@ -127,7 +131,7 @@ const SlotMachine = ({ slotMachine, skin }: SlotMachineProps) => {
           <div className="instrux-area">
             <div className="title-tospin">TO SPIN:</div>
             <div
-              className={classNames(
+              className={classnames(
                 'title-short',
                 compressText ? 'compressed' : '',
               )}
@@ -139,7 +143,7 @@ const SlotMachine = ({ slotMachine, skin }: SlotMachineProps) => {
           <div className="title-price">
             Price:{' '}
             <span className="title-price-bb">
-              {cost} {skin === 'space' ? 'VC' : 'BB'}
+              {cost} {currency}
             </span>
           </div>
         </div>

@@ -3,6 +3,7 @@ import { getImageUrl } from '/imports/services/cloudinary/cloudinary-geturl';
 import './SlotMachinePlayer.css';
 import { SlotMachineStatus } from '/imports/schemas/slotMachine';
 import { PlayerShort } from '/imports/schemas/player';
+import { themes, Theme } from '../../themes/casino/CasinoThemeConfig';
 import commaNumber from 'comma-number';
 
 const SlotMachinePlayer = ({
@@ -18,6 +19,9 @@ const SlotMachinePlayer = ({
   skin: string;
   hacked: boolean;
 }) => {
+  const theme = themes[skin as Theme];
+  const currency = theme.currency;
+
   return (
     <div className={`slot-player ${status ?? ''} ${skin}`}>
       <div className="player-avatar-chip-wrapper">
@@ -35,9 +39,7 @@ const SlotMachinePlayer = ({
       </div>
       <div className="player-alias">{player.alias}</div>
       <div className="player-money">
-        {win_amount
-          ? `+ ${commaNumber(win_amount)} ${skin === 'space' ? 'VC' : 'BB'}`
-          : ``}
+        {win_amount ? `+ ${commaNumber(win_amount)} ${currency}` : ``}
       </div>
     </div>
   );

@@ -2,8 +2,8 @@ import { useFind, useSubscribe } from 'meteor/react-meteor-data';
 import React, { useEffect, useState } from 'react';
 import { RouletteWithHelpers } from '/imports/api/themes/casino/roulettes/roulettes';
 import RouletteBets from '/imports/api/themes/casino/rouletteBets';
-import { RouletteBet } from '/imports/schemas/rouletteBet';
 import RouletteChip from './RouletteChip';
+import { themes, Theme } from '../../themes/casino/CasinoThemeConfig';
 import './RouletteWinnerBoard.css';
 import classNames from 'classnames';
 import commaNumber from 'comma-number';
@@ -31,6 +31,8 @@ const RouletteWinnerBoard = ({
     [roulette._id],
   );
 
+  const theme = themes[skin as Theme];
+  const currency = theme.currency;
   const [startIdx, setStartIdx] = useState(0);
 
   useEffect(() => {
@@ -68,7 +70,7 @@ const RouletteWinnerBoard = ({
             />
             <div className="roulette-winner-alias">{bet.player.alias}</div>
             <div className="roulette-winner-amount">
-              +{commaNumber(bet.win_payout)} {skin === 'space' ? 'VC' : 'BB'}
+              +{commaNumber(bet.win_payout)} {currency}
             </div>
             <div className={`roulette-winner-bet ${bet.bet_slot}`}>
               {bet.bet_slot}

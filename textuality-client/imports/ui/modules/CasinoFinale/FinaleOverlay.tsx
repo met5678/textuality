@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react';
 import { Event } from '/imports/schemas/event';
 import './FinaleOverlay.css';
 import RouletteChip from '../Roulette/RouletteChip';
+import { themes, Theme } from '../../themes/casino/CasinoThemeConfig';
 import commaNumber from 'comma-number';
 
 const FinaleOverlay = ({ event }: { event: Event }) => {
@@ -9,6 +10,9 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
   const { phase } = finale_data;
 
   console.log(finale_data);
+
+  const theme = themes[skin as Theme];
+  const currency = theme.currency;
 
   const titleSpans = (title: string) => {
     return title.split('').map((letter, index) => (
@@ -45,8 +49,7 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
           <div className="finale-money-stolen">
             <h2>{titleSpans('Total VC Won:')}</h2>
             <div className="finale-player-datum">
-              {commaNumber(finale_data.totalMoney)}{' '}
-              {skin === 'space' ? 'VC' : 'BB'}
+              {commaNumber(finale_data.totalMoney)} {currency}
             </div>
           </div>
         </div>
@@ -62,8 +65,7 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
             />
             <div className="finale-player-name">{finale_data.player.alias}</div>
             <div className="finale-player-datum">
-              {commaNumber(finale_data.player.money)}{' '}
-              {skin === 'space' ? 'VC' : 'BB'}
+              {commaNumber(finale_data.player.money)} {currency}
             </div>
           </div>
           {event.skin === 'space' && (

@@ -4,10 +4,14 @@ import './CasinoLeaderboard.css';
 import RouletteChip from '../Roulette/RouletteChip';
 import Players from '/imports/api/players';
 import { useFind, useSubscribe } from 'meteor/react-meteor-data';
+import { themes, Theme } from '../../themes/casino/CasinoThemeConfig';
 import commaNumber from 'comma-number';
 
 const CasinoLeaderboard = ({ skin }: { skin: string }) => {
   const isLoading = useSubscribe('players.basic');
+  const theme = themes[skin as Theme];
+  const currency = theme.currency;
+
   const players = useFind(
     () => Players.find({}, { sort: { money: -1 }, limit: 12 }),
     [],
@@ -31,7 +35,7 @@ const CasinoLeaderboard = ({ skin }: { skin: string }) => {
               </div>
               <p className="leaderboard-item">{player.alias} </p>
               <p className="leaderboard-value">
-                {commaNumber(player.money)} {skin == 'space' ? 'VC' : 'BB'}
+                {commaNumber(player.money)} {currency}
               </p>
             </div>
           ))}

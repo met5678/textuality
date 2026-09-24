@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { themes, Theme } from '../../themes/casino/CasinoThemeConfig';
 
 const RouletteInstr = ({ skin }: { skin: string }) => {
   const [instrIndex, setInstrIndex] = useState(0);
   const [active, setActive] = useState(true);
+
+  const theme = themes[skin as Theme];
+  const currency = theme.currency;
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -23,7 +27,7 @@ const RouletteInstr = ({ skin }: { skin: string }) => {
         <strong>
           <i>!odd 50</i>
         </strong>{' '}
-        places 50{skin === 'space' ? 'VC' : 'BB'} on ODD
+        places 50{currency} on ODD
       </>
     ),
     () => (
@@ -32,7 +36,7 @@ const RouletteInstr = ({ skin }: { skin: string }) => {
         <strong>
           <i>!21 100</i>
         </strong>{' '}
-        places 100{skin === 'space' ? 'VC' : 'BB'} on 21
+        places 100{currency} on 21
       </>
     ),
   ];

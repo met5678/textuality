@@ -12,7 +12,7 @@
   animation: flashPrimary 2s infinite linear;
 }
 
-@keyframes flasPrimary {
+@keyframes flashPrimary {
   50% {
     color: var(--color-primary);
   }

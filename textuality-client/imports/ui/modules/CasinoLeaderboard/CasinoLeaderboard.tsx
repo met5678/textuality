@@ -5,6 +5,7 @@ import RouletteChip from '../Roulette/RouletteChip';
 import Players from '/imports/api/players';
 import { useFind, useSubscribe } from 'meteor/react-meteor-data';
 import { themes, Theme } from '../../themes/casino/CasinoThemeConfig';
+import FlashyText from '../../themes/casino/FlashyText/FlashyText';
 import commaNumber from 'comma-number';
 
 const CasinoLeaderboard = ({ skin }: { skin: string }) => {
@@ -16,16 +17,12 @@ const CasinoLeaderboard = ({ skin }: { skin: string }) => {
     () => Players.find({}, { sort: { money: -1 }, limit: 12 }),
     [],
   );
-  const title = 'High Rollers';
-  const displayTitle = title.split('').map((letter, index) => (
-    <span key={index} className={index % 2 === 0 ? 'evenLetter' : 'oddLetter'}>
-      {letter}
-    </span>
-  ));
 
   return (
     <div className={`leaderboard-casino ${skin}`}>
-      <div className="leaderboard-title">{displayTitle}</div>
+      <div className="leaderboard-title">
+        <FlashyText text="High Rollers" />
+      </div>
       <div className="leaderboard-window">
         <div className="leaderboard-body">
           {players.map((player, i) => (

@@ -1,7 +1,8 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { Event } from '/imports/schemas/event';
 import './FinaleOverlay.css';
 import RouletteChip from '../Roulette/RouletteChip';
+import FlashyText from '../../themes/casino/FlashyText/FlashyText';
 import { themes, Theme } from '../../themes/casino/CasinoThemeConfig';
 import commaNumber from 'comma-number';
 
@@ -13,17 +14,6 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
 
   const theme = themes[skin as Theme];
   const currency = theme.currency;
-
-  const titleSpans = (title: string) => {
-    return title.split('').map((letter, index) => (
-      <span
-        key={index}
-        className={index % 2 === 0 ? 'evenLetter' : 'oddLetter'}
-      >
-        {letter}
-      </span>
-    ));
-  };
 
   return (
     <div className={`finale-overlay ${phase} ${skin}`}>
@@ -47,7 +37,9 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
             <video src="/casino/videos/jon.mp4" autoPlay muted />
           )}
           <div className="finale-money-stolen">
-            <h2>{titleSpans('Total VC Won:')}</h2>
+            <h2>
+              <FlashyText text="Total VC Won:" />
+            </h2>
             <div className="finale-player-datum">
               {commaNumber(finale_data.totalMoney)} {currency}
             </div>
@@ -57,7 +49,9 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
       {phase === 'most-money' && (
         <div className="finale-split finale-split-video-left">
           <div className="finale-player">
-            <h2>{titleSpans('Biggest Winner')}</h2>
+            <h2>
+              <FlashyText text="Biggest Winner" />
+            </h2>
             <RouletteChip
               width={250}
               height={250}
@@ -83,7 +77,9 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
       {phase === 'most-checkpoints' && (
         <div className="finale-split finale-split-video-left">
           <div className="finale-player">
-            <h2>{titleSpans('Hashtag Finder')}</h2>
+            <h2>
+              <FlashyText text="Hashtag Finder" />
+            </h2>
             <RouletteChip
               width={250}
               height={250}
@@ -105,7 +101,9 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
       {phase === 'emily-cat' && (
         <div className="finale-split finale-split-video-left">
           <div>
-            <h2>{titleSpans('You helped Ramona foster a cat in need!')}</h2>
+            <h2>
+              <FlashyText text="You helped Ramona foster a cat in need!" />
+            </h2>
           </div>
           <video src="/casino/videos/emily.mp4" autoPlay muted />
         </div>
@@ -113,7 +111,9 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
       {phase === 'most-slot-spins' && (
         <div className="finale-split finale-split-video-left">
           <div className="finale-player">
-            <h2>{titleSpans('Slot Spinner')}</h2>
+            <h2>
+              <FlashyText text="Slot Spinner" />
+            </h2>
             <RouletteChip
               width={250}
               height={250}
@@ -139,7 +139,9 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
       {phase === 'most-popular-slot' && (
         <div className="finale-split finale-split-video-left">
           <div className="finale-player">
-            <h2>{titleSpans('Most Popular Slot')}</h2>
+            <h2>
+              <FlashyText text="Most Popular Slot" />
+            </h2>
 
             <div className="finale-player-name">
               {finale_data.slotMachine.name}

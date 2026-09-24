@@ -106,10 +106,8 @@
   transition: filter 1000ms;
 }
 
-/*JTG Fix - repeated!*/
 h2 {
   font-family: var(--font-title);
-  color: var(--color-secondary);
   font-weight: 700;
   font-size: 100px;
   letter-spacing: 5px;
@@ -117,28 +115,6 @@ h2 {
   text-shadow: 4px 4px 3px rgba(0, 0, 0, 0.4);
   font-style: italic;
   transition: transform 500ms;
-}
-
-h2 .evenLetter {
-  color: var(--color-primary);
-  animation: flashSecondary 2s infinite linear;
-}
-
-h2 .oddLetter {
-  color: var(--color-secondary);
-  animation: flashPrimary 2s infinite linear;
-}
-
-@keyframes flashRed {
-  50% {
-    color: var(--color-primary);
-  }
-}
-
-@keyframes flashYellow {
-  50% {
-    color: var(--color-secondary);
-  }
 }
 
 p:first-child {

@@ -97,33 +97,6 @@
   font-size: 15vh;
 }
 
-/* JTG FIX - FLASHING IS REPEATED */
-h2 {
-  color: var(--color-secondary);
-}
-
-h2 .evenLetter {
-  color: var(--color-primary);
-  animation: flashSecondary 2s infinite linear;
-}
-
-h2 .oddLetter {
-  color: var(--color-secondary);
-  animation: flashPrimary 2s infinite linear;
-}
-
-@keyframes flashPrimary {
-  50% {
-    color: var(--color-primary);
-  }
-}
-
-@keyframes flashSecondary {
-  50% {
-    color: var(--color-secondary);
-  }
-}
-
 .glitch-fullscreen {
   position: fixed;
   top: 0;

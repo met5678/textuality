@@ -1,8 +1,6 @@
 import React from 'react';
 
-import RouletteInstr from './RouletteInstr';
 import RouletteWheel from './RouletteWheel';
-
 import { Roulette } from '/imports/schemas/roulette';
 import './Roulette.css';
 import RouletteGrid from './RouletteGrid';
@@ -13,6 +11,7 @@ import CasinoLeaderboard from '../CasinoLeaderboard/CasinoLeaderboard';
 import RouletteWheelDisplay from './RouletteWheelDisplay';
 import { useConfetti } from '../../hooks/use-confetti';
 import RouletteWinnerBoard from './RouletteWinnerBoard';
+import FlashyText from '../../themes/casino/FlashyText/FlashyText';
 
 interface RouletteProps {
   roulette: Partial<RouletteWithHelpers>;
@@ -41,20 +40,15 @@ const Roulette = ({ roulette, skin }: RouletteProps) => {
       .toJSDate();
   }
 
-  const title = 'Roulette';
-  const displayTitle = title.split('').map((letter, index) => (
-    <span key={index} className={index % 2 === 0 ? 'evenLetter' : 'oddLetter'}>
-      {letter}
-    </span>
-  ));
-
   useConfetti(status === 'end-spin');
 
   return (
     <div className={`roulette ${status} ${skin}`}>
       <div className="rouletteTable">
         <div className="bettingArea">
-          <h2>{displayTitle}</h2>
+          <h2>
+            <FlashyText text="Roulette" />
+          </h2>
           <div className="instructions">
             <p>Send !bet to place your bet</p>
             <p className="note">

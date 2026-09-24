@@ -1,0 +1,25 @@
+.flashyText {
+  color: var(--color-secondary);
+}
+
+.flashyEvenLetter {
+  color: var(--color-primary);
+  animation: flashSecondary 2s infinite linear;
+}
+
+.flashyOddLetter {
+  color: var(--color-secondary);
+  animation: flashPrimary 2s infinite linear;
+}
+
+@keyframes flasPrimary {
+  50% {
+    color: var(--color-primary);
+  }
+}
+
+@keyframes flashSecondary {
+  50% {
+    color: var(--color-secondary);
+  }
+}

@@ -34,12 +34,12 @@
   border-radius: 50%;
   height: min(60vw, 12vh);
   width: min(60vw, 12vh);
-  border: min(2vw, 0.4vh) solid #ffc250;
+  border: min(2vw, 0.4vh) solid var(--color-highlight);
   background-size: cover;
 }
 
 .player-alias {
-  font-family: rockwell-nova, sans-serif;
+  font-family: var(--font-body);
   font-weight: 400;
   font-style: normal;
   font-size: min(12vw, 4vh);
@@ -47,11 +47,10 @@
 }
 
 .player-money {
-  font-family: rockwell-nova, sans-serif;
-  font-weight: 400;
+  font-family: var(--font-body);
   font-style: normal;
   font-size: min(8vw, 2.5vh);
-  color: #ffc250;
+  color: var(--color-highlight);
   font-weight: 700;
   padding: min(2vw, 0.4vh);
 }
@@ -124,12 +123,4 @@
   100% {
     transform: translateX(0vw);
   }
-}
-
-.space .player-avatar-chip {
-  border: min(2vw, 0.4vh) solid #abd301;
-}
-
-.space .player-money {
-  color: #abd301;
 }

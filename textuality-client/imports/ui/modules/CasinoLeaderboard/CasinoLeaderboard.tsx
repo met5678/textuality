@@ -4,7 +4,6 @@ import './CasinoLeaderboard.css';
 import RouletteChip from '../Roulette/RouletteChip';
 import Players from '/imports/api/players';
 import { useFind, useSubscribe } from 'meteor/react-meteor-data';
-import { getImageUrl } from '/imports/services/cloudinary/cloudinary-geturl';
 import commaNumber from 'comma-number';
 
 const CasinoLeaderboard = ({ skin }: { skin: string }) => {

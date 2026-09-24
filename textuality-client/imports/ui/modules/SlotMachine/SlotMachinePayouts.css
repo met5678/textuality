@@ -21,7 +21,7 @@
 }
 
 .slot-payout-value {
-  font-family: rockwell-nova, sans-serif;
+  font-family: var(--font-body);
   font-weight: 700;
   font-style: normal;
   font-size: min(20vw, 5vh);
@@ -29,8 +29,7 @@
   text-align: center;
 }
 
-/* SPACE CSS - TODO: make a theme*/
 .slot-payout.space .slot-payout-value {
-  font-family: magistral, sans-serif;
+  font-family: var(--font-title);
   transform: translateY(min(6vw, -2vh));
 }

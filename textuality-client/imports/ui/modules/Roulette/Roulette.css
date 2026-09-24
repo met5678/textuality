@@ -47,7 +47,7 @@
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
-  font-family: rockwell-nova, sans-serif;
+  font-family: var(--font-body);
   padding: 50px 50px 60px 50px;
 }
 
@@ -110,7 +110,7 @@
 }
 
 h2 {
-  font-family: gin, serif;
+  font-family: var(--font-title);
   color: #fea70a;
   font-weight: 700;
   font-size: 100px;
@@ -282,12 +282,7 @@ p {
   background-size: cover;
 }
 
-.space .roulette {
-  font-family: magistral, sans-serif;
-}
-
 .space h2 {
-  font-family: magistral, sans-serif;
   color: #04ffff;
   text-transform: uppercase;
   font-size: 84px;
@@ -302,14 +297,6 @@ p {
 .space h2 .evenLetter {
   color: #ff01ff;
   animation: flashBlue 2s infinite linear;
-}
-
-.space .instructions {
-  font-family: univia-pro, serif;
-}
-
-.space .betFeeds {
-  font-family: univia-pro, serif;
 }
 
 @keyframes flashPink {

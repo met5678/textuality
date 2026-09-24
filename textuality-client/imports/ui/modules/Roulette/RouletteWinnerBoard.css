@@ -15,10 +15,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-align: center;
   margin: 0 2vw;
   gap: 2vh;
   width: 25vw;
   text-shadow: 0 0 5px #000000;
+  font-family: var(--font-body);
 }
 
 .even-idx .roulette-winner {
@@ -90,6 +92,7 @@
 
 .roulette-winner-amount {
   font-size: 3vw;
+  text-align: center;
   color: #fea70a;
 }
 
@@ -118,11 +121,6 @@
   background: #121639;
 }
 
-/* .roulette-winner-board .chipRing {
-  border-radius: 50%;
-  border: 20px dashed #121639;
-} */
-
 @keyframes tiltChip {
   0% {
     transform: rotate(-5deg);
@@ -134,20 +132,6 @@
     transform: rotate(-5deg);
   }
 }
-
-/* SPACE CSS - TODO CLEANUP*/
-/* .space.roulette-winner-board .chipRing {
-  border: 20px dashed #abd301;
-}
-.space.roulette-winner-board.even-idx
-  .roulette-winner:nth-child(even)
-  .chipRing {
-  border: 20px dashed #ff01ff;
-}
-
-.space.roulette-winner-board.odd-idx .roulette-winner:nth-child(odd) .chipRing {
-  border: 20px dashed #ff01ff;
-} */
 
 .space.roulette-winner-board .chip {
   background: #abd301;
@@ -161,15 +145,13 @@
 }
 
 .space .roulette-winner-alias {
-  font-family: magistral, sans-serif;
+  font-family: var(--font-title);
 }
 
 .space .roulette-winner-amount {
-  font-family: univia-pro, serif;
   color: #ff9404;
 }
 
 .space .roulette-winner-bet {
-  font-family: univia-pro, serif;
   color: #ff9404;
 }

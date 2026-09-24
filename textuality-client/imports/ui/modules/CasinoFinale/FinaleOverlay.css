@@ -7,7 +7,7 @@
   background-color: black;
   color: white;
   display: flex;
-  font-family: gin, serif;
+  font-family: var(--font-title);
 }
 
 /* .finale-overlay > div {
@@ -17,7 +17,7 @@
   text-align: center;
   width: 100%;
   display: flex;
-  font-family: gin, serif;
+  font-family: var(--font-title);
   font-size: 60px;
 } */
 
@@ -208,10 +208,6 @@ h2 .oddLetter {
 /* SPACE CSS - FIX LATER */
 .space.finale-overlay .chip {
   background: #abd301;
-}
-
-.space.finale-overlay {
-  font-family: magistral, sans-serif;
 }
 
 .space .finale-player-datum {

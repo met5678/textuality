@@ -1,5 +1,5 @@
 .leaderboard-title {
-  font-family: gin, serif;
+  font-family: var(--font-title);
   text-transform: none;
   text-decoration: none;
   font-weight: 700;
@@ -41,7 +41,7 @@
 }
 
 .leaderboard-window {
-  font-family: rockwell-nova, sans-serif;
+  font-family: var(--font-body);
 }
 
 .leaderboard-body {
@@ -129,7 +129,6 @@ p.leaderboard-value {
 
 /* SPACE CSS - TODO: make a theme*/
 .space .leaderboard-title {
-  font-family: magistral, sans-serif;
   text-transform: uppercase;
   color: #04ffff;
   font-size: 64px;
@@ -138,7 +137,6 @@ p.leaderboard-value {
 }
 
 .space .leaderboard-body p {
-  font-family: univia-pro, serif;
   font-weight: 700;
 }
 
@@ -163,22 +161,6 @@ p.leaderboard-value {
     color: #04ffff;
   }
 }
-
-/* .space .chipRing {
-  border-color: #ff01ff;
-}
-
-.space .leaderboard-row:nth-child(4n + 2) .chipRing {
-  border-color: #ff9404;
-}
-
-.space .leaderboard-row:nth-child(4n + 3) .chipRing {
-  border-color: #abd301;
-}
-
-.space .leaderboard-row:nth-child(4n + 4) .chipRing {
-  border-color: #0000fe;
-} */
 
 .space .chip {
   background: #ff01ff;

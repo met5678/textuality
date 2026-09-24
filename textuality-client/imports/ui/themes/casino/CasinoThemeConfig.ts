@@ -1,10 +1,3 @@
-export type ThemeColorKey =
-  | 'colorPrimary'
-  | 'colorSecondary'
-  | 'colorAccentLight'
-  | 'colorAccentMid'
-  | 'colorAccentDark';
-
 interface ThemeStyles {
   colorPrimary: string;
   colorSecondary: string;
@@ -16,7 +9,16 @@ interface ThemeStyles {
   fontTitleCondensed?: string;
   fontBody: string;
   currency: string;
+  slotEmojis: { id: string; url: string }[];
+  slotHackerVids: string[];
 }
+
+export type ThemeColorKey =
+  | 'colorPrimary'
+  | 'colorSecondary'
+  | 'colorAccentLight'
+  | 'colorAccentMid'
+  | 'colorAccentDark';
 
 export const themes: Record<'normal' | 'space', ThemeStyles> = {
   normal: {
@@ -31,6 +33,20 @@ export const themes: Record<'normal' | 'space', ThemeStyles> = {
     fontBody: 'rockwell-nova, sans-serif',
 
     currency: 'BB',
+
+    slotEmojis: [
+      { id: '🥴', url: `/images/emojis/normal/emoji-clover.svg` },
+      { id: '🍒', url: `/images/emojis/normal/emoji-cherries.svg` },
+      { id: '💣', url: `/images/emojis/normal/emoji-bomb.svg` },
+      { id: '🍆', url: `/images/emojis/normal/emoji-seven.svg` },
+      { id: '🍑', url: `/images/emojis/normal/emoji-diamond.svg` },
+      { id: '💦', url: `/images/emojis/normal/emoji-watermelon.svg` },
+    ],
+    slotHackerVids: [
+      '/casino/videos/hackerwin-1.mp4',
+      '/casino/videos/hackerwin-2.mp4',
+      '/casino/videos/hackerwin-3.mp4',
+    ],
   },
   space: {
     colorPrimary: '#ff01ff', // magenta
@@ -46,6 +62,21 @@ export const themes: Record<'normal' | 'space', ThemeStyles> = {
     fontBody: 'univia-pro, serif',
 
     currency: 'VC',
+
+    slotEmojis: [
+      { id: '💣', url: `/images/emojis/space/fv.svg` },
+      { id: '🥴', url: `/images/emojis/space/planet.svg` },
+      { id: '🍒', url: `/images/emojis/space/satellite.svg` },
+      { id: '🍆', url: `/images/emojis/space/rocket.svg` },
+      { id: '🍑', url: `/images/emojis/space/alien.svg` },
+      { id: '💦', url: `/images/emojis/space/saucer.svg` },
+    ],
+    slotHackerVids: [
+      '/casino/space/videos/liz-finale-1.mp4',
+      '/casino/space/videos/liz-finale-2.mp4',
+      '/casino/space/videos/shady-finale-1.mp4',
+      '/casino/space/videos/shady-finale-2.mp4',
+    ],
   },
 };
 

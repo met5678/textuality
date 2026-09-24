@@ -20,22 +20,7 @@ export type SlotItem = {
   url: string;
 };
 
-const HACKER_WIN_VIDEOS: Record<string, string[]> = {
-  normal: [
-    '/casino/videos/hackerwin-1.mp4',
-    '/casino/videos/hackerwin-2.mp4',
-    '/casino/videos/hackerwin-3.mp4',
-  ],
-  space: [
-    '/casino/space/videos/liz-finale-1.mp4',
-    '/casino/space/videos/liz-finale-2.mp4',
-    '/casino/space/videos/shady-finale-1.mp4',
-    '/casino/space/videos/shady-finale-2.mp4',
-  ],
-};
-
-const getHackerWinVideo = (skin: string) => {
-  const videos = HACKER_WIN_VIDEOS[skin];
+const getHackerWinVideo = (videos: string[]) => {
   if (!videos) {
     return '';
   }
@@ -67,11 +52,10 @@ const Leds = () => {
 };
 
 const SlotMachine = ({ slotMachine, skin }: SlotMachineProps) => {
-  const { name, short, cost, status, code, result, win_amount, player, stats } =
-    slotMachine;
+  const { name, short, cost, status, result, win_amount, player } = slotMachine;
 
   const theme = themes[skin as Theme];
-  const currency = theme.currency;
+  const { currency, slotEmojis, slotHackerVids } = theme;
 
   const showWin =
     status === 'win-normal' ||
@@ -90,25 +74,6 @@ const SlotMachine = ({ slotMachine, skin }: SlotMachineProps) => {
     'win-hacker-final': status === 'win-hacker-final',
     win: showWin,
   });
-
-  const items =
-    skin === 'space'
-      ? [
-          { id: '💣', url: `/images/emojis/${skin}/fv.svg` },
-          { id: '🥴', url: `/images/emojis/${skin}/planet.svg` },
-          { id: '🍒', url: `/images/emojis/${skin}/satellite.svg` },
-          { id: '🍆', url: `/images/emojis/${skin}/rocket.svg` },
-          { id: '🍑', url: `/images/emojis/${skin}/alien.svg` },
-          { id: '💦', url: `/images/emojis/${skin}/saucer.svg` },
-        ]
-      : [
-          { id: '🥴', url: `/images/emojis/${skin}/emoji-clover.svg` },
-          { id: '🍒', url: `/images/emojis/${skin}/emoji-cherries.svg` },
-          { id: '💣', url: `/images/emojis/${skin}/emoji-bomb.svg` },
-          { id: '🍆', url: `/images/emojis/${skin}/emoji-seven.svg` },
-          { id: '🍑', url: `/images/emojis/${skin}/emoji-diamond.svg` },
-          { id: '💦', url: `/images/emojis/${skin}/emoji-watermelon.svg` },
-        ];
 
   return (
     <>
@@ -151,21 +116,21 @@ const SlotMachine = ({ slotMachine, skin }: SlotMachineProps) => {
           <Leds />
           <div className="reels">
             <Reel
-              items={items}
+              items={slotEmojis}
               status={status}
               targetItem={result?.[0]}
               index={0}
             />
             <Reel
               key="2"
-              items={items}
+              items={slotEmojis}
               status={status}
               targetItem={result?.[1]}
               index={1}
             />
             <Reel
               key="3"
-              items={items}
+              items={slotEmojis}
               status={status}
               targetItem={result?.[2]}
               index={2}
@@ -186,7 +151,7 @@ const SlotMachine = ({ slotMachine, skin }: SlotMachineProps) => {
           ) : (
             <SlotMachinePayouts
               slotMachine={slotMachine}
-              items={items}
+              items={slotEmojis}
               skin={skin}
             />
           )}
@@ -195,7 +160,7 @@ const SlotMachine = ({ slotMachine, skin }: SlotMachineProps) => {
 
       {status === 'win-hacker-final' && (
         <div className="slot-overlay-video">
-          <video src={getHackerWinVideo(skin)} autoPlay loop muted />
+          <video src={getHackerWinVideo(slotHackerVids)} autoPlay loop muted />
         </div>
       )}
 

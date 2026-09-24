@@ -1,39 +1,51 @@
+export type ThemeColorKey =
+  | 'colorPrimary'
+  | 'colorSecondary'
+  | 'colorAccentLight'
+  | 'colorAccentMid'
+  | 'colorAccentDark';
+
 interface ThemeStyles {
   colorPrimary: string;
   colorSecondary: string;
-  colorTertiary: string;
-  colorQuarternary: string;
-  colorHighlight?: string;
+  colorAccentLight: string;
+  colorAccentMid: string;
+  colorAccentDark: string;
   fontTitle: string;
   fontTitleCompressed?: string;
   fontTitleCondensed?: string;
   fontBody: string;
+  currency: string;
 }
 
 export const themes: Record<'normal' | 'space', ThemeStyles> = {
   normal: {
-    colorPrimary: '#d01935',
-    colorSecondary: '#fea70a',
-    colorTertiary: '#537c43',
-    colorQuarternary: '#121639',
+    colorPrimary: '#d01935', // red
+    colorSecondary: '#fea70a', //yellow
 
-    colorHighlight: '#fea70a',
+    colorAccentLight: '#fea70a', //yellow
+    colorAccentMid: '#537c43', // green
+    colorAccentDark: '#121639', //navy
 
     fontTitle: 'gin, serif',
     fontBody: 'rockwell-nova, sans-serif',
+
+    currency: 'BB',
   },
   space: {
-    colorPrimary: '#ff01ff',
-    colorSecondary: '#ff9404',
-    colorTertiary: '#abd301',
-    colorQuarternary: '#0000fe',
+    colorPrimary: '#ff01ff', // magenta
+    colorSecondary: '#04ffff', // teal
 
-    colorHighlight: '#abd301',
+    colorAccentLight: ' #ff9404', // gold
+    colorAccentMid: '#abd301', // lime green
+    colorAccentDark: '#0000fe', //blue
 
     fontTitle: 'magistral, sans-serif',
     fontTitleCompressed: 'magistral-compressed, sans-serif',
     fontTitleCondensed: 'magistral-condensed, sans-serif',
     fontBody: 'univia-pro, serif',
+
+    currency: 'VC',
   },
 };
 
@@ -44,10 +56,10 @@ export function getThemeVars(theme: Theme): React.CSSProperties {
   return {
     '--color-primary': t.colorPrimary,
     '--color-secondary': t.colorSecondary,
-    '--color-tertiary': t.colorTertiary,
-    '--color-quarternary': t.colorQuarternary,
 
-    '--color-highlight': t.colorHighlight,
+    '--color-accent-light': t.colorAccentLight,
+    '--color-accent-mid': t.colorAccentMid,
+    '--color-accent-dark': t.colorAccentDark,
 
     '--font-title': t.fontTitle,
     '--font-title-condensed': t.fontTitleCondensed ?? t.fontTitle,

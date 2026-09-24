@@ -7,9 +7,13 @@ import RouletteBets from '/imports/api/themes/casino/rouletteBets';
 import { RouletteStatus } from '/imports/schemas/roulette';
 import useTimedQueue from '../../hooks/use-timed-queue';
 import { RouletteBet, RouletteBetSlot } from '/imports/schemas/rouletteBet';
-import { getImageUrl } from '/imports/services/cloudinary/cloudinary-geturl';
 import commaNumber from 'comma-number';
 import classNames from 'classnames';
+import {
+  themes,
+  Theme,
+  ThemeColorKey,
+} from '../../themes/casino/CasinoThemeConfig';
 
 interface RouletteGridProps {
   status: RouletteStatus;
@@ -18,11 +22,22 @@ interface RouletteGridProps {
   skin: string;
 }
 
-const COLOR_OPTIONS_NORMAL = ['#121639', '#fea70a'];
-const COLOR_OPTIONS_SPACE = ['#ff01ff', '#ff9404', '#abd301', '#0000fe'];
+const COLOR_OPTIONS_NORMAL: ThemeColorKey[] = [
+  'colorAccentDark',
+  'colorAccentLight',
+];
+const COLOR_OPTIONS_SPACE: ThemeColorKey[] = [
+  'colorPrimary',
+  'colorAccentLight',
+  'colorAccentMid',
+  'colorAccentDark',
+];
 
-const getColorForBet = (bet: RouletteBet, colors: string[]) =>
-  colors[String(bet?._id!).charCodeAt(0) % colors.length];
+const getColorForBet = (
+  bet: RouletteBet,
+  colors: ThemeColorKey[],
+  theme: typeof themes.normal,
+) => theme[colors[String(bet?._id!).charCodeAt(0) % colors.length]];
 
 const RouletteGrid = ({ rouletteId, skin }: RouletteGridProps) => {
   const isLoading = useSubscribe('rouletteBets.forRoulette', rouletteId);
@@ -35,7 +50,9 @@ const RouletteGrid = ({ rouletteId, skin }: RouletteGridProps) => {
     [rouletteId],
   );
 
-  const colorOptions =
+  const theme = themes[skin as Theme];
+  const currency = theme.currency;
+  const colorOptions: ThemeColorKey[] =
     skin === 'space' ? COLOR_OPTIONS_SPACE : COLOR_OPTIONS_NORMAL;
   const getBet = (bet: RouletteBetSlot) => bets.find((b) => b.bet_slot === bet);
 
@@ -63,7 +80,7 @@ const RouletteGrid = ({ rouletteId, skin }: RouletteGridProps) => {
         {betObj && (
           <RouletteChip
             avatar_id={betObj?.player.avatar_id}
-            color={getColorForBet(betObj, colorOptions)}
+            color={getColorForBet(betObj, colorOptions, theme)}
             animateIn
           />
         )}
@@ -84,7 +101,7 @@ const RouletteGrid = ({ rouletteId, skin }: RouletteGridProps) => {
         {betObj && (
           <RouletteChip
             avatar_id={betObj?.player.avatar_id}
-            color={getColorForBet(betObj, colorOptions)}
+            color={getColorForBet(betObj, colorOptions, theme)}
             animateIn
           />
         )}
@@ -122,11 +139,11 @@ const RouletteGrid = ({ rouletteId, skin }: RouletteGridProps) => {
         <div className="betFeeds">
           <RouletteChip
             avatar_id={queueBet?.player.avatar_id}
-            color={getColorForBet(queueBet, colorOptions)}
+            color={getColorForBet(queueBet, colorOptions, theme)}
           />{' '}
           <p>
             {queueBet?.player.alias} put {commaNumber(queueBet?.wager || '0')}{' '}
-            {skin === 'space' ? 'VC' : 'BB'} on {queueBet.bet_slot}!
+            {currency} on {queueBet.bet_slot}!
           </p>
         </div>
       )}

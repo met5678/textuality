@@ -8,7 +8,7 @@ import { Event, EventSkin } from '/imports/schemas/event';
 import SlotMachineScreen from './slot-machine/SlotMachineScreen';
 import RouletteScreen from './roulette/RouletteScreen';
 import { useTypekitFonts } from '../../hooks/use-typekit-fonts';
-import { getThemeVars } from './CasinoStyleVars';
+import { getThemeVars } from './CasinoThemeConfig';
 
 const fontCssFilesBySkin: Record<EventSkin, string[]> = {
   normal: ['lod8mlk.css'],

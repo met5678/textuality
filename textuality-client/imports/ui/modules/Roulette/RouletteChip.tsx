@@ -61,14 +61,12 @@ const RouletteChip = ({
       className={rotate ? 'rotate chip' : 'chip'}
       style={color ? { background: color } : undefined}
     >
-      <div className="chipRing">
-        <svg className="chipRing" viewBox="0 0 100 100">
-          <circle cx="50" cy="50" r="45" className="dashed-circle"></circle>
-        </svg>
-        {avatar_id && (
-          <img src={getImageUrl(avatar_id, { width, height, zoom })} />
-        )}
-      </div>
+      <svg className="chipRing" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="45" className="dashed-circle"></circle>
+      </svg>
+      {avatar_id && (
+        <img src={getImageUrl(avatar_id, { width, height, zoom })} />
+      )}
     </div>
   );
 };

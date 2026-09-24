@@ -10,21 +10,6 @@
   font-family: var(--font-title);
 }
 
-/* .finale-overlay > div {
-  height: 100%;
-  position: absolute;
-  top: 0;
-  text-align: center;
-  width: 100%;
-  display: flex;
-  font-family: var(--font-title);
-  font-size: 60px;
-} */
-
-/* .finale-overlay p {
-  font-size: 60px;
-} */
-
 .finale-player {
   display: flex;
   flex-direction: column;
@@ -42,7 +27,7 @@
 
 .finale-player-datum {
   font-size: 10vh;
-  color: #fea70a;
+  color: var(--color-accent-light);
 }
 
 @keyframes fade {
@@ -59,18 +44,6 @@
     opacity: 0;
   }
 }
-
-/* .finale-split-video-left > div,
-.finale-split-video-right > div {
-  position: absolute;
-  background-color: black;
-  width: 65%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
- */
 
 .finale-split {
   position: absolute;
@@ -124,25 +97,30 @@
   font-size: 15vh;
 }
 
+/* JTG FIX - FLASHING IS REPEATED */
+h2 {
+  color: var(--color-secondary);
+}
+
 h2 .evenLetter {
-  color: #d01935;
-  animation: flashYellow 2s infinite linear;
+  color: var(--color-primary);
+  animation: flashSecondary 2s infinite linear;
 }
 
 h2 .oddLetter {
-  color: #fea70a;
-  animation: flashRed 2s infinite linear;
+  color: var(--color-secondary);
+  animation: flashPrimary 2s infinite linear;
 }
 
-@keyframes flashRed {
+@keyframes flashPrimary {
   50% {
-    color: #d01935;
+    color: var(--color-primary);
   }
 }
 
-@keyframes flashYellow {
+@keyframes flashSecondary {
   50% {
-    color: #fea70a;
+    color: var(--color-secondary);
   }
 }
 
@@ -191,11 +169,6 @@ h2 .oddLetter {
   animation: tiltChip 2s ease-in-out infinite;
 }
 
-.finale-overlay .roulette-winner-board .chipRing {
-  border-radius: 50%;
-  border: 20px dashed #121639;
-}
-
 .finale-player {
   padding: 2vw 2vh;
 }
@@ -205,37 +178,7 @@ h2 .oddLetter {
   font-size: 12vh;
 }
 
-/* SPACE CSS - FIX LATER */
+/* SPACE CSS */
 .space.finale-overlay .chip {
-  background: #abd301;
-}
-
-.space .finale-player-datum {
-  color: #ff9404;
-}
-
-.space h2 {
-  color: #04ffff;
-}
-
-.space h2 .oddLetter {
-  color: #04ffff;
-  animation: flashPink 2s infinite linear;
-}
-
-.space h2 .evenLetter {
-  color: #ff01ff;
-  animation: flashBlue 2s infinite linear;
-}
-
-@keyframes flashPink {
-  50% {
-    color: #ff01ff;
-  }
-}
-
-@keyframes flashBlue {
-  50% {
-    color: #04ffff;
-  }
+  background: var(--color-accent-mid);
 }

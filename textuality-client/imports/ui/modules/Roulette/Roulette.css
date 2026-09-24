@@ -109,9 +109,10 @@
   transition: filter 1000ms;
 }
 
+/*JTG Fix - repeated!*/
 h2 {
   font-family: var(--font-title);
-  color: #fea70a;
+  color: var(--color-secondary);
   font-weight: 700;
   font-size: 100px;
   letter-spacing: 5px;
@@ -122,24 +123,24 @@ h2 {
 }
 
 h2 .evenLetter {
-  color: #d01935;
-  animation: flashYellow 2s infinite linear;
+  color: var(--color-primary);
+  animation: flashSecondary 2s infinite linear;
 }
 
 h2 .oddLetter {
-  color: #fea70a;
-  animation: flashRed 2s infinite linear;
+  color: var(--color-secondary);
+  animation: flashPrimary 2s infinite linear;
 }
 
 @keyframes flashRed {
   50% {
-    color: #d01935;
+    color: var(--color-primary);
   }
 }
 
 @keyframes flashYellow {
   50% {
-    color: #fea70a;
+    color: var(--color-secondary);
   }
 }
 
@@ -272,7 +273,7 @@ p {
   }
 }
 
-/* SPACE CSS - TODO: make a theme*/
+/* SPACE CSS */
 .rouletteScreen.space {
   position: fixed;
   width: 100vw;
@@ -283,30 +284,7 @@ p {
 }
 
 .space h2 {
-  color: #04ffff;
   text-transform: uppercase;
   font-size: 84px;
   letter-spacing: 2px;
-}
-
-.space h2 .oddLetter {
-  color: #04ffff;
-  animation: flashPink 2s infinite linear;
-}
-
-.space h2 .evenLetter {
-  color: #ff01ff;
-  animation: flashBlue 2s infinite linear;
-}
-
-@keyframes flashPink {
-  50% {
-    color: #ff01ff;
-  }
-}
-
-@keyframes flashBlue {
-  50% {
-    color: #04ffff;
-  }
 }

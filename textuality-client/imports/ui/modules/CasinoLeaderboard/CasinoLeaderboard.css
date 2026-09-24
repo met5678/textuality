@@ -8,28 +8,30 @@
   font-style: italic;
   text-shadow: 4px 4px 3px rgba(0, 0, 0, 0.4);
   margin-bottom: 32px;
-  color: #fea70a;
+  color: var(--color-secondary);
 }
 
+/* JTG - FIX, Repeated */
+
 .leaderboard-title .oddLetter {
-  color: #fea70a;
-  animation: flashRed 2s infinite linear;
+  color: var(--color-secondary);
+  animation: flashPrimary 2s infinite linear;
 }
 
 .leaderboard-title .evenLetter {
-  color: #d01935;
-  animation: flashYellow 2s infinite linear;
+  color: var(--color-primary);
+  animation: flashSecondary 2s infinite linear;
 }
 
-@keyframes flashRed {
+@keyframes flashPrimary {
   50% {
-    color: #d01935;
+    color: var(--color-primary);
   }
 }
 
-@keyframes flashYellow {
+@keyframes flashSecondary {
   50% {
-    color: #fea70a;
+    color: var(--color-secondary);
   }
 }
 
@@ -67,16 +69,16 @@
   margin-right: 32px;
 }
 
-.leaderboard-row:nth-child(4n + 2) .chipRing {
-  border-color: #537c43;
+.leaderboard-row:nth-child(4n + 2) .chip {
+  background: var(--color-accent-mid);
 }
 
-.leaderboard-row:nth-child(4n + 3) .chipRing {
-  border-color: #fea70a;
+.leaderboard-row:nth-child(4n + 3) .chip {
+  background: var(--color-accent-light);
 }
 
-.leaderboard-row:nth-child(4n + 4) .chipRing {
-  border-color: #d01935;
+.leaderboard-row:nth-child(4n + 4) .chip {
+  background: var(--color-primary);
 }
 
 p.leaderboard-item,
@@ -130,7 +132,6 @@ p.leaderboard-value {
 /* SPACE CSS - TODO: make a theme*/
 .space .leaderboard-title {
   text-transform: uppercase;
-  color: #04ffff;
   font-size: 64px;
   letter-spacing: 1px;
   font-weight: 700;
@@ -138,42 +139,4 @@ p.leaderboard-value {
 
 .space .leaderboard-body p {
   font-weight: 700;
-}
-
-.space .leaderboard-title .oddLetter {
-  color: #04ffff;
-  animation: flashPink 2s infinite linear;
-}
-
-.space .leaderboard-title .evenLetter {
-  color: #ff01ff;
-  animation: flashBlue 2s infinite linear;
-}
-
-@keyframes flashPink {
-  50% {
-    color: #ff01ff;
-  }
-}
-
-@keyframes flashBlue {
-  50% {
-    color: #04ffff;
-  }
-}
-
-.space .chip {
-  background: #ff01ff;
-}
-
-.space .leaderboard-row:nth-child(4n + 2) .chip {
-  background: #ff9404;
-}
-
-.space .leaderboard-row:nth-child(4n + 3) .chip {
-  background: #abd301;
-}
-
-.space .leaderboard-row:nth-child(4n + 4) .chip {
-  background: #0000fe;
 }

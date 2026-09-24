@@ -10,11 +10,13 @@ const SlotMachinePlayer = ({
   status,
   win_amount,
   skin,
+  hacked,
 }: {
   player: PlayerShort;
   status: SlotMachineStatus;
   win_amount: number;
   skin: string;
+  hacked: boolean;
 }) => {
   return (
     <div className={`slot-player ${status ?? ''} ${skin}`}>
@@ -22,10 +24,12 @@ const SlotMachinePlayer = ({
         <div
           className="player-avatar-chip"
           style={{
-            backgroundImage: `url(${getImageUrl(player.avatar_id, {
-              width: 100,
-              height: 100,
-            })})`,
+            backgroundImage: !hacked
+              ? `url(${getImageUrl(player.avatar_id, {
+                  width: 100,
+                  height: 100,
+                })})`
+              : "url('/casino/hacker/glitch-icon.png')",
           }}
         />
       </div>

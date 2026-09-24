@@ -177,6 +177,7 @@ const SlotMachine = ({ slotMachine, skin }: SlotMachineProps) => {
               status={status}
               win_amount={showWin ? win_amount! : 0}
               skin={skin}
+              hacked={status === 'win-hacker-final'}
             />
           ) : (
             <SlotMachinePayouts
@@ -190,7 +191,7 @@ const SlotMachine = ({ slotMachine, skin }: SlotMachineProps) => {
 
       {status === 'win-hacker-final' && (
         <div className="slot-overlay-video">
-          <video src={getHackerWinVideo(skin)} autoPlay muted />
+          <video src={getHackerWinVideo(skin)} autoPlay loop muted />
         </div>
       )}
 

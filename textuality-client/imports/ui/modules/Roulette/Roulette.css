@@ -67,10 +67,6 @@
   transform: translateX(100vw);
 }
 
-.roulette.inactive h2 {
-  transform: translateY(-100vh);
-}
-
 .roulette.winners-board h2 {
   transform: translateY(-100vh);
 }
@@ -78,9 +74,10 @@
 .leaderboardArea {
   transition: transform 500ms;
   position: absolute;
-  width: 42vw;
+  width: 45vw;
   transform: translateX(-100vw);
   top: 60px;
+  left: 0;
 }
 
 .roulette.inactive .leaderboardArea {

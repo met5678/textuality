@@ -137,7 +137,7 @@
   display: block;
   width: 250px;
   height: 250px;
-  background: white;
+  background: var(--color-accent-dark);
   border-radius: 50%;
   animation: tiltChip 2s ease-in-out infinite;
 }
@@ -149,9 +149,4 @@
 .finale-text {
   padding: 2vw 2vh;
   font-size: 12vh;
-}
-
-/* SPACE CSS */
-.space.finale-overlay .chip {
-  background: var(--color-accent-mid);
 }

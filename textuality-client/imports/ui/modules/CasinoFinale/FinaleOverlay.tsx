@@ -15,6 +15,28 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
   const theme = themes[skin as Theme];
   const currency = theme.currency;
 
+  const phaseTitle = (title: string) => {
+    return (
+      <h2>
+        <FlashyText text={title} />
+      </h2>
+    );
+  };
+
+  const phasePlayerChip = (datum: string) => {
+    return (
+      <>
+        <RouletteChip
+          width={250}
+          height={250}
+          avatar_id={finale_data.player.avatar}
+        />
+        <div className="finale-player-name">{finale_data.player.alias}</div>
+        <div className="finale-player-datum">{datum}</div>
+      </>
+    );
+  };
+
   const renderPhase = () => {
     switch (phase) {
       case 'pre':
@@ -34,14 +56,12 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
 
       case 'total-money':
         return (
-          <div className="finale-split">
+          <div className="finale-split finale-split-video-left">
             {event.skin === 'normal' && (
               <video src="/casino/videos/jon.mp4" autoPlay muted />
             )}
             <div className="finale-money-stolen">
-              <h2>
-                <FlashyText text="Total VC Won:" />
-              </h2>
+              {phaseTitle('Total VC Won')}
               <div className="finale-player-datum">
                 {commaNumber(finale_data.totalMoney)} {currency}
               </div>
@@ -53,20 +73,10 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
         return (
           <div className="finale-split finale-split-video-left">
             <div className="finale-player">
-              <h2>
-                <FlashyText text="Biggest Winner" />
-              </h2>
-              <RouletteChip
-                width={250}
-                height={250}
-                avatar_id={finale_data.player.avatar}
-              />
-              <div className="finale-player-name">
-                {finale_data.player.alias}
-              </div>
-              <div className="finale-player-datum">
-                {commaNumber(finale_data.player.money)} {currency}
-              </div>
+              {phaseTitle('Biggest Winner')}
+              {phasePlayerChip(
+                `${commaNumber(finale_data.player.money)} ${currency}`,
+              )}
             </div>
             {event.skin === 'space' && (
               <video
@@ -85,20 +95,10 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
         return (
           <div className="finale-split finale-split-video-left">
             <div className="finale-player">
-              <h2>
-                <FlashyText text="Hashtag Finder" />
-              </h2>
-              <RouletteChip
-                width={250}
-                height={250}
-                avatar_id={finale_data.player.avatar}
-              />
-              <div className="finale-player-name">
-                {finale_data.player.alias}
-              </div>
-              <div className="finale-player-datum">
-                {finale_data.player.checkpoints} hashtags found!
-              </div>
+              {phaseTitle('Hashtag Finder')}
+              {phasePlayerChip(
+                `${finale_data.player.checkpoints} hashtags found!`,
+              )}
             </div>
             {event.skin === 'space' && (
               <video
@@ -117,20 +117,8 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
         return (
           <div className="finale-split finale-split-video-left">
             <div className="finale-player">
-              <h2>
-                <FlashyText text="Slot Spinner" />
-              </h2>
-              <RouletteChip
-                width={250}
-                height={250}
-                avatar_id={finale_data.player.avatar}
-              />
-              <div className="finale-player-name">
-                {finale_data.player.alias}
-              </div>
-              <div className="finale-player-datum">
-                {finale_data.player.slot_spins} spins!
-              </div>
+              {phaseTitle('Slot Spinner')}
+              {phasePlayerChip(`${finale_data.player.slot_spins} spins!`)}
             </div>
             {event.skin === 'space' && (
               <video
@@ -149,10 +137,7 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
         return (
           <div className="finale-split finale-split-video-left">
             <div className="finale-player">
-              <h2>
-                <FlashyText text="Most Popular Slot" />
-              </h2>
-
+              {phaseTitle('Most Popular Slot')}
               <div className="finale-player-name">
                 {finale_data.slotMachine.name}
               </div>
@@ -169,7 +154,7 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
         return (
           <div className="finale-split finale-split-video-left">
             <div className="finale-text">
-              Now put down your phones and enjoy the rest of the party!
+              Now put down your phones and enjoy the rest of the night!
             </div>
             <video src="/casino/videos/jackie.mp4" autoPlay muted />
           </div>

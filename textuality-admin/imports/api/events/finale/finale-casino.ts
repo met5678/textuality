@@ -97,11 +97,6 @@ Meteor.methods({
       await waitForSeconds(11);
     }
 
-    finaleData = { phase: 'emily-cat' };
-    Events.update(eventId, { $set: { finale_data: finaleData } });
-
-    await waitForSeconds(11);
-
     const playerWithSlotSpins = Players.find(
       { event: Events.currentId()! },
       { fields: { avatar: 1, alias: 1, slot_spins: 1 } },

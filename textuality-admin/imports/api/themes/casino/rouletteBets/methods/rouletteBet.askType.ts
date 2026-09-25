@@ -14,11 +14,23 @@ const getBetTypeOptions = (rouletteBet: RouletteBetWithHelpers) => {
       value: `rouletteBet/${rouletteBet._id}/${rouletteBet.step}/number`,
     },
     {
-      label: 'Special',
-      value: `rouletteBet/${rouletteBet._id}/${rouletteBet.step}/special`,
+      label: 'Odd',
+      value: `rouletteBet/${rouletteBet._id}/${rouletteBet.step}/odd`,
     },
     {
-      label: 'Cancel',
+      label: 'Even',
+      value: `rouletteBet/${rouletteBet._id}/${rouletteBet.step}/even`,
+    },
+    {
+      label: 'Red',
+      value: `rouletteBet/${rouletteBet._id}/${rouletteBet.step}/red`,
+    },
+    {
+      label: 'Black',
+      value: `rouletteBet/${rouletteBet._id}/${rouletteBet.step}/black`,
+    },
+    {
+      label: 'Cancel Bet',
       value: `rouletteBet/${rouletteBet._id}/cancel`,
     },
   ];
@@ -32,7 +44,7 @@ export const rouletteBetAskType = async ({
     trigger: 'ROULETTE_BET_ASK_TYPE',
     playerId: player._id,
     interactivePayload: {
-      type: 'buttons',
+      type: 'list',
       options: getBetTypeOptions(rouletteBet),
     },
   });

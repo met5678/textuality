@@ -7,6 +7,7 @@ type RouletteBetAskSpecialArgs = {
   rouletteBet: RouletteBetWithHelpers;
 };
 
+/* No longer used */
 const getSpecialOptions = (rouletteBet: RouletteBetWithHelpers) => {
   return [
     {

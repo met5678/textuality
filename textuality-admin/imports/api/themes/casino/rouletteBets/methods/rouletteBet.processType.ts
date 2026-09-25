@@ -1,6 +1,7 @@
 import RouletteBets, { RouletteBetWithHelpers } from '../rouletteBets';
 import { rouletteBetAskNumber } from './rouletteBet.askNumber';
-import { rouletteBetAskSpecial } from './rouletteBet.askSpecial';
+import { rouletteBetAskWager } from './rouletteBet.askWager';
+import { isRouletteBetSlotSpecial } from '/imports/schemas/rouletteBet';
 import { PlayerWithHelpers } from '/imports/api/players/players';
 
 type ProcessBetTypeArgs = {
@@ -30,18 +31,21 @@ export const rouletteBetProcessType = async ({
     });
   }
 
-  if (value === 'special') {
-    await RouletteBets.updateAsync(rouletteBet._id, {
-      $set: {
-        step: 'special',
-      },
-    });
-
-    rouletteBet.step = 'special';
-
-    rouletteBetAskSpecial({
-      player,
-      rouletteBet,
-    });
+  if (!isRouletteBetSlotSpecial(value)) {
+    throw new Error('Invalid rouletteBet special type');
   }
+
+  await RouletteBets.updateAsync(rouletteBet._id, {
+    $set: {
+      bet_slot: value,
+      step: 'wager',
+    },
+  });
+  rouletteBet.bet_slot = value;
+  rouletteBet.step = 'wager';
+
+  rouletteBetAskWager({
+    player,
+    rouletteBet,
+  });
 };

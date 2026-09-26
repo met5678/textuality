@@ -126,6 +126,13 @@
   background: var(--color-secondary);
 }
 
+.roulette-no-winners {
+  max-width: 60%;
+  text-align: center;
+  font-size: 3.5vw;
+  line-height: 1.6;
+}
+
 @keyframes tiltChip {
   0% {
     transform: rotate(-5deg);

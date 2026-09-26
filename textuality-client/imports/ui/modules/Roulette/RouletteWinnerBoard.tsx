@@ -30,6 +30,7 @@ const RouletteWinnerBoard = ({
       ),
     [roulette._id],
   );
+  const winningBetsCount = winningBets.length;
 
   const theme = themes[skin as Theme];
   const currency = theme.currency;
@@ -37,7 +38,7 @@ const RouletteWinnerBoard = ({
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      if (startIdx + NUM_TO_SHOW < winningBets.length) {
+      if (startIdx + NUM_TO_SHOW < winningBetsCount) {
         setStartIdx((startIdx) => startIdx + NUM_TO_SHOW);
       } else {
         setStartIdx(0);
@@ -45,7 +46,7 @@ const RouletteWinnerBoard = ({
     }, TIME_INTERVAL);
 
     return () => clearTimeout(timeout);
-  }, [startIdx, winningBets.length]);
+  }, [startIdx, winningBetsCount]);
 
   if (isLoading()) return null;
 
@@ -59,25 +60,31 @@ const RouletteWinnerBoard = ({
 
   return (
     <div className={rouletteWinnerBoardClass}>
-      {winnersToShow.map((bet) => {
-        return (
-          <div className="roulette-winner">
-            <RouletteChip
-              avatar_id={bet.player.avatar_id}
-              zoom={0.8}
-              width={250}
-              height={250}
-            />
-            <div className="roulette-winner-alias">{bet.player.alias}</div>
-            <div className="roulette-winner-amount">
-              +{commaNumber(bet.win_payout)} {currency}
+      {!winningBetsCount ? (
+        <p className="roulette-no-winners">
+          Ouch, straight to the pockets of CorpoCorp!
+        </p>
+      ) : (
+        winnersToShow.map((bet) => {
+          return (
+            <div className="roulette-winner">
+              <RouletteChip
+                avatar_id={bet.player.avatar_id}
+                zoom={0.8}
+                width={250}
+                height={250}
+              />
+              <div className="roulette-winner-alias">{bet.player.alias}</div>
+              <div className="roulette-winner-amount">
+                +{commaNumber(bet.win_payout)} {currency}
+              </div>
+              <div className={`roulette-winner-bet ${bet.bet_slot}`}>
+                {bet.bet_slot}
+              </div>
             </div>
-            <div className={`roulette-winner-bet ${bet.bet_slot}`}>
-              {bet.bet_slot}
-            </div>
-          </div>
-        );
-      })}
+          );
+        })
+      )}
     </div>
   );
 };

@@ -40,6 +40,13 @@ export const processRouletteText = async (player: PlayerWithHelpers) => {
     });
     return;
   }
+  if (player.money <= 0) {
+    sendAutoText({
+      trigger: 'ROULETTE_BET_TOO_POOR',
+      playerId: player._id,
+    });
+    return;
+  }
 
   const pendingBet = await getPendingRouletteBet({
     player,

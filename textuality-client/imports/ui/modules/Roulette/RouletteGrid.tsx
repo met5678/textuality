@@ -8,11 +8,10 @@ import { RouletteStatus } from '/imports/schemas/roulette';
 import useTimedQueue from '../../hooks/use-timed-queue';
 import { RouletteBet, RouletteBetSlot } from '/imports/schemas/rouletteBet';
 import commaNumber from 'comma-number';
-import classNames from 'classnames';
 import {
-  themes,
   Theme,
   ThemeColorKey,
+  themes,
 } from '../../themes/casino/CasinoThemeConfig';
 
 interface RouletteGridProps {
@@ -40,11 +39,11 @@ const getColorForBet = (
 ) => theme[colors[String(bet?._id!).charCodeAt(0) % colors.length]];
 
 const RouletteGrid = ({ rouletteId, skin }: RouletteGridProps) => {
-  const isLoading = useSubscribe('rouletteBets.forRoulette', rouletteId);
+  useSubscribe('rouletteBets.forRoulette', rouletteId);
   const bets = useFind(
     () =>
       RouletteBets.find(
-        { roulette_id: rouletteId, status: 'placed' },
+        { roulette_id: rouletteId, status: { $in: ['placed', 'won', 'lost'] } },
         { sort: { placed_at: -1 } },
       ),
     [rouletteId],

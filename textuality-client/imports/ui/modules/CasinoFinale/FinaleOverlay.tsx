@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Event } from '/imports/schemas/event';
 import './FinaleOverlay.css';
 import RouletteChip from '../Roulette/RouletteChip';
 import FlashyText from '../../themes/casino/FlashyText/FlashyText';
 import { themes, Theme } from '../../themes/casino/CasinoThemeConfig';
 import commaNumber from 'comma-number';
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
 
 const FinaleOverlay = ({ event }: { event: Event }) => {
   const { finale_data, skin } = event;
@@ -14,6 +16,21 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
 
   const theme = themes[skin as Theme];
   const currency = theme.currency;
+  const phaseRef = useRef(null);
+
+  useGSAP(
+    () => {
+      if (!phaseRef.current) return;
+      const child = phaseRef.current.querySelector('.fadein');
+      if (!child) return;
+      gsap.fromTo(
+        child,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.5, ease: 'power1.out' },
+      );
+    },
+    { dependencies: [phase] },
+  );
 
   const phaseTitle = (title: string) => {
     return (
@@ -58,7 +75,7 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
 
       case 'total-money':
         return (
-          <div className="finale-text">
+          <div className="finale-text fadein">
             {phaseTitle('Total VC Won')}
             <div className="finale-money-stolen">
               {commaNumber(finale_data.totalMoney)} {currency}
@@ -68,7 +85,7 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
 
       case 'most-money':
         return (
-          <div className={isSpace ? 'finale-split' : ''}>
+          <div className={isSpace ? 'finale-split fadein' : 'fadein'}>
             <div className="finale-player">
               {phaseTitle('Biggest Winner')}
               {phasePlayerChip(
@@ -88,7 +105,9 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
       case 'most-checkpoints':
         return (
           <div
-            className={isSpace ? 'finale-split finale-split-video-left' : ''}
+            className={
+              isSpace ? 'finale-split finale-split-video-left fadein' : 'fadein'
+            }
           >
             <div className="finale-player">
               {phaseTitle('Hashtag Finder')}
@@ -108,7 +127,7 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
 
       case 'most-slot-spins':
         return (
-          <div className={isSpace ? 'finale-split' : ''}>
+          <div className={isSpace ? 'finale-split fadein' : 'fadein'}>
             <div className="finale-player">
               {phaseTitle('Slot Spinner')}
               {phasePlayerChip(`${finale_data.player.slot_spins} spins!`)}
@@ -126,7 +145,9 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
       case 'most-popular-slot':
         return (
           <div
-            className={isSpace ? 'finale-split finale-split-video-left' : ''}
+            className={
+              isSpace ? 'finale-split finale-split-video-left fadein' : 'fadein'
+            }
           >
             <div className="finale-player">
               {phaseTitle('Most Popular Slot')}
@@ -148,7 +169,7 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
 
       case 'end':
         return (
-          <div>
+          <div class="fadein">
             <div className="finale-text">
               Now put down your phones and enjoy the rest of the night!
             </div>
@@ -158,7 +179,9 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
   };
 
   return (
-    <div className={`finale-overlay ${phase} ${skin}`}>{renderPhase()}</div>
+    <div ref={phaseRef} className={`finale-overlay ${phase} ${skin}`}>
+      {renderPhase()}
+    </div>
   );
 };
 export default FinaleOverlay;

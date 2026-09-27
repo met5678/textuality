@@ -31,10 +31,10 @@ Meteor.methods({
     });
     await waitForSeconds(11);
 
-    // // Play Jackie Video
-    // Events.update(eventId, { $set: { 'finale_data.phase': 'hacker-appears' } });
+    // Play empty vault vid - 9 seconds long
+    Events.update(eventId, { $set: { 'finale_data.phase': 'hacker-appears' } });
 
-    // await waitForSeconds(11);
+    await waitForSeconds(9);
 
     const totalMoney = Players.find(
       { event: Events.currentId()! },
@@ -46,6 +46,7 @@ Meteor.methods({
     let finaleData: any = {
       phase: 'total-money',
       totalMoney,
+      playBG: true,
     };
 
     Events.update(eventId, { $set: { finale_data: finaleData } });
@@ -64,6 +65,7 @@ Meteor.methods({
           avatar: playerWithMostMoney[0].avatar,
           money: playerWithMostMoney[0].money,
         },
+        playBG: true,
       };
       Events.update(eventId, { $set: { finale_data: finaleData } });
       await waitForSeconds(11);
@@ -91,6 +93,7 @@ Meteor.methods({
           avatar: playerWithMostCheckpoints.avatar,
           checkpoints: playerWithMostCheckpoints.checkpoints.length,
         },
+        playBG: true,
       };
       Events.update(eventId, { $set: { finale_data: finaleData } });
 
@@ -118,6 +121,7 @@ Meteor.methods({
           avatar: playerWithMostSlotSpins.avatar,
           slot_spins: playerWithMostSlotSpins.slot_spins.length,
         },
+        playBG: true,
       };
       Events.update(eventId, { $set: { finale_data: finaleData } });
 
@@ -136,13 +140,16 @@ Meteor.methods({
           spins: slotMachineWithMostSpins[0].stats.spin_count,
           short: slotMachineWithMostSpins[0].short,
         },
+        playBG: true,
       };
       Events.update(eventId, { $set: { finale_data: finaleData } });
 
       await waitForSeconds(11);
     }
 
-    Events.update(eventId, { $set: { 'finale_data.phase': 'end' } });
+    Events.update(eventId, {
+      $set: { 'finale_data.phase': 'end', 'finale_data.playBG': true },
+    });
 
     await waitForSeconds(11);
 

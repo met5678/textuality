@@ -69,7 +69,7 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
       case 'hacker-appears':
         return (
           <div className="video-fullscreen">
-            <video src="/casino/videos/jackie-moneybags.mp4" autoPlay muted />
+            <video src="/casino/videos/emptyvault.mp4" autoPlay muted />
           </div>
         );
 
@@ -169,9 +169,9 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
 
       case 'end':
         return (
-          <div class="fadein">
+          <div className="fadein">
             <div className="finale-text">
-              Now put down your phones and enjoy the rest of the night!
+              Now put down the phones and enjoy the rest of your night!
             </div>
           </div>
         );
@@ -180,7 +180,12 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
 
   return (
     <div ref={phaseRef} className={`finale-overlay ${phase} ${skin}`}>
-      {renderPhase()}
+      {finale_data?.playBG == true && (
+        <div className="video-fullscreen">
+          <video src="/casino/videos/pokerbg.mp4" autoPlay muted />
+        </div>
+      )}
+      <div className="finale-phase">{renderPhase()}</div>
     </div>
   );
 };

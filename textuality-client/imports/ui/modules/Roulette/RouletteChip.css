@@ -14,11 +14,6 @@
   stroke-dasharray: 12, 16; /* Dash pattern: 8 units dash, 8 units gap */
 }
 
-.chip.rotate .dashed-circle {
-  animation: rotate 6s infinite linear;
-  transform-origin: center center;
-}
-
 .chip img {
   max-height: 80%;
   max-width: 80%;
@@ -28,22 +23,4 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
-
-@keyframes rotateOuter {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(-360deg);
-  }
-}
-
-@keyframes rotateInner {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
 }

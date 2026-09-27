@@ -6,7 +6,6 @@ import gsap from 'gsap';
 
 const RouletteChip = ({
   avatar_id,
-  rotate,
   zoom,
   width = 80,
   height = 80,
@@ -14,7 +13,6 @@ const RouletteChip = ({
   animateIn,
 }: {
   avatar_id?: string;
-  rotate?: boolean;
   zoom?: number;
   width?: number;
   height?: number;
@@ -58,7 +56,7 @@ const RouletteChip = ({
   return (
     <div
       ref={chip}
-      className={rotate ? 'rotate chip' : 'chip'}
+      className="chip"
       style={color ? { background: color } : undefined}
     >
       <svg className="chipRing" viewBox="0 0 100 100">

@@ -74,9 +74,9 @@
 .leaderboardArea {
   transition: transform 500ms;
   position: absolute;
-  width: 45vw;
+  width: 50%;
   transform: translateX(-100vw);
-  top: 60px;
+  top: 0;
   left: 0;
 }
 
@@ -237,12 +237,6 @@ h2 {
   .betFeeds .chip {
     margin-right: 8px;
     font-size: 0;
-  }
-}
-
-@media (max-width: 400px) {
-  .leaderboard-title {
-    margin-bottom: 40px;
   }
 }
 

@@ -1,46 +1,43 @@
-.leaderboard-title {
+.leaderboard-casino {
+  display: flex;
+  flex-direction: column;
+  max-height: 95vh;
+  overflow: hidden;
+  padding: 0 3vw;
+}
+
+.leaderboard-casino .leaderboard-title {
   font-family: var(--font-title);
   text-transform: none;
   text-decoration: none;
   font-weight: 700;
-  font-size: 72px;
+  font-size: max(6vw, 8vh);
   letter-spacing: 5px;
   font-style: italic;
   text-shadow: 4px 4px 3px rgba(0, 0, 0, 0.4);
-  margin-bottom: 32px;
+  margin-bottom: 2.5vh;
+  margin-top: 2vh;
 }
 
-.leaderboard-casino {
-  display: flex;
-  flex-direction: column;
-  max-height: 88vh;
-  overflow: hidden;
-}
-
-.leaderboard-window {
+.leaderboard-casino .leaderboard-body {
   font-family: var(--font-body);
+  margin-left: 5px; /*chip overflow offset*/
+  display: grid;
+  grid-template-rows: repeat(12, 1fr); /* show 12 players */
+  height: 100vh;
 }
 
-.leaderboard-body {
-  margin-left: 60px;
-}
-
-.leaderboard-row {
+.leaderboard-casino .leaderboard-row {
   color: white;
-  margin-bottom: 18px;
   text-shadow: 3px 3px 4px rgba(0, 0, 0, 0.4);
-}
-
-.leaderboard-row:nth-child(3n + 1),
-.leaderboard-row:nth-child(3n + 2) {
-  color: white;
+  margin-bottom: 0;
 }
 
 .leaderboard-row:nth-child(4n + 2),
 .leaderboard-row:nth-child(4n + 4) {
   position: relative;
-  left: 32px;
-  margin-right: 32px;
+  left: 5vw;
+  margin-right: 5vw;
 }
 
 .leaderboard-row:nth-child(4n + 2) .chip {
@@ -55,9 +52,9 @@
   background: var(--color-primary);
 }
 
-p.leaderboard-item,
-p.leaderboard-value {
-  font-size: 18px;
+.leaderboard-casino p.leaderboard-item,
+.leaderboard-casino p.leaderboard-value {
+  font-size: max(1.2vw, 2.6vh);
   line-height: 1.2;
   display: flex;
   align-items: center;
@@ -65,52 +62,12 @@ p.leaderboard-value {
   position: relative;
 }
 
-p.leaderboard-value {
-  margin-left: 16px;
+.leaderboard-casino p.leaderboard-value {
   white-space: nowrap;
 }
 
-.leaderboard-img {
+.leaderboard-casino .leaderboard-img {
   display: flex;
   align-items: center;
-}
-
-.leaderboard-img {
-  display: flex;
-  align-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 20px;
-  transform: scale(1.2);
-}
-
-@media (max-height: 600px) {
-  .leaderboard-title {
-    margin-bottom: 20px;
-  }
-  .leaderboard-body {
-    margin-left: 0;
-    max-width: 100%;
-  }
-
-  .leaderboard-casino {
-    max-height: 90vh;
-  }
-
-  .leaderboard-row {
-    padding-left: 16px;
-  }
-}
-
-/* SPACE CSS - TODO: make a theme*/
-.space .leaderboard-title {
-  text-transform: uppercase;
-  font-size: 64px;
-  letter-spacing: 1px;
-  font-weight: 700;
-}
-
-.space .leaderboard-body p {
-  font-weight: 700;
+  margin-right: 18px;
 }

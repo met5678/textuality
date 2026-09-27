@@ -31,10 +31,10 @@ Meteor.methods({
     });
     await waitForSeconds(11);
 
-    // Play Jackie Video
-    Events.update(eventId, { $set: { 'finale_data.phase': 'hacker-appears' } });
+    // // Play Jackie Video
+    // Events.update(eventId, { $set: { 'finale_data.phase': 'hacker-appears' } });
 
-    await waitForSeconds(11);
+    // await waitForSeconds(11);
 
     const totalMoney = Players.find(
       { event: Events.currentId()! },
@@ -134,6 +134,7 @@ Meteor.methods({
         slotMachine: {
           name: slotMachineWithMostSpins[0].name,
           spins: slotMachineWithMostSpins[0].stats.spin_count,
+          short: slotMachineWithMostSpins[0].short,
         },
       };
       Events.update(eventId, { $set: { finale_data: finaleData } });
@@ -266,7 +267,7 @@ Meteor.methods({
 
     players.forEach((player) => {
       // Meteor.call('autoTexts.send', {
-      //   trigger: 'ROUND_END',
+      //   trigger: 'FINALE_START',
       //   playerId: player._id,
       // });
     });

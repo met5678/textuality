@@ -3,6 +3,7 @@ import './RouletteChip.css';
 import { getImageUrl } from '/imports/services/cloudinary/cloudinary-geturl';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
+import { AspectRatio } from '@cloudinary/url-gen/qualifiers';
 
 const RouletteChip = ({
   avatar_id,
@@ -11,6 +12,7 @@ const RouletteChip = ({
   height = 80,
   color,
   animateIn,
+  imgUrl,
 }: {
   avatar_id?: string;
   zoom?: number;
@@ -18,6 +20,7 @@ const RouletteChip = ({
   height?: number;
   color?: string;
   animateIn?: boolean;
+  imgUrl?: string;
 }) => {
   const chip = useRef<HTMLDivElement>(null);
 
@@ -65,6 +68,7 @@ const RouletteChip = ({
       {avatar_id && (
         <img src={getImageUrl(avatar_id, { width, height, zoom })} />
       )}
+      {imgUrl && <img src={imgUrl} className="chip-nonavatar" />}
     </div>
   );
 };

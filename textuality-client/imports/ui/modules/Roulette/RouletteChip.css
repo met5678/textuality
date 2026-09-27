@@ -24,3 +24,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.chip img.chip-nonavatar {
+  aspect-ratio: 1/1;
+}

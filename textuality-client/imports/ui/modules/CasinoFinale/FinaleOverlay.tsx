@@ -37,6 +37,8 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
     );
   };
 
+  const isSpace = event.skin === 'space';
+
   const renderPhase = () => {
     switch (phase) {
       case 'pre':
@@ -56,88 +58,83 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
 
       case 'total-money':
         return (
-          <div className="finale-split finale-split-video-left">
-            {event.skin === 'normal' && (
-              <video src="/casino/videos/jon.mp4" autoPlay muted />
-            )}
+          <div className="finale-text">
+            {phaseTitle('Total VC Won')}
             <div className="finale-money-stolen">
-              {phaseTitle('Total VC Won')}
-              <div className="finale-player-datum">
-                {commaNumber(finale_data.totalMoney)} {currency}
-              </div>
+              {commaNumber(finale_data.totalMoney)} {currency}
             </div>
           </div>
         );
 
       case 'most-money':
         return (
-          <div className="finale-split finale-split-video-left">
+          <div className={isSpace ? 'finale-split' : ''}>
             <div className="finale-player">
               {phaseTitle('Biggest Winner')}
               {phasePlayerChip(
                 `${commaNumber(finale_data.player.money)} ${currency}`,
               )}
             </div>
-            {event.skin === 'space' && (
+            {isSpace && (
               <video
                 src="/casino/space/videos/shady-finale-1.mp4"
                 autoPlay
                 muted
               />
             )}
-            {event.skin === 'normal' && (
-              <video src="/casino/videos/gray.mp4" autoPlay muted />
-            )}
           </div>
         );
 
       case 'most-checkpoints':
         return (
-          <div className="finale-split finale-split-video-left">
+          <div
+            className={isSpace ? 'finale-split finale-split-video-left' : ''}
+          >
             <div className="finale-player">
               {phaseTitle('Hashtag Finder')}
               {phasePlayerChip(
                 `${finale_data.player.checkpoints} hashtags found!`,
               )}
             </div>
-            {event.skin === 'space' && (
+            {isSpace && (
               <video
                 src="/casino/space/videos/liz-finale-2.mp4"
                 autoPlay
                 muted
               />
             )}
-            {event.skin === 'normal' && (
-              <video src="/casino/videos/morgan.mp4" autoPlay muted />
-            )}
           </div>
         );
 
       case 'most-slot-spins':
         return (
-          <div className="finale-split finale-split-video-left">
+          <div className={isSpace ? 'finale-split' : ''}>
             <div className="finale-player">
               {phaseTitle('Slot Spinner')}
               {phasePlayerChip(`${finale_data.player.slot_spins} spins!`)}
             </div>
-            {event.skin === 'space' && (
+            {isSpace && (
               <video
                 src="/casino/space/videos/shady-finale-2.mp4"
                 autoPlay
                 muted
               />
             )}
-            {event.skin === 'normal' && (
-              <video src="/casino/videos/shady.mp4" autoPlay muted />
-            )}
           </div>
         );
 
       case 'most-popular-slot':
         return (
-          <div className="finale-split finale-split-video-left">
+          <div
+            className={isSpace ? 'finale-split finale-split-video-left' : ''}
+          >
             <div className="finale-player">
               {phaseTitle('Most Popular Slot')}
+              <RouletteChip
+                width={250}
+                height={250}
+                imgUrl={`\/images/slot-machine/${event.skin}/${finale_data.slotMachine.short}.jpg`}
+              />
               <div className="finale-player-name">
                 {finale_data.slotMachine.name}
               </div>
@@ -145,18 +142,16 @@ const FinaleOverlay = ({ event }: { event: Event }) => {
                 {finale_data.slotMachine.spins} spins!
               </div>
             </div>
-
-            <video src="/casino/videos/liz.mp4" autoPlay muted />
+            {isSpace && <video src="/casino/videos/liz.mp4" autoPlay muted />}
           </div>
         );
 
       case 'end':
         return (
-          <div className="finale-split finale-split-video-left">
+          <div>
             <div className="finale-text">
               Now put down your phones and enjoy the rest of the night!
             </div>
-            <video src="/casino/videos/jackie.mp4" autoPlay muted />
           </div>
         );
     }

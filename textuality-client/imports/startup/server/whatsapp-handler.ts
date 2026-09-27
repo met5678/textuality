@@ -1,11 +1,16 @@
 import { Meteor } from 'meteor/meteor';
-import { onMessageStatus, onReceive } from '/imports/services/whatsapp/index';
+import {
+  onMessageStatus,
+  onReceive,
+  sendMessage,
+} from '/imports/services/whatsapp/index';
 import { IncomingMessageData } from '/imports/services/whatsapp/wa-handlemessage';
-import { sendMessage } from '/imports/services/whatsapp/index';
 import OutTexts from '/imports/api/outTexts';
 import { DB_ENV } from './env-vars';
 import { OutgoingMessageData } from '/imports/services/whatsapp/wa-types';
 import { receiveInText } from '/imports/api/inTexts/methods/inTexts.receive';
+import { outTextUpdateStatus } from '../../../../textuality-admin/imports/api/outTexts/methods/outTexts.updateStatus';
+import { OutText } from '/imports/schemas/outText';
 
 let observeHandle: Meteor.LiveQueryHandle | null = null;
 let hasStartedUp = false;
@@ -39,7 +44,7 @@ const initializeWhatsappHandler = async () => {
   );
 
   observeHandle = OutTexts.find({ status: 'unsent' }).observe({
-    added(outText) {
+    added(outText: OutText) {
       const outMessage: OutgoingMessageData = {
         to: outText.player_number,
         text: outText.body,
@@ -55,11 +60,7 @@ const initializeWhatsappHandler = async () => {
             outText._id,
             external_id,
           );
-          await Meteor.callAsync(
-            'outTexts.updateStatus',
-            outText._id,
-            'api-sent',
-          );
+          await outTextUpdateStatus(outText._id, 'api-sent');
         });
       } else {
         console.log(`DB:${DB_ENV} and on dev, not sending message`, outText);

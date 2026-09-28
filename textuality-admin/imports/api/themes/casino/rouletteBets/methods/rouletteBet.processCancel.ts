@@ -1,4 +1,6 @@
+import Roulettes from '../../roulettes';
 import RouletteBets, { RouletteBetWithHelpers } from '../rouletteBets';
+import { getRouletteBetSummary } from './rouletteBet.getBetSummary';
 import { sendAutoText } from '/imports/api/autoTexts/methods/autoTexts.send';
 import { PlayerWithHelpers } from '/imports/api/players/players';
 
@@ -17,8 +19,18 @@ export const rouletteBetProcessCancel = async ({
     },
   });
 
-  sendAutoText({
-    trigger: 'ROULETTE_BET_CANCELLED_USER',
-    playerId: player._id,
-  });
+  const roulette = await Roulettes.findOneAsync(rouletteBet.roulette_id);
+  if (!roulette) {
+    throw new Error('No roulette found');
+  } else {
+    const betSummary = getRouletteBetSummary({ player, roulette });
+
+    sendAutoText({
+      trigger: 'ROULETTE_BET_CANCELLED_USER',
+      playerId: player._id,
+      templateVars: {
+        bet_summary: betSummary,
+      },
+    });
+  }
 };

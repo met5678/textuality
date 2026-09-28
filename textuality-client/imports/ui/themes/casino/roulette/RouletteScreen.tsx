@@ -10,7 +10,7 @@ interface RouletteScreenProps {
 }
 
 const RouletteScreen = ({ event }: RouletteScreenProps) => {
-  const isLoading = useSubscribe('roulettes.currentOrNext');
+  useSubscribe('roulettes.currentOrNext');
   const roulettes = useFind(() => Roulettes.find(), []);
   const roulette = roulettes[0];
 

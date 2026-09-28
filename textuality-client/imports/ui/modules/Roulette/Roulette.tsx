@@ -1,10 +1,8 @@
 import React from 'react';
 
 import RouletteWheel from './RouletteWheel';
-import { Roulette } from '/imports/schemas/roulette';
 import './Roulette.css';
 import RouletteGrid from './RouletteGrid';
-import { DateTime } from 'luxon';
 import RouletteSounds from './RouletteSounds';
 import { RouletteWithHelpers } from '/imports/api/themes/casino/roulettes/roulettes';
 import CasinoLeaderboard from '../CasinoLeaderboard/CasinoLeaderboard';
@@ -13,32 +11,31 @@ import { useConfetti } from '../../hooks/use-confetti';
 import RouletteWinnerBoard from './RouletteWinnerBoard';
 import FlashyText from '../../themes/casino/FlashyText/FlashyText';
 
-interface RouletteProps {
-  roulette: Partial<RouletteWithHelpers>;
+type RouletteProps = {
+  roulette: RouletteWithHelpers;
   skin: string;
-}
+};
 
 const Roulette = ({ roulette, skin }: RouletteProps) => {
   const {
-    event,
     number_payout_multiplier,
     special_payout_multiplier,
-    spin_starts_at,
-    bets_open,
-    bets_cutoff_seconds,
+    // spin_starts_at,
+    // bets_open,
+    // bets_cutoff_seconds,
     spin_seconds,
 
     result,
     status,
   } = roulette;
 
-  let betsEndTime = null;
-  if (bets_open && spin_starts_at) {
-    betsEndTime = DateTime.fromJSDate(spin_starts_at)
-      .plus({ seconds: spin_seconds })
-      .minus({ seconds: bets_cutoff_seconds })
-      .toJSDate();
-  }
+  // let betsEndTime = null;
+  // if (bets_open && spin_starts_at) {
+  //   betsEndTime = DateTime.fromJSDate(spin_starts_at)
+  //     .plus({ seconds: spin_seconds })
+  //     .minus({ seconds: bets_cutoff_seconds })
+  //     .toJSDate();
+  // }
 
   useConfetti(status === 'end-spin');
 
@@ -56,7 +53,12 @@ const Roulette = ({ roulette, skin }: RouletteProps) => {
               Red/Black/Odd/Even Payout: {special_payout_multiplier}x
             </p>
           </div>
-          <RouletteGrid rouletteId={roulette._id} skin={skin} />
+          <RouletteGrid
+            rouletteId={roulette._id}
+            skin={skin}
+            status={roulette.status}
+            betsOpen={roulette.bets_open}
+          />
         </div>
 
         <div className="leaderboardArea">

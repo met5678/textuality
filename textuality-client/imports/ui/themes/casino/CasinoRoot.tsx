@@ -1,14 +1,14 @@
 import React from 'react';
-import { Route, Redirect, Switch } from 'wouter';
+import { Redirect, Route, Switch } from 'wouter';
 
 import LeaderboardScreen from '/imports/ui/screens/LeaderboardScreen';
 import FinaleOverlay from '/imports/ui/modules/CasinoFinale/FinaleOverlay';
 import GlitchOverlay from '/imports/ui/modules/CasinoFinale/GlitchOverlay';
 import { Event, EventSkin } from '/imports/schemas/event';
 import SlotMachineScreen from './SlotMachine/SlotMachineScreen';
-import RouletteScreen from './Roulette/RouletteScreen';
 import { useTypekitFonts } from '../../hooks/use-typekit-fonts';
 import { getThemeVars } from './CasinoThemeConfig';
+import RouletteScreen from '/imports/ui/themes/casino/roulette/RouletteScreen';
 
 const fontCssFilesBySkin: Record<EventSkin, string[]> = {
   normal: ['lod8mlk.css'],

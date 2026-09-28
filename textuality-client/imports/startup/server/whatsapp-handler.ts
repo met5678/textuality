@@ -9,8 +9,8 @@ import OutTexts from '/imports/api/outTexts';
 import { DB_ENV } from './env-vars';
 import { OutgoingMessageData } from '/imports/services/whatsapp/wa-types';
 import { receiveInText } from '/imports/api/inTexts/methods/inTexts.receive';
-import { outTextUpdateStatus } from '../../../../textuality-admin/imports/api/outTexts/methods/outTexts.updateStatus';
 import { OutText } from '/imports/schemas/outText';
+import { outTextUpdateStatus } from '/imports/api/outTexts/methods/outTexts.updateStatus';
 
 let observeHandle: Meteor.LiveQueryHandle | null = null;
 let hasStartedUp = false;

@@ -1,23 +1,25 @@
 import { Meteor } from 'meteor/meteor';
+import { checkForHackerSpinQuest } from '../../quests/methods/quests.checkForHackerSpin';
 import SlotMachines from '../slotMachines';
-import Players from '/imports/api/players';
-import {
-  SlotMachine,
-  SLOT_MACHINE_EMOJIS,
-  SlotMachineResult,
-  SlotMachineStatus,
-} from '/imports/schemas/slotMachine';
-import { waitForSeconds } from '/imports/utils/async-wait-for';
-import { sendAutoText } from '/imports/api/autoTexts/methods/autoTexts.send';
-import { playerGiveMoney } from '/imports/api/players/methods/players.giveMoney';
-import { AutoTextCasinoTrigger } from '/imports/schemas/autoText';
-import { playerTakeMoney } from '/imports/api/players/methods/players.takeMoney';
-import { getSlotRespinInteractive } from '../utils/get-slot-respin-interactive';
 import {
   cancelAndDeleteTimeout,
   throwIfCancelledTimeout,
   TimeoutError,
 } from '../spin-sequence/_slot-timeouts';
+import { getSlotRespinInteractive } from '../utils/get-slot-respin-interactive';
+import { sendAutoText } from '/imports/api/autoTexts/methods/autoTexts.send';
+import Players from '/imports/api/players';
+import { playerGiveMoney } from '/imports/api/players/methods/players.giveMoney';
+import { playerTakeMoney } from '/imports/api/players/methods/players.takeMoney';
+import { slotMachineDoHackerSpin } from '/imports/api/themes/casino/slotMachines/methods/slotMachines.doHackerSpin';
+import { AutoTextCasinoTrigger } from '/imports/schemas/autoText';
+import {
+  SLOT_MACHINE_EMOJIS,
+  SlotMachine,
+  SlotMachineResult,
+  SlotMachineStatus,
+} from '/imports/schemas/slotMachine';
+import { waitForSeconds } from '/imports/utils/async-wait-for';
 
 type SlotMachineResultWithPayout = {
   result: SlotMachineResult;
@@ -87,12 +89,11 @@ export const processSlotSpinRequest = async ({
   slot_id: string;
   player_id: string;
 }) => {
-  const slotMachine = await SlotMachines.findOneAsync(slot_id);
-  const player = await Players.findOneAsync(player_id);
-
-  if (!slotMachine || !player) {
-    return;
-  }
+  const [slotMachine, player] = await Promise.all([
+    SlotMachines.findOneAsync(slot_id),
+    Players.findOneAsync(player_id),
+  ]);
+  if (!slotMachine || !player) return;
 
   if (!SLOT_STATUS_ALLOWING_SPINS.includes(slotMachine.status)) {
     const templateVars: Record<string, string> = {
@@ -140,7 +141,7 @@ export const processSlotSpinRequest = async ({
   // clearing this spin when its timeout finishes.
   cancelAndDeleteTimeout(slot_id);
 
-  playerTakeMoney({
+  await playerTakeMoney({
     playerId: player_id,
     money: slotMachine.cost,
   });
@@ -150,13 +151,13 @@ export const processSlotSpinRequest = async ({
     hackerWin,
     quest_id,
   }: { hackerSpin: boolean; hackerWin: boolean; quest_id?: string } =
-    Meteor.call('quests.checkForHackerSpin', {
+    await checkForHackerSpinQuest({
       player_id,
       slot_id,
     });
 
   if (hackerSpin) {
-    Meteor.call('slotMachines.doHackerSpin', {
+    await slotMachineDoHackerSpin({
       player_id,
       slot_id,
       is_final: hackerWin,

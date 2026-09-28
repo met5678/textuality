@@ -1,15 +1,15 @@
-import { Meteor } from 'meteor/meteor';
 import AchievementUnlocks from '../../achievementUnlocks';
+import { sendCustomAutoText } from '../../autoTexts/methods/autoTexts.sendCustom';
 import Events from '../../events';
 import Players from '../../players';
+import { playerGiveMoney } from '../../players/methods/players.giveMoney';
 import { powerupsGeneratePowerup } from '../../themes/derby/powerups/methods/powerups.generatePowerup';
 import { raceAwardLogicClue } from '../../themes/derby/race/logic-clues/races.awardLogicClue';
 import Achievements from '../achievements';
+import { startQuestOfType } from '/imports/api/themes/casino/quests/methods/quests.startQuestOfType';
 import { Achievement, AchievementTrigger } from '/imports/schemas/achievement';
 import { PlayerId } from '/imports/schemas/player';
 import { getWrappedServerMethod } from '/imports/utils/get-wrapped-server-method';
-import { playerGiveMoney } from '../../players/methods/players.giveMoney';
-import { sendCustomAutoText } from '../../autoTexts/methods/autoTexts.sendCustom';
 
 type UnlockAchievementArgs = {
   trigger: AchievementTrigger;
@@ -69,8 +69,11 @@ export const tryUnlockAchievement = async ({
           player.money += achievement.money_award;
         }
 
-        if (achievement.quest_award_type !== 'NONE') {
-          Meteor.call('quests.startQuestOfType', {
+        if (
+          achievement.quest_award_type &&
+          achievement.quest_award_type !== 'NONE'
+        ) {
+          startQuestOfType({
             playerId: player._id,
             type: achievement.quest_award_type,
           });

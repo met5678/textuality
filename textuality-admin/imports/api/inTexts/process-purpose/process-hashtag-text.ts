@@ -4,6 +4,7 @@ import { InText } from '/imports/schemas/inText';
 import { PlayerWithHelpers } from '../../players/players';
 import { sendAutoText } from '../../autoTexts/methods/autoTexts.send';
 import { missionProcessHashtag } from '../../missions/methods/missions.processHashtag';
+import { processQuestHashtag } from '../../themes/casino/quests/methods/quests.processHashtag';
 
 export default async function (inText: InText, player: PlayerWithHelpers) {
   const playerId = player._id;
@@ -13,10 +14,10 @@ export default async function (inText: InText, player: PlayerWithHelpers) {
       ? inText.body.indexOf(' ')
       : inText.body.length;
   const hashtag = inText.body.substring(1, firstSpace).trim().toLowerCase();
-  const rest = inText.body.substring(firstSpace);
+  // const rest = inText.body.substring(firstSpace);
 
   if (await missionProcessHashtag({ hashtag, playerId })) return;
-  if (Meteor.call('quests.processHashtag', { playerId, hashtag })) return;
+  if (await processQuestHashtag({ playerId, hashtag })) return;
 
   const checkpoint = Meteor.call('checkpoints.getForHashtag', hashtag);
   if (checkpoint) {

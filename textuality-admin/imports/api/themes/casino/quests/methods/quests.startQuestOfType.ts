@@ -1,9 +1,9 @@
-import { Meteor } from 'meteor/meteor';
 import Quests from '../quests';
+import { sendAutoText } from '/imports/api/autoTexts/methods/autoTexts.send';
 import Events from '/imports/api/events';
 import Players from '/imports/api/players';
+import { startQuest } from '/imports/api/themes/casino/quests/methods/quests.startQuest';
 import { QuestType } from '/imports/schemas/quest';
-import { sendAutoText } from '/imports/api/autoTexts/methods/autoTexts.send';
 import { getWrappedServerMethod } from '/imports/utils/get-wrapped-server-method';
 
 export const startQuestOfType = async ({
@@ -13,8 +13,7 @@ export const startQuestOfType = async ({
   playerId: string;
   type: QuestType;
 }) => {
-  const eventId = await Events.currentIdAsync();
-  if (!eventId) return;
+  const eventId = await Events.currentIdOrThrowAsync();
 
   const player = await Players.findOneAsync(playerId, {
     fields: { quests: 1 },
@@ -27,7 +26,7 @@ export const startQuestOfType = async ({
   );
 
   if (availableQuests.length === 0 && type === 'HACKER_TASK') {
-    Meteor.call('quests.startQuestOfType', { playerId, type: 'HACKER_SLOT' });
+    await startQuestOfType({ playerId, type: 'HACKER_SLOT' });
     return;
   }
 
@@ -44,7 +43,10 @@ export const startQuestOfType = async ({
   const quest =
     availableQuests[Math.floor(Math.random() * availableQuests.length)];
 
-  Meteor.call('quests.startQuest', { questId: quest._id!, playerId });
+  await startQuest({
+    playerId,
+    questId: quest._id,
+  });
 };
 
 export const startQuestOfTypeMethod = getWrappedServerMethod(

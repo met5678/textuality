@@ -15,12 +15,14 @@ export const startQuest = async ({
   const quest = await Quests.findOneAsync(questId);
   if (!quest) return;
 
-  await Players.updateAsync(playerId, {
-    $push: { quests: { id: questId, complete: false, cheated: false } },
-  });
-  await Quests.updateAsync(questId, { $inc: { num_assigned: 1 } });
+  await Promise.all([
+    Players.updateAsync(playerId, {
+      $push: { quests: { id: questId, complete: false, cheated: false } },
+    }),
+    Quests.updateAsync(questId, { $inc: { num_assigned: 1 } }),
+  ]);
 
-  sendCustomAutoText({
+  void sendCustomAutoText({
     playerText: quest.start_text,
     playerId,
     mediaUrl: quest.start_text_image ?? undefined,

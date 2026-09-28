@@ -98,7 +98,7 @@ export type Achievement = {
   trigger_detail_number?: number;
   money_award?: number;
   derby_award?: DERBY_AWARD;
-  quest_award_type?: 'NONE' | 'HACKER_TASK' | 'HACKER_SLOT' | 'HACKER_ROULETTE';
+  quest_award_type?: 'NONE' | 'HACKER_TASK' | 'HACKER_SLOT';
   player_text?: string;
   player_text_image?: string;
 

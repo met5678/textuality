@@ -1,4 +1,3 @@
-import { DateTime } from 'luxon';
 import { sendAutoText } from '/imports/api/autoTexts/methods/autoTexts.send';
 import { PlayerWithHelpers } from '/imports/api/players/players';
 import RouletteBets from '/imports/api/themes/casino/rouletteBets';
@@ -7,6 +6,7 @@ import { getPendingRouletteBet } from '/imports/api/themes/casino/rouletteBets/m
 import { rouletteBetStartBet } from '/imports/api/themes/casino/rouletteBets/methods/rouletteBet.startBet';
 import { roulettesFindCurrent } from '/imports/api/themes/casino/roulettes/methods/roulettes.findCurrent';
 import { roulettesFindNext } from '/imports/api/themes/casino/roulettes/methods/roulettes.findNext';
+import { formatEventTime } from '/imports/utils/format-event-time';
 
 export const processRouletteText = async (player: PlayerWithHelpers) => {
   const curRoulette = await roulettesFindCurrent();
@@ -17,12 +17,8 @@ export const processRouletteText = async (player: PlayerWithHelpers) => {
         trigger: 'ROULETTE_NOT_YET_ACCEPTING',
         playerId: player._id,
         templateVars: {
-          bets_start_at: DateTime.fromJSDate(
-            nextRoulette.bets_start_at,
-          ).toLocaleString(DateTime.TIME_SIMPLE),
-          spin_starts_at: DateTime.fromJSDate(
-            nextRoulette.spin_starts_at!,
-          ).toLocaleString(DateTime.TIME_SIMPLE),
+          bets_start_at: await formatEventTime(nextRoulette.bets_start_at),
+          spin_starts_at: await formatEventTime(nextRoulette.spin_starts_at!),
         },
       });
     } else {

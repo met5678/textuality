@@ -7,7 +7,8 @@ import Events from '/imports/api/events';
 
 import { Button, Switch } from '@mui/material';
 import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid';
-import { Event } from '/imports/schemas/event';
+import { DEFAULT_EVENT_TIME_ZONE, Event } from '/imports/schemas/event';
+import { formatTimeZoneOffset } from '/imports/utils/time-zones';
 import LoadingBar from '/imports/ui/generic/LoadingBar';
 import Table from '/imports/ui/generic/Table/Table';
 import EventForm from './EventForm';
@@ -23,6 +24,13 @@ const tableColumns: GridColDef<Event>[] = [
     field: 'phoneNumber',
     headerName: 'Phone Number',
     flex: 1,
+  },
+  {
+    field: 'timeZone',
+    headerName: 'UTC Offset',
+    valueGetter: (value: Event['timeZone']) =>
+      formatTimeZoneOffset(value ?? DEFAULT_EVENT_TIME_ZONE),
+    width: 100,
   },
   {
     field: 'theme',

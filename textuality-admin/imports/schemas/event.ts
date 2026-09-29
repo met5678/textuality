@@ -1,4 +1,7 @@
 import SimpleSchema from 'simpl-schema';
+import { IANAZone } from 'luxon';
+
+export const DEFAULT_EVENT_TIME_ZONE = 'America/New_York';
 
 // Define allowed values as const arrays
 const THEME_VALUES = ['clue', 'casino', 'derby'] as const;
@@ -14,6 +17,17 @@ type EventState = (typeof STATE_VALUES)[number];
 const EventSchema = new SimpleSchema({
   name: String,
   phoneNumber: String,
+  timeZone: {
+    type: String,
+    label: 'Time Zone',
+    optional: true,
+    defaultValue: DEFAULT_EVENT_TIME_ZONE,
+    custom() {
+      if (this.value && !IANAZone.isValidZone(this.value)) {
+        return SimpleSchema.ErrorTypes.VALUE_NOT_ALLOWED;
+      }
+    },
+  },
   active: Boolean,
   theme: {
     type: String,
@@ -44,6 +58,7 @@ interface Event {
   _id: EventId;
   name: string;
   phoneNumber: string;
+  timeZone?: string;
   active: boolean;
   theme: EventTheme;
   skin: EventSkin;

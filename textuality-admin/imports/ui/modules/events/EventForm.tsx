@@ -1,10 +1,17 @@
 import React from 'react';
 
-import EventSchema, { Event } from '/imports/schemas/event';
+import EventSchema, {
+  DEFAULT_EVENT_TIME_ZONE,
+  Event,
+} from '/imports/schemas/event';
 
 import { AutoFields } from 'uniforms-mui';
 import AutoFormDialog from '../../generic/AutoForm/AutoFormDialog';
+import SelectField from '../../generic/AutoForm/SelectField';
+import { getTimeZoneOptions } from '/imports/utils/time-zones';
 import { Meteor } from 'meteor/meteor';
+
+const TIME_ZONE_OPTIONS = getTimeZoneOptions();
 
 const EventForm = ({
   model,
@@ -26,10 +33,23 @@ const EventForm = ({
     <AutoFormDialog
       schema={EventSchema}
       onSubmit={onSubmit}
-      model={model}
+      model={
+        model
+          ? {
+              timeZone: DEFAULT_EVENT_TIME_ZONE,
+              ...model,
+            }
+          : null
+      }
       handleClose={onClose}
     >
-      <AutoFields />
+      <AutoFields omitFields={['timeZone']} />
+      <SelectField
+        name="timeZone"
+        label="Time Zone"
+        creatable={false}
+        options={TIME_ZONE_OPTIONS}
+      />
     </AutoFormDialog>
   );
 };

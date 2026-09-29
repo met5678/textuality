@@ -24,6 +24,8 @@ const SlotMachineSounds = ({
     return <audio src="/casino/sounds/slots-win.ogg" autoPlay />;
   if (status === 'win-hacker-partial')
     return <audio src="/casino/sounds/slots-hacker-partial.ogg" autoPlay />;
+  if (status == 'win-hacker-final')
+    return <audio src="/casino/sounds/slots-hacker-win.ogg" autoPlay />;
   if (status === 'lose')
     return <audio src="/casino/sounds/slots-lose.ogg" autoPlay />;
   return null;

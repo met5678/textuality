@@ -56,3 +56,9 @@ body {
 
   flex-basis: 35%;
 }
+
+#confetti-canvas {
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden;
+}

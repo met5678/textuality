@@ -15,8 +15,8 @@ const doConfetti = (emojis: string[]) => {
 
 const useConfetti = (fire: boolean, emojis = ['💰']) => {
   const { runAnimation } = useConfettiSVG({
-    duration: 5000,
-    speed: 100,
+    duration: 6000,
+    speed: 75,
     images: [
       {
         src: '/images/emojis/normal/emoji-coin.svg',

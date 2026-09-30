@@ -64,7 +64,7 @@ const SlotMachine = ({ slotMachine, skin }: SlotMachineProps) => {
 
   const compressText = name.length >= 12;
 
-  useConfetti(showWin);
+  useConfetti(status === 'win-normal');
 
   const slotClasses = classnames('slot-machine', {
     spinning: status === 'spinning',

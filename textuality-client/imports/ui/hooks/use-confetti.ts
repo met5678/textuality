@@ -1,6 +1,8 @@
 import JSConfetti from 'js-confetti';
 import { useEffect } from 'react';
 
+import { useConfetti as useConfettiSVG } from 'use-confetti-svg';
+
 const confetti = new JSConfetti();
 
 const doConfetti = (emojis: string[]) => {
@@ -12,9 +14,26 @@ const doConfetti = (emojis: string[]) => {
 };
 
 const useConfetti = (fire: boolean, emojis = ['💰']) => {
+  const { runAnimation } = useConfettiSVG({
+    duration: 5000,
+    speed: 100,
+    images: [
+      {
+        src: '/images/emojis/normal/emoji-coin.svg',
+        size: 24,
+      },
+    ],
+  });
+
   useEffect(() => {
-    if (fire) doConfetti(emojis);
+    if (fire) {
+      runAnimation();
+    }
   }, [fire]);
+
+  // useEffect(() => {
+  //   if (fire) doConfetti(emojis);
+  // }, [fire]);
 };
 
 export { useConfetti };

@@ -23,12 +23,7 @@ const RouletteSounds = ({
         <audio src="/casino/sounds/roulette-winnerboard.ogg" autoPlay />
       )}
       {status === 'spinning' && !bets_open && (
-        <audio
-          src={`/casino/sounds/roulette-bets-close-${
-            Math.round(Math.random()) + 1
-          }.ogg`}
-          autoPlay
-        />
+        <audio src={`/casino/sounds/roulette-bets-close-1.ogg`} autoPlay />
       )}
     </>
   );

@@ -62,7 +62,7 @@ const SlotMachine = ({ slotMachine, skin }: SlotMachineProps) => {
     status === 'win-hacker-partial' ||
     status === 'win-hacker-final';
 
-  const compressText = name.length > 12;
+  const compressText = name.length >= 12;
 
   useConfetti(showWin);
 

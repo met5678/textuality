@@ -47,5 +47,9 @@ export const getRouletteBetSummary = async ({
     }
   }
 
+  if (lines.length === 0) {
+    return '🕳️ None yet! 🕳️';
+  }
+
   return lines.join('\n');
 };

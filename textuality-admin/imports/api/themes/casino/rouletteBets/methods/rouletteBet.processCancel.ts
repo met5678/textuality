@@ -23,7 +23,7 @@ export const rouletteBetProcessCancel = async ({
   if (!roulette) {
     throw new Error('No roulette found');
   } else {
-    const betSummary = getRouletteBetSummary({ player, roulette });
+    const betSummary = await getRouletteBetSummary({ player, roulette });
 
     sendAutoText({
       trigger: 'ROULETTE_BET_CANCELLED_USER',

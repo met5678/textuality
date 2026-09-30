@@ -44,6 +44,7 @@
   font-style: normal;
   font-size: min(12vw, 4vh);
   padding: min(2vw, 0.4vh);
+  text-align: center;
 }
 
 .player-money {
